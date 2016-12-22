@@ -1,6 +1,4 @@
 Harbour Minigui (MinGW Package)
-http://sourceforge.net/projects/hbpidew/
-(assembled by Pete D. <pete_westg@yahoo.gr>)
 -------------------------------
 
 Important note: It is recommended to uninstall older version (if any) 
