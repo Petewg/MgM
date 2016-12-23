@@ -1,0 +1,12 @@
+
+-hblib
+-inc-
+-o../../lib/calldll
+
+-I../../include
+
+-hbx=../../include/${hb_name}.hbx
+
+-w3 -es2 -ko
+
+calldll.prg

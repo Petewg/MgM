@@ -1,0 +1,13 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/hbxml
+
+-I../../include
+-hbx=../../include/${hb_name}.hbx
+
+-w -es2 -ko 
+
+hxmldoc.prg
+xmlparse.c
