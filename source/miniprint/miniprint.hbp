@@ -1,0 +1,16 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/miniprint
+
+-cflag=-D__MINGW32__
+
+-hbx=../../include/${hb_name}.hbx
+
+-I../../include
+
+-w3 -es2 -ko 
+
+h_miniprint.prg
+c_miniprint.c
