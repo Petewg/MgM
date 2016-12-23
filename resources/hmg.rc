@@ -1,0 +1,74 @@
+#include "_hmg_resconfig.h"
+
+// MANIFEST FOR CREATE 'XP-STYLE' APPLICATIONS
+1 24 HMGRPATH\Windows7.Manifest
+
+MINIGUI_FINGER		   CURSOR	HMGRPATH\finger.cur
+MINIGUI_DRAGUP		   CURSOR	HMGRPATH\dragup.cur
+MINIGUI_DRAGDOWN	   CURSOR	HMGRPATH\dragdown.cur
+
+// EDIT COMMAND IMAGE BUTTONS
+MINIGUI_EDIT_CANCEL  BITMAP   HMGRPATH\edit_cancel.bmp
+MINIGUI_EDIT_CLOSE   BITMAP   HMGRPATH\edit_close.bmp
+MINIGUI_EDIT_COPY    BITMAP   HMGRPATH\edit_copy.bmp
+MINIGUI_EDIT_DELETE  BITMAP   HMGRPATH\edit_delete.bmp
+MINIGUI_EDIT_EDIT    BITMAP   HMGRPATH\edit_edit.bmp
+MINIGUI_EDIT_FIND    BITMAP   HMGRPATH\edit_find.bmp
+MINIGUI_EDIT_NEW     BITMAP   HMGRPATH\edit_new.bmp
+MINIGUI_EDIT_OK      BITMAP   HMGRPATH\edit_ok.bmp
+MINIGUI_EDIT_PRINT   BITMAP   HMGRPATH\edit_print.bmp
+MINIGUI_EDIT_ADD     BITMAP   HMGRPATH\edit_add.bmp
+MINIGUI_EDIT_DEL     BITMAP   HMGRPATH\edit_del.bmp
+MINIGUI_EDIT_SET     BITMAP   HMGRPATH\edit_set.bmp
+MINIGUI_EDIT_UNDO    BITMAP   HMGRPATH\edit_undo.bmp
+
+// GRID SORT IMAGES
+MINIGUI_GRID_ASC	   BITMAP   HMGRPATH\grid_up.bmp
+MINIGUI_GRID_DSC	   BITMAP   HMGRPATH\grid_down.bmp
+
+ZZZ_A_WINDOW      	ICON		HMGRPATH\WINDOW.ICO
+ZZZ_LED_ON		      ICON		HMGRPATH\LED_ON.ICO
+ZZZ_LED_OFF		      ICON		HMGRPATH\LED_OFF.ICO
+MGM                  ICON     HMGRPATH\MGM32.ICO
+xLOGOx               ICON     HMGRPATH\xLOGOx.ICO
+HMG                  ICON     HMGRPATH\hmg.ico
+INPUTWINDOW          ICON     HMGRPATH\inputwindow.ico
+
+// HBPRINT PRINT PREVIEW IMAGE BUTTONS
+zzz_printicon        ICON     HMGRPATH\print.ico
+hbprint_end          BITMAP   HMGRPATH\hbprint_end.bmp
+hbprint_next         BITMAP   HMGRPATH\hbprint_next.bmp
+hbprint_top          BITMAP   HMGRPATH\hbprint_top.bmp
+hbprint_back         BITMAP   HMGRPATH\hbprint_back.bmp
+hbprint_close        BITMAP   HMGRPATH\hbprint_close.bmp
+hbprint_print        BITMAP   HMGRPATH\hbprint_print.bmp
+hbprint_save         BITMAP   HMGRPATH\hbprint_save.bmp
+hbprint_zoomin       BITMAP   HMGRPATH\hbprint_zoomin.bmp
+hbprint_zoomout      BITMAP   HMGRPATH\hbprint_zoomout.bmp
+hbprint_option       BITMAP   HMGRPATH\hbprint_option.bmp
+
+// MINIPRINT PRINT PREVIEW IMAGE BUTTONS
+HP_END		         BITMAP	HMGRPATH\HP_END.BMP
+HP_TOP               BITMAP	HMGRPATH\HP_TOP.BMP
+HP_NEXT		         BITMAP	HMGRPATH\HP_NEXT.BMP
+HP_BACK		         BITMAP	HMGRPATH\HP_BACK.BMP
+HP_PRINT	            BITMAP	HMGRPATH\HP_PRINT.BMP
+HP_ZOOM	            BITMAP	HMGRPATH\HP_ZOOM.BMP
+HP_GOPAGE            BITMAP	HMGRPATH\HP_GOPAGE.BMP
+HP_CLOSE	            BITMAP	HMGRPATH\HP_CLOSE.BMP
+HP_SAVE		         BITMAP	HMGRPATH\HP_SAVE.BMP
+HP_THUMBNAIL         BITMAP	HMGRPATH\hp_thumbnail.bmp
+HP_GLASS             CURSOR	HMGRPATH\HP_GLASS.CUR
+
+// MINIPRINT2 PRINT PREVIEW IMAGE BUTTONS
+
+HP_END2         BITMAP  HMGRPATH\go_last_page_24.bmp
+HP_TOP2         BITMAP  HMGRPATH\go_first_page_24.bmp
+HP_NEXT2        BITMAP  HMGRPATH\go_next_page_24.bmp
+HP_BACK2        BITMAP  HMGRPATH\go_previous_page_24.bmp
+HP_PRINT2       BITMAP  HMGRPATH\print_24.bmp
+HP_ZOOM2        BITMAP  HMGRPATH\Zoom_24.bmp
+HP_GOPAGE2      BITMAP  HMGRPATH\go_to_page_24.bmp
+HP_CLOSE2       BITMAP  HMGRPATH\Exit_24.bmp
+HP_SAVE2        BITMAP  HMGRPATH\save_24.bmp
+HP_THUMBNAIL2   BITMAP  HMGRPATH\ThumNails.bmp

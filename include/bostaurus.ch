@@ -250,7 +250,7 @@
    // Mode
    #define BT_BITMAP_REFLECT_HORIZONTAL 1 
    #define BT_BITMAP_REFLECT_VERTICAL   2
-   #define BT_BITMAP_ROTATE             4   // Angle = 0 To 360º   &&  Color_Fill_Bk = color to fill the empty spaces the background
+   #define BT_BITMAP_ROTATE             4   // Angle = 0 To 360ï¿½   &&  Color_Fill_Bk = color to fill the empty spaces the background
 
    
 // BT_DRAW_HDC_PIXEL ()

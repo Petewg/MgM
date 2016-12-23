@@ -1,0 +1,36 @@
+/* --------------------------------------------------------------------
+ * NOTE: You can add manual override which functions to include or
+ *       exclude from automatically generated EXTERNAL/DYNAMIC list.
+ *          Syntax: // HB_FUNC_INCLUDE <func>
+ *                  // HB_FUNC_EXCLUDE <func>
+ */
+
+/* --------------------------------------------------------------------
+ * WARNING: Automatically generated code below. DO NOT EDIT! (except casing)
+ *          Regenerate using hbmk2 '-hbx=' option.
+ */
+
+#ifndef __HBEXTERN_CH__HBXML__
+#define __HBEXTERN_CH__HBXML__
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBXML__ANNOUNCE )
+   ANNOUNCE __HBEXTERN__HBXML__
+#endif
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBXML__REQUEST )
+   #command DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+DYNAMIC HBXML_GETATTR
+DYNAMIC HBXML_GETDOC
+DYNAMIC HBXML_PRELOAD
+DYNAMIC HBXML_PRESAVE
+DYNAMIC HBXML_SETENTITY
+DYNAMIC HXMLDOC
+DYNAMIC HXMLNODE
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBXML__REQUEST )
+   #uncommand DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+#endif

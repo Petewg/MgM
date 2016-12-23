@@ -1,0 +1,56 @@
+/* --------------------------------------------------------------------
+ * NOTE: You can add manual override which functions to include or
+ *       exclude from automatically generated EXTERNAL/DYNAMIC list.
+ *          Syntax: // HB_FUNC_INCLUDE <func>
+ *                  // HB_FUNC_EXCLUDE <func>
+ */
+
+/* --------------------------------------------------------------------
+ * WARNING: Automatically generated code below. DO NOT EDIT! (except casing)
+ *          Regenerate using hbmk2 '-hbx=' option.
+ */
+
+#ifndef __HBEXTERN_CH__HBOLE__
+#define __HBEXTERN_CH__HBOLE__
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBOLE__ANNOUNCE )
+   ANNOUNCE __HBEXTERN__HBOLE__
+#endif
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBOLE__REQUEST )
+   #command DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+DYNAMIC ANSITOWIDE
+DYNAMIC CREATEOBJECT
+DYNAMIC CREATEOLEOBJECT
+DYNAMIC GETACTIVEOBJECT
+DYNAMIC GETOLEOBJECT
+DYNAMIC MESSAGEBOX
+DYNAMIC OLE2TXTERROR
+DYNAMIC OLEADDREF
+DYNAMIC OLEERROR
+DYNAMIC OLEEXCEPTIONDESCRIPTION
+DYNAMIC OLEEXCEPTIONSOURCE
+DYNAMIC OLERELEASEOBJECT
+DYNAMIC OLESHOWEXCEPTION
+DYNAMIC TOLEAUTO
+DYNAMIC TOLEAUTO_GET
+DYNAMIC TOLEAUTO_INVOKE
+DYNAMIC TOLEAUTO_OLENEWENUMERATOR
+DYNAMIC TOLEAUTO_OLEVALUE
+DYNAMIC TOLEAUTO_ONERROR
+DYNAMIC TOLEAUTO_SET
+DYNAMIC TOLEAUTO__OLEVALUE
+DYNAMIC VTARRAYWRAPPER
+DYNAMIC VTWRAPPER
+DYNAMIC WIDETOANSI
+DYNAMIC __HB_OLE_INIT
+DYNAMIC __OLEENUMNEXT
+DYNAMIC __OLEENUMSTOP
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBOLE__REQUEST )
+   #uncommand DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+#endif
