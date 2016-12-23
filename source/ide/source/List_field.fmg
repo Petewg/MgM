@@ -1,0 +1,115 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 569 HEIGHT 406 TITLE "Field List"
+
+     DEFINE LISTBOX List_101
+            ROW    20
+            COL    20
+            WIDTH  180
+            HEIGHT 290
+            ITEMS Populate_list()
+            ONDBLCLICK {||Single_add(.f.)}
+     END LISTBOX  
+
+     DEFINE LISTBOX List_102
+            ROW    20
+            COL    360
+            WIDTH  180
+            HEIGHT 290
+            ITEMS {}
+     END LISTBOX  
+
+    DEFINE BUTTON Button_1
+           ROW    30
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION {||Single_add(.F.)}
+           CAPTION "&Add ->"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    70
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION {||Single_add(.T.)}
+           CAPTION "&Insert ->"
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    110
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION {||Single_remove()}
+           CAPTION "<- R&emove"
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    150
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION Modprintfieldaddall()
+           CAPTION "Add a&ll ->>"
+     END BUTTON  
+
+    DEFINE BUTTON Button_5
+           ROW    190
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION Remove_all()
+           CAPTION "<<- Remove all"
+     END BUTTON  
+
+    DEFINE BUTTON Button_6
+           ROW    230
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION ThisWindow.release
+           CAPTION "E&xit"
+     END BUTTON  
+
+    DEFINE BUTTON Button_7
+           ROW    270
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION {||ReportEditor.Text_3.value := ccampi(.t.),ThisWindow.release}
+           CAPTION "C&onfirm"
+     END BUTTON  
+
+    DEFINE BUTTON Button_8
+           ROW    330
+           COL    380
+           WIDTH  60
+           HEIGHT 30
+           ACTION {||Mfield("UP")}
+           CAPTION "&Up"
+     END BUTTON  
+
+    DEFINE BUTTON Button_9
+           ROW    330
+           COL    460
+           WIDTH  60
+           HEIGHT 30
+           ACTION {||Mfield("DOWN")}
+           CAPTION "&Down"
+     END BUTTON  
+
+     DEFINE LABEL Label_101
+            ROW    330
+            COL    20
+            WIDTH  180
+            HEIGHT 20
+            VALUE "Colum lengt :="
+            FONTSIZE 10
+     END LABEL  
+
+END WINDOW
+
+

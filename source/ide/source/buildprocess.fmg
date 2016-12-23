@@ -1,0 +1,230 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 135 , 242 WIDTH 620 HEIGHT 602 TITLE "Build Project" ON INIT {||check_modules(cincrem), mpmc(cexename + ".mpm", IIF(XDEBUG = "DEBUG", "/D", " "), cincrem )}
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    10
+            WIDTH  590
+            HEIGHT 195
+            CAPTION "Summary"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    30
+            COL    20
+            WIDTH  100
+            HEIGHT 24
+            VALUE "Project File:"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    60
+            COL    20
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Project Folder:"
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    90
+            COL    20
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Minigui Folder:"
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    120
+            COL    20
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Additional Libraries:"
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    150
+            COL    20
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Additional Inc. Path:"
+     END LABEL  
+
+     DEFINE LABEL Label_6
+            ROW    180
+            COL    20
+            WIDTH  120
+            HEIGHT 18
+            VALUE "Build Type:"
+     END LABEL  
+
+     DEFINE LABEL Label_7
+            ROW    180
+            COL    260
+            WIDTH  80
+            HEIGHT 18
+            VALUE "Debug Info:"
+     END LABEL  
+
+     DEFINE LABEL Label_8
+            ROW    180
+            COL    390
+            WIDTH  130
+            HEIGHT 18
+            VALUE "Console / Mixed Mode:"
+     END LABEL  
+
+     DEFINE LABEL Label_9
+            ROW    30
+            COL    140
+            WIDTH  440
+            HEIGHT 24
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_10
+            ROW    60
+            COL    140
+            WIDTH  440
+            HEIGHT 24
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_11
+            ROW    90
+            COL    140
+            WIDTH  440
+            HEIGHT 24
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_12
+            ROW    120
+            COL    140
+            WIDTH  440
+            HEIGHT 24
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_13
+            ROW    150
+            COL    140
+            WIDTH  440
+            HEIGHT 24
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_14
+            ROW    180
+            COL    140
+            WIDTH  90
+            HEIGHT 18
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_15
+            ROW    180
+            COL    339
+            WIDTH  40
+            HEIGHT 18
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_16
+            ROW    180
+            COL    540
+            WIDTH  40
+            HEIGHT 18
+            VALUE ""
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE FRAME Frame_2
+            ROW    220
+            COL    10
+            WIDTH  590
+            HEIGHT 145
+            CAPTION "Modified Files / Dependences:"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE FRAME Frame_3
+            ROW    380
+            COL    10
+            WIDTH  590
+            HEIGHT 139
+            CAPTION "Build Log:"
+            OPAQUE .T.
+     END FRAME  
+
+    DEFINE BUTTON Button_1
+           ROW    530
+           COL    385
+           WIDTH  100
+           HEIGHT 28
+           ACTION buildsave()
+           CAPTION "Save Log"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    530
+           COL    500
+           WIDTH  100
+           HEIGHT 28
+           ACTION buildexit()
+           CAPTION "Close"
+     END BUTTON  
+
+     DEFINE EDITBOX Edit_1
+            ROW    240
+            COL    30
+            WIDTH  550
+            HEIGHT 110
+     END EDITBOX  
+
+     DEFINE EDITBOX Edit_2
+            ROW    400
+            COL    30
+            WIDTH  550
+            HEIGHT 105
+     END EDITBOX  
+
+     DEFINE LABEL Label_17
+            ROW    530
+            COL    30
+            WIDTH  174
+            HEIGHT 24
+            VALUE "Label_17"
+            FONTSIZE 10
+            BLINK .T.
+     END LABEL  
+
+    DEFINE BUTTON Button_3
+           ROW    530
+           COL    270
+           WIDTH  100
+           HEIGHT 28
+           ACTION BuildFixErrors()
+           CAPTION "Fix Errors"
+     END BUTTON  
+
+END WINDOW
+
+

@@ -1,0 +1,52 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2012 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 190 , 360 WIDTH 838 HEIGHT 593 TITLE "Processing!" CHILD NOAUTORELEASE NOMINIMIZE NOMAXIMIZE NOSIZE NOSYSMENU
+
+     DEFINE ANIMATEBOX Animate_1
+            ROW    5
+            COL    10
+            WIDTH  42
+            HEIGHT 52
+            FILE "BUILDAVI"
+            TRANSPARENT .T.
+            BORDER .F.
+            AUTOPLAY .T.
+      END ANIMATEBOX
+
+     DEFINE LABEL MessageLabel
+            ROW    28
+            COL    70
+            WIDTH  735
+            HEIGHT 50
+            VALUE "Message Label"
+            FONTSIZE 12
+            FONTUNDERLINE .T.
+            TRANSPARENT .T.
+     END LABEL
+
+     DEFINE RICHEDITBOX Edit_1
+            ROW    70
+            COL    10
+            WIDTH  795
+            HEIGHT 430
+            VALUE ''
+            FONTNAME 'Arial'
+            FONTSIZE 10
+            TOOLTIP ''
+     END RICHEDITBOX
+
+     DEFINE BUTTON Button_1
+            ROW    510
+            COL    705
+            WIDTH  100
+            HEIGHT 28
+            ACTION ShowInfo( .F. )
+            CAPTION "Close"
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END BUTTON
+
+END WINDOW
+
+

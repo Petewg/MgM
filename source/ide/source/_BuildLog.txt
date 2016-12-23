@@ -1,0 +1,2807 @@
+windres: warning: 24: 1: 1033: duplicate value
+
+move.prg:362: warning W0032  Variable 'I' is assigned but not used in function '9:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'IROW' is assigned but not used in function '10:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'ICOL' is assigned but not used in function '11:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'IWIDTH' is assigned but not used in function '12:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'IHEIGHT' is assigned but not used in function '13:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'J' is assigned but not used in function '14:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'K' is assigned but not used in function '15:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'L' is assigned but not used in function '16:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'Z' is assigned but not used in function '17:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'Y' is assigned but not used in function '19:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'EROW' is assigned but not used in function '21:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'ECOL' is assigned but not used in function '22:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'DROW' is assigned but not used in function '23:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'DCOL' is assigned but not used in function '24:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'NPOS' is assigned but not used in function '25:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '30:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '31:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'ISINTAB' is assigned but not used in function '37:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'TABROW' is assigned but not used in function '39:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'TABCOL' is assigned but not used in function '40:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'TABWIDTH' is assigned but not used in function '41:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'TABHEIGHT' is assigned but not used in function '42:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'CONTROLHANDLE' is assigned but not used in function '44:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'CRESP' is assigned but not used in function '48:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'TABID' is assigned but not used in function '49:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'L' is assigned but not used in function '56:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'FO' is assigned but not used in function '57:MOVECONTROL'
+
+move.prg:362: warning W0032  Variable 'ISINTAB' is assigned but not used in function '230:MOVECONTROL'
+
+move.prg:555: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '367:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '368:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'I' is assigned but not used in function '375:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'OKTOSAVE' is assigned but not used in function '378:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'IROW' is assigned but not used in function '379:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'ICOL' is assigned but not used in function '380:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'IHEIGHT' is assigned but not used in function '381:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'IWIDTH' is assigned but not used in function '382:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'TABID' is assigned but not used in function '383:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'TABROW' is assigned but not used in function '384:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'TABCOL' is assigned but not used in function '385:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'ISINTAB' is assigned but not used in function '386:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'CRESP' is assigned but not used in function '387:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'OKTOSAVE' is assigned but not used in function '469:MOVEFRAME'
+
+move.prg:555: warning W0032  Variable 'OKTOSAVE' is assigned but not used in function '527:MOVEFRAME'
+
+move.prg:577: warning W0032  Variable 'XROW' is assigned but not used in function '557:SNAPMOVED'
+
+move.prg:577: warning W0032  Variable 'XCOL' is assigned but not used in function '558:SNAPMOVED'
+
+move.prg:593: warning W0032  Variable 'XROW' is assigned but not used in function '579:SNAPMOVEDTABROW'
+
+move.prg:610: warning W0032  Variable 'XCOL' is assigned but not used in function '595:SNAPMOVEDTABCOL'
+
+move.prg:670: warning W0032  Variable 'I' is assigned but not used in function '613:ISINTAB'
+
+move.prg:670: warning W0032  Variable 'J' is assigned but not used in function '614:ISINTAB'
+
+move.prg:670: warning W0032  Variable 'K' is assigned but not used in function '615:ISINTAB'
+
+move.prg:670: warning W0032  Variable 'CONTROLHANDLE' is assigned but not used in function '618:ISINTAB'
+
+move.prg:689: warning W0032  Variable 'XRESP' is assigned but not used in function '676:ISMOVEDOUTTAB'
+
+mpmc.prg:250: warning W0032  Variable 'C' is assigned but not used in function '28:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'I' is assigned but not used in function '29:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'LINE' is assigned but not used in function '30:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'ENVIRONMENTFILE' is assigned but not used in function '32:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'CERROR' is assigned but not used in function '33:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'NLOOP' is assigned but not used in function '34:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'LERROR' is assigned but not used in function '35:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'CLINE' is assigned but not used in function '37:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'NPOS1' is assigned but not used in function '38:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'NPOS2' is assigned but not used in function '39:MPMC'
+
+mpmc.prg:250: warning W0032  Variable 'NPOS3' is assigned but not used in function '40:MPMC'
+
+mpmc.prg:600: warning W0032  Variable 'MAKENAME' is assigned but not used in function '319:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'PARAMSTRING' is assigned but not used in function '320:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'CADDLIB' is assigned but not used in function '322:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'I' is assigned but not used in function '323:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'CDADOS' is assigned but not used in function '324:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'X1' is assigned but not used in function '325:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'CLIB' is assigned but not used in function '326:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'CPROJECTFOLDER' is assigned but not used in function '327:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'ZIPSUPPORT' is assigned but not used in function '329:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'ODBCSUPPORT' is assigned but not used in function '330:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'ADSSUPPORT' is assigned but not used in function '331:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'MYSQLSUPPORT' is assigned but not used in function '332:BUILD'
+
+mpmc.prg:600: warning W0032  Variable 'XHB' is assigned but not used in function '338:BUILD'
+
+mpmc.prg:614: warning W0032  Variable 'CRETVAL' is assigned but not used in function '602:FIXFOLDER'
+
+mpmc.prg:672: warning W0032  Variable 'I' is assigned but not used in function '621:CLEAN'
+
+mpmc.prg:723: warning W0032  Variable 'X' is assigned but not used in function '690:GETINCLUDES'
+
+mpmc.prg:723: warning W0032  Variable 'Z' is assigned but not used in function '692:GETINCLUDES'
+
+mpmc3.prg:521: warning W0032  Variable 'MAKENAME' is assigned but not used in function '227:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'PARAMSTRING' is assigned but not used in function '228:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'I' is assigned but not used in function '230:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'CDADOS' is assigned but not used in function '231:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'CLIB' is assigned but not used in function '233:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'CPROJECTFOLDER' is assigned but not used in function '234:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'ZIPSUPPORT' is assigned but not used in function '236:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'ODBCSUPPORT' is assigned but not used in function '237:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'ADSSUPPORT' is assigned but not used in function '238:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'MYSQLSUPPORT' is assigned but not used in function '239:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'BCCFOLDER' is assigned but not used in function '240:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'CINCLUDE' is assigned but not used in function '244:BUILD2'
+
+mpmc3.prg:521: warning W0032  Variable 'CFILE1' is assigned but not used in function '247:BUILD2'
+
+mpmc3.prg:583: warning W0032  Variable 'I' is assigned but not used in function '529:CLEAN2'
+
+mpmc3.prg:636: warning W0032  Variable 'X' is assigned but not used in function '586:GETINCLUDES'
+
+mpmc3.prg:636: warning W0032  Variable 'Z' is assigned but not used in function '588:GETINCLUDES'
+
+populate.prg:90: warning W0032  Variable 'CS' is assigned but not used in function '43:CCAMPI'
+
+populate.prg:90: warning W0032  Variable 'KK' is assigned but not used in function '45:CCAMPI'
+
+populate.prg:90: warning W0032  Variable 'N' is assigned but not used in function '46:CCAMPI'
+
+populate.prg:109: warning W0032  Variable 'OUTSTRING' is assigned but not used in function '92:PROPER'
+
+populate.prg:109: warning W0032  Variable 'C_1' is assigned but not used in function '95:PROPER'
+
+populate.prg:161: warning W0032  Variable 'I' is assigned but not used in function '143:MODPRINTFIELDADDALL'
+
+populate.prg:215: warning W0003  Variable 'OLD_POST' declared but not used in function '166:MFIELD'
+
+populate.prg:215: warning W0032  Variable 'V' is assigned but not used in function '168:MFIELD'
+
+populate.prg:271: warning W0032  Variable 'POS1' is assigned but not used in function '217:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'POS2' is assigned but not used in function '218:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'POS3' is assigned but not used in function '219:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'N_LABEL' is assigned but not used in function '220:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'P_REL' is assigned but not used in function '221:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'I' is assigned but not used in function '222:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'N_LABEL' is assigned but not used in function '237:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'POS3' is assigned but not used in function '252:SINGLE_ADD'
+
+populate.prg:271: warning W0032  Variable 'P_REL' is assigned but not used in function '253:SINGLE_ADD'
+
+populate.prg:291: warning W0032  Variable 'ANAME' is assigned but not used in function '273:REMOVE_ALL'
+
+populate.prg:330: warning W0032  Variable 'POS1' is assigned but not used in function '293:SINGLE_REMOVE'
+
+populate.prg:330: warning W0032  Variable 'POS2' is assigned but not used in function '294:SINGLE_REMOVE'
+
+populate.prg:330: warning W0032  Variable 'POS3' is assigned but not used in function '295:SINGLE_REMOVE'
+
+populate.prg:330: warning W0032  Variable '_DBA' is assigned but not used in function '297:SINGLE_REMOVE'
+
+populate.prg:352: warning W0032  Variable 'LK' is assigned but not used in function '332:CHECK_LEN'
+
+populate.prg:352: warning W0032  Variable 'TMP_L' is assigned but not used in function '334:CHECK_LEN'
+
+populate.prg:411: warning W0003  Variable 'EDMODE' declared but not used in function '352:DBOPENDBF'
+
+populate.prg:411: warning W0032  Variable '_DBFNAME' is assigned but not used in function '355:DBOPENDBF'
+
+populate.prg:411: warning W0032  Variable '_DBFNAME' is assigned but not used in function '390:DBOPENDBF'
+
+populate.prg:411: warning W0032  Variable '_DBFNAME' is assigned but not used in function '394:DBOPENDBF'
+
+populate.prg:466: warning W0003  Variable 'CMESSAGE' declared but not used in function '411:MG_USE'
+
+populate.prg:489: warning W0032  Variable 'I' is assigned but not used in function '468:ATOS'
+
+populate.prg:489: warning W0032  Variable 'CTYPE' is assigned but not used in function '470:ATOS'
+
+populate.prg:489: warning W0032  Variable 'CELEMENT' is assigned but not used in function '471:ATOS'
+
+populate.prg:489: warning W0032  Variable 'CTYPE' is assigned but not used in function '476:ATOS'
+
+populate.prg:610: warning W0032  Variable 'S1' is assigned but not used in function '521:CHECK_ALEN'
+
+populate.prg:610: warning W0032  Variable 'S2' is assigned but not used in function '522:CHECK_ALEN'
+
+populate.prg:610: warning W0032  Variable 'E1' is assigned but not used in function '523:CHECK_ALEN'
+
+populate.prg:610: warning W0032  Variable 'E2' is assigned but not used in function '524:CHECK_ALEN'
+
+populate.prg:639: warning W0032  Variable 'CS' is assigned but not used in function '614:CHECK_T'
+
+populate.prg:639: warning W0032  Variable 'X' is assigned but not used in function '615:CHECK_T'
+
+populate.prg:658: warning W0032  Variable 'E' is assigned but not used in function '642:CHECK_NAME'
+
+populate.prg:677: warning W0032  Variable 'FL' is assigned but not used in function '660:RE_ADDL'
+
+preferences.prg:201: warning W0003  Variable 'X' declared but not used in function '17:LOADPREFERENCES'
+
+preferences.prg:201: warning W0032  Variable 'AC2' is assigned but not used in function '16:LOADPREFERENCES'
+
+preferences.prg:498: warning W0032  Variable 'COLDFOLDER' is assigned but not used in function '477:ADDFOLDER'
+
+preferences.prg:498: warning W0032  Variable 'CINITFOLDER' is assigned but not used in function '478:ADDFOLDER'
+
+preferences.prg:498: warning W0032  Variable 'ADDFOLDER' is assigned but not used in function '479:ADDFOLDER'
+
+readflds.prg:105: warning W0032  Variable 'CDATABASEPATH' is assigned but not used in function '71:PICK_FLD_FW'
+
+readflds.prg:105: warning W0032  Variable 'CALIAS' is assigned but not used in function '72:PICK_FLD_FW'
+
+readflds.prg:105: warning W0032  Variable 'CSTOREDDBNAME' is assigned but not used in function '74:PICK_FLD_FW'
+
+readflds.prg:105: warning W0032  Variable 'CDATABASEPATH' is assigned but not used in function '83:PICK_FLD_FW'
+
+readflds.prg:105: warning W0032  Variable 'CALIAS' is assigned but not used in function '84:PICK_FLD_FW'
+
+readflds.prg:199: warning W0032  Variable 'LEXISTSTOREDALIAS' is assigned but not used in function '107:MR_INI'
+
+readflds.prg:199: warning W0032  Variable 'LEXISTSTOREDPATH' is assigned but not used in function '108:MR_INI'
+
+readflds.prg:199: warning W0032  Variable 'LEXISTSTRUCT' is assigned but not used in function '110:MR_INI'
+
+readflds.prg:199: warning W0032  Variable 'LEXISTSTOREDDBNAME' is assigned but not used in function '111:MR_INI'
+
+readflds.prg:199: warning W0032  Variable 'AFIELD' is assigned but not used in function '184:MR_INI'
+
+readflds.prg:501: warning W0032  Variable 'NPOS' is assigned but not used in function '201:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LFLAG' is assigned but not used in function '203:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CMYWIDTHS' is assigned but not used in function '204:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CMYHEADERS' is assigned but not used in function '205:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CMYPATH' is assigned but not used in function '206:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CMYALIAS' is assigned but not used in function '207:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LEXISTFIELDS' is assigned but not used in function '208:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LEXISTDATABASE' is assigned but not used in function '209:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LEXISTDBPATH' is assigned but not used in function '210:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LEXISTALIAS' is assigned but not used in function '211:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'ARETURN' is assigned but not used in function '212:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CFILEPATH' is assigned but not used in function '213:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CMYVALID' is assigned but not used in function '214:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CMYVALIDMESSAGES' is assigned but not used in function '215:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CIMAGENAMES' is assigned but not used in function '216:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CREADONLYVALUES' is assigned but not used in function '217:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CMYJUSTIFYVALUES' is assigned but not used in function '218:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CWHEN' is assigned but not used in function '219:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CONHEADCLICK' is assigned but not used in function '220:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'ASTRUCT' is assigned but not used in function '222:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'APASS' is assigned but not used in function '223:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'ACHOICE' is assigned but not used in function '224:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'AINIRETURN' is assigned but not used in function '225:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'AINIFIELD' is assigned but not used in function '226:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CDATABASEPATH' is assigned but not used in function '227:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'NCHOICE' is assigned but not used in function '233:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CTEMPALIAS' is assigned but not used in function '234:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CWINDOWTITLE' is assigned but not used in function '235:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'CWINDOWTEXT' is assigned but not used in function '236:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'ABUTTONCAPTION' is assigned but not used in function '237:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LNEWCREATEDB' is assigned but not used in function '238:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LEXEC' is assigned but not used in function '239:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'COLDDIR' is assigned but not used in function '240:CHOOSE_WAY'
+
+readflds.prg:501: warning W0032  Variable 'LNEWALIAS' is assigned but not used in function '405:CHOOSE_WAY'
+
+readflds.prg:552: warning W0032  Variable 'LEXISTALIAS' is assigned but not used in function '516:CTRL_ALIAS'
+
+readflds.prg:552: warning W0032  Variable 'ARETURN' is assigned but not used in function '519:CTRL_ALIAS'
+
+readflds.prg:552: warning W0032  Variable 'CTEXT' is assigned but not used in function '521:CTRL_ALIAS'
+
+readflds.prg:599: warning W0032  Variable 'LEXISTDBPATH' is assigned but not used in function '555:CTRL_PATH'
+
+readflds.prg:599: warning W0032  Variable 'CFILEPATH' is assigned but not used in function '556:CTRL_PATH'
+
+readflds.prg:599: warning W0032  Variable 'CDATABASEPATH' is assigned but not used in function '557:CTRL_PATH'
+
+readflds.prg:599: warning W0032  Variable 'ARETURN' is assigned but not used in function '558:CTRL_PATH'
+
+readflds.prg:657: warning W0003  Variable 'A1' declared but not used in function '599:CHECK_FIELDS'
+
+readflds.prg:657: warning W0003  Variable 'A2' declared but not used in function '599:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'CMESSAGE' is assigned but not used in function '601:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'ARETURN' is assigned but not used in function '602:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'APASS' is assigned but not used in function '603:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'CDATABASEPATH' is assigned but not used in function '604:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'CALIAS' is assigned but not used in function '605:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'CALIAS' is assigned but not used in function '609:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'CALIAS' is assigned but not used in function '621:CHECK_FIELDS'
+
+readflds.prg:657: warning W0032  Variable 'CALIAS' is assigned but not used in function '636:CHECK_FIELDS'
+
+readflds.prg:689: warning W0003  Variable 'A4' declared but not used in function '657:CHOOSE_FILE'
+
+readflds.prg:689: warning W0032  Variable 'APASS' is assigned but not used in function '660:CHOOSE_FILE'
+
+readflds.prg:689: warning W0032  Variable 'CALIAS' is assigned but not used in function '661:CHOOSE_FILE'
+
+readflds.prg:744: warning W0032  Variable 'APASS' is assigned but not used in function '694:CHOOSEFILEVERIFY'
+
+readflds.prg:744: warning W0032  Variable 'ARETURN' is assigned but not used in function '695:CHOOSEFILEVERIFY'
+
+readflds.prg:829: warning W0032  Variable 'ASTRUCT' is assigned but not used in function '815:FILL_WFLDS'
+
+readflds.prg:854: warning W0032  Variable 'ASTRUCT' is assigned but not used in function '831:RET_WIDTHS'
+
+readflds.prg:854: warning W0032  Variable 'SIZE' is assigned but not used in function '833:RET_WIDTHS'
+
+readflds.prg:854: warning W0032  Variable 'SIZE1' is assigned but not used in function '834:RET_WIDTHS'
+
+readflds.prg:940: warning W0032  Variable 'ACHOICE' is assigned but not used in function '857:RET_STRUCT'
+
+readflds.prg:940: warning W0032  Variable 'ARETURN' is assigned but not used in function '858:RET_STRUCT'
+
+readflds.prg:940: warning W0032  Variable 'CFILEPATH' is assigned but not used in function '859:RET_STRUCT'
+
+readflds.prg:940: warning W0032  Variable 'LEXISTDBPATH' is assigned but not used in function '860:RET_STRUCT'
+
+readflds.prg:940: warning W0032  Variable 'CDATABASEPATH' is assigned but not used in function '861:RET_STRUCT'
+
+readflds.prg:940: warning W0032  Variable 'CALIAS' is assigned but not used in function '862:RET_STRUCT'
+
+readflds.prg:940: warning W0032  Variable 'LEXISTSTRUCT' is assigned but not used in function '864:RET_STRUCT'
+
+readflds.prg:1065: warning W0003  Variable 'OLDVALUE' declared but not used in function '942:EXP_STRING'
+
+readflds.prg:1065: warning W0003  Variable 'V1' declared but not used in function '943:EXP_STRING'
+
+readflds.prg:1065: warning W0003  Variable 'X' declared but not used in function '944:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYWIDTHS' is assigned but not used in function '945:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYFIELDS' is assigned but not used in function '946:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYHEADERS' is assigned but not used in function '947:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CFILENAME' is assigned but not used in function '948:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'ARETURN' is assigned but not used in function '949:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYPATH' is assigned but not used in function '951:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYVALID' is assigned but not used in function '953:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYVALIDMESSAGES' is assigned but not used in function '954:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CIMAGENAMES' is assigned but not used in function '955:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CREADONLYVALUES' is assigned but not used in function '956:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYJUSTIFYVALUES' is assigned but not used in function '957:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CWHEN' is assigned but not used in function '958:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CONHEADCLICK' is assigned but not used in function '959:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CALIAS' is assigned but not used in function '960:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYFIELDS' is assigned but not used in function '1004:EXP_STRING'
+
+readflds.prg:1065: warning W0032  Variable 'CMYFIELDS' is assigned but not used in function '1037:EXP_STRING'
+
+readflds.prg:1170: warning W0032  Variable 'AUPDATE' is assigned but not used in function '1067:SV_ABS_ALLNIL'
+
+readflds.prg:1170: warning W0032  Variable 'X' is assigned but not used in function '1068:SV_ABS_ALLNIL'
+
+readflds.prg:1170: warning W0032  Variable 'V1' is assigned but not used in function '1069:SV_ABS_ALLNIL'
+
+readflds.prg:1170: warning W0032  Variable 'NLEN' is assigned but not used in function '1071:SV_ABS_ALLNIL'
+
+readflds.prg:1170: warning W0032  Variable 'I' is assigned but not used in function '1072:SV_ABS_ALLNIL'
+
+readflds.prg:1261: warning W0003  Variable 'A1' declared but not used in function '1170:SV_ALL_FLDS'
+
+readflds.prg:1261: warning W0032  Variable 'AUPDATE' is assigned but not used in function '1172:SV_ALL_FLDS'
+
+readflds.prg:1261: warning W0032  Variable 'X' is assigned but not used in function '1173:SV_ALL_FLDS'
+
+readflds.prg:1261: warning W0032  Variable 'V1' is assigned but not used in function '1174:SV_ALL_FLDS'
+
+readflds.prg:1261: warning W0032  Variable 'NLEN' is assigned but not used in function '1176:SV_ALL_FLDS'
+
+readflds.prg:1261: warning W0032  Variable 'I' is assigned but not used in function '1177:SV_ALL_FLDS'
+
+readflds.prg:1307: warning W0032  Variable 'VALUE' is assigned but not used in function '1263:MOVEDX_FIELD'
+
+readflds.prg:1307: warning W0032  Variable 'NVAL' is assigned but not used in function '1264:MOVEDX_FIELD'
+
+readflds.prg:1307: warning W0032  Variable 'OLDVAL' is assigned but not used in function '1265:MOVEDX_FIELD'
+
+readflds.prg:1307: warning W0032  Variable 'NNEWVAL' is assigned but not used in function '1266:MOVEDX_FIELD'
+
+readflds.prg:1307: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1267:MOVEDX_FIELD'
+
+readflds.prg:1307: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1272:MOVEDX_FIELD'
+
+readflds.prg:1307: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1274:MOVEDX_FIELD'
+
+readflds.prg:1348: warning W0032  Variable 'VALUE' is assigned but not used in function '1309:MOVESX_FIELD'
+
+readflds.prg:1348: warning W0032  Variable 'NVAL' is assigned but not used in function '1310:MOVESX_FIELD'
+
+readflds.prg:1348: warning W0032  Variable 'OLDVAL' is assigned but not used in function '1311:MOVESX_FIELD'
+
+readflds.prg:1348: warning W0032  Variable 'NNEWVAL' is assigned but not used in function '1312:MOVESX_FIELD'
+
+readflds.prg:1348: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1313:MOVESX_FIELD'
+
+readflds.prg:1348: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1318:MOVESX_FIELD'
+
+readflds.prg:1348: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1320:MOVESX_FIELD'
+
+readflds.prg:1377: warning W0032  Variable 'AMYFIELDS' is assigned but not used in function '1350:MOVESX_ALLFIELD'
+
+readflds.prg:1377: warning W0032  Variable 'AMYWIDTHS' is assigned but not used in function '1351:MOVESX_ALLFIELD'
+
+readflds.prg:1377: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1352:MOVESX_ALLFIELD'
+
+readflds.prg:1377: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1357:MOVESX_ALLFIELD'
+
+readflds.prg:1377: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1359:MOVESX_ALLFIELD'
+
+readflds.prg:1406: warning W0032  Variable 'AMYFIELDS' is assigned but not used in function '1379:MOVEDX_ALLFIELD'
+
+readflds.prg:1406: warning W0032  Variable 'AMYWIDTHS' is assigned but not used in function '1380:MOVEDX_ALLFIELD'
+
+readflds.prg:1406: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1381:MOVEDX_ALLFIELD'
+
+readflds.prg:1406: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1386:MOVEDX_ALLFIELD'
+
+readflds.prg:1406: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1388:MOVEDX_ALLFIELD'
+
+readflds.prg:1469: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1409:WHAT_FIELD'
+
+readflds.prg:1469: warning W0032  Variable 'AFIELDNAME' is assigned but not used in function '1410:WHAT_FIELD'
+
+readflds.prg:1469: warning W0032  Variable 'AFIELDVALUE' is assigned but not used in function '1411:WHAT_FIELD'
+
+readflds.prg:1469: warning W0032  Variable 'I' is assigned but not used in function '1412:WHAT_FIELD'
+
+readflds.prg:1588: warning W0003  Variable 'CALIAS' declared but not used in function '1469:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'V1' is assigned but not used in function '1472:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'X' is assigned but not used in function '1473:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'ASTRUCTFIELDS' is assigned but not used in function '1474:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'NLENASTRUCT' is assigned but not used in function '1475:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'NLEN' is assigned but not used in function '1477:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'CSTRING' is assigned but not used in function '1478:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'CMYSTRING' is assigned but not used in function '1481:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'CWORKAREA' is assigned but not used in function '1482:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'I' is assigned but not used in function '1483:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'K' is assigned but not used in function '1484:IMP_STRING'
+
+readflds.prg:1588: warning W0032  Variable 'OLDVALUE' is assigned but not used in function '1575:IMP_STRING'
+
+readflds.prg:1662: warning W0032  Variable 'X' is assigned but not used in function '1595:MR_FSTR'
+
+readflds.prg:1662: warning W0032  Variable 'V1' is assigned but not used in function '1596:MR_FSTR'
+
+readflds.prg:1865: warning W0032  Variable 'X' is assigned but not used in function '1790:SV_OBJFIELD'
+
+readflds.prg:1865: warning W0032  Variable 'V1' is assigned but not used in function '1791:SV_OBJFIELD'
+
+readflds.prg:1865: warning W0032  Variable 'NLEN' is assigned but not used in function '1793:SV_OBJFIELD'
+
+readflds.prg:1865: warning W0032  Variable 'I' is assigned but not used in function '1794:SV_OBJFIELD'
+
+readflds.prg:1865: warning W0032  Variable 'NLEN1' is assigned but not used in function '1795:SV_OBJFIELD'
+
+readflds.prg:1865: warning W0032  Variable 'AFIELD' is assigned but not used in function '1801:SV_OBJFIELD'
+
+readflds.prg:1911: warning W0032  Variable 'NPOS' is assigned but not used in function '1886:RCVR_WKA'
+
+readflds.prg:1911: warning W0032  Variable 'I' is assigned but not used in function '1888:RCVR_WKA'
+
+readflds.prg:2012: warning W0032  Variable 'CFILENAME' is assigned but not used in function '1925:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYWIDTHS' is assigned but not used in function '1926:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYHEADERS' is assigned but not used in function '1927:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYFIELDS' is assigned but not used in function '1928:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'NCHOICE' is assigned but not used in function '1929:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'NHANDLE' is assigned but not used in function '1930:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'LMES' is assigned but not used in function '1931:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'LMODE' is assigned but not used in function '1932:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYPATH' is assigned but not used in function '1933:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYVALID' is assigned but not used in function '1934:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYVALIDMESSAGES' is assigned but not used in function '1935:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CIMAGENAMES' is assigned but not used in function '1936:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CREADONLYVALUES' is assigned but not used in function '1937:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYJUSTIFYVALUES' is assigned but not used in function '1938:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CWHEN' is assigned but not used in function '1939:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CONHEADCLICK' is assigned but not used in function '1940:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CALIAS' is assigned but not used in function '1941:ASKFOREXIT'
+
+readflds.prg:2012: warning W0032  Variable 'CMYFIELDS' is assigned but not used in function '1947:ASKFOREXIT'
+
+readflds.prg:2114: warning W0032  Variable 'ADOWNLOAD' is assigned but not used in function '2014:SAVEOLD_FSTR'
+
+readflds.prg:2114: warning W0032  Variable 'ATEMPDOWNLOAD' is assigned but not used in function '2015:SAVEOLD_FSTR'
+
+readflds.prg:2114: warning W0032  Variable 'X' is assigned but not used in function '2016:SAVEOLD_FSTR'
+
+readflds.prg:2114: warning W0032  Variable 'NLEN' is assigned but not used in function '2019:SAVEOLD_FSTR'
+
+readflds.prg:2114: warning W0032  Variable 'I' is assigned but not used in function '2020:SAVEOLD_FSTR'
+
+hmgside.prg:248: warning W0032  Variable 'NSIZE' is assigned but not used in function '68:MAIN'
+
+hmgside.prg:248: warning W0032  Variable 'NSIZE2' is assigned but not used in function '69:MAIN'
+
+hmgside.prg:283: warning W0032  Variable 'FORM' is assigned but not used in function '250:COPYCLIP'
+
+hmgside.prg:283: warning W0032  Variable 'CCONTROL' is assigned but not used in function '251:COPYCLIP'
+
+hmgside.prg:311: warning W0032  Variable 'AFORMDIRNEW' is assigned but not used in function '285:VERIFYFORM'
+
+hmgside.prg:311: warning W0032  Variable 'X' is assigned but not used in function '286:VERIFYFORM'
+
+hmgside.prg:311: warning W0032  Variable 'CPATH' is assigned but not used in function '287:VERIFYFORM'
+
+hmgside.prg:311: warning W0032  Variable 'FORM' is assigned but not used in function '288:VERIFYFORM'
+
+hmgside.prg:445: warning W0032  Variable 'X' is assigned but not used in function '417:PROCESSKEYS'
+
+hmgside.prg:812: warning W0032  Variable 'I' is assigned but not used in function '521:ADDCONTROL'
+
+hmgside.prg:812: warning W0032  Variable 'CNAME' is assigned but not used in function '526:ADDCONTROL'
+
+hmgside.prg:881: warning W0032  Variable 'NRET' is assigned but not used in function '869:SNAPROW'
+
+hmgside.prg:895: warning W0032  Variable 'NRET' is assigned but not used in function '883:SNAPCOL'
+
+hmgside.prg:1024: warning W0032  Variable 'IC' is assigned but not used in function '943:ADDRESOURCE'
+
+hmgside.prg:1024: warning W0032  Variable 'X' is assigned but not used in function '945:ADDRESOURCE'
+
+hmgside.prg:1024: warning W0032  Variable 'XPOS' is assigned but not used in function '946:ADDRESOURCE'
+
+hmgside.prg:1024: warning W0032  Variable 'CPATH' is assigned but not used in function '947:ADDRESOURCE'
+
+hmgside.prg:1024: warning W0032  Variable 'ADDRESOURCE' is assigned but not used in function '949:ADDRESOURCE'
+
+hmgside.prg:1024: warning W0032  Variable 'XRCNAME' is assigned but not used in function '950:ADDRESOURCE'
+
+hmgside.prg:1130: warning W0032  Variable 'IC' is assigned but not used in function '1026:ADDMODULE'
+
+hmgside.prg:1130: warning W0032  Variable 'X' is assigned but not used in function '1028:ADDMODULE'
+
+hmgside.prg:1130: warning W0032  Variable 'ADDMODULE' is assigned but not used in function '1030:ADDMODULE'
+
+hmgside.prg:1130: warning W0032  Variable 'XPOS' is assigned but not used in function '1031:ADDMODULE'
+
+hmgside.prg:1130: warning W0032  Variable 'XPRGNAME' is assigned but not used in function '1032:ADDMODULE'
+
+hmgside.prg:1130: warning W0032  Variable 'CPATH' is assigned but not used in function '1033:ADDMODULE'
+
+hmgside.prg:1130: warning W0032  Variable 'ATEMPPRGNAMES' is assigned but not used in function '1034:ADDMODULE'
+
+hmgside.prg:1211: warning W0032  Variable 'IC' is assigned but not used in function '1132:ADDFORM'
+
+hmgside.prg:1211: warning W0032  Variable 'X' is assigned but not used in function '1134:ADDFORM'
+
+hmgside.prg:1211: warning W0032  Variable 'XPOS' is assigned but not used in function '1135:ADDFORM'
+
+hmgside.prg:1211: warning W0032  Variable 'CPATH' is assigned but not used in function '1136:ADDFORM'
+
+hmgside.prg:1211: warning W0032  Variable 'ADDFORM' is assigned but not used in function '1138:ADDFORM'
+
+hmgside.prg:1211: warning W0032  Variable 'XFMGNAME' is assigned but not used in function '1139:ADDFORM'
+
+hmgside.prg:1278: warning W0032  Variable 'RETPROJECT' is assigned but not used in function '1238:NEW'
+
+hmgside.prg:1278: warning W0032  Variable 'XNAME' is assigned but not used in function '1239:NEW'
+
+hmgside.prg:1561: warning W0032  Variable 'LRESP' is assigned but not used in function '1486:DELETESPECIAL'
+
+hmgside.prg:1628: warning W0032  Variable 'CTITLE' is assigned but not used in function '1563:DELETEITEM'
+
+hmgside.prg:1678: warning W0032  Variable 'A1' is assigned but not used in function '1631:DELETEFORM'
+
+hmgside.prg:1746: warning W0032  Variable 'X' is assigned but not used in function '1680:DELETEMODULE'
+
+hmgside.prg:1746: warning W0032  Variable 'NITEM' is assigned but not used in function '1681:DELETEMODULE'
+
+hmgside.prg:1746: warning W0032  Variable 'CDELETED' is assigned but not used in function '1682:DELETEMODULE'
+
+hmgside.prg:1768: warning W0032  Variable 'X' is assigned but not used in function '1748:DELETEARRAY'
+
+hmgside.prg:1810: warning W0032  Variable 'X' is assigned but not used in function '1770:DELETERESOURCE'
+
+hmgside.prg:1810: warning W0032  Variable 'A1' is assigned but not used in function '1772:DELETERESOURCE'
+
+hmgside.prg:1876: warning W0032  Variable 'A1' is assigned but not used in function '1812:SETMODULEASMAIN'
+
+hmgside.prg:1876: warning W0032  Variable 'A2' is assigned but not used in function '1813:SETMODULEASMAIN'
+
+hmgside.prg:1876: warning W0032  Variable 'X' is assigned but not used in function '1815:SETMODULEASMAIN'
+
+hmgside.prg:1876: warning W0032  Variable 'ATEMPPRGNAMES' is assigned but not used in function '1816:SETMODULEASMAIN'
+
+hmgside.prg:2068: warning W0032  Variable 'NEWFORM' is assigned but not used in function '1878:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'XPOS' is assigned but not used in function '1879:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'CPATH' is assigned but not used in function '1880:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'XFMGNAME' is assigned but not used in function '1881:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'X' is assigned but not used in function '1882:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'H' is assigned but not used in function '1884:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'BASEROW' is assigned but not used in function '1885:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'BASECOL' is assigned but not used in function '1886:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '1887:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '1888:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'AFORMPROP' is assigned but not used in function '1889:NEWFORM'
+
+hmgside.prg:2068: warning W0032  Variable 'AFORMEVENT' is assigned but not used in function '1890:NEWFORM'
+
+hmgside.prg:2134: warning W0032  Variable 'X' is assigned but not used in function '2113:NPOSOBJECT'
+
+hmgside.prg:2134: warning W0032  Variable 'V1' is assigned but not used in function '2115:NPOSOBJECT'
+
+hmgside.prg:2239: warning W0032  Variable 'CRETPROJECT' is assigned but not used in function '2220:OPEN'
+
+hmgside.prg:2482: warning W0032  Variable 'A1' is assigned but not used in function '2241:OPENPROJECT'
+
+hmgside.prg:2482: warning W0032  Variable 'X' is assigned but not used in function '2242:OPENPROJECT'
+
+hmgside.prg:2482: warning W0032  Variable 'X2' is assigned but not used in function '2243:OPENPROJECT'
+
+hmgside.prg:2482: warning W0032  Variable 'NCOUNT' is assigned but not used in function '2244:OPENPROJECT'
+
+hmgside.prg:2482: warning W0032  Variable 'XNAME' is assigned but not used in function '2245:OPENPROJECT'
+
+hmgside.prg:2482: warning W0032  Variable 'CFILE' is assigned but not used in function '2249:OPENPROJECT'
+
+hmgside.prg:2482: warning W0032  Variable 'NPOS' is assigned but not used in function '2250:OPENPROJECT'
+
+hmgside.prg:2560: warning W0032  Variable 'XRCNAME' is assigned but not used in function '2501:NEWRESOURCE'
+
+hmgside.prg:2560: warning W0032  Variable 'CPATH' is assigned but not used in function '2502:NEWRESOURCE'
+
+hmgside.prg:2560: warning W0032  Variable 'X' is assigned but not used in function '2503:NEWRESOURCE'
+
+hmgside.prg:2560: warning W0032  Variable 'X2' is assigned but not used in function '2504:NEWRESOURCE'
+
+hmgside.prg:2695: warning W0032  Variable 'NEWMODULE' is assigned but not used in function '2562:NEWMODULE'
+
+hmgside.prg:2695: warning W0032  Variable 'XPRGNAME' is assigned but not used in function '2563:NEWMODULE'
+
+hmgside.prg:2695: warning W0032  Variable 'X' is assigned but not used in function '2565:NEWMODULE'
+
+hmgside.prg:2695: warning W0032  Variable 'CPATH' is assigned but not used in function '2566:NEWMODULE'
+
+hmgside.prg:2695: warning W0032  Variable 'XPOS' is assigned but not used in function '2567:NEWMODULE'
+
+hmgside.prg:2695: warning W0032  Variable 'ATEMPPRGNAMES' is assigned but not used in function '2568:NEWMODULE'
+
+hmgside.prg:2695: warning W0032  Variable 'CSRC' is assigned but not used in function '2569:NEWMODULE'
+
+hmgside.prg:2780: warning W0032  Variable 'CSECT' is assigned but not used in function '2730:EXIT'
+
+hmgside.prg:2841: warning W0032  Variable 'I' is assigned but not used in function '2782:PROCESSCONTAINERS'
+
+hmgside.prg:2841: warning W0032  Variable 'ACTIVEPAGE' is assigned but not used in function '2783:PROCESSCONTAINERS'
+
+hmgside.prg:2841: warning W0032  Variable 'Z' is assigned but not used in function '2784:PROCESSCONTAINERS'
+
+hmgside.prg:2841: warning W0032  Variable 'K' is assigned but not used in function '2785:PROCESSCONTAINERS'
+
+hmgside.prg:2881: warning W0032  Variable 'X' is assigned but not used in function '2843:CONTROL_CLICK'
+
+readflds.prg:2194: warning W0032  Variable 'NLEN' is assigned but not used in function '2136:CHK_IFCANLOAD'
+
+readflds.prg:2194: warning W0032  Variable 'LEXISTFIELDS' is assigned but not used in function '2137:CHK_IFCANLOAD'
+
+readflds.prg:2194: warning W0032  Variable 'LEXISTDATABASE' is assigned but not used in function '2138:CHK_IFCANLOAD'
+
+readflds.prg:2194: warning W0032  Variable 'I' is assigned but not used in function '2139:CHK_IFCANLOAD'
+
+readflds.prg:2194: warning W0032  Variable 'ARETURN' is assigned but not used in function '2142:CHK_IFCANLOAD'
+
+readflds.prg:2194: warning W0032  Variable 'CSTRING' is assigned but not used in function '2143:CHK_IFCANLOAD'
+
+readflds.prg:2194: warning W0032  Variable 'LMODE' is assigned but not used in function '2144:CHK_IFCANLOAD'
+
+readflds.prg:2194: warning W0032  Variable 'ALDRETURN' is assigned but not used in function '2146:CHK_IFCANLOAD'
+
+hmgside.prg:2919: warning W0032  Variable 'CAPTION' is assigned but not used in function '2883:ADDTABPAGE'
+
+hmgside.prg:2919: warning W0032  Variable 'NPOS' is assigned but not used in function '2884:ADDTABPAGE'
+
+hmgside.prg:2919: warning W0032  Variable 'POSITION' is assigned but not used in function '2885:ADDTABPAGE'
+
+readflds.prg:2250: warning W0032  Variable 'AMYVALID' is assigned but not used in function '2196:TST_FLDFLD'
+
+readflds.prg:2250: warning W0032  Variable 'AMYVALIDMESSAGES' is assigned but not used in function '2197:TST_FLDFLD'
+
+readflds.prg:2250: warning W0032  Variable 'AIMAGENAMES' is assigned but not used in function '2198:TST_FLDFLD'
+
+readflds.prg:2250: warning W0032  Variable 'AREADONLYVALUES' is assigned but not used in function '2199:TST_FLDFLD'
+
+readflds.prg:2250: warning W0032  Variable 'AMYJUSTIFYVALUES' is assigned but not used in function '2200:TST_FLDFLD'
+
+readflds.prg:2250: warning W0032  Variable 'AWHEN' is assigned but not used in function '2201:TST_FLDFLD'
+
+readflds.prg:2250: warning W0032  Variable 'AONHEADCLICK' is assigned but not used in function '2202:TST_FLDFLD'
+
+readflds.prg:2302: warning W0032  Variable 'NSTRLEN' is assigned but not used in function '2252:CORRECT_VLD'
+
+readflds.prg:2302: warning W0032  Variable 'NDIFF' is assigned but not used in function '2253:CORRECT_VLD'
+
+readflds.prg:2302: warning W0032  Variable 'I' is assigned but not used in function '2254:CORRECT_VLD'
+
+readflds.prg:2302: warning W0032  Variable 'CLAST' is assigned but not used in function '2255:CORRECT_VLD'
+
+readflds.prg:2353: warning W0032  Variable 'NSTRLEN' is assigned but not used in function '2304:CORRECT_VLDMSG'
+
+readflds.prg:2353: warning W0032  Variable 'NDIFF' is assigned but not used in function '2305:CORRECT_VLDMSG'
+
+readflds.prg:2353: warning W0032  Variable 'I' is assigned but not used in function '2306:CORRECT_VLDMSG'
+
+readflds.prg:2353: warning W0032  Variable 'CLAST' is assigned but not used in function '2307:CORRECT_VLDMSG'
+
+readflds.prg:2402: warning W0032  Variable 'NSTRLEN' is assigned but not used in function '2355:CORRECT_IMAGENAME'
+
+readflds.prg:2402: warning W0032  Variable 'NDIFF' is assigned but not used in function '2356:CORRECT_IMAGENAME'
+
+readflds.prg:2402: warning W0032  Variable 'I' is assigned but not used in function '2357:CORRECT_IMAGENAME'
+
+readflds.prg:2402: warning W0032  Variable 'CLAST' is assigned but not used in function '2358:CORRECT_IMAGENAME'
+
+readflds.prg:2452: warning W0032  Variable 'NSTRLEN' is assigned but not used in function '2404:CORRECT_RDOFLD'
+
+readflds.prg:2452: warning W0032  Variable 'NDIFF' is assigned but not used in function '2405:CORRECT_RDOFLD'
+
+readflds.prg:2452: warning W0032  Variable 'I' is assigned but not used in function '2406:CORRECT_RDOFLD'
+
+readflds.prg:2452: warning W0032  Variable 'CLAST' is assigned but not used in function '2407:CORRECT_RDOFLD'
+
+hmgside.prg:3068: warning W0032  Variable 'L' is assigned but not used in function '2922:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'TRASHPAGE' is assigned but not used in function '2923:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'K' is assigned but not used in function '2924:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'J' is assigned but not used in function '2925:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'X' is assigned but not used in function '2926:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'NPOS' is assigned but not used in function '2927:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'AVAL' is assigned but not used in function '2928:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'AVAL2' is assigned but not used in function '2929:DELETETABPAGE'
+
+hmgside.prg:3068: warning W0032  Variable 'PAGE' is assigned but not used in function '2930:DELETETABPAGE'
+
+readflds.prg:2502: warning W0032  Variable 'NSTRLEN' is assigned but not used in function '2454:CORRECT_JSTFYFLDS'
+
+readflds.prg:2502: warning W0032  Variable 'NDIFF' is assigned but not used in function '2455:CORRECT_JSTFYFLDS'
+
+readflds.prg:2502: warning W0032  Variable 'I' is assigned but not used in function '2456:CORRECT_JSTFYFLDS'
+
+readflds.prg:2502: warning W0032  Variable 'CLAST' is assigned but not used in function '2457:CORRECT_JSTFYFLDS'
+
+hmgside.prg:3094: warning W0032  Variable 'I' is assigned but not used in function '3070:PROPERTIES_CLICK'
+
+readflds.prg:2552: warning W0032  Variable 'NSTRLEN' is assigned but not used in function '2504:CORRECT_WHEN'
+
+readflds.prg:2552: warning W0032  Variable 'NDIFF' is assigned but not used in function '2505:CORRECT_WHEN'
+
+readflds.prg:2552: warning W0032  Variable 'I' is assigned but not used in function '2506:CORRECT_WHEN'
+
+readflds.prg:2552: warning W0032  Variable 'CLAST' is assigned but not used in function '2507:CORRECT_WHEN'
+
+readflds.prg:2602: warning W0032  Variable 'NSTRLEN' is assigned but not used in function '2554:CORRECT_ONHCLK'
+
+readflds.prg:2602: warning W0032  Variable 'NDIFF' is assigned but not used in function '2555:CORRECT_ONHCLK'
+
+readflds.prg:2602: warning W0032  Variable 'I' is assigned but not used in function '2556:CORRECT_ONHCLK'
+
+readflds.prg:2602: warning W0032  Variable 'CLAST' is assigned but not used in function '2557:CORRECT_ONHCLK'
+
+readflds.prg:2659: warning W0003  Variable 'A1' declared but not used in function '2645:BRW_STRT'
+
+readflds.prg:2659: warning W0003  Variable 'A2' declared but not used in function '2645:BRW_STRT'
+
+readflds.prg:2659: warning W0003  Variable 'A3' declared but not used in function '2645:BRW_STRT'
+
+readflds.prg:2659: warning W0003  Variable 'A4' declared but not used in function '2645:BRW_STRT'
+
+readflds.prg:2666: warning W0003  Variable 'A1' declared but not used in function '2659:ADV_CHOICE'
+
+readflds.prg:2666: warning W0003  Variable 'A2' declared but not used in function '2659:ADV_CHOICE'
+
+readflds.prg:2666: warning W0003  Variable 'A3' declared but not used in function '2659:ADV_CHOICE'
+
+readflds.prg:2666: warning W0003  Variable 'A4' declared but not used in function '2659:ADV_CHOICE'
+
+hmgside.prg:3169: warning W0032  Variable 'J' is assigned but not used in function '3123:TABPROPFILL'
+
+hmgside.prg:3169: warning W0032  Variable 'K' is assigned but not used in function '3124:TABPROPFILL'
+
+hmgside.prg:3169: warning W0032  Variable 'CONTROLHANDLE' is assigned but not used in function '3126:TABPROPFILL'
+
+hmgside.prg:3169: warning W0032  Variable 'CURRENTPAGE' is assigned but not used in function '3127:TABPROPFILL'
+
+hmgside.prg:3169: warning W0032  Variable 'CURRENTPAGE' is assigned but not used in function '3157:TABPROPFILL'
+
+readflds.prg:2759: warning W0032  Variable 'NCHOICE' is assigned but not used in function '2675:BAO_SETDEFALL'
+
+readflds.prg:2759: warning W0032  Variable 'CLAST' is assigned but not used in function '2683:BAO_SETDEFALL'
+
+readflds.prg:2759: warning W0032  Variable 'I' is assigned but not used in function '2684:BAO_SETDEFALL'
+
+readflds.prg:2759: warning W0032  Variable 'ARETURN' is assigned but not used in function '2685:BAO_SETDEFALL'
+
+readflds.prg:2759: warning W0032  Variable 'LRET' is assigned but not used in function '2686:BAO_SETDEFALL'
+
+readflds.prg:2759: warning W0032  Variable 'NLEN' is assigned but not used in function '2687:BAO_SETDEFALL'
+
+readflds.prg:2786: warning W0032  Variable 'ARETURN' is assigned but not used in function '2768:BAO_SETDEFALLNIL'
+
+readflds.prg:2786: warning W0032  Variable 'LRET' is assigned but not used in function '2769:BAO_SETDEFALLNIL'
+
+readflds.prg:2838: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '2789:SV_ALLEXTG2_FLDS'
+
+readflds.prg:2838: warning W0032  Variable 'X' is assigned but not used in function '2790:SV_ALLEXTG2_FLDS'
+
+readflds.prg:2838: warning W0032  Variable 'V1' is assigned but not used in function '2791:SV_ALLEXTG2_FLDS'
+
+readflds.prg:2838: warning W0032  Variable 'NLEN' is assigned but not used in function '2793:SV_ALLEXTG2_FLDS'
+
+readflds.prg:2838: warning W0032  Variable 'I' is assigned but not used in function '2794:SV_ALLEXTG2_FLDS'
+
+hmgside.prg:3265: warning W0032  Variable 'TABNAME' is assigned but not used in function '3171:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '3172:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'PARENTFORM' is assigned but not used in function '3173:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'XROW' is assigned but not used in function '3174:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'XCOL' is assigned but not used in function '3175:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'I' is assigned but not used in function '3176:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'I2' is assigned but not used in function '3177:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'H' is assigned but not used in function '3178:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'J' is assigned but not used in function '3179:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'K' is assigned but not used in function '3180:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'B0' is assigned but not used in function '3181:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'B1' is assigned but not used in function '3182:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'B2' is assigned but not used in function '3183:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'X1' is assigned but not used in function '3184:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'ACOPTIONS' is assigned but not used in function '3185:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'NSPACING' is assigned but not used in function '3186:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'ACBACKCOLOR' is assigned but not used in function '3187:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'CONTROLHANDLE' is assigned but not used in function '3189:CHANGETABPOS'
+
+hmgside.prg:3265: warning W0032  Variable 'Z' is assigned but not used in function '3249:CHANGETABPOS'
+
+readflds.prg:2894: warning W0032  Variable 'AUPDATE' is assigned but not used in function '2840:SV_ALLEXT_FLDS'
+
+readflds.prg:2894: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '2841:SV_ALLEXT_FLDS'
+
+readflds.prg:2894: warning W0032  Variable 'X' is assigned but not used in function '2842:SV_ALLEXT_FLDS'
+
+readflds.prg:2894: warning W0032  Variable 'V1' is assigned but not used in function '2843:SV_ALLEXT_FLDS'
+
+readflds.prg:2894: warning W0032  Variable 'NLEN' is assigned but not used in function '2845:SV_ALLEXT_FLDS'
+
+readflds.prg:2894: warning W0032  Variable 'I' is assigned but not used in function '2846:SV_ALLEXT_FLDS'
+
+readflds.prg:2974: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '2897:BAO_READ'
+
+readflds.prg:2974: warning W0032  Variable 'X' is assigned but not used in function '2898:BAO_READ'
+
+readflds.prg:2974: warning W0032  Variable 'NLEN' is assigned but not used in function '2901:BAO_READ'
+
+readflds.prg:2974: warning W0032  Variable 'I' is assigned but not used in function '2902:BAO_READ'
+
+readflds.prg:2974: warning W0032  Variable 'NFIELDS' is assigned but not used in function '2903:BAO_READ'
+
+readflds.prg:2974: warning W0032  Variable 'NCHOICE' is assigned but not used in function '2918:BAO_READ'
+
+readflds.prg:3040: warning W0032  Variable 'I' is assigned but not used in function '3000:STRG_2_ARRAY'
+
+readflds.prg:3040: warning W0032  Variable 'NINDEX' is assigned but not used in function '3003:STRG_2_ARRAY'
+
+readflds.prg:3040: warning W0032  Variable 'ARETURN' is assigned but not used in function '3004:STRG_2_ARRAY'
+
+readflds.prg:3040: warning W0032  Variable 'ARETURN' is assigned but not used in function '3013:STRG_2_ARRAY'
+
+readflds.prg:3040: warning W0032  Variable 'ARETURN' is assigned but not used in function '3028:STRG_2_ARRAY'
+
+readflds.prg:3067: warning W0032  Variable 'I' is assigned but not used in function '3043:STRG_S_ARRAY'
+
+readflds.prg:3067: warning W0032  Variable 'NCOUNTER' is assigned but not used in function '3044:STRG_S_ARRAY'
+
+readflds.prg:3102: warning W0032  Variable 'I' is assigned but not used in function '3070:STRG_M_ARRAY'
+
+readflds.prg:3102: warning W0032  Variable 'NCOUNTER' is assigned but not used in function '3071:STRG_M_ARRAY'
+
+readflds.prg:3137: warning W0032  Variable 'I' is assigned but not used in function '3105:STRG_CB_ARRAY'
+
+readflds.prg:3137: warning W0032  Variable 'NCOUNTER' is assigned but not used in function '3106:STRG_CB_ARRAY'
+
+readflds.prg:3168: warning W0032  Variable 'I' is assigned but not used in function '3141:TRSF_CBLOK'
+
+readflds.prg:3214: warning W0032  Variable 'AMYVALID' is assigned but not used in function '3170:BRW_SETTXTVLD'
+
+readflds.prg:3214: warning W0032  Variable 'CMYVALID' is assigned but not used in function '3171:BRW_SETTXTVLD'
+
+readflds.prg:3214: warning W0032  Variable 'NCHOICE' is assigned but not used in function '3172:BRW_SETTXTVLD'
+
+readflds.prg:3214: warning W0032  Variable 'CVALUE' is assigned but not used in function '3173:BRW_SETTXTVLD'
+
+readflds.prg:3214: warning W0032  Variable 'ATEMPVALID' is assigned but not used in function '3174:BRW_SETTXTVLD'
+
+readflds.prg:3214: warning W0032  Variable 'NLEN' is assigned but not used in function '3176:BRW_SETTXTVLD'
+
+readflds.prg:3214: warning W0032  Variable 'CLAST' is assigned but not used in function '3177:BRW_SETTXTVLD'
+
+readflds.prg:3214: warning W0032  Variable 'I' is assigned but not used in function '3178:BRW_SETTXTVLD'
+
+readflds.prg:3232: warning W0032  Variable 'NVALUE' is assigned but not used in function '3216:RDGP_SETTXT1'
+
+readflds.prg:3232: warning W0032  Variable 'CSTRING' is assigned but not used in function '3217:RDGP_SETTXT1'
+
+readflds.prg:3278: warning W0032  Variable 'AUPDATE' is assigned but not used in function '3234:SV_VLD_FLDS'
+
+readflds.prg:3278: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '3235:SV_VLD_FLDS'
+
+readflds.prg:3278: warning W0032  Variable 'X' is assigned but not used in function '3236:SV_VLD_FLDS'
+
+readflds.prg:3278: warning W0032  Variable 'NLEN' is assigned but not used in function '3239:SV_VLD_FLDS'
+
+readflds.prg:3278: warning W0032  Variable 'I' is assigned but not used in function '3240:SV_VLD_FLDS'
+
+readflds.prg:3323: warning W0032  Variable 'AMYVALIDMESSAGES' is assigned but not used in function '3280:BRW_SETTXTVM'
+
+readflds.prg:3323: warning W0032  Variable 'CMYVALIDMESSAGES' is assigned but not used in function '3281:BRW_SETTXTVM'
+
+readflds.prg:3323: warning W0032  Variable 'NCHOICE' is assigned but not used in function '3282:BRW_SETTXTVM'
+
+readflds.prg:3323: warning W0032  Variable 'CVALUE' is assigned but not used in function '3283:BRW_SETTXTVM'
+
+readflds.prg:3323: warning W0032  Variable 'ATEMPMESSAGES' is assigned but not used in function '3284:BRW_SETTXTVM'
+
+readflds.prg:3323: warning W0032  Variable 'NLEN' is assigned but not used in function '3286:BRW_SETTXTVM'
+
+readflds.prg:3323: warning W0032  Variable 'CLAST' is assigned but not used in function '3287:BRW_SETTXTVM'
+
+readflds.prg:3323: warning W0032  Variable 'I' is assigned but not used in function '3288:BRW_SETTXTVM'
+
+readflds.prg:3365: warning W0032  Variable 'AUPDATE' is assigned but not used in function '3325:SV_VLDMSG_FLDS'
+
+readflds.prg:3365: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '3326:SV_VLDMSG_FLDS'
+
+readflds.prg:3365: warning W0032  Variable 'X' is assigned but not used in function '3327:SV_VLDMSG_FLDS'
+
+readflds.prg:3365: warning W0032  Variable 'NLEN' is assigned but not used in function '3330:SV_VLDMSG_FLDS'
+
+readflds.prg:3365: warning W0032  Variable 'I' is assigned but not used in function '3331:SV_VLDMSG_FLDS'
+
+readflds.prg:3381: warning W0032  Variable 'NVALUE' is assigned but not used in function '3367:RDGP_SETTXT2'
+
+readflds.prg:3427: warning W0032  Variable 'AIMAGENAMES' is assigned but not used in function '3383:BRW_SETTXTIMG'
+
+readflds.prg:3427: warning W0032  Variable 'CIMAGENAMES' is assigned but not used in function '3384:BRW_SETTXTIMG'
+
+readflds.prg:3427: warning W0032  Variable 'NCHOICE' is assigned but not used in function '3385:BRW_SETTXTIMG'
+
+readflds.prg:3427: warning W0032  Variable 'CVALUE' is assigned but not used in function '3386:BRW_SETTXTIMG'
+
+readflds.prg:3427: warning W0032  Variable 'ATEMPMESSAGES' is assigned but not used in function '3387:BRW_SETTXTIMG'
+
+readflds.prg:3427: warning W0032  Variable 'NLEN' is assigned but not used in function '3389:BRW_SETTXTIMG'
+
+readflds.prg:3427: warning W0032  Variable 'CLAST' is assigned but not used in function '3390:BRW_SETTXTIMG'
+
+readflds.prg:3467: warning W0032  Variable 'AUPDATE' is assigned but not used in function '3429:SV_IMG_FLDS'
+
+readflds.prg:3467: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '3430:SV_IMG_FLDS'
+
+readflds.prg:3467: warning W0032  Variable 'X' is assigned but not used in function '3431:SV_IMG_FLDS'
+
+readflds.prg:3467: warning W0032  Variable 'NLEN' is assigned but not used in function '3434:SV_IMG_FLDS'
+
+readflds.prg:3467: warning W0032  Variable 'I' is assigned but not used in function '3435:SV_IMG_FLDS'
+
+readflds.prg:3512: warning W0032  Variable 'AREADONLYVALUES' is assigned but not used in function '3469:BRW_SETTXTRDO'
+
+readflds.prg:3512: warning W0032  Variable 'CREADONLYVALUES' is assigned but not used in function '3470:BRW_SETTXTRDO'
+
+readflds.prg:3512: warning W0032  Variable 'NCHOICE' is assigned but not used in function '3471:BRW_SETTXTRDO'
+
+readflds.prg:3512: warning W0032  Variable 'CVALUE' is assigned but not used in function '3472:BRW_SETTXTRDO'
+
+readflds.prg:3512: warning W0032  Variable 'ATEMPMESSAGES' is assigned but not used in function '3473:BRW_SETTXTRDO'
+
+readflds.prg:3512: warning W0032  Variable 'NLEN' is assigned but not used in function '3475:BRW_SETTXTRDO'
+
+readflds.prg:3512: warning W0032  Variable 'CLAST' is assigned but not used in function '3476:BRW_SETTXTRDO'
+
+readflds.prg:3556: warning W0032  Variable 'AUPDATE' is assigned but not used in function '3514:SV_RDO_FLDS'
+
+readflds.prg:3556: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '3515:SV_RDO_FLDS'
+
+readflds.prg:3556: warning W0032  Variable 'X' is assigned but not used in function '3516:SV_RDO_FLDS'
+
+readflds.prg:3556: warning W0032  Variable 'OLDVALUE' is assigned but not used in function '3518:SV_RDO_FLDS'
+
+readflds.prg:3556: warning W0032  Variable 'NLEN' is assigned but not used in function '3519:SV_RDO_FLDS'
+
+readflds.prg:3556: warning W0032  Variable 'I' is assigned but not used in function '3520:SV_RDO_FLDS'
+
+readflds.prg:3572: warning W0032  Variable 'NVALUE' is assigned but not used in function '3558:RDGP_SETTXT3'
+
+readflds.prg:3616: warning W0032  Variable 'AMYJUSTIFYVALUES' is assigned but not used in function '3574:BRW_SETTXTJFY'
+
+readflds.prg:3616: warning W0032  Variable 'CMYJUSTIFYVALUES' is assigned but not used in function '3575:BRW_SETTXTJFY'
+
+readflds.prg:3616: warning W0032  Variable 'NCHOICE' is assigned but not used in function '3576:BRW_SETTXTJFY'
+
+readflds.prg:3616: warning W0032  Variable 'CVALUE' is assigned but not used in function '3577:BRW_SETTXTJFY'
+
+readflds.prg:3616: warning W0032  Variable 'ATEMPMESSAGES' is assigned but not used in function '3578:BRW_SETTXTJFY'
+
+readflds.prg:3616: warning W0032  Variable 'NLEN' is assigned but not used in function '3580:BRW_SETTXTJFY'
+
+readflds.prg:3616: warning W0032  Variable 'CLAST' is assigned but not used in function '3581:BRW_SETTXTJFY'
+
+readflds.prg:3616: warning W0032  Variable 'I' is assigned but not used in function '3582:BRW_SETTXTJFY'
+
+readflds.prg:3660: warning W0032  Variable 'AUPDATE' is assigned but not used in function '3618:SV_JFY_FLDS'
+
+readflds.prg:3660: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '3619:SV_JFY_FLDS'
+
+readflds.prg:3660: warning W0032  Variable 'X' is assigned but not used in function '3620:SV_JFY_FLDS'
+
+readflds.prg:3660: warning W0032  Variable 'V1' is assigned but not used in function '3621:SV_JFY_FLDS'
+
+readflds.prg:3660: warning W0032  Variable 'NLEN' is assigned but not used in function '3623:SV_JFY_FLDS'
+
+readflds.prg:3660: warning W0032  Variable 'I' is assigned but not used in function '3624:SV_JFY_FLDS'
+
+readflds.prg:3704: warning W0032  Variable 'AWHEN' is assigned but not used in function '3662:BRW_SETTXTWHEN'
+
+readflds.prg:3704: warning W0032  Variable 'CWHEN' is assigned but not used in function '3663:BRW_SETTXTWHEN'
+
+readflds.prg:3704: warning W0032  Variable 'NCHOICE' is assigned but not used in function '3664:BRW_SETTXTWHEN'
+
+readflds.prg:3704: warning W0032  Variable 'CVALUE' is assigned but not used in function '3665:BRW_SETTXTWHEN'
+
+readflds.prg:3704: warning W0032  Variable 'ATEMPVALID' is assigned but not used in function '3666:BRW_SETTXTWHEN'
+
+readflds.prg:3704: warning W0032  Variable 'NLEN' is assigned but not used in function '3668:BRW_SETTXTWHEN'
+
+readflds.prg:3704: warning W0032  Variable 'CLAST' is assigned but not used in function '3669:BRW_SETTXTWHEN'
+
+readflds.prg:3704: warning W0032  Variable 'I' is assigned but not used in function '3670:BRW_SETTXTWHEN'
+
+readflds.prg:3749: warning W0032  Variable 'AUPDATE' is assigned but not used in function '3706:SV_WHEN_FLDS'
+
+readflds.prg:3749: warning W0032  Variable 'AMESSAGE' is assigned but not used in function '3707:SV_WHEN_FLDS'
+
+readflds.prg:3749: warning W0032  Variable 'X' is assigned but not used in function '3708:SV_WHEN_FLDS'
+
+readflds.prg:3749: warning W0032  Variable 'V1' is assigned but not used in function '3709:SV_WHEN_FLDS'
+
+readflds.prg:3749: warning W0032  Variable 'NLEN' is assigned but not used in function '3711:SV_WHEN_FLDS'
+
+readflds.prg:3749: warning W0032  Variable 'I' is assigned but not used in function '3712:SV_WHEN_FLDS'
+
+readflds.prg:3765: warning W0032  Variable 'NVALUE' is assigned but not used in function '3751:RDGP_GETTXT6'
+
+readflds.prg:3810: warning W0032  Variable 'AONHEADCLICK' is assigned but not used in function '3767:BRW_SETTXTOHC'
+
+readflds.prg:3810: warning W0032  Variable 'CONHEADCLICK' is assigned but not used in function '3768:BRW_SETTXTOHC'
+
+readflds.prg:3810: warning W0032  Variable 'NCHOICE' is assigned but not used in function '3769:BRW_SETTXTOHC'
+
+readflds.prg:3810: warning W0032  Variable 'CVALUE' is assigned but not used in function '3770:BRW_SETTXTOHC'
+
+readflds.prg:3810: warning W0032  Variable 'ATEMPVALID' is assigned but not used in function '3771:BRW_SETTXTOHC'
+
+readflds.prg:3810: warning W0032  Variable 'NLEN' is assigned but not used in function '3773:BRW_SETTXTOHC'
+
+readflds.prg:3810: warning W0032  Variable 'CLAST' is assigned but not used in function '3774:BRW_SETTXTOHC'
+
+readflds.prg:3810: warning W0032  Variable 'I' is assigned but not used in function '3775:BRW_SETTXTOHC'
+
+readflds.prg:3826: warning W0032  Variable 'NVALUE' is assigned but not used in function '3812:RDGP_GETTXT7'
+
+readflds.prg:3868: warning W0032  Variable 'CSTRING' is assigned but not used in function '3848:RDGP_GETTXT4'
+
+readflds.prg:3892: warning W0032  Variable 'CSTRING' is assigned but not used in function '3871:RDGP_GETTXT5'
+
+readflds.prg:3913: warning W0032  Variable 'COLDSTRING' is assigned but not used in function '3896:RDGP_SETTXT5'
+
+readflds.prg:4091: warning W0032  Variable 'NCHOICE' is assigned but not used in function '4049:MDFY_LS'
+
+readflds.prg:4091: warning W0032  Variable 'CWINDOWTEXT' is assigned but not used in function '4051:MDFY_LS'
+
+readflds.prg:4091: warning W0032  Variable 'ABUTTONCAPTION' is assigned but not used in function '4052:MDFY_LS'
+
+readflds.prg:4212: warning W0032  Variable 'NITEM' is assigned but not used in function '4113:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NBTNLENGHT' is assigned but not used in function '4116:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NTEXTLENGHT' is assigned but not used in function '4117:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NLABELPOSX' is assigned but not used in function '4118:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NWINDOWWIDTH' is assigned but not used in function '4119:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NWINDOWHEIGHT' is assigned but not used in function '4120:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NLABELWIDTH' is assigned but not used in function '4121:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NLABELHEIGHT' is assigned but not used in function '4122:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NSPACELENGHT' is assigned but not used in function '4125:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NLEN' is assigned but not used in function '4132:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'ATEXT' is assigned but not used in function '4133:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NSTART' is assigned but not used in function '4134:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NRIGHE' is assigned but not used in function '4135:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'ARETURN' is assigned but not used in function '4136:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'AMYARRAY' is assigned but not used in function '4137:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'ATEXT' is assigned but not used in function '4160:MSGOPTIONS'
+
+readflds.prg:4212: warning W0032  Variable 'NLABELPOSX' is assigned but not used in function '4173:MSGOPTIONS'
+
+readflds.prg:4247: warning W0032  Variable 'I' is assigned but not used in function '4219:_SPLT_TEXT'
+
+hmgside.prg:3339: warning W0032  Variable 'XFILE' is assigned but not used in function '3267:VIEWFORMCODE'
+
+hmgside.prg:3449: warning W0032  Variable 'A2' is assigned but not used in function '3342:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'X' is assigned but not used in function '3343:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'CAPTION' is assigned but not used in function '3344:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'XNAME' is assigned but not used in function '3345:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'CNAME' is assigned but not used in function '3346:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'NAME' is assigned but not used in function '3347:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'CHECKED' is assigned but not used in function '3348:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'DISABLED' is assigned but not used in function '3349:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'CMESSAGE' is assigned but not used in function '3350:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'Z1' is assigned but not used in function '3351:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'Z2' is assigned but not used in function '3352:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'ACTION' is assigned but not used in function '3353:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'IMAGE' is assigned but not used in function '3354:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'CCAPTION' is assigned but not used in function '3355:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'CNAME' is assigned but not used in function '3382:MAKEMENU'
+
+hmgside.prg:3449: warning W0032  Variable 'CNAME' is assigned but not used in function '3386:MAKEMENU'
+
+report.prg:86: warning W0032  Variable 'IC' is assigned but not used in function '10:ADDREPORT'
+
+report.prg:86: warning W0032  Variable 'X' is assigned but not used in function '12:ADDREPORT'
+
+report.prg:86: warning W0032  Variable 'XPOS' is assigned but not used in function '13:ADDREPORT'
+
+report.prg:86: warning W0032  Variable 'CPATH' is assigned but not used in function '14:ADDREPORT'
+
+report.prg:86: warning W0032  Variable 'ADDREPORT' is assigned but not used in function '16:ADDREPORT'
+
+report.prg:86: warning W0032  Variable 'XRPTNAME' is assigned but not used in function '17:ADDREPORT'
+
+report.prg:102: warning W0032  Variable 'X' is assigned but not used in function '88:REFRESHREPORT'
+
+report.prg:145: warning W0032  Variable 'X' is assigned but not used in function '104:DELETEREPORT'
+
+report.prg:145: warning W0032  Variable 'A1' is assigned but not used in function '106:DELETEREPORT'
+
+report.prg:258: warning W0032  Variable 'CREPORT' is assigned but not used in function '147:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'X5' is assigned but not used in function '148:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'X6' is assigned but not used in function '149:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'AITENS' is assigned but not used in function '150:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'XLIN' is assigned but not used in function '151:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'Y' is assigned but not used in function '152:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'X4' is assigned but not used in function '153:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'A1' is assigned but not used in function '154:LOADREPORT'
+
+report.prg:258: warning W0032  Variable 'NPOS' is assigned but not used in function '155:LOADREPORT'
+
+hmgside.prg:3635: warning W0004  Codeblock parameter 'X' declared but not used in function 'STORECONTROLVAL'
+
+hmgside.prg:3650: warning W0032  Variable 'I' is assigned but not used in function '3554:STORECONTROLVAL'
+
+hmgside.prg:3685: warning W0032  Variable 'X' is assigned but not used in function '3653:COPYCONTROL'
+
+hmgside.prg:3685: warning W0032  Variable 'CTYPE' is assigned but not used in function '3654:COPYCONTROL'
+
+hmgside.prg:3732: warning W0032  Variable 'LNPOSCONTROL' is assigned but not used in function '3687:CONTROLCOPY'
+
+hmgside.prg:3732: warning W0032  Variable 'X' is assigned but not used in function '3688:CONTROLCOPY'
+
+hmgside.prg:3732: warning W0032  Variable 'NRCOPY' is assigned but not used in function '3689:CONTROLCOPY'
+
+hmgside.prg:3732: warning W0032  Variable 'CN' is assigned but not used in function '3691:CONTROLCOPY'
+
+hmgside.prg:3732: warning W0032  Variable 'PROP' is assigned but not used in function '3692:CONTROLCOPY'
+
+hmgside.prg:3791: warning W0032  Variable 'I' is assigned but not used in function '3735:CREATETABLE'
+
+hmgside.prg:3858: warning W0032  Variable 'X' is assigned but not used in function '3825:DEFCOLO0'
+
+hmgside.prg:3858: warning W0032  Variable 'Y' is assigned but not used in function '3826:DEFCOLO0'
+
+hmgside.prg:3858: warning W0032  Variable 'XEXIST' is assigned but not used in function '3828:DEFCOLO0'
+
+hmgside.prg:3873: warning W0032  Variable 'XCOLOR' is assigned but not used in function '3861:DEFCOLO1'
+
+hmgside.prg:3887: warning W0032  Variable 'XCOLOR' is assigned but not used in function '3876:DEFCOLO2'
+
+hmgside.prg:4068: warning W0032  Variable 'XCOLO2' is assigned but not used in function '3891:PUTCOLO'
+
+hmgside.prg:4068: warning W0032  Variable 'XITENS' is assigned but not used in function '3892:PUTCOLO'
+
+hmgside.prg:4068: warning W0032  Variable 'ACONTROLS1' is assigned but not used in function '3895:PUTCOLO'
+
+hmgside.prg:4120: warning W0032  Variable 'A4' is assigned but not used in function '4088:RUN'
+
+hmgside.prg:4120: warning W0032  Variable 'CEXE' is assigned but not used in function '4089:RUN'
+
+hmgside.prg:4294: warning W0032  Variable 'X' is assigned but not used in function '4123:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'CITEM' is assigned but not used in function '4124:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'OFILE' is assigned but not used in function '4128:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'PROJECTFILE' is assigned but not used in function '4129:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'CLINE' is assigned but not used in function '4130:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'NPOS1' is assigned but not used in function '4131:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'NPOS2' is assigned but not used in function '4132:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'NPOS3' is assigned but not used in function '4133:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'NRESULT' is assigned but not used in function '4134:HBMK2BUILD'
+
+hmgside.prg:4294: warning W0032  Variable 'CCOMMAND' is assigned but not used in function '4135:HBMK2BUILD'
+
+hmgside.prg:4327: warning W0032  Variable 'COLDLINE' is assigned but not used in function '4296:BUILDLOGDBLCLICK'
+
+hmgside.prg:4327: warning W0032  Variable 'LRESP' is assigned but not used in function '4297:BUILDLOGDBLCLICK'
+
+hmgside.prg:4327: warning W0032  Variable 'NLINE' is assigned but not used in function '4298:BUILDLOGDBLCLICK'
+
+hmgside.prg:4349: warning W0032  Variable 'NNEWLINE' is assigned but not used in function '4329:BUILDLOGCHANGE'
+
+hmgside.prg:4349: warning W0032  Variable 'CFILE' is assigned but not used in function '4330:BUILDLOGCHANGE'
+
+hmgside.prg:4379: warning W0032  Variable 'CNAME' is assigned but not used in function '4359:BUILDLOGRUN'
+
+hmgside.prg:4379: warning W0032  Variable 'CEXENAME' is assigned but not used in function '4360:BUILDLOGRUN'
+
+hmgside.prg:4478: warning W0032  Variable 'ADADOS' is assigned but not used in function '4403:BUILDLOGLOADPRG'
+
+hmgside.prg:4478: warning W0032  Variable 'NPOS1' is assigned but not used in function '4404:BUILDLOGLOADPRG'
+
+hmgside.prg:4478: warning W0032  Variable 'NPOS2' is assigned but not used in function '4405:BUILDLOGLOADPRG'
+
+hmgside.prg:4478: warning W0032  Variable 'CFILE' is assigned but not used in function '4406:BUILDLOGLOADPRG'
+
+hmgside.prg:4478: warning W0032  Variable 'NRLINE' is assigned but not used in function '4407:BUILDLOGLOADPRG'
+
+hmgside.prg:4478: warning W0032  Variable 'NLINE' is assigned but not used in function '4408:BUILDLOGLOADPRG'
+
+hmgside.prg:4478: warning W0032  Variable 'CLINE' is assigned but not used in function '4409:BUILDLOGLOADPRG'
+
+hmgside.prg:4478: warning W0032  Variable 'CVALUE' is assigned but not used in function '4411:BUILDLOGLOADPRG'
+
+report.prg:292: warning W0032  Variable 'X' is assigned but not used in function '260:PREPORT'
+
+report.prg:474: warning W0032  Variable 'X' is assigned but not used in function '295:REPORTOK'
+
+report.prg:474: warning W0032  Variable 'CTABLE' is assigned but not used in function '300:REPORTOK'
+
+report.prg:474: warning W0032  Variable 'CREPORT' is assigned but not used in function '301:REPORTOK'
+
+report.prg:572: warning W0032  Variable 'XRPTNAME' is assigned but not used in function '490:NEWREPORT'
+
+report.prg:572: warning W0032  Variable 'X' is assigned but not used in function '491:NEWREPORT'
+
+report.prg:572: warning W0032  Variable 'XPOS' is assigned but not used in function '492:NEWREPORT'
+
+report.prg:572: warning W0032  Variable 'CPATH' is assigned but not used in function '493:NEWREPORT'
+
+saveform.prg:614: warning W0032  Variable 'I' is assigned but not used in function '10:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'H' is assigned but not used in function '11:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'BASEROW' is assigned but not used in function '12:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'BASECOL' is assigned but not used in function '13:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '14:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '15:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'TITLEHEIGHT' is assigned but not used in function '16:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'MENUBARHEIGHT' is assigned but not used in function '17:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'BORDERWIDTH' is assigned but not used in function '18:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'BORDERHEIGHT' is assigned but not used in function '19:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'ATEMPNAMES' is assigned but not used in function '20:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'NAME' is assigned but not used in function '21:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'WIDTH' is assigned but not used in function '24:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'HEIGHT' is assigned but not used in function '25:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'NITEM' is assigned but not used in function '26:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'X4' is assigned but not used in function '28:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'J' is assigned but not used in function '29:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'P' is assigned but not used in function '30:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'K' is assigned but not used in function '31:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'Y' is assigned but not used in function '36:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'Z' is assigned but not used in function '37:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'CWORKAREA' is assigned but not used in function '40:SAVEFORM'
+
+saveform.prg:614: warning W0032  Variable 'V1' is assigned but not used in function '42:SAVEFORM'
+
+hmgside.prg:4665: warning W0032  Variable 'I' is assigned but not used in function '4481:TEST_BUILD'
+
+hmgside.prg:4665: warning W0032  Variable 'CITEM' is assigned but not used in function '4482:TEST_BUILD'
+
+hmgside.prg:4665: warning W0032  Variable 'NPOS' is assigned but not used in function '4483:TEST_BUILD'
+
+hmgside.prg:4665: warning W0032  Variable 'CPRJFILE' is assigned but not used in function '4486:TEST_BUILD'
+
+hmgside.prg:4665: warning W0032  Variable 'XNAME' is assigned but not used in function '4487:TEST_BUILD'
+
+saveform.prg:2466: warning W0032  Variable 'X' is assigned but not used in function '616:SAVEFORMCONTROLS'
+
+saveform.prg:2466: warning W0032  Variable 'NPOS' is assigned but not used in function '617:SAVEFORMCONTROLS'
+
+saveform.prg:2466: warning W0032  Variable 'NVALUE' is assigned but not used in function '618:SAVEFORMCONTROLS'
+
+saveform.prg:2466: warning W0032  Variable 'ACOMMA' is assigned but not used in function '619:SAVEFORMCONTROLS'
+
+saveform.prg:2466: warning W0032  Variable 'CWORKAREA' is assigned but not used in function '620:SAVEFORMCONTROLS'
+
+saveform.prg:2466: warning W0032  Variable 'CCTRLNAME' is assigned but not used in function '621:SAVEFORMCONTROLS'
+
+hmgside.prg:4753: warning W0032  Variable 'WH' is assigned but not used in function '4711:WOBJINSPRESIZE'
+
+hmgside.prg:4753: warning W0032  Variable 'WW' is assigned but not used in function '4712:WOBJINSPRESIZE'
+
+hmgside.prg:4753: warning W0032  Variable 'WC' is assigned but not used in function '4713:WOBJINSPRESIZE'
+
+hmgside.prg:4753: warning W0032  Variable 'WC' is assigned but not used in function '4728:WOBJINSPRESIZE'
+
+hmgside.prg:4799: warning W0032  Variable 'WH' is assigned but not used in function '4755:WPROJBROWRESIZE'
+
+hmgside.prg:4799: warning W0032  Variable 'WW' is assigned but not used in function '4756:WPROJBROWRESIZE'
+
+hmgside.prg:4799: warning W0032  Variable 'WC' is assigned but not used in function '4757:WPROJBROWRESIZE'
+
+hmgside.prg:4799: warning W0032  Variable 'WC' is assigned but not used in function '4772:WPROJBROWRESIZE'
+
+saveform.prg:2660: warning W0032  Variable 'X' is assigned but not used in function '2468:FILLCOMMA'
+
+hmgside.prg:4901: warning W0032  Variable 'X' is assigned but not used in function '4888:ASCAN2'
+
+hmgside.prg:5006: warning W0032  Variable 'I' is assigned but not used in function '4985:SAVESTRUCT'
+
+hmgside.prg:5037: warning W0032  Variable 'AFIELD' is assigned but not used in function '5011:LOADSTRUCT'
+
+hmgside.prg:5037: warning W0032  Variable 'NLEN' is assigned but not used in function '5013:LOADSTRUCT'
+
+hmgside.prg:5111: warning W0032  Variable 'I' is assigned but not used in function '5091:F_PONTOS'
+
+hmgside.prg:5111: warning W0032  Variable 'J' is assigned but not used in function '5092:F_PONTOS'
+
+size.prg:267: warning W0032  Variable 'I' is assigned but not used in function '9:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'IROW' is assigned but not used in function '10:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'ICOL' is assigned but not used in function '11:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'IWIDTH' is assigned but not used in function '12:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'IHEIGHT' is assigned but not used in function '13:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'EHEIGHT' is assigned but not used in function '14:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'EWIDTH' is assigned but not used in function '15:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'J' is assigned but not used in function '16:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'K' is assigned but not used in function '17:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'Z' is assigned but not used in function '18:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'X' is assigned but not used in function '19:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'NPOS' is assigned but not used in function '21:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'XX' is assigned but not used in function '22:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'CONTROLINDEX' is assigned but not used in function '25:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'L' is assigned but not used in function '27:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'BASEROW' is assigned but not used in function '28:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'BASECOL' is assigned but not used in function '29:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '30:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '31:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'TITLEHEIGHT' is assigned but not used in function '32:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'BORDERWIDTH' is assigned but not used in function '33:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'BORDERHEIGHT' is assigned but not used in function '34:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'ISINTAB' is assigned but not used in function '36:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'ISCOMBOBOXEX' is assigned but not used in function '41:SIZECONTROL'
+
+size.prg:267: warning W0032  Variable 'ISCOMBOBOXEX' is assigned but not used in function '68:SIZECONTROL'
+
+size.prg:407: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '272:SIZEFRAME'
+
+size.prg:407: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '273:SIZEFRAME'
+
+size.prg:407: warning W0032  Variable 'I' is assigned but not used in function '279:SIZEFRAME'
+
+size.prg:407: warning W0032  Variable 'EHEIGHT' is assigned but not used in function '281:SIZEFRAME'
+
+size.prg:407: warning W0032  Variable 'EWIDTH' is assigned but not used in function '282:SIZEFRAME'
+
+size.prg:407: warning W0032  Variable 'CONTROLINDEX' is assigned but not used in function '283:SIZEFRAME'
+
+size.prg:407: warning W0032  Variable 'IROW' is assigned but not used in function '284:SIZEFRAME'
+
+size.prg:407: warning W0032  Variable 'ICOL' is assigned but not used in function '285:SIZEFRAME'
+
+status.prg:207: warning W0032  Variable 'VARRAY' is assigned but not used in function '62:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'XVALUE' is assigned but not used in function '63:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X' is assigned but not used in function '64:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'CLINE' is assigned but not used in function '65:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X4' is assigned but not used in function '66:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X5' is assigned but not used in function '67:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X6' is assigned but not used in function '68:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X7' is assigned but not used in function '69:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X8' is assigned but not used in function '70:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X9' is assigned but not used in function '71:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X10' is assigned but not used in function '72:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X11' is assigned but not used in function '73:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'X12' is assigned but not used in function '74:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'CVALUE' is assigned but not used in function '75:STATUSFMGTOMEM'
+
+status.prg:207: warning W0032  Variable 'AMENUITENS' is assigned but not used in function '76:STATUSFMGTOMEM'
+
+status.prg:279: warning W0032  Variable 'VALUE' is assigned but not used in function '209:STATUSFILLFORM'
+
+status.prg:418: warning W0032  Variable 'CTITLE' is assigned but not used in function '298:STATUSSAVEALL'
+
+status.prg:418: warning W0032  Variable 'X' is assigned but not used in function '301:STATUSSAVEALL'
+
+status.prg:539: warning W0032  Variable 'NPOS' is assigned but not used in function '462:STATUSCAPTIONCHANGE'
+
+status.prg:539: warning W0032  Variable 'NVALUE' is assigned but not used in function '463:STATUSCAPTIONCHANGE'
+
+status.prg:744: warning W0032  Variable 'TVALUE' is assigned but not used in function '724:STATUSUP'
+
+status.prg:744: warning W0032  Variable 'XTEMP' is assigned but not used in function '725:STATUSUP'
+
+status.prg:765: warning W0032  Variable 'TVALUE' is assigned but not used in function '746:STATUSDOWN'
+
+status.prg:765: warning W0032  Variable 'XTEMP' is assigned but not used in function '747:STATUSDOWN'
+
+status.prg:789: warning W0032  Variable 'XVALUE' is assigned but not used in function '767:STATUSNEXT'
+
+status.prg:835: warning W0032  Variable 'XVALUE' is assigned but not used in function '804:STATUSINSERT'
+
+status.prg:835: warning W0032  Variable 'TVALUE' is assigned but not used in function '805:STATUSINSERT'
+
+status.prg:874: warning W0032  Variable 'TVALUE' is assigned but not used in function '837:STATUSDELETE'
+
+status.prg:1023: warning W0032  Variable 'XVALUE' is assigned but not used in function '1004:STATUSFILLGRID'
+
+status.prg:1023: warning W0032  Variable 'X' is assigned but not used in function '1005:STATUSFILLGRID'
+
+_controlpos3_.prg:629: warning W0003  Variable 'I' declared but not used in function '590:_CONTROLPOSBUTTONGETCLICK_'
+
+_controlpos3_.prg:1019: warning W0032  Variable 'FW' is assigned but not used in function '944:_CONTROLPOSSET_ON_KEY_'
+
+_controlpos3_.prg:1019: warning W0032  Variable 'FH' is assigned but not used in function '945:_CONTROLPOSSET_ON_KEY_'
+
+_controlpos3_.prg:1019: warning W0032  Variable 'CR' is assigned but not used in function '946:_CONTROLPOSSET_ON_KEY_'
+
+_controlpos3_.prg:1019: warning W0032  Variable 'CC' is assigned but not used in function '947:_CONTROLPOSSET_ON_KEY_'
+
+_controlpos3_.prg:1329: warning W0032  Variable 'M1' is assigned but not used in function '1035:_CONTROLPOSCOMBOCHANGE_'
+
+_controlpos3_.prg:1329: warning W0032  Variable 'M2' is assigned but not used in function '1036:_CONTROLPOSCOMBOCHANGE_'
+
+_controlpos3_.prg:2101: warning W0032  Variable 'INDENT' is assigned but not used in function '1963:_CONTROLPOS_MODFMGCON_'
+
+_controlpos3_.prg:2101: warning W0032  Variable 'I' is assigned but not used in function '1966:_CONTROLPOS_MODFMGCON_'
+
+_controlpos3_.prg:2101: warning W0032  Variable 'CP' is assigned but not used in function '1967:_CONTROLPOS_MODFMGCON_'
+
+_controlpos3_.prg:2101: warning W0032  Variable 'X' is assigned but not used in function '1969:_CONTROLPOS_MODFMGCON_'
+
+_controlpos3_.prg:2687: warning W0032  Variable 'I' is assigned but not used in function '2610:_CONTROLPOS_FORMPROC_'
+
+checkdeps.prg:157: warning W0032  Variable 'X' is assigned but not used in function '14:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'A1' is assigned but not used in function '15:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CNAME' is assigned but not used in function '16:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'LCHECK' is assigned but not used in function '17:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'ADIR' is assigned but not used in function '18:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CDATE' is assigned but not used in function '19:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CTIME' is assigned but not used in function '20:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CFILE' is assigned but not used in function '21:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'ADIR1' is assigned but not used in function '22:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CFILE1' is assigned but not used in function '23:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'X5' is assigned but not used in function '24:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'X6' is assigned but not used in function '25:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'XLIN' is assigned but not used in function '26:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CNAMEF' is assigned but not used in function '27:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CFILEF' is assigned but not used in function '28:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'NPOS' is assigned but not used in function '29:CHECK_MODULES'
+
+checkdeps.prg:157: warning W0032  Variable 'CFILE2' is assigned but not used in function '30:CHECK_MODULES'
+
+checkdeps.prg:215: warning W0032  Variable 'X5' is assigned but not used in function '159:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'X6' is assigned but not used in function '160:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'XLIN' is assigned but not used in function '161:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'A1' is assigned but not used in function '162:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'CNAMEF' is assigned but not used in function '163:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'CFILEF' is assigned but not used in function '164:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'ADIR2' is assigned but not used in function '165:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'CDATE2' is assigned but not used in function '166:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'CTIME2' is assigned but not used in function '167:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'NPOS' is assigned but not used in function '168:CHECK_DEPENDENCES'
+
+checkdeps.prg:215: warning W0032  Variable 'CFILE2' is assigned but not used in function '169:CHECK_DEPENDENCES'
+
+checkdeps.prg:235: warning W0032  Variable 'X' is assigned but not used in function '217:FINDFMG'
+
+toolbar.prg:302: warning W0032  Variable 'PROP1' is assigned but not used in function '22:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'PROP2' is assigned but not used in function '23:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'A1' is assigned but not used in function '24:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'A2' is assigned but not used in function '25:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'X' is assigned but not used in function '26:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'X1' is assigned but not used in function '27:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'X2' is assigned but not used in function '28:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'LFOUND' is assigned but not used in function '29:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'ITENSPESQ' is assigned but not used in function '30:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'ITENSPESQ2' is assigned but not used in function '31:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'AITENS' is assigned but not used in function '32:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'XBUTTON' is assigned but not used in function '34:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'ATOOLBARVALUES' is assigned but not used in function '35:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'XPROPS' is assigned but not used in function '36:TOOLBARINIT'
+
+toolbar.prg:302: warning W0032  Variable 'CVALUE' is assigned but not used in function '37:TOOLBARINIT'
+
+toolbar.prg:405: warning W0032  Variable 'CVALUE' is assigned but not used in function '370:TOOLBARPROPINIT'
+
+toolbar.prg:405: warning W0032  Variable 'NPOS' is assigned but not used in function '371:TOOLBARPROPINIT'
+
+toolbar.prg:405: warning W0032  Variable 'NWIDTH' is assigned but not used in function '372:TOOLBARPROPINIT'
+
+toolbar.prg:405: warning W0032  Variable 'NHEIGHT' is assigned but not used in function '373:TOOLBARPROPINIT'
+
+toolbar.prg:442: warning W0032  Variable 'SIZE' is assigned but not used in function '407:TOOLBARPROPFONT'
+
+toolbar.prg:442: warning W0032  Variable 'BOLD' is assigned but not used in function '408:TOOLBARPROPFONT'
+
+toolbar.prg:442: warning W0032  Variable 'ITALIC' is assigned but not used in function '409:TOOLBARPROPFONT'
+
+toolbar.prg:442: warning W0032  Variable 'UNDERLINE' is assigned but not used in function '410:TOOLBARPROPFONT'
+
+toolbar.prg:442: warning W0032  Variable 'STRIKEOUT' is assigned but not used in function '411:TOOLBARPROPFONT'
+
+toolbar.prg:442: warning W0032  Variable 'AFONT' is assigned but not used in function '413:TOOLBARPROPFONT'
+
+toolbar.prg:573: warning W0032  Variable 'NITEM' is assigned but not used in function '537:TOOLBARVALUECHANGE'
+
+toolbar.prg:682: warning W0032  Variable 'NITEM' is assigned but not used in function '577:TOOLBAROK'
+
+toolbar.prg:682: warning W0032  Variable 'T15' is assigned but not used in function '602:TOOLBAROK'
+
+toolbar.prg:717: warning W0032  Variable 'NVALUE' is assigned but not used in function '691:TOOLBARUP'
+
+toolbar.prg:744: warning W0032  Variable 'TVALUE' is assigned but not used in function '719:TOOLBARDOWN'
+
+toolbar.prg:789: warning W0032  Variable 'XBUTTON' is assigned but not used in function '762:TOOLBARNEWBUTTOM'
+
+toolbar.prg:851: warning W0032  Variable 'CNAME' is assigned but not used in function '802:TOOLBARINSERT'
+
+toolbar.prg:851: warning W0032  Variable 'AVALUE' is assigned but not used in function '803:TOOLBARINSERT'
+
+toolbar.prg:851: warning W0032  Variable 'NVALUE' is assigned but not used in function '804:TOOLBARINSERT'
+
+toolbar.prg:851: warning W0032  Variable 'XBUTTON' is assigned but not used in function '805:TOOLBARINSERT'
+
+toolbar.prg:906: warning W0032  Variable 'NVALUE' is assigned but not used in function '853:TOOLBARDELETE'
+
+toolbar.prg:906: warning W0032  Variable 'NPOSINI' is assigned but not used in function '854:TOOLBARDELETE'
+
+toolbar.prg:906: warning W0032  Variable 'NPOSFIN' is assigned but not used in function '855:TOOLBARDELETE'
+
+toolbar.prg:906: warning W0032  Variable 'X' is assigned but not used in function '856:TOOLBARDELETE'
+
+toolbar.prg:925: warning W0032  Variable 'I' is assigned but not used in function '909:TOOLBARFILLGRID'
+
+toolbar.prg:1029: warning W0032  Variable 'CACTION' is assigned but not used in function '984:XCREATETOOLBAR'
+
+toolbar.prg:1029: warning W0032  Variable 'UACTION' is assigned but not used in function '1006:XCREATETOOLBAR'
+
+update.prg:72: warning W0032  Variable 'NRESP' is assigned but not used in function '27:DOWNLOADFROMWWW'
+
+update.prg:191: warning W0032  Variable 'CEXTRACTDIR' is assigned but not used in function '127:UNZIPFILE'
+
+context.prg:203: warning W0032  Variable 'XVALUE' is assigned but not used in function '131:CONTEXTINIT'
+
+context.prg:203: warning W0032  Variable 'X' is assigned but not used in function '132:CONTEXTINIT'
+
+context.prg:203: warning W0032  Variable 'X4' is assigned but not used in function '134:CONTEXTINIT'
+
+context.prg:203: warning W0032  Variable 'AMENUITENS' is assigned but not used in function '135:CONTEXTINIT'
+
+context.prg:317: warning W0032  Variable 'CTITLE' is assigned but not used in function '219:CONTEXTOK'
+
+context.prg:317: warning W0032  Variable 'N1' is assigned but not used in function '220:CONTEXTOK'
+
+context.prg:317: warning W0032  Variable 'N2' is assigned but not used in function '221:CONTEXTOK'
+
+context.prg:317: warning W0032  Variable 'X' is assigned but not used in function '222:CONTEXTOK'
+
+context.prg:492: warning W0032  Variable 'XVALUE' is assigned but not used in function '468:CONTEXTNEXT'
+
+context.prg:535: warning W0032  Variable 'XVALUE' is assigned but not used in function '505:CONTEXTINSERT'
+
+context.prg:575: warning W0032  Variable 'TVALUE' is assigned but not used in function '537:CONTEXTDELETE'
+
+context.prg:660: warning W0032  Variable 'X' is assigned but not used in function '644:CONTEXTFILLGRID'
+
+context.prg:822: warning W0003  Variable 'X4' declared but not used in function '660:MENUITENS'
+
+context.prg:822: warning W0032  Variable 'CTEMP' is assigned but not used in function '671:MENUITENS'
+
+context.prg:859: warning W0032  Variable 'X' is assigned but not used in function '825:BEAUTCONTEXT'
+
+context.prg:895: warning W0032  Variable 'X' is assigned but not used in function '862:BEAUTNOTIFY'
+
+corder.prg:88: warning W0032  Variable 'L' is assigned but not used in function '18:CONTROLORDER'
+
+corder.prg:88: warning W0032  Variable 'I' is assigned but not used in function '19:CONTROLORDER'
+
+corder.prg:88: warning W0032  Variable 'J' is assigned but not used in function '20:CONTROLORDER'
+
+corder.prg:88: warning W0032  Variable 'CPAGE' is assigned but not used in function '21:CONTROLORDER'
+
+corder.prg:88: warning W0032  Variable 'K' is assigned but not used in function '22:CONTROLORDER'
+
+corder.prg:88: warning W0032  Variable 'P' is assigned but not used in function '23:CONTROLORDER'
+
+corder.prg:88: warning W0032  Variable 'CVALUE' is assigned but not used in function '24:CONTROLORDER'
+
+corder.prg:88: warning W0032  Variable 'NAME' is assigned but not used in function '25:CONTROLORDER'
+
+corder.prg:201: warning W0032  Variable 'Y' is assigned but not used in function '100:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'Z' is assigned but not used in function '101:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'I' is assigned but not used in function '102:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'J' is assigned but not used in function '103:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'K' is assigned but not used in function '104:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'P' is assigned but not used in function '105:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'NAME' is assigned but not used in function '106:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'CVALUE' is assigned but not used in function '107:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'CCONTROL' is assigned but not used in function '108:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'CPAGE' is assigned but not used in function '109:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'NPOS' is assigned but not used in function '110:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'NLEN' is assigned but not used in function '111:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'NPOSPAGE' is assigned but not used in function '112:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'NPOSITEM' is assigned but not used in function '113:FILLTREE'
+
+corder.prg:201: warning W0032  Variable 'NPOS' is assigned but not used in function '178:FILLTREE'
+
+corder.prg:217: warning W0032  Variable 'X' is assigned but not used in function '203:NPOSTREECONTROL'
+
+corder.prg:233: warning W0032  Variable 'X' is assigned but not used in function '219:NPOSTREE'
+
+corder.prg:323: warning W0032  Variable 'NFOUND' is assigned but not used in function '237:UPORDER'
+
+corder.prg:323: warning W0032  Variable 'NPOS1' is assigned but not used in function '239:UPORDER'
+
+corder.prg:323: warning W0032  Variable 'NPOS' is assigned but not used in function '240:UPORDER'
+
+corder.prg:323: warning W0032  Variable 'CNAME' is assigned but not used in function '241:UPORDER'
+
+corder.prg:323: warning W0032  Variable 'CNAME1' is assigned but not used in function '242:UPORDER'
+
+corder.prg:323: warning W0032  Variable 'NPOS2' is assigned but not used in function '243:UPORDER'
+
+corder.prg:323: warning W0032  Variable 'NPOS3' is assigned but not used in function '244:UPORDER'
+
+corder.prg:323: warning W0032  Variable 'NVALUE' is assigned but not used in function '245:UPORDER'
+
+corder.prg:342: warning W0032  Variable 'X' is assigned but not used in function '325:VERIFYPOS'
+
+corder.prg:439: warning W0032  Variable 'NPOS1' is assigned but not used in function '346:DOWNORDER'
+
+corder.prg:439: warning W0032  Variable 'NPOS' is assigned but not used in function '347:DOWNORDER'
+
+corder.prg:439: warning W0032  Variable 'NPOS2' is assigned but not used in function '348:DOWNORDER'
+
+corder.prg:439: warning W0032  Variable 'CNAME1' is assigned but not used in function '349:DOWNORDER'
+
+corder.prg:439: warning W0032  Variable 'NFOUND' is assigned but not used in function '350:DOWNORDER'
+
+corder.prg:439: warning W0032  Variable 'NFOUND1' is assigned but not used in function '351:DOWNORDER'
+
+corder.prg:439: warning W0032  Variable 'NVALUE' is assigned but not used in function '352:DOWNORDER'
+
+corder.prg:458: warning W0032  Variable 'X' is assigned but not used in function '441:FINALORDER'
+
+corder.prg:588: warning W0032  Variable 'NITEMX1' is assigned but not used in function '497:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'NITEMX2' is assigned but not used in function '498:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'CTAB1' is assigned but not used in function '499:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'CTAB2' is assigned but not used in function '500:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'NPOSTAB1' is assigned but not used in function '503:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'NPOSTAB2' is assigned but not used in function '504:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'I' is assigned but not used in function '505:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'J' is assigned but not used in function '506:ATUALIZAORDERMAP'
+
+corder.prg:588: warning W0032  Variable 'K' is assigned but not used in function '507:ATUALIZAORDERMAP'
+
+corder.prg:601: warning W0032  Variable 'I' is assigned but not used in function '590:MYFINDHANDLE'
+
+delete.prg:320: warning W0032  Variable 'I' is assigned but not used in function '36:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'J' is assigned but not used in function '37:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'K' is assigned but not used in function '38:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'X' is assigned but not used in function '39:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'Z' is assigned but not used in function '40:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'H' is assigned but not used in function '41:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'L' is assigned but not used in function '42:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASEROW' is assigned but not used in function '43:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASECOL' is assigned but not used in function '44:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '45:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '46:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'TITLEHEIGHT' is assigned but not used in function '47:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BORDERWIDTH' is assigned but not used in function '48:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BORDERHEIGHT' is assigned but not used in function '49:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'CNAME' is assigned but not used in function '50:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'XRESP' is assigned but not used in function '51:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'XOBJECT' is assigned but not used in function '52:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'NHANDLE' is assigned but not used in function '53:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'NPOS' is assigned but not used in function '55:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'XX' is assigned but not used in function '56:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'XPOSBRW' is assigned but not used in function '58:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'L' is assigned but not used in function '71:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASEROW' is assigned but not used in function '73:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASECOL' is assigned but not used in function '74:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '75:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '76:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'TITLEHEIGHT' is assigned but not used in function '77:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BORDERWIDTH' is assigned but not used in function '78:DELETECONTROL'
+
+delete.prg:320: warning W0032  Variable 'BORDERHEIGHT' is assigned but not used in function '79:DELETECONTROL'
+
+delete.prg:421: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '325:DELETEFRAME'
+
+delete.prg:421: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '326:DELETEFRAME'
+
+delete.prg:421: warning W0032  Variable 'I' is assigned but not used in function '332:DELETEFRAME'
+
+delete.prg:421: warning W0032  Variable 'CNAME' is assigned but not used in function '333:DELETEFRAME'
+
+delete.prg:421: warning W0032  Variable 'XRESP' is assigned but not used in function '334:DELETEFRAME'
+
+delete.prg:421: warning W0032  Variable 'XOBJECT' is assigned but not used in function '335:DELETEFRAME'
+
+delete.prg:443: warning W0032  Variable 'XVALOR' is assigned but not used in function '423:XDELCONTROL'
+
+dropdown.prg:67: warning W0032  Variable 'X' is assigned but not used in function '10:CHANGEARRAY'
+
+dropdown.prg:67: warning W0032  Variable 'Y' is assigned but not used in function '11:CHANGEARRAY'
+
+dropdown.prg:67: warning W0032  Variable 'A1' is assigned but not used in function '13:CHANGEARRAY'
+
+dropdown.prg:67: warning W0032  Variable 'LJOIN' is assigned but not used in function '52:CHANGEARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'X' is assigned but not used in function '70:FILLDROPARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'A1' is assigned but not used in function '71:FILLDROPARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'A2' is assigned but not used in function '72:FILLDROPARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'A3' is assigned but not used in function '73:FILLDROPARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'A4' is assigned but not used in function '74:FILLDROPARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'A5' is assigned but not used in function '75:FILLDROPARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'A6' is assigned but not used in function '76:FILLDROPARRAY'
+
+dropdown.prg:125: warning W0032  Variable 'A7' is assigned but not used in function '77:FILLDROPARRAY'
+
+dropdown.prg:140: warning W0032  Variable 'CITEM' is assigned but not used in function '127:DROPDOWNGRIDCLICK'
+
+dropdown.prg:184: warning W0032  Variable 'X' is assigned but not used in function '158:DROPDOWNFILLGRID'
+
+dropdown.prg:246: warning W0032  Variable 'X' is assigned but not used in function '186:LOADAVLDROPDOWN'
+
+dropdown.prg:246: warning W0032  Variable 'X4' is assigned but not used in function '188:LOADAVLDROPDOWN'
+
+dropdown.prg:246: warning W0032  Variable 'X5' is assigned but not used in function '189:LOADAVLDROPDOWN'
+
+dropdown.prg:246: warning W0032  Variable 'X6' is assigned but not used in function '190:LOADAVLDROPDOWN'
+
+dropdown.prg:246: warning W0032  Variable 'CNAME' is assigned but not used in function '191:LOADAVLDROPDOWN'
+
+dropdown.prg:246: warning W0032  Variable 'CSTRING' is assigned but not used in function '192:LOADAVLDROPDOWN'
+
+dropdown.prg:246: warning W0032  Variable 'AMENUITENS' is assigned but not used in function '193:LOADAVLDROPDOWN'
+
+dropdown.prg:246: warning W0032  Variable 'X1' is assigned but not used in function '194:LOADAVLDROPDOWN'
+
+dropdown.prg:345: warning W0032  Variable 'TVALUE' is assigned but not used in function '289:DROPDOWNDELETE'
+
+dropdown.prg:345: warning W0032  Variable 'LRESP' is assigned but not used in function '291:DROPDOWNDELETE'
+
+dropdown.prg:345: warning W0032  Variable 'X' is assigned but not used in function '292:DROPDOWNDELETE'
+
+dropdown.prg:383: warning W0032  Variable 'CVALUE' is assigned but not used in function '347:DROPDOWNNAME'
+
+dropdown.prg:383: warning W0032  Variable 'CVALUE1' is assigned but not used in function '348:DROPDOWNNAME'
+
+dropdown.prg:383: warning W0032  Variable 'X' is assigned but not used in function '349:DROPDOWNNAME'
+
+dropdown.prg:423: warning W0032  Variable 'X' is assigned but not used in function '393:BEAUTDROP'
+
+fillgrid.prg:60: warning W0032  Variable 'H' is assigned but not used in function '11:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASEROW' is assigned but not used in function '12:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASECOL' is assigned but not used in function '13:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '14:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '15:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASEROW' is assigned but not used in function '22:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASECOL' is assigned but not used in function '23:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASEWIDTH' is assigned but not used in function '24:XPREENCHEGRID'
+
+fillgrid.prg:60: warning W0032  Variable 'BASEHEIGHT' is assigned but not used in function '25:XPREENCHEGRID'
+
+fillgrid.prg:145: warning W0032  Variable 'I' is assigned but not used in function '62:CPREENCHEGRID'
+
+fillgrid.prg:145: warning W0032  Variable 'X' is assigned but not used in function '63:CPREENCHEGRID'
+
+fillgrid.prg:145: warning W0032  Variable 'X1' is assigned but not used in function '64:CPREENCHEGRID'
+
+fillgrid.prg:145: warning W0032  Variable 'ACOLOR' is assigned but not used in function '65:CPREENCHEGRID'
+
+fillgrid.prg:145: warning W0032  Variable 'XCONTROL_1' is assigned but not used in function '66:CPREENCHEGRID'
+
+fillgrid.prg:145: warning W0032  Variable 'NPOS' is assigned but not used in function '67:CPREENCHEGRID'
+
+fillgrid.prg:165: warning W0032  Variable 'I' is assigned but not used in function '147:FINDRADIONAME'
+
+fillgrid.prg:165: warning W0032  Variable 'J' is assigned but not used in function '148:FINDRADIONAME'
+
+fillgrid.prg:1716: warning W0032  Variable 'CALIGNMENT' is assigned but not used in function '176:OBJINSFILLGRID'
+
+fillgrid.prg:1716: warning W0032  Variable 'CDATATYPE' is assigned but not used in function '178:OBJINSFILLGRID'
+
+fillgrid.prg:1716: warning W0032  Variable 'CCASECONVERT' is assigned but not used in function '179:OBJINSFILLGRID'
+
+fillgrid.prg:1716: warning W0032  Variable 'CVALUE' is assigned but not used in function '180:OBJINSFILLGRID'
+
+fillgrid.prg:1716: warning W0032  Variable 'X' is assigned but not used in function '181:OBJINSFILLGRID'
+
+fillgrid.prg:1868: warning W0032  Variable 'X' is assigned but not used in function '1799:UCIFILLGRID'
+
+fillgrid.prg:1868: warning W0032  Variable 'X1' is assigned but not used in function '1800:UCIFILLGRID'
+
+fillgrid.prg:1868: warning W0032  Variable 'CTYPE' is assigned but not used in function '1801:UCIFILLGRID'
+
+fillgrid.prg:1868: warning W0032  Variable 'NVALUE' is assigned but not used in function '1802:UCIFILLGRID'
+
+fillgrid.prg:1868: warning W0032  Variable 'NPOS' is assigned but not used in function '1803:UCIFILLGRID'
+
+hbmk2prg.prg:49: warning W0032  Variable 'LHIDE' is assigned but not used in function '9:SHOWINFO'
+
+hbmk2prg.prg:49: warning W0032  Variable 'NLEN' is assigned but not used in function '10:SHOWINFO'
+
+hbmk2prg.prg:49: warning W0032  Variable 'LOLDCENTERWINDOWSTYLE' is assigned but not used in function '11:SHOWINFO'
+
+hbmk2prg.prg:49: warning W0032  Variable 'NLEN' is assigned but not used in function '24:SHOWINFO'
+
+hbmk2prg.prg:133: warning W0003  Variable 'HOUTERR' declared but not used in function '56:HBMK2PROCESS'
+
+inspector.prg:77: warning W0032  Variable 'AWRK' is assigned but not used in function '15:XGRIDEVENTEDIT'
+
+inspector.prg:77: warning W0032  Variable 'AWRK' is assigned but not used in function '43:XGRIDEVENTEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '80:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'A2' is assigned but not used in function '84:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'XPOSBRW' is assigned but not used in function '85:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'COLOR' is assigned but not used in function '86:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'XCOLOR' is assigned but not used in function '87:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'XGETBOX' is assigned but not used in function '89:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'X' is assigned but not used in function '90:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'V1' is assigned but not used in function '91:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '136:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '142:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '183:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '210:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '382:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '399:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '462:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '501:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '540:XGRIDPROPEDIT'
+
+inspector.prg:650: warning W0032  Variable 'AWRK' is assigned but not used in function '611:XGRIDPROPEDIT'
+
+inspector.prg:666: warning W0032  Variable 'X' is assigned but not used in function '653:ISVARNUM'
+
+inspector.prg:692: warning W0032  Variable 'CVALUE' is assigned but not used in function '668:ISVALUETXT'
+
+inspector.prg:766: warning W0032  Variable 'ATMP' is assigned but not used in function '744:GETFONTS'
+
+inspector.prg:807: warning W0032  Variable 'X' is assigned but not used in function '769:LOADGETBOX'
+
+inspector.prg:807: warning W0032  Variable 'X2' is assigned but not used in function '770:LOADGETBOX'
+
+inspector.prg:877: warning W0032  Variable 'COLOR' is assigned but not used in function '829:XGETBOXCHOOSE'
+
+inspector.prg:877: warning W0032  Variable 'XCOLOR' is assigned but not used in function '830:XGETBOXCHOOSE'
+
+inspector.prg:1070: warning W0032  Variable 'X' is assigned but not used in function '923:TESTESLI'
+
+inspector.prg:1070: warning W0032  Variable 'V1' is assigned but not used in function '924:TESTESLI'
+
+inspector.prg:1070: warning W0032  Variable 'Z' is assigned but not used in function '931:TESTESLI'
+
+inspector.prg:1070: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '933:TESTESLI'
+
+inspector.prg:1070: warning W0032  Variable 'XROW' is assigned but not used in function '934:TESTESLI'
+
+inspector.prg:1070: warning W0032  Variable 'XCOL' is assigned but not used in function '935:TESTESLI'
+
+inspector.prg:1070: warning W0032  Variable 'TABHANDLE' is assigned but not used in function '936:TESTESLI'
+
+inspector.prg:1070: warning W0032  Variable 'NPOSTAB' is assigned but not used in function '937:TESTESLI'
+
+inspector.prg:1134: warning W0032  Variable 'I' is assigned but not used in function '1104:FINDTABHANDLE'
+
+inspector.prg:1134: warning W0032  Variable 'J' is assigned but not used in function '1105:FINDTABHANDLE'
+
+inspector.prg:1134: warning W0032  Variable 'K' is assigned but not used in function '1106:FINDTABHANDLE'
+
+inspector.prg:1231: warning W0032  Variable 'Z' is assigned but not used in function '1140:XGRIDPROPSLI3OK'
+
+inspector.prg:1231: warning W0032  Variable 'XROW' is assigned but not used in function '1141:XGRIDPROPSLI3OK'
+
+inspector.prg:1231: warning W0032  Variable 'TABHANDLE' is assigned but not used in function '1142:XGRIDPROPSLI3OK'
+
+inspector.prg:1231: warning W0032  Variable 'NPOSTAB' is assigned but not used in function '1143:XGRIDPROPSLI3OK'
+
+inspector.prg:1231: warning W0032  Variable 'CBACKCOLOR' is assigned but not used in function '1146:XGRIDPROPSLI3OK'
+
+inspector.prg:1231: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '1147:XGRIDPROPSLI3OK'
+
+inspector.prg:1231: warning W0032  Variable 'NCTRL' is assigned but not used in function '1148:XGRIDPROPSLI3OK'
+
+inspector.prg:1279: warning W0032  Variable 'X' is assigned but not used in function '1266:ISNOTVALID'
+
+inspector.prg:1802: warning W0032  Variable 'A3' is assigned but not used in function '1281:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'X' is assigned but not used in function '1288:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'ATEMPNAMES' is assigned but not used in function '1291:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'ACBACKCOLOR' is assigned but not used in function '1292:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'Z' is assigned but not used in function '1294:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'J' is assigned but not used in function '1295:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'K' is assigned but not used in function '1296:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CVALUE' is assigned but not used in function '1297:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'P' is assigned but not used in function '1298:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'NPOS' is assigned but not used in function '1299:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'I' is assigned but not used in function '1300:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'XARRAYCOMBO' is assigned but not used in function '1301:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '1302:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'ACOPTIONS' is assigned but not used in function '1308:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'NSPACING' is assigned but not used in function '1309:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CPICTURENAME' is assigned but not used in function '1310:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'Y' is assigned but not used in function '1311:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CNAME' is assigned but not used in function '1312:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CCTRLTYPE' is assigned but not used in function '1313:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'TABHANDLE' is assigned but not used in function '1314:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'NPOSTAB' is assigned but not used in function '1315:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CTABNAME' is assigned but not used in function '1316:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CCTRLTYPE' is assigned but not used in function '1322:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CNAME' is assigned but not used in function '1383:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'X1' is assigned but not used in function '1592:XGRIDPROPTXTOK'
+
+inspector.prg:1802: warning W0032  Variable 'CPICTURENAME' is assigned but not used in function '1721:XGRIDPROPTXTOK'
+
+inspector.prg:1829: warning W0032  Variable 'A3' is assigned but not used in function '1804:XGRIDEVENTXTOK'
+
+inspector.prg:1996: warning W0032  Variable 'A3' is assigned but not used in function '1831:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'Z' is assigned but not used in function '1833:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'B0' is assigned but not used in function '1834:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'B1' is assigned but not used in function '1835:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'B2' is assigned but not used in function '1836:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'X1' is assigned but not used in function '1837:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'X5' is assigned but not used in function '1841:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'X6' is assigned but not used in function '1842:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '1843:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'ACOPTIONS' is assigned but not used in function '1844:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'NSPACING' is assigned but not used in function '1845:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'OLDVALUE' is assigned but not used in function '1846:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'I' is assigned but not used in function '1847:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'X' is assigned but not used in function '1848:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'DIFTABROW' is assigned but not used in function '1849:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'DIFTABCOL' is assigned but not used in function '1850:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'NTABADDPAGES' is assigned but not used in function '1851:XGRIDPROPNUMOK'
+
+inspector.prg:1996: warning W0032  Variable 'Y' is assigned but not used in function '1852:XGRIDPROPNUMOK'
+
+inspector.prg:2163: warning W0032  Variable 'X1' is assigned but not used in function '2001:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'X5' is assigned but not used in function '2005:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'X6' is assigned but not used in function '2006:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'B0' is assigned but not used in function '2007:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'B1' is assigned but not used in function '2008:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'B2' is assigned but not used in function '2009:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '2010:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'Z' is assigned but not used in function '2011:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'XROW' is assigned but not used in function '2012:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'TABHANDLE' is assigned but not used in function '2013:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'NPOSTAB' is assigned but not used in function '2014:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'CBACKCOLOR' is assigned but not used in function '2017:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'NCTRL' is assigned but not used in function '2018:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'ACOPTIONS' is assigned but not used in function '2019:XGRIDPROPOK'
+
+inspector.prg:2163: warning W0032  Variable 'NSPACING' is assigned but not used in function '2020:XGRIDPROPOK'
+
+inspector.prg:2488: warning W0032  Variable 'X2' is assigned but not used in function '2335:SAVEPROPCONTROL'
+
+inspector.prg:2488: warning W0032  Variable 'Y' is assigned but not used in function '2336:SAVEPROPCONTROL'
+
+inspector.prg:2488: warning W0032  Variable 'XARRAY3' is assigned but not used in function '2337:SAVEPROPCONTROL'
+
+inspector.prg:2510: warning W0032  Variable 'X1' is assigned but not used in function '2490:XTYPECONTROL'
+
+inspector.prg:2510: warning W0032  Variable 'RETVALUE' is assigned but not used in function '2491:XTYPECONTROL'
+
+inspector.prg:2528: warning W0032  Variable 'X' is assigned but not used in function '2512:CHANGEGRIDVALUE'
+
+loadfmg.prg:256: warning W0032  Variable 'X1' is assigned but not used in function '28:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'X2' is assigned but not used in function '29:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'X4' is assigned but not used in function '30:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'X5' is assigned but not used in function '31:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'X6' is assigned but not used in function '32:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'LTRUE' is assigned but not used in function '33:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'CBACKCOLOR' is assigned but not used in function '34:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'TABNAME' is assigned but not used in function '35:LOADFMG'
+
+loadfmg.prg:256: warning W0032  Variable 'NVALUE' is assigned but not used in function '36:LOADFMG'
+
+loadfmg.prg:410: warning W0032  Variable 'ITEM' is assigned but not used in function '320:FINDCONTROLS'
+
+loadfmg.prg:410: warning W0032  Variable 'X1' is assigned but not used in function '321:FINDCONTROLS'
+
+loadfmg.prg:410: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '323:FINDCONTROLS'
+
+loadfmg.prg:410: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '364:FINDCONTROLS'
+
+loadfmg.prg:560: warning W0003  Variable 'NOTEND' declared but not used in function '413:LOADWINDOW'
+
+loadfmg.prg:560: warning W0003  Variable 'Y2' declared but not used in function '416:LOADWINDOW'
+
+loadfmg.prg:560: warning W0003  Variable 'X2' declared but not used in function '422:LOADWINDOW'
+
+loadfmg.prg:560: warning W0003  Variable 'A3' declared but not used in function '423:LOADWINDOW'
+
+loadfmg.prg:560: warning W0032  Variable 'XCONTROL' is assigned but not used in function '438:LOADWINDOW'
+
+loadfmg.prg:560: warning W0032  Variable 'NLASTFOUND' is assigned but not used in function '440:LOADWINDOW'
+
+loadfmg.prg:646: warning W0032  Variable 'X' is assigned but not used in function '562:XLOADCONTROL'
+
+loadfmg.prg:646: warning W0032  Variable 'XPOS' is assigned but not used in function '563:XLOADCONTROL'
+
+loadfmg.prg:646: warning W0032  Variable 'PROP' is assigned but not used in function '564:XLOADCONTROL'
+
+loadfmg.prg:646: warning W0032  Variable 'VALUE' is assigned but not used in function '565:XLOADCONTROL'
+
+loadfmg.prg:646: warning W0032  Variable 'NVALUE' is assigned but not used in function '566:XLOADCONTROL'
+
+loadfmg.prg:646: warning W0032  Variable 'X6' is assigned but not used in function '567:XLOADCONTROL'
+
+loadfmg.prg:695: warning W0032  Variable 'Y' is assigned but not used in function '658:LOADPANEL'
+
+loadfmg.prg:695: warning W0032  Variable 'A3' is assigned but not used in function '659:LOADPANEL'
+
+loadfmg.prg:695: warning W0032  Variable 'X1' is assigned but not used in function '660:LOADPANEL'
+
+loadfmg.prg:730: warning W0032  Variable 'Y' is assigned but not used in function '697:LOADTIMER'
+
+loadfmg.prg:730: warning W0032  Variable 'X1' is assigned but not used in function '698:LOADTIMER'
+
+loadfmg.prg:730: warning W0032  Variable 'A3' is assigned but not used in function '699:LOADTIMER'
+
+loadfmg.prg:783: warning W0032  Variable 'Y' is assigned but not used in function '732:LOADTREE'
+
+loadfmg.prg:783: warning W0032  Variable 'X1' is assigned but not used in function '733:LOADTREE'
+
+loadfmg.prg:783: warning W0032  Variable 'A3' is assigned but not used in function '734:LOADTREE'
+
+loadfmg.prg:991: warning W0003  Variable 'X6' declared but not used in function '783:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'Y' is assigned but not used in function '785:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'A3' is assigned but not used in function '786:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'NRPAGES' is assigned but not used in function '788:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'XPAGEIMAGES' is assigned but not used in function '789:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'XPAGECAPTIONS' is assigned but not used in function '790:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'XPAGETOOLTIPS' is assigned but not used in function '791:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'XTOOLTIP' is assigned but not used in function '792:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'XCAPT' is assigned but not used in function '793:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'X' is assigned but not used in function '798:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'X1' is assigned but not used in function '799:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'X2' is assigned but not used in function '800:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'X3' is assigned but not used in function '801:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'X4' is assigned but not used in function '802:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'TEMPLINMAIN' is assigned but not used in function '803:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'NRLINES' is assigned but not used in function '804:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'XPAGE' is assigned but not used in function '805:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'LINMAIN2' is assigned but not used in function '848:LOADTAB'
+
+loadfmg.prg:991: warning W0032  Variable 'TEMPLINMAIN' is assigned but not used in function '851:LOADTAB'
+
+loadfmg.prg:1090: warning W0003  Variable 'CONTROLNAME' declared but not used in function '991:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'ZITENS' is assigned but not used in function '993:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'P1' is assigned but not used in function '994:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'P2' is assigned but not used in function '995:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'P3' is assigned but not used in function '996:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'A3' is assigned but not used in function '998:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'XFOUND' is assigned but not used in function '999:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'XITEM' is assigned but not used in function '1000:LOADTBROWSE'
+
+loadfmg.prg:1090: warning W0032  Variable 'XITENS' is assigned but not used in function '1001:LOADTBROWSE'
+
+loadfmg.prg:1158: warning W0032  Variable 'LTRUE' is assigned but not used in function '1092:LOADMAINMENU'
+
+loadfmg.prg:1158: warning W0032  Variable 'X4' is assigned but not used in function '1093:LOADMAINMENU'
+
+loadfmg.prg:1198: warning W0032  Variable 'LTRUE' is assigned but not used in function '1160:LOADTOOLBAR'
+
+loadfmg.prg:1198: warning W0032  Variable 'X4' is assigned but not used in function '1161:LOADTOOLBAR'
+
+loadfmg.prg:1244: warning W0032  Variable 'LTRUE' is assigned but not used in function '1200:LOADCONTEXT'
+
+loadfmg.prg:1244: warning W0032  Variable 'X4' is assigned but not used in function '1201:LOADCONTEXT'
+
+loadfmg.prg:1310: warning W0032  Variable 'LTRUE' is assigned but not used in function '1246:LOADSTATUS'
+
+loadfmg.prg:1310: warning W0032  Variable 'X4' is assigned but not used in function '1247:LOADSTATUS'
+
+loadfmg.prg:1354: warning W0032  Variable 'LTRUE' is assigned but not used in function '1312:LOADNOTIFYMENU'
+
+loadfmg.prg:1354: warning W0032  Variable 'X4' is assigned but not used in function '1313:LOADNOTIFYMENU'
+
+loadfmg.prg:1399: warning W0032  Variable 'LTRUE' is assigned but not used in function '1356:LOADDROPMENU'
+
+loadfmg.prg:1399: warning W0032  Variable 'X4' is assigned but not used in function '1357:LOADDROPMENU'
+
+loadfmg.prg:1492: warning W0032  Variable 'NPOS' is assigned but not used in function '1401:LOADCONTROLUCI'
+
+loadfmg.prg:1492: warning W0032  Variable 'XPOS' is assigned but not used in function '1402:LOADCONTROLUCI'
+
+loadfmg.prg:1952: warning W0032  Variable 'CCTRLTYPE' is assigned but not used in function '1571:SHOWCONTROLS2'
+
+loadfmg.prg:1952: warning W0032  Variable 'CCTRLNAME' is assigned but not used in function '1572:SHOWCONTROLS2'
+
+loadfmg.prg:1952: warning W0032  Variable 'CONTROLNAME' is assigned but not used in function '1579:SHOWCONTROLS2'
+
+loadfmg.prg:1952: warning W0032  Variable 'ANAME' is assigned but not used in function '1632:SHOWCONTROLS2'
+
+loadfmg.prg:1952: warning W0032  Variable 'ANAME' is assigned but not used in function '1638:SHOWCONTROLS2'
+
+loadfmg.prg:1984: warning W0032  Variable 'XARRAYCOMBO' is assigned but not used in function '1954:FILLITEMS'
+
+loadfmg.prg:1984: warning W0032  Variable 'X' is assigned but not used in function '1955:FILLITEMS'
+
+loadfmg.prg:1984: warning W0032  Variable 'CVALUE' is assigned but not used in function '1956:FILLITEMS'
+
+loadfmg.prg:1998: warning W0032  Variable 'CRET' is assigned but not used in function '1986:NOQUOTA'
+
+loadfmg.prg:2411: warning W0032  Variable 'X' is assigned but not used in function '2372:UCISAVECONTROLVAL'
+
+loadfmg.prg:2447: warning W0032  Variable 'X' is assigned but not used in function '2413:SAVECONTROLVAL2'
+
+loadfmg.prg:2447: warning W0032  Variable 'NPOS' is assigned but not used in function '2414:SAVECONTROLVAL2'
+
+loadfmg.prg:2589: warning W0032  Variable 'X7' is assigned but not used in function '2450:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'X' is assigned but not used in function '2451:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'A1' is assigned but not used in function '2453:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'A2' is assigned but not used in function '2454:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'CSTOREDWORKAREA' is assigned but not used in function '2455:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'Z' is assigned but not used in function '2456:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'AINIRETURN' is assigned but not used in function '2457:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'AFIELD' is assigned but not used in function '2458:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'NPOS' is assigned but not used in function '2460:SAVECONTROLVAL'
+
+loadfmg.prg:2589: warning W0032  Variable 'POS' is assigned but not used in function '2461:SAVECONTROLVAL'
+
+loadfmg.prg:3755: warning W0032  Variable 'AINIRETURN' is assigned but not used in function '2591:FIXVALUES'
+
+loadfmg.prg:3755: warning W0032  Variable 'NPOS' is assigned but not used in function '2592:FIXVALUES'
+
+loadfmg.prg:3784: warning W0032  Variable 'K' is assigned but not used in function '3757:XCONNECTTAB'
+
+loadfmg.prg:3806: warning W0032  Variable 'ELEM' is assigned but not used in function '3787:STR2ARRAY'
+
+loadfmg.prg:3925: warning W0032  Variable 'XX' is assigned but not used in function '3848:FINDIMAGENAME'
+
+loadfmg.prg:3925: warning W0032  Variable 'X5' is assigned but not used in function '3849:FINDIMAGENAME'
+
+loadfmg.prg:3925: warning W0032  Variable 'X6' is assigned but not used in function '3850:FINDIMAGENAME'
+
+loadfmg.prg:3925: warning W0032  Variable 'X7' is assigned but not used in function '3851:FINDIMAGENAME'
+
+loadfmg.prg:3925: warning W0032  Variable 'CL' is assigned but not used in function '3852:FINDIMAGENAME'
+
+loadfmg.prg:3925: warning W0032  Variable 'CP' is assigned but not used in function '3853:FINDIMAGENAME'
+
+loadfmg.prg:3925: warning W0032  Variable 'ARQRC' is assigned but not used in function '3854:FINDIMAGENAME'
+
+loadfmg.prg:3925: warning W0032  Variable 'IC' is assigned but not used in function '3857:FINDIMAGENAME'
+
+loadfmg.prg:3958: warning W0032  Variable 'X' is assigned but not used in function '3927:VERIFYNOTES'
+
+loadfmg.prg:3958: warning W0032  Variable 'A1' is assigned but not used in function '3928:VERIFYNOTES'
+
+loadfmg.prg:4038: warning W0032  Variable 'I' is assigned but not used in function '3960:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'CNAME' is assigned but not used in function '3961:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'NLINE' is assigned but not used in function '3962:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'NLINES' is assigned but not used in function '3963:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'CLINE' is assigned but not used in function '3964:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'CFILE' is assigned but not used in function '3966:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'LEVENT' is assigned but not used in function '3967:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'NPOS' is assigned but not used in function '3968:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'CVALUE' is assigned but not used in function '3969:LOADUCI'
+
+loadfmg.prg:4038: warning W0032  Variable 'CVALUE' is assigned but not used in function '3988:LOADUCI'
+
+loadfmg.prg:4133: warning W0004  Codeblock parameter 'X' declared but not used in function 'UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'I' is assigned but not used in function '4040:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'CFILE' is assigned but not used in function '4041:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'NLINES' is assigned but not used in function '4042:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'NLINE' is assigned but not used in function '4043:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'CLINE' is assigned but not used in function '4044:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'APROPUCI' is assigned but not used in function '4045:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'CNAME' is assigned but not used in function '4051:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'APROPTEMP' is assigned but not used in function '4052:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'CVALUE' is assigned but not used in function '4053:UCITOARRAY'
+
+loadfmg.prg:4139: warning W0032  Variable 'CINITVALUE' is assigned but not used in function '4054:UCITOARRAY'
+
+loadfmg.prg:4171: warning W0032  Variable 'I' is assigned but not used in function '4152:RELOADUCI'
+
+loadfmg.prg:4171: warning W0032  Variable 'CNAME' is assigned but not used in function '4153:RELOADUCI'
+
+mainmenu.prg:138: warning W0032  Variable 'XLIN' is assigned but not used in function '34:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'LTRUE' is assigned but not used in function '35:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'A1' is assigned but not used in function '36:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'X4' is assigned but not used in function '37:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'CAPTION' is assigned but not used in function '38:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'XNAME' is assigned but not used in function '39:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'CCAPTION' is assigned but not used in function '40:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'CNAME' is assigned but not used in function '41:MENUTOMEM'
+
+mainmenu.prg:138: warning W0032  Variable 'AMENUITENS' is assigned but not used in function '42:MENUTOMEM'
+
+mainmenu.prg:162: warning W0032  Variable 'X' is assigned but not used in function '140:MENUFILLGRID'
+
+mainmenu.prg:162: warning W0032  Variable 'XVALUE' is assigned but not used in function '141:MENUFILLGRID'
+
+mainmenu.prg:176: warning W0032  Variable 'CVAL' is assigned but not used in function '164:XSPACE'
+
+mainmenu.prg:204: warning W0032  Variable 'X' is assigned but not used in function '178:CAPTIONCHANGE'
+
+mainmenu.prg:204: warning W0032  Variable 'XVALUE' is assigned but not used in function '179:CAPTIONCHANGE'
+
+mainmenu.prg:505: warning W0032  Variable 'TVALUE' is assigned but not used in function '468:MENUDELETE'
+
+mainmenu.prg:529: warning W0032  Variable 'TVALUE' is assigned but not used in function '507:UPMENU'
+
+mainmenu.prg:557: warning W0032  Variable 'TVALUE' is assigned but not used in function '531:DOWNMENU'
+
+mainmenu.prg:589: warning W0032  Variable 'LEVEL' is assigned but not used in function '559:MENUINSERT'
+
+mainmenu.prg:589: warning W0032  Variable 'CITEM' is assigned but not used in function '560:MENUINSERT'
+
+mainmenu.prg:589: warning W0032  Variable 'XVALUE' is assigned but not used in function '561:MENUINSERT'
+
+mainmenu.prg:623: warning W0032  Variable 'CVALUE' is assigned but not used in function '591:NEXTMENU'
+
+mainmenu.prg:623: warning W0032  Variable 'X' is assigned but not used in function '592:NEXTMENU'
+
+mainmenu.prg:623: warning W0032  Variable 'LEVEL' is assigned but not used in function '593:NEXTMENU'
+
+mainmenu.prg:680: warning W0032  Variable 'OLDTYPE' is assigned but not used in function '638:MENUCHANGETYPE'
+
+mainmenu.prg:680: warning W0032  Variable 'NPOS' is assigned but not used in function '639:MENUCHANGETYPE'
+
+mainmenu.prg:697: warning W0032  Variable 'X' is assigned but not used in function '683:MOSTRAMENU'
+
+mainmenu.prg:991: warning W0003  Variable 'PARAM' declared but not used in function '705:XCREATEMENU2'
+
+mainmenu.prg:991: warning W0032  Variable 'X' is assigned but not used in function '707:XCREATEMENU2'
+
+mainmenu.prg:991: warning W0032  Variable 'APOPOPEN' is assigned but not used in function '716:XCREATEMENU2'
+
+mainmenu.prg:991: warning W0032  Variable 'CAPTION' is assigned but not used in function '718:XCREATEMENU2'
+
+mainmenu.prg:991: warning W0032  Variable 'TYPEMENU' is assigned but not used in function '719:XCREATEMENU2'
+
+mainmenu.prg:991: warning W0032  Variable 'LEVELMENU' is assigned but not used in function '720:XCREATEMENU2'
+
+mainmenu.prg:991: warning W0032  Variable 'SAIDA' is assigned but not used in function '721:XCREATEMENU2'
+
+makestatus.prg:145: warning W0032  Variable 'X' is assigned but not used in function '7:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'CMSG' is assigned but not used in function '8:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'NSIZE' is assigned but not used in function '9:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'CTOOLTIP' is assigned but not used in function '10:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'CACTION' is assigned but not used in function '11:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'CBITMAP' is assigned but not used in function '13:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'STYL' is assigned but not used in function '14:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'W' is assigned but not used in function '16:MAKESTATUS'
+
+makestatus.prg:145: warning W0032  Variable 'AMPM' is assigned but not used in function '17:MAKESTATUS'
+hmgside.prg:5211:0: warning: "_WIN32_WINNT" redefined
+In file included from C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/vadefs.h:9:0,
+                 from C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/_mingw_stdarg.h:14,
+                 from C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/stdarg.h:140,
+                 from C:/MiniguiM/comp/mingw32/lib/gcc/i686-w64-mingw32/6.2.0/include/stdarg.h:1,
+                 from C:/MiniguiM/comp/harbour/include/hbdefs.h:50,
+                 from C:/MiniguiM/comp/harbour/include/hbvmpub.h:50,
+                 from ../../../../bin/.hbmk/win/mingw/hmgside.c:7:
+C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/_mingw.h:225:0: note: this is the location of the previous definition
+ #define _WIN32_WINNT 0x502
+ 
+hmgside.prg: In function 'EnumFontsCallBack':
+hmgside.prg:5375:22: warning: unused parameter 'lpTextMetric' [-Wunused-parameter]
+hmgside.prg:5375:40: warning: unused parameter 'nFontType' [-Wunused-parameter]
+hmgside.prg:5375:58: warning: unused parameter 'lParam' [-Wunused-parameter]
+hmgside.prg: In function 'HB_FUN_GETFONTNAMES':
+hmgside.prg:5392:67: warning: passing argument 4 of 'EnumFontsA' makes integer from pointer without a cast [-Wint-conversion]
+In file included from C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/windows.h:71:0,
+                 from hmgside.prg:5213:
+C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/wingdi.h:2814:24: note: expected 'LPARAM {aka long int}' but argument is of type 'void *'
+   WINGDIAPI int WINAPI EnumFontsA(HDC hdc,LPCSTR lpLogfont,FONTENUMPROCA lpProc,LPARAM lParam);
+                        ^~~~~~~~~~
+hmgside.prg:5398:67: warning: passing argument 4 of 'EnumFontsA' makes integer from pointer without a cast [-Wint-conversion]
+In file included from C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/windows.h:71:0,
+                 from hmgside.prg:5213:
+C:/MiniguiM/comp/mingw32/i686-w64-mingw32/include/wingdi.h:2814:24: note: expected 'LPARAM {aka long int}' but argument is of type 'void *'
+   WINGDIAPI int WINAPI EnumFontsA(HDC hdc,LPCSTR lpLogfont,FONTENUMPROCA lpProc,LPARAM lParam);
+                        ^~~~~~~~~~

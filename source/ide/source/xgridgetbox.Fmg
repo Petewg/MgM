@@ -1,0 +1,116 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 156 , 430 WIDTH 251 HEIGHT 424 TITLE "Choose colors of GetBox"
+
+    DEFINE BUTTON Button_1
+           ROW    340
+           COL    20
+           WIDTH  100
+           HEIGHT 28
+           ACTION xgetboxchoose("save")
+           CAPTION "Save to Grid"
+     END BUTTON  
+
+     DEFINE TEXTBOX Text_1
+            ROW    80
+            COL    30
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    210
+            COL    30
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    280
+            COL    30
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE FRAME Frame_1
+            ROW    20
+            COL    20
+            WIDTH  200
+            HEIGHT 300
+            CAPTION "Click on Buttons to Chose Color"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    50
+            COL    30
+            WIDTH  120
+            HEIGHT 20
+            VALUE "Label_1"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    180
+            COL    30
+            WIDTH  120
+            HEIGHT 20
+            VALUE "Label_2"
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    250
+            COL    30
+            WIDTH  120
+            HEIGHT 20
+            VALUE "Label_3"
+     END LABEL  
+
+    DEFINE BUTTON Button_3
+           ROW    340
+           COL    130
+           WIDTH  100
+           HEIGHT 28
+           ACTION xgetboxchoose("cancel")
+           CAPTION "Cancel"
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    80
+           COL    170
+           WIDTH  30
+           HEIGHT 28
+           ACTION xgetboxchoose("text_1")
+           CAPTION "..."
+     END BUTTON  
+
+    DEFINE BUTTON Button_5
+           ROW    210
+           COL    170
+           WIDTH  30
+           HEIGHT 28
+           ACTION xgetboxchoose("text_2")
+           CAPTION "..."
+     END BUTTON  
+
+    DEFINE BUTTON Button_6
+           ROW    280
+           COL    170
+           WIDTH  30
+           HEIGHT 28
+           ACTION xgetboxchoose("text_3")
+           CAPTION "..."
+     END BUTTON  
+
+    DEFINE CHECKBOX Check_1
+           ROW    140
+           COL    40
+           WIDTH  150
+           HEIGHT 20
+           CAPTION "Enable Next Options"
+           ONCHANGE xenablegetbox()
+     END CHECKBOX  
+
+END WINDOW
+
+

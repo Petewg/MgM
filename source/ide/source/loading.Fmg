@@ -1,0 +1,26 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 339 , 441 WIDTH 319 HEIGHT 75 NOMINIMIZE NOSYSMENU NOCAPTION ON INIT LOADFMG()
+
+     DEFINE PROGRESSBAR Progress_1
+            ROW    20
+            COL    20
+            WIDTH  270
+            HEIGHT 30
+            RANGEMIN 1
+            RANGEMAX 100
+            SMOOTH .T.
+     END PROGRESSBAR  
+
+     DEFINE LABEL Label_2
+            ROW    0
+            COL    90
+            WIDTH  190
+            HEIGHT 15
+            VALUE "Loading......Please wait"
+     END LABEL  
+
+END WINDOW
+
+

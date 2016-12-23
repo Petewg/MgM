@@ -1,0 +1,218 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+/*
+
+HMGS - MiniGUI - IDE - Harbour Win32 GUI Designer
+
+Copyright 2005-2015 Walter Formigoni <walter.formigoni@gmail.com>
+http://sourceforge.net/projects/hmgs-minigui/
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this software; see the file COPYING. If not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+(or visit the web site http://www.gnu.org/).
+
+
+Parts of this project are based upon:
+
+MINIGUI - Harbour Win32 GUI Designer
+
+Copyright 2002 Roberto Lopez <roblez@ciudad.com.ar>
+http://www.geocities.com/harbour_minigui/
+
+Harbour Minigui IDE
+
+(c)2004-2008 Roberto Lopez <roblez@ciudad.com.ar>
+http://www.geocities.com/harbour_minigui/
+
+(c)2007 Arcangelo Molinaro <arcangelo.molinaro@fastwebnet.it>
+Form_fld.fmg donated to public domain
+for Minigui HMGS-IDE by Walter Formigoni.
+Browse Automated Control 'WorkArea' , 'Fields', 'Widths', 'Headers'
+'Valid', 'ValidMessages','Image', 'ReadOnlyFields','Justify','When',
+'OnHeadClick', 'DatabaseName' .
+
+*/
+
+
+DEFINE WINDOW TEMPLATE AT 100 , 100 WIDTH 550 HEIGHT 600 TITLE "Choice Fields from Database" CHILD NOMINIMIZE ON INIT (CHOOSE_WAY(A1,A2,A3,A4,cFilename,aMyFields))  ON LOSTFOCUS WND_INTCLS(.F.) ON GOTFOCUS WND_INTCLS(.T.)
+
+     DEFINE LABEL Label_7
+            ROW    10
+            COL    40
+            WIDTH  150
+            HEIGHT 20
+            VALUE "Selected 'Database'"
+     END LABEL
+
+     DEFINE LABEL Label_8
+            ROW    10
+            COL    310
+            WIDTH  150
+            HEIGHT 20
+            VALUE "'WorkArea'"
+     END LABEL
+
+     DEFINE TEXTBOX Text_1
+            ROW    30
+            COL    40
+            WIDTH  190
+            HEIGHT 27
+            READONLY .T.
+     END TEXTBOX
+
+     DEFINE TEXTBOX Text_2
+            ROW    30
+            COL    310
+            WIDTH  190
+            HEIGHT 27
+            READONLY .T.
+     END TEXTBOX
+
+     DEFINE LISTBOX List_1
+            ROW    100
+            COL    40
+            WIDTH  190
+            HEIGHT 170
+            ITEMS aMyFields
+            VALUE 1
+            TOOLTIP "Double Click to add Fields"
+            ONDBLCLICK Movedx_Field(A3)
+     END LISTBOX
+
+     DEFINE LISTBOX List_2
+            ROW    100
+            COL    310
+            WIDTH  190
+            HEIGHT 170
+            ITEMS aMyNewField
+            VALUE 1
+            TOOLTIP "Double Click to exclude Fields"
+            ONDBLCLICK Movesx_field(A3)
+     END LISTBOX
+
+     DEFINE LABEL Label_1
+            ROW    70
+            COL    40
+            WIDTH  170
+            HEIGHT 20
+            VALUE "Fields in Database"
+     END LABEL
+
+     DEFINE LABEL Label_2
+            ROW    70
+            COL    310
+            WIDTH  170
+            HEIGHT 20
+            VALUE "Selected Fields to include"
+     END LABEL
+
+     DEFINE LABEL Label_4
+            ROW    280
+            COL    40
+            WIDTH  200
+            HEIGHT 20
+            VALUE "Exported 'Fields' Value"
+     END LABEL
+
+     DEFINE LABEL Label_5
+            ROW    360
+            COL    40
+            WIDTH  200
+            HEIGHT 20
+            VALUE "Exported 'Widths' Value"
+     END LABEL
+
+     DEFINE LABEL Label_6
+            ROW    440
+            COL    40
+            WIDTH  200
+            HEIGHT 20
+            VALUE "Exported 'Headers' Value"
+     END LABEL
+
+     DEFINE EDITBOX Edit_1
+            ROW    300
+            COL    40
+            WIDTH  460
+            HEIGHT 50
+            READONLY .T.
+     END EDITBOX
+
+     DEFINE EDITBOX Edit_2
+            ROW    380
+            COL    40
+            WIDTH  460
+            HEIGHT 50
+            ONCHANGE ST_CHNGD()
+     END EDITBOX
+
+     DEFINE EDITBOX Edit_3
+            ROW    460
+            COL    40
+            WIDTH  460
+            HEIGHT 50
+            ONCHANGE ST_CHNGD()
+     END EDITBOX
+
+    DEFINE BUTTON Button_1
+           ROW    100
+           COL    235
+           WIDTH  70
+           HEIGHT 30
+           ACTION Movesx_allfield(A3)
+           CAPTION "<-Reset"
+     END BUTTON
+
+    DEFINE BUTTON Button_4
+           ROW    140
+           COL    235
+           WIDTH  70
+           HEIGHT 30
+           ACTION Movedx_allfield(A3)
+           CAPTION "Set All ->"
+     END BUTTON
+
+    DEFINE BUTTON Button_2
+           ROW    520
+           COL    280
+           WIDTH  70
+           HEIGHT 30
+           ACTION (aDownLoad:=Exp_String(A1,A2,A3,A4,aDownLoad,lMes))
+           CAPTION "SAVE"
+           TOOLTIP "Click to 'SAVE' value"
+     END BUTTON
+
+    DEFINE BUTTON Button_3
+           ROW    520
+           COL    380
+           WIDTH  70
+           HEIGHT 30
+           ACTION (aDownLoad:=ASKFOREXIT(A1,A2,A3,A4,aDownLoad))
+           CAPTION "Exit"
+           TOOLTIP "Exit Program"
+     END BUTTON
+
+    DEFINE BUTTON Button_5
+           ROW    520
+           COL    40
+           WIDTH  200
+           HEIGHT 30
+           ACTION (aDownLoad:=chk_ifCanLoad(A1,A2,A3,A4,aDownLoad))
+           CAPTION "Load Default Advanced Option"
+           TOOLTIP "Open an 'Advanced Option Window'"
+     END BUTTON
+
+END WINDOW
+
+

@@ -1,0 +1,73 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 321 HEIGHT 210 TITLE "Property Edit For:" TOPMOST NOMINIMIZE NOMAXIMIZE NOSIZE ON INIT Ld_base("XGRIDPROPTXT")
+
+     DEFINE LABEL Label_1
+            ROW    25
+            COL    20
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Label_1"
+            FONTBOLD .T.
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    50
+            COL    20
+            WIDTH  240
+            HEIGHT 22
+            FONTBOLD .T.
+            MAXLENGTH  400
+     END TEXTBOX 
+
+    DEFINE BUTTON Button_1
+           ROW    130
+           COL    20
+           WIDTH  100
+           HEIGHT 28
+           ACTION xgridproptxtok()
+           CAPTION "Ok"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    130
+           COL    140
+           WIDTH  100
+           HEIGHT 28
+           ACTION xgridproptxtno()
+           CAPTION "Cancel"
+     END BUTTON  
+
+     DEFINE FRAME Frame_1
+            ROW    5
+            COL    5
+            WIDTH  304
+            HEIGHT 164
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE RADIOGROUP RadioGroup_1
+            ROW    90
+            COL    20
+            WIDTH  120
+            HEIGHT 50
+            OPTIONS {'Save as Text','Save as Var'}
+            VALUE 1
+            SPACING 5
+            HORIZONTAL .T.
+     END RADIOGROUP  
+
+    DEFINE BUTTON Button_3
+           ROW    50
+           COL    260
+           WIDTH  30
+           HEIGHT 28
+           ACTION LoadPicture()
+           CAPTION "..."
+           VISIBLE .F.
+     END BUTTON  
+
+END WINDOW
+
+

@@ -1,0 +1,118 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of color for multiple controls" MODAL ON INIT defcolo0()
+
+    DEFINE BUTTON Button_1
+           ROW    10
+           COL    40
+           WIDTH  120
+           HEIGHT 20
+           ACTION defcolo1()
+           CAPTION "Chose FontColor"
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    80
+           COL    40
+           WIDTH  120
+           HEIGHT 20
+           ACTION defcolo2()
+           CAPTION "Choose BackColor"
+     END BUTTON  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    50
+            COL    230
+            WIDTH  100
+            HEIGHT 160
+     END COMBOBOX  
+
+     DEFINE LISTBOX List_1
+            ROW    50
+            COL    380
+            WIDTH  110
+            HEIGHT 170
+            MULTISELECT .T.
+     END LISTBOX  
+
+     DEFINE RADIOGROUP RadioGroup_1
+            ROW    170
+            COL    50
+            WIDTH  120
+            HEIGHT 50
+            OPTIONS { 'Type of controls','Controls of form'}
+            VALUE 1
+     END RADIOGROUP  
+
+     DEFINE TEXTBOX Text_1
+            ROW    40
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+    DEFINE BUTTON Button_2
+           ROW    280
+           COL    390
+           WIDTH  100
+           HEIGHT 28
+           ACTION putcolo()
+           CAPTION "Click to put color"
+     END BUTTON  
+
+     DEFINE FRAME Frame_1
+            ROW    140
+            COL    20
+            WIDTH  164
+            HEIGHT 88
+            CAPTION "Method of replace"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE FRAME Frame_2
+            ROW    10
+            COL    210
+            WIDTH  140
+            HEIGHT 220
+            CAPTION "Type of controls"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE FRAME Frame_3
+            ROW    10
+            COL    370
+            WIDTH  140
+            HEIGHT 220
+            CAPTION "Controls of form"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE FRAME Frame_4
+            ROW    250
+            COL    20
+            WIDTH  160
+            HEIGHT 110
+            CAPTION "Property to replace"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE RADIOGROUP RadioGroup_2
+            ROW    270
+            COL    50
+            WIDTH  120
+            HEIGHT 75
+            OPTIONS { 'FontColor','BackColor','Both'}
+            VALUE 1
+     END RADIOGROUP  
+
+     DEFINE TEXTBOX Text_2
+            ROW    110
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+END WINDOW
+
+

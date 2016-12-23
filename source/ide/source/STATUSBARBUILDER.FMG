@@ -1,0 +1,310 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builder" MODAL ON INIT StatusInit()
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    10
+            WIDTH  230
+            HEIGHT 340
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    20
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "Caption:"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    50
+            COL    30
+            WIDTH  50
+            HEIGHT 20
+            VALUE "Action:"
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    80
+            COL    30
+            WIDTH  40
+            HEIGHT 20
+            VALUE "Width:"
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    110
+            COL    30
+            WIDTH  40
+            HEIGHT 20
+            VALUE "Icon:"
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    140
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "ToolTip:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    20
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE STATUSCAPTIONCHANGE()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    50
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE STATUSACTIONCHANGE()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    80
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE STATUSWIDTHCHANGE()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_4
+            ROW    110
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE STATUSICONCHANGE()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_5
+            ROW    140
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE STATUSTOOLTIPCHANGE()
+     END TEXTBOX 
+
+     DEFINE BUTTON Button_1
+            ROW    20
+            COL    250
+            WIDTH  100
+            HEIGHT 28
+            ACTION STATUSOK()
+            CAPTION "Ok"
+     END BUTTON  
+
+     DEFINE BUTTON Button_2
+            ROW    60
+            COL    250
+            WIDTH  100
+            HEIGHT 28
+            ACTION STATUSCANCEL()
+            CAPTION "Cancel"
+     END BUTTON  
+
+     DEFINE FRAME Frame_2
+            ROW    357
+            COL    9
+            WIDTH  335
+            HEIGHT 33
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE BUTTON Button_3
+            ROW    360
+            COL    10
+            WIDTH  60
+            HEIGHT 30
+            ACTION STATUSUP()
+           PICTURE "BITMAP45"
+     END BUTTON  
+
+     DEFINE BUTTON Button_4
+            ROW    360
+            COL    70
+            WIDTH  60
+            HEIGHT 30
+            ACTION STATUSDOWN()
+           PICTURE "BITMAP46"
+     END BUTTON  
+
+     DEFINE LABEL Label_6
+            ROW    170
+            COL    30
+            WIDTH  70
+            HEIGHT 20
+            VALUE "Style:"
+     END LABEL  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    170
+            COL    100
+            WIDTH  120
+            HEIGHT 100
+            ITEMS {"Normal","Flat","Raised"}
+            ONCHANGE STATUSSTYLECHANGE()
+     END COMBOBOX  
+
+     DEFINE BUTTON Button_7
+            ROW    360
+            COL    130
+            WIDTH  53
+            HEIGHT 30
+            ACTION STATUSNEXT()
+            CAPTION "Next"
+     END BUTTON  
+
+     DEFINE BUTTON Button_8
+            ROW    360
+            COL    183
+            WIDTH  53
+            HEIGHT 30
+            ACTION STATUSPRIOR()
+            CAPTION "Prior"
+     END BUTTON  
+
+     DEFINE BUTTON Button_9
+            ROW    360
+            COL    236
+            WIDTH  53
+            HEIGHT 30
+            ACTION STATUSINSERT()
+            CAPTION "Insert"
+     END BUTTON  
+
+     DEFINE BUTTON Button_10
+            ROW    360
+            COL    289
+            WIDTH  53
+            HEIGHT 30
+            ACTION STATUSDELETE()
+            CAPTION "Delete"
+     END BUTTON  
+
+     DEFINE GRID Grid_1
+            ROW    390
+            COL    20
+            WIDTH  320
+            HEIGHT 160
+            HEADERS {'Item'}
+            WIDTHS { 250 }
+            ITEMS { {""} }
+            VALUE 0
+            ONCHANGE STATUSGRIDCHANGE()
+            NOSORTHEADERS .F.
+            HEADERIMAGE ""
+     END GRID  
+
+     DEFINE BUTTON Button_5
+            ROW    180
+            COL    250
+            WIDTH  100
+            HEIGHT 28
+            ACTION STATUSFONT()
+            CAPTION "Font..."
+     END BUTTON  
+
+     DEFINE LABEL Label_7
+            ROW    570
+            COL    10
+            WIDTH  350
+            HEIGHT 38
+            VALUE "Use $CLOCK, $DATE, $KEYBOARD, $PROGRESSITEM for special items."
+     END LABEL  
+
+     DEFINE CHECKBOX Check_1
+            ROW    205
+            COL    30
+            WIDTH  80
+            HEIGHT 20
+            CAPTION "Default"
+            ONCHANGE statusdefaultchange()
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_2
+            ROW    200
+            COL    130
+            WIDTH  80
+            HEIGHT 28
+            CAPTION "AMPM"
+            ONCHANGE statusampmchange()
+     END CHECKBOX  
+
+     DEFINE LABEL Label_8
+            ROW    230
+            COL    30
+            WIDTH  70
+            HEIGHT 24
+            VALUE "Range"
+     END LABEL  
+
+     DEFINE LABEL Label_9
+            ROW    260
+            COL    30
+            WIDTH  70
+            HEIGHT 24
+            VALUE "Value"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_6
+            ROW    230
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME 'Arial'
+            ONCHANGE StatusRangeChange()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_7
+            ROW    260
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME 'Arial'
+            ONCHANGE StatusValueChange()
+     END TEXTBOX 
+
+     DEFINE LABEL Label_10
+            ROW    290
+            COL    30
+            WIDTH  70
+            HEIGHT 24
+            VALUE "BackColor"
+     END LABEL  
+
+     DEFINE LABEL Label_11
+            ROW    320
+            COL    30
+            WIDTH  70
+            HEIGHT 24
+            VALUE "FontColor"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_8
+            ROW    290
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME 'Arial'
+            ONCHANGE StatusBackColorChange()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_9
+            ROW    320
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME 'Arial'
+            ONCHANGE StatusFontColorChange()
+     END TEXTBOX 
+
+END WINDOW
+
+

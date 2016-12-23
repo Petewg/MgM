@@ -1,0 +1,66 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 169 , 235 WIDTH 780 HEIGHT 525 TITLE "Build Log" CHILD TOPMOST NOMAXIMIZE NOSIZE ON INIT buildLogInit()
+
+     DEFINE GRID Grid_1
+            ROW    10
+            COL    10
+            WIDTH  750
+            HEIGHT 134
+            ITEMS {{""}}
+            WIDTHS {730}
+            HEADERS {'Error List'}
+            ONCHANGE BuildLogLoadPrg()
+     END GRID  
+
+     DEFINE GRID Grid_2
+            ROW    170
+            COL    10
+            WIDTH  750
+            HEIGHT 264
+            ITEMS {{"",""}}
+            WIDTHS {60,670}
+            HEADERS {'#','File Name'}
+            ONDBLCLICK BuildLogDblClick()
+            JUSTIFY {GRID_JTFY_RIGHT,GRID_JTFY_LEFT}
+     END GRID  
+
+    DEFINE BUTTON Button_1
+           ROW    450
+           COL    440
+           WIDTH  100
+           HEIGHT 28
+           ACTION BuildLogDebug()
+           CAPTION "Debug (F8)"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    450
+           COL    550
+           WIDTH  100
+           HEIGHT 28
+           ACTION BuildLogRun()
+           CAPTION "Run (F5)"
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    450
+           COL    660
+           WIDTH  100
+           HEIGHT 28
+           ACTION BuildLogClose()
+           CAPTION "Close (ESC)"
+     END BUTTON  
+
+     DEFINE LABEL Label_1
+            ROW    455
+            COL    10
+            WIDTH  415
+            HEIGHT 20
+            VALUE "<double click>/<return> to edit selected source code line"
+     END LABEL  
+
+END WINDOW
+
+

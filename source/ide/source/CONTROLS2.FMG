@@ -1,0 +1,641 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "AMAINICON" MAIN NOMINIMIZE ON INIT BuildMenu() ON INTERACTIVECLOSE exit()
+
+     DEFINE STATUSBAR FONT "Arial" SIZE 9
+            STATUSITEM "Right Click to Move/Size " WIDTH 180
+            STATUSITEM "" WIDTH 150
+            STATUSITEM "" WIDTH 80
+     END STATUSBAR
+
+  DEFINE TAB XTab_3 AT 2,5 WIDTH 368 HEIGHT 90 VALUE 1 FONT "Arial" SIZE 9
+
+    PAGE 'Control'
+
+        DEFINE BUTTONEX XButton_1
+               ROW    29
+               COL    8
+               WIDTH  25
+               HEIGHT 25
+               CAPTION ""
+               PICTURE "BITMAP2"
+               ICON NIL
+               ACTION new()
+               TOOLTIP "New Project"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_2
+               ROW    29
+               COL    35
+               WIDTH  25
+               HEIGHT 25
+               CAPTION ""
+               PICTURE "BITMAP3"
+               ICON NIL
+               ACTION open()
+               TOOLTIP "Open Project"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_3
+               ROW    29
+               COL    62
+               WIDTH  25
+               HEIGHT 25
+               CAPTION ""
+               PICTURE "BITMAP4"
+               ICON NIL
+               ACTION ProjectClose()
+               TOOLTIP "Close Project"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_4
+               ROW    56
+               COL    8
+               WIDTH  25
+               HEIGHT 25
+               CAPTION ""
+               PICTURE "BITMAP5"
+               ICON NIL
+               ACTION newform()
+               TOOLTIP "New Form"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_5
+               ROW    56
+               COL    35
+               WIDTH  25
+               HEIGHT 25
+               CAPTION ""
+               PICTURE "BITMAP6"
+               ICON NIL
+               ACTION newmodule()
+               TOOLTIP "New Module"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_6
+               ROW    56
+               COL    62
+               WIDTH  25
+               HEIGHT 25
+               CAPTION ""
+               PICTURE "BITMAP7"
+               ICON NIL
+               ACTION RUN()
+               TOOLTIP "Run"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_8
+               ROW    29
+               COL    143
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP35"
+               ICON NIL
+               ACTION xdeletecontrol()
+               TOOLTIP "Delete Control"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_9
+               ROW    29
+               COL    170
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP36"
+               ICON NIL
+               ACTION CONTROLORDER()
+               TOOLTIP "Control Order"
+        END BUTTONEX  
+
+        DEFINE CHECKBUTTON Control_01
+               ROW    29
+               COL    197
+               WIDTH  25
+               HEIGHT 25
+               CAPTION ""
+               VALUE .T.
+               TOOLTIP "Select Object"
+               ONCHANGE Control_Click(1)
+               PICTURE "BITMAP8"
+        END CHECKBUTTON  
+
+        DEFINE BUTTONEX XButton_16
+               ROW    56
+               COL    143
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP56"
+               ICON NIL
+               ACTION viewformcode()
+               TOOLTIP "Code Viewer/Editor"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_17
+               ROW    56
+               COL    170
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP57"
+               ICON NIL
+               ACTION definecolors()
+               TOOLTIP "Change Colors"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_18
+               ROW    56
+               COL    197
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP1"
+               ICON NIL
+               ACTION iif( IsWindowDefined(Form_1), ControlPosSTART(), )
+               TOOLTIP "Control Position Dialog"
+        END BUTTONEX  
+
+    END PAGE 
+
+    PAGE 'Standard'
+
+        DEFINE CHECKBUTTON Control_02
+               ROW    29
+               COL    8
+               WIDTH  26
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Button"
+               ONCHANGE Control_Click(2)
+               PICTURE "BITMAP9"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_03
+               ROW    29
+               COL    35
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "CheckBox"
+               ONCHANGE Control_Click(3)
+               PICTURE "BITMAP10"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_04
+               ROW    29
+               COL    62
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "ListBox"
+               ONCHANGE Control_Click(4)
+               PICTURE "BITMAP11"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_05
+               ROW    29
+               COL    89
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "ComboBox"
+               ONCHANGE Control_Click(5)
+               PICTURE "BITMAP12"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_06
+               ROW    29
+               COL    116
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "CheckButton"
+               ONCHANGE Control_Click(6)
+               PICTURE "BITMAP13"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_07
+               ROW    29
+               COL    143
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Grid"
+               ONCHANGE Control_Click(7)
+               PICTURE "BITMAP14"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_08
+               ROW    29
+               COL    170
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Slider"
+               ONCHANGE Control_Click(8)
+               PICTURE "BITMAP15"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_09
+               ROW    29
+               COL    197
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Spinner"
+               ONCHANGE Control_Click(9)
+               PICTURE "BITMAP16"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_10
+               ROW    29
+               COL    224
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Image"
+               ONCHANGE Control_Click(10)
+               PICTURE "BITMAP17"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_11
+               ROW    29
+               COL    251
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Tree"
+               ONCHANGE Control_Click(11)
+               PICTURE "BITMAP18"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_12
+               ROW    29
+               COL    278
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "DatePicker"
+               ONCHANGE Control_Click(12)
+               PICTURE "BITMAP19"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_13
+               ROW    29
+               COL    305
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "TextBox"
+               ONCHANGE Control_Click(13)
+               PICTURE "BITMAP20"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_14
+               ROW    29
+               COL    332
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "EditBox"
+               ONCHANGE Control_Click(14)
+               PICTURE "BITMAP21"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_15
+               ROW    56
+               COL    8
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Label"
+               ONCHANGE Control_Click(15)
+               PICTURE "BITMAP22"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_16
+               ROW    56
+               COL    35
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Browse"
+               ONCHANGE Control_Click(16)
+               PICTURE "BITMAP23"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_17
+               ROW    56
+               COL    62
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "RadioGroup"
+               ONCHANGE Control_Click(17)
+               PICTURE "BITMAP24"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_18
+               ROW    56
+               COL    89
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Frame"
+               ONCHANGE Control_Click(18)
+               PICTURE "BITMAP25"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_19
+               ROW    56
+               COL    116
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Tab"
+               ONCHANGE Control_Click(19)
+               PICTURE "BITMAP26"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_20
+               ROW    56
+               COL    143
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "AnimateBox"
+               ONCHANGE Control_Click(20)
+               PICTURE "BITMAP27"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_21
+               ROW    56
+               COL    170
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "HyperLink"
+               ONCHANGE Control_Click(21)
+               PICTURE "BITMAP28"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_22
+               ROW    56
+               COL    197
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "MonthCalendar"
+               ONCHANGE Control_Click(22)
+               PICTURE "BITMAP29"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_23
+               ROW    56
+               COL    224
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "RichEditBox"
+               ONCHANGE Control_Click(23)
+               PICTURE "BITMAP30"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_24
+               ROW    56
+               COL    251
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "ProgressBar"
+               ONCHANGE Control_Click(24)
+               PICTURE "BITMAP31"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_25
+               ROW    56
+               COL    278
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Player"
+               ONCHANGE Control_Click(25)
+               PICTURE "BITMAP32"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_26
+               ROW    56
+               COL    305
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "IpAddress"
+               ONCHANGE Control_Click(26)
+               PICTURE "BITMAP33"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_27
+               ROW    56
+               COL    332
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Timer"
+               ONCHANGE Control_Click(27)
+               PICTURE "BITMAP34"
+        END CHECKBUTTON  
+
+    END PAGE 
+
+    PAGE 'Extended'
+
+        DEFINE CHECKBUTTON Control_28
+               ROW    29
+               COL    8
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "ButtonEX"
+               ONCHANGE Control_Click(28)
+               PICTURE "BITMAP9"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_29
+               ROW    29
+               COL    35
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "ComboBoxEX"
+               ONCHANGE Control_Click(29)
+               PICTURE "BITMAP12"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_30
+               ROW    29
+               COL    62
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "BtnTextBox"
+               ONCHANGE Control_Click(30)
+               PICTURE "BITMAP40"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_31
+               ROW    29
+               COL    89
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "HotKeyBox"
+               ONCHANGE Control_Click(31)
+               PICTURE "BITMAP17"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_32
+               ROW    29
+               COL    116
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "GetBox"
+               ONCHANGE Control_Click(32)
+               PICTURE "BITMAP20"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_33
+               ROW    29
+               COL    143
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "TimePicker"
+               ONCHANGE Control_Click(33)
+               PICTURE "BITMAP19"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_34
+               ROW    29
+               COL    170
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "Qhtm"
+               ONCHANGE Control_Click(34)
+               PICTURE "BITMAP32"
+        END CHECKBUTTON  
+
+        DEFINE CHECKBUTTON Control_35
+               ROW    29
+               COL    197
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               TOOLTIP   "TsBrowse"
+               ONCHANGE Control_Click(35)
+               PICTURE "BITMAP23"
+        END CHECKBUTTON  
+
+        DEFINE FRAME Frame_1
+               ROW    28
+               COL    230
+               WIDTH  130
+               HEIGHT 51
+               CAPTION "User Components"
+               OPAQUE .T.
+        END FRAME  
+
+        DEFINE COMBOBOX XCombo_1
+               ROW    48
+               COL    240
+               WIDTH  100
+               HEIGHT 100
+               ITEMS {""}
+        END COMBOBOX  
+
+    END PAGE 
+
+    PAGE 'Menu Builder'
+
+        DEFINE BUTTONEX XButton_10
+               ROW    29
+               COL    8
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP37"
+               ICON NIL
+               ACTION MenuBuilder( "MAIN" )
+               TOOLTIP "Main Menu Builder"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_11
+               ROW    29
+               COL    35
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP38"
+               ICON NIL
+               ACTION MenuBuilder( "CONTEXT" )
+               TOOLTIP "Context Menu Builder"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_12
+               ROW    29
+               COL    62
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP39"
+               ICON NIL
+               ACTION MenuBuilder( "STATUSBAR" )
+               TOOLTIP "StatusBar Builder"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_13
+               ROW    29
+               COL    89
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP40"
+               ICON NIL
+               ACTION MenuBuilder( "TOOLBAR" )
+               TOOLTIP "ToolBar Builder"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_14
+               ROW    29
+               COL    116
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP41"
+               ICON NIL
+               ACTION MenuBuilder( "NOTIFY" )
+               TOOLTIP "Notify Menu Builder"
+        END BUTTONEX  
+
+        DEFINE BUTTONEX XButton_15
+               ROW    29
+               COL    143
+               WIDTH  25
+               HEIGHT 26
+               CAPTION ""
+               PICTURE "BITMAP42"
+               ICON NIL
+               ACTION MenuBuilder( "DROPDOWN" )
+               TOOLTIP "Dropdown Menu Builder"
+        END BUTTONEX  
+
+    END PAGE 
+
+  END TAB 
+
+END WINDOW
+
+

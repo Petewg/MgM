@@ -1,0 +1,68 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 240 HEIGHT 254 CHILD NOMINIMIZE NOSYSMENU ON INTERACTIVECLOSE exit() ON SIZE wObjInspResize() ON MAXIMIZE wObjInspResize()
+
+     DEFINE CONTEXT MENU
+            MENUITEM "Copy full name to clipboard" ACTION COPYCLIP()
+     END MENU
+
+     DEFINE COMBOBOX XCombo_1
+            ROW    4
+            COL    2
+            WIDTH  220
+            HEIGHT 200
+            ONCHANGE Xpreenchegrid()
+     END COMBOBOX  
+
+  DEFINE TAB XTab_2 AT 30,2 WIDTH 220 HEIGHT 190 VALUE 1 FONT "Arial" SIZE 9 TOOLTIP "Double Click To Edit" ON CHANGE Nil
+
+    PAGE "Properties"
+
+        DEFINE GRID XGrid_1
+               ROW    30
+               COL    6
+               WIDTH  205
+               HEIGHT 152
+               ITEMS  {}
+               WIDTHS { 90,100 }
+               HEADERS {'Property','Value'}
+               ONDBLCLICK XgridPropEdit()
+        END GRID  
+
+    END PAGE 
+
+    PAGE "Events"
+
+        DEFINE GRID XGrid_2
+               ROW    30
+               COL    6
+               WIDTH  205
+               HEIGHT 152
+               ITEMS  {}
+               WIDTHS { 90,100 }
+               HEADERS {'Event','Value'}
+               ONDBLCLICK XgridEventEdit()
+        END GRID  
+
+    END PAGE 
+
+    PAGE "Methods"
+
+        DEFINE GRID XGrid_3
+               ROW    30
+               COL    0
+               WIDTH  206
+               HEIGHT 156
+               ITEMS  {}
+               WIDTHS {100}
+               HEADERS {'Methods'}
+        END GRID  
+
+    END PAGE 
+
+  END TAB 
+
+END WINDOW
+
+

@@ -1,0 +1,316 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" ON INIT toolbarinit()
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    10
+            WIDTH  230
+            HEIGHT 275
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    20
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "Name:"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    50
+            COL    30
+            WIDTH  50
+            HEIGHT 20
+            VALUE "Caption:"
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    80
+            COL    30
+            WIDTH  40
+            HEIGHT 20
+            VALUE "Picture:"
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    110
+            COL    30
+            WIDTH  40
+            HEIGHT 20
+            VALUE "Tooltip:"
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    200
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "Separator:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    20
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE ToolbarNameChange()
+            ONLOSTFOCUS ToolbarNameChange()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    50
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE toolbarvaluechange()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    80
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE toolbarvaluechange()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_4
+            ROW    110
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE toolbarvaluechange()
+     END TEXTBOX 
+
+    DEFINE BUTTON Button_1
+           ROW    20
+           COL    250
+           WIDTH  100
+           HEIGHT 28
+           ACTION toolbarok(.f.)
+           CAPTION "Ok"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    60
+           COL    250
+           WIDTH  100
+           HEIGHT 28
+           ACTION toolbarcancel()
+           CAPTION "Cancel"
+     END BUTTON  
+
+     DEFINE FRAME Frame_2
+            ROW    299
+            COL    9
+            WIDTH  335
+            HEIGHT 34
+            OPAQUE .T.
+     END FRAME  
+
+    DEFINE BUTTON Button_3
+           ROW    300
+           COL    10
+           WIDTH  60
+           HEIGHT 30
+           ACTION toolbarup()
+           PICTURE "BITMAP45"
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    300
+           COL    70
+           WIDTH  60
+           HEIGHT 30
+           ACTION toolbardown()
+           PICTURE "BITMAP46"
+     END BUTTON  
+
+     DEFINE LABEL Label_6
+            ROW    230
+            COL    30
+            WIDTH  70
+            HEIGHT 20
+            VALUE "AutoSize:"
+     END LABEL  
+
+    DEFINE CHECKBOX Check_1
+           ROW    170
+           COL    100
+           WIDTH  20
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE toolbarvaluechange()
+     END CHECKBOX  
+
+    DEFINE CHECKBOX Check_2
+           ROW    200
+           COL    100
+           WIDTH  20
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE toolbarvaluechange()
+     END CHECKBOX  
+
+    DEFINE CHECKBOX Check_3
+           ROW    230
+           COL    100
+           WIDTH  20
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE toolbarvaluechange()
+     END CHECKBOX  
+
+    DEFINE BUTTON Button_7
+           ROW    300
+           COL    130
+           WIDTH  53
+           HEIGHT 30
+           ACTION toolbarnext()
+           CAPTION "Next"
+     END BUTTON  
+
+    DEFINE BUTTON Button_8
+           ROW    300
+           COL    182
+           WIDTH  53
+           HEIGHT 30
+           ACTION toolbarprior()
+           CAPTION "Prior"
+     END BUTTON  
+
+    DEFINE BUTTON Button_9
+           ROW    300
+           COL    234
+           WIDTH  53
+           HEIGHT 30
+           ACTION toolbarinsert()
+           CAPTION "Insert"
+     END BUTTON  
+
+    DEFINE BUTTON Button_10
+           ROW    300
+           COL    288
+           WIDTH  52
+           HEIGHT 30
+           ACTION toolbardelete()
+           CAPTION "Delete"
+     END BUTTON  
+
+     DEFINE GRID Grid_1
+            ROW    340
+            COL    20
+            WIDTH  310
+            HEIGHT 120
+            ITEMS { {""} }
+            WIDTHS { 100 }
+            HEADERS {'BUTTONS'}
+            ONCHANGE toolbarfillform()
+     END GRID  
+
+    DEFINE BUTTON Button_5
+           ROW    250
+           COL    250
+           WIDTH  100
+           HEIGHT 28
+           ACTION toolbarprop()
+           CAPTION "Properties..."
+     END BUTTON  
+
+     DEFINE LABEL Label_7
+            ROW    260
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "DropDown:"
+     END LABEL  
+
+    DEFINE CHECKBOX Check_4
+           ROW    260
+           COL    100
+           WIDTH  20
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE ToolbarDropDownChange()
+     END CHECKBOX  
+
+     DEFINE LABEL Label_8
+            ROW    200
+            COL    130
+            WIDTH  70
+            HEIGHT 25
+            VALUE "W.DropDn:"
+     END LABEL  
+
+     DEFINE LABEL Label_9
+            ROW    230
+            COL    130
+            WIDTH  40
+            HEIGHT 20
+            VALUE "Check:"
+     END LABEL  
+
+     DEFINE LABEL Label_10
+            ROW    260
+            COL    130
+            WIDTH  60
+            HEIGHT 20
+            VALUE "Group:"
+     END LABEL  
+
+    DEFINE CHECKBOX Check_5
+           ROW    200
+           COL    210
+           WIDTH  20
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE ToolbarWholeDropDownChange()
+     END CHECKBOX  
+
+    DEFINE CHECKBOX Check_6
+           ROW    230
+           COL    210
+           WIDTH  20
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE toolbarvaluechange()
+     END CHECKBOX  
+
+    DEFINE CHECKBOX Check_7
+           ROW    260
+           COL    210
+           WIDTH  20
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE toolbarvaluechange()
+     END CHECKBOX  
+
+     DEFINE LABEL Label_11
+            ROW    140
+            COL    30
+            WIDTH  40
+            HEIGHT 24
+            VALUE "Action:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_5
+            ROW    140
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE toolbarvaluechange()
+     END TEXTBOX 
+
+     DEFINE LABEL Label_12
+            ROW    170
+            COL    30
+            WIDTH  40
+            HEIGHT 24
+            VALUE "Adjust:"
+     END LABEL  
+
+END WINDOW
+
+

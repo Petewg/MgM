@@ -1,0 +1,83 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 287 HEIGHT 245 TITLE "Property Edit For:" TOPMOST NOMINIMIZE NOMAXIMIZE NOSIZE ON INIT Ld_base("XGRIDPROPCOMBO")
+
+     DEFINE LABEL Label_1
+            ROW    25
+            COL    20
+            WIDTH  75
+            HEIGHT 24
+            VALUE "Label_1"
+            FONTBOLD .T.
+     END LABEL  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    50
+            COL    20
+            WIDTH  240
+            HEIGHT 170
+            ONCHANGE SeeFont()
+            FONTBOLD .T.
+            VALUESOURCE ""
+            GRIPPERTEXT ""
+     END COMBOBOX  
+
+     DEFINE LABEL Label_2
+            ROW    25
+            COL    105
+            WIDTH  150
+            HEIGHT 24
+            VALUE "AaBbCcDd-12..90"
+            FONTSIZE 12
+            FONTBOLD .T.
+            VISIBLE .F.
+     END LABEL  
+
+    DEFINE BUTTON Button_1
+           ROW    170
+           COL    20
+           WIDTH  100
+           HEIGHT 28
+           ACTION xgridpropcombok()
+           CAPTION "Ok"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    170
+           COL    150
+           WIDTH  100
+           HEIGHT 28
+           ACTION xgridpropcombno()
+           CAPTION "Cancel"
+     END BUTTON  
+
+     DEFINE FRAME Frame_1
+            ROW    5
+            COL    5
+            WIDTH  270
+            HEIGHT 200
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE TEXTBOX Text_1
+            ROW    90
+            COL    20
+            WIDTH  232
+            HEIGHT 23
+     END TEXTBOX 
+
+     DEFINE RADIOGROUP RadioGroup_1
+            ROW    120
+            COL    20
+            WIDTH  120
+            HEIGHT 50
+            OPTIONS {'Save as txt','Save as var'}
+            SPACING 5
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP  
+
+END WINDOW
+
+

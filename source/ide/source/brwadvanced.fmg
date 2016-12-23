@@ -1,0 +1,390 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+/*
+
+HMGS - MiniGUI - IDE - Harbour Win32 GUI Designer
+
+Copyright 2005-2015 Walter Formigoni <walter.formigoni@gmail.com>
+http://sourceforge.net/projects/hmgs-minigui/
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this software; see the file COPYING. If not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+(or visit the web site http://www.gnu.org/).
+
+
+Parts of this project are based upon:
+
+MINIGUI - Harbour Win32 GUI Designer
+
+Copyright 2002 Roberto Lopez <roblez@ciudad.com.ar>
+http://www.geocities.com/harbour_minigui/
+
+Harbour Minigui IDE
+
+(c)2004-2008 Roberto Lopez <roblez@ciudad.com.ar>
+http://www.geocities.com/harbour_minigui/
+
+(c)2007 Arcangelo Molinaro <arcangelo.molinaro@fastwebnet.it>
+BrwAdvanced.fmg donated to public domine
+for Minigui HMGS-IDE by Walter Formigoni.
+Browse Automated Control 'WorkArea' , 'Fields', 'Widths', 'Headers'
+'Valid', 'ValidMessages','Image', 'ReadOnlyFields','Justify','When',
+'OnHeadClick' .
+Rel.0.26  Date : 17/09/2007 Time : 18.30
+
+*/
+
+
+DEFINE WINDOW TEMPLATE AT 0 , 183 WIDTH 620 HEIGHT 590 TITLE "Advanced Browse Settings" CHILD ON INIT ( aOldValues := BRW_STRT( A1, A2, A3, A4, aOldValues ) )  ON LOSTFOCUS WND_INTCLS(.F.) ON GOTFOCUS WND_INTCLS(.T.)
+
+     DEFINE COMBOBOX Combo_1
+            ROW    30
+            COL    30
+            WIDTH  300
+            HEIGHT 300
+            ITEMS aMyFields
+            VALUE 1
+            TOOLTIP "Choice a Field"
+            ONCHANGE ( aOldValues := ADV_CHOICE( A1, A2, A3, A4, aOldValues ) )
+     END COMBOBOX
+
+     DEFINE TEXTBOX Text_1
+            ROW    80
+            COL    30
+            WIDTH  300
+            HEIGHT 25
+            FONTSIZE 12
+            TOOLTIP "Type a 'Valid' clause"
+            ONGOTFOCUS bckgrndnew()
+            ONLOSTFOCUS (aOldValues:=brw_settxtVLD(A3,aOldValues))
+     END TEXTBOX
+
+     DEFINE TEXTBOX Text_2
+            ROW    150
+            COL    30
+            WIDTH  300
+            HEIGHT 25
+            FONTSIZE 12
+            TOOLTIP "Type a 'ValidMessages' clause"
+            ONGOTFOCUS bckgrndnew()
+            ONLOSTFOCUS (aOldValues:=brw_settxtVM(A3,aOldValues))
+     END TEXTBOX
+
+     DEFINE TEXTBOX Text_3
+            ROW    220
+            COL    30
+            WIDTH  300
+            HEIGHT 25
+            FONTSIZE 12
+            TOOLTIP "Type an 'Image' valid name"
+            ONGOTFOCUS bckgrndnew()
+            ONLOSTFOCUS (aOldValues:=brw_settxtIMG(A3,aOldValues))
+     END TEXTBOX
+
+     DEFINE TEXTBOX Text_6
+            ROW    290
+            COL    30
+            WIDTH  300
+            HEIGHT 25
+            FONTSIZE 12
+            TOOLTIP "Type a 'When' valid clause"
+            ONGOTFOCUS bckgrndnew()
+            ONLOSTFOCUS (aOldValues:=brw_settxtwhen(A3,aOldValues))
+     END TEXTBOX
+
+     DEFINE TEXTBOX Text_7
+            ROW    360
+            COL    30
+            WIDTH  300
+            HEIGHT 25
+            FONTSIZE 12
+            TOOLTIP "Type an 'OnHeadClick' valid clause"
+            ONGOTFOCUS bckgrndnew()
+            ONLOSTFOCUS (aOldValues:=brw_settxtOHC(A3,aOldValues))
+     END TEXTBOX
+
+     DEFINE TEXTBOX Text_4
+            ROW    430
+            COL    50
+            WIDTH  100
+            HEIGHT 25
+            FONTSIZE 12
+            TOOLTIP "Choice a value"
+            ONGOTFOCUS bckgrndnew()
+            ONLOSTFOCUS (aOldValues:=brw_settxtRDO(A3,aOldValues))
+            READONLY .T.
+     END TEXTBOX
+
+     DEFINE TEXTBOX Text_5
+            ROW    430
+            COL    320
+            WIDTH  205
+            HEIGHT 25
+            FONTSIZE 12
+            TOOLTIP "Choice a value"
+            ONGOTFOCUS bckgrndnew()
+            ONLOSTFOCUS (aOldValues:=brw_settxtjfy(A3,aOldValues))
+            READONLY .T.
+     END TEXTBOX
+
+     DEFINE RADIOGROUP RadioGroup_1
+            ROW    470
+            COL    55
+            WIDTH  33
+            HEIGHT 29
+            OPTIONS {".T.",".F.","NIL"}
+            TOOLTIP "Choice a 'ReadOnlyFields' value"
+            ONCHANGE RDGP_settxt4()
+            TRANSPARENT .T.
+            SPACING 8
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE RADIOGROUP RadioGroup_2
+            ROW    470
+            COL    310
+            WIDTH  67
+            HEIGHT 25
+            OPTIONS {'LEFT','CENTER','RIGHT',"NIL"}
+            FONTSIZE 8
+            TOOLTIP "Choice a 'Justify' value"
+            ONCHANGE RDGP_settxt5()
+            SPACING 2
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE LABEL Label_1
+            ROW    60
+            COL    30
+            WIDTH  150
+            HEIGHT 20
+            VALUE "'Valid'"
+     END LABEL
+
+     DEFINE LABEL Label_2
+            ROW    130
+            COL    30
+            WIDTH  150
+            HEIGHT 20
+            VALUE "'ValidMessages'"
+     END LABEL
+
+     DEFINE LABEL Label_3
+            ROW    200
+            COL    30
+            WIDTH  150
+            HEIGHT 20
+            VALUE "'Image'"
+     END LABEL
+
+     DEFINE LABEL Label_6
+            ROW    270
+            COL    30
+            WIDTH  150
+            HEIGHT 20
+            VALUE "'When'"
+     END LABEL
+
+     DEFINE LABEL Label_7
+            ROW    340
+            COL    30
+            WIDTH  150
+            HEIGHT 20
+            VALUE "'OnHeadClick'"
+     END LABEL
+
+     DEFINE LABEL Label_8
+            ROW    10
+            COL    30
+            WIDTH  150
+            HEIGHT 18
+            VALUE "'Fields'"
+     END LABEL
+
+     DEFINE FRAME Frame_1
+            ROW    400
+            COL    30
+            WIDTH  175
+            HEIGHT 110
+            CAPTION "'ReadOnlyFields'"
+            OPAQUE .T.
+     END FRAME
+
+     DEFINE FRAME Frame_4
+            ROW    400
+            COL    290
+            WIDTH  300
+            HEIGHT 110
+            CAPTION "'Justify'"
+            OPAQUE .T.
+     END FRAME
+
+    DEFINE BUTTON Button_1
+           ROW    470
+           COL    225
+           WIDTH  40
+           HEIGHT 40
+           ACTION EXITTPM_WND()
+           CAPTION "Close"
+           FONTSIZE 8
+           TOOLTIP "Click to Close Windows"
+     END BUTTON
+
+     DEFINE RADIOGROUP RadioGroup_3
+            ROW    90
+            COL    360
+            WIDTH  80
+            HEIGHT 20
+            OPTIONS {'NONE','DEFAULT',"NIL"}
+            TOOLTIP "Choice a 'Valid' value"
+            ONCHANGE RDG3TXT1_STNL()
+            SPACING 8
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE RADIOGROUP RadioGroup_4
+            ROW    30
+            COL    360
+            WIDTH  80
+            HEIGHT 20
+            OPTIONS {'NONE','DEFAULT',"NIL"}
+            TOOLTIP "Click on Help Button to continue......"
+            ONCHANGE (aOldValues:=BAO_SETDEFALL(A3,aOldValues))
+            SPACING 8
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE FRAME Frame_5
+            ROW    70
+            COL    350
+            WIDTH  260
+            HEIGHT 50
+            CAPTION "'Valid'"
+            OPAQUE .T.
+     END FRAME
+
+     DEFINE RADIOGROUP RadioGroup_5
+            ROW    160
+            COL    360
+            WIDTH  80
+            HEIGHT 20
+            OPTIONS {'NONE','DEFAULT',"NIL"}
+            TOOLTIP "Choice a 'ValidMessages' value"
+            ONCHANGE RDG5TXT2_STNL()
+            SPACING 8
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE FRAME Frame_6
+            ROW    140
+            COL    350
+            WIDTH  260
+            HEIGHT 50
+            CAPTION "'ValidMessages'"
+            OPAQUE .T.
+     END FRAME
+
+     DEFINE RADIOGROUP RadioGroup_6
+            ROW    230
+            COL    360
+            WIDTH  80
+            HEIGHT 20
+            OPTIONS {'NONE','DEFAULT',"NIL"}
+            TOOLTIP "Choice an 'Image' value"
+            ONCHANGE RDG6TXT3_STNL()
+            SPACING 8
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE FRAME Frame_7
+            ROW    210
+            COL    350
+            WIDTH  260
+            HEIGHT 50
+            CAPTION "'Image'"
+            OPAQUE .T.
+     END FRAME
+
+     DEFINE RADIOGROUP RadioGroup_7
+            ROW    300
+            COL    360
+            WIDTH  80
+            HEIGHT 20
+            OPTIONS {'NONE','DEFAULT',"NIL"}
+            TOOLTIP "Choice a 'When' value"
+            ONCHANGE RDG7TXT6_STNL()
+            SPACING 8
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE FRAME Frame_8
+            ROW    280
+            COL    350
+            WIDTH  260
+            HEIGHT 50
+            CAPTION "'When'"
+            OPAQUE .T.
+     END FRAME
+
+     DEFINE RADIOGROUP RadioGroup_8
+            ROW    370
+            COL    360
+            WIDTH  80
+            HEIGHT 20
+            OPTIONS {'NONE','DEFAULT',"NIL"}
+            TOOLTIP "Choice an 'OnHeadClick' value"
+            ONCHANGE RDG8TXT7_STNL()
+            SPACING 8
+            READONLY NIL
+            HORIZONTAL .T.
+     END RADIOGROUP
+
+     DEFINE FRAME Frame_9
+            ROW    350
+            COL    350
+            WIDTH  260
+            HEIGHT 50
+            CAPTION "'OnHeadClick'"
+            OPAQUE .T.
+     END FRAME
+
+     DEFINE FRAME Frame_10
+            ROW    10
+            COL    350
+            WIDTH  260
+            HEIGHT 50
+            CAPTION "'Global Settings ALL FIELDS'"
+            OPAQUE .T.
+     END FRAME
+
+    DEFINE BUTTON Button_3
+           ROW    410
+           COL    225
+           WIDTH  40
+           HEIGHT 40
+           ACTION OPEN_absw_hlpfl()
+           TOOLTIP "Click for Help"
+           PICTURE "BITMAP55"
+     END BUTTON
+
+END WINDOW
+
+

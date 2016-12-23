@@ -1,0 +1,64 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 256 WIDTH 305 HEIGHT 279 TITLE "DropDown Menu Builder" ON INIT dropdowninit()
+
+     DEFINE GRID Grid_1
+            ROW    20
+            COL    10
+            WIDTH  170
+            HEIGHT 200
+            ITEMS { {""} }
+            WIDTHS { 100 }
+            HEADERS {'OWNERS'}
+            ONDBLCLICK dropdowngridclick()
+     END GRID  
+
+    DEFINE BUTTON Button_1
+           ROW    20
+           COL    190
+           WIDTH  100
+           HEIGHT 28
+           ACTION dropdownnew()
+           CAPTION "New Menu..."
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    50
+           COL    190
+           WIDTH  100
+           HEIGHT 28
+           ACTION dropdownedit()
+           CAPTION "Edit Menu..."
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    80
+           COL    190
+           WIDTH  100
+           HEIGHT 28
+           ACTION dropdowndelete()
+           CAPTION "Delete Menu"
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    110
+           COL    190
+           WIDTH  100
+           HEIGHT 28
+           ACTION dropdownname()
+           CAPTION "Change Owner..."
+     END BUTTON  
+
+    DEFINE BUTTON Button_5
+           ROW    190
+           COL    190
+           WIDTH  100
+           HEIGHT 28
+           ACTION dropdownclose()
+           CAPTION "Close"
+     END BUTTON  
+
+END WINDOW
+
+

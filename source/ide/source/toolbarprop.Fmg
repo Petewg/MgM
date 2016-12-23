@@ -1,0 +1,268 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 166 , 551 WIDTH 379 HEIGHT 400 TITLE "ToolBar Properties" ON INIT toolbarpropinit()
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    20
+            WIDTH  220
+            HEIGHT 340
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE BUTTON Button_1
+            ROW    20
+            COL    260
+            WIDTH  100
+            HEIGHT 28
+            ACTION toolbarpropok()
+            CAPTION "Ok"
+     END BUTTON  
+
+     DEFINE BUTTON Button_2
+            ROW    60
+            COL    260
+            WIDTH  100
+            HEIGHT 28
+            ACTION toolbarpropcancel()
+            CAPTION "Cancel"
+     END BUTTON  
+
+     DEFINE BUTTON Button_3
+            ROW    290
+            COL    260
+            WIDTH  100
+            HEIGHT 28
+            ACTION toolbarpropfont()
+            CAPTION "Font..."
+     END BUTTON  
+
+     DEFINE LABEL Label_1
+            ROW    20
+            COL    25
+            WIDTH  80
+            HEIGHT 20
+            VALUE "TIBar Name:"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    50
+            COL    25
+            WIDTH  80
+            HEIGHT 20
+            VALUE "Caption:"
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    80
+            COL    25
+            WIDTH  80
+            HEIGHT 20
+            VALUE "Action:"
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    110
+            COL    25
+            WIDTH  80
+            HEIGHT 20
+            VALUE "Button Width:"
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    235
+            COL    25
+            WIDTH  45
+            HEIGHT 20
+            VALUE "Flat:"
+     END LABEL  
+
+     DEFINE LABEL Label_6
+            ROW    235
+            COL    125
+            WIDTH  45
+            HEIGHT 20
+            VALUE "Bottom:"
+     END LABEL  
+
+     DEFINE LABEL Label_7
+            ROW    260
+            COL    25
+            WIDTH  60
+            HEIGHT 20
+            VALUE "RightText:"
+     END LABEL  
+
+     DEFINE LABEL Label_8
+            ROW    260
+            COL    125
+            WIDTH  45
+            HEIGHT 24
+            VALUE "Border:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    20
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Toolbar_1"
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    50
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    80
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_4
+            ROW    110
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+            VALUE "64"
+     END TEXTBOX 
+
+     DEFINE CHECKBOX Check_1
+            ROW    235
+            COL    95
+            WIDTH  20
+            HEIGHT 20
+            CAPTION ""
+            VALUE .T.
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_2
+            ROW    235
+            COL    195
+            WIDTH  20
+            HEIGHT 20
+            CAPTION ""
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_3
+            ROW    260
+            COL    95
+            WIDTH  20
+            HEIGHT 20
+            CAPTION ""
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_4
+            ROW    260
+            COL    195
+            WIDTH  20
+            HEIGHT 20
+            CAPTION ""
+     END CHECKBOX  
+
+     DEFINE LABEL Label_9
+            ROW    140
+            COL    25
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Button Height:"
+     END LABEL  
+
+     DEFINE LABEL Label_10
+            ROW    170
+            COL    25
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Tooltip:"
+     END LABEL  
+
+     DEFINE LABEL Label_11
+            ROW    200
+            COL    25
+            WIDTH  80
+            HEIGHT 24
+            VALUE "GripperText:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_5
+            ROW    140
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+            VALUE "64"
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_6
+            ROW    170
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_7
+            ROW    200
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE LABEL Label_12
+            ROW    285
+            COL    25
+            WIDTH  50
+            HEIGHT 24
+            VALUE "Break:"
+     END LABEL  
+
+     DEFINE CHECKBOX Check_5
+            ROW    285
+            COL    95
+            WIDTH  20
+            HEIGHT 20
+            CAPTION ""
+     END CHECKBOX  
+
+     DEFINE LABEL Label_13
+            ROW    285
+            COL    125
+            WIDTH  60
+            HEIGHT 24
+            VALUE "Customize"
+     END LABEL  
+
+     DEFINE LABEL Label_14
+            ROW    310
+            COL    25
+            WIDTH  50
+            HEIGHT 24
+            VALUE "Wrap"
+     END LABEL  
+
+     DEFINE CHECKBOX Check_6
+            ROW    280
+            COL    195
+            WIDTH  20
+            HEIGHT 28
+            CAPTION ""
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_7
+            ROW    310
+            COL    95
+            WIDTH  20
+            HEIGHT 28
+            CAPTION ""
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END CHECKBOX  
+
+END WINDOW
+
+

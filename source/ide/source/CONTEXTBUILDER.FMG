@@ -1,0 +1,221 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 109 , 222 WIDTH 366 HEIGHT 492 MODAL ON INIT ContextInit()
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    10
+            WIDTH  230
+            HEIGHT 230
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    30
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "Caption:"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    60
+            COL    30
+            WIDTH  50
+            HEIGHT 20
+            VALUE "Action:"
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    90
+            COL    30
+            WIDTH  40
+            HEIGHT 20
+            VALUE "Name:"
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    120
+            COL    30
+            WIDTH  40
+            HEIGHT 20
+            VALUE "Image:"
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    150
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "Checked"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    30
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE CONTEXTCAPTIONCHANGE()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    60
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE CONTEXTACTIONCHANGE()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    90
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE CONTEXTNAMECHANGE()
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_4
+            ROW    120
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE CONTEXTIMAGECHANGE()
+     END TEXTBOX 
+
+    DEFINE CHECKBOX Check_1
+           ROW    150
+           COL    100
+           WIDTH  40
+           HEIGHT 20
+           CAPTION ""
+           ONCHANGE CONTEXTCHECKEDCHANGE()
+     END CHECKBOX  
+
+    DEFINE BUTTON Button_1
+           ROW    20
+           COL    250
+           WIDTH  100
+           HEIGHT 28
+           ACTION contextOK()
+           CAPTION "OK"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    60
+           COL    250
+           WIDTH  100
+           HEIGHT 28
+           ACTION contextCancel()
+           CAPTION "Cancel"
+     END BUTTON  
+
+     DEFINE FRAME Frame_2
+            ROW    248
+            COL    10
+            WIDTH  330
+            HEIGHT 44
+            OPAQUE .T.
+     END FRAME  
+
+    DEFINE BUTTON Button_3
+           ROW    255
+           COL    15
+           WIDTH  58
+           HEIGHT 30
+           ACTION contextUp()
+           PICTURE "BITMAP45"
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    255
+           COL    75
+           WIDTH  58
+           HEIGHT 30
+           ACTION ContextDown()
+           PICTURE "BITMAP46"
+     END BUTTON  
+
+     DEFINE GRID Grid_1
+            ROW    300
+            COL    10
+            WIDTH  330
+            HEIGHT 140
+            ITEMS { {""} }
+            WIDTHS { 250 }
+            HEADERS {'ITEMS OF MENU'}
+            ONCHANGE ContextGridChange()
+     END GRID  
+
+    DEFINE BUTTON Button_7
+           ROW    255
+           COL    135
+           WIDTH  50
+           HEIGHT 30
+           ACTION ContextNext()
+           CAPTION "Next"
+     END BUTTON  
+
+    DEFINE BUTTON Button_8
+           ROW    255
+           COL    185
+           WIDTH  50
+           HEIGHT 30
+           ACTION ContextPrior()
+           CAPTION "Prior"
+     END BUTTON  
+
+    DEFINE BUTTON Button_9
+           ROW    255
+           COL    235
+           WIDTH  50
+           HEIGHT 30
+           ACTION ContextInsert()
+           CAPTION "Insert"
+     END BUTTON  
+
+    DEFINE BUTTON Button_10
+           ROW    255
+           COL    285
+           WIDTH  50
+           HEIGHT 30
+           ACTION ContextDelete()
+           CAPTION "Delete"
+     END BUTTON  
+
+     DEFINE TEXTBOX Text_5
+            ROW    210
+            COL    100
+            WIDTH  120
+            HEIGHT 24
+            ONCHANGE CONTEXTMESSAGECHANGE()
+     END TEXTBOX 
+
+     DEFINE LABEL Label_6
+            ROW    180
+            COL    30
+            WIDTH  50
+            HEIGHT 20
+            VALUE "Disabled"
+     END LABEL  
+
+     DEFINE LABEL Label_7
+            ROW    210
+            COL    30
+            WIDTH  60
+            HEIGHT 20
+            VALUE "Message"
+     END LABEL  
+
+    DEFINE CHECKBOX Check_2
+           ROW    180
+           COL    100
+           WIDTH  100
+           HEIGHT 28
+           CAPTION ""
+           ONCHANGE CONTEXTDISABLEDCHANGE()
+     END CHECKBOX  
+
+END WINDOW
+
+
