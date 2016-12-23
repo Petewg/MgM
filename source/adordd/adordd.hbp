@@ -1,0 +1,13 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/adordd
+
+-I../../include
+
+-hbx=../../include/adordd.hbx
+
+-w2 -es2 -ko 
+
+adordd.prg

@@ -1,0 +1,12 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/bostaurus
+
+-I../../include
+-hbx=../../include/${hb_name}.hbx
+
+-w2 -es2 -ko
+
+bostaurus.prg
