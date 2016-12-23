@@ -1,0 +1,13 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/hbprinter
+
+-I../../include;./
+
+-hbx=../../include/${hb_name}.hbx
+
+-w3 -es2 -ko 
+
+winprint.prg

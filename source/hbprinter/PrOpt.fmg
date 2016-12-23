@@ -1,0 +1,114 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 180 , 601 WIDTH 355 HEIGHT 170 TITLE aopisy[19] ICON "ZZZ_PRINTICON" MODAL NOSIZE NOSYSMENU
+
+     DEFINE FRAME PrOptFrame
+            ROW    2
+            COL    2
+            WIDTH  345 - Iif( _HMG_IsXP, GetBorderWidth(), 0 )
+            HEIGHT 135 - Iif( _HMG_IsXP, GetBorderHeight(), 0 )
+     END FRAME
+
+     DEFINE LABEL Label_11
+            ROW    10
+            COL    10
+            VALUE aopisy[20]
+            WIDTH  120
+            HEIGHT 24
+     END LABEL
+
+     DEFINE TEXTBOX textFrom
+            ROW    10
+            COL    135
+            WIDTH  30
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+				NUMERIC .T.
+				MAXLENGTH 3
+				RIGHTALIGN .T.
+				ON ENTER PrOpt.TextTo.setfocus
+     END TEXTBOX
+
+     DEFINE LABEL Label_12
+            ROW    40
+            COL    10
+            WIDTH  120
+            HEIGHT 24
+            VALUE aopisy[21]
+     END LABEL
+
+     DEFINE TEXTBOX textTo
+            ROW    40
+            COL    135
+            WIDTH  30
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+				NUMERIC .T.
+				MAXLENGTH 3
+				RIGHTALIGN .T.
+				ON ENTER PrOpt.TextCopies.setfocus
+     END TEXTBOX
+
+     DEFINE LABEL Label_18
+            ROW    70
+            COL    10
+            WIDTH  120
+            HEIGHT 24
+            VALUE aopisy[22]
+     END LABEL
+
+     DEFINE TEXTBOX textCopies
+            ROW    70
+            COL    135
+            WIDTH  30
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+				NUMERIC .T.
+				MAXLENGTH 3
+				RIGHTALIGN .T.
+				ON ENTER PrOpt.prnCombo.setfocus
+     END TEXTBOX
+
+     DEFINE LABEL Label_13
+            ROW    100
+            COL    10
+            WIDTH  120
+            HEIGHT 24
+            VALUE aopisy[23]
+     END LABEL
+
+     DEFINE COMBOBOX prnCombo
+            ROW    100
+            COL    135
+            WIDTH  200
+            HEIGHT 100
+            ITEMS { aopisy[24], aopisy[25], aopisy[26], aopisy[27], aopisy[28] }
+            VALUE ::PRINTOPT
+            FONTNAME "Arial"
+            FONTSIZE 9
+				ON ENTER PrOpt.Button_14.setfocus
+     END COMBOBOX
+
+     DEFINE BUTTON button_14
+            ROW    10
+            COL    250
+            WIDTH  90
+            HEIGHT 24
+            ACTION {|| OKprint := .T., ::nFromPage := PrOpt.textFrom.Value, ::nToPage := PrOpt.textTo.Value, ::nCopies := Max( PrOpt.textCopies.Value, 1 ), ::PrintOpt := PrOpt.prnCombo.Value, PrOpt.Release }
+            CAPTION aopisy[35]
+     END BUTTON
+
+     DEFINE BUTTON button_15
+            ROW    40
+            COL    250
+            WIDTH  90
+            HEIGHT 24
+            ACTION PrOpt.Release
+            CAPTION aopisy[2]
+     END BUTTON
+
+END WINDOW
