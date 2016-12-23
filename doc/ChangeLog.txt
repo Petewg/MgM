@@ -1,3 +1,70 @@
+2016/12/19: HMG Extended Edition version 16.12.
+  * New: Added a basic support for the multi-monitors system:
+           - New: CountMonitors(), EnumDisplayMonitors(), GetMonitorInfo(),
+             MonitorFromPoint(), MonitorFromWindow(), WindowToMonitor() functions.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+  * Enhanced: The ButtonEx control supports the optional GRADIENTFILL <aGradient>
+           clause where aGradient can contain any number of gradients and should
+           be specified in the following way:
+             { { nPart, nClrStart, nClrEnd }, { nPart, nClrStart, nClrEnd }, ... }
+             nPart is to be specified as 0.25, 0.5, etc. and should aggregate to 1.
+           The gradient may be specified as Horizontal or Vertical (default value).
+           The BACKCOLOR clause is required and will determine the pressed gradient
+           color which should be defined similar to aGradient array.
+           Based upon a contribution of Petr Chornyj <myorg63@mail.ru>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo4.prg in folder \samples\Basic\ButtonEx)
+  * Modified: Revised a font management by DEFINE FONT <font> FONTNAME <name> ...
+           command:
+           - New: Added the helpful function GetFontParamByRef().
+             Syntax:
+               lResult := GetFontParamByRef( GetFontHandle( "fnt" ), @n, @s, ... )
+             (see demo2.prg in folder \samples\Basic\Font)
+           - Changed: The function GetFontList() uses new C-function EnumFontsEx()
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+  * Modified: Revised a global events management by SET EVENTS FUNCTION TO <name>
+           command:
+           - Changed: The internal function SetEventsFunc() was renamed to
+             SetGlobalListener() and added a verify of given funcname rightness;
+           - New: Added the helpful functions GetGlobalListener() and
+             ResetGlobalListener().
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+  * Changed: The C-function SendMessage( <hWnd>, ... ) will return an error when
+           a first parameter is not a valid window handle.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+  * Updated: 'Bos Taurus' Graphics Library (see source in folder \Source\BosTaurus):
+           - fixed a resource leakage in the various C-functions.
+           Bug was reported by Marek Olszewski <mol/at/pro.onet.pl>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\BTGraph)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.15.2 (from 3.15.1).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2016-12-16 11:05).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * Updated: HMGS-IDE v.1.4.2 Project Manager and Two-Way Visual Form Designer.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look for what's new at changelog.txt in folder \Ide)
+  * New: 'Ownerdraw ButtonEx control with gradient colors support' samples.
+           Based upon a contribution of HMG user KDJ.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\ButtonEx_2)
+  * Updated: 'ADORDD' sample with using TBROWSE control for a search result show.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\ADORDD_4)
+  * Updated: 'Stainway HMG Demo' sample by Jacek Kubica.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo1.prg in folder \samples\Basic\ButtonEx)
+  * Updated: 'Print Pie Graph' sample: updated the data for November 2016.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\GraphPrint)
+  * Updated: 'Virtual Grid Usage' sample:
+           - New: added export an array to DBF;
+           - New: added export a DBF To Excel workbook.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\Grid_8)
+
 2016/11/22: HMG Extended Edition version 16.11.
   * Fixed: Append a record in a Browse control (via <Alt+A>) worked also with
            the <Ctrl+Alt+A> and <Shift+Alt+A> hotkeys.
