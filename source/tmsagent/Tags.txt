@@ -1,0 +1,151 @@
+
+// +---------------------------------------+
+// | TMsAgent v1.0            TAGS.TXT     |
+// |                                       |
+// | AUTOR: Juan Carlos Salinas Ojeda      |
+// |        jcso@esm.com.mx                |
+// |        jcso@hotmail.com               |
+// |                                       |
+// | AGRADECIMIENTO ESPECIAL: Patrick Fan  |
+// | *Gracias Patrick, era mas sencillo de |
+// |  lo que podía imaginar*               |
+// |                                       |
+// | Este archivo contiene todos los TAGS  |
+// | que pueden ser usados con el Agente.  |
+// |                                       |
+// |                                       |
+// | 26 de Abril del 2004, México D.F.     |
+// |                                       |
+// +---------------------------------------+
+
+
+
+=====================================================================================
+Chr Tag
+======================================================================================
+Description
+
+Sets the character of the voice.
+Syntax
+
+\Chr=string\ Part Description
+
+string A string specifying the character of the voice.
+
+"Normal"    (Default) A normal tone of voice.
+
+"Monotone"    A monotone voice.
+
+"Whisper"    A whispered voice.
+
+Remarks
+This tag is supported only for TTS-generated output. The range of values for the parameter
+may vary depending on the installed TTS engine
+
+
+=====================================================================================
+Ctx Tag
+=====================================================================================
+Description
+Sets the context of the output text.
+
+Syntax
+\Ctx=string\ Part Description
+
+string A string specifying the context of the text that follows, which determines how symbols or abbreviations are spoken.
+
+"Address"    Addresses and/or phone numbers.
+
+"E-mail"    Electronic mail.
+
+"Unknown"    (Default) Context is unknown.
+
+Remarks
+This tag is supported only for TTS-generated output. The range of values for the parameter may
+vary depending on the installed TTS engine.
+
+=====================================================================================
+Emp Tag
+=====================================================================================
+Description
+
+Emphasizes the next word spoken. This tag must immediately precede the word.
+Syntax
+\Emp\
+
+Remarks
+This tag is supported only for TTS-generated output. The range of values for the parameter
+may vary depending on the installed TTS engine.
+
+=====================================================================================
+Lst Tag
+=====================================================================================
+Description
+Repeats last spoken statement for the character.
+
+Syntax
+\Lst\
+
+Remarks
+This tag enables a character repeat its last spoken statement. This tag must appear
+ by itself in the Speak method; no other text or parameters can be included. When the
+ spoken text is repeated, any other tags included in the original text are repeated,
+ except for bookmarks. Any .WAV and .LWV files included in the text are also repeated.
+
+=====================================================================================
+Map Tag
+=====================================================================================
+
+Description
+Maps spoken text to text displayed in the word balloon.
+
+Syntax
+\Map="spokentext"="balloontext"\ Part Description
+
+spokentext A string specifying the text for spoken output.
+balloontext A string specifying the text for word balloon output.
+
+Remarks
+This tag enables you to use different spoken text than that displayed in the word balloon.
+
+=====================================================================================
+Mrk Tag
+=====================================================================================
+
+Description
+Defines a bookmark in the spoken text.
+
+Syntax
+\Mrk=number\ Part Description
+
+number A Long integer value that identifies the bookmark.
+
+Remarks
+When the server processes a bookmark, it generates a bookmark event. You must specify a
+number greater than zero (0) and not equal to 2147483647 or 2147483646.
+
+=====================================================================================
+Pit Tag
+=====================================================================================
+
+Description
+Sets the baseline pitch of the output to the specified value in hertz.
+
+Syntax
+\Pit=number\ Part Description
+number The pitch in hertz.
+
+Remarks
+This tag is supported only for TTS-generated output. The range of values for the parameter
+may vary depending on the installed TTS engine.
+
+=====================================================================================
+Rst Tag
+=====================================================================================
+
+Description
+Resets all tags to the default settings.
+Syntax
+\Rst\
+
+

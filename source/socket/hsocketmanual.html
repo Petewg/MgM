@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<link rel="stylesheet" href="./hsocketmanual.css" type="text/css">
+<title>./hsocketmanual</title>
+<!-- Source: ././ -->
+<!-- Generated with ROBODoc Version 4.0.24 (May  6 2004) -->
+<!-- ROBODoc (c) 1994-2004 by Frans Slothouber and Jacco van Weert. -->
+</head>
+<body bgcolor="#FFFFFF">
+<a name="robo_top_of_doc">Generated from ././</a> with <a href="http://sourceforge.net/projects/robodoc/">ROBODoc</a> v4.0.24 on Sat Feb 19 09:57:31 2005
+<br />
+<h3 align="center">TABLE OF CONTENTS</h3>
+<ul>
+<li>1.   <a href="#robo0">TDecode/TDecode</a></li>
+<li>1.1.   <a href="#robo1">TDecode/TDecode:Decode</a></li>
+<li>1.2.   <a href="#robo2">TDecode/TDecode:new</a></li>
+<li>2.   <a href="#robo3">TFtp/TFtp</a></li>
+<li>3.   <a href="#robo4">THttp/THttp</a></li>
+<li>3.1.   <a href="#robo5">THttp/THttp:Connect</a></li>
+<li>3.2.   <a href="#robo6">THttp/THttp:Get</a></li>
+<li>3.3.   <a href="#robo7">THttp/THttp:Post</a></li>
+<li>4.   <a href="#robo8">TPair/TPair</a></li>
+<li>5.   <a href="#robo9">TPop3/TPop3</a></li>
+<li>5.1.   <a href="#robo10">TPop3/TPop3:Login</a></li>
+<li>5.2.   <a href="#robo11">TPop3/TPop3:new</a></li>
+<li>6.   <a href="#robo12">TSMTP/TSMTP</a></li>
+<li>7.   <a href="#robo13">TSocket/TSocket</a></li>
+</ul>
+<a name="robo0">
+<a name="TDecode2fTDecode">
+<h1>1.  TDecode/TDecode  </h1>
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    <strong>TDecode</strong>
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Decode string to pass in GET and POST method
+</pre><p><strong>METHODS</strong></p>
+<pre>    <a href="#robo2">TDecode:new</a>
+    <a href="#robo1">TDecode:Decode</a>
+    <strong>TDecode</strong>:Encode
+    <strong>TDecode</strong>:Decode64
+    <strong>TDecode</strong>:Encode64
+    <strong>TDecode</strong>:MD5
+    <strong>TDecode</strong>:HMAC_MD5
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    oSock := <strong>TDecode</strong>():new()
+
+    ? "Authorization: Basic "+oSock:encode64( "Aladdin:open sesame" )
+    ? "Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=="
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo4">THttp</a>
+</pre><a name="robo1">
+<a name="TDecode2fTDecode3aDecode">
+<h2>1.1.  TDecode/TDecode:Decode  </h2>
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo0">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    Decode - decode a String
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>    Decode( cString )
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Get a string after a POST/GET operation and transofrm in a valid value
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    oSock := <a href="#robo0">TDecode</a>():new()
+
+    ? oSock:decode( "hello%20world" ) // "hello world"
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo0">TDecode</a>:Encode
+</pre><a name="robo2">
+<a name="TDecode2fTDecode3anew">
+<h2>1.2.  TDecode/TDecode:new  </h2>
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo0">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    new - class costructor
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>    <a href="#robo0">TDecode</a>():new()
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a new <a href="#robo0">TDecode</a> object
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    oSock := <a href="#robo0">TDecode</a>():new()
+</pre><a name="robo3">
+<a name="TFtp2fTFtp">
+<h1>2.  TFtp/TFtp  </h1>
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    <strong>TFtp</strong>
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a FTP connection
+</pre><p><strong>METHODS</strong></p>
+<pre>    <strong>TFtp</strong>:New
+    <strong>TFtp</strong>:Connect
+    <strong>TFtp</strong>:Login
+    <strong>TFtp</strong>:Close
+    <strong>TFtp</strong>:List
+</pre><p><strong>EXAMPLE</strong></p>
+<pre></pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo4">THttp</a>
+</pre><a name="robo4">
+<a name="THttp2fTHttp">
+<h1>3.  THttp/THttp  </h1>
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    <strong>THttp</strong>
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a HTTP connection
+</pre><p><strong>METHODS</strong></p>
+<pre>    <strong>THttp</strong>:New
+    <a href="#robo5">THttp:Connect</a>
+    <strong>THttp</strong>:Close
+    <strong>THttp</strong>:SetProxy
+    <strong>THttp</strong>:SetUser
+    <a href="#robo6">THttp:Get</a>
+    <a href="#robo7">THttp:Post</a>
+</pre><p><strong>EXAMPLE</strong></p>
+<pre></pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo3">TFtp</a>
+</pre><a name="robo5">
+<a name="THttp2fTHttp3aConnect">
+<h2>3.1.  THttp/THttp:Connect  </h2>
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo4">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    Connect - connect to a remote server
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>    Connect( cAddress, nPort )
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Connect to a remote server on cAddress and nPort
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    #include "common.ch"
+    * ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+    FUNCTION Main( cProxy, nProxyPort )
+    * ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+    local oSock, cRet
+    local cServer  := "www.google.com" // "localhost"  //
+    local nPort    := 80               // 8080         //
+
+    DEFAULT nProxyPort TO "8080"
+
+    oSock := <a href="#robo4">THttp</a>():New()
+    if cProxy!=NIL
+       oSock:SetProxy( cProxy, VAL(nProxyPort) )
+    endif
+
+    ? "Connect to " +cServer +":" +alltrim(str( nPort ))
+    if oSock:Connect( cServer, nPort )
+       ? "Connected"
+
+       ? "Get homepage"
+       ? oSock:Get( "pippo:pluto@/" )
+
+       ? "Close connection"
+       if oSock:Close()
+          ? "Close successfull"
+       else
+          ? "Error on close connection"
+       endif
+    else
+       ? "Refused"
+    endif
+
+    RETURN NIL
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo6">THttp:Get</a>
+</pre><a name="robo6">
+<a name="THttp2fTHttp3aGet">
+<h2>3.2.  THttp/THttp:Get  </h2>
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo4">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    Get - get a remote page
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>    Get( cPage, aPair )
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Get a remote page
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    #include "common.ch"
+    * ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+    FUNCTION Main( cProxy, nProxyPort )
+    * ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+    local oSock, cRet
+    local cServer  := "www.google.com" // "localhost"  //
+    local nPort    := 80               // 8080         //
+
+    DEFAULT nProxyPort TO "8080"
+
+    oSock := <a href="#robo4">THttp</a>():New()
+    if cProxy!=NIL
+       oSock:SetProxy( cProxy, VAL(nProxyPort) )
+    endif
+
+    ? "Connect to " +cServer +":" +alltrim(str( nPort ))
+    if oSock:Connect( cServer, nPort )
+       ? "Connected"
+
+       ? "Get homepage"
+       ? oSock:Get( "pippo:pluto@/" )
+
+       ? "Close connection"
+       if oSock:Close()
+          ? "Close successfull"
+       else
+          ? "Error on close connection"
+       endif
+    else
+       ? "Refused"
+    endif
+
+    RETURN NIL
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo7">THttp:Post</a>
+</pre><a name="robo7">
+<a name="THttp2fTHttp3aPost">
+<h2>3.3.  THttp/THttp:Post  </h2>
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo4">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    Post - post some value to a page
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>    Post( cPage, aPair )
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    post some value to a page
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    #include "common.ch"
+    * ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+    FUNCTION Main( cProxy, nProxyPort )
+    * ±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±
+    local oSock, cRet
+    local cServer  := "www.google.com" // "localhost"  //
+    local nPort    := 80               // 8080         //
+
+    DEFAULT nProxyPort TO "8080"
+
+    oSock := <a href="#robo4">THttp</a>():New()
+    if cProxy!=NIL
+       oSock:SetProxy( cProxy, VAL(nProxyPort) )
+    endif
+
+    ? "Connect to " +cServer +":" +alltrim(str( nPort ))
+    if oSock:Connect( cServer, nPort )
+       ? "Connected"
+
+       ? "Get homepage"
+       ? oSock:Get( "pippo:pluto@/" )
+
+       ? "Close connection"
+       if oSock:Close()
+          ? "Close successfull"
+       else
+          ? "Error on close connection"
+       endif
+    else
+       ? "Refused"
+    endif
+
+    RETURN NIL
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo6">THttp:Get</a>
+</pre><a name="robo8">
+<a name="TPair2fTPair">
+<h1>4.  TPair/TPair  </h1>
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    <strong>TPair</strong>
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a couple
+</pre><p><strong>METHODS</strong></p>
+<pre>    <strong>TPair</strong>:New
+</pre><p><strong>EXAMPLE</strong></p>
+<pre></pre><p><strong>SEE ALSO</strong></p>
+<pre>    <strong>TPair</strong>:<a href="#robo0">TDecode</a>
+</pre><a name="robo9">
+<a name="TPop32fTPop3">
+<h1>5.  TPop3/TPop3  </h1>
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    <strong>TPop3</strong>
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a POP3 connection
+</pre><p><strong>METHODS</strong></p>
+<pre>    <a href="#robo11">TPop3:new</a>
+    <strong>TPop3</strong>:connect
+    <strong>TPop3</strong>:close
+    <a href="#robo10">TPop3:Login</a>
+    <strong>TPop3</strong>:list
+    <strong>TPop3</strong>:GetMessageHeader
+    <strong>TPop3</strong>:GetMessageText
+    <strong>TPop3</strong>:DeleteMessage
+</pre><p><strong>EXAMPLE</strong></p>
+<pre></pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo0">TDecode</a>
+</pre><a name="robo10">
+<a name="TPop32fTPop33aLogin">
+<h2>5.1.  TPop3/TPop3:Login  </h2>
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo9">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    Login - login into POP3 server
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>    Login( cUser, cPwd )
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Login into POP3 server
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    oSock := <a href="#robo9">TPop3</a>():New() )
+    oSock:Connect( "pop3.server-dummy.com", 110 )
+    oSock:Login( "user", "password" )
+</pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo11">TPop3:new</a>
+</pre><a name="robo11">
+<a name="TPop32fTPop33anew">
+<h2>5.2.  TPop3/TPop3:new  </h2>
+<p>[<a href="#robo_top_of_doc">top</a>][<a href="#robo9">parent</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    new - class costructor
+</pre><p><strong>SYNOPSIS</strong></p>
+<pre>    <a href="#robo9">TPop3</a>():new()
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a new <a href="#robo9">TPop3</a> object
+</pre><p><strong>EXAMPLE</strong></p>
+<pre>    oSock := <a href="#robo9">TPop3</a>():new()
+</pre><a name="robo12">
+<a name="TSMTP2fTSMTP">
+<h1>6.  TSMTP/TSMTP  </h1>
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    <strong>TSMTP</strong>
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a SMTP connection
+</pre><p><strong>METHODS</strong></p>
+<pre>    <strong>TSMTP</strong>:new
+    <strong>TSMTP</strong>:connect
+    <strong>TSMTP</strong>:login
+    <strong>TSMTP</strong>:loginMD5
+    <strong>TSMTP</strong>:close
+    <strong>TSMTP</strong>:cleardata
+    <strong>TSMTP</strong>:setfrom
+    <strong>TSMTP</strong>:setsubject
+    <strong>TSMTP</strong>:addto
+    <strong>TSMTP</strong>:addcc
+    <strong>TSMTP</strong>:addbcc
+    <strong>TSMTP</strong>:setdata
+    <strong>TSMTP</strong>:AddAttach
+    <strong>TSMTP</strong>:send
+    <strong>TSMTP</strong>:GetLastError
+</pre><p><strong>EXAMPLE</strong></p>
+<pre></pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo0">TDecode</a>
+</pre><a name="robo13">
+<a name="TSocket2fTSocket">
+<h1>7.  TSocket/TSocket  </h1>
+<p>[<a href="#robo_top_of_doc">top</a>]</p>
+<p><strong>NAME</strong></p>
+<pre>    <strong>TSocket</strong>
+</pre><p><strong>PURPOSE</strong></p>
+<pre>    Create a SOCKET connection
+</pre><p><strong>METHODS</strong></p>
+<pre>    <strong>TSocket</strong>:new
+    <strong>TSocket</strong>:connect
+    <strong>TSocket</strong>:SendString
+    <strong>TSocket</strong>:ReceiveString
+    <strong>TSocket</strong>:ReceiveLine
+    <strong>TSocket</strong>:ReceiveChar
+    <strong>TSocket</strong>:GetLocalName
+    <strong>TSocket</strong>:GetLocalAddress
+    <strong>TSocket</strong>:Bind
+    <strong>TSocket</strong>:Listen
+    <strong>TSocket</strong>:SetReceiveTimeout
+    <strong>TSocket</strong>:SetSendTimeout
+    <strong>TSocket</strong>:SetDebug
+</pre><p><strong>EXAMPLE</strong></p>
+<pre></pre><p><strong>SEE ALSO</strong></p>
+<pre>    <a href="#robo12">TSMTP</a>
+</pre></body>
+</html>

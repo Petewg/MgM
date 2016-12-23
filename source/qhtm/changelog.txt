@@ -1,0 +1,35 @@
+27.08.2009
++ wrapper-functions for QHTM from samples are moved to separate library
+* function QHTM_Message() returns now the button identifier pressed in dialog
+  (IDABORT, IDRETRY, IDIGNORE, IDCANCEL, IDNO, IDYES or IDOK)
+
+28.08.2009
+* function QHTM_Message() was renamed to QHTM_MessageBox()
+
+17.09.2009
+* C-function qhtmInit() is not quit application at unsuccessful intitialization
+  of library. Result of loading dll is possible можно supervise in application.
+
+21.09.2009
+* code of C-function qhtmInit() move to QHTM_Init().
+- qhtmInit() is removed
++ added return value for functions QHTM_GetNotify(), QHTM_MessageBox(), QHTM_GetTitle()
+  at unsuccessful intitialization of library
+
+22.09.2009
+* fixed C-function FormCallback() - web-forms works fine now
++ comments for functions
+
+23.09.2010
++ New function QHTM_LoadFromVal() - load web-page from value. This is combination of functions GetControlHandle () and SetWindowText() (by analogy with QHTM_LoadFromFile() and QHTM_LoadFromRes())
++ New QHTM_AddHTML2() - expanded version of QHTM_AddHTML()
++ New pseudo-function QHTM_GetScrollPos() and QHTM_SetScrollPos() for get and restore position of scrolling QHTM. They defined in MiniGUI\Include\I_QHTM.ch
++ New QHTM_ScrollPos() - QHTM_GetScrollPos() and QHTM_SetScrollPos() in one
++ New QHTM_ScrollPercent() - similarly QHTM_ScrollPos(), but in percentage
+* Now QHTM_EnableCooltips() return a result to the corresponding function DLL, and not just FALSE.
+
+29.09.2010
++ Add function QHTM_EnableUpdate() - enable/disable redraw element of QHTM.
+
+11.10.2010
++ Define QHTM now supports the attributes of font and font size

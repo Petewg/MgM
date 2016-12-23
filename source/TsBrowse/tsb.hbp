@@ -1,0 +1,27 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/tsbrowse
+
+-I../../include
+
+-w2 -es2 -ko 
+
+-cflag=-DWIN32_LEAN_AND_MEAN
+
+SBMSG.PRG
+SCRLLBAR.PRG
+TBtnBox.prg
+TComboBox.prg
+TControl.prg
+TCursor.prg
+TDatePicker.prg
+TGetBox.prg
+TSCOLUMN.PRG
+TSMULTI.PRG
+h_controlmisc1.prg
+h_tbrowse.prg
+c_TBrowse.c
+c_controlmisc1.c
+

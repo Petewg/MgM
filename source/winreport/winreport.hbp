@@ -1,0 +1,21 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/winreport
+
+-I../../include
+
+-hbx=../../include/${hb_name}.hbx
+
+-w2 -es2 -ko 
+
+h_wrepint.prg
+h_wremix.prg
+h_WrePdf.prg
+hmg_hpdf.prg
+fncMyError.prg
+
+hbwin.hbc
+hbhpdf.hbc
+hbzebra.hbc

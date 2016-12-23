@@ -1,0 +1,166 @@
+Changelog:
+
+Fixed : New code eliminating external PropertyGrid tables for data. PropertyGrid data be kept in internal structure (ItemData)
+
+New: Property Size 
+
+Enchanced: Full service Property Font 
+
+Fixed: The writes of introduced data to internal structure after pressing the key Enter (for Property of type string or numeric) or after lost focus field of choice 
+
+New: Key ESC restores previous data before writes to internal structure
+
+15.05.2007
+
+  - added ID (hand or automatic) to every item PG 
+  - added looking for Value PG according with ID 
+
+19.05.2007
+
+  - Changed: Add clause ITEMEXPAND (clase ITEMIDS did not be use), by this clause Prperty Grid is expanded. 
+  - Changed: Foregrund color for Category (it in future should allow on change this colour  )
+  - New:     Maintenance for item type ARRAY (not finish yet)
+
+21.05.2007
+  - Changed: Key Up and Down by aaray maitenance work now.
+  - Add    : Syntax in i_propgrid.ch for Property array.
+  - Changed: PG has the own service of key ESC , it restores the previous value of PropertyItem. In Demo ON KEY ESCAPE ACTION blocks this service.
+
+27.05.2007
+  - New:     Clause READONLY - Content Property Grid is displayed only. 
+  - Changed: Key ENTER saves Value and move cursor an item down
+  - Enhanced: Navigation keys works for all items correctly.
+
+03.06.2007
+  - Changed: Maintenance for item type CHECK
+  - Fixed:   Add to function PG_SETDATAITEM new parameter
+
+05.06.2007
+  - New: GET ITEMVALUE PROPERTY <name> OF <parent> [ ID <id> ] TO <value> 
+  - New: SET ITEMVALUE <value> [ITEMDATA <data>] PROPERTY <name> OF <parent> [ ID <id> ] 
+
+14.06.2007
+  - New: Maintenance for item Property Grid, new commands:
+         ADD PROPERTYITEM <name> OF|PARENT <parent> [CATEGORY <cCategory>];
+             ITEMTYPE <ctype> NAMEITEM <cNameItem> VALUE <cValue> ;
+            [ ITEMDATA <caData> ] [DISABLED] [ ID <id> ] 
+
+         GET PROPERTYITEM <name> [ OF|PARENT <parent> ][ ID <id> ]TO <value> 
+
+         GET INFO PROPERTYITEM <name> [ OF|PARENT <parent> ][ ID <id> ] TO <ainfo> 
+
+         SET PROPERTYITEM <name> [ OF|PARENT <parent> ] VALUE <value> ;
+             [ITEMDATA <data>] [ID <id> ] 
+
+19.06.2007
+  - New: Property Item type FILE
+  - Fixed: Only editable items recived focus. 
+
+24.06.2007
+  -New: Clause ITEMINFO and ITEMHEIGHT for display item description
+  -New: Function _ShowInfoItem  (ParentForm, ControlName ) to show or hiden Item Info
+
+28.06.2007
+  - Changed: algorithm of look for item in Property Grid. 	
+  - Fixed: Procedure for save data of Property Grid to File. 
+  - New:  In Item of type CHECK - optional description, one from list of Data, list with two equivalent value to FALSE and TRUE.
+  - New: Read and save from file type INI.
+
+19.07.2007
+  - New: Color for indent, the same how for category.
+  - Changed: Color for grid lines.
+
+30.07.2007
+  - New: PG control supports an optional ON CHANGEVALUE event now.
+  - Changed: use of new function PG_RedrawItem instead of RedrawWindow reduces flicker the Control Property Grid after change of data. 
+  - Fixed: source code in range close edit field.
+
+13.12.2007
+  -New: Clause VARNAME for save variable name in structure Property Grid
+  -Fixed: Function ArrayDlg() have a new parametr. Reported J.Rudnicki <J_Rudnicki@wp.pl>
+  -New: Sample Demo2 representing method of maintenance of variables, recorded in file *.mem (Clipper) through Property Grid
+
+18.02.2008
+  - New: Header for Colums (optional) with resize column width and action doubleclick:
+	- Column 1: Collapse/ Expand Property grid
+	- Column 2: Hide/Show Info window
+  - New: Property folder with action GetFolder.
+
+14.05.2008
+  - New: Clause SUBITEM in Command  GET PROPERTYITEM for get value by Item type SIZE
+  - New: Command ADD CATEGORY to create new Item type CATEGORY
+  - Fixed: Command  GET PROPERTYITEM return now correct value for item type: COLOR, ARRAY, CHECK and SIZE
+
+10.06.2008
+  - New: Clause SINGLEEXPAND to expanded item when it becomes selected and to closed when it becomes unselected. 
+  - New: Property item type 'userfun' to execute get value with any user function.
+  - New: Property item type 'list', like item 'enum' but with edit field and adding a new value to combo list.
+  - New: Command TOGGLE, EXPAND and COLLAPSE CATEGORY to toggle, expand or collapse the category.
+  - New Command ENABLE and DISABLE PROPERTYITEM .
+  - New: Clause SUBITEM in Command  GET PROPERTYITEM for get value by Item type FONT   
+  - Fixed: source code in range tested imput data.
+
+21.04.2009
+  - New: Clause DISABLEEDIT for item type COLOR, FONT, IMAGE, SIZE, ARRAY, FILE, FOLDER, USERFUN to execute get value only with help button function.
+
+03.07.2009
+  - Changed: PROPERTYITEM LIST allows to add a new value to list. Contributed by Vladimir Chumachenko <ChVolodymyr@yandex.ru>
+
+11.02.2010
+  - Fixed: Double click an empty PropertyGrid (created from empty ARRAYITEM) causes GPF.
+
+15.02.2010
+  - Fixed: Dialog units for Dialog of item type 'array'
+  - Changed: Some Buttons in Array Dialog language translation support.	
+
+17.04.2010
+  - Fixed: Improving the display value for the Item in edit mode after changing the value with SET PROPERTYITEM
+
+23.11.2011
+  - New: Added optional buttons OK, APPLY, CANCEL and HELP:
+	Syntax:
+	[ OKBTN [USEROKPROC userokproc] [ APPLYBTN ]];
+	[ CANCELBTN [ USERCANCELPROC usercancelproc ] ] ;
+	[ HELPBTN helpproc ] ;
+
+      - The OK button allows to close the PropertyGrid with the possibility to write the changed data
+        by using the built-in function Save or optionally with user function described in clause USEROKPROC. 
+      - The CANCEL button allows to restore data (if not saved) using the built-in Restore or optionally
+        with user function described in clause USERCANCELPROC.
+      - The APPLY button saves the changes (like the OK button), but does not end the session PropertyGrid
+      - The HELP button to display any information (user function)
+  - Changed: Changing the structure of control, elements of PropertyGrid are now common parent.
+  - Changed: Some internal functions received a new names, and improvements were introduced.
+  - Changed: Function PROPGRIDONCUSTOMDRAW has been implemented in the internal functions of PG - OwnFramePgProc.
+
+06.02.2012
+  - Changed: Property item type 'numeric'/'integer' accepts only numeric characters.
+  - Changed: Property item type 'double' has an optional InputMask in sample form '999 999.99'
+
+09.02.2012:
+  - Changed: Improving the operation of the command ENABLE / DISABLE item
+
+22.06.2012:
+  - New: Function GetChangendItem(cForm,CPgName)
+	Syntax:
+         GET CHANGED PROPERTYITEM <name> ;
+            [ OF | PARENT> <parent> ] ;
+            TO <aIdItem> 
+
+  - New: Function SaveMemVarible(cForm,CPgName)
+	Syntax:
+         SAVE MEMVALUE PROPERTY <name> ;
+            [ OF | PARENT> <parent> ] 
+            
+  - New: PropertyGrid Language translation support.
+
+30.06.2014:
+   - Changed: Optional clause ITEMDATA for item type STRING to execute InputMask in form Control TextBox.
+	Syntax:
+        PROPERTYITEM STRING <cName> ;
+            VALUE <cValue> ;
+            [ ITEMDATA <caData> ];
+            [ <disabled : DISABLED> ];
+            [ ID <id> ] ;
+            [ INFO <cInfo> ] ;
+            [ VARNAME <cVarName>  ]

@@ -1,0 +1,180 @@
+1.08
+---------------------
+2011/08/19
+   + added - parameter with length of custom string buffer (default is 1)
+     in method ReceiveChar( nBufLen ) (tsocket.prg)	
+     Based upon a contribution of Artyom Verchenko <artyomskynet@gmail.com>
+
+2009/11/09
+   ! correction in GETTIMEZONEBIAS() function for proper Daylight handling (tsmtp.prg)
+     Contributed by Grigory Filatov <gfilatov@freemail.ru>
+
+1.07
+---------------------
+2009/09/15
+   - fixed - problem with hb_xgrab zero bytes allocation (socket.c)
+     Contributed by Mitja Podgornik <yamamoto@rocketmail.com>
+
+1.06
+---------------------
+Changes by Grigory Filatov <gfilatov@freemail.ru>
+for Harbour MiniGUI Extended distribution
+
+2007/11/23 
+   + added - request a return receipt for your email
+     in method Send( IgnoreError, RequestReturnReceipt) (tsmtp.prg)	
+
+2007/05/04 
+   ! minor corrections for "Date:" string in mail header
+   ! correction in GETTIMEZONEBIAS() function for creating a proper time bias 
+		       in mail header (tsmtp.prg)
+
+Changes by Jacek Kubica <kubica@wssk.wroc.pl>
+for Harbour MiniGUI Experimental distribution
+
+2006/04/18
+   ! minor corrections in tsmtp.prg (GetLines() method) for proper working
+     with new Harbour issue
+ 
+2006/01/26 
+   + GETTIMEZONEDIFF() function added for creating proper date string 
+		       in mail header (tsmtp.prg)	
+2005/10/07
+   - fixed - problem with attachments names (tsmtp.prg)
+
+TODO
+----
+Future - Work in progess
+    - waiting for request .. please send me all request. I'll implement it ASAP
+    - i'm looking for someone that rewrite socket.c kernel for unix use
+    - tsmtp with big files
+    - tftp - add list, cwd and retrieve for data
+    - tirc - to start
+    - tsmtp with html email with image embedded (cid:????), prioriry, receive confirm
+    - tdecode add decode64 and other decode/encode routines
+    - wrong implementation of server class .. I'll rewrite it
+
+SMTP = rfc 821
+
+X-Priority: 3  - va da  1 = massima 5 = minima (verificare)
+"1 (Highest)"
+"2 (High)"
+"3 (Normal)"
+"4 (Low)"
+"5 (Lowest)"
+
+Reply-To: <xxx@xxx.com>
+X-Mailer: Microsoft Outlook Express 4.72.3110.1
+Disposition-Notification-To: xxxx@xxxx.com
+
+Within 2010
+    - tftpserver
+    - thttpserver
+    - tpop3server
+    - tsmtpserver
+
+1.05 work in progress
+---------------------
+-=19/02/2005=-
+TPOP3     : Corrected login checking
+
+-=10/02/2005=-
+THTTP     : Add user-agent support
+
+-=08/02/2005=-
+THTTP     : introduced server authentication
+THTTP     : add host parameter in http request
+
+-=30/09/2004=-
+TSMTP     : speed add attach method
+
+-=19/08/2004=-
+TDecode   : add support for Decode64, rewrite support for Encode64, add support for MD5 and HMAC_MD5
+TSMTP     : add loginMD5
+
+-=16/08/2004=-
+Starting writing documentation
+
+-=15/08/2004=-
+TSMTP     : correct login sequence. In some server dont allow auth
+SOCKET    : add a function to get socket version
+
+1.04 august 2004
+----------------
+-=14/08/2004=-
+TSMTP     : change close(), now send a quit and wait for a response
+TDECODE   : put static conversion OctalToDec and DecToOctal. Now is possible to user socket library with
+               standard Harbour, without extension
+TSMTP     : correct the way to add TO, CC and BCC to email message
+TSMTP     : correct the way to manage smtp connect string
+TSMTP     : add autentification on remote server
+TSMTP     : correct date formatting in email header
+
+1.03 april 2003
+---------------
+TDecode   - moved initialization of charset from new to init of class
+          - add encode64()
+            now is possible to encode64 any string. This will be usefull for proxy
+               basic autentification and mail attach
+
+Copyright - updated year from 2001 to 2001-2003
+
+TSocket   - change listen() method
+            now is possibile define the number of pending client to handle. DEFAULT 10
+          - add SetReceiveTimeout and SetSendTimeout
+            now is possibile to add a timeout on send and receive operation
+
+Classes   - all DATA now are in hidden area of the classes
+
+Sample    - add testwsrv
+            Simply Web Server
+
+TSmtp     - update connect
+            now is possible set helo parameter and return code are checked
+          - update send
+            now is possible to add attach to the email
+            all errors are now better tracked
+            bcc are now used
+            now is possibile send email with wrong to address
+            now is possibile to send HTML email, see sencond parameter: send( "...", .T. )
+
+Thttp     - change in get() and post()
+            add support for proxy basic autentification
+          - change setproxy()
+            support for user and password
+
+TFtp      - first implementation and sample
+            now works only login ;-> I hope to finish in next releases
+
+
+1.02 march 2003
+---------------
+TSocket - new method bind(), new method listen()
+          Now is possibile create socket server with harbour!!
+
+        - modified get() method
+          Now is possible to send parameter
+
+1.01 march 2003
+---------------
+THttp - new method SetProxy()
+        Now is possible to connect remote page directly or via a HTTP Proxy
+
+      - new method Post()
+        Now you can send a post of some data to a remote server, using an array of TPair value
+
+TDecode - new class
+          This class allow to encode and decode URL string and parameter
+
+TPair - new class
+        This class is usefull for create couple of value to send to a post
+
+revision - removed some CLASSDATA and use DATA instead .. for allow multiple object instance
+
+1.00 gen 2002
+-------------
+First version give to comunity
+
+------------------------------
+Matteo Baccan
+baccan@infomedia.it

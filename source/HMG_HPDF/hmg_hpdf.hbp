@@ -1,0 +1,15 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/hmg_hpdf
+
+-i../../../comp/harbour/contrib/hbhpdf
+-i../../include
+
+-hbx=../../include/${hb_name}.hbx
+
+-w2 -es2 -ko
+
+hmg_hpdf.prg
+#hbhpdf.hbc

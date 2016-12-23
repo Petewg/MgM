@@ -1,0 +1,25 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/socket
+
+-I../../include
+
+-hbx=../../include/${hb_name}.hbx
+
+-w2 -es2 -ko 
+
+-D_WINSOCK_DEPRECATED_NO_WARNINGS
+
+tftp.prg
+tpair.prg
+tdecode.prg
+thttp.prg
+tpop3.prg
+tsmtp.prg
+tsocket.prg
+socket.c
+base64.c
+md5c.c
+hmac_md5.c

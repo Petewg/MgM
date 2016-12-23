@@ -1,0 +1,11 @@
+
+-hblib
+-inc-
+-o../../lib/miniprint2
+
+-I../../include
+
+-w3 -es2 -ko -q0
+
+miniprint.prg
+
