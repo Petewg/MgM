@@ -1,0 +1,52 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 174 , 537 WIDTH 434 HEIGHT 223 TITLE "Test" ICON "calc2.ico" MAIN
+
+     DEFINE LABEL Label_1
+            ROW    20
+            COL    10
+            WIDTH  220
+            HEIGHT 20
+            VALUE "Return of Function Calc()"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    50
+            COL    10
+            WIDTH  220
+            HEIGHT 20
+            VALUE "Return of Function Calc from ClipBoard"
+     END LABEL  
+
+     DEFINE BTNTEXTBOX Text_1
+            ROW    20
+            COL    240
+            WIDTH  160
+            HEIGHT 24
+            VALUE 100
+            ACTION RunCalc()
+            PICTURE "calc2.bmp"
+            BUTTONWIDTH 24
+				TOOLTIP "Click button on right" + hb_EoL() + "to activate calculator"+hb_EoL()
+            NUMERIC .T.
+     END BTNTEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    50
+            COL    240
+            WIDTH  160
+            HEIGHT 20
+     END TEXTBOX 
+
+     DEFINE LABEL Label_3
+            ROW    130
+            COL    20
+            WIDTH  380
+            HEIGHT 40
+            VALUE "Please, for call the function Calc, press the key <F2>. The function will be call with value of control Text_1 as parameter."
+     END LABEL  
+
+END WINDOW
+
+
