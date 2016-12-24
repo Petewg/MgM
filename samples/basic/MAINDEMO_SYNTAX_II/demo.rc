@@ -1,0 +1,6 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN	ICON		demo.ico
+
+br_no		BITMAP 		br_no.bmp
+br_ok		BITMAP		br_ok.bmp
