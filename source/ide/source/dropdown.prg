@@ -18,13 +18,13 @@ FUNCTION ChangeArray()
 
       IF AllTrim( A1 ) # AllTrim( aVLDropDown[ 1 ] )
          // MsgBox( "A1= " + A1 + CRLF + "aVLDropDown= "+avlDropDown[1])
-         aAdd( xArray, A1 )
+         AAdd( xArray, A1 )
       ELSE
          IF lJoin = .F.
             IF AllTrim( avlDropDown[ 2 ] ) # 'MENUITEM ""'
                FOR y := 1 TO Len( avlDropDown )
-                   // MsgBox( "avlDropDown ["+str(y)+"]="+avlDropDown[y] )
-                   aAdd( xArray, avlDropDown[ y ] )
+                   // MsgBox( "avlDropDown ["+Str(y)+"]="+avlDropDown[y] )
+                   AAdd( xArray, avlDropDown[ y ] )
                NEXT y
             ENDIF
             lJoin := .T.
@@ -34,7 +34,7 @@ FUNCTION ChangeArray()
             x  := x + 1
             A1 := AllTrim( aDropDown[ x ] )
             // MsgBox( "aDropDown [" + Str( x ) + "]=" + aDropDown[ x ] )
-            // aAdd( xArray, A1 )
+            // AAdd( xArray, A1 )
             IF A1 = "END MENU"
                EXIT
             ENDIF
@@ -45,8 +45,8 @@ FUNCTION ChangeArray()
   IF lJoin = .F.
      IF AllTrim( avlDropDown[2]) # 'MENUITEM ""'
         FOR y := 1 TO Len( avlDropDown )
-            // MsgBox("avldropdown ["+str(y)+"]="+avldropdown[y])
-            aAdd(xArray,avldropdown[y])
+            // MsgBox("avldropdown ["+Str(y)+"]="+avldropdown[y])
+            AAdd(xArray,avldropdown[y])
         NEXT y
      ENDIF
      lJoin := .T.
@@ -91,13 +91,13 @@ FUNCTION FillDropArray()
          // MsgBox( "A6 > 0" )
          A7 := At( A4, A5 )
          IF A7 > 0
-            aAdd( aTempArray, A5 )
+            AAdd( aTempArray, A5 )
             DO WHILE .T.
                X  := X + 1
                A5 := aDropDown[ x ]
 
                IF At( "END MENU", A5 ) = 0
-                  aAdd( aTempArray, A5 )
+                  AAdd( aTempArray, A5 )
                ELSE
                   EXIT
                ENDIF
@@ -107,7 +107,7 @@ FUNCTION FillDropArray()
   NEXT X
 
   IF Len( aTempArray ) > 0
-     aAdd( aTempArray, "END MENU" )
+     AAdd( aTempArray, "END MENU" )
   ENDIF
 
   ***************************
@@ -141,7 +141,7 @@ PROCEDURE DropDownInit()
 *------------------------------------------------------------*
   ToolbarInit( "DROPDOWN" )
 
-  IF Len( aVLToolbarHash ) > 0  
+  IF Len( aVLToolbarHash ) > 0
      LoadavlDropDown()
      DropDownFillGrid()
      DropDownMenuBuilder.Grid_1.Value := 1
@@ -197,7 +197,7 @@ PROCEDURE LoadavlDropDown()
 
   IF Len( aDropDown ) > 0
      FOR x := 1 TO Len( aDropDown )
-         // MsgBox("x= "+str(x) )
+         // MsgBox("x= "+Str(x) )
 
          A1 := aDropDown[ x ]
          // MsgBox( "A1 = " + A1 )
@@ -220,13 +220,13 @@ PROCEDURE LoadavlDropDown()
                   // MsgBox( "MENUITEM= " + A1 )
                   aMenuItens := MenuItens( A1, X4, "MENUITEM" )
 
-                  aAdd( avlDropDown, { cName, "MENUITEM", aMenuItens[ 1 ],;
+                  AAdd( avlDropDown, { cName, "MENUITEM", aMenuItens[ 1 ],;
                                        aMenuItens[ 2 ], aMenuItens[ 3 ], aMenuItens[ 4 ],;
                                        aMenuItens[ 5 ], aMenuItens[ 6 ], aMenuItens[ 7 ] } )
 
                ELSEIF X5 > 0
                   // MsgBox( "SEPARATOR= " + A1 )
-                  aAdd( avlDropDown, { cName, "SEPARATOR", "-", "", "", "", ".F.", ".F.", "" } )
+                  AAdd( avlDropDown, { cName, "SEPARATOR", "-", "", "", "", ".F.", ".F.", "" } )
 
                ELSEIF X6 > 0
                   // MsgBox( "END MENU= " + A1 )
@@ -249,8 +249,8 @@ PROCEDURE DropDownNew()
 
   IF Len( cValue ) > 0
      DropDownMenuBuilder.Grid_1.AddItem( { cValue } )
-     // aAdd( avlDropDown, { cValue, "MENUITEM","","","","",".F.",".F.","","" } )
-     // aAdd( ARRAYMENU, { "MENUITEM","","","","",".F.",".F.","" } )
+     // AAdd( avlDropDown, { cValue, "MENUITEM","","","","",".F.",".F.","","" } )
+     // AAdd( ARRAYMENU, { "MENUITEM","","","","",".F.",".F.","" } )
      DropDownMenuBuilder.Grid_1.Value := DropDownMenuBuilder.Grid_1.ItemCount
 
      lChanges                         := .T.
@@ -302,15 +302,15 @@ PROCEDURE DropDownDelete()
 
      IF DropDownMenuBuilder.Grid_1.ItemCount > 0
         cValue1 := GetColValue( "GRID_1", "DropDownMenuBuilder", 1 )
-        // MsgBox("LEN="+STR(Len(avldropdown)))
+        // MsgBox("LEN="+Str(Len(avldropdown)))
 
         FOR x := 1 TO Len( avlDropDown )
             // MsgBox( "X= " + Str(X)+ " AVLDROPDOWN= " + avlDropDown[x,1] + " cValue1= "+ cValue1 )
 
             IF avldropdown[x,1] = cValue1
                // MsgBox( "DELETE " + avlDropDown[x,1] + " " + avldropdown[x,2] + " " + avldropdown[x,3] )
-               aDel( avlDropDown, x )
-               aSize( avlDropDown, Len( avlDropDown ) - 1 )
+               ADel( avlDropDown, x )
+               ASize( avlDropDown, Len( avlDropDown ) - 1 )
                x := x - 1
             ENDIF
 
@@ -319,7 +319,7 @@ PROCEDURE DropDownDelete()
 
         FOR x := 1 TO Len( aDropDown )
             IF aDropDown[x] #  "DEFINE DROPDOWN MENU BUTTON " + cValue1
-               aAdd( TempDropDown, aDropDown[x] )
+               AAdd( TempDropDown, aDropDown[x] )
             ELSE
                DO WHILE .T.
                   x := x + 1
@@ -393,25 +393,25 @@ PROCEDURE BeautDrop()
   LOCAL x     AS NUMERIC
 
   IF Len( aDropDown ) > 0
-     aAdd( aTemp, Space( 5 ) + AllTrim( aDropDown[ 1 ] ) )
+     AAdd( aTemp, Space( 5 ) + AllTrim( aDropDown[ 1 ] ) )
      FOR x := 2 TO Len( aDropDown )
          aDropDown[ x ] := AllTrim( aDropdown[x] )
          // MsgBox( "line= " + aDropDown[x] )
 
          IF At( "DEFINE DROPDOWN", aDropDown[x] ) = 1
             //  MsgBox( "added line space+ define dropdown" )
-            aAdd( aTemp, "" )
-            aAdd( aTemp, Space( 5 ) + aDropDown[x] )
+            AAdd( aTemp, "" )
+            AAdd( aTemp, Space( 5 ) + aDropDown[x] )
          ENDIF
 
          IF At( "MENUITEM", aDropDown[x] ) = 1
             // MsgBox( "added menuitem" )
-            aAdd( aTemp, Space( 12 ) + aDropDown[x] )
+            AAdd( aTemp, Space( 12 ) + aDropDown[x] )
          ENDIF
 
          IF At( "END MENU", aDropDown[x] ) = 1
             // MsgBox( "added end menu" )
-            aAdd( aTemp, Space( 5 ) + aDropDown[x] )
+            AAdd( aTemp, Space( 5 ) + aDropDown[x] )
          ENDIF
      NEXT x
 

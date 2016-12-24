@@ -64,15 +64,15 @@ PROCEDURE MakeStatus
             ENDIF
 
             // MsgBox("STATUSITEM")
-            // MsgBox("CMSG " + STR(X) + " = "+CMSG)
+            // MsgBox("CMSG " + Str(X) + " = "+CMSG)
             // if nsize # nil
-            //    MsgBox("NSIZE= "+STR(NSIZE))
+            //    MsgBox("NSIZE= "+Str(NSIZE))
             // ENDIF
             // MsgBox("CTOOLTIP= "+CTOOLTIP)
-           //  MsgBox("UACTION= "+UACTION) 
+           //  MsgBox("UACTION= "+UACTION)
            //  MsgBox("CBITMAP= "+CBITMAP)
            //  MsgBox("STYL= "+STYL)
-           
+
            cBackcolor := nil
            cFontcolor := nil
            cAlign := .f.
@@ -80,12 +80,12 @@ PROCEDURE MakeStatus
            ** _DefineItemMessage( "STATUSITEM",              , 0, 0, cMsg   , uAction      , nSize, 0, cBitmap, Styl , cToolTip, Default )
            // _DefineItemMessage ( ControlName, ParentControl, x, y, Caption, ProcedureName, w    , h, icon   , cstyl, tooltip , default, backcolor, fontcolor, align )
            _DefineItemMessage (  "STATUSITEM",              , 0, 0, cMsg   , uAction      , nSize, 0, cBitmap, Styl , cToolTip, Default , cBackcolor, cFontcolor, cAlign )
-           
+
 
          ENDIF
 
          IF ArrayStatus[ x, 1 ] = "DATE"  .OR. ArrayStatus[ x, 1 ] = "$DATE"
-            //MsgBox("DATE " + STR(X) + " = "+ArrayStatus[ x, 1 ])
+            //MsgBox("DATE " + Str(X) + " = "+ArrayStatus[ x, 1 ])
             IF Len( ArrayStatus[ x, 3 ] ) > 0
                nSize := Val( ArrayStatus[ x, 3 ] )
                W     := .T.
@@ -96,15 +96,15 @@ PROCEDURE MakeStatus
 
             cToolTip := ArrayStatus[ x, 7 ]
             uAction  := ArrayStatus[ x, 4 ]
-            //_DefineItemMessage( "STATUSITEM", , 0, 0, Dtoc( Date() ), uAction, iif( W == .F., iif( Lower( Left( Set( _SET_DATEFORMAT ) , 4 ) ) == "yyyy" .OR. Lower( Right( Set( _SET_DATEFORMAT ), 4 ) ) == "yyyy", 84, 70 ) , nSize ) , 0, "", cToolTip )
+            //_DefineItemMessage( "STATUSITEM", , 0, 0, DToC( Date() ), uAction, iif( W == .F., iif( Lower( Left( Set( _SET_DATEFORMAT ) , 4 ) ) == "yyyy" .OR. Lower( Right( Set( _SET_DATEFORMAT ), 4 ) ) == "yyyy", 84, 70 ) , nSize ) , 0, "", cToolTip )
             // _DefineItemMessage ( ControlName, ParentControl, x, y, Caption, ProcedureName, w    , h, icon   , cstyl, tooltip , default, backcolor, fontcolor, align )
-             _DefineItemMessage( "STATUSITEM", , 0, 0, Dtoc( Date() ), uAction, iif( W == .F., iif( Lower( Left( Set( _SET_DATEFORMAT ) , 4 ) ) == "yyyy" .OR. Lower( Right( Set( _SET_DATEFORMAT ), 4 ) ) == "yyyy", 84, 70 ) , nSize ) , 0, "", cToolTip, Default , cBackcolor, cFontcolor, cAlign )
-         
-            //USE NEW FUNCTION C/BACKCOLOR  FONTCOLOR  CALIGN  
+             _DefineItemMessage( "STATUSITEM", , 0, 0, DToC( Date() ), uAction, iif( W == .F., iif( Lower( Left( Set( _SET_DATEFORMAT ) , 4 ) ) == "yyyy" .OR. Lower( Right( Set( _SET_DATEFORMAT ), 4 ) ) == "yyyy", 84, 70 ) , nSize ) , 0, "", cToolTip, Default , cBackcolor, cFontcolor, cAlign )
+
+            //USE NEW FUNCTION C/BACKCOLOR  FONTCOLOR  CALIGN
          ENDIF
 
          IF ArrayStatus[ x, 1 ] = "CLOCK"  .OR. ArrayStatus[ x, 1 ] = "$CLOCK"
-          // MsgBox("CLOCK " + STR(X) + " = "+ArrayStatus[ x, 1 ])
+          // MsgBox("CLOCK " + Str(X) + " = "+ArrayStatus[ x, 1 ])
             nSize    := ArrayStatus[ x, 3 ]
             cToolTip := ArrayStatus[ x, 7 ]
             uAction  := ArrayStatus[ x, 4 ]
@@ -120,7 +120,7 @@ PROCEDURE MakeStatus
          ENDIF
 
          IF ArrayStatus[ x, 1 ] = "KEYBOARD" .OR.  ArrayStatus[ x, 1 ] = "$KEYBOARD"
-          // MsgBox("KEYBOARD " + STR(X) + " = "+ArrayStatus[ x, 1 ])
+          // MsgBox("KEYBOARD " + Str(X) + " = "+ArrayStatus[ x, 1 ])
             IF Len( ArrayStatus[ x, 3 ] ) > 0
                nSize := Val( ArrayStatus[ x, 3 ] )
             ELSE

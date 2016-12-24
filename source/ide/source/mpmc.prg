@@ -55,7 +55,7 @@ PROCEDURE mpmc( ProjectFile /* "(ExeName).mpm"*/ , Param1 /*DEBUG*/ , Param2 /*I
    cOutputFolder := aData[ _OUTPUTFOLDER ]
 
    /*
-   IF pcount() = 0 .OR. pcount() > 3
+   IF PCount() = 0 .OR. PCount() > 3
       MsgBox( "Usage: mpmc <ProjectFile> [/d] [/c]")
       RETURN
    ENDIF
@@ -128,7 +128,7 @@ PROCEDURE mpmc( ProjectFile /* "(ExeName).mpm"*/ , Param1 /*DEBUG*/ , Param2 /*I
              CASE Upper( Line ) = "ODBCSUPPORT"         ;  os := ( Upper( SubStr( Line , 13 , 3 ) ) = "YES" )
              CASE Upper( Line ) = "ADSSUPPORT"          ;  as := ( Upper( SubStr( Line , 12 , 3 ) ) = "YES" )
              CASE Upper( Line ) = "MYSQLSUPPORT"        ;  ms := ( Upper( SubStr( Line , 14 , 3 ) ) = "YES" )
-             CASE Right( Upper( Line ) , 4 ) == ".PRG"  ;  aAdd( prg , AllTrim( Line ) )
+             CASE Right( Upper( Line ) , 4 ) == ".PRG"  ;  AAdd( prg , AllTrim( Line ) )
          ENDCASE
 
       NEXT i
@@ -183,7 +183,7 @@ PROCEDURE mpmc( ProjectFile /* "(ExeName).mpm"*/ , Param1 /*DEBUG*/ , Param2 /*I
 
          IF nPos1 > 0 .OR. nPos2 > 0 .OR. nPos3 > 0
             lError := .T.
-            aAdd( aError, cline )
+            AAdd( aError, cline )
          ENDIF
 
       ENDDO
@@ -241,7 +241,7 @@ PROCEDURE mpmc( ProjectFile /* "(ExeName).mpm"*/ , Param1 /*DEBUG*/ , Param2 /*I
 
    ENDIF
 
-   fErase( "_temp" )
+   FErase( "_temp" )
 
 RETURN
 
@@ -282,7 +282,7 @@ PROCEDURE BuildLogInit( Param )
 
    DoMethod( cWindow, "GRID_1", "DELETEALLITEMS" )
 
-   aEval( aError, { | cLine | DoMethod( cWindow, "GRID_1", "ADDITEM", { cLine } ) } )
+   AEval( aError, { | cLine | DoMethod( cWindow, "GRID_1", "ADDITEM", { cLine } ) } )
 
    SetProperty( cWindow, "GRID_1", "VALUE", 1 )
 
@@ -439,7 +439,7 @@ PROCEDURE Build
             cLib := SubStr( cAddLib, 1, x1 - 1 )
             IF File( cLib ) .AND. At( ".LIB", Upper( cLib ) ) > 0
                // MsgBox("clib= " +clib)
-               aAdd( cdados, cLib )
+               AAdd( cdados, cLib )
             // ELSE
                // MsgBox("not found " +clib)
             ENDIF
@@ -569,12 +569,12 @@ PROCEDURE Build
 
    NEXT i
 
-   Memowrit( FixFolder( ProjectFolder ) +  "_Temp.Bc" , Out )
+   MemoWrit( FixFolder( ProjectFolder ) +  "_Temp.Bc" , Out )
 
    MakeName    := FixFolder( BccFolder ) + "BIN\MAKE.EXE"
    ParamString := "/f" + FixFolder( ProjectFolder ) +  "_Temp.Bc"
 
-   Memowrit( FixFolder( ProjectFolder ) + "_Build.Bat" , ;
+   MemoWrit( FixFolder( ProjectFolder ) + "_Build.Bat" , ;
              "@echo off" + CRLF + ;
              "SET PATH=;" + CRLF + ;
              MakeName + " " + ParamString + CRLF + ;
@@ -623,15 +623,15 @@ PROCEDURE Clean( DeleteExe AS LOGICAL, DeleteAll AS LOGICAL )
    DEFAULT DeleteExe TO .T.
    DEFAULT DeleteAll TO .T.
 
-   aSize( aCFiles   , aDir( ProjectFolder + "OBJ\*.C"   ) )
-   aSize( aObjFiles , aDir( ProjectFolder + "OBJ\*.OBJ" ) )
-   aSize( aMapFiles , aDir( ProjectFolder + "*.MAP"     ) )
-   aSize( aTdsFiles , aDir( ProjectFolder + "*.TDS"     ) )
+   ASize( aCFiles   , ADir( ProjectFolder + "OBJ\*.C"   ) )
+   ASize( aObjFiles , ADir( ProjectFolder + "OBJ\*.OBJ" ) )
+   ASize( aMapFiles , ADir( ProjectFolder + "*.MAP"     ) )
+   ASize( aTdsFiles , ADir( ProjectFolder + "*.TDS"     ) )
 
-   aDir( ProjectFolder + "OBJ\*.C"  , aCFiles   )
-   aDir( ProjectFolder + "OBJ\*.OBJ", aObjFiles )
-   aDir( ProjectFolder + "*.MAP"    , aMapFiles )
-   aDir( ProjectFolder + "*.TDS"    , aTdsFiles )
+   ADir( ProjectFolder + "OBJ\*.C"  , aCFiles   )
+   ADir( ProjectFolder + "OBJ\*.OBJ", aObjFiles )
+   ADir( ProjectFolder + "*.MAP"    , aMapFiles )
+   ADir( ProjectFolder + "*.TDS"    , aTdsFiles )
 
    IF DeleteAll
       FOR i := 1 TO Len( aCFiles )
@@ -693,9 +693,9 @@ STATIC FUNCTION GetIncludes()
 
    FOR x := 1 TO Len( aFmgNames )
        IF aFmgNames[ x, 2 ] # "<ProjectFolder>\" .AND. ! Empty( aFmgNames[ x, 2 ] )
-          z := aScan( aInclude, aFmgNames[ x, 2 ] )
+          z := AScan( aInclude, aFmgNames[ x, 2 ] )
           IF z == 0
-             aAdd( aInclude, aFmgNames[ x, 2 ] )
+             AAdd( aInclude, aFmgNames[ x, 2 ] )
           ENDIF
        ENDIF
    NEXT x

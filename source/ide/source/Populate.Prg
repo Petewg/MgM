@@ -50,7 +50,7 @@ FUNCTION Ccampi( Act AS LOGICAL )
    DEFAULT Act TO .F.
 
    FOR kk := 1 TO List_Field.List_102.ItemCount
-       aAdd( Campi, List_Field.List_102.Item( kk ) )
+       AAdd( Campi, List_Field.List_102.Item( kk ) )
    NEXT
 
    IF act
@@ -110,7 +110,7 @@ FUNCTION Populate_list( _DBfile AS STRING )   // Created By Piersoft 16/02/2005
 *-----------------------------------------------------------------------------*
   PUBLIC _DbStructArr AS ARRAY     := {}
   PUBLIC _DbAnames    AS ARRAY     := {}
-  PUBLIC chblk        AS CODEBLOCK := { | arry, Find, RetPos | iif( aScan( arry, find ) > 0, _DbStructarr[ aScan( _DbaNames, Find ) ][ RetPos ], NIL ) }
+  PUBLIC chblk        AS CODEBLOCK := { | arry, Find, RetPos | iif( AScan( arry, find ) > 0, _DbStructarr[ AScan( _DbaNames, Find ) ][ RetPos ], NIL ) }
 
   IF ! Used()
      DbOpendbf( _DBfile )
@@ -118,7 +118,7 @@ FUNCTION Populate_list( _DBfile AS STRING )   // Created By Piersoft 16/02/2005
 
   _DbStructarr := dbStruct()
 
-  aEval( _DbStructArr, { | Campo | aAdd( _DbaNames, Campo[ DBS_NAME ] ) } )
+  AEval( _DbStructArr, { | Campo | AAdd( _DbaNames, Campo[ DBS_NAME ] ) } )
 
   IF Len( _DbaNames ) == 0
      RETURN( NIL )
@@ -192,14 +192,14 @@ FUNCTION Mfield( Arg1 AS STRING )
 
         List_Field.List_102.Item( start ) := in_list
      ELSE
-        aAdd( cap, List_Field.List_102.Item( start ) )
+        AAdd( cap, List_Field.List_102.Item( start ) )
 
         FOR v := 1 TO List_Field.List_102.ItemCount - 1
-            aAdd( cap, List_Field.List_102.Item( v ) )
+            AAdd( cap, List_Field.List_102.Item( v ) )
         NEXT
 
         List_Field.List_102.DeleteAllitems
-        aEval( cap, { | x | List_Field.List_102.AddItem( x ) } )
+        AEval( cap, { | x | List_Field.List_102.AddItem( x ) } )
         start := 1
      ENDIF
   ENDIF
@@ -274,7 +274,7 @@ FUNCTION Remove_All()
 
   List_Field.List_101.DeleteAllitems
 
-  aEval( _DbaNames, { | x | List_Field.List_101.AddItem( x ) } )
+  AEval( _DbaNames, { | x | List_Field.List_101.AddItem( x ) } )
 
   List_Field.List_102.DeleteAllitems
 
@@ -308,7 +308,7 @@ FUNCTION Single_Remove()
 
      List_Field.List_101.DeleteAllitems
 
-     aEval( _DbaNames, { | x | iif( aScan( Cap, x ) < 1, List_Field.List_101.AddItem( x ), "" ) } )
+     AEval( _DbaNames, { | x | iif( AScan( Cap, x ) < 1, List_Field.List_101.AddItem( x ), "" ) } )
   ELSE
      List_Field.List_102.Value := 1
   ENDIF
@@ -422,7 +422,7 @@ FUNCTION MG_USE(                             ;
   lReturn    := .F.
 
   DO WHILE nTries > 0
-     DBUSEAREA( .T., NIL, cDbfName, cAlias, ! lUseExclusive, NIL, cdPage )
+     dbUseArea( .T., NIL, cDbfName, cAlias, ! lUseExclusive, NIL, cdPage )
      IF (! NetErr()) .AND. Used()
         lReturn := .T.
         EXIT
@@ -495,7 +495,7 @@ STATIC FUNCTION xChar( pxValue AS USUAL )
    DO CASE
       CASE cType $  "CM";  cValue := pxValue
       CASE cType == "N" ;  nDecimals := iif( pxValue == Int( pxValue ), 0, nDecimals ) ; cValue := LTrim( Str( pxValue, 20, nDecimals ) )
-      CASE cType == "D" ;  cValue := dTos( pxValue )
+      CASE cType == "D" ;  cValue := DToS( pxValue )
       CASE cType == "L" ;  cValue := iif( pxValue, "T", "F" )
       CASE cType == "A" ;  cValue := aToS( pxValue )
       CASE cType $  "UE";  cValue := "NIL"
@@ -530,15 +530,15 @@ FUNCTION Check_ALen( Arg1 AS STRING, Campo AS STRING )
   IF Campo = "Header"
 
      s1 := At(  "{", Arg1 )
-     s2 := Rat( "{", Arg1 )
+     s2 := RAt( "{", Arg1 )
      e1 := At(  "}", Arg1 )
-     e2 := Rat( "}", Arg1 )
+     e2 := RAt( "}", Arg1 )
 
      IF s1 < s2
         IF e1 < e2
            BEGIN SEQUENCE
-             P1 := macrocompile(left(arg1,e1),"Part ONE of Header!")
-             aEval( P1,{|x| cfn := ValType(x)#"C"})
+             P1 := macrocompile(Left(arg1,e1),"Part ONE of Header!")
+             AEval( P1,{|x| cfn := ValType(x)#"C"})
            END SEQUENCE
 
            IF cfn
@@ -549,7 +549,7 @@ FUNCTION Check_ALen( Arg1 AS STRING, Campo AS STRING )
 
            BEGIN SEQUENCE
              P2 := macrocompile(SubStr(arg1,s2),"Part TWO of Header!")
-             aEval( P2,{|x| cfn := ValType(x) # "C"})
+             AEval( P2,{|x| cfn := ValType(x) # "C"})
            END SEQUENCE
 
            IF cfn
@@ -686,8 +686,8 @@ FUNCTION vld_f( wa AS STRING, af AS ARRAY, ty AS STRING )
    Populate_list( wa )
 
    IF ty = "name"
-      aEval( af, {| x, y | af[y] := Upper( AllTrim(x))})
-      aEval( af, {| x, y | iif( aScan( _DbaNames, x ) < 1,( e := .F., wh := y ), "" ) } )
+      AEval( af, {| x, y | af[y] := Upper( AllTrim(x))})
+      AEval( af, {| x, y | iif( AScan( _DbaNames, x ) < 1,( e := .F., wh := y ), "" ) } )
    ENDIF
 
    IF ! e

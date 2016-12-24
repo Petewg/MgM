@@ -118,7 +118,7 @@ PROCEDURE Check_Modules( param AS STRING ) // verify .prg ->.c
        //MsgBox( "cFile= " + cFile )
 
       aDir   := Directory( cFile )
-      //MSGBOX('LEN= ' + STR(LEN(ADIR)) )
+      //MSGBOX('LEN= ' + Str(Len(ADIR)) )
       cDate  := aDir[ 1, 3 ]
       cTime  := aDir[ 1, 4 ]
       cNameC := SubStr( cName, 1, Len( cName ) - 4 )
@@ -131,7 +131,7 @@ PROCEDURE Check_Modules( param AS STRING ) // verify .prg ->.c
          cTime1 := aDir1[ 1, 4 ]
          lCheck := .T.
 
-         IF ( dTos( cDate ) + cTime ) > ( dTos( cDate1 ) + cTime1 )
+         IF ( DToS( cDate ) + cTime ) > ( DToS( cDate1 ) + cTime1 )
              // MsgBox( "FIRST-DELETE" )
             xDelete()
             lCheck := .F.  // not necessary checkdeps
@@ -189,10 +189,10 @@ PROCEDURE Check_Dependences( x4 AS STRING )  // verify .PRG->.FMG->.c
             cDate2 := aDir2[ 1, 3 ]
             cTime2 := aDir2[ 1, 4 ]
 
-            IF ( dToS( cDate2 ) + cTime2 ) > ( dToS( cDate1 ) + cTime1 )
+            IF ( DToS( cDate2 ) + cTime2 ) > ( DToS( cDate1 ) + cTime1 )
                // MsgBox("SECOND-DELETE")
                IF BuildType = "full"
-                  nPos   := Rat( "\", CFILEF )
+                  nPos   := RAt( "\", CFILEF )
                   cFile2 := SubStr( cFileF, nPos + 1, Len( cFileF ) )
                   IF IsWindowDefined( BUILD )
                      SetProperty( "build", "edit_1", "value", GetProperty( "build","edit_1","value" ) + Upper( cFile2 ) + " -> " + x4 + " -> " )

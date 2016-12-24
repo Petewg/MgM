@@ -81,7 +81,7 @@ PROCEDURE LoadFmg()
    x5 := MemoRead( x4 )
    // MsgBox( "x5= " + x5 )
 
-   x6 := MlCount( x5, 1000 )
+   x6 := MLCount( x5, 1000 )
    // MsgBox( "len x6= " + Str( x6 ) )
 
    IF Empty( x6 )
@@ -127,7 +127,7 @@ PROCEDURE LoadFmg()
        A1 := AllTrim( MemoLine( x5, 1000, xLin, NIL, .T. ) )
 
        IF Len( A1 ) # 0
-          // MsgBox( "first A1=  " +A1 + "  len A1= "+str(Len(A1))+ " total= "+str(x6) + " linha= "+str(xlin)  )
+          // MsgBox( "first A1=  " +A1 + "  len A1= "+Str(Len(A1))+ " total= "+Str(x6) + " linha= "+Str(xlin)  )
 
           IF FoundWindow == .F.
              x1 := At( "DEFINE WINDOW TEMPLATE ", A1 )
@@ -264,16 +264,16 @@ PROCEDURE InitValues()
   aItens[ 7] := {"SLIDER"        ,"DEFINE SLIDER"               , "","ROW","","COL","","WIDTH","","HEIGHT","","RANGEMIN","1","RANGEMAX","10","VALUE","0","TOOLTIP",'""',"ONCHANGE","NIL","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","NOTICKS","NIL","BACKCOLOR","NIL","ORIENTATION","1","TICKMARKS","2","VERTICAL",".F.","HORIZONTAL",".T.","BOTH",".F.","NONE",".F.","TOP",".F.","BOTTOM",".T.","LEFT",".F.","RIGHT",".T.","ONSCROLL","NIL","END SLIDER"}
   aItens[ 8] := {"SPINNER"       ,"DEFINE SPINNER"              , "","ROW","","COL","","WIDTH","","HEIGHT","","RANGEMIN","1","RANGEMAX","10","VALUE","0","FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","ONGOTFOCUS","NIL","ONLOSTFOCUS","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","WRAP",".F.","READONLY",".F.","INCREMENT","1","BACKCOLOR","NIL","FONTCOLOR","NIL","END SPINNER"}
   aItens[ 9] := {"IMAGE"         ,"DEFINE IMAGE"                , "","ROW","","COL","","WIDTH","","HEIGHT","","PICTURE","","HELPID","NIL","VISIBLE",".T.","STRETCH",".F.","ACTION","NIL","WHITEBACKGROUND",".F.","ONMOUSEHOVER","NIL","ONMOUSELEAVE","NIL","TRANSPARENT",".F.","BACKGROUNDCOLOR","NIL","ADJUSTIMAGE",".F.","TOOLTIP",'""',"END IMAGE"}
-  aItens[10] := {"DATEPICKER"    ,"DEFINE DATEPICKER"           , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'CTOD("")',"FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","ONGOTFOCUS","NIL","ONLOSTFOCUS","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","ONENTER","NIL","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","SHOWNONE",".F.","UPDOWN",".F.","RIGHTALIGN",".F.","FIELD","","BACKCOLOR","NIL","FONTCOLOR","NIL","DATEFORMAT","","TITLEBACKCOLOR","NIL","TITLEFONTCOLOR","NIL","END DATEPICKER"}
+  aItens[10] := {"DATEPICKER"    ,"DEFINE DATEPICKER"           , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'CToD("")',"FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","ONGOTFOCUS","NIL","ONLOSTFOCUS","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","ONENTER","NIL","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","SHOWNONE",".F.","UPDOWN",".F.","RIGHTALIGN",".F.","FIELD","","BACKCOLOR","NIL","FONTCOLOR","NIL","DATEFORMAT","","TITLEBACKCOLOR","NIL","TITLEFONTCOLOR","NIL","END DATEPICKER"}
   aItens[11] := {"TEXTBOX"       ,"DEFINE TEXTBOX"              , "","ROW","","COL","","WIDTH","","HEIGHT","","FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","ONGOTFOCUS","NIL","ONLOSTFOCUS","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","ONENTER","NIL","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","READONLY",".F.","RIGHTALIGN",".F.","LOWERCASE",".F.","UPPERCASE",".F.","NONE",".T.","PASSWORD",".F.","MAXLENGTH","0","BACKCOLOR","NIL","FONTCOLOR","NIL","FIELD","NIL","INPUTMASK",'""',"FORMAT",'""',"DATE",".F.","NUMERIC",".F.","CHARACTER",".T.","VALUE",'""',"CASECONVERT",".F.","DATATYPE",".F.","BORDER",".T.","END TEXTBOX"}
   aItens[12] := {"EDITBOX"       ,"DEFINE EDITBOX"              , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'""',"FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","ONGOTFOCUS","NIL","ONLOSTFOCUS","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","READONLY",".F.","BACKCOLOR","NIL","FONTCOLOR","NIL","MAXLENGTH","NIL","FIELD","NIL","HSCROLLBAR",".T.","VSCROLLBAR",".T.","BREAK",".F.","END EDITBOX"}
   aItens[13] := {"LABEL"         ,"DEFINE LABEL"                , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE","","FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","HELPID","NIL","VISIBLE",".T.","TRANSPARENT",".F.","ACTION","NIL","AUTOSIZE",".F.","BACKCOLOR","NIL","FONTCOLOR","NIL","ALIGNMENT","1","LEFTALIGN",".T.","RIGHTALIGN",".F.","CENTERALIGN",".F.","BORDER",".F.","CLIENTEDGE",".F.","HSCROLL",".F.","VSCROLL",".F.","BLINK",".F.","ONMOUSEHOVER","NIL","ONMOUSELEAVE","NIL","END LABEL"}
-  aItens[14] := {"BROWSE"        ,"DEFINE BROWSE"               , "","ROW","","COL","","WIDTH","","HEIGHT","","HEADERS","{''}","WIDTHS","{0}","FIELDS","{''}","VALUE","0","WORKAREA","NIL","FONTNAME",'"Arial"',"FONTSIZE","9","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","TOOLTIP",'""',"BACKCOLOR","NIL","DYNAMICBACKCOLOR","NIL","DYNAMICFORECOLOR","NIL","FONTCOLOR","NIL","ONGOTFOCUS","NIL","ONCHANGE","NIL","ONLOSTFOCUS","NIL","ONDBLCLICK","NIL","ALLOWEDIT",".F.","INPLACEEDIT",".F.","ALLOWAPPEND",".F.","INPUTITEMS","NIL","DISPLAYITEMS","NIL","ONHEADCLICK","NIL","WHEN","NIL","VALID","NIL","VALIDMESSAGES","NIL","PAINTDOUBLEBUFFER",".F.","READONLYFIELDS","NIL","LOCK",".F.","ALLOWDELETE",".F.","NOLINES",".F.","IMAGE","NIL","JUSTIFY","NIL","VSCROLLBAR",".T.","HELPID","NIL","BREAK",".F.","HEADERIMAGE","","NOTABSTOP",".F.","DATABASENAME","NIL","DATABASEPATH","NIL","END BROWSE"} && "INPUTMASK","NIL","FORMAT","NIL", 
+  aItens[14] := {"BROWSE"        ,"DEFINE BROWSE"               , "","ROW","","COL","","WIDTH","","HEIGHT","","HEADERS","{''}","WIDTHS","{0}","FIELDS","{''}","VALUE","0","WORKAREA","NIL","FONTNAME",'"Arial"',"FONTSIZE","9","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","TOOLTIP",'""',"BACKCOLOR","NIL","DYNAMICBACKCOLOR","NIL","DYNAMICFORECOLOR","NIL","FONTCOLOR","NIL","ONGOTFOCUS","NIL","ONCHANGE","NIL","ONLOSTFOCUS","NIL","ONDBLCLICK","NIL","ALLOWEDIT",".F.","INPLACEEDIT",".F.","ALLOWAPPEND",".F.","INPUTITEMS","NIL","DISPLAYITEMS","NIL","ONHEADCLICK","NIL","WHEN","NIL","VALID","NIL","VALIDMESSAGES","NIL","PAINTDOUBLEBUFFER",".F.","READONLYFIELDS","NIL","LOCK",".F.","ALLOWDELETE",".F.","NOLINES",".F.","IMAGE","NIL","JUSTIFY","NIL","VSCROLLBAR",".T.","HELPID","NIL","BREAK",".F.","HEADERIMAGE","","NOTABSTOP",".F.","DATABASENAME","NIL","DATABASEPATH","NIL","END BROWSE"} && "INPUTMASK","NIL","FORMAT","NIL",
   aItens[15] := {"RADIOGROUP"    ,"DEFINE RADIOGROUP"           , "","ROW","","COL","","WIDTH","","HEIGHT","","OPTIONS","{'Option 1','Option 2'}","VALUE","1","FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","TRANSPARENT",".F.","SPACING","25","BACKCOLOR","NIL","FONTCOLOR","NIL","LEFTJUSTIFY",".F.","HORIZONTAL",".F.","READONLY","","END RADIOGROUP"}
   aItens[16] := {"FRAME"         ,"DEFINE FRAME"                , "","ROW","","COL","","WIDTH","","HEIGHT","","FONTNAME",'"Arial"',"FONTSIZE","9","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","CAPTION",'""',"BACKCOLOR","NIL","FONTCOLOR","NIL","OPAQUE",".F.","INVISIBLE",".F.","TRANSPARENT",".F.","END FRAME"}
   aItens[17] := {"ANIMATEBOX"    ,"DEFINE ANIMATEBOX"           , "","ROW","","COL","","WIDTH","","HEIGHT","","FILE",'""',"HELPID","NIL","TRANSPARENT",".F.","AUTOPLAY",".F.","CENTER",".F.","BORDER",".T.","END ANIMATEBOX"}
   aItens[18] := {"HYPERLINK"     ,"DEFINE HYPERLINK"            , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'"http://sourceforge.net/projects/hmgs-minigui"',"ADDRESS",'"http://sourceforge.net/projects/hmgs-minigui"',"FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","AUTOSIZE",".F.","HELPID","NIL","VISIBLE",".T.","HANDCURSOR",".F.","BACKCOLOR","NIL","FONTCOLOR","NIL","RIGHTALIGN",".F.","CENTERALIGN",".F.","END HYPERLINK"}
-  aItens[19] := {"MONTHCALENDAR" ,"DEFINE MONTHCALENDAR"        , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'CTOD("")',"FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","NOTODAY",".F.","NOTODAYCIRCLE",".F.","WEEKNUMBERS",".F.","BACKCOLOR","NIL","FONTCOLOR","NIL","TITLEBACKCOLOR","NIL","TITLEFONTCOLOR","NIL","BACKGROUNDCOLOR","NIL","TRAILINGFONTCOLOR","NIL","BKGNDCOLOR","NIL","END MONTHCALENDAR"}
+  aItens[19] := {"MONTHCALENDAR" ,"DEFINE MONTHCALENDAR"        , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'CToD("")',"FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","NOTODAY",".F.","NOTODAYCIRCLE",".F.","WEEKNUMBERS",".F.","BACKCOLOR","NIL","FONTCOLOR","NIL","TITLEBACKCOLOR","NIL","TITLEFONTCOLOR","NIL","BACKGROUNDCOLOR","NIL","TRAILINGFONTCOLOR","NIL","BKGNDCOLOR","NIL","END MONTHCALENDAR"}
   aItens[20] := {"RICHEDITBOX"   ,"DEFINE RICHEDITBOX"          , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'""',"FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","ONGOTFOCUS","NIL","ONLOSTFOCUS","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","READONLY",".F.","BACKCOLOR","NIL","FIELD","NIL","MAXLENGTH","NIL","FILE","NIL","ONSELECT","NIL","PLAINTEXT",".F.","HSCROLLBAR",".T.","VSCROLLBAR",".T.","FONTCOLOR","NIL","BREAK",".F.","ONVSCROLL","NIL","END RICHEDITBOX"}
   aItens[21] := {"PROGRESSBAR"   ,"DEFINE PROGRESSBAR"          , "","ROW","","COL","","WIDTH","","HEIGHT","","RANGEMIN","1","RANGEMAX","10","VALUE","0","TOOLTIP",'""',"HELPID","NIL","VISIBLE",".T.","SMOOTH",".F.","VERTICAL",".F.","BACKCOLOR","NIL","FORECOLOR","NIL","ORIENTATION","1","MARQUEE",".F.","VELOCITY","40","END PROGRESSBAR"}
   aItens[22] := {"PLAYER"        ,"DEFINE PLAYER"               , "","ROW","","COL","","WIDTH","","HEIGHT","","FILE","","HELPID","NIL","NOAUTOSIZEWINDOW",".F.","NOAUTOSIZEMOVIE",".F.","NOERRORDLG",".F.","NOMENU",".F.","NOOPEN",".F.","NOPLAYBAR",".F.","SHOWALL",".F.","SHOWMODE",".F.","SHOWNAME",".F.","SHOWPOSITION",".F.","END PLAYER"}
@@ -286,9 +286,9 @@ PROCEDURE InitValues()
 
 // aItens[29] :={"BTNTEXTBOX"    ,"DEFINE BTNTEXTBOX"           , "","ROW","","COL","","WIDTH","","HEIGHT","","FIELD","","VALUE",'""',"ACTION","NIL","PICTURE",'""',"BUTTONWIDTH","0","FONTNAME",'"Arial"',"FONTSIZE","9","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","NUMERIC",".F.","PASSWORD",".F.","TOOLTIP",'""',"BACKCOLOR","NIL","FONTCOLOR","NIL","MAXLENGTH","0","UPPERCASE",".F.","LOWERCASE",".F.","ONGOTFOCUS","NIL","ONCHANGE","NIL","ONLOSTFOCUS","NIL","ONENTER","NIL","RIGHTALIGN",".F.","VISIBLE",".T.","TABSTOP",".T.","HELPID","NIL","DISABLEEDIT",".F.","CHARACTER",".F.","NONE",".F.", "CASECONVERT", ".F.","END BTNTEXTBOX"}
   aItens[29] := {"BTNTEXTBOX"    ,"DEFINE BTNTEXTBOX"           , "","ROW","","COL","","WIDTH","","HEIGHT","","FIELD","","VALUE",'""',"ACTION","NIL","PICTURE",'""',"BUTTONWIDTH","0","FONTNAME",'"Arial"',"FONTSIZE","9","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","NUMERIC",".F.","PASSWORD",".F.","TOOLTIP",'""',"BACKCOLOR","NIL","FONTCOLOR","NIL","MAXLENGTH","0","UPPERCASE",".F.","LOWERCASE",".F.","ONGOTFOCUS","NIL","ONCHANGE","NIL","ONLOSTFOCUS","NIL","ONENTER","NIL","RIGHTALIGN",".F.","VISIBLE",".T.","TABSTOP",".T.","HELPID","NIL","DISABLEEDIT",".F.","CHARACTER",".F.","NONE",".F.", "CASECONVERT", ".F.","CUEBANNER", "", "END BTNTEXTBOX"}
-  
+
   aItens[30] := {"HOTKEYBOX"     ,"DEFINE HOTKEYBOX"            , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE","0","FONTNAME",'"Arial"',"FONTSIZE","9","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","TOOLTIP",'""',"ONCHANGE","NIL","HELPID","NIL","VISIBLE",".T.","TABSTOP",".T.","END HOTKEYBOX"}
-  
+
   aItens[31] := {"CHECKLABEL"    ,"DEFINE CHECKLABEL"           , "","ROW","","COL","","WIDTH","","HEIGHT","","VALUE",'"CHECKLABEL"',"ACTION","NIL","ONMOUSEHOVER","NIL","ONMOUSELEAVE","NIL","AUTOSIZE",".F.","FONTNAME",'"Arial"',"FONTSIZE","9","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","TOOLTIP",'""',"BACKCOLOR","NIL","FONTCOLOR","NIL","IMAGE","NIL","HELPID","NIL","VISIBLE",".T.","BORDER",".T.","CLIENTEDGE",".F.","HSCROLL",".F.","VSCROLL", ".F.","TRANSPARENT",".F." ,"BLINK", ".F.","ALIGNMENT", "1", "LEFTALIGN", ".T.","RIGHTALIGN",".F.","CENTERALIGN",".F.","LEFTCHECK",".F.","CHECKED",".F.","END CHECKLABEL"}
   aItens[32] := {"CHECKLISTBOX"  ,"DEFINE CHECKLISTBOX"         , "","ROW","","COL","","WIDTH","","HEIGHT","","ITEMS",'{""}',"VALUE","0","FONTNAME",'"Arial"',"FONTSIZE","9","TOOLTIP",'""',"ONCHANGE","NIL","ONGOTFOCUS","NIL","ONLOSTFOCUS","NIL","FONTBOLD",".F.","FONTITALIC",".F.","FONTUNDERLINE",".F.","FONTSTRIKEOUT",".F.","BACKCOLOR","NIL","FONTCOLOR","NIL","ONDBLCLICK","NIL","HELPID","NIL","TABSTOP",".T.","VISIBLE",".T.","SORT",".F.","MULTISELECT",".F.","CHECKBOXITEM","{0}","ITEMHEIGHT","0","END CHECKLISTBOX"}
 
@@ -428,11 +428,11 @@ FUNCTION LoadWindow()
    xProp  := {".T.","NIL",".F.",235,"",".F.",".F.",350,".F.","",".T.",".T.","NIL","NIL","NIL","NIL","","",".F.",140,".T.",".T.","",".T.",".F.",".T.",550,"STANDARD",350,550,"NIL","NIL","NIL"}
    xEvent := {}
 
-   aSize( xEvent, 23 )
+   ASize( xEvent, 23 )
    aItens := {"DEFINE WINDOW TEMPLATE AT"," ,","WIDTH","HEIGHT","MINWIDTH","MINHEIGHT","MAXWIDTH","MAXHEIGHT","VIRTUAL WIDTH","VIRTUAL HEIGHT","TITLE"," ICON"," MAIN","CHILD","MODAL","SPLITCHILD","MDI ","MDICHILD","NOSHOW","TOPMOST","PALETTE","NOAUTORELEASE","NOMINIMIZE","NOMAXIMIZE","NOSIZE","NOSYSMENU","NOCAPTION","CURSOR","ON INIT","ON RELEASE","ON INTERACTIVECLOSE","ON MOUSECLICK","ON MOUSEDRAG","ON MOUSEMOVE","ON MOVE","ON SIZE","ON MAXIMIZE","ON MINIMIZE","ON RESTORE","ON PAINT","BACKCOLOR","FONT"," SIZE ","GRIPPERTEXT","BREAK","FOCUSED","NOTIFYICON","NOTIFYTOOLTIP","ON NOTIFYCLICK","ON GOTFOCUS","ON LOSTFOCUS","ON SCROLLUP","ON SCROLLDOWN","ON SCROLLLEFT","ON SCROLLRIGHT","ON HSCROLLBOX","ON VSCROLLBOX","ON DROPFILES","HELPBUTTON","VIRTUALSIZED","ON NOTIFYBALLOONCLICK","_HMGS_FIM"}
    //XLOGFORM()
-   
-   // msgbox('len aitens = ' + str(len(aitens)) )  && 62
+
+   // msgbox('len aitens = ' + Str(Len(aitens)) )  && 62
    LinMain   := ""
    LinMain2  := ""
    xControl  := 0
@@ -443,10 +443,10 @@ FUNCTION LoadWindow()
    ObjectInspector.Title := "Object Inspector [" + CurrentForm + "]"
 
    FOR y := 2 TO Len( aItens ) - 1
-  
+
      X1 := At( aItens[ y ], A1 )
        IF X1 > 0
-          nLastFound := y          
+          nLastFound := y
           ********verify end
           Rest := AllTrim( SubStr( A1, x1 + Len( aItens[ y ] ), Len( A1 ) ) )
           //msgbox('rest= ' + rest )
@@ -461,45 +461,45 @@ FUNCTION LoadWindow()
        ELSE
         LinMain2 +=  aItens[ y ] + ' NIL' + CRLF
        ENDIF
-   NEXT      
+   NEXT
    LinMain += " "+ Rest
   // MSGBOX('Linmain = '+CRLF + Linmain )
   //  msgbox( 'Linmain2 = '+CRLF  + Linmain2 )
-    
-    LinMain += CRLF + Linmain2 
+
+    LinMain += CRLF + Linmain2
    //  MSGBOX('Linmain FINAL = ' +CRLF + Linmain )
-    
+
    VL := {}
 
    //XLOGFORM()
- 
+
    FOR nLine := 1 TO Len( aItens )-1
-   
+
       *npos = 0
-      A1 :=  MemoLine( LinMain, 1000, nLine, NIL, .T. ) 
-    //  msgbox('nline = ' + str(nline) + ' a1 = ' + a1 )
-      
-       for y := 1 to len(aItens)
+      A1 :=  MemoLine( LinMain, 1000, nLine, NIL, .T. )
+    //  msgbox('nline = ' + Str(nline) + ' a1 = ' + a1 )
+
+       for y := 1 to Len(aItens)
          if y = 2
-           npos := At( alltrim(aItens[ y ]), A1 )
+           npos := At( AllTrim(aItens[ y ]), A1 )
          else
             npos := At( aItens[ y ], A1 )
-         endif  
-      //   msgbox('npos = ' + str(npos) + CRLF + "A1= "+A1+ CRLF +" y= "+str(y)+" value= " +aItens[y] )
-         if npos = 1 .or. npos = 2 
-        //    MsgBox("A1= "+A1+ CRLF +" y= "+str(y)+" value= " +aItens[y] ) && + CRLF  +" len= "+str(Len(aItens[y])))
+         endif
+      //   msgbox('npos = ' + Str(npos) + CRLF + "A1= "+A1+ CRLF +" y= "+Str(y)+" value= " +aItens[y] )
+         if npos = 1 .or. npos = 2
+        //    MsgBox("A1= "+A1+ CRLF +" y= "+Str(y)+" value= " +aItens[y] ) && + CRLF  +" len= "+Str(Len(aItens[y])))
             // MsgBox("A1= "+A1 )
             IF y = 43 // POSITION OF " SIZE "
                A2 := AllTrim( SubStr( A1, ( Len( aItens[ y] ) ), ( Len( A1 ) ) ) )
              //  MsgBox("size prop2 A2= "+A2 )
             ELSE
-               A2 := AllTrim( SubStr( A1, ( Len( aItens[ y] ) + 1 ),( Len( A1 ) - Len( aItens[ y ] ) ) ) )  
-             //  MsgBox("A2= "+A2 )            
+               A2 := AllTrim( SubStr( A1, ( Len( aItens[ y] ) + 1 ),( Len( A1 ) - Len( aItens[ y ] ) ) ) )
+             //  MsgBox("A2= "+A2 )
             ENDIF
-            exit   
-         endif   
-       next 
-          
+            exit
+         endif
+       next
+
       PROP1 := aItens[ y ]
       PROP2 := A2
       VHASH := PROP2
@@ -523,18 +523,18 @@ FUNCTION LoadWindow()
       ELSEIF Prop1 == "BACKCOLOR" .AND. Upper( A2 ) # "NIL"
          A2    := {}
          Prop3 := SubStr( Prop2, 2, At(",", Prop2 ) - 1 )
-         aAdd(A2, Val( prop3 ) )
-         Prop3 := SubStr( Prop2, At( ",", Prop2 ) + 1, Rat( ",", Prop2 ) - 1 )
-         aAdd(A2, Val( prop3 ) )
-         Prop3 := SubStr( Prop2, Rat( ",",prop2)+1, Len( Prop2 ) - 1 )
-         aAdd(A2, Val( prop3 ) )
+         AAdd(A2, Val( prop3 ) )
+         Prop3 := SubStr( Prop2, At( ",", Prop2 ) + 1, RAt( ",", Prop2 ) - 1 )
+         AAdd(A2, Val( prop3 ) )
+         Prop3 := SubStr( Prop2, RAt( ",",prop2)+1, Len( Prop2 ) - 1 )
+         AAdd(A2, Val( prop3 ) )
          VHASH := A2
       ENDIF
 
       IF Prop1 == "VIRTUALSIZED" .AND. Upper( A2 ) == "NIL"
-         IF VAL(VLHASH["VIRTUAL WIDTH"]) > VAL(VLHASH["WIDTH"]) .OR. VAL(VLHASH["VIRTUAL HEIGHT"]) > VAL(VLHASH["HEIGHT"])
+         IF Val(VLHASH["VIRTUAL WIDTH"]) > Val(VLHASH["WIDTH"]) .OR. Val(VLHASH["VIRTUAL HEIGHT"]) > Val(VLHASH["HEIGHT"])
              A2 := ".T."
-             VHASH := A2       
+             VHASH := A2
          ELSE
             A2 := ".F."
             VHASH := A2
@@ -547,7 +547,7 @@ FUNCTION LoadWindow()
         PROP1 := 'ROW'
       ELSEIF PROP1 = ',' .OR. PROP1 = ' ,'
         PROP1 := 'COL'
-      ENDIF    
+      ENDIF
 
       VLHASH[PROP1] := VHASH
 
@@ -568,7 +568,7 @@ FUNCTION XLoadControl( Item AS NUMERIC, x5 AS STRING, ControlName AS STRING )
 
    ControlAtual              := Item
    aItens[ ControlAtual, 3 ] := ControlName
-   x6                        := mlCount( x5, 1000 )
+   x6                        := MLCount( x5, 1000 )
    LinMain                   := ""
    nTotControl ++
    LinMain                   += A1 + CRLF
@@ -583,8 +583,8 @@ FUNCTION XLoadControl( Item AS NUMERIC, x5 AS STRING, ControlName AS STRING )
     //MsgBox("1-PROP= "+PROP)
     //MsgBox("1-VALUE= " +VALUE)
 
-   xPos := aScan( aItens[ Item ], Prop )
-     //MsgBox("XPOS= " + STR(XPOS) )
+   xPos := AScan( aItens[ Item ], Prop )
+     //MsgBox("XPOS= " + Str(XPOS) )
      aItens[ Item, xPos+ 1 ]:= Value
      //MsgBox("AITENS+1= "+aItens[ITEM,XPOS+1] )
    DO WHILE .T.
@@ -594,7 +594,7 @@ FUNCTION XLoadControl( Item AS NUMERIC, x5 AS STRING, ControlName AS STRING )
          EXIT
       ENDIF
 
-     //MSGBOX(' nTotControl = ' + str(nTotControl) ) 
+     //MSGBOX(' nTotControl = ' + Str(nTotControl) )
      //IF nTotControl = 72
      //   MsgBox(A1,"A1")
      //ENDIF
@@ -608,10 +608,10 @@ FUNCTION XLoadControl( Item AS NUMERIC, x5 AS STRING, ControlName AS STRING )
       //   MsgBox( "VALUE= " + VALUE )
       //ENDIF
 
-      xPos  := aScan( aItens[ Item ], PROP )
+      xPos  := AScan( aItens[ Item ], PROP )
 
       //IF nTotControl = 72
-      //   MsgBox("XPOS= "+STR(XPOS) + " XPOS+1 VALUE = "+ VALUE)
+      //   MsgBox("XPOS= "+Str(XPOS) + " XPOS+1 VALUE = "+ VALUE)
       //ENDIF
 
       IF xPos > 1
@@ -648,7 +648,7 @@ PROCEDURE LoadInclude()
   //? LoadInclude( X5 ) is called with a parameter but not
   //? Not declare here
 
-  aAdd( aInclude, A1 )
+  AAdd( aInclude, A1 )
 RETURN
 
 
@@ -854,7 +854,7 @@ PROCEDURE LoadTab( x5 AS STRING, x6 AS USUAL, TabName AS STRING ) //? X6 is it u
 
    SaveControlVal() // parcial
 
-   nrLines        := mlCount( LinMain )
+   nrLines        := MLCount( LinMain )
    TempnrControl  := nTotControl
 
    // MsgBox( "name tab = " + xArray[ nTotControl, 3 ] )
@@ -902,9 +902,9 @@ PROCEDURE LoadTab( x5 AS STRING, x6 AS USUAL, TabName AS STRING ) //? X6 is it u
                       // MsgBox("XTOOLTIP= "+XTOOLTIP)
                    ENDIF
 
-                   aAdd( XPageImages  , NoQuota( xPage ) )
-                   aAdd( XPageCaptions, XCapt            )
-                   aAdd( XPageTooltips, XTooltip         )
+                   AAdd( XPageImages  , NoQuota( xPage ) )
+                   AAdd( XPageCaptions, XCapt            )
+                   AAdd( XPageTooltips, XTooltip         )
 
                    _AddTabPage( TabName, "Form_1", nrPages, NoQuota( XCapt ), XPage, noquota( XToolTip ) )
 
@@ -918,9 +918,9 @@ PROCEDURE LoadTab( x5 AS STRING, x6 AS USUAL, TabName AS STRING ) //? X6 is it u
                       XToolTip := AllTrim( SubStr( A1, X4+7, Len( A1 ) ) )
                    ENDIF
 
-                   aAdd( XPageImages  , ""       )
-                   aAdd( XPageCaptions, XCapt    )
-                   aAdd( XPageToolTips, XToolTip )
+                   AAdd( XPageImages  , ""       )
+                   AAdd( XPageCaptions, XCapt    )
+                   AAdd( XPageToolTips, XToolTip )
                    // MsgBox("xcapt= "+xcapt)
 
                    _AddTabPage( TabName, "Form_1", nrPages, NoQuota( XCapt ), "", NoQuota( XToolTip ) )
@@ -928,11 +928,11 @@ PROCEDURE LoadTab( x5 AS STRING, x6 AS USUAL, TabName AS STRING ) //? X6 is it u
             ENDIF
 
             *********find controls
-            // MsgBox("xlin= "+ str(xlin)+ " x2= >0-nao procurar "+ str(x2) )
+            // MsgBox("xlin= "+ Str(xlin)+ " x2= >0-nao procurar "+ Str(x2) )
             IF x2 = 0
                FindControls( x5, TabName, A1, nrPages )
             ENDIF
-            // MsgBox("xlin= "+ str(xlin))
+            // MsgBox("xlin= "+ Str(xlin))
             ****************conext to tab
           ENDIF
        ENDIF
@@ -968,7 +968,7 @@ PROCEDURE LoadTab( x5 AS STRING, x6 AS USUAL, TabName AS STRING ) //? X6 is it u
    ZPageToolTips := SubStr( ZPageToolTips, 1, ( Len( ZPageToolTips ) - 1 ) ) + "}"
 
    LinMain := ""
-   LinMain += "PAGECOUNT "    + hb_NtoS( NRPages ) + CRLF
+   LinMain += "PAGECOUNT "    + hb_ntos( NRPages ) + CRLF
    LinMain += "PAGEIMAGES "   + ZPageImages        + CRLF
    LinMain += "PAGECAPTIONS " + ZPageCaptions      + CRLF
    LinMain += "PAGETOOLTIPS " + ZPageToolTips      + CRLF
@@ -1057,17 +1057,17 @@ FUNCTION LoadTbrowse( x5 AS STRING, ControlName AS STRING )
 
        xFound := .F.
 
-       FOR xItem := 2 to mlCount( A2 )
+       FOR xItem := 2 to MLCount( A2 )
            A1 := AllTrim( MemoLine( A2, 1000, xItem, NIL, .T. ) )
            // MsgBox( A1," A1-linha" )
            // MsgBox( aItens[ ControlAtual,zItens ], "procurando" )
            A3 := At( aItens[ ControlAtual, zItens ], A1 )
-           // MsgBox(STR(A3), "A3-posicao" )
+           // MsgBox(Str(A3), "A3-posicao" )
 
            IF A3 = 1
               xFound  := .T.
               LinMain += A1 + CRLF
-              xItem   := mlCount( A2 )
+              xItem   := MLCount( A2 )
               // MsgBox(LinMain, "LinMain-1" )
            ENDIF
        NEXT xItem
@@ -1096,53 +1096,53 @@ PROCEDURE LoadMainMenu( X5 AS STRING )
    ControlAtual := 36
    aItens[ControlAtual]   := {"MAINMENU","DEFINE MAIN MENU","DEFINE POPUP","MENUITEM","SEPARATOR","END POPUP","END MENU"}
 
-   aAdd( aMenu, A1 )
+   AAdd( aMenu, A1 )
 
    LinMain += A1 + CRLF
    lTrue   := .T.
 
    DO WHILE lTRUE
       xLin ++
-      // A1 := AllTrim(memoline(x5,1000,Xlin,,.T.))
+      // A1 := AllTrim(MemoLine(x5,1000,Xlin,,.T.))
       A1 := MemoLine( X5, 1000, xLin, NIL, .T. )
 
       X4 := At( aItens[ ControlAtual, 3 ], A1 )  // define popup
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aMenu, A1 )
+         AAdd( aMenu, A1 )
          *  cCaption := SubStr(A1,13,Len(A1))
          // MsgBox(CCAPTION)
-         *  aAdd(ARRAYMENU,{"POPUP",cCaption})
+         *  AAdd(ARRAYMENU,{"POPUP",cCaption})
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 4 ], A1 ) // menuitem
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aMenu, A1 )
-         * x5 := AT("ACTION",A1)
+         AAdd( aMenu, A1 )
+         * x5 := At("ACTION",A1)
          * C1Caption := SubStr(A1,x4+9,x5-1)
          * c1Action := SubStr(A1,x5+7)
          // MsgBox(C1CAPTION, c1Action)
-         *  aAdd(ARRAYMENU,{"ITEM",c1Caption,c1Action})
+         *  AAdd(ARRAYMENU,{"ITEM",c1Caption,c1Action})
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 5 ], A1 )  // separator
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aMenu, A1 )
-         // aAdd(ARRAYMENU,{"SEPARATOR","SEPARATOR"})
+         AAdd( aMenu, A1 )
+         // AAdd(ARRAYMENU,{"SEPARATOR","SEPARATOR"})
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 6 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aMenu, A1 )
+         AAdd( aMenu, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 7 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF   //
-         aAdd( aMenu, A1 )         //
+         AAdd( aMenu, A1 )         //
          lTrue := .F.
          LOOP
       ENDIF
@@ -1165,7 +1165,7 @@ PROCEDURE LoadToolBar( x5 AS STRING )
    //xItem        := 1
    aItens[ControlAtual]   := { "TOOLBAR","DEFINE TOOLBAR","BUTTON","END TOOLBAR" }
 
-   aAdd( aToolbar, A1 )
+   AAdd( aToolbar, A1 )
 
    LinMain += A1 + CRLF
    lTRUE   := .T.
@@ -1177,14 +1177,14 @@ PROCEDURE LoadToolBar( x5 AS STRING )
 
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aToolbar, A1 )
+         AAdd( aToolbar, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 4 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
          // MsgBox( LinMain )
-         aAdd( aToolbar, A1 )
+         AAdd( aToolbar, A1 )
          lTrue := .F.
          LOOP
       ENDIF
@@ -1205,7 +1205,7 @@ PROCEDURE LoadContext( x5 AS STRING )
    //xItem        := 1
    aItens[ControlAtual]   := {"CONTEXT MENU","DEFINE CONTEXT MENU","MENUITEM","SEPARATOR","END MENU"}
 
-   aAdd( aContext, A1 )
+   AAdd( aContext, A1 )
 
    LinMain += A1 + CRLF
    lTRUE   := .T.
@@ -1218,19 +1218,19 @@ PROCEDURE LoadContext( x5 AS STRING )
       X4 := At( aItens[ ControlAtual, 3 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aContext, A1 )
+         AAdd( aContext, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 4 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aContext, A1 )
+         AAdd( aContext, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 5 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aContext, A1 )
+         AAdd( aContext, A1 )
          lTRUE := .F.
          LOOP
       ENDIF
@@ -1251,7 +1251,7 @@ FUNCTION LoadStatus( x5 AS STRING )
    //xItem        := 1
    aItens[ControlAtual]   := { "STATUSBAR","DEFINE STATUSBAR","STATUSITEM","DATE","CLOCK","KEYBOARD","PROGRESSITEM","END STATUS" }
 
-   aAdd( aStatus, A1 )
+   AAdd( aStatus, A1 )
 
    LinMain += A1 + CRLF
    //MSGBOX('A1=  ' + A1 + '  X5 = ' + X5 )
@@ -1264,37 +1264,37 @@ FUNCTION LoadStatus( x5 AS STRING )
       X4 := At( aItens[ ControlAtual, 3 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aStatus, A1 )
+         AAdd( aStatus, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 4 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aStatus, A1 )
+         AAdd( aStatus, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 5 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aStatus, A1 )
+         AAdd( aStatus, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 6 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aStatus, A1 )
+         AAdd( aStatus, A1 )
       ENDIF
-      
+
       X4 := At( aItens[ ControlAtual, 7 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aStatus, A1 )
+         AAdd( aStatus, A1 )
       ENDIF
 
       X4 := At( aItens[ ControlAtual, 8 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aStatus, A1 )
+         AAdd( aStatus, A1 )
          lTrue := .F.
          LOOP
       ENDIF
@@ -1317,7 +1317,7 @@ FUNCTION LoadNotifyMenu( x5 AS STRING )
    //xItem          := 1
    aItens[ControlAtual]     := { "NOTIFY MENU","DEFINE NOTIFY MENU","MENUITEM","SEPARATOR","END MENU" }
 
-   aAdd( aNotify, A1 )
+   AAdd( aNotify, A1 )
 
    LinMain += A1 + CRLF
    lTRUE   := .T.
@@ -1329,19 +1329,19 @@ FUNCTION LoadNotifyMenu( x5 AS STRING )
 
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aNotify, A1 )
+         AAdd( aNotify, A1 )
       ENDIF
 
-      X4 := AT( aItens[ ControlAtual, 4 ], A1 )
+      X4 := At( aItens[ ControlAtual, 4 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aNotify, A1 )
+         AAdd( aNotify, A1 )
       ENDIF
 
-      X4 := AT(aItens[ ControlAtual, 5 ], A1 )
+      X4 := At(aItens[ ControlAtual, 5 ], A1 )
       IF X4 > 0
          LinMain += A1 + CRLF
-         aAdd( aNotify, A1 )
+         AAdd( aNotify, A1 )
          lTrue := .F.
          LOOP
       ENDIF
@@ -1361,7 +1361,7 @@ FUNCTION LoadDropMenu( x5 AS STRING )
   //xItem        := 1
   aItens[ControlAtual]   := { "DROPDOWN MENU","DEFINE DROPDOWN MENU BUTTON","MENUITEM","SEPARATOR","END MENU" }
 
-  aAdd( aDropDown, A1 )
+  AAdd( aDropDown, A1 )
 
   LinMain += A1  + CRLF
   lTRUE   := .T.
@@ -1373,19 +1373,19 @@ FUNCTION LoadDropMenu( x5 AS STRING )
      X4 := At( aItens[ControlAtual, 3 ], A1 )
      IF X4 > 0
         LinMain+= A1 + CRLF
-        aAdd( aDropDown, A1 )
+        AAdd( aDropDown, A1 )
      ENDIF
 
      X4 := At( aItens[ControlAtual, 4 ], A1 )
      IF X4 > 0
         LinMain += A1 + CRLF
-        aAdd( aDropDown, A1 )
+        AAdd( aDropDown, A1 )
      ENDIF
 
      X4 := At( aItens[ControlAtual, 5 ], A1 )
      IF X4 > 0
         LinMain += A1 + CRLF
-        aAdd( aDropDown, A1 )
+        AAdd( aDropDown, A1 )
         lTRUE := .F.
         LOOP
      ENDIF
@@ -1420,7 +1420,7 @@ PROCEDURE LoadControlUCI( x5, FROM, NRPAGE AS NUMERIC )
 
          IF At( cValue, A1 ) > 0
 
-            ControlName := AllTrim(SubStr(A1,AT(CVALUE,A1)+Len(CVALUE),Len(A1)))
+            ControlName := AllTrim(SubStr(A1,At(CVALUE,A1)+Len(CVALUE),Len(A1)))
             // MsgBox("CONTROL UCI -NAME= "+ControlName)
             nTotControl++
 
@@ -1429,7 +1429,7 @@ PROCEDURE LoadControlUCI( x5, FROM, NRPAGE AS NUMERIC )
 
             UCISaveControlVal( nPos )
 
-            xPos := aScan( aItens[ControlAtual], cValue )
+            xPos := AScan( aItens[ControlAtual], cValue )
             aItens[ControlAtual, xPos + 1 ] := ControlName
             DO WHILE lTrue
                xLin ++
@@ -1443,14 +1443,14 @@ PROCEDURE LoadControlUCI( x5, FROM, NRPAGE AS NUMERIC )
                      Prop  := AllTrim( SubStr( A1, 1, xPos - 1 ) )
                      Value := AllTrim( SubStr( A1, xPos, Len( A1 ) ) )
                      // MsgBox("PROP= "+ PROP+ " VALUE = "+ VALUE)
-                     xPos  := aScan( aItens[ ControlAtual ], Prop )
+                     xPos  := AScan( aItens[ ControlAtual ], Prop )
 
                      IF xPos > 1
-                        // MsgBox("FOUND " +  STR(XPOS) + " "+aItens[ControlAtual,XPOS] )
+                        // MsgBox("FOUND " +  Str(XPOS) + " "+aItens[ControlAtual,XPOS] )
                         aItens[ControlAtual, xPos + 1 ] := Value
                         // MsgBox(aItens[ControlAtual,XPOS] + " = " +VALUE )
                      ELSE
-                        // MsgBox("XPOS= "+STR(XPOS) + " NOT FOUND ")
+                        // MsgBox("XPOS= "+Str(XPOS) + " NOT FOUND ")
                      ENDIF
                   ELSE
                      // LinMain+= A1  +CRLF
@@ -1475,10 +1475,10 @@ PROCEDURE LoadControlUCI( x5, FROM, NRPAGE AS NUMERIC )
   IF NRPAGE # NIL
      IF NRPAGE > 0
         nPos := nTotControl
-        // MsgBox("Xpos= "+str(xpos))
+        // MsgBox("Xpos= "+Str(xpos))
         // MsgBox(" TABNAME= "+FROM )
         // MsgBox("VALTYPE= " + ValType(NRPAGE) )
-        // MsgBox(" NRPAGE= "+STR(NRPAGE) )
+        // MsgBox(" NRPAGE= "+Str(NRPAGE) )
         // MsgBox("  "+ControlName )
         xConnectTab( nPos, FROM, NRPAGE )
         //ProcessContainers(ControlName)
@@ -1500,8 +1500,8 @@ PROCEDURE ShowControls()
 
   IF ! IsWindowDefined( Form_1 )
 
-     IF VAL(VLHASH["VIRTUAL WIDTH"]) > VAL(VLHASH["WIDTH"]) .OR.   VAL(VLHASH["VIRTUAL HEIGHT"]) > VAL(VLHASH["HEIGHT"])
-     
+     IF Val(VLHASH["VIRTUAL WIDTH"]) > Val(VLHASH["WIDTH"]) .OR.   Val(VLHASH["VIRTUAL HEIGHT"]) > Val(VLHASH["HEIGHT"])
+
         LOAD WINDOW FORM_2   AS FORM_1
 
         SetProperty( "FORM_1", "ROW"   , Val( VLHASH["ROW"] ) )
@@ -1631,19 +1631,19 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
    CASE cCtrlType == "LISTBOX"
         aName := { { ControlName ,""} }
         cBackColor := xArray[nctrl,37]
-        @ nCtrlRow, nCtrlCol LISTBOX     &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight FONT xArray[nctrl,17]  SIZE VAL(xArray[nctrl,19]) TOOLTIP  CONTROLNAME BACKCOLOR &cBackColor ON CHANGE cpreencheGrid()
+        @ nCtrlRow, nCtrlCol LISTBOX     &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight FONT xArray[nctrl,17]  SIZE Val(xArray[nctrl,19]) TOOLTIP  CONTROLNAME BACKCOLOR &cBackColor ON CHANGE cpreencheGrid()
         FILLITEMS(CONTROLNAME,NCTRL)
-        
+
    CASE cCtrlType == "CHECKLISTBOX"
         aName := { { ControlName ,""} }
         cBackColor := xArray[nctrl,37]
-        @ nCtrlRow, nCtrlCol LISTBOX     &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight FONT xArray[nctrl,17]  SIZE VAL(xArray[nctrl,19]) TOOLTIP  CONTROLNAME BACKCOLOR &cBackColor ON CHANGE cpreencheGrid()
+        @ nCtrlRow, nCtrlCol LISTBOX     &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight FONT xArray[nctrl,17]  SIZE Val(xArray[nctrl,19]) TOOLTIP  CONTROLNAME BACKCOLOR &cBackColor ON CHANGE cpreencheGrid()
         FILLITEMS(CONTROLNAME,NCTRL)
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "COMBOBOX"
         cName :=  { ControlName }
-        @ nCtrlRow, nCtrlCol COMBOBOXEX  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight ITEMS cName VALUE 1 FONT xArray[nctrl,17]  SIZE VAL(xArray[nctrl,19])  TOOLTIP CONTROLNAME NOTABSTOP ON GOTFOCUS cpreencheGrid( This.ToolTip )
+        @ nCtrlRow, nCtrlCol COMBOBOXEX  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight ITEMS cName VALUE 1 FONT xArray[nctrl,17]  SIZE Val(xArray[nctrl,19])  TOOLTIP CONTROLNAME NOTABSTOP ON GOTFOCUS cpreencheGrid( This.ToolTip )
         FILLITEMS(CONTROLNAME,NCTRL)
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1658,7 +1658,7 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "GRID"
         aName := { { ControlName ,""} }
-        @ nCtrlRow, nCtrlCol GRID  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight HEADERS {"",""} WIDTHS {120,120}  ITEMS aName TOOLTIP ControlName BACKCOLOR &(xArray[nctrl,63]) NOTABSTOP FONT xArray[nctrl,21] SIZE VAL(xArray[nctrl,23]) ON GOTFOCUS cpreencheGrid()
+        @ nCtrlRow, nCtrlCol GRID  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight HEADERS {"",""} WIDTHS {120,120}  ITEMS aName TOOLTIP ControlName BACKCOLOR &(xArray[nctrl,63]) NOTABSTOP FONT xArray[nctrl,21] SIZE Val(xArray[nctrl,23]) ON GOTFOCUS cpreencheGrid()
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "IMAGE"
@@ -1675,7 +1675,7 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "DATEPICKER"
-        @ nCtrlRow, nCtrlCol DATEPICKER  &CONTROLNAME OF FORM_1 WIDTH nCtrlWidth HEIGHT nCtrlHeight TOOLTIP Controlname FONT xArray[nctrl,15] SIZE VAL(xArray[nctrl,17])  ON GOTFOCUS cpreencheGrid()
+        @ nCtrlRow, nCtrlCol DATEPICKER  &CONTROLNAME OF FORM_1 WIDTH nCtrlWidth HEIGHT nCtrlHeight TOOLTIP Controlname FONT xArray[nctrl,15] SIZE Val(xArray[nctrl,17])  ON GOTFOCUS cpreencheGrid()
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "TEXTBOX"
@@ -1695,17 +1695,17 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
         ELSE
            @ nCtrlRow, nCtrlCol BUTTONEX &ControlName OF Form_1    CAPTION  AllTrim(xArray[nctrl,3]) PICTURE "BITMAP58"    WIDTH nCtrlWidth HEIGHT nCtrlHeight LEFTTEXT FLAT NOHOTLIGHT NOXPSTYLE ACTION cpreencheGrid()  TOOLTIP CONTROLNAME  BACKCOLOR &(xArray[nctrl,41]) //WHITE
         ENDIF
- 
+
     CASE cCtrlType == "CHECKLABEL"
         IF AllTrim(xArray[nctrl,35]) != '""'
            cPictureName := FindImageName(AllTrim(xArray[nctrl,35]),"bmp")
-           @ nCtrlRow, nCtrlCol BUTTONEX &ControlName OF Form_1    CAPTION  AllTrim(xArray[nctrl,3]) PICTURE cPictureName  WIDTH nCtrlWidth HEIGHT nCtrlHeight LEFTTEXT FLAT NOHOTLIGHT NOXPSTYLE ACTION cpreencheGrid()  TOOLTIP CONTROLNAME  BACKCOLOR &(xArray[nctrl,31]) //WHITE 
+           @ nCtrlRow, nCtrlCol BUTTONEX &ControlName OF Form_1    CAPTION  AllTrim(xArray[nctrl,3]) PICTURE cPictureName  WIDTH nCtrlWidth HEIGHT nCtrlHeight LEFTTEXT FLAT NOHOTLIGHT NOXPSTYLE ACTION cpreencheGrid()  TOOLTIP CONTROLNAME  BACKCOLOR &(xArray[nctrl,31]) //WHITE
         ELSE
-           @ nCtrlRow, nCtrlCol BUTTONEX &ControlName OF Form_1    CAPTION  AllTrim(xArray[nctrl,3]) PICTURE "BITMAP58"    WIDTH nCtrlWidth HEIGHT nCtrlHeight LEFTTEXT FLAT NOHOTLIGHT NOXPSTYLE ACTION cpreencheGrid()  TOOLTIP CONTROLNAME  BACKCOLOR &(xArray[nctrl,31]) //WHITE 
+           @ nCtrlRow, nCtrlCol BUTTONEX &ControlName OF Form_1    CAPTION  AllTrim(xArray[nctrl,3]) PICTURE "BITMAP58"    WIDTH nCtrlWidth HEIGHT nCtrlHeight LEFTTEXT FLAT NOHOTLIGHT NOXPSTYLE ACTION cpreencheGrid()  TOOLTIP CONTROLNAME  BACKCOLOR &(xArray[nctrl,31]) //WHITE
         ENDIF
-     
-        
-        
+
+
+
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "HOTKEYBOX"
         @ nCtrlRow, nCtrlCol BUTTONEX &ControlName OF Form_1 CAPTION AllTrim(xArray[nctrl,3]) PICTURE "BITMAP48" WIDTH nCtrlWidth HEIGHT nCtrlHeight VERTICAL ADJUST NOHOTLIGHT  ACTION cpreencheGrid()  TOOLTIP CONTROLNAME
@@ -1775,23 +1775,23 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
    CASE cCtrlType == "SLIDER"
         IF xArray[nctrl,33] = "2"
            IF xArray[nctrl,35] = "1"
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL BOTH
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL BOTH
            ELSEIF xArray[nctrl,35] = "2"
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL LEFT
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL LEFT
            ELSEIF xArray[nctrl,35] = "3"
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL NOTICKS
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL NOTICKS
            ELSE
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() VERTICAL
            ENDIF
         ELSE
            IF xArray[nctrl,35] = "1"
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() BOTH
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() BOTH
            ELSEIF xArray[nctrl,35] = "3"
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() NOTICKS
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() NOTICKS
            ELSEIF xArray[nctrl,35] = "4"
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() TOP
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid() TOP
            ELSE
-              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE VAL(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid()
+              @ nCtrlRow, nCtrlCol SLIDER  &CONTROLNAME OF FORM_1 RANGE 1,10 VALUE Val(xArray[nctrl,17]) BACKCOLOR &(xArray[nctrl,31]) TOOLTIP ControlName  ON CHANGE cpreencheGrid()
            ENDIF
         ENDIF
 
@@ -1810,10 +1810,10 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
               cBackColor := xArray[nctrl,27]
               // MsgBox("CONTROLNAME= "+CONTROLNAME + " cBackColor= "+cBackColor )
               // LOGFORM.LIST_1.AddItem("caption-1 "+xArray[nctrl,25] )
-              @ nCtrlRow, nCtrlCol FRAME  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight  CAPTION cCtrlCaption FONT xArray[nctrl,13] SIZE VAL(xArray[nctrl,15]) BACKCOLOR &cBackColor
+              @ nCtrlRow, nCtrlCol FRAME  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight  CAPTION cCtrlCaption FONT xArray[nctrl,13] SIZE Val(xArray[nctrl,15]) BACKCOLOR &cBackColor
            ELSE
                //LOGFORM.LIST_1.AddItem("caption-2 "+xArray[nctrl,25] )
-              @ nCtrlRow, nCtrlCol FRAME  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight  CAPTION cCtrlCaption FONT xArray[nctrl,13] SIZE VAL(xArray[nctrl,15])
+              @ nCtrlRow, nCtrlCol FRAME  &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight  CAPTION cCtrlCaption FONT xArray[nctrl,13] SIZE Val(xArray[nctrl,15])
            ENDIF
         ELSE
            //LOGFORM.LIST_1.AddItem("caption-3 "+xArray[nctrl,25] )
@@ -1828,11 +1828,11 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
    CASE cCtrlType == "BROWSE"
         aName    := { { "", "" } }
         aHeaders := { ControlName, "" }
-        @ nCtrlRow, nCtrlCol GRID         &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight  HEADERS aHeaders  WIDTHS {120,120} ITEMS aName TOOLTIP CONTROLNAME BACKCOLOR &(xArray[nctrl,73]) FONT xArray[nctrl,23] SIZE VAL(xArray[nctrl,25])  ON GOTFOCUS cpreencheGrid()
+        @ nCtrlRow, nCtrlCol GRID         &CONTROLNAME OF FORM_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight  HEADERS aHeaders  WIDTHS {120,120} ITEMS aName TOOLTIP CONTROLNAME BACKCOLOR &(xArray[nctrl,73]) FONT xArray[nctrl,23] SIZE Val(xArray[nctrl,25])  ON GOTFOCUS cpreencheGrid()
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "HYPERLINK"
-        @ nCtrlRow, nCtrlCol LABEL        &CONTROLNAME OF FORM_1 VALUE "http://sourceforge.net/projects/hmgs-minigui" AUTOSIZE FONT xArray[17] SIZE val(xArray[nctrl,19]) WIDTH nCtrlWidth HEIGHT nCtrlHeight  UNDERLINE FONTCOLOR {0,0,255} ACTION {||ControlFocus(),cpreencheGrid()} TOOLTIP CONTROLNAME BACKCOLOR &(xArray[nctrl,39])
+        @ nCtrlRow, nCtrlCol LABEL        &CONTROLNAME OF FORM_1 VALUE "http://sourceforge.net/projects/hmgs-minigui" AUTOSIZE FONT xArray[17] SIZE Val(xArray[nctrl,19]) WIDTH nCtrlWidth HEIGHT nCtrlHeight  UNDERLINE FONTCOLOR {0,0,255} ACTION {||ControlFocus(),cpreencheGrid()} TOOLTIP CONTROLNAME BACKCOLOR &(xArray[nctrl,39])
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE cCtrlType == "MONTHCALENDAR"
@@ -1919,9 +1919,9 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
         @ nCtrlRow, nCtrlCol TBROWSE &ControlName OF Form_1  WIDTH nCtrlWidth HEIGHT nCtrlHeight ;
           HEADERS  "Code","First","Last","Birth","Bio"   WIDTHS 50,150,150,100,200  FIELDS Test->Code,Test->First,Test->Last,Test->Birth,Test->Bio ;
           WORKAREA "TEST" TOOLTIP CONTROLNAME BACKCOLOR &(xArray[nctrl,43]) FONTCOLOR &(xArray[NCTRL,45]) ON GOTFOCUS cpreencheGrid()
-        aAdd( aTbrowse[1], ControlName )
-        aAdd( aOtbrowse[1], &ControlName )
-        // MsgBox(" len= "+str(Len(atbrowse[1]) ) )
+        AAdd( aTbrowse[1], ControlName )
+        AAdd( aOtbrowse[1], &ControlName )
+        // MsgBox(" len= "+Str(Len(atbrowse[1]) ) )
         // MsgBox("valtype tbrowse= "+ValType(&(atbrowse[ 1, Len(atbrowse[1])])) )
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1933,9 +1933,9 @@ Procedure ShowControls2( nCtrl AS NUMERIC )
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    IF Len( aUCIControls ) > 0
       FOR X := 1 TO Len( aUCIControls )
-          // MsgBox("x= "+str(x)+ " cCtrlType= " +cCtrlType+ " Upper(AUCICONTROLS[X])= " +Upper(AUCICONTROLS[X]) )
+          // MsgBox("x= "+Str(x)+ " cCtrlType= " +cCtrlType+ " Upper(AUCICONTROLS[X])= " +Upper(AUCICONTROLS[X]) )
           IF cCtrlType == Upper( aUCIControls[ x ] )
-             // MsgBox("ucicontrol nr= " +str(nctrl)+" CONTROLNAME= "+CONTROLNAME)
+             // MsgBox("ucicontrol nr= " +Str(nctrl)+" CONTROLNAME= "+CONTROLNAME)
              @ nCtrlRow, nCtrlCol BUTTONEX &ControlName  OF FORM_1 CAPTION  AllTrim(xArray[nctrl,3])  WIDTH nCtrlWidth HEIGHT nCtrlHeight ACTION {||ControlFocus(),UCIFillGrid(this.name)}    FONT "MS Sans serif"   SIZE 9    BOLD   LEFTTEXT  TOOLTIP CONTROLNAME     BACKCOLOR WHITE
           ENDIF
       NEXT X
@@ -2047,7 +2047,7 @@ RETURN( RetVal )
 PROCEDURE LoadProp( xProp1 AS STRING, xProp2 AS STRING )      //OPT
 *------------------------------------------------------------*
    xProp1 := AllTrim( Upper( xProp1 ) )
-   IF xProp1 == "TITLE" .OR. LEFT( xProp1, 2 ) == "ON"
+   IF xProp1 == "TITLE" .OR. Left( xProp1, 2 ) == "ON"
       xProp2 := AllTrim( xProp2 )
    ELSE
       xProp2 := AllTrim( Upper( xProp2 ) )
@@ -2357,7 +2357,7 @@ PROCEDURE LoadProp( xProp1 AS STRING, xProp2 AS STRING )      //OPT
    IF xProp1 == "PALETTE"        .AND. xProp2 # "NIL"
       xProp[ 19 ] := ".T."
    ENDIF
-   
+
    IF xProp1 == "ON NOTIFYBALLOONCLICK"       .OR.  xProp1 == "ONNOTIFYBALLOONCLICK"
       xEvent[ 23 ] := xProp2
    ENDIF
@@ -2373,33 +2373,33 @@ PROCEDURE UciSaveControlVal( Param AS NUMERIC )
    LOCAL nPos  AS NUMERIC := Param
    LOCAL aTemp AS ARRAY   := {}
 
-   aAdd( aTemp, Upper( aUCIControls[ nPos ] ) )
-   aAdd( aTemp, "DEFINE " + Upper( aUCIControls[ nPos ] ) )
-   aAdd( aTemp, '""'    )
-   aAdd( aTemp, "ROW"   )
-   aAdd( aTemp, '""'    )
-   aAdd( aTemp, "COL"   )
-   aAdd( aTemp, '""'    )
-   aAdd( aTemp, "WIDTH" )
-   aAdd( aTemp, '""'    )
-   aAdd( aTemp, "HEIGHT")
-   aAdd( aTemp, '""'    )
+   AAdd( aTemp, Upper( aUCIControls[ nPos ] ) )
+   AAdd( aTemp, "DEFINE " + Upper( aUCIControls[ nPos ] ) )
+   AAdd( aTemp, '""'    )
+   AAdd( aTemp, "ROW"   )
+   AAdd( aTemp, '""'    )
+   AAdd( aTemp, "COL"   )
+   AAdd( aTemp, '""'    )
+   AAdd( aTemp, "WIDTH" )
+   AAdd( aTemp, '""'    )
+   AAdd( aTemp, "HEIGHT")
+   AAdd( aTemp, '""'    )
 
    FOR x := 1 TO Len( AUCIPROPS[ nPos ] )
-       aAdd( aTemp, Upper( AUCIPROPS[ nPos, x ] ) )
-       aAdd( aTemp, '""' )
+       AAdd( aTemp, Upper( AUCIPROPS[ nPos, x ] ) )
+       AAdd( aTemp, '""' )
    NEXT x
 
    FOR x := 1 TO Len( AUCIEVENTS[ nPos ] )
-       aAdd( aTemp, Upper( AUCIEVENTS[ nPos, x ] ) )
-       aAdd( aTemp, "NIL" )
+       AAdd( aTemp, Upper( AUCIEVENTS[ nPos, x ] ) )
+       AAdd( aTemp, "NIL" )
    NEXT x
 
-   aAdd( aTemp, "END " + Upper( AUCICONTROLS[ nPos ] ) )
+   AAdd( aTemp, "END " + Upper( AUCICONTROLS[ nPos ] ) )
 
    // MsgBox( "LEN AITENS = " + Str( Len(aTemp ) ) )
 
-   aItens[ControlAtual] := aClone( aTemp )
+   aItens[ControlAtual] := AClone( aTemp )
 
    // MsgBox( "saving-uci" )
    // SaveControlVal2()
@@ -2414,7 +2414,7 @@ PROCEDURE SaveControlVal2( Param AS USUAL )        //? VarType
    LOCAL nPos AS NUMERIC
 
    // A := ""
-   // MsgBox("ControlAtual= "+str(ControlAtual)+ " nTotControl = " + Str( nTotControl ) )
+   // MsgBox("ControlAtual= "+Str(ControlAtual)+ " nTotControl = " + Str( nTotControl ) )
    FOR x := 1 TO Len( aItens[ ControlAtual] )
       //A += Str(X) + " - " + aItens[ ControlAtual,x] + CRLF
       nPos := nTotControl
@@ -2425,7 +2425,7 @@ PROCEDURE SaveControlVal2( Param AS USUAL )        //? VarType
    *****************************************
    // MsgBox( "len1= " + Str( Len( aItens[ ControlAtual ] ) ) )
    // MsgBox( "len2= " + Str( Len( xArray[ nPos    ] ) ) )
-   // acopy( aItens[ControlAtual], xArray[ nPos    ] )
+   // ACopy( aItens[ControlAtual], xArray[ nPos    ] )
    // A := ""
    // MsgBox( "nTotControl= " + Str( nPos ) )
    // FOR x := 1 TO Len( aItens[ ControlAtual ] )
@@ -2465,7 +2465,7 @@ PROCEDURE SaveControlVal( Param AS NUMERIC )
       POS := 0
    ELSE
       ****** TO CONTROL TAB
-      // MsgBox("param= "+str(param))
+      // MsgBox("param= "+Str(param))
       // MsgBox("LinMain= " + LinMain)
       POS := Param
 
@@ -2474,13 +2474,13 @@ PROCEDURE SaveControlVal( Param AS NUMERIC )
       NEXT Z
 
       LinMain := xLinMain + LinMain
-      // MsgBox("LinMain= "+LinMain+ " linhas= "+str(mlcount(LinMain)) )
+      // MsgBox("LinMain= "+LinMain+ " linhas= "+Str(MLCount(LinMain)) )
       PROPNR := PROPNR + ( 2 * POS )
       // MsgBox( "propnr= " + Str( propnr ) )
    ENDIF
 
-   X7 := MLCOUNT( LinMain, 1000 )
-   // MsgBox("ControlAtual= "+STR(ControlAtual)+" aItens[ControlAtual,1]= "+aItens[ControlAtual,1]+ " nTotControl = "+str(nTotControl) )
+   X7 := MLCount( LinMain, 1000 )
+   // MsgBox("ControlAtual= "+Str(ControlAtual)+" aItens[ControlAtual,1]= "+aItens[ControlAtual,1]+ " nTotControl = "+Str(nTotControl) )
    nPos := nTotControl
    xArray[ nPos, 1 ] := aItens[ ControlAtual, 1 ]   // FIRST ITEM TYPE OF CONTROL (BUTTON...)
    // MsgBox( " xArray[nPos,1]= " + xArray[nPos,1])
@@ -2492,13 +2492,13 @@ PROCEDURE SaveControlVal( Param AS NUMERIC )
        IF Len( A1 )  > 0
           ***********debug
           //if param # NIL
-          // MsgBox("x= "+str(x)+ " LEN= "+STR(X7) )
+          // MsgBox("x= "+Str(x)+ " LEN= "+Str(X7) )
           // MsgBox("A1=lin= "+LinMain)
-          // MsgBox("A1="+A1+ " ControlAtual= "+ STR(ControlAtual) +" "+aItens[ControlAtual,1])
-          // ctext := "aitem="+aItens[ControlAtual,X+1]+ " x= "+ str(x)
-          //  ctext += " a="+str( (Len(aItens[ControlAtual,X+1])+1) )
-          //  ctext += " b="+str( Len(A1) )
-          //  ctext += " c="+str( Len(aItens[ControlAtual,X+1]) )
+          // MsgBox("A1="+A1+ " ControlAtual= "+ Str(ControlAtual) +" "+aItens[ControlAtual,1])
+          // ctext := "aitem="+aItens[ControlAtual,X+1]+ " x= "+ Str(x)
+          //  ctext += " a="+Str( (Len(aItens[ControlAtual,X+1])+1) )
+          //  ctext += " b="+Str( Len(A1) )
+          //  ctext += " c="+Str( Len(aItens[ControlAtual,X+1]) )
           //   MsgBox(ctext)
           //ENDIF
           ***********
@@ -2547,18 +2547,18 @@ PROCEDURE SaveControlVal( Param AS NUMERIC )
           // MsgBox("A2-final= "+A2)
           propnr ++
           //if xArray[nPos,1] = "TAB"
-          // MsgBox("IS TAB-> X= "+STR(X))
+          // MsgBox("IS TAB-> X= "+Str(X))
           xArray[ nPos, propnr ] := aItens[ ControlAtual, X+1 ] // new value(name property)
-          // MsgBox( " property " +str(propnr)+ " = "+ aItens[ControlAtual,X+1]  )
+          // MsgBox( " property " +Str(propnr)+ " = "+ aItens[ControlAtual,X+1]  )
 
           /*
           ELSE
             **** IF USED ARRAY WITH {PROP.Value}
              IF X = 1
-                MsgBox("PROP1= "+aItens[ControlAtual,(X+1)] + " = AITENS "+STR(X+1))
+                MsgBox("PROP1= "+aItens[ControlAtual,(X+1)] + " = AITENS "+Str(X+1))
                 xArray[nPos,propnr] := aItens[ControlAtual,(X+1)] // new value(name property)
              ELSE
-                MsgBox("PROP2= "+aItens[ControlAtual,(X*2)]+ " = AITENS "+STR(X*2) )
+                MsgBox("PROP2= "+aItens[ControlAtual,(X*2)]+ " = AITENS "+Str(X*2) )
                 xArray[nPos,propnr] := aItens[ControlAtual,(X*2)] // new value(name property)
              ENDIF
              // MsgBox( "NOT TAB-> X= " + Str( x ) )
@@ -2686,8 +2686,8 @@ PROCEDURE FixValues()
       IF Upper( xArray[ nPos, 63 ] ) = "NIL"    // Break
          xArray[ nPos, 63 ] := ".F."
       ENDIF
-      
-      
+
+
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE ControlAtual == 5         // Checkbutton
       IF Upper( xArray[ nPos, 15 ] ) = "NIL"    // Value
@@ -2696,7 +2696,7 @@ PROCEDURE FixValues()
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE ControlAtual == 6         // Grid
-        
+
 
       IF Upper( xArray[ nPos, 13 ] ) = "NIL"      // Headers
          xArray[ nPos, 13 ] := '{""}'
@@ -2705,19 +2705,19 @@ PROCEDURE FixValues()
       IF Upper( xArray[ nPos, 15 ] ) = "NIL"    // Widths
          xArray[ nPos, 15 ] := "{0}"
       ENDIF
-   
+
       IF Upper( xArray[ nPos, 17 ] ) = "NIL"    // Items
          xArray[ nPos, 17 ] := '{{""}}'
       ENDIF
 
       IF Upper( xArray[ nPos, 19 ] ) = "NIL"    // Value
          xArray[ nPos, 19 ] := "0"
-      ENDIF          
+      ENDIF
 
       IF Upper( xArray[ nPos, 51 ] ) = "NIL"    // AllowEdit
          xArray[ nPos, 51 ] := ".F."
       ENDIF
-      
+
       IF Upper( xArray[nPos, 57 ] ) = "NIL"     // InPlaceEdit
          xArray[ nPos, 57 ] := '""'
       ENDIF
@@ -2728,28 +2728,28 @@ PROCEDURE FixValues()
 
       IF Upper( xArray[ nPos, 69 ] ) = "NIL"    // Virtual
          xArray[ nPos, 69 ] := ".F."
-      ENDIF      
-      
+      ENDIF
+
       IF Upper( xArray[ nPos, 75 ] ) = "NIL"    // MultiSelect
          xArray[ nPos, 75 ] := ".F."
       ENDIF
-      
+
       IF Upper( xArray[ nPos, 77 ] ) = "NIL"    // NoLines
          xArray[ nPos, 77 ] := ".F."
-      ENDIF      
+      ENDIF
 
       IF Upper( xArray[ nPos, 79 ] ) = "NIL"    // ShowHeaders
          xArray[ nPos, 79 ] := ".T."
       ENDIF
-                      
+
       IF Upper( xArray[nPos, 89 ] ) = "NIL"     // Break
          xArray[ nPos, 89 ] := ".F."
       ENDIF
-      
+
       IF Upper( xArray[ nPos, 91 ] ) = "NIL"    // HeaderImage
          xArray[ nPos, 91 ] := ""
       ENDIF
-          
+
       IF Upper( xArray[nPos, 93 ] ) = "NIL"     // NoTabStop
          xArray[ nPos, 93 ] := ".F."
       ENDIF
@@ -2829,7 +2829,7 @@ PROCEDURE FixValues()
    CASE ControlAtual == 10        // DatePicker
 
       IF Upper( xArray[ nPos, 13 ] ) = "NIL"    // Value
-         xArray[ nPos, 13 ] := "cTod('')"
+         xArray[ nPos, 13 ] := "CToD('')"
       ENDIF
 
       IF Upper( xArray[ nPos, 43 ] ) = "NIL"    // ShowNone
@@ -2988,7 +2988,7 @@ PROCEDURE FixValues()
        IF Upper( xArray[ nPos, 53 ] ) = "NIL"   // AllowEdit
           xArray[ nPos, 53 ] := ".F."
        ENDIF
-       
+
        IF Upper( xArray[ nPos,55 ] ) = "NIL"    // InPlaceEdit
           xArray[ nPos, 55 ] := ".F."
        ENDIF
@@ -2996,7 +2996,7 @@ PROCEDURE FixValues()
        IF Upper( xArray[ nPos, 57 ] ) = "NIL"   // AllowAppend
           xArray[ nPos, 57 ] := ".F."
        ENDIF
-       
+
         IF Upper( xArray[ nPos, 75 ] ) = "NIL"   // Lock
           xArray[ nPos, 75 ] := ".F."
        ENDIF
@@ -3008,11 +3008,11 @@ PROCEDURE FixValues()
         IF Upper( xArray[ nPos, 79 ] ) = "NIL"   // NoLines
           xArray[ nPos, 79 ] := ".F."
        ENDIF
-     
+
        IF Upper( xArray[ nPos, 85 ] ) = "NIL"   // VscrollBar
           xArray[ nPos, 85 ] := ".T."
        ENDIF
-             
+
        IF Upper( xArray[ nPos,91 ] ) = "NIL"    // HeaderImage
           xArray[ nPos, 91 ] := ""
        ENDIF
@@ -3151,7 +3151,7 @@ PROCEDURE FixValues()
    CASE ControlAtual == 19        // MonthCalendar
 
       IF Upper( xArray[ nPos, 13 ] ) = "NIL"   // Value
-         xArray[ nPos, 13 ] := "cTod('')"
+         xArray[ nPos, 13 ] := "CToD('')"
       ENDIF
 
       IF Upper( xArray[ nPos, 37 ] ) = "NIL"   // NoToday
@@ -3165,16 +3165,16 @@ PROCEDURE FixValues()
       IF Upper( xArray[nPos, 41 ] ) = "NIL"    // WeekNumbers
          xArray[ nPos, 41 ] := ".F."
       ENDIF
-           
+
       IF Upper( xArray[nPos, 55 ] ) = "NIL"    // BkGndColor
          xArray[ nPos, 55 ] :=  ""
       ENDIF
-      
+
       IF Upper( xArray[nPos, 53 ] ) # "NIL"    // BackGroundColor
-         xArray[ nPos, 55 ] :=  xArray[ nPos, 53 ] 
+         xArray[ nPos, 55 ] :=  xArray[ nPos, 53 ]
       ENDIF
-      
-      
+
+
 
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -3483,7 +3483,7 @@ PROCEDURE FixValues()
          xArray[ nPos, 59 ] := ".F."
       ENDIF
 
-      
+
 
 
    ************************************
@@ -3609,7 +3609,7 @@ PROCEDURE FixValues()
          xArray[ nPos, 63 ] := ".F."
          xArray[ nPos, 65 ] := ".F."
       ENDIF
-      
+
 
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -3788,13 +3788,13 @@ FUNCTION Str2Array( Arg1 AS STRING )
 
   IF Upper( Arg1 ) # "NIL"
      Elem := SubStr( Arg1, 2, At( ",", Arg1 ) - 1 )
-     aAdd( A2, Val( Elem ) )
+     AAdd( A2, Val( Elem ) )
 
-     Elem := SubStr( Arg1, At( ",", Arg1 ) + 1, Rat( ",", Arg1 ) - 1 )
-     aAdd( A2, Val( Elem ) )
+     Elem := SubStr( Arg1, At( ",", Arg1 ) + 1, RAt( ",", Arg1 ) - 1 )
+     AAdd( A2, Val( Elem ) )
 
-     Elem := SubStr( Arg1, Rat( ",", Arg1 ) + 1, Len( Arg1 ) - 1 )
-     aAdd( A2, Val( Elem ) )
+     Elem := SubStr( Arg1, RAt( ",", Arg1 ) + 1, Len( Arg1 ) - 1 )
+     AAdd( A2, Val( Elem ) )
   ELSE
       A2 := NIL
   ENDIF
@@ -3870,7 +3870,7 @@ FUNCTION FindImageName( cName AS STRING, Ext AS STRING )
   ELSE
      ic := ProjectBrowser.xlist_3.ItemCount
      FOR xx := 1 TO ic
-         aAdd( aRcList , ProjectFolder + "\" + ProjectBrowser.xlist_3.Item( xx ) )
+         AAdd( aRcList , ProjectFolder + "\" + ProjectBrowser.xlist_3.Item( xx ) )
      NEXT
 
      IF Len( aRcList ) > 0
@@ -3879,25 +3879,25 @@ FUNCTION FindImageName( cName AS STRING, Ext AS STRING )
             ArqRc := aRcList[xx]
 
             IF File( ArqRC )
-               x5 := memoread( ArqRC )    // open file .Rc
-               x6 := mlcount( x5,200 )
+               x5 := MemoRead( ArqRC )    // open file .Rc
+               x6 := MLCount( x5,200 )
 
                FOR x7 := 1 TO x6          // read lines of .Rc
                    cL := Lower( AllTrim( MemoLine( x5, 200, x7, NIL, .T. ) ) )
                    cp := iif( !":"$ cL .AND. "HmgsIde.rc" $ ARqRC , GetStartupFolder()+"\" , iif( ! ":" $ cl, ProjectFolder + "\" , "" ) )
 
                    IF "bitmap" $ cL
-                      IF aScan( aBmpAlias, AllTrim( SubStr( cL,1, At( " bitmap ",cL)-1 ) ) ) = 0
+                      IF AScan( aBmpAlias, AllTrim( SubStr( cL,1, At( " bitmap ",cL)-1 ) ) ) = 0
 
-                         aAdd( aBmpAlias,      AllTrim( SubStr( cL, 1, At( " bitmap ", cL ) - 1 ) ) )
-                         aAdd( aBmpFile , cp + AllTrim( SubStr( cL, Rat( " bitmap ", cL ) + 8, 200 ) ) )
+                         AAdd( aBmpAlias,      AllTrim( SubStr( cL, 1, At( " bitmap ", cL ) - 1 ) ) )
+                         AAdd( aBmpFile , cp + AllTrim( SubStr( cL, RAt( " bitmap ", cL ) + 8, 200 ) ) )
                       ENDIF
 
                    ELSEIF "icon"  $ cL
-                      IF aScan( aIcoAlias, AllTrim( SubStr( cL,1, At( " icon "  ,cL)-1 ) ) ) = 0
+                      IF AScan( aIcoAlias, AllTrim( SubStr( cL,1, At( " icon "  ,cL)-1 ) ) ) = 0
 
-                         aAdd( aIcoAlias,      AllTrim( SubStr( cL, 1, At( " icon ", cL ) - 1 ) ) )
-                         aAdd( aIcoFile , cp + AllTrim( SubStr( cL, Rat( " icon ", cL ) + 5, 200 ) ) )
+                         AAdd( aIcoAlias,      AllTrim( SubStr( cL, 1, At( " icon ", cL ) - 1 ) ) )
+                         AAdd( aIcoFile , cp + AllTrim( SubStr( cL, RAt( " icon ", cL ) + 5, 200 ) ) )
 
                       ENDIF
                    ENDIF
@@ -3909,9 +3909,9 @@ FUNCTION FindImageName( cName AS STRING, Ext AS STRING )
          NEXT
 
          IF Upper( ext ) ==  "BMP"
-            cValue := iif( aScan( aBmpAlias , Lower(cName) ) > 0, aBmpFile[ aScan( aBmpAlias, Lower( cName ) ) ] , "" )
+            cValue := iif( AScan( aBmpAlias , Lower(cName) ) > 0, aBmpFile[ AScan( aBmpAlias, Lower( cName ) ) ] , "" )
          ELSEIF Upper( ext )== "ICO"
-            cValue := iif( aScan( aIcoAlias , Lower(cName) ) > 0, aIcoFile[ aScan( aIcoAlias, Lower( cName ) ) ] , "" )
+            cValue := iif( AScan( aIcoAlias , Lower(cName) ) > 0, aIcoFile[ AScan( aIcoAlias, Lower( cName ) ) ] , "" )
          ENDIF
 
      ENDIF
@@ -3975,7 +3975,7 @@ PROCEDURE LoadUci()
    FOR i := 1 TO lenUci
        cName  := aUciNames[ i, 1 ]
        cFile  := MemoRead( GetStartupFolder() + "\res\" + aUciNames[i][1] )
-       nLines := mlCount( cFile, 1000 )
+       nLines := MLCount( cFile, 1000 )
        lEvent := .F.
 
        FOR nLine := 3 TO nLines
@@ -4003,29 +4003,29 @@ PROCEDURE LoadUci()
                     Upper( cLine ) # "HEIGHT"
 
                     IF Upper( cLine ) # "[EVENTS]"
-                       aAdd( aPropTemp, cLine )
+                       AAdd( aPropTemp, cLine )
                     ELSE
-                       aAdd( aUciProps, aPropTemp )
+                       AAdd( aUciProps, aPropTemp )
                        aPropTemp := {}
                        lEvent    := .T.
                     ENDIF
                  ENDIF
               ELSE
                  IF Len( cLine ) > 0
-                    aAdd( aPropTemp, cLine )
+                    AAdd( aPropTemp, cLine )
                  ENDIF
               ENDIF
            ENDIF
 
        NEXT nLine
 
-       aAdd( aUciEvents, aPropTemp )
+       AAdd( aUciEvents, aPropTemp )
 
        aPropTemp := {}
        cName     := SubStr( cName, 1, Len( cName ) - 4 )
        cName     := Upper( cName )
 
-       aAdd( aUciControls, cName )
+       AAdd( aUciControls, cName )
 
    NEXT i
 
@@ -4061,7 +4061,7 @@ PROCEDURE UcitoArray( ControlName AS STRING )
 
       ObjectInspector.xCombo_1.Value := ObjectInspector.xCombo_1.ItemCount
 
-      //i := aScan( _HMG_aControlNames, ControlName )
+      //i := AScan( _HMG_aControlNames, ControlName )
       i      := GetControlIndex( ControlName, "Form_1" )
       row    := AllTrim( Str( _HMG_aControlRow[i]-_HMG_aControlContainerRow[i] ) )
       col    := AllTrim( Str( _HMG_aControlCol[i]-_HMG_aControlContainerCol[i] ) )
@@ -4077,19 +4077,19 @@ PROCEDURE UcitoArray( ControlName AS STRING )
    cName     := SubStr( cName, 1, Len( cName ) - 4 )
 
    // MsgBox( "len= " + Str( Len( cName )) )
-   aAdd( aPropTemp, Upper( cName ) )
-   aAdd( aPropTemp, "DEFINE " + Upper( cName ) )
-   aAdd( aPropTemp, AllTrim( ControlName ) )
-   aAdd( aPropTemp, "ROW"    )
-   aAdd( aPropTemp, Row      )
-   aAdd( aPropTemp, "COL"    )
-   aAdd( aPropTemp, Col      )
-   aAdd( aPropTemp, "WIDTH"  )
-   aAdd( aPropTemp, Width    )
-   aAdd( aPropTemp, "HEIGHT" )
-   aAdd( aPropTemp, Height   )
+   AAdd( aPropTemp, Upper( cName ) )
+   AAdd( aPropTemp, "DEFINE " + Upper( cName ) )
+   AAdd( aPropTemp, AllTrim( ControlName ) )
+   AAdd( aPropTemp, "ROW"    )
+   AAdd( aPropTemp, Row      )
+   AAdd( aPropTemp, "COL"    )
+   AAdd( aPropTemp, Col      )
+   AAdd( aPropTemp, "WIDTH"  )
+   AAdd( aPropTemp, Width    )
+   AAdd( aPropTemp, "HEIGHT" )
+   AAdd( aPropTemp, Height   )
 
-   nLines     := mlCount( cFile, 1000 )
+   nLines     := MLCount( cFile, 1000 )
    cInitValue := '""'
 
    FOR nLine := 3 to nLines
@@ -4117,20 +4117,20 @@ PROCEDURE UcitoArray( ControlName AS STRING )
           Upper( cLine ) # "WIDTH"    .AND. ;
           Upper( cLine ) # "HEIGHT"
 
-          aAdd( aPropTemp, cLine  )
-          aAdd( aPropTemp, cValue )
+          AAdd( aPropTemp, cLine  )
+          AAdd( aPropTemp, cValue )
 
        ENDIF
 
    NEXT nLine
 
-   aAdd( aPropTemp, "ENDPROP" )
+   AAdd( aPropTemp, "ENDPROP" )
 
-   xArray3 := aClone( aPropTemp )
+   xArray3 := AClone( aPropTemp )
 
-   // MsgBox("VALTYPE= "+ValType(xArray3) +" LEN= "+STR(Len(xArray2)) )
+   // MsgBox("VALTYPE= "+ValType(xArray3) +" LEN= "+Str(Len(xArray2)) )
    nPos := nTotControl
-   aEval( xArray3, { | x, y | xArray[ nPos, Y ] := xArray3[ Y ] } )
+   AEval( xArray3, { | x, y | xArray[ nPos, Y ] := xArray3[ Y ] } )
 
 RETURN
 

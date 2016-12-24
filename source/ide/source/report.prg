@@ -24,7 +24,7 @@ PROCEDURE AddReport()
 
    ic        := ProjectBrowser.xlist_4.ItemCount
    AddReport := GetFile( { { "*.rpt", "*.rpt" } } , "Add Report", cOpen )
-   xPos      := Rat( "\", AddReport )
+   xPos      := RAt( "\", AddReport )
 
    IF xPos > 0
       xRptName := SubStr( AddReport, xPos + 1, Len( AddReport ) )
@@ -60,7 +60,7 @@ PROCEDURE AddReport()
       ENDIF
    ENDIF
 
-   aAdd( aRptNames, { xRptName, cPath } )
+   AAdd( aRptNames, { xRptName, cPath } )
 
    aSort2( aRptNames )
 
@@ -120,11 +120,11 @@ PROCEDURE DeleteReport()
    ELSE
       aRptNames[ A1, 1 ] := NIL
 
-      aEval( aRptNames, { | x | iif( x[ 1 ] # NIL, aAdd( aTempReport, { x[ 1 ], x[ 2 ] } ), "" ) } )
+      AEval( aRptNames, { | x | iif( x[ 1 ] # NIL, AAdd( aTempReport, { x[ 1 ], x[ 2 ] } ), "" ) } )
 
       aRptNames := {}
 
-      aEval( aTempReport, { | x | aAdd( aRptNames, { x[ 1 ], x[ 2 ] } ) } )
+      AEval( aTempReport, { | x | AAdd( aRptNames, { x[ 1 ], x[ 2 ] } ) } )
 
       aSort2( aRptNames )
 
@@ -190,7 +190,7 @@ PROCEDURE LoadReport()
 
       ZeroaReport()
 
-      x6 := MlCount( x5, 1000 )
+      x6 := MLCount( x5, 1000 )
 
       IF Empty( x6 )
          RETURN
@@ -240,7 +240,7 @@ PROCEDURE LoadReport()
       FOR xLin := 1 TO x6
           A1 := AllTrim( MemoLine( x5, 1000, xLin, NIL, .T. ) )
           FOR Y := 1 TO 6
-              x4 := AT( aItens[ Y ], A1 )
+              x4 := At( aItens[ Y ], A1 )
               IF x4 > 0
                  aReport[ 18 + Y ] := .T.
              ENDIF
@@ -264,17 +264,17 @@ PROCEDURE Preport( cReport AS STRING )
    ENDIF
 
    IF File( "_" + cReport + ".rpt" )
-      fErase( "_" + cReport + ".rpt" )
+      FErase( "_" + cReport + ".rpt" )
    ENDIF
 
    ReportEditor.title := "Report Editor [" + cReport + "]"
 
    FOR x := 1 TO 18
-       _SetValue( "text_"  + ltrim( Str( x ) ), "ReportEditor", aReport[ x ] )
+       _SetValue( "text_"  + LTrim( Str( x ) ), "ReportEditor", aReport[ x ] )
    NEXT
 
    FOR x := 1 TO 6
-       _SetValue( "check_" + ltrim( Str( x ) ), "ReportEditor", aReport[ 18 + x ] )
+       _SetValue( "check_" + LTrim( Str( x ) ), "ReportEditor", aReport[ 18 + x ] )
    NEXT
 
    CENTER WINDOW ReportEditor
@@ -312,11 +312,11 @@ PROCEDURE ReportOk( Preview AS LOGICAL )
    // MsgBox( "cReport= " + cReport )
 
    FOR x := 1 TO 18
-       aReport[ x ] := _GetValue( "text_" + ltrim( Str( x ) ), "ReportEditor" )
+       aReport[ x ] := _GetValue( "text_" + LTrim( Str( x ) ), "ReportEditor" )
    NEXT
 
    FOR x := 1 TO 6
-       aReport[ 18 + x ] := _GetValue( "check_" + ltrim( Str( x ) ), "ReportEditor" )
+       aReport[ 18 + x ] := _GetValue( "check_" + LTrim( Str( x ) ), "ReportEditor" )
    NEXT
 
    IF Empty( aReport[ 1 ] )
@@ -368,11 +368,11 @@ PROCEDURE ReportOk( Preview AS LOGICAL )
 
    // reassign values to array
    FOR x := 1 TO 18
-       aReport[ x ] := _GetValue( "text_" + ltrim( str( x ) ), "ReportEditor" )
+       aReport[ x ] := _GetValue( "text_" + LTrim( Str( x ) ), "ReportEditor" )
    NEXT
 
    FOR x := 1 TO 6
-       aReport[ 18 + x ] := _GetValue( "check_" + ltrim( str( x ) ), "ReportEditor" )
+       aReport[ 18 + x ] := _GetValue( "check_" + LTrim( Str( x ) ), "ReportEditor" )
    NEXT
 
    // Add by Pier Stop
@@ -454,7 +454,7 @@ PROCEDURE ReportOk( Preview AS LOGICAL )
          cTable := aRptNames[ nValue, 2 ] + AllTrim( ReportEditor.Text_7.Value )  //verify
       ENDIF
 
-      d := select()
+      d := Select()
       USE ( cTable ) NEW
 
       DO REPORT FORM &cReport
@@ -462,7 +462,7 @@ PROCEDURE ReportOk( Preview AS LOGICAL )
 
       Select( d )
 
-      fErase( cReport + ".rpt" )
+      FErase( cReport + ".rpt" )
    ELSE
       HIDE WINDOW ReportEditor
    ENDIF
@@ -502,7 +502,7 @@ PROCEDURE NewReport()
    ZeroaReport()
 
    xRptName := InputBox( "Enter Name:", "New Report", "" )
-   xPos     := Rat( "\", xRptName )
+   xPos     := RAt( "\", xRptName )
 
    IF xPos > 0
       xRptName := SubStr( xRptName, xPos + 1, Len( xRptName ) )
@@ -527,7 +527,7 @@ PROCEDURE NewReport()
       IF ProjectBrowser.xlist_4.ItemCount = 0
          ProjectBrowser.xlist_4.AddItem( xRptName + ".rpt" )
          ProjectBrowser.xlist_4.Value := ProjectBrowser.xlist_4.ItemCount
-         aAdd( aRptNames, { xRptName + ".rpt", cPath } )
+         AAdd( aRptNames, { xRptName + ".rpt", cPath } )
       ELSE
          FOR x := 1 TO Len( aRptNames )
              IF Upper( xRptName ) + ".RPT" = Upper( aRptNames[ x, 1 ] )
@@ -536,7 +536,7 @@ PROCEDURE NewReport()
              ENDIF
          NEXT x
 
-         aAdd( aRptNames, { xRptName + ".rpt", cPath } )
+         AAdd( aRptNames, { xRptName + ".rpt", cPath } )
 
          aSort2( aRptNames )
 
@@ -579,11 +579,11 @@ FUNCTION Op_HF( Arg1 AS STRING, Act AS LOGICAL, ta AS STRING )
    act  := iif( act == NIL, .F., act )
    ta   := iif( ta  == NIL, '"', ta  )
 
-   IF aScan( acp, Left( Arg1, 1 ) ) > 0          // Check For left
+   IF AScan( acp, Left( Arg1, 1 ) ) > 0          // Check For left
       Arg1 := SubStr( Arg1, 2 )                  // Remove Left
    ENDIF
 
-   IF aScan( acp, Right( Arg1, 1 ) ) > 0         // Check For Right
+   IF AScan( acp, Right( Arg1, 1 ) ) > 0         // Check For Right
       Arg1 := SubStr( Arg1, 1, Len( Arg1 ) - 1 ) // Remove Right
    ENDIF
 

@@ -55,8 +55,8 @@ Procedure SizeControl()
 
    IF gf != h
 
-      i := aScan( _HMG_aControlHandles, gf )
-      // MsgBox( "i="+str(i) )
+      i := AScan( _HMG_aControlHandles, gf )
+      // MsgBox( "i="+Str(i) )
       // MsgBox( "lastcontrol=" + _HMG_aControlNames[l] + "handle= " + Str( _HMG_aControlHandles[ l ] ) )
 
       IF i = 0
@@ -111,7 +111,7 @@ Procedure SizeControl()
                       ControlHandle := _HMG_aControlPageMap[ i, j, k, 1 ]
                    ENDIF
 
-                   z := aScan( _HMG_aControlHandles, ControlHandle )
+                   z := AScan( _HMG_aControlHandles, ControlHandle )
 
                    IF z == 0
                       z := FindRadioName( ControlHandle )
@@ -210,7 +210,7 @@ Procedure SizeControl()
 
             IF xTypeCombo
                eHeight := _HMG_MouseRow - _HMG_aControlRow[ ControlIndex ]
-               // MsgBox( "eHeight= " + Str( eHeight ) + " _HMG_MouseRow= " + Str( _HMG_MouseRow )+ " GetWindowHeight( h )= " + Str( GetWindowHeight( h ) ) + " _HMG_aControlRow[ ControlIndex]= " +str( _HMG_aControlRow [ControlIndex ] ) )
+               // MsgBox( "eHeight= " + Str( eHeight ) + " _HMG_MouseRow= " + Str( _HMG_MouseRow )+ " GetWindowHeight( h )= " + Str( GetWindowHeight( h ) ) + " _HMG_aControlRow[ ControlIndex]= " +Str( _HMG_aControlRow [ControlIndex ] ) )
 
                eHeight := iif( eHeight < 20, xHeight, eHeight ) // workaround
             ELSE
@@ -246,8 +246,8 @@ Procedure SizeControl()
 
          ENDIF
 
-         SavePropControl( _HMG_aControlNames[ x ], ltrim( Str( eWidth  ) ), "Width"  )
-         SavePropControl( _HMG_aControlNames[ x ], ltrim( Str( eHeight ) ), "Height" )
+         SavePropControl( _HMG_aControlNames[ x ], LTrim( Str( eWidth  ) ), "Width"  )
+         SavePropControl( _HMG_aControlNames[ x ], LTrim( Str( eHeight ) ), "Height" )
 
          cpreencheGrid(_HMG_aControlNames[x] )
 
@@ -293,22 +293,22 @@ procedure SizeFrame()
 
        *************
        //if ValType(_HMG_aControlHandles[i]) = "A"
-       //   MsgBox("value== "+str( _HMG_aControlHandles[i][1])+"name= "+_HMG_aControlNames[i])
-       //   MsgBox("row= "+str( _HMG_aControlRow [i] )+ " height= "+str(_HMG_aControlHeight [i] )+" col= "+str( _HMG_aControlCol [i] ) +" width= "+ str( _HMG_aControlWidth [i] ) )
-       //   MsgBox(" mouse row= " +str( _HMG_MouseRow) +" mouse col = " +str(_HMG_MouseCol) )
+       //   MsgBox("value== "+Str( _HMG_aControlHandles[i][1])+"name= "+_HMG_aControlNames[i])
+       //   MsgBox("row= "+Str( _HMG_aControlRow [i] )+ " height= "+Str(_HMG_aControlHeight [i] )+" col= "+Str( _HMG_aControlCol [i] ) +" width= "+ Str( _HMG_aControlWidth [i] ) )
+       //   MsgBox(" mouse row= " +Str( _HMG_MouseRow) +" mouse col = " +Str(_HMG_MouseCol) )
        //ELSE
-       //   MsgBox("value== "+str( _HMG_aControlHandles[i])+"name= "+_HMG_aControlNames[i])
+       //   MsgBox("value== "+Str( _HMG_aControlHandles[i])+"name= "+_HMG_aControlNames[i])
        //ENDIF
        **********
 
        IF ValType( _HMG_aControlHandles[ i ] ) = "A"
-       
+
            IF    _HMG_aControlParentHandles[ i ] == GetFormHandle( "Form_1" )          .AND. ;
-                             IsWIndowVisible( _HMG_aControlHandles[ i ][ 1 ] )             
+                             IsWIndowVisible( _HMG_aControlHandles[ i ][ 1 ] )
                  IF ( _HMG_MouseRow >= _HMG_aControlRow[ i ] )                            .AND. ;
                     ( _HMG_MouseRow <= _HMG_aControlRow[ i ] + _HMG_aControlHeight[ i ] ) .AND. ;
                     ( _HMG_MouseCol >= _HMG_aControlCol[ i ] )                            .AND. ;
-                    ( _HMG_MouseCol <= _HMG_aControlCol[ i ] + _HMG_aControlWidth[ i ] ) 
+                    ( _HMG_MouseCol <= _HMG_aControlCol[ i ] + _HMG_aControlWidth[ i ] )
 
                   //  MsgBox("control="+_HMG_aControlNames[i])
 
@@ -319,16 +319,16 @@ procedure SizeFrame()
                       // MsgBox( "Control iMin=" + _HMG_aControlNames[ i ] )
                      ENDIF
                  ENDIF
-           ENDIF       
+           ENDIF
        ELSE
-          
+
           IF  _HMG_aControlParentHandles[ i ] == GetFormHandle( "Form_1" )          .AND.  ;
                           IsWIndowVisible( _HMG_aControlHandles[ i ] )
-             //msgbox('nr = ' + str(i) + ' name = ' +  _HMG_aControlNames[ i ] ) 
+             //msgbox('nr = ' + Str(i) + ' name = ' +  _HMG_aControlNames[ i ] )
           	 IF ( _HMG_MouseRow >= _HMG_aControlRow[ i ] )                            .AND.  ;
                 ( _HMG_MouseRow <= _HMG_aControlRow[ i ] + _HMG_aControlHeight[ i ] ) .AND.  ;
                 ( _HMG_MouseCol >= _HMG_aControlCol[ i ] )                            .AND.  ;
-                ( _HMG_MouseCol <= _HMG_aControlCol[ i ] + _HMG_aControlWidth [ i ] ) 
+                ( _HMG_MouseCol <= _HMG_aControlCol[ i ] + _HMG_aControlWidth [ i ] )
 
               //  MsgBox( "Control=" + _HMG_aControlNames[ i ] )
 
@@ -340,7 +340,7 @@ procedure SizeFrame()
                   ENDIF
              ENDIF
           ENDIF
-          
+
        ENDIF
 
    NEXT i
@@ -356,8 +356,8 @@ procedure SizeFrame()
       _HMG_aControlWidth[ i ]  := GetWindowWidth( _HMG_aControlhandles[ i ] )
       _HMG_aControlHeight[ i ] := GetWindowHeight( _HMG_aControlhandles[ i ] )
 
-      SavePropControl( _HMG_aControlNames[i], Ltrim( Str( _HMG_aControlWidth[ i ] ) ), "Width" )
-      SavePropControl( _HMG_aControlNames[i], Ltrim( Str( _HMG_aControlHeight[ i ] ) ), "Height" )
+      SavePropControl( _HMG_aControlNames[i], LTrim( Str( _HMG_aControlWidth[ i ] ) ), "Width" )
+      SavePropControl( _HMG_aControlNames[i], LTrim( Str( _HMG_aControlHeight[ i ] ) ), "Height" )
 
       lUpdate := .T.
 
@@ -388,8 +388,8 @@ procedure SizeFrame()
       cHideControl( _HMG_aControlhandles[ ControlIndex, 1 ] )
       cShowControl( _HMG_aControlhandles[ ControlIndex, 1 ] )
 
-      SavePropControl( _HMG_aControlNames[ i ], Ltrim( Str( eWidth  ) ), "Width" )
-      SavePropControl( _HMG_aControlNames[ i ], Ltrim( Str( eHeight ) ), "Height" )
+      SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( eWidth  ) ), "Width" )
+      SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( eHeight ) ), "Height" )
 
       lUpdate := .T.
 

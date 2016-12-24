@@ -5,73 +5,73 @@
 PROCEDURE Update()
 *------------------------------------------------------------*
    LOCAL cPath AS STRING := GetStartupFolder()
-   
+
    IF MsgYesNo( "You're going to download updates from www.hmgextended.com"    + CRLF +        ;
                 "The new files will be placed into '\IDE\UPDATES' directory."  + CRLF + CRLF + ;
                 "Please note that any newer source files with the same name, " + CRLF +        ;
                 "already existing inside this folder will not be overwritten!" + CRLF + CRLF + ;
                 "Are you sure you want to proceed?", "UPDATE FROM WEB", .T., NIL, .T. )
-      
+
       DownloadFromWWW( "http://www.hmgextended.com/files/HMGS-IDE/ide.zip", cPath + "\ide.zip", NIL )
-      
+
    ENDIF
-   
+
    RETURN
-   
-   
+
+
 *------------------------------------------------------------*
 PROCEDURE DownloadFromWWW( cURL AS STRING, cLOCALFileName AS STRING )
 *------------------------------------------------------------*
    LOCAL oCon  AS OBJECT
    LOCAL oUrl  AS OBJECT
    LOCAL nResp AS LOGICAL  //? Invalid Hungarian
-   
+
    cLOCALFileName := AllTrim( cLOCALFileName )
    nResp          := isInternet()
-   
+
    IF nResp = .F.
       MsgBox( "Internet is not connected. Update is aborted" )
       RETURN
    ENDIF
-   
-   oUrl              := TURL():NEW( cURL )
-   oCon              := TipClientHttp():NEW( oUrl )
+
+   oUrl              := TUrl():NEW( cURL )
+   oCon              := TIPClientHTTP():NEW( oUrl )
    oCon:nConnTimeout := 20000
-   
+
    // MsgBox( "Connecting with " + oUrl:cServer   )
    // MsgBox( "localfile= "      + cLocalFilename )
    IF oCon:Open( cURL )
-      
-      // MsgBox( "Connection established." + chr(10) + "Press OK to retrieve " + oUrl:cPath +oUrl:cFile )
+
+      // MsgBox( "Connection established." + Chr(10) + "Press OK to retrieve " + oUrl:cPath +oUrl:cFile )
       oCon:WriteAll( cLOCALFileName )
-      
+
       // MsgBox( "Downloaded..." )
       oCon:CLOSE()
-      
+
       FORM()
-      
+
    ELSE
       MsgBox( "Can't connect with " + oUrl:cServer )
-      
+
       IF oCon:SocketCon == NIL
          MsgBox( "Connection not initiated" )
 
-      ELSEIF hb_InetErrorCode( oCon:SocketCon ) == 0
+      ELSEIF hb_inetErrorCode( oCon:SocketCon ) == 0
          MsgBox( "Server sayed: " + oCon:cReply )
-         
+
       ELSE
-         MsgBox( "Error in connection: " + hb_InetErrorDesc( oCon:SocketCon ) )
+         MsgBox( "Error in connection: " + hb_inetErrorDesc( oCon:SocketCon ) )
       ENDIF
-      
+
    ENDIF
-   
+
    RETURN
-   
-   
+
+
 *------------------------------------------------------------*
 PROCEDURE FORM()
 *------------------------------------------------------------*
-   
+
    DEFINE WINDOW Form_2 ;
           AT         0, 0 ;
           WIDTH      400 HEIGHT 215 ;
@@ -79,7 +79,7 @@ PROCEDURE FORM()
           NOMAXIMIZE NOSIZE ;
           FONT       "Arial" SIZE 9 ;
           ON INIT    UNZIPFile()
-      
+
       DEFINE PROGRESSBAR ProgressBar_1
          Row        60
          Col        45
@@ -140,7 +140,7 @@ PROCEDURE UnzipFile()
 
    AEval( aFiles, { | e | cSubDir := hb_FNameDir( e ), hb_DirBuild( cCurDir + cSubDir ) } )
 
-   lSuccess := hb_UnZipFile( cArchive , { | cFile, nPos | ProgressUpdate( nPos, cFile, .T. ) } , ;
+   lSuccess := hb_UnzipFile( cArchive , { | cFile, nPos | ProgressUpdate( nPos, cFile, .T. ) } , ;
                              .T. , , cCurDir , aFiles , )
 
    IF lSuccess
@@ -241,7 +241,7 @@ FUNCTION InternetGetConnectedStateEx( lpdwFlags, lpszConnectionName, dwNameLen, 
   LOCAL hInstDLL             := LoadLibrary( "WININET.DLL" )
   LOCAL nProcAddr AS NUMERIC := GetProcAddress( hInstDLL, "InternetGetConnectedStateEx" )
 
-   uResult := CallDLL( hInstDLL, nProcAddr, NIL, 4, 4, lpdwFlags, 10, lpszConnectionName, 3, dwNameLen, 4, dwReserved )
+   uResult := CallDll( hInstDLL, nProcAddr, NIL, 4, 4, lpdwFlags, 10, lpszConnectionName, 3, dwNameLen, 4, dwReserved )
 
    FreeLibrary( hInstDLL )
 

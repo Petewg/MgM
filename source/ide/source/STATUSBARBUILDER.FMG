@@ -9,7 +9,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  230
             HEIGHT 340
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE LABEL Label_1
             ROW    20
@@ -17,7 +17,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  60
             HEIGHT 20
             VALUE "Caption:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_2
             ROW    50
@@ -25,7 +25,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  50
             HEIGHT 20
             VALUE "Action:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_3
             ROW    80
@@ -33,7 +33,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  40
             HEIGHT 20
             VALUE "Width:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_4
             ROW    110
@@ -41,7 +41,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  40
             HEIGHT 20
             VALUE "Icon:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_5
             ROW    140
@@ -49,7 +49,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  60
             HEIGHT 20
             VALUE "ToolTip:"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_1
             ROW    20
@@ -57,7 +57,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  120
             HEIGHT 24
             ONCHANGE STATUSCAPTIONCHANGE()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_2
             ROW    50
@@ -65,7 +65,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  120
             HEIGHT 24
             ONCHANGE STATUSACTIONCHANGE()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_3
             ROW    80
@@ -73,7 +73,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  120
             HEIGHT 24
             ONCHANGE STATUSWIDTHCHANGE()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_4
             ROW    110
@@ -81,7 +81,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  120
             HEIGHT 24
             ONCHANGE STATUSICONCHANGE()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_5
             ROW    140
@@ -89,7 +89,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  120
             HEIGHT 24
             ONCHANGE STATUSTOOLTIPCHANGE()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE BUTTON Button_1
             ROW    20
@@ -98,7 +98,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 28
             ACTION STATUSOK()
             CAPTION "Ok"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_2
             ROW    60
@@ -107,7 +107,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 28
             ACTION STATUSCANCEL()
             CAPTION "Cancel"
-     END BUTTON  
+     END BUTTON
 
      DEFINE FRAME Frame_2
             ROW    357
@@ -115,7 +115,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  335
             HEIGHT 33
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE BUTTON Button_3
             ROW    360
@@ -124,7 +124,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 30
             ACTION STATUSUP()
            PICTURE "BITMAP45"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_4
             ROW    360
@@ -133,7 +133,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 30
             ACTION STATUSDOWN()
            PICTURE "BITMAP46"
-     END BUTTON  
+     END BUTTON
 
      DEFINE LABEL Label_6
             ROW    170
@@ -141,7 +141,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  70
             HEIGHT 20
             VALUE "Style:"
-     END LABEL  
+     END LABEL
 
      DEFINE COMBOBOX Combo_1
             ROW    170
@@ -150,7 +150,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 100
             ITEMS {"Normal","Flat","Raised"}
             ONCHANGE STATUSSTYLECHANGE()
-     END COMBOBOX  
+     END COMBOBOX
 
      DEFINE BUTTON Button_7
             ROW    360
@@ -159,7 +159,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 30
             ACTION STATUSNEXT()
             CAPTION "Next"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_8
             ROW    360
@@ -168,7 +168,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 30
             ACTION STATUSPRIOR()
             CAPTION "Prior"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_9
             ROW    360
@@ -177,7 +177,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 30
             ACTION STATUSINSERT()
             CAPTION "Insert"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_10
             ROW    360
@@ -186,7 +186,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 30
             ACTION STATUSDELETE()
             CAPTION "Delete"
-     END BUTTON  
+     END BUTTON
 
      DEFINE GRID Grid_1
             ROW    390
@@ -200,7 +200,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             ONCHANGE STATUSGRIDCHANGE()
             NOSORTHEADERS .F.
             HEADERIMAGE ""
-     END GRID  
+     END GRID
 
      DEFINE BUTTON Button_5
             ROW    180
@@ -209,7 +209,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 28
             ACTION STATUSFONT()
             CAPTION "Font..."
-     END BUTTON  
+     END BUTTON
 
      DEFINE LABEL Label_7
             ROW    570
@@ -217,7 +217,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  350
             HEIGHT 38
             VALUE "Use $CLOCK, $DATE, $KEYBOARD, $PROGRESSITEM for special items."
-     END LABEL  
+     END LABEL
 
      DEFINE CHECKBOX Check_1
             ROW    205
@@ -226,7 +226,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 20
             CAPTION "Default"
             ONCHANGE statusdefaultchange()
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE CHECKBOX Check_2
             ROW    200
@@ -235,7 +235,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 28
             CAPTION "AMPM"
             ONCHANGE statusampmchange()
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE LABEL Label_8
             ROW    230
@@ -243,7 +243,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  70
             HEIGHT 24
             VALUE "Range"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_9
             ROW    260
@@ -251,7 +251,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  70
             HEIGHT 24
             VALUE "Value"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_6
             ROW    230
@@ -260,7 +260,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 24
             FONTNAME 'Arial'
             ONCHANGE StatusRangeChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_7
             ROW    260
@@ -269,7 +269,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 24
             FONTNAME 'Arial'
             ONCHANGE StatusValueChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE LABEL Label_10
             ROW    290
@@ -277,7 +277,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  70
             HEIGHT 24
             VALUE "BackColor"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_11
             ROW    320
@@ -285,7 +285,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             WIDTH  70
             HEIGHT 24
             VALUE "FontColor"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_8
             ROW    290
@@ -294,7 +294,7 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 24
             FONTNAME 'Arial'
             ONCHANGE StatusBackColorChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_9
             ROW    320
@@ -303,8 +303,6 @@ DEFINE WINDOW TEMPLATE AT 204 , 661 WIDTH 372 HEIGHT 653 TITLE "StatusBar Builde
             HEIGHT 24
             FONTNAME 'Arial'
             ONCHANGE StatusFontColorChange()
-     END TEXTBOX 
+     END TEXTBOX
 
 END WINDOW
-
-

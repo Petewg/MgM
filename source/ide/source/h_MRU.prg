@@ -64,7 +64,7 @@ FUNCTION CheckForDuplicateMRU( NewItem )
         // Uppercase newitem for string comparisons
         NewItem := Upper(NewItem)
         // Check all existing MRUs for duplicate
-        i := aScan( aMRU_File , {|y| Upper(y[2])==NewItem})
+        i := AScan( aMRU_File , {|y| Upper(y[2])==NewItem})
         if i != 0
             DuplicateMRU = i
         ENDIF
@@ -90,34 +90,34 @@ FUNCTION AddMenuElement( NewItem  )
             // Modify a first element the menu
             cxMRU_Id := cMRU_Id
             _ModifyMenuItem( cxMRU_Id , 'Controls' ,'&1 '+caption , action  )
-            aAdd( aMRU_File , { caption, NewItem, cxMRU_Id, action, 1 })
+            AAdd( aMRU_File , { caption, NewItem, cxMRU_Id, action, 1 })
 
         ELSE
             // Add a new element to the menu
             for n:=1 to Len( aMRU_File )+1
-                X := aScan( aMRU_File , {|y| y[5]==n})
+                X := AScan( aMRU_File , {|y| y[5]==n})
                 if X == 0
                     x :=n
                     exit
                 ENDIF
             next
 
-            cx:=  AllTrim(str( x ))   //strzero(x,2)
+            cx:=  AllTrim(Str( x ))   //StrZero(x,2)
             cyMRU_Id := cMRU_Id +'_'+ cx
             cxMRU_Id := aMRU_File[1,3]
             _InsertMenuItem( cxMRU_Id , 'Controls' ,'&1 '+caption , action, cyMRU_Id  )
-            ASIZE(aMRU_File, Len(aMRU_File)+1)
-            AINS( aMRU_File, 1 )
+            ASize(aMRU_File, Len(aMRU_File)+1)
+            AIns( aMRU_File, 1 )
             aMRU_File [ 1 ] := {caption,NewItem,cyMRU_Id,action,x}
             for n:= 1 to Len(aMRU_File)
-                cx:= AllTrim(str(n))
+                cx:= AllTrim(Str(n))
                 cxMRU_Id := aMRU_File[n,3]
                 xCaption := '&'+cx+' '+aMRU_File[n,1]
                 _ModifyMenuItem( cxMRU_Id , 'Controls' , xCaption , aMRU_File[n,4] )
             next
             if Len(aMRU_File) > maxMRU_Files
                 cxMRU_Id := aMRU_File[ Len(aMRU_File) , 3 ]
-                ASIZE( aMRU_File , maxMRU_Files )
+                ASize( aMRU_File , maxMRU_Files )
                 _RemoveMenuItem( cxMRU_Id , 'Controls')
             ENDIF
 
@@ -137,8 +137,8 @@ FUNCTION ReorderMRUList(DuplicateMRU , DuplicateLocation )
     if DuplicateLocation > 1
         cxMRU_Id := aMRU_File[ DuplicateLocation , 3 ]
         _RemoveMenuItem( cxMRU_Id , 'Controls')
-        ADEL( aMRU_File, DuplicateLocation )
-        ASIZE(aMRU_File, Len(aMRU_File)-1)
+        ADel( aMRU_File, DuplicateLocation )
+        ASize(aMRU_File, Len(aMRU_File)-1)
     ENDIF
 
 RETURN Nil
@@ -175,10 +175,10 @@ FUNCTION GetMRUFileList()
     Do while i <= maxMRU_Files
       // Retrieve entry from registry (INI)
 
-      result = GetSetting("MRUFiles", lTrim(Str(i)))
+      result = GetSetting("MRUFiles", LTrim(Str(i)))
       // Check if a value was returned
       IF !Empty(result)
-         aAdd(aTmp, result)
+         AAdd(aTmp, result)
       ELSE
          exit
       ENDIF
@@ -205,7 +205,7 @@ FUNCTION SaveMRUFileList()
         ELSE
             cFile := ""
         ENDIF
-        SET SECTION "MRUFiles" ENTRY lTrim(Str(i)) TO cFile
+        SET SECTION "MRUFiles" ENTRY LTrim(Str(i)) TO cFile
     Next
     END INI
 RETURN Nil
@@ -254,45 +254,45 @@ LOCAL Id , Controlhandle
          MenuItem_SetBitMaps( h , Id , image , "" )
       ENDIF
 
-      aAdd( _HMG_aControlType , "MENU" )
-      aAdd( _HMG_aControlNames , Name )
-      aAdd( _HMG_aControlHandles , Controlhandle )
-      aAdd( _HMG_aControlParentHandles , _HMG_xMainMenuParentHandle)
-      aAdd( _HMG_aControlIds , id )
-      aAdd( _HMG_aControlProcedures , action )
-      aAdd( _HMG_aControlPageMap , h  )
-      aAdd( _HMG_aControlValue , Nil )
-      aAdd( _HMG_aControlInputMask , "" )
-      aAdd( _HMG_aControllostFocusProcedure , "" )
-      aAdd( _HMG_aControlGotFocusProcedure , "" )
-      aAdd( _HMG_aControlChangeProcedure , "" )
-      aAdd( _HMG_aControlDeleted , .F. )
-      aAdd( _HMG_aControlBkColor , Nil )
-      aAdd( _HMG_aControlFontColor , Nil )
-      aAdd( _HMG_aControlDblClick , "" )
-      aAdd( _HMG_aControlHeadClick , {} )
-      aAdd( _HMG_aControlRow , 0 )
-      aAdd( _HMG_aControlCol , 0 )
-      aAdd( _HMG_aControlWidth , 0 )
-      aAdd( _HMG_aControlHeight , 0 )
-      aAdd( _HMG_aControlSpacing , 0 )
-      aAdd( _HMG_aControlContainerRow , -1 )
-      aAdd( _HMG_aControlContainerCol , -1 )
-      aAdd( _HMG_aControlPicture , "" )
-      aAdd( _HMG_aControlContainerHandle , 0 )
-      aAdd( _HMG_aControlFontName , "" )
-      aAdd( _HMG_aControlFontSize , 0 )
-      aAdd( _HMG_aControlFontAttributes , {.F.,.F.,.F.,.F.} )
-      aAdd( _HMG_aControlToolTip  , ""  )
-      aAdd( _HMG_aControlRangeMin  , 0  )
-      aAdd( _HMG_aControlRangeMax  , 0  )
-      aAdd( _HMG_aControlCaption  , Caption  )
-      aAdd( _HMG_aControlVisible  , .T. )
-      aAdd( _HMG_aControlHelpId  , 0 )
-      aAdd( _HMG_aControlFontHandle  , 0 )
-      aAdd( _HMG_aControlBrushHandle  , 0 )
-      aAdd( _HMG_aControlEnabled  , .T. )
-      aAdd( _HMG_aControlMiscDatA1  , 0 )
+      AAdd( _HMG_aControlType , "MENU" )
+      AAdd( _HMG_aControlNames , Name )
+      AAdd( _HMG_aControlHandles , Controlhandle )
+      AAdd( _HMG_aControlParentHandles , _HMG_xMainMenuParentHandle)
+      AAdd( _HMG_aControlIds , id )
+      AAdd( _HMG_aControlProcedures , action )
+      AAdd( _HMG_aControlPageMap , h  )
+      AAdd( _HMG_aControlValue , Nil )
+      AAdd( _HMG_aControlInputMask , "" )
+      AAdd( _HMG_aControllostFocusProcedure , "" )
+      AAdd( _HMG_aControlGotFocusProcedure , "" )
+      AAdd( _HMG_aControlChangeProcedure , "" )
+      AAdd( _HMG_aControlDeleted , .F. )
+      AAdd( _HMG_aControlBkColor , Nil )
+      AAdd( _HMG_aControlFontColor , Nil )
+      AAdd( _HMG_aControlDblClick , "" )
+      AAdd( _HMG_aControlHeadClick , {} )
+      AAdd( _HMG_aControlRow , 0 )
+      AAdd( _HMG_aControlCol , 0 )
+      AAdd( _HMG_aControlWidth , 0 )
+      AAdd( _HMG_aControlHeight , 0 )
+      AAdd( _HMG_aControlSpacing , 0 )
+      AAdd( _HMG_aControlContainerRow , -1 )
+      AAdd( _HMG_aControlContainerCol , -1 )
+      AAdd( _HMG_aControlPicture , "" )
+      AAdd( _HMG_aControlContainerHandle , 0 )
+      AAdd( _HMG_aControlFontName , "" )
+      AAdd( _HMG_aControlFontSize , 0 )
+      AAdd( _HMG_aControlFontAttributes , {.F.,.F.,.F.,.F.} )
+      AAdd( _HMG_aControlToolTip  , ""  )
+      AAdd( _HMG_aControlRangeMin  , 0  )
+      AAdd( _HMG_aControlRangeMax  , 0  )
+      AAdd( _HMG_aControlCaption  , Caption  )
+      AAdd( _HMG_aControlVisible  , .T. )
+      AAdd( _HMG_aControlHelpId  , 0 )
+      AAdd( _HMG_aControlFontHandle  , 0 )
+      AAdd( _HMG_aControlBrushHandle  , 0 )
+      AAdd( _HMG_aControlEnabled  , .T. )
+      AAdd( _HMG_aControlMiscDatA1  , 0 )
 
 RETURN Nil
 

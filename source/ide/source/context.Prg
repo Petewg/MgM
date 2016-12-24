@@ -5,7 +5,7 @@ DECLARE WINDOW MENUBUILDER
 DECLARE WINDOW STATUSBARBUILDER
 DECLARE WINDOW DropDownMenuBuilder
 DECLARE WINDOW ContextBuilder
- 
+
 
 *------------------------------------------------------------*
 PROCEDURE MenuBuilder( TIPO AS STRING )
@@ -14,7 +14,7 @@ PROCEDURE MenuBuilder( TIPO AS STRING )
    IF ! isWindowActive( Form_1 )
       RETURN
    ENDIF
-  
+
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    IF TIPO = "MAIN"
       IF ! _isWindowDefined( "MENUBUILDER" )
@@ -167,19 +167,19 @@ PROCEDURE ContextInit()          //  MATRIZ ) //? Parameter neveu used
 
          IF X4 > 0
             aMenuItens := MenuItens( A1, X4, "MENUITEM" )
-            aAdd( ArrayContext, { "MENUITEM", aMenuItens[1],;
+            AAdd( ArrayContext, { "MENUITEM", aMenuItens[1],;
                   aMenuItens[2], aMenuItens[3], aMenuItens[4],;
                   aMenuItens[7], aMenuItens[8], aMenuItens[9]} )
             // MsgBox( "A-ITEM " + Str(X-1) + " " + ArrayContext[X-1,2] )
          ELSE
-            aAdd( ArrayContext, {"SEPARATOR","-","","","",".F.",".F.",""} )
+            AAdd( ArrayContext, {"SEPARATOR","-","","","",".F.",".F.",""} )
             // MsgBox( "B-ITEM " + Str(X-1) + " " + ArrayContext[X-1,2] )
          ENDIF
      NEXT X
 
      IF ContextBuilder.Title = "Dropdown Menu Builder"
         DO WHILE DropDownMenuBuilder.Grid_1.ItemCount > Len( ArrayContext )
-           aAdd(ArrayContext, { "MENUITEM", "", "", "", "", ".F.", ".F.", "" } )
+           AAdd(ArrayContext, { "MENUITEM", "", "", "", "", ".F.", ".F.", "" } )
         ENDDO
      ENDIF
 
@@ -191,7 +191,7 @@ PROCEDURE ContextInit()          //  MATRIZ ) //? Parameter neveu used
   ELSE
      // MsgBox( "array zerado" )
      xValue := { "", "", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" }
-     aAdd( ArrayContext, xValue )
+     AAdd( ArrayContext, xValue )
      // MsgBox( "len ArrayContext= " + Str( Len( ArrayContext ) ) )
      ContextBuilder.Grid_1.Value := 1
   ENDIF
@@ -223,17 +223,17 @@ PROCEDURE ContextOK()
   LOCAL cText   AS STRING
 
   IF ContextBuilder.Title = "Context Menu Builder"
-     aAdd( vArray, Space(5) + "DEFINE CONTEXT MENU" )
+     AAdd( vArray, Space(5) + "DEFINE CONTEXT MENU" )
 
   ELSEIF ContextBuilder.Title = "Notify Menu Builder"
-     aAdd( vArray, Space(5) + "DEFINE NOTIFY MENU ")
+     AAdd( vArray, Space(5) + "DEFINE NOTIFY MENU ")
 
   ELSEIF ContextBuilder.Title = "Dropdown Menu Builder"
      N1     := At( "[", ContextBuilder.Title )
      N2     := At( "]", ContextBuilder.Title )
      cTitle := SubStr( ContextBuilder.Title, N1+1, N2-N1-1 )
 
-     aAdd( vArray, Space(5) + "DEFINE DROPDOWN MENU BUTTON " + cTitle )
+     AAdd( vArray, Space(5) + "DEFINE DROPDOWN MENU BUTTON " + cTitle )
   ENDIF
 
   FOR X := 1 TO Len( ArrayContext )
@@ -271,19 +271,19 @@ PROCEDURE ContextOK()
             cText += " MESSAGE " + '"' + ArrayContext[ X, 8 ] + '"'
          ENDIF
 
-         aAdd( vArray, cText )
+         AAdd( vArray, cText )
 
       ELSEIF ArrayContext[ X, 1 ] = "SEPARATOR"
          cText := Space( 12 ) + "SEPARATOR"
-         aAdd( vArray, cText )
+         AAdd( vArray, cText )
       ENDIF
   NEXT X
 
-  aAdd( vArray, Space(5) + "END MENU" )
+  AAdd( vArray, Space(5) + "END MENU" )
   **************************************
   //  ATEXT := ""
   //     FOR X = 1 TO Len(VARRAY)
-  //         ATEXT += STR(X)+" "+VARRAY[X]+crlf
+  //         ATEXT += Str(X)+" "+VARRAY[X]+crlf
   //     NEXT X
   //  MsgBox(ATEXT)
   **************************************
@@ -323,7 +323,7 @@ RETURN
 *------------------------------------------------------------*
 PROCEDURE ContextCaptionChange()
 *------------------------------------------------------------*
-  // MsgBox( "value= "+str(ContextBuilder.Grid_1.Value ) )
+  // MsgBox( "value= "+Str(ContextBuilder.Grid_1.Value ) )
   IF AllTrim( ContextBuilder.Text_1.Value ) = "-" .OR. Upper( AllTrim( ContextBuilder.Text_1.Value ) ) = "SEPARATOR"
      // MsgBox("SEPARATOR")
      ArrayContext[ ContextBuilder.Grid_1.Value, 1 ] :=  "SEPARATOR"
@@ -388,7 +388,7 @@ PROCEDURE ContextCheckedChange()
      //   ArrayContext[ContextBuilder.Grid_1.Value, 6 ] := ".T."
      //ENDIF
 
-     ArrayContext[ ContextBuilder.Grid_1.Value, 6 ] := xToc( ContextBuilder.Check_1.Value )
+     ArrayContext[ ContextBuilder.Grid_1.Value, 6 ] := XToC( ContextBuilder.Check_1.Value )
   ENDIF
 
 RETURN
@@ -404,7 +404,7 @@ PROCEDURE ContextDisabledChange()
      //   ArrayContext[ ContextBuilder.Grid_1.Value, 7 ] := ".T."
      //ENDIF
 
-     ArrayContext[ ContextBuilder.Grid_1.Value, 7 ] := xToc( ContextBuilder.Check_2.Value )
+     ArrayContext[ ContextBuilder.Grid_1.Value, 7 ] := XToC( ContextBuilder.Check_2.Value )
 
   ENDIF
 
@@ -472,15 +472,15 @@ PROCEDURE ContextNext()
 
      ContextGridChange()
   ELSE
-     IF Empty( aTail( ArrayContext )[2] )
+     IF Empty( ATail( ArrayContext )[2] )
         ContextDelete()
      ENDIF
 
      xValue := { "MENUITEM", "New Item", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" }
 
-     aAdd( ArrayContext, xValue )
+     AAdd( ArrayContext, xValue )
 
-     ContextBuilder.Grid_1.AddItem({ aTail( ArrayContext )[2] } )
+     ContextBuilder.Grid_1.AddItem({ ATail( ArrayContext )[2] } )
 
      ContextBuilder.Grid_1.Value := ContextBuilder.Grid_1.ItemCount
   ENDIF
@@ -509,12 +509,12 @@ PROCEDURE ContextInsert()
      xValue := { "MENUITEM", "New Item", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" }
      // MsgBox( "len ArrayContext1= " + Str( Len( ArrayContext ) ) )
 
-     aSize( ArrayContext, Len( ArrayContext ) + 1 )
+     ASize( ArrayContext, Len( ArrayContext ) + 1 )
 
-     // MsgBox("len ArrayContext2= "+STR(Len(ArrayContext)))
-     // MsgBox("LEN GRID= "+STR(ContextBuilder.Grid_1.Value))
+     // MsgBox("len ArrayContext2= "+Str(Len(ArrayContext)))
+     // MsgBox("LEN GRID= "+Str(ContextBuilder.Grid_1.Value))
 
-     aIns( ArrayContext, ContextBuilder.Grid_1.Value )
+     AIns( ArrayContext, ContextBuilder.Grid_1.Value )
 
      ArrayContext[ ContextBuilder.Grid_1.Value ] := xValue
      tValue                                      := ContextBuilder.Grid_1.Value
@@ -537,12 +537,12 @@ PROCEDURE ContextDelete()
   LOCAL tValue AS NUMERIC
 
   IF ContextBuilder.Grid_1.ItemCount > 1
-     // MsgBox("len ArrayContext1= "+STR(Len(ArrayContext)))
+     // MsgBox("len ArrayContext1= "+Str(Len(ArrayContext)))
 
-     aDel( ArrayContext, ContextBuilder.Grid_1.Value )
+     ADel( ArrayContext, ContextBuilder.Grid_1.Value )
 
-     aSize( ArrayContext, Len( ArrayContext ) - 1 )
-     // MsgBox("len ArrayContext2= "+STR(Len(ArrayContext)))
+     ASize( ArrayContext, Len( ArrayContext ) - 1 )
+     // MsgBox("len ArrayContext2= "+Str(Len(ArrayContext)))
 
      tValue := ContextBuilder.Grid_1.Value
 
@@ -558,7 +558,7 @@ PROCEDURE ContextDelete()
      //   ContextNext()
      //ENDIF
   ELSE
-     // MsgBox( "len ArrayContext3= "+STR(Len(ArrayContext)) )
+     // MsgBox( "len ArrayContext3= "+Str(Len(ArrayContext)) )
      ArrayContext[ 1 ] := { "","","","NIL","NIL",".F.",".F.","NIL" }
 
      ContextFillGrid()
@@ -646,7 +646,7 @@ PROCEDURE ContextFillGrid()
   ContextBuilder.Grid_1.DeleteAllitems
 
   FOR x := 1 TO Len( ArrayContext )
-      // MsgBox("x= "+str(x)+" "+ArrayContext[x,2])
+      // MsgBox("x= "+Str(x)+" "+ArrayContext[x,2])
       xValue := ArrayContext[ x, 2 ]
       // IF ! Empty( xvalue )
       ContextBuilder.Grid_1.AddItem( { xValue } )
@@ -672,7 +672,7 @@ FUNCTION MenuItens( A1, x4, A2 )                         //Opt
   LOCAL aMenuItens  AS ARRAY   := Array( 9 )
 
   // Fill array with NIL value
-  aFill( aMenuItens, NIL )
+  AFill( aMenuItens, NIL )
 
   IF A2 == NIL
      cTemp := AllTrim( SubStr( A1, xCaption+9, xAction-xCaption-1-9 ) )    // Caption
@@ -813,7 +813,7 @@ FUNCTION MenuItens( A1, x4, A2 )                         //Opt
      aMenuItens[9] := ""
   ENDIF
 
-  aEval( aMenuItens, { | a, z | aMenuItens[ z ] := AllTrim( a ) } )
+  AEval( aMenuItens, { | a, z | aMenuItens[ z ] := AllTrim( a ) } )
 
 RETURN( aMenuItens )
 
@@ -825,7 +825,7 @@ PROCEDURE BeautContext()
   LOCAL x     AS NUMERIC
 
   IF Len(acontext) > 0
-     aAdd( aTemp, Space( 5 ) + AllTrim( aContext[1] ) )
+     AAdd( aTemp, Space( 5 ) + AllTrim( aContext[1] ) )
 
      FOR x := 2 TO Len( aContext )
          aContext[x] := AllTrim( aContext[x] )
@@ -833,17 +833,17 @@ PROCEDURE BeautContext()
 
          IF At( "MENUITEM", aContext[x] ) = 1
             // MsgBox("added menuitem")
-            aAdd( aTemp, Space( 12 ) + aContext[x] )
+            AAdd( aTemp, Space( 12 ) + aContext[x] )
          ENDIF
 
          IF At( "SEPARATOR", aContext[x] ) = 1
             // MsgBox( "added SEPARATOR" )
-            aAdd( aTemp, Space( 12 ) + aContext[x] )
+            AAdd( aTemp, Space( 12 ) + aContext[x] )
          ENDIF
 
          IF At( "END MENU", aContext[x] ) = 1
             // MsgBox( "added end menu" )
-            aAdd( aTemp, Space( 5 ) + aContext[x] )
+            AAdd( aTemp, Space( 5 ) + aContext[x] )
          ENDIF
 
      NEXT x
@@ -863,7 +863,7 @@ PROCEDURE Beautnotify()
 
   IF Len( aNotify ) > 0
 
-     aAdd( aTemp, Space(5) + AllTrim( aNotify[1] ) )
+     AAdd( aTemp, Space(5) + AllTrim( aNotify[1] ) )
 
      FOR x := 2 TO Len( aNotify )
 
@@ -872,17 +872,17 @@ PROCEDURE Beautnotify()
 
          IF At( "MENUITEM", aNotify[x]) = 1
             // MsgBox( "added menuitem" )
-            aAdd( aTemp, Space( 12 ) + aNotify[x] )
+            AAdd( aTemp, Space( 12 ) + aNotify[x] )
          ENDIF
 
          IF At( "SEPARATOR", aNotify[x] ) = 1
             // MsgBox( "added SEPARATOR" )
-            aAdd( aTemp, Space( 12 ) + aNotify[x] )
+            AAdd( aTemp, Space( 12 ) + aNotify[x] )
          ENDIF
 
          IF At( "END MENU", aNotify[x] ) = 1
             // MsgBox("added end menu")
-            aAdd( aTemp, Space( 5 ) + aNotify[x] )
+            AAdd( aTemp, Space( 5 ) + aNotify[x] )
          ENDIF
 
      NEXT x

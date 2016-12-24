@@ -36,16 +36,16 @@ PROCEDURE DownloadFromWWW( cURL AS STRING, cLOCALFileName AS STRING )
       RETURN
    ENDIF
 
-   oUrl              := TURL():New( cUrl )
-   oCon              := TipClientHttp():New( oUrl )
+   oUrl              := TUrl():New( cUrl )
+   oCon              := TIPClientHTTP():New( oUrl )
    oCon:nConnTimeout := 20000
 
    // MsgBox( "Connecting with " + oUrl:cServer   )
    // MsgBox( "localfile= "      + cLocalFilename )
-   
+
    IF oCon:Open( cUrl )
 
-      // MsgBox( "Connection established." + chr(10) + "Press OK to retrieve " + oUrl:cPath +oUrl:cFile )
+      // MsgBox( "Connection established." + Chr(10) + "Press OK to retrieve " + oUrl:cPath +oUrl:cFile )
       oCon:WriteAll( cLocalFileName )
 
       // MsgBox( "Downloaded..." )
@@ -54,22 +54,22 @@ PROCEDURE DownloadFromWWW( cURL AS STRING, cLOCALFileName AS STRING )
       Form()
 
    ELSE
-   
+
       // MsgBox( "Can't connect with " + oUrl:cServer )
       cResponse := "Can't connect with " + oUrl:cServer
-      
+
       IF oCon:SocketCon == NIL
          // MsgBox( "Connection not initiated" )
-         cResponse += hb_EoL() + "Connection not initiated."
+         cResponse += hb_eol() + "Connection not initiated."
 
-      ELSEIF hb_InetErrorCode( oCon:SocketCon ) == 0
+      ELSEIF hb_inetErrorCode( oCon:SocketCon ) == 0
          // MsgBox( "Server responded: " + oCon:cReply )
-         cResponse += hb_EoL() + "Server responded: " + oCon:cReply
+         cResponse += hb_eol() + "Server responded: " + oCon:cReply
       ELSE
-         // MsgBox( "Error in connection: " + hb_InetErrorDesc( oCon:SocketCon ) )
-         cResponse += hb_EoL() + "Error description: " + hb_InetErrorDesc( oCon:SocketCon )
+         // MsgBox( "Error in connection: " + hb_inetErrorDesc( oCon:SocketCon ) )
+         cResponse += hb_eol() + "Error description: " + hb_inetErrorDesc( oCon:SocketCon )
       ENDIF
-         
+
       MsgStop( cResponse, "Connection Error")
 
    ENDIF
@@ -131,7 +131,7 @@ PROCEDURE UnzipFile()
    LOCAL dDate, cTime, lSuccess
 
    Form_2.ProgressBar_1.RangeMin := 1
-   Form_2.ProgressBar_1.RangeMax := Len( HB_GetFilesInZip( cArchive ) ) - 1
+   Form_2.ProgressBar_1.RangeMax := Len( hb_GetFilesInZip( cArchive ) ) - 1
 
    //  RENAME ( cCurDir + "\IDE.EXE" ) TO ( cCurDir + "\IDEOLD.EXE" )
 
@@ -156,7 +156,7 @@ PROCEDURE UnzipFile()
 		[ <dummy1: FILEMASK, FILEARRAY> <mask> ] ;
 		[ FILEPROGRESS <fileblock> ] ;
 	=> ;
-	[ <lSuccess> := ] hb_UnZipFile( <zipfile> , <block> , <.createdir.> , <password> , <extractpath> , <mask> , <fileblock> )
+	[ <lSuccess> := ] hb_UnzipFile( <zipfile> , <block> , <.createdir.> , <password> , <extractpath> , <mask> , <fileblock> )
 
 	*/
 	IF lSuccess
@@ -164,19 +164,19 @@ PROCEDURE UnzipFile()
    msgdebug( "lSuccess" )
 	
       IF hb_FileExists( cCurDir + "\UPDATES\BIN\IDE.EXE" )
-      
+
          IF hb_FileExists( cCurDir + "\IDE.EXE" )
             IF hb_FileExists( cCurDir + "\IDE.OLD" )
                hb_FileDelete( cCurDir + "\IDE.OLD" )
             ENDIF
             hb_vfRename(cCurDir + "\IDE.EXE", cCurDir + "\IDE.OLD")
          ENDIF
-      
+
          // COPY FILE ( cCurDir + "\UPDATES\BIN\IDE.EXE" ) TO ( cCurDir + "\IDENEW.EXE" )
          hb_vfCopyFile( cCurDir + "\UPDATES\BIN\IDE.EXE" ,  cCurDir + "\IDE.EXE" )
          hb_FGetDateTime( cCurDir + "\UPDATES\BIN\IDE.EXE", @dDate, @cTime )
          hb_FSetDateTime( cCurDir + "\IDE.EXE", @dDate, @cTime )
-      
+
       ENDIF
 
       EXECUTE FILE ( cCurDir + "\IDE.EXE" )
@@ -209,7 +209,7 @@ FUNCTION ProgressUpdate( nPos          AS NUMERIC, ; // Progress Bar position
    DO EVENTS
 
    IF lShowFileName
-      InKey( .1 )
+      Inkey( .1 )
    ENDIF
 
 RETURN( NIL )
@@ -220,7 +220,7 @@ FUNCTION IsInternet( nTimeout )
 
 	
    aAddress := hb_socketResolveINetAddr( "www.google.com", 80 )
-   
+
    IF Empty( aAddress )
       RETURN .F.
    ENDIF
@@ -228,7 +228,7 @@ FUNCTION IsInternet( nTimeout )
 	hSocket := hb_socketOpen()
 	lCanConnect := hb_socketConnect( hSocket, aAddress, hb_defaultValue( nTimeout, 2000 ) )
    hb_socketClose( hSocket )
-   
+
 	RETURN lCanConnect
 
 	
@@ -251,7 +251,7 @@ FUNCTION InternetGetConnectedStateEx( lpdwFlags, lpszConnectionName, dwNameLen, 
   LOCAL hInstDLL             := LoadLibrary( "WININET.DLL" )
   LOCAL nProcAddr AS NUMERIC := GetProcAddress( hInstDLL, "InternetGetConnectedStateEx" )
 
-   uResult := CallDLL( hInstDLL, nProcAddr, NIL, 4, 4, lpdwFlags, 10, lpszConnectionName, 3, dwNameLen, 4, dwReserved )
+   uResult := CallDll( hInstDLL, nProcAddr, NIL, 4, 4, lpdwFlags, 10, lpszConnectionName, 3, dwNameLen, 4, dwReserved )
 
    FreeLibrary( hInstDLL )
 

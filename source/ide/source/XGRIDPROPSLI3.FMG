@@ -10,7 +10,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 289 HEIGHT 178 TITLE "Property Edit Fo
             HEIGHT 24
             VALUE "Label_1"
             FONTBOLD .T.
-     END LABEL  
+     END LABEL
 
      DEFINE COMBOBOX Combo_1
             ROW    50
@@ -20,7 +20,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 289 HEIGHT 178 TITLE "Property Edit Fo
             ITEMS {"LEFT","RIGHT","CENTER"}
             VALUE 5
             FONTBOLD .T.
-     END COMBOBOX  
+     END COMBOBOX
 
     DEFINE BUTTON Button_1
            ROW    90
@@ -29,7 +29,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 289 HEIGHT 178 TITLE "Property Edit Fo
            HEIGHT 28
            ACTION xgridpropSLI3ok()
            CAPTION "Ok"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_2
            ROW    90
@@ -38,7 +38,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 289 HEIGHT 178 TITLE "Property Edit Fo
            HEIGHT 28
            ACTION xgridpropSLI3No()
            CAPTION "Cancel"
-     END BUTTON  
+     END BUTTON
 
      DEFINE FRAME Frame_1
             ROW    -1
@@ -46,8 +46,6 @@ DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 289 HEIGHT 178 TITLE "Property Edit Fo
             WIDTH  270
             HEIGHT 145
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
 END WINDOW
-
-

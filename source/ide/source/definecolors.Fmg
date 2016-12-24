@@ -10,7 +10,7 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
            HEIGHT 20
            ACTION defcolo1()
            CAPTION "Chose FontColor"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_3
            ROW    80
@@ -19,14 +19,14 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
            HEIGHT 20
            ACTION defcolo2()
            CAPTION "Choose BackColor"
-     END BUTTON  
+     END BUTTON
 
      DEFINE COMBOBOX Combo_1
             ROW    50
             COL    230
             WIDTH  100
             HEIGHT 160
-     END COMBOBOX  
+     END COMBOBOX
 
      DEFINE LISTBOX List_1
             ROW    50
@@ -34,7 +34,7 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
             WIDTH  110
             HEIGHT 170
             MULTISELECT .T.
-     END LISTBOX  
+     END LISTBOX
 
      DEFINE RADIOGROUP RadioGroup_1
             ROW    170
@@ -43,14 +43,14 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
             HEIGHT 50
             OPTIONS { 'Type of controls','Controls of form'}
             VALUE 1
-     END RADIOGROUP  
+     END RADIOGROUP
 
      DEFINE TEXTBOX Text_1
             ROW    40
             COL    40
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
     DEFINE BUTTON Button_2
            ROW    280
@@ -59,7 +59,7 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
            HEIGHT 28
            ACTION putcolo()
            CAPTION "Click to put color"
-     END BUTTON  
+     END BUTTON
 
      DEFINE FRAME Frame_1
             ROW    140
@@ -68,7 +68,7 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
             HEIGHT 88
             CAPTION "Method of replace"
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE FRAME Frame_2
             ROW    10
@@ -77,7 +77,7 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
             HEIGHT 220
             CAPTION "Type of controls"
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE FRAME Frame_3
             ROW    10
@@ -86,7 +86,7 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
             HEIGHT 220
             CAPTION "Controls of form"
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE FRAME Frame_4
             ROW    250
@@ -95,7 +95,7 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
             HEIGHT 110
             CAPTION "Property to replace"
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE RADIOGROUP RadioGroup_2
             ROW    270
@@ -104,15 +104,13 @@ DEFINE WINDOW TEMPLATE AT 281 , 225 WIDTH 550 HEIGHT 403 TITLE "Definition of co
             HEIGHT 75
             OPTIONS { 'FontColor','BackColor','Both'}
             VALUE 1
-     END RADIOGROUP  
+     END RADIOGROUP
 
      DEFINE TEXTBOX Text_2
             ROW    110
             COL    40
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
 END WINDOW
-
-

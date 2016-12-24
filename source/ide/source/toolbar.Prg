@@ -15,7 +15,7 @@ PROCEDURE ToolbarProp()
 
 RETURN
 
- 
+
 *------------------------------------------------------------*
 PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
 *------------------------------------------------------------*
@@ -36,9 +36,9 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
  LOCAL xProps         AS ARRAY     //? Invalid Hungarian
  LOCAL cValue         AS STRING
 
- 
- PUBLIC aVLToolbarHash AS ARRAY := HB_HASH()
- PUBLIC AVLButtonHash AS ARRAY := HB_HASH()
+
+ PUBLIC aVLToolbarHash AS ARRAY := hb_Hash()
+ PUBLIC AVLButtonHash AS ARRAY := hb_Hash()
  PUBLIC lastitem      AS NUMERIC := 1
  PUBLIC DisableChange AS LOGICAL := .F.
 
@@ -130,19 +130,19 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
                Prop2 := ""
             ENDIF
          ENDIF
-         
+
          if prop1 = " SIZE"
            prop1 := "SIZE"
-        ENDIF 
+        ENDIF
        // IF PROP1 =   "DEFINE TOOLBAR"
        //  PROP1 := "NAME"
-       // ENDIF 
+       // ENDIF
 
-         // MsgBox(str(x)+" valor de "+Prop1+CRLF)
+         // MsgBox(Str(x)+" valor de "+Prop1+CRLF)
           aVLToolbarHash[Prop1] := Prop2
       NEXT X
 
-     
+
 
       ****read prop of buttons
 
@@ -157,7 +157,7 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
 
           FOR itenspesq := 1 TO Len( aItens )
               // MsgBox( "searching " + Str( ITENSPESQ ) + " " + aItens[itenspesq]+" in string " + A1 )
-              x1 := at(aItens[itenspesq],A1)
+              x1 := At(aItens[itenspesq],A1)
 
               IF X1 # 0
                  lFound := .F.
@@ -193,7 +193,7 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
 
            ******save values of button
            xProps:= Array( Len( aItens ) )
-          
+
 
            FOR X := 1 TO Len( aItens )
 
@@ -203,7 +203,7 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
                A2 := AllTrim( SubStr( A1, ( Len( aItens[ X ] ) + 1 ), ( Len( A1 ) - Len( aItens[ X ] ) ) ) )
                // MsgBox( "A2= " + A2 )
 
-               Prop1 := lTrim( aItens[ X ] )
+               Prop1 := LTrim( aItens[ X ] )
                Prop2 := A2
 
                IF Prop1 = "ADJUST"        .OR. ;
@@ -237,36 +237,36 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
                ENDIF
 
                xProps[ x ] := Prop2
-            
-               
+
+
                // MsgBox( "xProps= " + Str( x ) + " = " + xProps[ x ] )
             NEXT X
 
-          
-          if .not. empty(xprops)                     
-                aVLButtonHash[XBUTTON]  := HB_HASH()
-            
-        //      MSGBOX('XBUTTON=' + STR(XBUTTON)+ ' LEN= ' + Str( Len( aVLButtonHash ) ) )
-              
-               ToolbarFillButtonHash(XBUTTON,xProps)
-          endif     
 
-     //  msgbox('value hash a= ' +str(XBUTTON) + ' ' + aVLButtonHash[XBUTTON]["NAME"]+ ' key = >' + str(hb_HKeyAt( aVLButtonHash,XBUTTON ))+'<-'  )
+          if .not. Empty(xprops)
+                aVLButtonHash[XBUTTON]  := hb_Hash()
+
+        //      MSGBOX('XBUTTON=' + Str(XBUTTON)+ ' LEN= ' + Str( Len( aVLButtonHash ) ) )
+
+               ToolbarFillButtonHash(XBUTTON,xProps)
+          endif
+
+     //  msgbox('value hash a= ' +Str(XBUTTON) + ' ' + aVLButtonHash[XBUTTON]["NAME"]+ ' key = >' + Str(hb_HKeyAt( aVLButtonHash,XBUTTON ))+'<-'  )
 
          NEXT XBUTTON
 
       //     MsgBox('len hash= ' +   Str( Len( aVLButtonHash ) ) )
-      //   MsgBox('len hash keys = ' +   Str( Len( hb_hkeys(aVLButtonHash) ) ) )
+      //   MsgBox('len hash keys = ' +   Str( Len( hb_HKeys(aVLButtonHash) ) ) )
 
      IF mode == NIL
         ToolbarBuilder.Grid_1.DeleteAllitems
 
-      
+
          FOR XBUTTON := 1 TO Len( aVLButtonHash )
          //MSGBOX(' VALOR = ' + aVLButtonHash[ XBUTTON ]["NAME"] )
             ToolbarBuilder.Grid_1.AddItem( {aVLButtonHash[ XBUTTON ]["NAME"] } )
          NEXT
-        
+
          ToolbarFillForm()
 
         ToolbarBuilder.Grid_1.Value := 1
@@ -277,7 +277,7 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
        // MsgBox( "Len( atoolbar ) <= 0" )
 
        ToolbarBuilder.Grid_1.DeleteAllitems
-       
+
        aItens  := {"DEFINE TOOLBAR","CAPTION","ACTION","BUTTONSIZE","FONT"," SIZE","BOLD","ITALIC","UNDERLINE","STRIKEOUT","TOOLTIP","FLAT","BOTTOM","RIGHTTEXT","GRIPPERTEXT","BORDER","BREAK","WRAP","CUSTOMIZE"}
        aToolbarValues := { "Toolbar_1","Toolbar_1","NIL","64,64","Arial","9",".F.",".F.",".F.",".F.","",".F.",".F.",".F.","",".F.",".F.",".F.",".F."}
 
@@ -285,7 +285,7 @@ PROCEDURE ToolbarInit( Mode AS STRING )  //? Invalid Hungarian
            prop1 := aItens[x]
            IF prop1 = " SIZE"
               prop1 := "SIZE"
-           ENDIF 
+           ENDIF
            aVLToolbarHash[prop1] := aToolBarValues[x]
        NEXT
 
@@ -301,21 +301,21 @@ RETURN
 *--------------------------------------------------------------------*
 PROCEDURE ToolbarFillButtonHash(XBUTTON AS NUMERIC, xProps AS ARRAY )
 *--------------------------------------------------------------------*
-  
-                aVLButtonHash [XBUTTON] := HB_HASH() 
+
+                aVLButtonHash [XBUTTON] := hb_Hash()
                 aVLButtonHash [XBUTTON]["NAME"]         := xProps[1]
                 aVLButtonHash [XBUTTON]["CAPTION"]      := xProps[2]
-                aVLButtonHash [XBUTTON]["PICTURE"]      := xProps[3]           
+                aVLButtonHash [XBUTTON]["PICTURE"]      := xProps[3]
                 aVLButtonHash [XBUTTON]["ADJUST"]       := xProps[4]
                 aVLButtonHash [XBUTTON]["ACTION"]       := xProps[5]
                 aVLButtonHash [XBUTTON]["TOOLTIP"]      := xProps[6]
                 aVLButtonHash [XBUTTON]["SEPARATOR"]    := xProps[7]
                 aVLButtonHash [XBUTTON]["AUTOSIZE"]     := xProps[8]
-                aVLButtonHash [XBUTTON]["DROPDOWN"]     := xProps[9]           
+                aVLButtonHash [XBUTTON]["DROPDOWN"]     := xProps[9]
                 aVLButtonHash [XBUTTON]["WHOLEDROPDOWN"]:= xProps[10]
                 aVLButtonHash [XBUTTON]["CHECK"]        := xProps[11]
-                aVLButtonHash [XBUTTON]["GROUP"]        := xProps[12]  
-RETURN                
+                aVLButtonHash [XBUTTON]["GROUP"]        := xProps[12]
+RETURN
 
 
 
@@ -329,8 +329,8 @@ PROCEDURE ToolbarFillForm( nItem AS NUMERIC )
   nItem := ToolbarBuilder.Grid_1.Value
   //ENDIF
 
-    IF nitem > 0 .AND. Len( aVLButtonHash ) > 0    
-     
+    IF nitem > 0 .AND. Len( aVLButtonHash ) > 0
+
      ToolbarBuilder.Text_1.Value  := aVLButtonHash[ nitem]["NAME"]               	  // NAME
      ToolbarBuilder.Text_2.Value  := aVLButtonHash[ nitem]["CAPTION"]            	  // CAPTION
      ToolbarBuilder.Text_3.Value  := aVLButtonHash[ nitem]["PICTURE"]           	  // PICTURE
@@ -342,8 +342,8 @@ PROCEDURE ToolbarFillForm( nItem AS NUMERIC )
      ToolbarBuilder.check_4.Value := aVLButtonHash[ nitem]["DROPDOWN"]      == ".T."  // DROPDOWN
      ToolbarBuilder.check_5.Value := aVLButtonHash[ nitem]["WHOLEDROPDOWN"] == ".T."  // WHOLEDROPDOWN
      ToolbarBuilder.check_6.Value := aVLButtonHash[ nitem]["CHECK"]         == ".T."  // CHECK
-     ToolbarBuilder.check_7.Value := aVLButtonHash[ nitem]["GROUP"]         == ".T."  // GROUP     
-     
+     ToolbarBuilder.check_7.Value := aVLButtonHash[ nitem]["GROUP"]         == ".T."  // GROUP
+
   ELSE
      ToolbarBuilder.Text_1.Value  := ""     // NAME
      ToolbarBuilder.Text_2.Value  := ""     // CAPTION
@@ -373,11 +373,11 @@ PROCEDURE ToolbarPropInit()
   LOCAL nHeight AS NUMERIC
 
     IF Len( aVLToolbarHash ) > 0
-    
+
      ToolbarProp.Text_1.Value  :=      aVLToolbarHash[ "DEFINE TOOLBAR" ]                                   // Name
      ToolbarProp.Text_2.Value  := iif( aVLToolbarHash[ "CAPTION" ] # "NIL", aVLToolbarHash[ "CAPTION" ], ""    ) // Caption  **
      ToolbarProp.Text_3.Value  := iif( aVLToolbarHash[ "ACTION" ]  # "NIL", aVLToolbarHash[ "ACTION" ], "NIL" ) // Action   **
-          
+
      cValue                    := aVLToolbarHash[ "BUTTONSIZE" ]
      nPos                      := At( ",", cValue )
      nWidth                    := SubStr( cValue, 1     , nPos-1        )
@@ -394,8 +394,8 @@ PROCEDURE ToolbarPropInit()
      ToolbarProp.Check_5.Value := 	   aVLToolbarHash[ "BREAK" ]      == ".T."                              // Break
      ToolbarProp.Check_6.Value := 	   aVLToolbarHash[ "WRAP" ]       == ".T."                              // Customize
      ToolbarProp.Check_7.Value := 	   aVLToolbarHash[ "CUSTOMIZE" ]  == ".T."                              // Wrap
-     
-     
+
+
   ENDIF
 
 RETURN
@@ -422,14 +422,14 @@ PROCEDURE ToolbarPropFont()
 
      aFont     := GetFont( Font, Size, Bold, Italic, NIL, Underline, Strikeout, 0 )
 
-     IF ! EMPTY( aFont[ 1 ] )
-        
+     IF ! Empty( aFont[ 1 ] )
+
         aVLToolbarHash[ "FONT" ]      := aFont[ 1 ]          // FontName
         aVLToolbarHash[ "SIZE" ]      := Str(  aFont[ 2 ] )  // FontSize
-        aVLToolbarHash[ "BOLD" ]      := xToc( aFont[ 3 ] )  // FontBold
-        aVLToolbarHash[ "ITALIC" ]    := xToc( aFont[ 4 ] )  // FontItalic
-        aVLToolbarHash[ "UNDERLINE" ] := xToc( aFont[ 6 ] )  // FontUnderline
-        aVLToolbarHash[ "STRIKEOUT" ] := xToc( aFont[ 7 ] )  // FontStrikeout
+        aVLToolbarHash[ "BOLD" ]      := XToC( aFont[ 3 ] )  // FontBold
+        aVLToolbarHash[ "ITALIC" ]    := XToC( aFont[ 4 ] )  // FontItalic
+        aVLToolbarHash[ "UNDERLINE" ] := XToC( aFont[ 6 ] )  // FontUnderline
+        aVLToolbarHash[ "STRIKEOUT" ] := XToC( aFont[ 7 ] )  // FontStrikeout
 
      ENDIF
 
@@ -443,8 +443,8 @@ PROCEDURE ToolbarPropOk()
 *------------------------------------------------------------*
 
    IF Len( aVLToolbarHash ) > 0
-   
-   
+
+
      aVLToolbarHash[ "DEFINE TOOLBAR" ] := ToolbarProp.Text_1.Value                                  // Name
      aVLToolbarHash[ "CAPTION" ]        := ToolbarProp.Text_2.Value                                  // caption
      aVLToolbarHash[ "ACTION" ]         := ToolbarProp.Text_3.Value                                  // Action
@@ -452,15 +452,15 @@ PROCEDURE ToolbarPropOk()
      aVLToolbarHash[ "TOOLTIP" ]        := ToolbarProp.Text_6.Value                                  // Tooltip
      aVLToolbarHash[ "GRIPPERTEXT" ]    := ToolbarProp.Text_7.Value                                  // Grippertext
 
-     aVLToolbarHash[ "FLAT" ]           := xToc( ToolbarProp.check_1.Value )                         // Flat
-     aVLToolbarHash[ "BOTTOM" ]         := xToc( ToolbarProp.check_2.Value )                         // Bottom
-     aVLToolbarHash[ "RIGHTTEXT" ]      := xToc( ToolbarProp.check_3.Value )                         // Righttext
-     aVLToolbarHash[ "BORDER" ]         := xToc( ToolbarProp.check_4.Value )                         // Border
-     aVLToolbarHash[ "BREAK" ]          := xToc( ToolbarProp.check_5.Value )                         // Break
-     aVLToolbarHash[ "WRAP" ]           := xToc( ToolbarProp.check_6.Value )                         // Customize
-     aVLToolbarHash[ "CUSTOMIZE" ]      := xToc( ToolbarProp.check_7.Value )                         // Wrap
-     
-     
+     aVLToolbarHash[ "FLAT" ]           := XToC( ToolbarProp.check_1.Value )                         // Flat
+     aVLToolbarHash[ "BOTTOM" ]         := XToC( ToolbarProp.check_2.Value )                         // Bottom
+     aVLToolbarHash[ "RIGHTTEXT" ]      := XToC( ToolbarProp.check_3.Value )                         // Righttext
+     aVLToolbarHash[ "BORDER" ]         := XToC( ToolbarProp.check_4.Value )                         // Border
+     aVLToolbarHash[ "BREAK" ]          := XToC( ToolbarProp.check_5.Value )                         // Break
+     aVLToolbarHash[ "WRAP" ]           := XToC( ToolbarProp.check_6.Value )                         // Customize
+     aVLToolbarHash[ "CUSTOMIZE" ]      := XToC( ToolbarProp.check_7.Value )                         // Wrap
+
+
   ENDIF
 
   RELEASE WINDOW ToolbarProp
@@ -549,20 +549,20 @@ PROCEDURE ToolbarValueChange( Param ) // Added to take out Warning W0001 Ambiguo
   ENDIF
 
  IF nItem > 0 .AND. nItem <= Len( aVLButtonHash )
- 
+
      aVLButtonHash[nitem][ "NAME" ]          := ToolbarBuilder.Text_1.Value           // NAME
      aVLButtonHash[nitem][ "CAPTION" ]       := ToolbarBuilder.Text_2.Value           // CAPTION
      aVLButtonHash[nitem][ "PICTURE" ]       := ToolbarBuilder.Text_3.Value           // PICTURE
-     aVLButtonHash[nitem][ "TOOLTIP" ]       := ToolbarBuilder.Text_4.Value           // TOOLTIP     
-     aVLButtonHash[nitem][ "ACTION" ]        := ToolbarBuilder.Text_5.Value           // ACTION    
-     aVLButtonHash[nitem][ "ADJUST" ]        := xToc( ToolbarBuilder.check_1.Value )  // ADJUST
-     aVLButtonHash[nitem][ "SEPARATOR" ]     := xToc( ToolbarBuilder.check_2.Value )  // SEPARATOR
-     aVLButtonHash[nitem][ "AUTOSIZE" ]      := xToc( ToolbarBuilder.check_3.Value )  // AUTOSIZE
-     aVLButtonHash[nitem][ "DROPDOWN" ]      := xToc( ToolbarBuilder.check_4.Value )  // DROPDOWN
-     aVLButtonHash[nitem][ "WHOLEDROPDOWN" ] := xToc( ToolbarBuilder.check_5.Value )  // WHOLEDROPDOWN
-     aVLButtonHash[nitem][ "CHECK" ]         := xToc( ToolbarBuilder.check_6.Value )  // CHECK
-     aVLButtonHash[nitem][ "GROUP" ]         := xToc( ToolbarBuilder.check_7.Value )  // GROUP
-     
+     aVLButtonHash[nitem][ "TOOLTIP" ]       := ToolbarBuilder.Text_4.Value           // TOOLTIP
+     aVLButtonHash[nitem][ "ACTION" ]        := ToolbarBuilder.Text_5.Value           // ACTION
+     aVLButtonHash[nitem][ "ADJUST" ]        := XToC( ToolbarBuilder.check_1.Value )  // ADJUST
+     aVLButtonHash[nitem][ "SEPARATOR" ]     := XToC( ToolbarBuilder.check_2.Value )  // SEPARATOR
+     aVLButtonHash[nitem][ "AUTOSIZE" ]      := XToC( ToolbarBuilder.check_3.Value )  // AUTOSIZE
+     aVLButtonHash[nitem][ "DROPDOWN" ]      := XToC( ToolbarBuilder.check_4.Value )  // DROPDOWN
+     aVLButtonHash[nitem][ "WHOLEDROPDOWN" ] := XToC( ToolbarBuilder.check_5.Value )  // WHOLEDROPDOWN
+     aVLButtonHash[nitem][ "CHECK" ]         := XToC( ToolbarBuilder.check_6.Value )  // CHECK
+     aVLButtonHash[nitem][ "GROUP" ]         := XToC( ToolbarBuilder.check_7.Value )  // GROUP
+
   ENDIF
 
 RETURN
@@ -592,7 +592,7 @@ PROCEDURE ToolbarOk( Mode AS USUAL )  //? Invalid Hungarian
 
 
    IF Len( aVLToolbarHash ) > 0 .AND. Len( aVLButtonHash ) > 0
-         
+
      t2    := AllTrim( aVLToolbarHash[ "CAPTION" ] )
      t3    := AllTrim( aVLToolbarHash[ "ACTION" ] )
      t4    := AllTrim( aVLToolbarHash[ "BUTTONSIZE" ] )
@@ -600,7 +600,7 @@ PROCEDURE ToolbarOk( Mode AS USUAL )  //? Invalid Hungarian
      t6    := AllTrim( aVLToolbarHash[ "SIZE" ] )
      t11   := AllTrim( aVLToolbarHash[ "TOOLTIP" ] )
      t15   := AllTrim( aVLToolbarHash[ "GRIPPERTEXT" ] )
-         
+
      cText := Space( 5 ) + "DEFINE TOOLBAR " + aVLToolbarHash[ "DEFINE TOOLBAR" ]
 
       iif( Len(t2) > 0 .AND. t2 # "NIL"   , cText += " CAPTION "      + '"' + t2 + '"'   , NIL )
@@ -623,12 +623,12 @@ PROCEDURE ToolbarOk( Mode AS USUAL )  //? Invalid Hungarian
      iif( aVLToolbarHash[ "CUSTOMIZE" ] = ".T."       , cText += " WRAP"                             , NIL )
 
 
-     aAdd( aTempArray, cText )
+     AAdd( aTempArray, cText )
      cText := ""
 
      ******PROPERTIES OF BUTTON
-       FOR nItem := 1 TO Len( aVLButtonHash )           
-         
+       FOR nItem := 1 TO Len( aVLButtonHash )
+
          cText += Space( 12 ) + "BUTTON " + aVLButtonHash[ nitem][ "NAME" ]                                                       // NAME **
          iif( Len( AllTrim( aVLButtonHash[nitem]["CAPTION"])) > 0, cText += " CAPTION " + '"' + aVLButtonHash[ nitem]["CAPTION" ] + '"', NIL )  // CAPTION
          iif( Len( AllTrim( aVLButtonHash[nitem]["PICTURE"])) > 0, cText += " PICTURE " + '"' + aVLButtonHash[ nitem]["PICTURE" ] + '"', NIL )  // PICTURE
@@ -642,7 +642,7 @@ PROCEDURE ToolbarOk( Mode AS USUAL )  //? Invalid Hungarian
          iif( aVLButtonHash[nitem]["CHECK"] = ".T."              , cText += " CHECK"        , NIL )                                 			// CHECK
          iif( aVLButtonHash[nitem]["GROUP"] = ".T."              , cText += " GROUP"        , NIL )                                 			// GROUP
 
-         aAdd( aTempArray, cText )
+         AAdd( aTempArray, cText )
 
          // xText += cText + CRLF  // TO TEST
          cText := ""
@@ -650,7 +650,7 @@ PROCEDURE ToolbarOk( Mode AS USUAL )  //? Invalid Hungarian
 
      cText := Space( 5 ) + "END TOOLBAR"
 
-     aAdd( aTempArray, cText )
+     AAdd( aTempArray, cText )
 
      aToolBar := aTempArray
      // MsgBox( xText ) // TO TEST
@@ -660,9 +660,9 @@ PROCEDURE ToolbarOk( Mode AS USUAL )  //? Invalid Hungarian
   ENDIF
 
   //? To be completed new code to show Toolbar on form when added/change like Menu Builder -> ok done
-  if len(aToolBar) > 0 .and. Valtype(Mode) <> "C"
+  if Len(aToolBar) > 0 .and. ValType(Mode) <> "C"
      xCreateToolbar( aToolBar )
-  endif 
+  endif
 
   //A := ""
   //FOR Y := 1 TO Len( aToolbar )
@@ -699,7 +699,7 @@ PROCEDURE ToolbarUp()
       xTemp                       := aVLButtonHash[ nValue     ]
       aVLButtonHash[ nValue     ] := aVLButtonHash[ nValue - 1 ]
       aVLButtonHash[ nValue - 1 ] := xTemp
-     
+
 
       ToolbarFillGrid()
 
@@ -725,7 +725,7 @@ PROCEDURE ToolbarDown()
       xTemp                       := aVLButtonHash[ tValue     ]
       aVLButtonHash[ tValue     ] := aVLButtonHash[ tValue + 1 ]
       aVLButtonHash[ tValue + 1 ] := xTemp
-    
+
 
      // MsgBox( "tValue-down= " + Str( tValue ) )
 
@@ -762,16 +762,16 @@ PROCEDURE ToolbarNewButtom()
   LOCAL XBUTTON AS NUMERIC
   LOCAL xProps
   LOCAL cName  AS STRING  := "NewButton" + AllTrim( Str( Len( aVLButtonHash ) + 1 ) )
-  
+
   LOCAL aValue AS ARRAY   := { cName,"New Caption","",".F.","","NIL",".F.",".F.",".F.",".F.",".F.",".F." }
   LOCAL nValue AS NUMERIC := ToolbarBuilder.Grid_1.ItemCount
 
    //MsgBox( "LEN-aVLButtonHash a=" + Str( Len( aVLButtonHash ) ) )
-    
-  XBUTTON := len(aVLButtonHash)+1
+
+  XBUTTON := Len(aVLButtonHash)+1
   xProps := aValue
   ToolbarFillButtonHash(XBUTTON,xProps)
-    
+
    //MsgBox( "LEN-aVLButtonHash b=" + Str( Len( aVLButtonHash ) )  + ' VALUE = '+  aVLButtonHash [XBUTTON]["NAME"] )
 
   ToolbarFillGrid()
@@ -807,30 +807,30 @@ PROCEDURE ToolbarInsert()
   LOCAL nPosini, nPosfin, x
 
   IF ToolbarBuilder.Grid_1.Value > 0
-  
+
      cName         := "NewButton" + AllTrim( Str( Len( aVLButtonHash )+1 ) )
      aValue        := { cName, "New Caption","",".F.","","NIL",".F.",".F.",".F.",".F.",".F.",".F." }
-    
-              
-     XBUTTON := len(aVLButtonHash)+1
+
+
+     XBUTTON := Len(aVLButtonHash)+1
      xProps := aValue
-     ToolbarFillButtonHash(XBUTTON,xProps)  
-     
-     nPosini := ToolbarBuilder.Grid_1.Value        
-     aNewTemp := aVLButtonHash[XBUTTON] 
+     ToolbarFillButtonHash(XBUTTON,xProps)
+
+     nPosini := ToolbarBuilder.Grid_1.Value
+     aNewTemp := aVLButtonHash[XBUTTON]
      nPosfin := ToolbarBuilder.Grid_1.ItemCount+1
-     
-          
-     //msgbox('xbutton value = ' + str(xbutton) )
-     
-     
+
+
+     //msgbox('xbutton value = ' + Str(xbutton) )
+
+
       for x =  nPosfin to nPosini+1 step -1
-          // msgbox( ' x= ' + str(x) )
-          aVLButtonHash[ x ] := aVLButtonHash[ x-1 ]     
-      next x   
+          // msgbox( ' x= ' + Str(x) )
+          aVLButtonHash[ x ] := aVLButtonHash[ x-1 ]
+      next x
       aVLButtonHash[ nPosini ] := aNewTemp
-     
-   
+
+
      nValue    := ToolbarBuilder.Grid_1.Value
 
      ToolbarFillGrid()
@@ -857,31 +857,31 @@ PROCEDURE ToolbarDelete()
 
   IF ToolbarBuilder.Grid_1.ItemCount > 0
 
-    // msgbox('len avlbuttonhash= ' + str(len(aVLButtonHash))  ) 
-       
+    // msgbox('len avlbuttonhash= ' + Str(Len(aVLButtonHash))  )
+
      nPosini := ToolbarBuilder.Grid_1.Value
-    // FOR X = 1 TO LEN(aVLButtonHash)
-    //   msgbox('value hash a= ' +str(x) + ' ' + aVLButtonHash[X]["NAME"]+ ' key = >' + str(hb_HKeyAt( aVLButtonHash, x ))+'<-'  )
-    // NEXT  
-     
-           
+    // FOR X = 1 TO Len(aVLButtonHash)
+    //   msgbox('value hash a= ' +Str(x) + ' ' + aVLButtonHash[X]["NAME"]+ ' key = >' + Str(hb_HKeyAt( aVLButtonHash, x ))+'<-'  )
+    // NEXT
+
+
     // msgbox('value hash = ' + aVLButtonHash[ToolbarBuilder.Grid_1.ItemCount]["NAME"]  )
-    if nPosini = len(aVLButtonHash)
-       HB_HDELAT(aVLButtonHash,nPosini)
+    if nPosini = Len(aVLButtonHash)
+       hb_HDelAt(aVLButtonHash,nPosini)
     else
-       nPosfin := len(aVLButtonHash)
-        for x =  nPosini+1 to  nPosfin 
-        // msgbox( ' x= ' + str(x) )
-         aVLButtonHash[ x-1 ] :=    aVLButtonHash[ x ]     
-         next x          
-       HB_HDELAT(aVLButtonHash,nPosfin )           
+       nPosfin := Len(aVLButtonHash)
+        for x =  nPosini+1 to  nPosfin
+        // msgbox( ' x= ' + Str(x) )
+         aVLButtonHash[ x-1 ] :=    aVLButtonHash[ x ]
+         next x
+       hb_HDelAt(aVLButtonHash,nPosfin )
      endif
-     
-    // msgbox('len avlbuttonhash= ' + str(len(aVLButtonHash))  )           
-    // FOR X = 1 TO LEN(aVLButtonHash)
-    //   msgbox('value hash c= '+str(x) + ' '  + aVLButtonHash[X]["NAME"]  )
-    // NEXT  
-                  
+
+    // msgbox('len avlbuttonhash= ' + Str(Len(aVLButtonHash))  )
+    // FOR X = 1 TO Len(aVLButtonHash)
+    //   msgbox('value hash c= '+Str(x) + ' '  + aVLButtonHash[X]["NAME"]  )
+    // NEXT
+
         nValue := iif( Len( aVLButtonHash ) = 0, 0, ToolbarBuilder.Grid_1.Value )
      // MsgBox( "nValue = " + Str( nValue ) )
 
@@ -910,13 +910,13 @@ PROCEDURE ToolbarFillGrid()
 
   ToolbarBuilder.Grid_1.DeleteAllitems
 
- 
+
  FOR i := 1 TO Len( aVLButtonHash )
-     //MSGBOX('VALUE = ' + STR(I) +" "+  aVLButtonHash[ i]["NAME" ] )
+     //MSGBOX('VALUE = ' + Str(I) +" "+  aVLButtonHash[ i]["NAME" ] )
       xvalue := aVLButtonHash[ i]["NAME" ]
       ToolbarBuilder.Grid_1.AddItem( { xValue } )
  NEXT
- 
+
 
 RETURN
 
@@ -925,7 +925,7 @@ RETURN
  PROCEDURE MakeToolbar()
 *------------------------------------------------------------*
   ToolbarInit("NOBUILDER")
-  if len(aVLToolbarHash) > 0
+  if Len(aVLToolbarHash) > 0
     xCreateToolbar()
   endif
 
@@ -936,10 +936,10 @@ RETURN
  FUNCTION xCreateToolbar()
 *------------------------------------------------------------*
   LOCAL t4         := AllTrim( aVLToolbarHash[  "BUTTONSIZE"] )
-  LOCAL nbutwidth  := substr(t4,1,(at(',',t4)-1) )
-  LOCAL nbutheight := substr(t4,(at(',',t4)+1),len(t4))
+  LOCAL nbutwidth  := SubStr(t4,1,(At(',',t4)-1) )
+  LOCAL nbutheight := SubStr(t4,(At(',',t4)+1),Len(t4))
   LOCAL cCaption   := AllTrim( aVLToolbarHash[ "CAPTION" ] )
-  LOCAL cAction    := AllTrim( aVLToolbarHash[ "ACTION" ] )  
+  LOCAL cAction    := AllTrim( aVLToolbarHash[ "ACTION" ] )
      // MSGBOX('cACTION2= ' + cACTION )
   LOCAL uAction    := "{||MsgInfo( [" + cAction + "])}"
      // MSGBOX('cAction = ' + uAction )
@@ -947,25 +947,25 @@ RETURN
   LOCAL y := 0
   LOCAL w :=  nbutwidth
   LOCAL h :=  nbutheight
-  
+
   LOCAL cFontname      := AllTrim( aVLToolbarHash[ "FONT" ] )
   LOCAL nFontsize      := Val( AllTrim( aVLToolbarHash[ "SIZE" ] ) )
   LOCAL ctooltip       := AllTrim( aVLToolbarHash[ "TOOLTIP" ] )
-  LOCAL lflat          :=          aVLToolbarHash[ "FLAT" ] 
-  LOCAL lbottom        :=          aVLToolbarHash[ "BOTTOM" ] 
-  LOCAL lrighttext     :=          aVLToolbarHash[ "RIGHTTEXT" ] 
+  LOCAL lflat          :=          aVLToolbarHash[ "FLAT" ]
+  LOCAL lbottom        :=          aVLToolbarHash[ "BOTTOM" ]
+  LOCAL lrighttext     :=          aVLToolbarHash[ "RIGHTTEXT" ]
   LOCAL lbreak         :=          aVLToolbarHash[ "BREAK" ]
   LOCAL lbold          :=          aVLToolbarHash[ "BOLD" ]
   LOCAL litalic        :=          aVLToolbarHash[ "ITALIC" ]
-  LOCAL lunderline     :=          aVLToolbarHash[ "UNDERLINE" ] 
+  LOCAL lunderline     :=          aVLToolbarHash[ "UNDERLINE" ]
   LOCAL lstrikeout     :=          aVLToolbarHash[ "STRIKEOUT" ]
-  LOCAL lborder        :=          aVLToolbarHash[ "BORDER" ]     
+  LOCAL lborder        :=          aVLToolbarHash[ "BORDER" ]
   LOCAL lmixedbuttons  := NIL
   LOCAL nrows          := NIL
   LOCAL ntbsize        := NIL
   LOCAL cimagelst      := NIL
-  LOCAL chotimagelst   := NIL     
-  LOCAL lwrap          :=          aVLToolbarHash[ "CUSTOMIZE" ] 
+  LOCAL chotimagelst   := NIL
+  LOCAL lwrap          :=          aVLToolbarHash[ "CUSTOMIZE" ]
   LOCAL lcustom        :=          aVLToolbarHash[ "WRAP" ]
   LOCAL nItem,;
         cName,;
@@ -985,7 +985,7 @@ RETURN
 
      if IsControlDefined( Toolbar, Form_1 )
         DoMethod( "Form_1", "Toolbar", "Release" )
-     endif  
+     endif
 
      _HMG_ActiveFormName    := iif( Empty( _HMG_ActiveFormName ), 'Form_1', _HMG_ActiveFormName )
      _HMG_BeginWindowActive := .T.
@@ -995,20 +995,20 @@ RETURN
                     &lbottom , &lrighttext, &lbreak ,  &lbold ,  &litalic , &lunderline ,  &lstrikeout , &lborder , ;
                     lmixedbuttons, nrows , ntbsize , cimagelst , chotimagelst , &lwrap, lcustom )
 
-    FOR nItem := 1 TO Len( aVLButtonHash )   
-    
-        cName      :=  AllTrim( aVLButtonHash[nitem]["NAME"]) 
-        cCaption   :=  AllTrim( aVLButtonHash[nitem]["CAPTION"])           
+    FOR nItem := 1 TO Len( aVLButtonHash )
+
+        cName      :=  AllTrim( aVLButtonHash[nitem]["NAME"])
+        cCaption   :=  AllTrim( aVLButtonHash[nitem]["CAPTION"])
         cimage     :=  AllTrim( aVLButtonHash[nitem]["PICTURE"])
-        ladjust    :=           aVLButtonHash[nitem]["ADJUST"]         
+        ladjust    :=           aVLButtonHash[nitem]["ADJUST"]
         caction    :=  AllTrim( aVLButtonHash[nitem]["ACTION"])
         cAction    :=  IfEmpty( cAction, "Action is not defined", cAction )
         uAction    :=  "{||MsgInfo( [" + cAction + "])}"
         cTooltip   :=  AllTrim( aVLButtonHash[nitem]["TOOLTIP"])
-        lseparator :=           aVLButtonHash[nitem]["SEPARATOR"] 
-        lautosize  :=           aVLButtonHash[nitem]["AUTOSIZE"] 
+        lseparator :=           aVLButtonHash[nitem]["SEPARATOR"]
+        lautosize  :=           aVLButtonHash[nitem]["AUTOSIZE"]
         lcheck     :=           aVLButtonHash[nitem]["CHECK"]
-        lgroup     :=           aVLButtonHash[nitem]["GROUP"] 
+        lgroup     :=           aVLButtonHash[nitem]["GROUP"]
         ldropdown  :=           aVLButtonHash[nitem]["DROPDOWN"]
         lWholeDropDown :=       aVLButtonHash[nitem]["WHOLEDROPDOWN"]
         cgotfocus      := NIL
@@ -1026,4 +1026,3 @@ RETURN
      _HMG_BeginWindowActive := .F.
 
 RETURN( NIL )
-

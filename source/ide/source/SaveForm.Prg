@@ -32,7 +32,7 @@ PROCEDURE SaveForm()
    LOCAL l
    LOCAL iL            AS NUMERIC   := 1
    LOCAL noSplit       AS LOGICAL   := .F.
-   LOCAL blOut         AS CODEBLOCK := {|k| aEval( k, { | x | Output += x + CRLF } ) }
+   LOCAL blOut         AS CODEBLOCK := {|k| AEval( k, { | x | Output += x + CRLF } ) }
    LOCAL y             AS NUMERIC
    LOCAL z             AS NUMERIC
    LOCAL cValue
@@ -49,8 +49,8 @@ PROCEDURE SaveForm()
      RETURN
    ENDIF
 
-   aEval( aTempDeletedControls, { | nItem | SavePath(  nItem, "NIL" ) } )
-   aEval( aTempDeletedControls, { | nItem | SaveAlias( nItem, "NIL" ) } )
+   AEval( aTempDeletedControls, { | nItem | SavePath(  nItem, "NIL" ) } )
+   AEval( aTempDeletedControls, { | nItem | SaveAlias( nItem, "NIL" ) } )
 
    //?
    /* I think here we have to add some line of code */
@@ -69,7 +69,7 @@ PROCEDURE SaveForm()
    MenuBarHeight := GetMenuBarHeight()
    BorderWidth   := GetBorderWidth()
    BorderHeight  := GetBorderHeight()
-   aTempNames    := aClone( _HMG_aControlNames )
+   aTempNames    := AClone( _HMG_aControlNames )
 
    Output := "*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code"
    Output += CRLF
@@ -234,8 +234,8 @@ PROCEDURE SaveForm()
          v1 := AllTrim( xEvent[ 20 ] )
          IF Upper( v1 ) # "NIL"
              Output += " ON RESTORE " + V1
-         ENDIF       
-         
+         ENDIF
+
       ENDIF
 
       v1     := AllTrim( xEvent[ 12 ] )
@@ -253,7 +253,7 @@ PROCEDURE SaveForm()
 
          v1     := AllTrim( xEvent[ 11 ] )
          Output += iif( Upper(V1) = "NIL", iif( lSaveAll, " ON NOTIFYCLICK NIL", "" ), " ON NOTIFYCLICK " + V1 )
-         
+
          v1     := AllTrim( xEvent[ 23 ] )
          Output += iif( Upper(V1) = "NIL", iif( lSaveAll, " ON NOTIFYBALLOONCLICK NIL", "" ), " ON NOTIFYBALLOONCLICK " + V1 )
       ENDIF
@@ -344,7 +344,7 @@ PROCEDURE SaveForm()
               FOR k := 1 TO Len( _HMG_aControlPageMap[ i, j ] )
                   IF ValType( _HMG_aControlPageMap[ i, j, k ] ) # "A"
                      cValue := _HMG_aControlPageMap[ i, j, k ]
-                     p      := aScan( _HMG_aControlHandles, cValue )
+                     p      := AScan( _HMG_aControlHandles, cValue )
                   ELSE
                      cValue := _HMG_aControlPageMap[ i, j, k, 1 ]  // RADIOGROUP
                      p      :=  FindRadioName( cValue )
@@ -353,7 +353,7 @@ PROCEDURE SaveForm()
                   IF p > 0
                      Name := _HMG_aControlNames[ p ]
                      // MsgBox("adding to arraytemp " + name)
-                     aAdd( ArrayTemp, Name )
+                     AAdd( ArrayTemp, Name )
                   ENDIF
               NEXT k
           NEXT j
@@ -364,9 +364,9 @@ PROCEDURE SaveForm()
    *     aIds := {}
    *     for ncontrol = 1 to Len( xArray)
    *     xnome1 := xArray[ncontrol,3 ]
-   *     i0 := aScan(_HMG_aControlNames)
+   *     i0 := AScan(_HMG_aControlNames)
    *     if i0 > 0
-   *     aAdd(aIds,i0)
+   *     AAdd(aIds,i0)
    *     ENDIF
    *     next ncontrol
 
@@ -376,28 +376,28 @@ PROCEDURE SaveForm()
          y := Len( xArray )
       ELSE
 
-         //      MsgBox("y = "+str(y)+"controle= "+xArray[y,3 ] )
+         //      MsgBox("y = "+Str(y)+"controle= "+xArray[y,3 ] )
          i := aScan2( _hmg_aControlNames, xArray[ y, 3 ] )
               //IF Y > 178
-              // MsgBox("i= "+str(i) +" "+ xArray[y,3 ]+ " = "+_hmg_acontrolnames[i] )
-              // MsgBox("SAVING CONTROL= "+ xArray[y,3 ]+ " NR = "+STR(Y)+ " LEN= "+STR(Len( xArray)) )
+              // MsgBox("i= "+Str(i) +" "+ xArray[y,3 ]+ " = "+_hmg_acontrolnames[i] )
+              // MsgBox("SAVING CONTROL= "+ xArray[y,3 ]+ " NR = "+Str(Y)+ " LEN= "+Str(Len( xArray)) )
               //ENDIF
          DO WHILE .T.
             // MsgBox("n1= " +_hmg_acontrolnames[i]+" n2= "+xArray[y,3 ] )
             IF i > 0
                IF _HMG_aControlParentHandles[ i ] # h .OR. Len( _HMG_aControlNames[ i ] ) # Len( xArray[y,3 ] )
                   i := aScan2( _HMG_aControlNames, xArray[ y, 3 ], i+1 )
-                        // MsgBox("i2= "+str(i) )
+                        // MsgBox("i2= "+Str(i) )
                   LOOP
                ENDIF
             ENDIF
-            // MsgBox("exiting i2= "+ str(i)+" "+ xArray[y,3 ]+ " = "+_hmg_acontrolnames[i] )
+            // MsgBox("exiting i2= "+ Str(i)+" "+ xArray[y,3 ]+ " = "+_hmg_acontrolnames[i] )
             EXIT
          ENDDO
 
          IF i > 0
 
-            // MsgBox("i = "+str(i)+" max= "+str(Len(_HMG_aControlHandles)) )
+            // MsgBox("i = "+Str(i)+" max= "+Str(Len(_HMG_aControlHandles)) )
             IF _HMG_aControlParentHandles[ i ] == h .AND. _HMG_aControlType[ i ] == "TAB"
                il ++
                Name        := _HMG_aControlNames[ i ]
@@ -495,7 +495,7 @@ PROCEDURE SaveForm()
                         p       := FindRadioName( nHandle )
                      ELSE
                         IF cValue # 0
-                           p := aScan( _HMG_aControlhandles, cValue ) // SCAN IN _HMG_aControlhandles[I][1 ] OF RADIOGROUP
+                           p := AScan( _HMG_aControlhandles, cValue ) // SCAN IN _HMG_aControlhandles[I][1 ] OF RADIOGROUP
                         ELSE
                            p := -1
                         ENDIF
@@ -544,21 +544,21 @@ PROCEDURE SaveForm()
                z     := aScan2( ArrayTemp, _HMG_aControlNames[ i ] )
 
                IF z > 0
-                   // MsgBox("z= "+ str(z) +" "+ _HMG_aControlNames [i]+ " = "+arraytemp[z] )
+                   // MsgBox("z= "+ Str(z) +" "+ _HMG_aControlNames [i]+ " = "+arraytemp[z] )
                    IF _HMG_aControlNames[ i ] # arraytemp[ z ]
                       z:= aScan2( ArrayTemp, _HMG_aControlNames[ i ], z+1 )
                    ENDIF
                ENDIF
 
                IF z = 0 .AND. ! _HMG_aControlDeleted[ i ]
-                   // MsgBox("difrow = "+str(difrow()) )
+                   // MsgBox("difrow = "+Str(difrow()) )
                   Row         := GetWindowRow ( _HMG_aControlhandles[ i ] ) - BaseRow - TitleHeight - BorderHeight +DifRow()
 
                   IF Len( aMenu ) > 0  // (-20 if have menu in form )
                      Row := Row - MenuBarHeight
                   ENDIF
-                  // MsgBox("wrow= "+str(GetWindowRow ( _HMG_aControlhandles[i] ))+" brow= " +str(baserow)+ " title = "+str(titleheight) +" border= " +str(borderheight) )
-                  // MsgBox("difcol = "+str(difcol()) )
+                  // MsgBox("wrow= "+Str(GetWindowRow ( _HMG_aControlhandles[i] ))+" brow= " +Str(baserow)+ " title = "+Str(titleheight) +" border= " +Str(borderheight) )
+                  // MsgBox("difcol = "+Str(difcol()) )
                   Col    := GetWindowCol( _HMG_aControlhandles[ i ] ) - BaseCol - BorderWidth + DifCol()
                   Width  := GetWindowWidth( _HMG_aControlhandles[ i ] )
                   Height := GetWindowHeight( _HMG_aControlhandles[ i ] )
@@ -581,7 +581,7 @@ PROCEDURE SaveForm()
    Output += "END WINDOW" + CRLF
    Output += CRLF
 
-   _HMG_aControlNames := aClone( aTempNames )
+   _HMG_aControlNames := AClone( aTempNames )
 
    IF xParam # NIL
       X4 := xParam + ".FMG"
@@ -622,7 +622,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
 
    DEFAULT Indent TO 0
 
-  // MsgBox("nItem= " + str(nItem) + " value = " + xArray[ nItem, 1 ] + " "+ xArray[ nItem, 3 ] ) 
+  // MsgBox("nItem= " + Str(nItem) + " value = " + xArray[ nItem, 1 ] + " "+ xArray[ nItem, 3 ] )
    cCtrlName := xArray[ nItem, 1 ]
   //msgbox('controlname= ' + cCtrlName )
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -666,7 +666,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
 
            Output += iif( xArray[ nItem, 51 ] = ".F.", iif( lSaveAll, Space( Indent ) + "           MULTILINE " + xArray[ nItem, 51 ] + CRLF, "" ), Space( Indent ) + "           MULTILINE "  +xArray[ nItem, 51 ] + CRLF )
            Output += iif( xArray[ nItem, 53 ] = ".F.", iif( lSaveAll, Space( Indent ) + "           NOXPSTYLE " + xArray[ nItem, 53 ] + CRLF, "" ), Space( Indent ) + "           NOXPSTYLE "  +xArray[ nItem, 53 ] + CRLF )
-          
+
            Output += Space( Indent ) + "     END BUTTON  " + CRLF
            Output += CRLF
 
@@ -688,7 +688,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( Upper( xArray[ nItem, 25 ] )  = "NIL"      , iif( lSaveAll, Space( Indent ) + "            ONGOTFOCUS "    + xArray[ nItem, 25 ]            + CRLF, "" ), Space( Indent ) + "            ONGOTFOCUS "    + xArray[ nItem, 25 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 27 ] )  = "NIL"      , iif( lSaveAll, Space( Indent ) + "            ONLOSTFOCUS "   + xArray[ nItem, 27 ]            + CRLF, "" ), Space( Indent ) + "            ONLOSTFOCUS "   + xArray[ nItem, 27 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 57 ] )  = "NIL"      , iif( lSaveAll, Space( Indent ) + "            ONENTER "       + xArray[ nItem, 57 ]            + CRLF, "" ), Space( Indent ) + "            ONENTER "       + xArray[ nItem, 57 ]            + CRLF )
-         
+
            Output += iif( xArray[ nItem, 29 ]           = ".F."      , iif( lSaveAll, Space( Indent ) + "            FONTBOLD "      + xArray[ nItem, 29 ]            + CRLF, "" ), Space( Indent ) + "            FONTBOLD "      + xArray[ nItem, 29 ]            + CRLF )
            Output += iif( xArray[ nItem, 31 ]           = ".F."      , iif( lSaveAll, Space( Indent ) + "            FONTITALIC "    + xArray[ nItem, 31 ]            + CRLF, "" ), Space( Indent ) + "            FONTITALIC "    + xArray[ nItem, 31 ]            + CRLF )
            Output += iif( xArray[ nItem, 33 ]           = ".F."      , iif( lSaveAll, Space( Indent ) + "            FONTUNDERLINE " + xArray[ nItem, 33 ]            + CRLF, "" ), Space( Indent ) + "            FONTUNDERLINE " + xArray[ nItem, 33 ]            + CRLF )
@@ -713,7 +713,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
               Output += Space( Indent ) + "           THREESTATE " + xArray[ nItem, 53 ] + CRLF
            ENDIF
            Output += iif( Upper( xArray[ nItem, 55 ] ) = ".F."      , iif( lSaveAll, Space( Indent ) + "            AUTOSIZE "       + xArray[ nItem, 55 ]       + CRLF, "" ), Space( Indent ) + "            AUTOSIZE "   + xArray[ nItem, 55 ]            + CRLF )
-        
+
            Output += Space( Indent ) + "     END CHECKBOX  " + CRLF
            Output += CRLF
 
@@ -745,10 +745,10 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( xArray[ nItem, 47 ]          = ".T."      , iif( lSaveAll, Space( Indent ) + "            VISIBLE "       + xArray[ nItem, 47 ]            + CRLF, "" ), Space( indent ) + "            VISIBLE "        + xArray[ nItem, 47 ]            + CRLF )
            Output += iif( xArray[ nItem, 49 ]          = ".F."      , iif( lSaveAll, Space( Indent ) + "            SORT "          + xArray[ nItem, 49 ]            + CRLF, "" ), Space( indent ) + "            SORT "           + xArray[ nItem, 49 ]            + CRLF )
            Output += iif( xArray[ nItem, 51 ]          = ".F."      , iif( lSaveAll, Space( Indent ) + "            MULTISELECT "   + xArray[ nItem, 51 ]            + CRLF, "" ), Space( indent ) + "            MULTISELECT "    + xArray[ nItem, 51 ]            + CRLF )
-           
+
            Output += iif( xArray[ nItem, 55 ]          = ".F."      , iif( lSaveAll, Space( Indent ) + "            MULTITAB"       + xArray[ nItem, 55 ]            + CRLF, "" ), Space( indent ) + "            MULTITAB "       + xArray[ nItem, 55 ]            + CRLF )
            Output += iif( xArray[ nItem, 57 ]          = ".F."      , iif( lSaveAll, Space( Indent ) + "            MULTICOLUMN "   + xArray[ nItem, 57 ]            + CRLF, "" ), Space( indent ) + "            MULTICOLUMN "    + xArray[ nItem, 57 ]            + CRLF )
-         
+
            Output += iif( xArray[ nItem, 53 ]          = ".F."      , iif( lSaveAll, Space( Indent ) + "            DRAGITEMS "     + xArray[ nItem, 53 ]            + CRLF, "" ), Space( indent ) + "            DRAGITEMS "      + xArray[ nItem, 53 ]            + CRLF )
            Output += Space( Indent ) + "     END LISTBOX  " + CRLF
            Output += CRLF
@@ -772,7 +772,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            IF xArray[ nItem, 71 ] # ".F."
               Output += Space( Indent ) + "            LOWERCASE "   + xArray[ nItem, 71 ] + CRLF
            ENDIF
-           
+
            Output += iif( xArray[ nItem, 21 ]          = [""]       , iif( lSaveAll, Space( indent ) + "            TOOLTIP "         + AllTrim( xArray[ nItem, 21 ] ) + CRLF, "" ), Space( indent ) + "            TOOLTIP "           + AllTrim( xArray[ nItem, 21 ] ) + CRLF )
            Output += iif( Upper( xArray[ nItem, 23 ] ) = "NIL"      , iif( lSaveAll, Space( indent ) + "            ONCHANGE "        + xArray[ nItem, 23 ]            + CRLF, "" ), Space( indent ) + "            ONCHANGE "          + xArray[ nItem, 23 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 25 ] ) = "NIL"      , iif( lSaveAll, Space( indent ) + "            ONGOTFOCUS "      + xArray[ nItem, 25 ]            + CRLF, "" ), Space( indent ) + "            ONGOTFOCUS "        + xArray[ nItem, 25 ]            + CRLF )
@@ -863,43 +863,43 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += Space( Indent ) + "            COL    "       + AllTrim( Str(Col))             + CRLF
            Output += Space( Indent ) + "            WIDTH  "       + AllTrim( Str(Width))           + CRLF
            Output += Space( Indent ) + "            HEIGHT "       + AllTrim( Str(Height))          + CRLF
-           
+
            Output += Space( Indent ) + "            HEADERS "      + xArray[ nItem, 13 ]            + CRLF
            Output += Space( Indent ) + "            WIDTHS "       + xArray[ nItem, 15 ]            + CRLF
            Output += Space( Indent ) + "            ITEMS "        + xArray[ nItem, 17 ]            + CRLF
-           
+
            Output += iif( xArray[ nItem, 15 ]          = "0"       , iif( lSaveAll, Space( Indent ) + "            VALUE "             + xArray[ nItem, 19 ]            + CRLF, "" ),          Space( Indent ) + "            VALUE "             + xArray[ nItem, 19 ]          + CRLF )
-           
+
            Output += iif( xArray[ nItem, 21 ]          = '"Arial"' , iif( lSaveAll, Space( indent ) + "            FONTNAME "          + AllTrim( xArray[ nItem, 21 ] ) + CRLF, "" ), Space( indent ) + "            FONTNAME "          + AllTrim( xArray[ nItem, 21 ] ) + CRLF )
            Output += iif( xArray[ nItem, 23 ]          = "9"       , iif( lSaveAll, Space( indent ) + "            FONTSIZE "          + xArray[ nItem, 23 ]            + CRLF, "" ), Space( indent ) + "            FONTSIZE "          + xArray[ nItem, 23 ]            + CRLF )
            Output += iif( xArray[ nItem, 25 ]          = ".F."     , iif( lSaveAll, Space( indent ) + "            FONTBOLD "          + xArray[ nItem, 25 ]            + CRLF, "" ), Space( indent ) + "            FONTBOLD "          + xArray[ nItem, 25 ]            + CRLF )
            Output += iif( xArray[ nItem, 27 ]          = ".F."     , iif( lSaveAll, Space( indent ) + "            FONTITALIC "        + xArray[ nItem, 27 ]            + CRLF, "" ), Space( indent ) + "            FONTITALIC "        + xArray[ nItem, 27 ]            + CRLF )
            Output += iif( xArray[ nItem, 29 ]          = ".F."     , iif( lSaveAll, Space( indent ) + "            FONTUNDERLINE "     + xArray[ nItem, 29 ]            + CRLF, "" ), Space( indent ) + "            FONTUNDERLINE "     + xArray[ nItem, 29 ]            + CRLF )
            Output += iif( xArray[ nItem, 31 ]          = ".F."     , iif( lSaveAll, Space( indent ) + "            FONTSTRIKEOUT "     + xArray[ nItem, 31 ]            + CRLF, "" ), Space( indent ) + "            FONTSTRIKEOUT "     + xArray[ nItem, 31 ]            + CRLF )
-        
+
            Output += iif( xArray[ nItem, 33 ]          = [""]      , iif( lSaveAll, Space( indent ) + "            TOOLTIP "           + AllTrim( xArray[ nItem, 33 ] ) + CRLF, "" ), Space( indent ) + "            TOOLTIP "           + AllTrim( xArray[ nItem, 33 ] ) + CRLF )
            Output += iif( Upper( xArray[ nItem, 35 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            BACKCOLOR "         + xArray[ nItem, 35 ]            + CRLF, "" ), Space( indent ) + "            BACKCOLOR "         + xArray[ nItem, 35 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 37 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            FONTCOLOR "         + xArray[ nItem, 37 ]            + CRLF, "" ), Space( indent ) + "            FONTCOLOR "         + xArray[ nItem, 37 ]            + CRLF )
 
            Output += iif( Upper( xArray[ nItem, 39 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            DYNAMICBACKCOLOR "  + xArray[ nItem, 39 ]            + CRLF, "" ), Space( indent ) + "            DYNAMICBACKCOLOR "  + xArray[ nItem, 39 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 41 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            DYNAMICFORECOLOR "  + xArray[ nItem, 41 ]            + CRLF, "" ), Space( indent ) + "            DYNAMICFORECOLOR "  + xArray[ nItem, 41 ]            + CRLF )
-           
+
            Output += iif( Upper( xArray[ nItem, 43 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            ONGOTFOCUS "        + xArray[ nItem, 43 ]            + CRLF, "" ), Space( indent ) + "            ONGOTFOCUS "        + xArray[ nItem, 43 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 45 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            ONCHANGE "          + xArray[ nItem, 45 ]            + CRLF, "" ), Space( indent ) + "            ONCHANGE "          + xArray[ nItem, 45 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 47 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            ONLOSTFOCUS "       + xArray[ nItem, 47 ]            + CRLF, "" ), Space( indent ) + "            ONLOSTFOCUS "       + xArray[ nItem, 47 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 49 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            ONDBLCLICK "        + xArray[ nItem, 49 ]            + CRLF, "" ), Space( indent ) + "            ONDBLCLICK "        + xArray[ nItem, 49 ]            + CRLF )
-           
+
            Output += iif( xArray[ nItem, 51 ]          = ".F."     , iif( lSaveAll, Space( indent ) + "            ALLOWEDIT "         + xArray[ nItem, 51 ]            + CRLF, "" ), Space( indent ) + "            ALLOWEDIT "         + xArray[ nItem, 51 ]            + CRLF )
-          
+
            Output += iif( Upper( xArray[ nItem, 53 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            ONHEADCLICK "       + xArray[ nItem, 53 ]            + CRLF, "" ), Space( indent ) + "            ONHEADCLICK "       + xArray[ nItem, 53 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 55 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            ONCHECKBOXCLICKED " + xArray[ nItem, 55 ]            + CRLF, "" ), Space( indent ) + "            ONCHECKBOXCLICKED " + xArray[ nItem, 55 ]            + CRLF )
-         
+
            Output += iif( xArray[ nItem, 57 ]         = '""'       , iif( lSaveAll, Space( indent ) + "            INPLACEEDIT "    + AllTrim( xArray[ nItem, 57 ] )    + CRLF, "" ), Space( indent ) + "            INPLACEEDIT "       + AllTrim( xArray[ nItem, 57 ] ) + CRLF )
            Output += iif( xArray[ nItem, 59 ]         = ".F."      , iif( lSaveAll, Space( indent ) + "            CELLNAVIGATION " + AllTrim( xArray[ nItem, 59 ] )    + CRLF, "" ), Space( indent ) + "            CELLNAVIGATION "    + AllTrim( xArray[ nItem, 59 ] ) + CRLF )
            Output += iif( Upper( xArray[ nItem, 61 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            COLUMNCONTROLS "    + xArray[ nItem, 61 ]            + CRLF, "" ), Space( indent ) + "            COLUMNCONTROLS "    + xArray[ nItem, 61 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 63 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            COLUMNVALID "       + xArray[ nItem, 63 ]            + CRLF, "" ), Space( indent ) + "            COLUMNVALID "       + xArray[ nItem, 63 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 65 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            COLUMNWHEN "        + xArray[ nItem, 65 ]            + CRLF, "" ), Space( indent ) + "            COLUMNWHEN "        + xArray[ nItem, 65 ]            + CRLF )
-          
+
            Output += iif( Upper( xArray[ nItem, 67 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            VALIDMESSAGES "     + xArray[ nItem, 67 ]            + CRLF, "" ), Space( indent ) + "            VALIDMESSAGES "     + xArray[ nItem, 67 ]            + CRLF )
            Output += iif( xArray[ nItem, 69 ]          = ".F."     , iif( lSaveAll, Space( indent ) + "            VIRTUAL "           + xArray[ nItem, 69 ]            + CRLF, "" ), Space( indent ) + "            VIRTUAL "           + xArray[ nItem, 69 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 71 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            ITEMCOUNT "         + xArray[ nItem, 71 ]            + CRLF, "" ), Space( indent ) + "            ITEMCOUNT "         + xArray[ nItem, 71 ]            + CRLF )
@@ -912,15 +912,15 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( Upper( xArray[ nItem, 85 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            JUSTIFY "           + xArray[ nItem, 85 ]            + CRLF, "" ), Space( indent ) + "            JUSTIFY "           + xArray[ nItem, 85 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 87 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            HELPID "            + xArray[ nItem, 87 ]            + CRLF, "" ), Space( indent ) + "            HELPID "            + xArray[ nItem, 87 ]            + CRLF )
            Output += iif( xArray[ nItem, 89 ]         = ".F."      , iif( lSaveAll, Space( indent ) + "            BREAK "             + xArray[ nItem, 89 ]            + CRLF, "" ), Space( indent ) + "            BREAK "             + xArray[ nItem, 89 ]            + CRLF )
-         
+
            IF ! Empty( xArray[ nItem, 91 ] )
               Output += Space( Indent ) + "            HEADERIMAGE " + xArray[ nItem, 91 ] + CRLF
            ENDIF
            Output += iif( xArray[ nItem, 93 ]         = ".F."      , iif( lSaveAll, Space( indent ) + "            NOTABSTOP "         + xArray[ nItem, 93 ]            + CRLF, "" ), Space( indent ) + "            NOTABSTOP "         + xArray[ nItem, 93 ]            + CRLF )
-           Output += iif( xArray[ nItem, 95 ]         = ".F."      , iif( lSaveAll, Space( indent ) + "            CHECKBOXES "        + AllTrim( xArray[ nItem, 95 ] ) + CRLF, "" ), Space( indent ) + "            CHECKBOXES "        + AllTrim( xArray[ nItem, 95 ] ) + CRLF )           
-           Output += iif( Upper( xArray[ nItem, 97 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            LOCKCOLUMNS "       + xArray[ nItem, 97 ]            + CRLF, "" ), Space( indent ) + "            LOCKCOLUMNS "       + xArray[ nItem, 97 ]            + CRLF )         
+           Output += iif( xArray[ nItem, 95 ]         = ".F."      , iif( lSaveAll, Space( indent ) + "            CHECKBOXES "        + AllTrim( xArray[ nItem, 95 ] ) + CRLF, "" ), Space( indent ) + "            CHECKBOXES "        + AllTrim( xArray[ nItem, 95 ] ) + CRLF )
+           Output += iif( Upper( xArray[ nItem, 97 ] ) = "NIL"     , iif( lSaveAll, Space( indent ) + "            LOCKCOLUMNS "       + xArray[ nItem, 97 ]            + CRLF, "" ), Space( indent ) + "            LOCKCOLUMNS "       + xArray[ nItem, 97 ]            + CRLF )
            Output += iif( xArray[ nItem, 99 ]         = ".F."      , iif( lSaveAll, Space( indent ) + "            PAINTDOUBLEBUFFER " + xArray[ nItem, 99 ]            + CRLF, "" ), Space( indent ) + "            PAINTDOUBLEBUFFER " + xArray[ nItem, 99 ]            + CRLF )
-          
+
            Output += Space( Indent ) + "     END GRID  " + CRLF
            Output += CRLF
 
@@ -950,7 +950,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            ENDIF
            Output += Space( Indent ) + "     END IMAGE  " + CRLF
            Output += CRLF
-           
+
        CASE cCtrlName == "CHECKLISTBOX"  // 33
 
            Output += Space( Indent ) + "     DEFINE CHECKLISTBOX "  + AllTrim( xArray[ nItem, 3 ] )       + CRLF
@@ -978,13 +978,13 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( xArray[ nItem, 47 ]          = ".T."      , iif( lSaveAll, Space( Indent ) + "            VISIBLE "       + xArray[ nItem, 47 ]            + CRLF, "" ), Space( indent ) + "            VISIBLE "        + xArray[ nItem, 47 ]            + CRLF )
            Output += iif( xArray[ nItem, 49 ]          = ".F."      , iif( lSaveAll, Space( Indent ) + "            SORT "          + xArray[ nItem, 49 ]            + CRLF, "" ), Space( indent ) + "            SORT "           + xArray[ nItem, 49 ]            + CRLF )
            Output += iif( xArray[ nItem, 51 ]          = ".F."      , iif( lSaveAll, Space( Indent ) + "            MULTISELECT "   + xArray[ nItem, 51 ]            + CRLF, "" ), Space( indent ) + "            MULTISELECT "    + xArray[ nItem, 51 ]            + CRLF )
-           
+
            Output += iif( xArray[ nItem, 53 ]          = '""'       , iif( lSaveAll, Space( Indent ) + "            CHECKBOXITEM"   + xArray[ nItem, 53 ]            + CRLF, "" ), Space( indent ) + "            CHECKBOXITEM "   + xArray[ nItem, 53 ]            + CRLF )
            Output += iif( xArray[ nItem, 55 ]          = "0"        , iif( lSaveAll, Space( Indent ) + "            ITEMHEIGHT "    + xArray[ nItem, 55 ]            + CRLF, "" ), Space( indent ) + "            ITEMHEIGHT "     + xArray[ nItem, 55 ]            + CRLF )
-         
-           
+
+
            Output += Space( Indent ) + "     END CHECKLISTBOX  " + CRLF
-           Output += CRLF       
+           Output += CRLF
 
       *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       CASE cCtrlName == "TREE"   // 34
@@ -1083,7 +1083,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += Space( Indent ) + "            COL    "         + AllTrim( Str( Col ) )          + CRLF
            Output += Space( Indent ) + "            WIDTH  "         + xArray[ nItem,  9 ]            + CRLF
            Output += Space( Indent ) + "            HEIGHT "         + xArray[ nItem, 11 ]            + CRLF
-           Output += iif( xArray[ nItem, 13 ]          = "cTod('')"  , iif( lSaveAll, Space( indent ) + "            VALUE "        + xArray[ nItem, 13 ]            + CRLF, "" ), Space( indent ) + "            VALUE "         + xArray[ nItem, 13 ]            + CRLF )
+           Output += iif( xArray[ nItem, 13 ]          = "CToD('')"  , iif( lSaveAll, Space( indent ) + "            VALUE "        + xArray[ nItem, 13 ]            + CRLF, "" ), Space( indent ) + "            VALUE "         + xArray[ nItem, 13 ]            + CRLF )
            Output += iif( xArray[ nItem, 15 ]          = '"Arial"'   , iif( lSaveAll, Space( indent ) + "            FONTNAME "     + AllTrim( xArray[ nItem, 15 ] ) + CRLF, "" ), Space( indent ) + "            FONTNAME "      + AllTrim( xArray[ nItem, 15 ] ) + CRLF )
            Output += iif( xArray[ nItem, 17 ]          = "9"         , iif( lSaveAll, Space( indent ) + "            FONTSIZE "     + xArray[ nItem, 17 ]            + CRLF, "" ), Space( indent ) + "            FONTSIZE "      + xArray[ nItem, 17 ]            + CRLF )
            Output += iif( xArray[ nItem, 19 ]          = [""]        , iif( lSaveAll, Space( indent ) + "            TOOLTIP "      + AllTrim( xArray[ nItem, 19 ] ) + CRLF, "" ), Space( indent ) + "            TOOLTIP "       + AllTrim( xArray[ nItem, 19 ] ) + CRLF )
@@ -1262,12 +1262,12 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( Upper( xArray[ nItem, 63 ] ) = ".T.", iif( lSaveAll, Space( indent ) + "            TABSTOP "       + xArray[ nItem, 63 ] + CRLF, "" ), Space( indent ) + "            TABSTOP "     + xArray[ nItem, 63 ] + CRLF )
            Output += iif( Upper( xArray[ nItem, 65 ] ) = "NIL", iif( lSaveAll, Space( indent ) + "            HELPID "        + xArray[ nItem, 65 ] + CRLF, "" ), Space( indent ) + "            HELPID "      + xArray[ nItem, 65 ] + CRLF )
            Output += iif( Upper( xArray[ nItem, 67 ] ) = ".F.", iif( lSaveAll, Space( indent ) + "            DISABLEEDIT "   + xArray[ nItem, 67 ] + CRLF, "" ), Space( indent ) + "            DISABLEEDIT " + xArray[ nItem, 67 ] + CRLF )
-// added 07/09/2016 p.d. 
-           Output += iif( empty( xArray[ nItem, 75 ]), ;
+// added 07/09/2016 p.d.
+           Output += iif( Empty( xArray[ nItem, 75 ]), ;
                           iif( lSaveAll, Space( indent ) + "            CUEBANNER " + '""' + CRLF, ""),;
                           Space( indent ) + "            CUEBANNER " + xArray[ nItem, 75 ] + CRLF )
 // end 07/09/2016
-           
+
            Output += Space( Indent )+"     END BTNTEXTBOX " + CRLF
            Output += CRLF
 
@@ -1395,20 +1395,20 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += Space( Indent ) + "            WIDTH  "       + AllTrim( xArray[ nItem,  9 ] ) + CRLF
            Output += Space( Indent ) + "            HEIGHT "       + AllTrim( xArray[ nItem, 11 ] ) + CRLF
            Output += Space( Indent ) + "            VALUE "        + AllTrim( xArray[ nItem, 13 ] ) + CRLF
-           
+
            Output += iif( xArray[ nItem, 23 ]          = '"Arial"' , iif( lSaveAll, Space( Indent ) + "            FONTNAME "      + AllTrim( xArray[ nItem, 23 ] ) + CRLF, "" ), Space( Indent ) + "            FONTNAME "      + AllTrim( xArray[ nItem, 23 ] ) + CRLF )
            Output += iif( xArray[ nItem, 25 ]          = "9"       , iif( lSaveAll, Space( Indent ) + "            FONTSIZE "      + xArray[ nItem, 25 ]            + CRLF, "" ), Space( Indent ) + "            FONTSIZE "      + xArray[ nItem, 25 ]            + CRLF )
            Output += iif( xArray[ nItem, 35 ]          = [""]      , iif( lSaveAll, Space( Indent ) + "            TOOLTIP "       + AllTrim( xArray[ nItem, 35 ] ) + CRLF, "" ), Space( Indent ) + "            TOOLTIP "       + AllTrim( xArray[ nItem, 35 ] ) + CRLF )
            Output += iif( xArray[ nItem, 27 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTBOLD "      + xArray[ nItem, 27 ]            + CRLF, "" ), Space( Indent ) + "            FONTBOLD "      + xArray[ nItem, 27 ]            + CRLF )
            Output += iif( xArray[ nItem, 29 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTITALIC "    + xArray[ nItem, 29 ]            + CRLF, "" ), Space( Indent ) + "            FONTITALIC "    + xArray[ nItem, 29 ]            + CRLF )
            Output += iif( xArray[ nItem, 31 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTUNDERLINE " + xArray[ nItem, 31 ]            + CRLF, "" ), Space( Indent ) + "            FONTUNDERLINE " + xArray[ nItem, 31 ]            + CRLF )
-           Output += iif( xArray[ nItem, 33 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTSTRIKEOUT " + xArray[ nItem, 33 ]            + CRLF, "" ), Space( Indent ) + "            FONTSTRIKEOUT " + xArray[ nItem, 33 ]            + CRLF )           
+           Output += iif( xArray[ nItem, 33 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTSTRIKEOUT " + xArray[ nItem, 33 ]            + CRLF, "" ), Space( Indent ) + "            FONTSTRIKEOUT " + xArray[ nItem, 33 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 43 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            HELPID "        + xArray[ nItem, 63 ]            + CRLF, "" ), Space( Indent ) + "            HELPID "        + xArray[ nItem, 43 ]            + CRLF )
            Output += iif( xArray[ nItem, 45 ]          = ".T."     , iif( lSaveAll, Space( Indent ) + "            VISIBLE "       + xArray[ nItem, 65 ]            + CRLF, "" ), Space( Indent ) + "            VISIBLE "       + xArray[ nItem, 45 ]            + CRLF )
-           Output += iif( xArray[ nItem, 55 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            TRANSPARENT "   + xArray[ nItem, 51 ]            + CRLF, "" ), Space( Indent ) + "            TRANSPARENT "   + xArray[ nItem, 55 ]            + CRLF )           
+           Output += iif( xArray[ nItem, 55 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            TRANSPARENT "   + xArray[ nItem, 51 ]            + CRLF, "" ), Space( Indent ) + "            TRANSPARENT "   + xArray[ nItem, 55 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 15 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            ACTION "        + xArray[ nItem, 15 ]            + CRLF, "" ), Space( Indent ) + "            ACTION "        + xArray[ nItem, 15 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 17 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            ONMOUSEHOVER "  + xArray[ nItem, 17 ]            + CRLF, "" ), Space( Indent ) + "            ONMOUSEHOVER "  + xArray[ nItem, 17 ]            + CRLF )
-           Output += iif( Upper( xArray[ nItem, 19 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            ONMOUSELEAVE "  + xArray[ nItem, 19 ]            + CRLF, "" ), Space( Indent ) + "            ONMOUSELEAVE "  + xArray[ nItem, 19 ]            + CRLF )           
+           Output += iif( Upper( xArray[ nItem, 19 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            ONMOUSELEAVE "  + xArray[ nItem, 19 ]            + CRLF, "" ), Space( Indent ) + "            ONMOUSELEAVE "  + xArray[ nItem, 19 ]            + CRLF )
            Output += iif( xArray[ nItem, 21 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            AUTOSIZE "      + xArray[ nItem, 21 ]            + CRLF, "" ), Space( Indent ) + "            AUTOSIZE "      + xArray[ nItem, 21 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 37 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            BACKCOLOR "     + xArray[ nItem, 37 ]            + CRLF, "" ), Space( Indent ) + "            BACKCOLOR "     + xArray[ nItem, 37 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 39 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            FONTCOLOR "     + xArray[ nItem, 39 ]            + CRLF, "" ), Space( Indent ) + "            FONTCOLOR "     + xArray[ nItem, 39 ]            + CRLF )
@@ -1481,8 +1481,8 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( Upper( xArray[ nItem, 31 ] )  = "NIL"   , iif( lSaveAll, Space( Indent ) + "            FORECOLOR " + xArray[ nItem, 31 ]        + CRLF, "" ), Space( Indent ) + "            FORECOLOR " + xArray[ nItem, 31 ]          + CRLF )
            Output += iif( Upper( xArray[ nItem, 35 ] )  = ".F."   , iif( lSaveAll, Space( Indent ) + "            MARQUEE "   + xArray[ nItem, 35 ]        + CRLF, "" ), Space( Indent ) + "            MARQUEE "   + xArray[ nItem, 35 ]          + CRLF )
            Output += iif( Upper( xArray[ nItem, 37 ] )  == "40"   , iif( lSaveAll, Space( Indent ) + "            VELOCITY "  + xArray[ nItem, 37 ]        + CRLF, "" ), Space( Indent ) + "            VELOCITY "  + xArray[ nItem, 37 ]          + CRLF )
-           
-           
+
+
            Output += Space( Indent )+"     END PROGRESSBAR  " + CRLF
            Output += CRLF
 
@@ -1643,7 +1643,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += Space( Indent ) + "            COL    "       + AllTrim( Str( Col ) )          + CRLF
            Output += Space( Indent ) + "            WIDTH  "       + AllTrim( Str( Width ) )        + CRLF
            Output += Space( Indent ) + "            HEIGHT "       + AllTrim( Str( Height ) )       + CRLF
-           
+
            Output += Space( Indent ) + "            HEADERS "      + xArray[ nItem, 13 ]            + CRLF
            Output += Space( Indent ) + "            WIDTHS "       + xArray[ nItem, 15 ]            + CRLF
            Output += Space( Indent ) + "            FIELDS "       + xArray[ nItem, 17 ]            + CRLF
@@ -1654,11 +1654,11 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( xArray[ nItem, 27 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTBOLD "         + xArray[ nItem, 27 ]            + CRLF, "" ), Space( Indent ) + "            FONTBOLD "           + xArray[ nItem, 27 ]            + CRLF )
            Output += iif( xArray[ nItem, 29 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTITALIC "       + xArray[ nItem, 29 ]            + CRLF, "" ), Space( Indent ) + "            FONTITALIC "         + xArray[ nItem, 29 ]            + CRLF )
            Output += iif( xArray[ nItem, 31 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTUNDERLINE "    + xArray[ nItem, 31 ]            + CRLF, "" ), Space( Indent ) + "            FONTUNDERLINE "      + xArray[ nItem, 31 ]            + CRLF )
-           Output += iif( xArray[ nItem, 33 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTSTRIKEOUT "    + xArray[ nItem, 33 ]            + CRLF, "" ), Space( Indent ) + "            FONTSTRIKEOUT "      + xArray[ nItem, 33 ]            + CRLF )         
+           Output += iif( xArray[ nItem, 33 ]          = ".F."     , iif( lSaveAll, Space( Indent ) + "            FONTSTRIKEOUT "    + xArray[ nItem, 33 ]            + CRLF, "" ), Space( Indent ) + "            FONTSTRIKEOUT "      + xArray[ nItem, 33 ]            + CRLF )
            Output += iif( xArray[ nItem, 35 ]          = [""]      , iif( lSaveAll, Space( Indent ) + "            TOOLTIP "          + AllTrim( xArray[ nItem, 35 ] ) + CRLF, "" ), Space( Indent ) + "            TOOLTIP "            + AllTrim( xArray[ nItem, 35 ] ) + CRLF )
            Output += iif( Upper( xArray[ nItem, 37 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            BACKCOLOR "        + xArray[ nItem, 37 ]            + CRLF, "" ), Space( Indent ) + "            BACKCOLOR "          + xArray[ nItem, 37 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 39 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            DYNAMICBACKCOLOR " + xArray[ nItem, 39 ]            + CRLF, "" ), Space( Indent ) + "            DYNAMICBACKCOLOR "   + xArray[ nItem, 39 ]            + CRLF )
-           Output += iif( Upper( xArray[ nItem, 41 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            DYNAMICFORECOLOR " + xArray[ nItem, 41 ]            + CRLF, "" ), Space( Indent ) + "            DYNAMICFORECOLOR "   + xArray[ nItem, 41 ]            + CRLF )          
+           Output += iif( Upper( xArray[ nItem, 41 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            DYNAMICFORECOLOR " + xArray[ nItem, 41 ]            + CRLF, "" ), Space( Indent ) + "            DYNAMICFORECOLOR "   + xArray[ nItem, 41 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 43 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            FONTCOLOR "        + xArray[ nItem, 43 ]            + CRLF, "" ), Space( Indent ) + "            FONTCOLOR "          + xArray[ nItem, 43 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 45 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            ONGOTFOCUS "       + xArray[ nItem, 45 ]            + CRLF, "" ), Space( Indent ) + "            ONGOTFOCUS "         + xArray[ nItem, 45 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 47 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            ONCHANGE "         + xArray[ nItem, 47 ]            + CRLF, "" ), Space( Indent ) + "            ONCHANGE "           + xArray[ nItem, 47 ]            + CRLF )
@@ -1683,15 +1683,15 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( xArray[ nItem, 85 ]          = ".T."     , iif( lSaveAll, Space( Indent ) + "            VSCROLLBAR "       + xArray[ nItem, 85 ]            + CRLF, "" ), Space( Indent ) + "            VSCROLLBAR "         + xArray[ nItem, 85 ]            + CRLF )
            Output += iif( Upper( xArray[ nItem, 87 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            HELPID "           + xArray[ nItem, 87 ]            + CRLF, "" ), Space( Indent ) + "            HELPID "             + xArray[ nItem, 87 ]            + CRLF )
            Output += iif( xArray[ nItem, 89 ]          = ".T."     ,                Space( Indent ) + "            BREAK "            + xArray[ nItem, 89 ]            + CRLF, "" )
-                   
+
            Output += iif(!Empty( xArray[ nItem, 91 ] )             , Space( Indent )                + "            HEADERIMAGE "     + xArray[ nItem, 91 ]            + CRLF, "" )
            Output += iif( xArray[ nItem, 93 ]          = ".T."     , Space( Indent )                + "            NOTABSTOP "       + xArray[ nItem, 93 ]            + CRLF, "" )
-           
+
          * Output += iif( Upper( xArray[ nItem, 95] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            INPUTMASK "       + xArray[ nItem, 95 ]            + CRLF, "" ), Space( Indent ) + "            INPUTMASK "          + xArray[ nItem, 95 ]            + CRLF )
          * Output += iif( Upper( xArray[ nItem, 97] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            FORMAT "          + xArray[ nItem, 97 ]            + CRLF, "" ), Space( Indent ) + "            FORMAT "             + xArray[ nItem, 97 ]            + CRLF )
-      
-           
-           
+
+
+
            Output += Space( Indent )+"     END BROWSE  " + CRLF
            Output += CRLF
 
@@ -1743,7 +1743,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += Space( Indent ) + "            COL    "        + AllTrim( Str( Col ) )          + CRLF
            Output += Space( Indent ) + "            WIDTH  "        + AllTrim( Str( Width  ))        + CRLF
            Output += Space( Indent ) + "            HEIGHT "        + AllTrim( Str( Height ) )       + CRLF
-           Output += iif( xArray[ nItem, 13 ]         = "CTOD('')"  , iif( lSaveAll, Space( indent ) + "            VALUE "          + xArray[ nItem, 13 ]            + CRLF, "" ), Space( indent ) + "            VALUE "          + xArray[ nItem, 13 ]            + CRLF )
+           Output += iif( xArray[ nItem, 13 ]         = "CToD('')"  , iif( lSaveAll, Space( indent ) + "            VALUE "          + xArray[ nItem, 13 ]            + CRLF, "" ), Space( indent ) + "            VALUE "          + xArray[ nItem, 13 ]            + CRLF )
            Output += iif( xArray[ nItem, 15 ]         = '"Arial"'   , iif( lSaveAll, Space( indent ) + "            FONTNAME "       + AllTrim( xArray[ nItem, 15 ] ) + CRLF, "" ), Space( indent ) + "            FONTNAME "       + AllTrim( xArray[ nItem, 15 ] ) + CRLF )
            Output += iif( xArray[ nItem, 17 ]         = "9"         , iif( lSaveAll, Space( indent ) + "            FONTSIZE "       + xArray[ nItem, 17 ]            + CRLF, "" ), Space( indent ) + "            FONTSIZE "       + xArray[ nItem, 17 ]            + CRLF )
            Output += iif( xArray[ nItem, 19 ]         = [""]        , iif( lSaveAll, Space( indent ) + "            TOOLTIP "        + AllTrim( xArray[ nItem, 19 ] ) + CRLF, "" ), Space( indent ) + "            TOOLTIP "        + AllTrim( xArray[ nItem, 19 ] ) + CRLF )
@@ -1930,7 +1930,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            Output += iif( Upper( xArray[ nItem, 57 ] )= "NIL"     , iif( lSaveAll, Space( Indent ) + "            ONLOSTFOCUS "     + xArray[ nItem, 57 ]            + CRLF, "" ), Space( Indent ) + "            ONLOSTFOCUS "     + xArray[ nItem, 57 ]            + CRLF )
            Output += iif( xArray[ nItem, 59 ]         = ".T."     , iif( lSaveAll, Space( Indent ) + "            TABSTOP "         + xArray[ nItem, 59 ]            + CRLF, "" ), Space( Indent ) + "            TABSTOP "         + xArray[ nItem, 59 ]            + CRLF )
            Output += iif( xArray[ nItem, 67 ]         = ".T."     , iif( lSaveAll, Space( Indent ) + "            HANDCURSOR "      + xArray[ nItem, 67 ]            + CRLF, "" ), Space( Indent ) + "            HANDCURSOR "      + xArray[ nItem, 67 ]            + CRLF )
-        
+
            Output += iif( Upper( xArray[ nItem, 61 ] )= "NIL"     , iif( lSaveAll, Space( Indent ) + "            HELPID "          + xArray[ nItem, 61 ]            + CRLF, "" ), Space( Indent ) + "            HELPID "          + xArray[ nItem, 61 ]            + CRLF )
            Output += iif( xArray[ nItem, 63 ]         = ".T."     , iif( lSaveAll, Space( Indent ) + "            VISIBLE "         + xArray[ nItem, 63 ]            + CRLF, "" ), Space( Indent ) + "            VISIBLE "         + xArray[ nItem, 63 ]            + CRLF )
            Output += iif( xArray[ nItem, 65 ]         = ".F."     , iif( lSaveAll, Space( Indent ) + "            DEFAULT "         + xArray[ nItem, 65 ]            + CRLF, "" ), Space( Indent ) + "            DEFAULT "         + xArray[ nItem, 65 ]            + CRLF )
@@ -1987,7 +1987,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
 
            IF xArray[ nItem, 35 ] # ".F."
               Output += Space( Indent ) + "            FONTSTRIKEOUT "   + xArray[ nItem, 35 ] + CRLF
-           ENDIF            
+           ENDIF
 
            IF xArray[ nItem, 37 ] # [""]
               Output += Space( Indent ) + "            TOOLTIP "         + xArray[ nItem, 37 ] + CRLF
@@ -2150,15 +2150,15 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
            IF xArray[ nItem, 61 ] # ".T."
               Output += Space( Indent ) + "            TABSTOP "    + xArray[ nItem, 61 ] + CRLF
            ENDIF
-           
+
            Output += IiF( Upper( xArray[ nItem, 73 ] ) = ".T."     , iif( lSaveAll, Space( Indent ) + "            BORDER "        + xArray[ nItem, 73 ] + CRLF, "" ), Space( Indent ) + "            BORDER "         + xArray[ nItem, 73 ]            + CRLF )
            Output += IiF( Upper( xArray[ nItem, 75 ] ) = ".F."     , iif( lSaveAll, Space( Indent ) + "            NOMINUS "       + xArray[ nItem, 75 ] + CRLF, "" ), Space( Indent ) + "            NOMINUS "        + xArray[ nItem, 75 ]            + CRLF )
-                   
+
 
            Output += IiF( Upper( xArray[ nItem, 63 ] ) = "NIL"     , iif( lSaveAll, Space( Indent ) + "            HELPID "        + xArray[ nItem, 63 ] + CRLF, "" ), Space( Indent ) + "            HELPID "         + xArray[ nItem, 63 ]            + CRLF )
-           
-         
-         
+
+
+
            Output += Space( Indent ) + "     END GETBOX  " + CRLF
            Output += CRLF
 
@@ -2416,7 +2416,7 @@ FUNCTION SaveFormControls( Output   AS STRING,  ; //
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    // MsgBox( "VALUE = " + xArray[ nItem, 1 ] )
-   nValue :=  aScan( aUciControls, xArray[ nItem, 1 ] )
+   nValue :=  AScan( aUciControls, xArray[ nItem, 1 ] )
 
    IF nValue > 0
 

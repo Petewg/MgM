@@ -39,7 +39,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
    Rel.0.35  Date : 18/01/2008 Time : 13.45
 */
- 
+
 #DEFINE CTRL_ON    .T.
 #DEFINE CTRL_OFF   .F.
 #DEFINE NOT_SAVED  .F.
@@ -100,7 +100,7 @@ FUNCTION PICK_FLD_FW( A1 AS STRING,  ;
 
 RETURN NIL
 
- 
+
 *------------------------------------------------------------*
 FUNCTION MR_INI( A3 AS STRING )
 *------------------------------------------------------------*
@@ -119,7 +119,7 @@ FUNCTION MR_INI( A3 AS STRING )
    LOCAL aStruct            AS ARRAY   := {}
 
    IF lIniExist                      /* Read Value Stored in *.INI file and set Stored flags */
-      aAdd( aReturn, lIniExist )     /* 1  */
+      AAdd( aReturn, lIniExist )     /* 1  */
 
       lExistStoredAlias := fstralias_ck( A3 )
 
@@ -127,10 +127,10 @@ FUNCTION MR_INI( A3 AS STRING )
          cStoredAlias := loadalias( A3 )
       ENDIF
 
-      aAdd( aField, lExistStoredAlias )  /* 2 WorkArea */
-      aAdd( aField, cStoredAlias      )
-      aAdd( aField, 'WorkArea'        )
-      aAdd( aReturn, aField           )
+      AAdd( aField, lExistStoredAlias )  /* 2 WorkArea */
+      AAdd( aField, cStoredAlias      )
+      AAdd( aField, 'WorkArea'        )
+      AAdd( aReturn, aField           )
 
       aField           := {}
       lExistStoredPath := fstrPath_ck( A3 )
@@ -139,22 +139,22 @@ FUNCTION MR_INI( A3 AS STRING )
          cStoredPath := loadpath( A3 )
       ENDIF
 
-      aAdd( aField, lExistStoredPath )  /* 3 DatabasePath */
-      aAdd( aField, cStoredPath      )
-      aAdd( aField, 'DatabasePath'   )
-      aAdd( aReturn, aField          )
+      AAdd( aField, lExistStoredPath )  /* 3 DatabasePath */
+      AAdd( aField, cStoredPath      )
+      AAdd( aField, 'DatabasePath'   )
+      AAdd( aReturn, aField          )
 
       aField       := {}
       lExistStruct := fstrStruct_ck( A3 )
 
-      IF lExistStruct             /* .T. if Stored DBSTRUCT()  in *.ini file exist and is !Empty */
+      IF lExistStruct             /* .T. if Stored dbStruct()  in *.ini file exist and is !Empty */
          aStruct := LOADSTRUCT( A3 )
       ENDIF
 
-      aAdd( aField, lExistStruct     )         /* 4 DBSTRUCT() */
-      aAdd( aField, aStruct          )
-      aAdd( aField, 'DatabaseStruct' )
-      aAdd( aReturn, aField          )
+      AAdd( aField, lExistStruct     )         /* 4 dbStruct() */
+      AAdd( aField, aStruct          )
+      AAdd( aField, 'DatabaseStruct' )
+      AAdd( aReturn, aField          )
 
       aField             := {}
       lExistStoredDbName := fstrDbName_ck( A3 )
@@ -163,10 +163,10 @@ FUNCTION MR_INI( A3 AS STRING )
          cStoredDbName := lddbfname( A3 )
       ENDIF
 
-      aAdd( aField, lExistStoredDbName )    /* 5 DatabaseName */
-      aAdd( aField, cStoredDbName      )
-      aAdd( aField, 'DatabaseName'     )
-      aAdd( aReturn, aField            )
+      AAdd( aField, lExistStoredDbName )    /* 5 DatabaseName */
+      AAdd( aField, cStoredDbName      )
+      AAdd( aField, 'DatabaseName'     )
+      AAdd( aReturn, aField            )
 
       aField := {}
 
@@ -176,10 +176,10 @@ FUNCTION MR_INI( A3 AS STRING )
          ENDIF
       ENDIF
 
-      aAdd( aField, lExistStoredDbPath )   /* 6 DatabasePathName */
-      aAdd( aField, cStoredDbPath      )
-      aAdd( aField, 'DatabasePathName' )   /* I Add 3^ value only for debug */
-      aAdd( aReturn, aField            )
+      AAdd( aField, lExistStoredDbPath )   /* 6 DatabasePathName */
+      AAdd( aField, cStoredDbPath      )
+      AAdd( aField, 'DatabasePathName' )   /* I Add 3^ value only for debug */
+      AAdd( aReturn, aField            )
 
       aField := {}
    ELSE
@@ -261,7 +261,7 @@ FUNCTION Choose_Way( A1        AS STRING, ;
          IF nChoice = 1
             Form_fld.Text_2.Value := aReturn[ 11 ]
             cAlias                := aReturn[ 11 ]
-            aReturn[ 1 ]          := ATREPL( cTempAlias, aReturn[ 1 ], cAlias )
+            aReturn[ 1 ]          := AtRepl( cTempAlias, aReturn[ 1 ], cAlias )
 
             sv_objfield( { "Fields", "WorkArea" }, { aReturn[ 1 ], aReturn[ 11 ] } , A3, NOT_SAVED, SAVED )
          ELSE
@@ -542,8 +542,8 @@ FUNCTION Ctrl_alias( A3 AS STRING )
       ENDIF
    ENDIF
 
-   aAdd( aPass, lMode )
-   aAdd( aPass, cAlias )
+   AAdd( aPass, lMode )
+   AAdd( aPass, cAlias )
 
 RETURN( aPass )
 
@@ -642,7 +642,7 @@ FUNCTION Check_Fields( A1        AS STRING, ;
    Form_fld.List_2.DeleteAllitems
    Form_fld.List_1.DeleteAllitems
 
-   aEval( aMyFields, { | x | Form_Fld.List_1.AddItem( x ) } )
+   AEval( aMyFields, { | x | Form_Fld.List_1.AddItem( x ) } )
 
 RETURN( cFilename )
 
@@ -675,9 +675,9 @@ FUNCTION choose_File( cFilename AS STRING, ;
 
    ENDIF
 
-   aAdd( aReturn, cFilename )
-   aAdd( aReturn, aMyFields )
-   aAdd( aReturn, cAlias )
+   AAdd( aReturn, cFilename )
+   AAdd( aReturn, aMyFields )
+   AAdd( aReturn, cAlias )
 
 RETURN( aReturn )
 
@@ -731,8 +731,8 @@ FUNCTION ChooseFileVerify( A3           AS STRING,  ;
    ENDIF
 
    aPass := {}
-   aAdd( aPass, cFilename )
-   aAdd( aPass, cAlias )
+   AAdd( aPass, cFilename )
+   AAdd( aPass, cAlias )
 
 RETURN( aPass )
 
@@ -817,7 +817,7 @@ FUNCTION Fill_wFlds( cFilename AS STRING, A3 AS STRING )
    aStruct := Ret_Struct( cFilename, A3 )
 
    IF ! Empty( aStruct ) .AND. Len( aStruct ) > 0
-      aEval( aStruct, { | aField | aAdd( aMyFields, aField[ DBS_NAME ] ) } )
+      AEval( aStruct, { | aField | AAdd( aMyFields, aField[ DBS_NAME ] ) } )
 
       SaveStruct( A3, aStruct )
    ENDIF
@@ -838,9 +838,9 @@ FUNCTION Ret_Widths( cFilename AS STRING, cFieldName AS STRING, A3 AS STRING )
    aStruct := Ret_struct( cFilename, A3 )
 
    IF ! Empty( aStruct ) .AND. Len( aStruct ) > 0
-      aEval( aStruct, { | aField | iif( aField[ DBS_NAME ] == cFieldName, nMyWidths := aField[ DBS_LEN ] , nMyWidths ) } )
-      aEval( aStruct, { | aField | iif( aField[ DBS_TYPE ] == "N"       , cType   := "N"             , cType     ) } )
-      aEval( aStruct, { | aField | iif( aField[ DBS_NAME ] == cFieldName, cMyName := aField[ DBS_NAME ], cMyName   ) } )
+      AEval( aStruct, { | aField | iif( aField[ DBS_NAME ] == cFieldName, nMyWidths := aField[ DBS_LEN ] , nMyWidths ) } )
+      AEval( aStruct, { | aField | iif( aField[ DBS_TYPE ] == "N"       , cType   := "N"             , cType     ) } )
+      AEval( aStruct, { | aField | iif( aField[ DBS_NAME ] == cFieldName, cMyName := aField[ DBS_NAME ], cMyName   ) } )
 
       size      := Len( cMyName ) * 15
       size1     := iif( cMyName == aStruct[ 1, 1 ] .AND. cType == "N", nMyWidths * 15, nMyWidths * 10 )
@@ -871,7 +871,7 @@ FUNCTION Ret_Struct( cFilename AS STRING, A3 AS STRING )
 
    IF Used()
       select ( cFilename )
-      aStruct := DBSTRUCT()
+      aStruct := dbStruct()
       close ( cFilename )
 
    ELSE
@@ -894,11 +894,11 @@ FUNCTION Ret_Struct( cFilename AS STRING, A3 AS STRING )
 
       IF File( cDatabasePath + "\" + cFilename + ".dbf" ) .AND. lExistDbPath
          USE ( cDatabasePath + "\" + cFilename + ".dbf" ) NEW READONLY
-         aStruct := DBSTRUCT()
+         aStruct := dbStruct()
          use
 
       ELSE
-         IF lExistStruct := fstrStruct_ck( A3 ) .AND. lExistDbPath    /* .T. if Stored DBSTRUCT()  in *.ini file exist and is !Empty */
+         IF lExistStruct := fstrStruct_ck( A3 ) .AND. lExistDbPath    /* .T. if Stored dbStruct()  in *.ini file exist and is !Empty */
             aStruct := LoadStruct( A3 )
 
             IF Empty( cAlias ) .OR. Upper( cAlias ) == "NIL"
@@ -914,18 +914,18 @@ FUNCTION Ret_Struct( cFilename AS STRING, A3 AS STRING )
                dbCreate( cDatabasePath + "\" + cFilename, aStruct, "DBFNTX", .T., cAlias )
             ENDIF
 
-         ELSEIF ! lExistStruct .AND. lExistDbPath   /* DBSTRUCT() ! Exist */
-            MsgInfo( "Unable to create File !" + CRLF + " DBSTRUCT() not saved in *.INI file" + CRLF + "Procedure aborted !", "Create File" )
+         ELSEIF ! lExistStruct .AND. lExistDbPath   /* dbStruct() ! Exist */
+            MsgInfo( "Unable to create File !" + CRLF + " dbStruct() not saved in *.INI file" + CRLF + "Procedure aborted !", "Create File" )
             aStruct := {}
 
-         ELSEIF ! lExistStruct .AND. lExistDbPath   /* DBSTRUCT() ! Exist */
+         ELSEIF ! lExistStruct .AND. lExistDbPath   /* dbStruct() ! Exist */
             MsgInfo( "Unable to create File !" + CRLF + " DatabasePath not saved in *.INI file" + CRLF + "Procedure aborted !", "Create File" )
             aStruct := {}
          ENDIF
       ENDIF
    ENDIF
 
-   select( nArea )
+   Select( nArea )
 
 RETURN( aStruct )
 
@@ -1364,7 +1364,7 @@ FUNCTION MoveSx_AllField( A3 AS STRING )
 
    aMyFields := fill_wflds( Form_fld.Text_1.Value, A3 )
 
-   aEval( aMyFields, { | x | Form_Fld.List_1.AddItem( x ) } )
+   AEval( aMyFields, { | x | Form_Fld.List_1.AddItem( x ) } )
 
    What_Field( A3 )
 
@@ -1393,7 +1393,7 @@ FUNCTION MoveDx_AllField( A3 AS STRING )
 
    aMyFields := fill_wflds( Form_fld.Text_1.Value, A3 )
 
-   aEval( aMyFields, { | x | Form_Fld.List_2.AddItem( x ) } )
+   AEval( aMyFields, { | x | Form_Fld.List_2.AddItem( x ) } )
 
    What_Field( A3 )
 
@@ -1440,11 +1440,11 @@ FUNCTION What_Field( A3 AS STRING )
 
        IF i <> nLen
           Form_fld.Edit_1.Value := Form_fld.Edit_1.Value + "'" + cFilename + "->" + Form_fld.List_2.Item( i ) + "'" + ","
-          Form_fld.Edit_2.Value := Form_fld.Edit_2.Value + AllTrim( str( ret_Widths( AllTrim( Form_fld.Text_1.Value ), Form_fld.List_2.Item( i ), A3 ) ) ) + ","
+          Form_fld.Edit_2.Value := Form_fld.Edit_2.Value + AllTrim( Str( ret_Widths( AllTrim( Form_fld.Text_1.Value ), Form_fld.List_2.Item( i ), A3 ) ) ) + ","
           Form_fld.Edit_3.Value := Form_fld.Edit_3.Value + "'" + Form_fld.List_2.Item( i ) + "'" + ","
        ELSE
           Form_fld.Edit_1.Value := Form_fld.Edit_1.Value + "'" + cFilename + "->" + Form_fld.List_2.Item( i ) + "'" + "}"
-          Form_fld.Edit_2.Value := Form_fld.Edit_2.Value + AllTrim( str( ret_Widths( AllTrim( Form_fld.Text_1.Value ), Form_fld.List_2.Item( i ), A3 ) ) ) + "}"
+          Form_fld.Edit_2.Value := Form_fld.Edit_2.Value + AllTrim( Str( ret_Widths( AllTrim( Form_fld.Text_1.Value ), Form_fld.List_2.Item( i ), A3 ) ) ) + "}"
           Form_fld.Edit_3.Value := Form_fld.Edit_3.Value + "'" + Form_fld.List_2.Item( i ) + "'" + "}"
        ENDIF
    NEXT i
@@ -1496,7 +1496,7 @@ FUNCTION Imp_String(                         ; //
       cMyString := MR_FSTR()[ 1 ]  /* Read 'Fields' Value String */
    ELSE
       cMyString := A2
-      /* MsgInfo(cMystring + "Len: "+AllTrim(str(Len(cMystring))),"A2") */
+      /* MsgInfo(cMystring + "Len: "+AllTrim(Str(Len(cMystring))),"A2") */
    ENDIF
 
    IF ! Empty ( cMyString ) .AND. Upper( cMyString ) <> "NIL" .AND. cMyString <> "{''}"
@@ -1512,11 +1512,11 @@ FUNCTION Imp_String(                         ; //
           IF SubStr( cSTRING, i, 1 ) <> ","
              cNewString := cNewString + SubStr( cSTRING, i, 1 )
           ELSE
-             aAdd( aReturn, cNewString )
+             AAdd( aReturn, cNewString )
              cNewString := ""
           ENDIF
       NEXT i
-      aAdd( aReturn, cNewString )
+      AAdd( aReturn, cNewString )
       aMyFields := aReturn
    ENDIF
 
@@ -1526,10 +1526,10 @@ FUNCTION Imp_String(                         ; //
          nLenAstruct := Len( aStructFields )
          FOR i := 1 TO Len( aReturn )
              FOR k := 1 to nLenAstruct
-                IF aStructFields[ k ] == SubStr( aReturn[ i ], ( ( RAT( ">", aReturn[ i ] ) ) - Len( aReturn[ i ] ) ) )
-                   aDel( aStructFields, k )
+                IF aStructFields[ k ] == SubStr( aReturn[ i ], ( ( RAt( ">", aReturn[ i ] ) ) - Len( aReturn[ i ] ) ) )
+                   ADel( aStructFields, k )
                    nLenAstruct := nLenAstruct - 1
-                   aSize( aStructFields, nLenAstruct )
+                   ASize( aStructFields, nLenAstruct )
                 ENDIF
              next k
          NEXT i
@@ -1546,11 +1546,11 @@ FUNCTION Imp_String(                         ; //
 
       Form_fld.List_1.DeleteAllitems
 
-      aEval( aStructFields, { | x | Form_Fld.List_1.AddItem( x ) } )
+      AEval( aStructFields, { | x | Form_Fld.List_1.AddItem( x ) } )
 
       Form_fld.List_2.DeleteAllitems
 
-      aEval( aMyFields, { | x | Form_Fld.List_2.AddItem( x ) } )
+      AEval( aMyFields, { | x | Form_Fld.List_2.AddItem( x ) } )
 
       OldValue := ObjectInspector.xGrid_1.Value
 
@@ -1643,17 +1643,17 @@ FUNCTION MR_FSTR()
 
    ObjectInspector.xGrid_2.Value := OldValue  /* Restore Initial Value */
 
-   aAdd( aReturn, cMyString        )
-   aAdd( aReturn, cFilename        )
-   aAdd( aReturn, cDatabasePath    )
-   aAdd( aReturn, cMyValid         )
-   aAdd( aReturn, cMyValidMessages )
-   aAdd( aReturn, cImageNames      )
-   aAdd( aReturn, cReadOnlyValues  )
-   aAdd( aReturn, cMyJustifyValues )
-   aAdd( aReturn, cWhen            )
-   aAdd( aReturn, cOnHeadClick     )
-   aAdd( aReturn, cAlias           )
+   AAdd( aReturn, cMyString        )
+   AAdd( aReturn, cFilename        )
+   AAdd( aReturn, cDatabasePath    )
+   AAdd( aReturn, cMyValid         )
+   AAdd( aReturn, cMyValidMessages )
+   AAdd( aReturn, cImageNames      )
+   AAdd( aReturn, cReadOnlyValues  )
+   AAdd( aReturn, cMyJustifyValues )
+   AAdd( aReturn, cWhen            )
+   AAdd( aReturn, cOnHeadClick     )
+   AAdd( aReturn, cAlias           )
 
 RETURN( aReturn )
 
@@ -1795,9 +1795,9 @@ FUNCTION sv_objfield( uFieldName  AS USUAL,   ; //
    LOCAL nLen1    AS NUMERIC := 0
 
    IF ValType( uFieldName ) == "C"  /* Single String */
-      aAdd( aField , uFieldName  )
-      aAdd( aField , uFieldValue )
-      aAdd( aUpdate, aField      )
+      AAdd( aField , uFieldName  )
+      AAdd( aField , uFieldValue )
+      AAdd( aUpdate, aField      )
       aField := {}
 
    ELSEIF ValType( uFieldName ) == "A" .AND. ValType( uFieldValue ) == "A"
@@ -1805,9 +1805,9 @@ FUNCTION sv_objfield( uFieldName  AS USUAL,   ; //
       nLen1 := Len( uFieldValue )
       IF nLen = nLen1
          FOR i := 1 TO nLen
-            aAdd( aField, uFieldName[ I ] )
-            aAdd( aField, uFieldValue[ I ] )
-            aAdd( aUpdate, aField )
+            AAdd( aField, uFieldName[ I ] )
+            AAdd( aField, uFieldValue[ I ] )
+            AAdd( aUpdate, aField )
             aField := {}
          next I
       ELSE
@@ -1890,13 +1890,13 @@ FUNCTION RCVR_WKA( aMyField AS ARRAY, cFilename AS STRING, A3 AS STRING )
    IF Len( aMyField ) <> 0
       FOR i := 1 TO Len( aMyField )
          IF SubStr( aMyField, i, 1 ) == ">"
-            cWorkArea := LEFT( aMyField, I - 2 )
+            cWorkArea := Left( aMyField, I - 2 )
             EXIT
          ENDIF
       NEXT i
    ENDIF
 
-   cWorkArea := AllTrim( ATREPL( "{'", cWorkArea, " " ) )
+   cWorkArea := AllTrim( AtRepl( "{'", cWorkArea, " " ) )
 
    IF AllTrim( cWorkArea ) == AllTrim( cFilename )
       cWorkArea := ""
@@ -2067,7 +2067,7 @@ FUNCTION SaveOld_Fstr( A1 AS STRING, A2 AS STRING, A3 AS STRING, A4 AS STRING )
 
           IF v1 == aTempDownLoad[ i, 1 ]
              aTempDownLoad[ i, 2 ] := GetColValue( "XGRID_2", "ObjectInspector", 2 )
-             aAdd( aDownLoad, { aTempDownLoad[ I ][ 1 ], aTempDownLoad[ i, 2 ] } )
+             AAdd( aDownLoad, { aTempDownLoad[ I ][ 1 ], aTempDownLoad[ i, 2 ] } )
           ENDIF
        NEXT x
 
@@ -2092,7 +2092,7 @@ FUNCTION SaveOld_Fstr( A1 AS STRING, A2 AS STRING, A3 AS STRING, A4 AS STRING )
 
            IF v1 == aTempDownLoad[ i, 1 ]
               aTempDownLoad[ i, 2 ] := GetColValue( "XGRID_1", "ObjectInspector", 2 )
-              aAdd( aDownLoad, { aTempDownLoad[ i, 1 ], aTempDownLoad[ i, 2 ] } )
+              AAdd( aDownLoad, { aTempDownLoad[ i, 1 ], aTempDownLoad[ i, 2 ] } )
            ENDIF
 
        NEXT x
@@ -2102,10 +2102,10 @@ FUNCTION SaveOld_Fstr( A1 AS STRING, A2 AS STRING, A3 AS STRING, A4 AS STRING )
 
    NEXT i
 
-   aAdd( aDownLoad, A1 )
-   aAdd( aDownLoad, A2 )
-   aAdd( aDownLoad, A3 )
-   aAdd( aDownLoad, A4 )
+   AAdd( aDownLoad, A1 )
+   AAdd( aDownLoad, A2 )
+   AAdd( aDownLoad, A3 )
+   AAdd( aDownLoad, A4 )
 
 RETURN( aDownLoad )
 
@@ -2165,7 +2165,7 @@ FUNCTION chk_ifCanLoad( A1        AS STRING, ; //
    Ctrl_InsFld( CTRL_OFF )
 
    FOR i := 1 TO nLen
-       aAdd( aMyFields, Form_Fld.List_2.Item( i ) )
+       AAdd( aMyFields, Form_Fld.List_2.Item( i ) )
    NEXT i
 
    SET INTERACTIVECLOSE OFF
@@ -2201,43 +2201,43 @@ FUNCTION Tst_FldFld( A3 AS STRING, nLen AS NUMERIC )
    LOCAL aWhen            := ""
    LOCAL aOnHeadClick     := ""
 
-   /* 'Valid' Stored !="NIL"  AND array lenght <> # of selected field(s) -Need to be correct */
+   /* 'Valid' Stored !="NIL"  AND array lenght <> # of selected Field(s) -Need to be correct */
    IF ( ( ( Upper( xArray[ xControle( A3 ), 55 ] ) ) <> "NIL" ) .AND. ( Len( Strg_2_Array( xArray[ xControle( A3 ), 55 ] )[ 1 ] ) <> nLen )  )
       aMyValid := Strg_2_Array( xArray[ xControle( A3 ), 55 ] )
       Correct_Vld( A3, aMyValid, nLen )
    ENDIF
 
-   /* 'ValidMessages' Stored !="NIL"  AND array lenght <> # of selected field(s) -Need to be correct */
+   /* 'ValidMessages' Stored !="NIL"  AND array lenght <> # of selected Field(s) -Need to be correct */
    IF ( ( Upper( ( xArray[ xControle( A3 ), 57 ] ) ) <> "NIL" ) .AND. ( Len( Strg_2_Array( xArray[ xControle( A3 ), 57 ] ) ) <> nLen ) )
       aMyValidMessages := Strg_2_Array( xArray[ xControle( A3 ), 57 ] )
       Correct_VldMsg( A3, aMyValidMessages, nLen )
    ENDIF
 
-   /* 'ImageName' Stored !="NIL"  AND array lenght <> # of selected field(s) -Need to be correct */
+   /* 'ImageName' Stored !="NIL"  AND array lenght <> # of selected Field(s) -Need to be correct */
    IF ( ( Upper( ( xArray[ xControle( A3 ), 77 ] ) ) <> "NIL" ) .AND. ( Len( Strg_2_Array( xArray[ xControle( A3 ), 77 ] ) ) <> nLen ) )
       aImageNames := Strg_2_Array( xArray[ xControle( A3 ), 77 ] )
       Correct_ImageName( A3, aImageNames, nLen )
    ENDIF
 
-   /* 'ReadOnlyFields' Stored !="NIL"  AND array lenght <> # of selected field(s) -Need to be correct */
+   /* 'ReadOnlyFields' Stored !="NIL"  AND array lenght <> # of selected Field(s) -Need to be correct */
    IF ( ( Upper( ( xArray[ xControle( A3 ), 83 ] ) ) <> "NIL" ) .AND. ( Len( Strg_2_Array( xArray[ xControle( A3 ), 83 ] ) ) <> nLen ) )
       aReadOnlyValues := Strg_2_Array( xArray[ xControle( A3 ), 83 ] )
       Correct_RDOFLD( A3, aReadOnlyValues, nLen )
    ENDIF
 
-   /* 'JustifyFields' Stored !="NIL"  AND array lenght <> # of selected field(s) -Need to be correct */
+   /* 'JustifyFields' Stored !="NIL"  AND array lenght <> # of selected Field(s) -Need to be correct */
    IF ( ( Upper( ( xArray[ xControle( A3 ), 79 ] ) ) <> "NIL" ) .AND. ( Len( Strg_2_Array( xArray[ xControle( A3 ), 79 ] ) ) <> nLen ) )
       aMyJustifyValues := Strg_2_Array( xArray[ xControle( A3 ), 79 ] )
       Correct_JstfyFlds( A3, aMyJustifyValues, nLen )
    ENDIF
 
-   /* 'WhenFields' Stored !="NIL"  AND array lenght <> # of selected field(s) -Need to be correct */
+   /* 'WhenFields' Stored !="NIL"  AND array lenght <> # of selected Field(s) -Need to be correct */
    IF ( ( Upper( ( xArray[ xControle( A3 ), 71 ] ) ) <> "NIL" ) .AND. ( Len( Strg_2_Array( xArray[ xControle( A3 ), 71 ] )[ 1 ] ) <> nLen ) )
       aWhen := Strg_2_Array( xArray[ xControle( A3 ), 71 ] )
       Correct_When( A3, aWhen, nLen )
    ENDIF
 
-   /* 'OnHeadClick' Stored !="NIL"  AND array lenght <> # of selected field(s) -Need to be correct */
+   /* 'OnHeadClick' Stored !="NIL"  AND array lenght <> # of selected Field(s) -Need to be correct */
    IF ( ( Upper( ( xArray[ xControle( A3 ), 49 ] ) ) <> "NIL" ) .AND. ( Len( Strg_2_Array( xArray[ xControle( A3 ), 49 ] )[ 1 ] ) <> nLen ) )
       aOnHeadClick := Strg_2_Array( xArray[ xControle( A3 ), 49 ] )
       Correct_OnHClk( A3, aOnHeadClick, nLen )
@@ -2261,17 +2261,17 @@ FUNCTION Correct_Vld( A3 AS STRING, aMyValid AS ARRAY, nLen AS NUMERIC )
                      "New record(s) were added or deleted in 'Browse Fields'"+CRLF+;
                      "To save stored value , correct lenght and loading     "+CRLF+;
                      "------------------------------------------------------"+CRLF+;
-                     "new 'Valid' field(s) with DEFAULT value click -> YES  "+CRLF+;
-                     "new 'Valid' field(s) with NIL     value click ->  NO  ","DEBUG Message")
+                     "new 'Valid' Field(s) with DEFAULT value click -> YES  "+CRLF+;
+                     "new 'Valid' Field(s) with NIL     value click ->  NO  ","DEBUG Message")
 
    */
 
    /* ---------------Start Correct Array lenght 'Valid'----------------*/
    nStrLen := Len( aMyValid[ 1 ] )
 
-   aSize( aMyValid[ 1 ], nLen )
+   ASize( aMyValid[ 1 ], nLen )
 
-   IF ( nLen > nStrLen )  /* New field(s) added */
+   IF ( nLen > nStrLen )  /* New Field(s) added */
       nDiff := ( nLen - nStrLen )
       FOR i := 1 TO nDiff
           /* fill added fields with DEFAULT or NIL value*/
@@ -2313,22 +2313,22 @@ FUNCTION Correct_VldMsg( A3 AS STRING, aMyValidMessages AS ARRAY, nLen AS NUMERI
                      "New record(s) were added or deleted in 'Browse Fields'        "+CRLF+;
                      "To save stored value , correct lenght and loading             "+CRLF+;
                      "--------------------------------------------------------------"+CRLF+;
-                     "new 'ValidMessages' field(s) with DEFAULT value click -> YES  "+CRLF+;
-                     "new 'ValidMessages' field(s) with NIL     value click ->  NO  ","DEBUG Message")
+                     "new 'ValidMessages' Field(s) with DEFAULT value click -> YES  "+CRLF+;
+                     "new 'ValidMessages' Field(s) with NIL     value click ->  NO  ","DEBUG Message")
    */
 
    /* ---------------Start Correct Array lenght 'ValidMessages'------*/
 
    nStrLen := Len( aMyValidMessages )
 
-   aSize( aMyValidMessages, nLen )
+   ASize( aMyValidMessages, nLen )
 
-   IF ( nLen > nStrLen )  /* New field(s) added */
+   IF ( nLen > nStrLen )  /* New Field(s) added */
       nDiff := ( nLen - nStrLen )
       FOR i := 1 TO nDiff
          /* fill added fields with DEFAULT or NIL value*/
          IF nChoice
-            aMyValidMessages[ nStrLen + i ] := "Text" + AllTrim( STR( nStrLen + i ) )
+            aMyValidMessages[ nStrLen + i ] := "Text" + AllTrim( Str( nStrLen + i ) )
          ELSE
             aMyValidMessages[ nStrLen + i ] := "NIL"
          ENDIF
@@ -2364,21 +2364,21 @@ FUNCTION Correct_ImageName( A3 AS STRING, aImageNames AS ARRAY, nLen AS NUMERIC 
                      "New record(s) were added or deleted in 'Browse Fields'    "+CRLF+;
                      "To save stored value , correct lenght and loading         "+CRLF+;
                      "----------------------------------------------------------"+CRLF+;
-                     "new 'ImageName' field(s) with DEFAULT value click -> YES  "+CRLF+;
-                     "new 'ImageName' field(s) with NIL     value click ->  NO  ","DEBUG Message")
+                     "new 'ImageName' Field(s) with DEFAULT value click -> YES  "+CRLF+;
+                     "new 'ImageName' Field(s) with NIL     value click ->  NO  ","DEBUG Message")
    */
 
    /* ---------------Start Correct Array lenght 'ImageNames'------*/
    nStrLen := Len( aImageNames )
 
-   aSize( aImageNames, nLen )
+   ASize( aImageNames, nLen )
 
-   IF ( nLen > nStrLen )  /* New field(s) added */
+   IF ( nLen > nStrLen )  /* New Field(s) added */
       nDiff := ( nLen - nStrLen )
       FOR i := 1 TO nDiff
           /* fill added fields with DEFAULT or NIL value*/
           IF nChoice
-             aImageNames[ nStrLen + i ] := "ImgName" + AllTrim( STR( nStrLen + i ) )
+             aImageNames[ nStrLen + i ] := "ImgName" + AllTrim( Str( nStrLen + i ) )
           ELSE
              aImageNames[ nStrLen + i ] := "NIL"
           ENDIF
@@ -2412,17 +2412,17 @@ FUNCTION Correct_RDOFLD( A3 AS STRING, aReadOnlyValues AS ARRAY, nLen AS NUMERIC
                      "New record(s) were added or deleted in 'Browse Fields'    "+CRLF+;
                      "To save stored value , correct lenght and loading         "+CRLF+;
                      "----------------------------------------------------------"+CRLF+;
-                     "new 'ReadOnly' field(s) with DEFAULT value click -> YES   "+CRLF+;
-                     "new 'ReadOnly' field(s) with NIL     value click ->  NO   ","DEBUG Message")
+                     "new 'ReadOnly' Field(s) with DEFAULT value click -> YES   "+CRLF+;
+                     "new 'ReadOnly' Field(s) with NIL     value click ->  NO   ","DEBUG Message")
    */
 
    /* ---------------Start Correct Array lenght 'ReadOnlyValues'------*/
 
    nStrLen := Len( aReadOnlyValues )
 
-   aSize( aReadOnlyValues, nLen )
+   ASize( aReadOnlyValues, nLen )
 
-   IF ( nLen > nStrLen )  /* New field(s) added */
+   IF ( nLen > nStrLen )  /* New Field(s) added */
       nDiff := ( nLen - nStrLen )
       FOR i := 1 TO nDiff
          /* fill added fields with DEFAULT or NIL value*/
@@ -2463,16 +2463,16 @@ FUNCTION Correct_JstfyFlds( A3 AS STRING, aMyJustifyValues AS ARRAY, nLen AS NUM
                      "New record(s) were added or deleted in 'Browse Fields'   "+CRLF+;
                      "To save stored value , correct lenght and loading        "+CRLF+;
                      "---------------------------------------------------------"+CRLF+;
-                     "new 'Justify' field(s) with DEFAULT value click -> YES   "+CRLF+;
-                     "new 'Justify' field(s) with NIL     value click ->  NO   ","DEBUG Message")
+                     "new 'Justify' Field(s) with DEFAULT value click -> YES   "+CRLF+;
+                     "new 'Justify' Field(s) with NIL     value click ->  NO   ","DEBUG Message")
    */
 
    /* ---------------Start Correct Array lenght 'JustifyValues'------*/
    nStrLen := Len( aMyJustifyValues )
 
-   aSize( aMyJustifyValues, nLen )
+   ASize( aMyJustifyValues, nLen )
 
-   IF ( nLen > nStrLen )  /* New field(s) added */
+   IF ( nLen > nStrLen )  /* New Field(s) added */
       nDiff := ( nLen - nStrLen )
       For i = 1 to nDiff
           /* fill added fields with DEFAULT or NIL value*/
@@ -2513,21 +2513,21 @@ FUNCTION Correct_When( A3 AS STRING, aWhen AS ARRAY, nLen AS NUMERIC )
                      "New record(s) were added or deleted in 'Browse Fields'"+CRLF+;
                      "To save stored value , correct lenght and loading     "+CRLF+;
                      "------------------------------------------------------"+CRLF+;
-                     "new 'When' field(s) with DEFAULT value click -> YES   "+CRLF+;
-                     "new 'When' field(s) with NIL     value click ->  NO   ","DEBUG Message")
+                     "new 'When' Field(s) with DEFAULT value click -> YES   "+CRLF+;
+                     "new 'When' Field(s) with NIL     value click ->  NO   ","DEBUG Message")
    */
 
    /* ---------------Start Correct Array lenght 'When'----------------*/
    nStrLen := Len( aWhen[ 1 ] )
 
-   aSize( aWhen[ 1 ], nLen )
+   ASize( aWhen[ 1 ], nLen )
 
-   IF ( nLen > nStrLen )  /* New field(s) added */
+   IF ( nLen > nStrLen )  /* New Field(s) added */
       nDiff := ( nLen - nStrLen )
       FOR i := 1 to nDiff
           /* fill added fields with DEFAULT or NIL value*/
           IF nChoice
-             aWhen[ 1 ][ nStrLen + i ] := "{|| wcb" + AllTrim( STR( nStrLen + i ) ) + "}"
+             aWhen[ 1 ][ nStrLen + i ] := "{|| wcb" + AllTrim( Str( nStrLen + i ) ) + "}"
           ELSE
              aWhen[ 1 ][ nStrLen + i ] := "{|| NIL }"
           ENDIF
@@ -2563,16 +2563,16 @@ FUNCTION Correct_OnHClk( A3 AS STRING, aOnHeadClick AS ARRAY, nLen AS NUMERIC )
                      "New record(s) were added or deleted in 'Browse Fields'       "+CRLF+;
                      "To save stored value , correct lenght and loading            "+CRLF+;
                      "----------------------------------------------------------- -"+CRLF+;
-                     "new 'OnHeadClick' field(s) with DEFAULT value click -> YES   "+CRLF+;
-                      "new 'OnHeadClick' field(s) with NIL     value click ->  NO   ","DEBUG Message")
+                     "new 'OnHeadClick' Field(s) with DEFAULT value click -> YES   "+CRLF+;
+                      "new 'OnHeadClick' Field(s) with NIL     value click ->  NO   ","DEBUG Message")
    */
 
    /* ---------------Start Correct Array lenght 'OnHeadClick'----------------*/
    nStrLen := Len( aOnHeadClick[ 1 ] )
 
-   aSize( aOnHeadClick[ 1 ], nLen )
+   ASize( aOnHeadClick[ 1 ], nLen )
 
-   IF ( nLen > nStrLen )  /* New field(s) added */
+   IF ( nLen > nStrLen )  /* New Field(s) added */
       nDiff := ( nLen - nStrLen )
       FOR i := 1 to nDiff
          /* fill added fields with DEFAULT or NIL value*/
@@ -2691,13 +2691,13 @@ FUNCTION BAO_SetDefAll( A3 AS STRING, aOldValues AS ARRAY, A4 AS STRING )
 
       FOR i := 1 TO nLen
 
-          aAdd( aMyValid        , "{|| vcb"  + AllTrim( Str( i ) ) + "}" )
-          aAdd( aMyValidMessages, "'Text"    + AllTrim( Str( i ) ) + "'" )
-          aAdd( aImageNames     , "ImgName"  + AllTrim( Str( i ) ) )
-          aAdd( aReadOnlyValues , .T. )
-          aAdd( aMyJustifyValues, "BROWSE_JTFY_LEFT" )
-          aAdd( aWhen           , "{|| wcb"  + AllTrim( Str( i ) ) + "}" )
-          aAdd( aOnHeadClick    , "{|| ohcb" + AllTrim( Str( i ) ) + "}" )
+          AAdd( aMyValid        , "{|| vcb"  + AllTrim( Str( i ) ) + "}" )
+          AAdd( aMyValidMessages, "'Text"    + AllTrim( Str( i ) ) + "'" )
+          AAdd( aImageNames     , "ImgName"  + AllTrim( Str( i ) ) )
+          AAdd( aReadOnlyValues , .T. )
+          AAdd( aMyJustifyValues, "BROWSE_JTFY_LEFT" )
+          AAdd( aWhen           , "{|| wcb"  + AllTrim( Str( i ) ) + "}" )
+          AAdd( aOnHeadClick    , "{|| ohcb" + AllTrim( Str( i ) ) + "}" )
 
       NEXT i
 
@@ -2918,7 +2918,7 @@ FUNCTION BAO_Read( aOldValues AS ARRAY )
    LOCAL nChoice           AS NUMERIC
 
    FOR i := 4 TO 10
-       aAdd( aOldValues, aDownLoad[ i ] )
+       AAdd( aOldValues, aDownLoad[ i ] )
    NEXT I
 
    nFields := BrwAdvanced.Combo_1.ItemCount
@@ -3050,11 +3050,11 @@ FUNCTION Strg_s_Array( cMyFields AS STRING )
           IF ! ( SubStr( cMyFields, i, 1 ) = "," )
              cString := cString + SubStr( cMyFields, i, 1 )
              IF i = nLen - 1
-                aAdd( aMyField, cString )
+                AAdd( aMyField, cString )
                 cString := ""
              ENDIF
           ELSE
-             aAdd( aMyField, cString )
+             AAdd( aMyField, cString )
              cString := ""
           ENDIF
        ENDIF
@@ -3079,21 +3079,21 @@ FUNCTION Strg_m_array( cMyFields AS STRING )
           IF ! ( SubStr( cMyFields, i, 1 ) = "," )
              cString := cString + SubStr( cMyFields, i, 1 )
              IF i = nLen
-                aAdd( aMyField, cString )
+                AAdd( aMyField, cString )
                 cString := ""
              ENDIF
           ELSE
-             aAdd( aMyField, cString )
+             AAdd( aMyField, cString )
              cString := ""
           ENDIF
        ENDIF
    NEXT i
 
-   aAdd( aMyField, cString )
+   AAdd( aMyField, cString )
 
    // cString := "" // Not needed since it;s local
 
-   aAdd( aMyReturn, aMyField )
+   AAdd( aMyReturn, aMyField )
 
 RETURN( aMyReturn )
 
@@ -3113,13 +3113,13 @@ FUNCTION Strg_cb_Array( cMyFields AS STRING )
           IF ! ( SubStr( cMyFields, i, 1 ) = "," )
              cString := cString + SubStr( cMyFields, i, 1 )
              IF i = nLen
-                cString := ATREPL( "{||", "{" + cString + "}", "{|| " )
-                aAdd( aMyField, cString )
+                cString := AtRepl( "{||", "{" + cString + "}", "{|| " )
+                AAdd( aMyField, cString )
                 cString := ""
              ENDIF
           ELSE
-             cString := ATREPL( "{||", "{" + cString + "}", "{|| " )
-             aAdd( aMyField, cString )
+             cString := AtRepl( "{||", "{" + cString + "}", "{|| " )
+             AAdd( aMyField, cString )
              cString := ""
           ENDIF
        ENDIF
@@ -3127,8 +3127,8 @@ FUNCTION Strg_cb_Array( cMyFields AS STRING )
 
    cString := AtRepl( "{||", "{" + cString + "}", "{|| " )
 
-   aAdd( aMyField, cString )
-   aAdd( aMyReturn, aMyField )
+   AAdd( aMyField, cString )
+   AAdd( aMyReturn, aMyField )
 
 RETURN( aMyReturn )
 
@@ -3188,7 +3188,7 @@ FUNCTION brw_settxtVLD( A3 AS STRING, aOldValues AS ARRAY )    /* {|| codeBlock 
 
       IF Upper( cMyValid ) == "NIL" .AND. Upper( aMyValid ) == "NIL"  /* EMPTY FIELDS */
          aMyValid := { Array( nLen ) }
-         aFill( aMyValid[ 1 ], "{|| NIL}" )
+         AFill( aMyValid[ 1 ], "{|| NIL}" )
       ENDIF
 
       /* Is a correct string ? */
@@ -3298,7 +3298,7 @@ FUNCTION Brw_SetTxtVM( A3 AS STRING, aOldValues AS ARRAY )        /* { array } *
 
       IF Upper( cMyValidMessages ) == "NIL" .AND. Upper( aMyValidMessages ) == "NIL"  /* EMPTY FIELDS */
          aMyValidMessages := Array( nLen )
-         aFill( aMyValidMessages, "NIL" )
+         AFill( aMyValidMessages, "NIL" )
       ENDIF
 
       aMyValidMessages[ nChoice ] := GetProperty( "BrwAdvanced", "TEXT_2", "VALUE" ) /* New Value */
@@ -3400,8 +3400,8 @@ FUNCTION Brw_SetTxtIMG( A3 AS STRING, aOldValues AS ARRAY )       /* { array } *
       aImageNames := Strg_2_Array( cImageNames )  /* Old Value */
 
       IF Upper( cImageNames ) == "NIL"  .AND. Upper( aImageNames ) == "NIL"
-         aImageNames := ARRAY( nLen )
-         aFill( aImageNames, "NIL" )
+         aImageNames := Array( nLen )
+         AFill( aImageNames, "NIL" )
       ENDIF
 
       aImageNames[ nChoice ] := GetProperty( "BrwAdvanced", "TEXT_3", "VALUE" ) /* New Value */
@@ -3486,8 +3486,8 @@ FUNCTION Brw_SetTxtRDO( A3 AS STRING, aOldValues AS ARRAY )    /* { array } */
       aReadOnlyValues := Strg_2_Array( cReadOnlyValues )  /* Old Value */
 
       IF Upper( cReadOnlyValues ) == "NIL" .AND. Upper( aReadOnlyValues ) == "NIL"
-         aReadOnlyValues := ARRAY( nLen )
-         AFILL( aReadOnlyValues, "NIL" )
+         aReadOnlyValues := Array( nLen )
+         AFill( aReadOnlyValues, "NIL" )
       ENDIF
 
       aReadOnlyValues[ nChoice ] := GetProperty( "BrwAdvanced", "TEXT_4", "VALUE" ) /* New Value */
@@ -3590,8 +3590,8 @@ FUNCTION Brw_SetTxtJfy( A3 AS STRING, aOldValues AS ARRAY )    /* { array } */
 
       /* What happen if cMyJustifyValues is "NIL" ? */
       IF Upper( cMyJustifyValues ) == "NIL" .AND. Upper( aMyJustifyValues ) == "NIL"
-         aMyJustifyValues := ARRAY( nLen )
-         AFILL( aMyJustifyValues, "NIL" )
+         aMyJustifyValues := Array( nLen )
+         AFill( aMyJustifyValues, "NIL" )
       ENDIF
 
       aMyJustifyValues[ nChoice ] := GetProperty( "BrwAdvanced", "TEXT_5", "VALUE" ) /* New Value */
@@ -3679,7 +3679,7 @@ FUNCTION Brw_SetTxtWhen( A3 AS STRING, aOldValues AS ARRAY )   /* {|| codeBlock 
       /* What happen if cWhen is "NIL" ? */
       IF Upper( cWhen ) == "NIL" .AND. Upper( aWhen ) == "NIL"
          aWhen := { Array( nLen ) }
-         aFill( aWhen[ 1 ], "{|| NIL}" )
+         AFill( aWhen[ 1 ], "{|| NIL}" )
       ENDIF
 
       aWhen[ 1 ][ nChoice ] := Trsf_cBlok( GetProperty( "BrwAdvanced", "TEXT_6", "VALUE" ) ) /* New Value */
@@ -3784,7 +3784,7 @@ FUNCTION Brw_SetTxtOHC( A3 AS STRING, aOldValues AS ARRAY )   /* {|| codeBlock }
       /* What happen if cOnHeadClick is "NIL" ? */
       IF Upper( cOnHeadClick ) == "NIL" .AND. Upper( aOnHeadClick ) == "NIL"
          aOnHeadClick := { Array( nLen ) }
-         aFill( aOnHeadClick[ 1 ], "{|| NIL}" )
+         AFill( aOnHeadClick[ 1 ], "{|| NIL}" )
       ENDIF
 
       aOnHeadClick[ 1, nChoice ] := Trsf_cBlok( GetProperty( "BrwAdvanced", "TEXT_7", "VALUE" ) ) /* New Value */
@@ -3917,7 +3917,7 @@ FUNCTION RDG3TXT1_STNL()
    BrwAdvanced.Text_1.SetFocus
 
    IF BrwAdvanced.RadioGroup_3.Value = 2
-      SetProperty( "BrwAdvanced", "TEXT_1", "VALUE", "{|| vcb" + AllTrim( STR( nFields ) ) + "}" )
+      SetProperty( "BrwAdvanced", "TEXT_1", "VALUE", "{|| vcb" + AllTrim( Str( nFields ) ) + "}" )
 
    ELSEIF BrwAdvanced.RadioGroup_3.Value = 3
       SetProperty( "BrwAdvanced", "TEXT_1", "VALUE", "{|| NIL}" )
@@ -3937,7 +3937,7 @@ FUNCTION RDG5TXT2_STNL()
    BrwAdvanced.Text_2.SetFocus
 
    IF BrwAdvanced.RadioGroup_5.Value = 2
-      SetProperty( "BrwAdvanced", "TEXT_2", "VALUE", "'Text" + AllTrim( STR( nFields ) ) + "'" )
+      SetProperty( "BrwAdvanced", "TEXT_2", "VALUE", "'Text" + AllTrim( Str( nFields ) ) + "'" )
 
    ELSEIF BrwAdvanced.RadioGroup_5.Value = 3
       SetProperty( "BrwAdvanced", "TEXT_2", "VALUE", "NIL" )
@@ -4027,7 +4027,7 @@ RETURN( NIL )
 FUNCTION OPEN_absw_hlpfl()
 *------------------------------------------------------------*
    LOCAL nHandle       AS NUMERIC := _HMG_aFormHandles[ GetFormIndex( "BrwAdvanced" ) ]
-   LOCAL cHelpFilename AS STRING  := SubStr( GetExeFilename(), 1, Rat( "\", GetExeFilename() ) ) + "ABSW.HLP"
+   LOCAL cHelpFilename AS STRING  := SubStr( GetExeFilename(), 1, RAt( "\", GetExeFilename() ) ) + "ABSW.HLP"
 
    /* ABSW.HLP must be allocated in *.exe folder */
    LOCAL nStyle        AS NUMERIC := 3   /* Needs Modification in file c_help.c - See Change */
@@ -4166,7 +4166,7 @@ FUNCTION MsgOptions( cWindowTitle, cWindowText, aButtonCaption )
    nTitleLenght  := Max( GetTextWidth(, cWindowTitle, GetFontHandle( "_Font_Options" ) ), nTitleLenght )
    aMyArray      := { { "cWindowTitle", nTitleLenght }, { "cWindowText", nTextLenght }, { "cButton", nBtnLenght } }
 
-   aSort( aMyArray,,, { | x, y | x[ 2 ] > y[ 2 ] } )
+   ASort( aMyArray,,, { | x, y | x[ 2 ] > y[ 2 ] } )
 
    nWindowWidth := aMyArray[ 1 ][ 2 ] + nSpaceLenght
    nBtnPosX     := int( ( nWindowWidth - nBtnLenght ) / 2 )
@@ -4185,7 +4185,7 @@ FUNCTION MsgOptions( cWindowTitle, cWindowText, aButtonCaption )
       nLabelPosX := int( ( nWindowWidth - nTextLenght ) / 2 )
 
       FOR nItem := 1 To Len( aButtonCaption )
-          aBtn[ nItem ] := "_Btn_" + Ltrim( Str( nItem ) )
+          aBtn[ nItem ] := "_Btn_" + LTrim( Str( nItem ) )
           cOption := aBtn[ nItem ]
           @ nBtnPosY, nBtnPosX BUTTON &cOption CAPTION aButtonCaption[ nItem ] WIDTH nBtnWidth HEIGHT 25 FONT "_Font_Options" ;
              ACTION ( cOption := GetProperty( "_Options", This.Name, "Caption" ), _Options.Release )
@@ -4205,7 +4205,7 @@ FUNCTION MsgOptions( cWindowTitle, cWindowText, aButtonCaption )
 
    RELEASE FONT _Font_Options
 
-RETURN( aScan( aButtonCaption, AllTrim( cOption ) ) )
+RETURN( AScan( aButtonCaption, AllTrim( cOption ) ) )
 
 
 *------------------------------------------------------------*
@@ -4222,7 +4222,7 @@ FUNCTION _splt_Text( cWindowText AS STRING )
    DO WHILE nNumber <> 0
       nNumber := AtNum( cString, cWindowText, 1 )
       IF nNumber > 0
-         aAdd( aText, SubStr( cWindowText, 1, nNumber - 1 ) )
+         AAdd( aText, SubStr( cWindowText, 1, nNumber - 1 ) )
          cWindowText := SubStr( cWindowText, nNumber + 2, nLen )
          nLen := Len( cWindowText )
       ENDIF
@@ -4236,12 +4236,12 @@ FUNCTION _splt_Text( cWindowText AS STRING )
       NEXT
    ELSE      /* Single Line Message */
       nTextLenght := Max( GetTextWidth(, cWindowText, GetFontHandle( "_Font_Options" ) ), nTextLenght )
-      aAdd( aText, cWindowText )
+      AAdd( aText, cWindowText )
    ENDIF
 
-   aAdd( aReturn, nTextLenght )
-   aAdd( aReturn, aText )
-   aAdd( aReturn, Len( aText ) )
+   AAdd( aReturn, nTextLenght )
+   AAdd( aReturn, aText )
+   AAdd( aReturn, Len( aText ) )
 
 RETURN( aReturn )
 
@@ -4309,6 +4309,3 @@ HB_FUNC ( SETTOOLTIPFONT )
 }
 
 #pragma enddump
-
-
-

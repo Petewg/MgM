@@ -9,7 +9,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  230
             HEIGHT 275
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE LABEL Label_1
             ROW    20
@@ -17,7 +17,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  60
             HEIGHT 20
             VALUE "Name:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_2
             ROW    50
@@ -25,7 +25,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  50
             HEIGHT 20
             VALUE "Caption:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_3
             ROW    80
@@ -33,7 +33,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  40
             HEIGHT 20
             VALUE "Picture:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_4
             ROW    110
@@ -41,7 +41,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  40
             HEIGHT 20
             VALUE "Tooltip:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_5
             ROW    200
@@ -49,7 +49,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  60
             HEIGHT 20
             VALUE "Separator:"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_1
             ROW    20
@@ -58,7 +58,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             HEIGHT 24
             ONCHANGE ToolbarNameChange()
             ONLOSTFOCUS ToolbarNameChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_2
             ROW    50
@@ -66,7 +66,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  120
             HEIGHT 24
             ONCHANGE toolbarvaluechange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_3
             ROW    80
@@ -74,7 +74,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  120
             HEIGHT 24
             ONCHANGE toolbarvaluechange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_4
             ROW    110
@@ -82,7 +82,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  120
             HEIGHT 24
             ONCHANGE toolbarvaluechange()
-     END TEXTBOX 
+     END TEXTBOX
 
     DEFINE BUTTON Button_1
            ROW    20
@@ -91,7 +91,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 28
            ACTION toolbarok(.f.)
            CAPTION "Ok"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_2
            ROW    60
@@ -100,7 +100,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 28
            ACTION toolbarcancel()
            CAPTION "Cancel"
-     END BUTTON  
+     END BUTTON
 
      DEFINE FRAME Frame_2
             ROW    299
@@ -108,7 +108,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  335
             HEIGHT 34
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
     DEFINE BUTTON Button_3
            ROW    300
@@ -117,7 +117,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 30
            ACTION toolbarup()
            PICTURE "BITMAP45"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_4
            ROW    300
@@ -126,7 +126,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 30
            ACTION toolbardown()
            PICTURE "BITMAP46"
-     END BUTTON  
+     END BUTTON
 
      DEFINE LABEL Label_6
             ROW    230
@@ -134,7 +134,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  70
             HEIGHT 20
             VALUE "AutoSize:"
-     END LABEL  
+     END LABEL
 
     DEFINE CHECKBOX Check_1
            ROW    170
@@ -143,7 +143,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 20
            CAPTION ""
            ONCHANGE toolbarvaluechange()
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_2
            ROW    200
@@ -152,7 +152,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 20
            CAPTION ""
            ONCHANGE toolbarvaluechange()
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_3
            ROW    230
@@ -161,7 +161,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 20
            CAPTION ""
            ONCHANGE toolbarvaluechange()
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE BUTTON Button_7
            ROW    300
@@ -170,7 +170,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 30
            ACTION toolbarnext()
            CAPTION "Next"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_8
            ROW    300
@@ -179,7 +179,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 30
            ACTION toolbarprior()
            CAPTION "Prior"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_9
            ROW    300
@@ -188,7 +188,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 30
            ACTION toolbarinsert()
            CAPTION "Insert"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_10
            ROW    300
@@ -197,7 +197,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 30
            ACTION toolbardelete()
            CAPTION "Delete"
-     END BUTTON  
+     END BUTTON
 
      DEFINE GRID Grid_1
             ROW    340
@@ -208,7 +208,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTHS { 100 }
             HEADERS {'BUTTONS'}
             ONCHANGE toolbarfillform()
-     END GRID  
+     END GRID
 
     DEFINE BUTTON Button_5
            ROW    250
@@ -217,7 +217,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 28
            ACTION toolbarprop()
            CAPTION "Properties..."
-     END BUTTON  
+     END BUTTON
 
      DEFINE LABEL Label_7
             ROW    260
@@ -225,7 +225,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  60
             HEIGHT 20
             VALUE "DropDown:"
-     END LABEL  
+     END LABEL
 
     DEFINE CHECKBOX Check_4
            ROW    260
@@ -234,7 +234,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 20
            CAPTION ""
            ONCHANGE ToolbarDropDownChange()
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE LABEL Label_8
             ROW    200
@@ -242,7 +242,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  70
             HEIGHT 25
             VALUE "W.DropDn:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_9
             ROW    230
@@ -250,7 +250,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  40
             HEIGHT 20
             VALUE "Check:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_10
             ROW    260
@@ -258,7 +258,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  60
             HEIGHT 20
             VALUE "Group:"
-     END LABEL  
+     END LABEL
 
     DEFINE CHECKBOX Check_5
            ROW    200
@@ -267,7 +267,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 20
            CAPTION ""
            ONCHANGE ToolbarWholeDropDownChange()
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_6
            ROW    230
@@ -276,7 +276,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 20
            CAPTION ""
            ONCHANGE toolbarvaluechange()
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_7
            ROW    260
@@ -285,7 +285,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
            HEIGHT 20
            CAPTION ""
            ONCHANGE toolbarvaluechange()
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE LABEL Label_11
             ROW    140
@@ -293,7 +293,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  40
             HEIGHT 24
             VALUE "Action:"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_5
             ROW    140
@@ -301,7 +301,7 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  120
             HEIGHT 24
             ONCHANGE toolbarvaluechange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE LABEL Label_12
             ROW    170
@@ -309,8 +309,6 @@ DEFINE WINDOW TEMPLATE AT 66 , 620 WIDTH 372 HEIGHT 503 TITLE "ToolBar Builder" 
             WIDTH  40
             HEIGHT 24
             VALUE "Adjust:"
-     END LABEL  
+     END LABEL
 
 END WINDOW
-
-

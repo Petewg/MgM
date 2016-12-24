@@ -26,9 +26,9 @@ DEFINE WINDOW TEMPLATE AT 154 , 2 WIDTH 280 HEIGHT 340 CHILD NOMINIMIZE NOSYSMEN
                TOOLTIP "Double Click To Edit"
                ONGOTFOCUS ( PgMpPos := 1, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
                ONDBLCLICK EditPrg()
-        END LISTBOX  
+        END LISTBOX
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Forms'
 
@@ -40,9 +40,9 @@ DEFINE WINDOW TEMPLATE AT 154 , 2 WIDTH 280 HEIGHT 340 CHILD NOMINIMIZE NOSYSMEN
                ITEMS {""}
                ONGOTFOCUS ( PgMpPos := 2, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
                ONDBLCLICK fLoadFmg()
-        END LISTBOX  
+        END LISTBOX
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Rc - Bat'
 
@@ -54,9 +54,9 @@ DEFINE WINDOW TEMPLATE AT 154 , 2 WIDTH 280 HEIGHT 340 CHILD NOMINIMIZE NOSYSMEN
                ITEMS {""}
                ONGOTFOCUS ( PgMpPos := 3, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
                ONDBLCLICK EditRC()
-        END LISTBOX  
+        END LISTBOX
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Reports'
 
@@ -68,9 +68,9 @@ DEFINE WINDOW TEMPLATE AT 154 , 2 WIDTH 280 HEIGHT 340 CHILD NOMINIMIZE NOSYSMEN
                ITEMS {""}
                ONGOTFOCUS ( PgMpPos := 4, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
                ONDBLCLICK LoadReport()
-        END LISTBOX  
+        END LISTBOX
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Tables'
 
@@ -82,12 +82,10 @@ DEFINE WINDOW TEMPLATE AT 154 , 2 WIDTH 280 HEIGHT 340 CHILD NOMINIMIZE NOSYSMEN
                ITEMS {""}
                ONGOTFOCUS ( PgMpPos := 5, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
                ONDBLCLICK AddTables()
-        END LISTBOX  
+        END LISTBOX
 
-    END PAGE 
+    END PAGE
 
-  END TAB 
+  END TAB
 
 END WINDOW
-
-

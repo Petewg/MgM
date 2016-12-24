@@ -368,7 +368,7 @@ FUNCTION _ControlPosCPropChange_
       ENDIF
    ENDIF
 
-   IF ! (( p := aScan( aProp, { | aa | aa[ 1 ] == cT } ) ) == 0 )
+   IF ! (( p := AScan( aProp, { | aa | aa[ 1 ] == cT } ) ) == 0 )
 
      IF ! ( ( opt := SubStr( aProp[ p, 2 ], Typ, 1 ) ) == '0')
         DO CASE
@@ -419,7 +419,7 @@ FUNCTION _ControlPosCPropChange_
            CASE typ == 8  //  FONT Size
                 v := AllTrim( Str( GetProperty( cF, cK, "FontSize" ) ) )
                 v := InputBox( "Input font size", "ControlPos", v )
-                IF _HMG_DialogCancelled .OR. (v:=VAL(v))<=0
+                IF _HMG_DialogCancelled .OR. (v:=Val(v))<=0
                    RETURN nil
                 ENDIF
 
@@ -452,7 +452,7 @@ FUNCTION _ControlPosCPropChange_
           ENDIF
        ENDIF
 
-       IF ( p := aScan( aProp,{ | aa | aa[ 1 ] == cT } ) ) == 0
+       IF ( p := AScan( aProp,{ | aa | aa[ 1 ] == cT } ) ) == 0
           LOOP
        ENDIF
 
@@ -571,12 +571,12 @@ FUNCTION _ControlPosMemberProp_(cF,cK,cProp,xVal)
       RETURN aChange
    ENDIF
 
-   cF    := UPPER( cF )
-   cK    := UPPER( cK )
-   cProp := UPPER( cProp )
+   cF    := Upper( cF )
+   cK    := Upper( cK )
+   cProp := Upper( cProp )
 
-   IF ( p := aScan( aChange, { | aa | aa[1] == cF .AND. aa[2] == cK .AND. aa[3] == cProp } ) ) == 0
-      aAdd( aChange, { cF, cK, cProp, xVal } )
+   IF ( p := AScan( aChange, { | aa | aa[1] == cF .AND. aa[2] == cK .AND. aa[3] == cProp } ) ) == 0
+      AAdd( aChange, { cF, cK, cProp, xVal } )
    ELSE
       aChange[ p, 4 ] := xVal
    ENDIF
@@ -679,11 +679,11 @@ FUNCTION _ControlPosListFormChange_()
             IF !("@"+Upper(_HMG_aControlType[i])+"@" $ "@HOTKEY@@MENU@@POPUP@@TOOLBAR@@TOOLBUTTON@@MESSAGEBAR@@ITEMMESSAGE@@TIMER@")
                p := Str(_HMG_aControlContainerRow[i]+1,4,0)
                p += Str(_HMG_aControlContainerCol[i]+1,4,0)
-               // p += str(PAGE_of_TAB)  I want include numer of PAGE in TAB , but I don't known how :(
+               // p += Str(PAGE_of_TAB)  I want include numer of PAGE in TAB , but I don't known how :(
                p += Str(Int(_HMG_aControlRow[i]/20), 4, 0 )
                                             //  ^^   round to 20 points lines
                p += Str(  _HMG_aControlCol[i], 4, 0 )
-               aAdd( ak,{ _HMG_aControlNames[i], p } )
+               AAdd( ak,{ _HMG_aControlNames[i], p } )
             ENDIF
          ENDIF
       NEXT
@@ -701,7 +701,7 @@ FUNCTION _ControlPosListFormChange_()
            IF !("@"+Upper(_HMG_aControlType[i])+"@" $ "@HOTKEY@@MENU@@POPUP@@TOOLBAR@@TOOLBUTTON@@MESSAGEBAR@@ITEMMESSAGE@@TIMER@")
               p := Str(_HMG_aControlContainerCol[i]+1,4,0)
               p += Str(_HMG_aControlContainerRow[i]+1,4,0)
-     // p += str(PAGE_of_TAB)  I want include numer of PAGE in TAB , but I don't known how :(
+     // p += Str(PAGE_of_TAB)  I want include numer of PAGE in TAB , but I don't known how :(
               p += Str(Int(_HMG_aControlCol[i]/20),4,0)
                                            //  ^^   round to 20 points lines
               p += Str(_HMG_aControlRow[i],4,0)
@@ -1078,7 +1078,7 @@ IF fr == NIL      //if unselected "FIRST"
   RETURN nil
 ENDIF
 
-IF LEN(ak)==0 .AND. typ < 14
+IF Len(ak)==0 .AND. typ < 14
   _ControlPos_._ControlPosCombo_.value := 1
   RETURN Nil
 ENDIF
@@ -1093,18 +1093,18 @@ formc:=GetProperty(cF,"COL")+GetBorderWidth()
 
 
 IF typ == 16    //EXTRA SAVE TO UNDO
-  aUndo:=ACLONE(ak)
+  aUndo:=AClone(ak)
   AAdd(aUndo,{_ControlPos_._ControlPosListControl_.Item( _ControlPosFirst_ ),fr,fc,fw,fh})
   _ControlPos_._ControlPosCombo_.value := 1
   RETURN nil
 ENDIF
 
 IF typ == 17    //UNDO LAST
-  FOR i:= 1 TO LEN(aUndo)
+  FOR i:= 1 TO Len(aUndo)
     _SetControlSizePos(aUndo[i,1], cF, aUndo[i,2],aUndo[i,3],aUndo[i,4],aUndo[i,5])
     hK:=GetControlHandle(aUndo[i,1],cF)
     IF ValType(hK)=="A"
-      FOR m1:= 1 TO LEN(hk)
+      FOR m1:= 1 TO Len(hk)
            GetWindowRect(hK[m1],aRect)
            MoveWindow(hK[m1],aRect[1]-sx-formc,aRect[2]-sy-formr,aRect[3]-aRect[1],aRect[4]-aRect[2],.T.)
       NEXT
@@ -1117,7 +1117,7 @@ IF typ == 17    //UNDO LAST
   _ControlPosListControlChange_()
   RETURN nil
 ELSE
-  aUndo := ACLONE(ak)
+  aUndo := AClone(ak)
   AAdd(aUndo,{_ControlPos_._ControlPosListControl_.Item( _ControlPosFirst_ ),fr,fc,fw,fh})
 ENDIF
 
@@ -1154,15 +1154,15 @@ DO CASE
      NEXT
 
   CASE typ == 8   //Stack HORIZONTAL    (jeden za drugim)
-     nSpace := InputBox("Input extra space","ControlPos",STR(nSpace))
-     IF (nSpace:=INT(VAL(nSpace)))<0 .OR. _HMG_DialogCancelled
+     nSpace := InputBox("Input extra space","ControlPos",Str(nSpace))
+     IF (nSpace:=INT(Val(nSpace)))<0 .OR. _HMG_DialogCancelled
         RETURN nil
      ENDIF
      nSpace:=INT(nSpace)
      ASort(ak,,,{|x,y|x[3] < y[3]})
      IF fc > ak[1,3]
         ASort(ak,,,{|x,y|x[3] > y[3]})
-        FOR i:= 1 TO LEN(ak)
+        FOR i:= 1 TO Len(ak)
            ak[i,3] := (fc:=fc - ak[i,4] - nSpace)
         NEXT
      ELSE
@@ -1174,15 +1174,15 @@ DO CASE
      ENDIF
 
   CASE typ == 9   //Stack VERTICAL
-     nSpace := InputBox("Input extra space","ControlPos",STR(nSpace))
-     IF (nSpace:=INT(VAL(nSpace)))<0 .OR. _HMG_DialogCancelled
+     nSpace := InputBox("Input extra space","ControlPos",Str(nSpace))
+     IF (nSpace:=INT(Val(nSpace)))<0 .OR. _HMG_DialogCancelled
         RETURN nil
      ENDIF
      nSpace:=INT(nSpace)
      ASort(ak,,,{|x,y|x[2] < y[2]})
      IF fr > ak[1,2]
        ASort(ak,,,{|x,y|x[2] > y[2]})
-       FOR i:=1 TO LEN(ak)
+       FOR i:=1 TO Len(ak)
           ak[i,2] := (fr:=fr - ak[i,5] - nSpace)
        NEXT
      ELSE
@@ -1198,13 +1198,13 @@ DO CASE
      IF fc > ak[1,3]
         ASort(ak,,,{|x,y|x[3] > y[3]})
         fh := fc - ak[Len(ak),3] - ak[Len(ak),4]
-        FOR i:=1 TO LEN(ak)-1
+        FOR i:=1 TO Len(ak)-1
            fh := fh - ak[i,4]
         NEXT
         fh := fh / Len(ak)
         fr := fc - ak[1,4] - fh
-        FOR i:=1 TO LEN(ak)-1
-          ak[i,3] := ROUND(fr ,0)
+        FOR i:=1 TO Len(ak)-1
+          ak[i,3] := Round(fr ,0)
           fr := fr - ak[i+1,4] - fh
         NEXT
      ELSE
@@ -1224,7 +1224,7 @@ DO CASE
      ASort(ak,,,{|x,y|x[2] < y[2]})
      IF fr > ak[1,2]
        ASort(ak,,,{|x,y|x[2] > y[2]})
-       fw := fr - ak[LEN(ak),2] - ak[LEN(ak),5]
+       fw := fr - ak[Len(ak),2] - ak[Len(ak),5]
        FOR i:= 1 TO Len(ak)-1
           fw := fw - ak[i,5]
        NEXT
@@ -1261,8 +1261,8 @@ DO CASE
      m1:=fr
      m2:=fr+fh
      FOR i:= 1 TO Len(ak)
-        m1:=MIN(m1,ak[i,2])
-        m2:=MAX(m2,ak[i,2]+ak[i,5])
+        m1:=Min(m1,ak[i,2])
+        m2:=Max(m2,ak[i,2]+ak[i,5])
      NEXT
      m2:=INT((GetProperty(cF,"HEIGHT") - m2 + m1)/2)
      m1:=m1-m2
@@ -1272,7 +1272,7 @@ DO CASE
      _SetControlSizePos(_ControlPos_._ControlPosListControl_.Item( _ControlPosFirst_ ), cF, fr-m1,fc,fw,fh)
      hK:=GetControlHandle(_ControlPos_._ControlPosListControl_.Item( _ControlPosFirst_ ),cF)
      IF ValType(hK)=="A"
-       FOR m2:= 1 TO LEN(hk)
+       FOR m2:= 1 TO Len(hk)
             GetWindowRect(hK[m2],aRect)
             MoveWindow(hK[m1],aRect[1]-sx-formc,aRect[2]-sy-formr,aRect[3]-aRect[1],aRect[4]-aRect[2],.T.)
        NEXT
@@ -1284,8 +1284,8 @@ DO CASE
      m1:=fc
      m2:=fc+fw
      FOR i:= 1 TO Len(ak)
-        m1:=MIN(m1,ak[i,3])
-        m2:=MAX(m2,ak[i,3]+ak[i,4])
+        m1:=Min(m1,ak[i,3])
+        m2:=Max(m2,ak[i,3]+ak[i,4])
      NEXT
      m2:=INT((GetProperty(cF,"WIDTH") - m2 + m1)/2)
      m1:=m1-m2
@@ -1295,7 +1295,7 @@ DO CASE
      _SetControlSizePos(_ControlPos_._ControlPosListControl_.Item( _ControlPosFirst_ ), cF, fr, fc-m1,fw,fh)
      hK:=GetControlHandle(_ControlPos_._ControlPosListControl_.Item( _ControlPosFirst_ ),cF)
      IF ValType(hK)=="A"
-       FOR m2:= 1 TO LEN(hk)
+       FOR m2:= 1 TO Len(hk)
             GetWindowRect(hK[m2],aRect)
             MoveWindow(hK[m1],aRect[1]-sx-formc,aRect[2]-sy-formr,aRect[3]-aRect[1],aRect[4]-aRect[2],.T.)
        NEXT
@@ -1308,7 +1308,7 @@ FOR i:= 1 TO Len(ak)
   _SetControlSizePos(ak[i,1], cF, ak[i,2],ak[i,3],ak[i,4],ak[i,5])
   hK:=GetControlHandle(ak[i,1],cF)
   IF ValType(hK)=="A"
-    FOR m1:= 1 TO LEN(hk)
+    FOR m1:= 1 TO Len(hk)
          GetWindowRect(hK[m1],aRect)
          MoveWindow(hK[m1],aRect[1]-sx-formc,aRect[2]-sy-formr,aRect[3]-aRect[1],aRect[4]-aRect[2],.T.)
     NEXT
@@ -1426,7 +1426,7 @@ DEFINE WINDOW _ControlPos_Save_ AT 250 , 371 WIDTH 390 HEIGHT 298 TITLE "SAVE Co
 END WINDOW
 
 
-_ControlPos_Save_._ControlPos_Save_Type_.Value      :=  ABS(_ControlPos_Save_Option_[1])
+_ControlPos_Save_._ControlPos_Save_Type_.Value      :=  Abs(_ControlPos_Save_Option_[1])
 _ControlPos_Save_._ControlPos_Save_OnlySel_.Value   :=  _ControlPos_Save_Option_[2]
 _ControlPos_Save_._ControlPos_Save_ColWidth_.Value  :=  _ControlPos_Save_Option_[3]
 _ControlPos_Save_._ControlPos_Save_FormPos_.Value   :=  _ControlPos_Save_Option_[4]
@@ -1544,7 +1544,7 @@ FUNCTION _ControlPosSaveToMyFile_()
      ww := AllTrim(Str(GetProperty(cF,cK,"WIDTH"),5,0))
      hh := AllTrim(Str(GetProperty(cF,cK,"HEIGHT"),5,0))
      ct := _HMG_aControlType[x]
-     j  := aScan(at,{|aa|aa[1]==ct})    //change internal type to DEFINE type
+     j  := AScan(at,{|aa|aa[1]==ct})    //change internal type to DEFINE type
 
      IF j>0                          // !!! WHY IT IS DIFFERENCE !!!
        ct := at[j,2]
@@ -1587,8 +1587,8 @@ FUNCTION _ControlPosSaveToMyFile_()
         ENDIF
 
         p := 1
-        DO WHILE ( p := aScan( aProp, { | aa | aa[ 1 ] == Upper( cF ) .AND. aa[ 2 ] == Upper( cK ) }, p ) ) > 0
-           // MsgBox(str(p))
+        DO WHILE ( p := AScan( aProp, { | aa | aa[ 1 ] == Upper( cF ) .AND. aa[ 2 ] == Upper( cK ) }, p ) ) > 0
+           // MsgBox(Str(p))
            ss += _ControlPosWriteProp_( aProp[ p, 3 ], aProp[ p, 4 ], ct ) + cr
            p++
         ENDDO
@@ -1606,7 +1606,7 @@ FUNCTION _ControlPosSaveToMyFile_()
      ww := AllTrim( Str(GetProperty( cF, cK, "WIDTH"  ), 5, 0 ) )
      hh := AllTrim( Str(GetProperty( cF, cK, "HEIGHT" ), 5, 0 ) )
      ct := _HMG_aControlType[ x ]
-     j  := aScan( at,{ | aa | aa[ 1 ] == ct } )    //change internal type to DEFINE type
+     j  := AScan( at,{ | aa | aa[ 1 ] == ct } )    //change internal type to DEFINE type
 
      IF j > 0
        ct := At[ j, 2 ]
@@ -1639,7 +1639,7 @@ FUNCTION _ControlPosSaveToMyFile_()
            wws += "}"
            ss  += crs + "      WIDTHS " + wws
      ENDIF
-     DO WHILE ( p := aScan( aProp, { | aa | aa[ 1 ] == Upper( cF ) .AND. aa[ 2 ] == Upper( cK ) }, p ) ) > 0
+     DO WHILE ( p := AScan( aProp, { | aa | aa[ 1 ] == Upper( cF ) .AND. aa[ 2 ] == Upper( cK ) }, p ) ) > 0
         ss += crs + _ControlPosWriteProp_( aProp[ p, 3 ], aProp[ p, 4 ], ct, .T. )
         p++
      ENDDO
@@ -1648,15 +1648,15 @@ FUNCTION _ControlPosSaveToMyFile_()
 
    ss += "//end file" + cr
 
-   nF := fCreate( cFile, 0 )
+   nF := FCreate( cFile, 0 )
 
    IF nF == -1
       MsgStop("Can't create file"+cr+cFile,"Error")
       RETURN nil
    ENDIF
 
-   fWrite( nF, ss )
-   fClose( nf )
+   FWrite( nF, ss )
+   FClose( nf )
 
 RETURN NIL
 
@@ -1686,20 +1686,20 @@ FUNCTION _ControlPosWriteProp_(cProp,xVal,cTyp,lMGIDE)
      IF cProp=="FONTNAME"
         cProp:="FONT"
      ELSEIF !(cProp=="FONTCOLOR")
-        cProp:=SUBSTR(cProp,5)
+        cProp:=SubStr(cProp,5)
      ENDIF
    ENDIF
 
    IF ValType(xVal)=="N"
-      ret:=ALLTRIM(STR(xVal))
-      DO WHILE "."$ret .AND. RIGHT(ret,1)$"0."
-          ret :=LEFT(ret,LEN(ret)-1)
+      ret:=AllTrim(Str(xVal))
+      DO WHILE "."$ret .AND. Right(ret,1)$"0."
+          ret :=Left(ret,Len(ret)-1)
       ENDDO
    ELSEIF ValType(xVal)=="A"
       ret:= "{ "
       FOR i:= 1 TO LEN (xVal)
-         ret += ALLTRIM(STR(xVal[i]))
-         IF i < LEN(xVal)
+         ret += AllTrim(Str(xVal[i]))
+         IF i < Len(xVal)
             ret += " , "
          ENDIF
       NEXT
@@ -1767,7 +1767,7 @@ FUNCTION _ControlPos_ModFMG_()
                 {"TIMEPICK","TIMEPICKER"}}
 
    cFile := GetFile({{"IDE FORM definition (*.fmg)","*.fmg"},{"Program source files (*.prg)","*.prg"}},"Open FORM definition for template",GetCurrentFolder())
-   IF EMPTY(cFile)
+   IF Empty(cFile)
      RETURN nil
    ENDIF
    // MsgBox( cFileNoExt( cFile ) + iif( Upper( Right( cFile, 3 ) ) == "PRG", ".prm", ".fmm" ) )
@@ -1782,31 +1782,31 @@ FUNCTION _ControlPos_ModFMG_()
      ENDIF
    ENDIF
 
-   IF (nF := FOPEN(cFile)) == -1
+   IF (nF := FOpen(cFile)) == -1
      RETURN nil
    ENDIF
 
-   DO WHILE (l:=FREAD(nF,@buff,128)) > 0
-     ss += LEFT(buff,l)
+   DO WHILE (l:=FRead(nF,@buff,128)) > 0
+     ss += Left(buff,l)
    ENDDO
-   FCLOSE(nF)
+   FClose(nF)
 
 
    // Change CR+LF -> LF
-   IF AT(cr,ss) > 0
+   IF At(cr,ss) > 0
      lCR:=.T.                    //member to back LF -> CR+LF
-     ss:=STRTRAN(ss,cr,CHR(10))
+     ss:=StrTran(ss,cr,Chr(10))
    ENDIF
    // add LF before and after for easy search
-   ss:=CHR(10)+ss+CHR(10)
+   ss:=Chr(10)+ss+Chr(10)
 
 
    cF := _ControlPos_._ControlPosListForm_.Item( _ControlPos_._ControlPosListForm_.value )
    cK := _ControlPos_._ControlPosListControl_.Item(1)  //one of control
 
    // Get only DEFINE WINDOW Name|TEMPLATE ... OneOfControl ... END WINDOW
-   reg := HB_RegexComp("(?si)(.*[ \t\n])(DEFINE[ \t]+WINDOW[ \t]+)("+cF+"|TEMPLATE)([ ;\t]+.+?"+cK+".+?\n[ \t\]*END[ \t]+WINDOW)([ \t\n].*)")
-   aMatch := HB_Regex(reg,ss)
+   reg := hb_regexComp("(?si)(.*[ \t\n])(DEFINE[ \t]+WINDOW[ \t]+)("+cF+"|TEMPLATE)([ ;\t]+.+?"+cK+".+?\n[ \t\]*END[ \t]+WINDOW)([ \t\n].*)")
+   aMatch := hb_regex(reg,ss)
 
    IF ValType(aMatch) == "A"
       s1 := aMatch[2]                       //before
@@ -1814,7 +1814,7 @@ FUNCTION _ControlPos_ModFMG_()
       s2 := aMatch[6]                       //after
    ELSE
       IF !MsgYesNo("Can't find '... DEFINE WINDOW "+cF+ "/TEMPLATE ..."+cr+"Continue?")
-   //   IF ALERT("Can't find '... DEFINE WINDOW "+cF+ "/TEMPLATE ...;Continue?",{"YES","No"})!=1
+   //   IF Alert("Can't find '... DEFINE WINDOW "+cF+ "/TEMPLATE ...;Continue?",{"YES","No"})!=1
          RETURN nil
       ENDIF
    ENDIF
@@ -1827,8 +1827,8 @@ FUNCTION _ControlPos_ModFMG_()
    hh := AllTrim(Str(GetProperty(cF,"HEIGHT"),5,0))
 
    IF _ControlPos_Save_Option_[4]      //save Form position    ROW and COL
-     reg := HB_RegexComp("(?si)(.*?[ \t\n]AT[ \t]+)(\d[\d.+\-*/()]*)([ \t]*,[ \t]*)(\d[\d.+\-*/()]*)([ \t\n;].*)")
-     aMatch := HB_Regex(reg,ss)
+     reg := hb_regexComp("(?si)(.*?[ \t\n]AT[ \t]+)(\d[\d.+\-*/()]*)([ \t]*,[ \t]*)(\d[\d.+\-*/()]*)([ \t\n;].*)")
+     aMatch := hb_regex(reg,ss)
      IF ValType(aMatch) == "A"
         ss := aMatch[2]+rr+aMatch[4]+cc+aMatch[6]
      ELSE
@@ -1840,8 +1840,8 @@ FUNCTION _ControlPos_ModFMG_()
 
    IF _ControlPos_Save_Option_[5]      //save Form size
       // WIDTH                   2                      3         4
-      reg := HB_RegexComp("(?si)(.*?[ \t\n]WIDTH[ \t]+)(\d[\d.+\-*/()]*)([ \t\n;].*)")
-      aMatch := HB_Regex(reg,ss)
+      reg := hb_regexComp("(?si)(.*?[ \t\n]WIDTH[ \t]+)(\d[\d.+\-*/()]*)([ \t\n;].*)")
+      aMatch := hb_regex(reg,ss)
       IF ValType(aMatch) == "A"
          ss := aMatch[2]+ww+aMatch[4]
       ELSE
@@ -1850,8 +1850,8 @@ FUNCTION _ControlPos_ModFMG_()
          ENDIF
       ENDIF
       // HEIGHT
-      reg := HB_RegexComp("(?si)(.*?[ \t\n]HEIGHT[ \t]+)(\d[\d.+\-*/()]*)([ \t\n;].*)")
-      aMatch := HB_Regex(reg,ss)
+      reg := hb_regexComp("(?si)(.*?[ \t\n]HEIGHT[ \t]+)(\d[\d.+\-*/()]*)([ \t\n;].*)")
+      aMatch := hb_regex(reg,ss)
       IF ValType(aMatch) == "A"
          ss := aMatch[2]+hh+aMatch[4]
       ELSE
@@ -1864,14 +1864,14 @@ FUNCTION _ControlPos_ModFMG_()
    as := _ControlPos_._ControlPosListControl_.Value
    FOR i:= 1 TO _ControlPos_._ControlPosListControl_.ItemCount
      IF _ControlPos_Save_Option_[2]      //save only selected controls
-       IF aScan(as,i) == 0      //not selected
+       IF AScan(as,i) == 0      //not selected
           LOOP              //next
        ENDIF
      ENDIF
      cK := _ControlPos_._ControlPosListControl_.Item(i)
      x := GetControlIndex (cK,cF)
      cT := _HMG_aControlType[x]
-     j:=aScan(at,{|aa|aa[1]==cT})    //change internal type to DEFINE type
+     j:=AScan(at,{|aa|aa[1]==cT})    //change internal type to DEFINE type
      IF j>0
        cT := at[j,2]
      ENDIF
@@ -1888,8 +1888,8 @@ FUNCTION _ControlPos_ModFMG_()
 
      IF "@"+cT+"@" $ "@TAB@TREE@"
        //find control definition
-       reg := HB_RegexComp("(?si)(.*)(DEFINE[ \t]+"+cT+"[ \t]+"+cK+"[ \t;].*?[^;])([ \t]*\n.*)")
-       aMatch := HB_Regex(reg,ss)
+       reg := hb_regexComp("(?si)(.*)(DEFINE[ \t]+"+cT+"[ \t]+"+cK+"[ \t;].*?[^;])([ \t]*\n.*)")
+       aMatch := hb_regex(reg,ss)
 
        IF ValType(aMatch) == "A"
           sF1 := aMatch[2]
@@ -1907,8 +1907,8 @@ FUNCTION _ControlPos_ModFMG_()
      ELSE  // not TAB or TREE
        //find control definition
        // first as syntaxt:  @ row,col TYPE NAME ... [;LF] ...
-       reg := HB_RegexComp("(?si)(.*)(@.+?,.+?[ \t]+"+cT+"[ \t]+"+cK+")([ \t]*\n|[ \t;].*?[^;])([ \t]*\n.*)")
-       aMatch := HB_Regex(reg,ss)
+       reg := hb_regexComp("(?si)(.*)(@.+?,.+?[ \t]+"+cT+"[ \t]+"+cK+")([ \t]*\n|[ \t;].*?[^;])([ \t]*\n.*)")
+       aMatch := hb_regex(reg,ss)
 
        IF ValType(aMatch) == "A"
           sF1 := aMatch[2]
@@ -1916,8 +1916,8 @@ FUNCTION _ControlPos_ModFMG_()
           sF2 := aMatch[5]
           DefType:=2
        ELSE  //try find as syntaxt: DEFINE TYPE NAME {LF} ...{LF} ... END TYPE
-          reg := HB_RegexComp("(?si)(.*)(DEFINE[ \t]+"+cT+"[ \t]+"+cK+"\s.*?)(\n[ \t]*END[ \t]"+cT+".*)")
-          aMatch := HB_Regex(reg,ss)
+          reg := hb_regexComp("(?si)(.*)(DEFINE[ \t]+"+cT+"[ \t]+"+cK+"\s.*?)(\n[ \t]*END[ \t]"+cT+".*)")
+          aMatch := hb_regex(reg,ss)
 
           IF ValType(aMatch) == "A"
              sF1 := aMatch[2]
@@ -1926,7 +1926,7 @@ FUNCTION _ControlPos_ModFMG_()
              DefType:=1
           ELSE
              IF !MsgYesNo( "Can't find '...@ | DEFINE " + cT + " " + cK + " ... " + CRLF + "Continue ?" )
-            // IF ALERT("Can't find '... @ | DEFINE "+cT+" "+cK+" ... ;Continue ?",{"YES","No"})!=1
+            // IF Alert("Can't find '... @ | DEFINE "+cT+" "+cK+" ... ;Continue ?",{"YES","No"})!=1
                 RETURN nil
              ENDIF
              LOOP
@@ -1939,9 +1939,9 @@ FUNCTION _ControlPos_ModFMG_()
    NEXT
 
    ss := s1 + ss + s2            //join
-   ss := SUBSTR(ss,2,LEN(ss)-2)  //delete added CHR(10)
+   ss := SubStr(ss,2,Len(ss)-2)  //delete added Chr(10)
    IF lCR
-     ss := STRTRAN( ss, CHR(10), cr )     //back LF -> CR+LF
+     ss := StrTran( ss, Chr(10), cr )     //back LF -> CR+LF
    ENDIF
 
    nF2 := FCreate(cFile2,0)
@@ -1950,8 +1950,8 @@ FUNCTION _ControlPos_ModFMG_()
       RETURN nil
    ENDIF
 
-   fWrite(nF2,ss)
-   fClose(nF2)
+   FWrite(nF2,ss)
+   FClose(nF2)
 
 RETURN nil
 
@@ -1979,8 +1979,8 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
 
    //get indent
    IF type == 1
-      reg := HB_RegexComp("(?si)(.+?\n)([ \t]*)(.*)")
-      aM  := HB_Regex( reg, sK )
+      reg := hb_regexComp("(?si)(.+?\n)([ \t]*)(.*)")
+      aM  := hb_regex( reg, sK )
 
       IF ValType( aM ) == "A"
         indent := Chr( 10 ) + aM[ 3 ]
@@ -1988,8 +1988,8 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
         indent := Chr( 10 )
       ENDIF
    ELSE
-      reg := HB_RegexComp( "(?si)(.+?;[ \t]*)(\n[ \t]*)(.*)" )
-      aM  := HB_Regex( reg, sK )
+      reg := hb_regexComp( "(?si)(.+?;[ \t]*)(\n[ \t]*)(.*)" )
+      aM  := hb_regex( reg, sK )
 
       IF ValType(aM) == "A"
          indent := ";" + aM[3]
@@ -2001,11 +2001,11 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
    // Check for AUTOSIZE in LABEL or HYPERLINK
    IF "@" + cT + "@" $ "@LABEL@HYPERLINK@"
      IF Type == 1
-        reg := HB_RegexComp("(?si)(.+[ \t\n]AUTOSIZE[ \t]+)(\.T\.)(.*)")
+        reg := hb_regexComp("(?si)(.+[ \t\n]AUTOSIZE[ \t]+)(\.T\.)(.*)")
      ELSE
-        reg := HB_RegexComp("(?si)(.+[ \t\n]AUTOSIZE[ \t;]+)(.*)")
+        reg := hb_regexComp("(?si)(.+[ \t\n]AUTOSIZE[ \t;]+)(.*)")
      ENDIF
-     aM := HB_Regex( reg, sK )
+     aM := hb_regex( reg, sK )
      IF ValType( aM ) == "A"
         lAutosize := .T.
      ENDIF
@@ -2016,8 +2016,8 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
       FOR i := 1 TO 2
 
           cP  := { "ROW", "COL", "WIDTH", "HEIGHT" }[ i ]
-          reg := HB_RegexComp( "(?si)(.+[ \t\n]" + cP + "[ \t]+)(\d[\d.+\-*/()]*)(.*)" )
-          aM  := HB_Regex( reg, sK )
+          reg := hb_regexComp( "(?si)(.+[ \t\n]" + cP + "[ \t]+)(\d[\d.+\-*/()]*)(.*)" )
+          aM  := hb_regex( reg, sK )
 
           IF ValType( aM ) == "A"
              sK := aM[ 2 ] + aSize[ i ] + aM[ 4 ]
@@ -2027,8 +2027,8 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
       NEXT
 
    ELSEIF Type == 2
-      reg := HB_RegexComp( "(?si)(@[ \t]*)(\d[\d.+\-*/()]*)([ \t]*,[ \t]*)(\d[\d.+\-*/()]*)(.*)" ) //aa
-      aM  := HB_Regex( reg, sK )
+      reg := hb_regexComp( "(?si)(@[ \t]*)(\d[\d.+\-*/()]*)([ \t]*,[ \t]*)(\d[\d.+\-*/()]*)(.*)" ) //aa
+      aM  := hb_regex( reg, sK )
       IF ValType( aM ) == "A"
          sK := aM[ 2 ] + aSize[ 1 ] + aM[ 4 ] + aSize[ 2 ] + aM[ 6 ]
       ELSE
@@ -2037,8 +2037,8 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
          ENDIF
       ENDIF
    ELSE  //type == 3
-      reg := HB_RegexComp( "(?si)(.*?[ \t\n]AT[ \t]+)(\d[\d.+\-*/()]*)([ \t]*,[ \t]*)(\d[\d.+\-*/()]*)(.*)" )
-      aM  := HB_Regex( reg, sK )
+      reg := hb_regexComp( "(?si)(.*?[ \t\n]AT[ \t]+)(\d[\d.+\-*/()]*)([ \t]*,[ \t]*)(\d[\d.+\-*/()]*)(.*)" )
+      aM  := hb_regex( reg, sK )
       IF ValType(aM) == "A"
          sK := aM[ 2 ] + aSize[ 1 ] + aM[ 4 ] + aSize[ 2 ] + aM[ 6 ]
       ELSE
@@ -2053,8 +2053,8 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
       FOR i := 3 TO 4
 
           cP  := { "ROW", "COL", "WIDTH", "HEIGHT" }[ i ]
-          reg := HB_RegexComp( "(?si)(.+[ \t\n]" + cP + "[ \t]+)(\d[\d.+\-*/()]*)(.*)" )
-          aM  := HB_Regex( reg, sK )
+          reg := hb_regexComp( "(?si)(.+[ \t\n]" + cP + "[ \t]+)(\d[\d.+\-*/()]*)(.*)" )
+          aM  := hb_regex( reg, sK )
 
           IF ValType( aM ) == "A"
              sK := aM[ 2 ] + aSize[ i ] + aM[ 4 ]
@@ -2076,8 +2076,8 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
       NEXT
 
       wws += "}"
-      reg := HB_RegexComp( "(?si)(.+[ \t\n]WIDTHS[ \t]+?)(\{.+?\})(.*)" )
-      aM  := HB_Regex( reg, sK )
+      reg := hb_regexComp( "(?si)(.+[ \t\n]WIDTHS[ \t]+?)(\{.+?\})(.*)" )
+      aM  := hb_regex( reg, sK )
 
       IF ValType( aM ) == "A"
          sK := aM[2] + wws + aM[ 4 ]
@@ -2089,7 +2089,7 @@ FUNCTION _ControlPos_ModFMGCon_( cF, cK, cT, sK, type )
 
    // another modifed PROPERTIES
    i := 1
-   DO WHILE ( i := aScan( aProp,{ |aa| aa[ 1 ] == Upper( cF ) .AND. aa[ 2 ] == Upper( cK ) }, i ) ) > 0
+   DO WHILE ( i := AScan( aProp,{ |aa| aa[ 1 ] == Upper( cF ) .AND. aa[ 2 ] == Upper( cK ) }, i ) ) > 0
       sK := _ControlPos_ModFMGProp_( aProp[i,3], aProp[ i, 4 ], cT, sK, Type, indent )
       i++
    ENDDO
@@ -2110,22 +2110,22 @@ FUNCTION _ControlPos_ModFMGProp_( cProp, xVal, cTyp, sK, type, indent )
      IF cProp=="FONTNAME"
         cP:="FONT"
      ELSE
-        cP:=SUBSTR(cProp,5)
+        cP:=SubStr(cProp,5)
      ENDIF
    ENDIF
 
    IF type==1 .OR. !(cProp=="ALIGN")
       IF ValType(xVal)=="N"
-         cV:=ALLTRIM(STR(xVal))
-         DO WHILE "."$cV .AND. RIGHT(cV,1)$"0."
-             cV :=LEFT(cV,LEN(cV)-1)
+         cV:=AllTrim(Str(xVal))
+         DO WHILE "."$cV .AND. Right(cV,1)$"0."
+             cV :=Left(cV,Len(cV)-1)
          ENDDO
          cS := "[+-]?\d[\d.]*"
       ELSEIF ValType(xVal)=="A"
          cV:= "{ "
          FOR i:= 1 TO LEN (xVal)
-            cV += ALLTRIM(STR(xVal[i]))
-            IF i < LEN(xVal)
+            cV += AllTrim(Str(xVal[i]))
+            IF i < Len(xVal)
                cV += " , "
             ENDIF
          NEXT
@@ -2150,27 +2150,27 @@ FUNCTION _ControlPos_ModFMGProp_( cProp, xVal, cTyp, sK, type, indent )
             IF xVal=="L"
                cP := "LEFTJUSTIFY"
                cS := "\.[TF]\."
-               reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
+               aM := hb_regex(reg,sK)
                IF ValType(aM) == "A"
                   sK := aM[2]+".T."+aM[4]
                ELSE
                   sK := sK + indent + cP +" .T."
                ENDIF
             ELSE  // "R"
-               reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
+               aM := hb_regex(reg,sK)
                IF ValType(aM) == "A"
                   sK := aM[2]+".F."+aM[4]
    //            ELSE
-   //               sK := sK + CHR(10) + indent + cP +" .F."
+   //               sK := sK + Chr(10) + indent + cP +" .F."
                ENDIF
             ENDIF
          ELSE   // LABEL
             cP := "RIGHTALIGN"
             cS := "\.[TF]\."
-            reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
-            aM := HB_Regex(reg,sK)
+            reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
+            aM := hb_regex(reg,sK)
             IF ValType(aM) == "A"
                sK := aM[2]+IIF(xVal=="R",".T.",".F.")+aM[4]
             ELSE
@@ -2180,8 +2180,8 @@ FUNCTION _ControlPos_ModFMGProp_( cProp, xVal, cTyp, sK, type, indent )
             ENDIF
             cP := "CENTERALIGN"
             cS := "\.[TF]\."
-            reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
-            aM := HB_Regex(reg,sK)
+            reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
+            aM := hb_regex(reg,sK)
             IF ValType(aM) == "A"
                sK := aM[2]+IIF(xVal=="C",".T.",".F.")+aM[4]
             ELSE
@@ -2191,8 +2191,8 @@ FUNCTION _ControlPos_ModFMGProp_( cProp, xVal, cTyp, sK, type, indent )
             ENDIF
          ENDIF
       ELSE  // not ALIGN
-        reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
-        aM := HB_Regex(reg,sK)
+        reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
+        aM := hb_regex(reg,sK)
         IF ValType(aM) == "A"
            sK := aM[2]+cV+aM[4]
         ELSE
@@ -2204,14 +2204,14 @@ FUNCTION _ControlPos_ModFMGProp_( cProp, xVal, cTyp, sK, type, indent )
          IF "@"+cTyp+"@" $ "@CHECKBOX@RADIOGROUP@"
             IF xVal=="L"
                cP := "LEFTJUSTIFY"
-               reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF !(ValType(aM) == "A")
                   sK := sK + indent + cP
                ENDIF
             ELSE  // "R"                  2   3                       4       5        6
-               reg := HB_RegexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF ValType(aM) == "A"     //delete property
                   sK := aM[2]+aM[5]+aM[6]
                ENDIF
@@ -2219,40 +2219,40 @@ FUNCTION _ControlPos_ModFMGProp_( cProp, xVal, cTyp, sK, type, indent )
          ELSE   // LABEL
             IF xVal=="L"
                cP := "RIGHTALIGN"        //to delete
-               reg := HB_RegexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF ValType(aM) == "A"
                   sK := aM[2]+aM[5]+aM[6]
                ENDIF
                cP := "CENTERALIGN"       //to delete
-               reg := HB_RegexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF ValType(aM) == "A"
                   sK := aM[2]+aM[5]+aM[6]
                ENDIF
             ELSEIF xVal == "R"
                cP := "RIGHTALIGN"        //to insert
-               reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF !(ValType(aM) == "A")
                   sK := sK + indent + cP
                ENDIF
                cP := "CENTERALIGN"       //to delete
-               reg := HB_RegexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF ValType(aM) == "A"
                   sK := aM[2]+aM[5]+aM[6]
                ENDIF
             ELSE    // "C"
                cP := "RIGHTALIGN"        //to delete
-               reg := HB_RegexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF ValType(aM) == "A"
                   sK := aM[2]+aM[5]+aM[6]
                ENDIF
                cP := "CENTERALIGN"       //to insert
-               reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
-               aM := HB_Regex(reg,sK)
+               reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
+               aM := hb_regex(reg,sK)
                IF !(ValType(aM) == "A")
                   sK := sK + indent + cP
                ENDIF
@@ -2261,21 +2261,21 @@ FUNCTION _ControlPos_ModFMGProp_( cProp, xVal, cTyp, sK, type, indent )
       ELSEIF "FONT"$cProp .AND. !(cProp=="FONTNAME") .AND. !(cProp=="FONTCOLOR")
          // bold,italic,undeline,strikeout
          IF xVal   //insert property
-            reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
-            aM := HB_Regex(reg,sK)
+            reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+")([ \t;]|$)(.*)")
+            aM := hb_regex(reg,sK)
             IF !(ValType(aM) == "A")
                sK := sK + indent + cP
             ENDIF
          ELSE      //delete property
-            reg := HB_RegexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
-            aM := HB_Regex(reg,sK)
+            reg := hb_regexComp("(?si)(.*)([ \t]+|;[ \t]*\n[ \t]*)("+cP+")([ \t;]|$)(.*)")
+            aM := hb_regex(reg,sK)
             IF ValType(aM) == "A"
                sK := aM[2]+aM[5]+aM[6]
             ENDIF
          ENDIF
       ELSE  // property with value
-        reg := HB_RegexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
-        aM := HB_Regex(reg,sK)
+        reg := hb_regexComp("(?si)(.+[ \t\n]"+cP+"[ \t]+)(nil|"+cS+")(.*)")
+        aM := hb_regex(reg,sK)
         IF ValType(aM) == "A"
            sK := aM[2]+cV+aM[4]
         ELSE
@@ -2292,7 +2292,7 @@ RETURN sK
 FUNCTION _ControlPosAddDelGraph_(window,cAction)
 *------------------------------------------------------------*
   Local w := GetFormIndex ( window )
-  Local nLast := LEN( _HMG_aFormGraphTasks[w] )
+  Local nLast := Len( _HMG_aFormGraphTasks[w] )
   LOCAL i
 
   STATIC myGraph := {}
@@ -2300,38 +2300,38 @@ FUNCTION _ControlPosAddDelGraph_(window,cAction)
   IF cAction == NIL
      cAction := "A"
   ELSE
-    cAction := UPPER(LEFT(cAction,1))
+    cAction := Upper(Left(cAction,1))
   ENDIF
 
 
 IF _HMG_aFormDeleted[w] == .F.
 
   IF cAction == "A"  //add position and identy my graph
-    AADD(myGraph ,{ nLast ,_ControlPos_C_GetBlockID_(_HMG_aFormGraphTasks[w,nLast]) })
+    AAdd(myGraph ,{ nLast ,_ControlPos_C_GetBlockID_(_HMG_aFormGraphTasks[w,nLast]) })
     RETURN .T.
   ENDIF
 
   IF cAction == "R"  //redraw all graph
-    FOR i := 1 TO LEN(_HMG_aFormGraphTasks[w])
-      EVAL(_HMG_aFormGraphTasks[w , i] )
+    FOR i := 1 TO Len(_HMG_aFormGraphTasks[w])
+      Eval(_HMG_aFormGraphTasks[w , i] )
     NEXT
     RETURN .T.
   ENDIF
 
   IF cAction == "D"  //delete my graph from MiniGUI list
-    ASORT( myGraph,,,{|x,y| (x[1] > y[1]) })
-    FOR i := 1 TO LEN(myGraph)
+    ASort( myGraph,,,{|x,y| (x[1] > y[1]) })
+    FOR i := 1 TO Len(myGraph)
      // user program may delete graph  ( ERASE WINDOW window )
-     IF myGraph[i,1] <= LEN(_HMG_aFormGraphTasks[w])
+     IF myGraph[i,1] <= Len(_HMG_aFormGraphTasks[w])
        // and draw new , so I test it is my graph
        IF _ControlPos_C_GetBlockID_(_HMG_aFormGraphTasks[w,myGraph[i,1]]) == myGraph[i,2]
-          aDel(_HMG_aFormGraphTasks[ w ], myGraph[ i, 1 ] )
+          ADel(_HMG_aFormGraphTasks[ w ], myGraph[ i, 1 ] )
           nLast--
-          aSize( _HMG_aFormGraphTasks[ w ], nLast )
+          ASize( _HMG_aFormGraphTasks[ w ], nLast )
        ENDIF
      ENDIF
     NEXT
-    ASIZE( myGraph, 0 )
+    ASize( myGraph, 0 )
   ENDIF
   RETURN .T.
 ENDIF
@@ -2347,7 +2347,7 @@ FUNCTION _ControlPosDrawBox_( window, x, y, w, h , color)
   LOCAL clr := color[1]+color[2]*256+color[3]*65536
 
   _ControlPos_C_WndBox_( FormHandle, x, y, x+w, y+h , clr)
-   AADD( _HMG_aFormGraphTasks [i] , { || _ControlPos_C_WndBox_( FormHandle, x, y, x+w, y+h , clr) } )
+   AAdd( _HMG_aFormGraphTasks [i] , { || _ControlPos_C_WndBox_( FormHandle, x, y, x+w, y+h , clr) } )
 
 RETURN nil
 
@@ -2388,8 +2388,8 @@ FUNCTION _ControlPos_SetStyle_(cF,cK,styl,lSet)
    ENDIF
 
    IF ValType(styl)=="C"
-      styl:=UPPER(ALLTRIM(styl))
-      IF ( i := aScan( as, { | aa | aa[1] == styl } ) ) > 0
+      styl:=Upper(AllTrim(styl))
+      IF ( i := AScan( as, { | aa | aa[1] == styl } ) ) > 0
         styl := as[ i, 2 ]
       ELSE
         RETURN nil
@@ -2522,7 +2522,7 @@ FUNCTION _ControlPos_FormProc_( hWnd, nMsg, wParam, x, y )
    // Find control under mouse
    hSel := _ControlPos_C_ChildWindowFromPoint_( GetFormHandle( cF ), x, y )
    IF hSel > 0
-      pk := aScan( _HMG_aControlHandles,{ | elem | iif( ValType( elem ) == "A",( aScan( elem, hSel ) > 0 ), elem == hSel ) } )
+      pk := AScan( _HMG_aControlHandles,{ | elem | iif( ValType( elem ) == "A",( AScan( elem, hSel ) > 0 ), elem == hSel ) } )
       IF pk > 0
          k := _HMG_aControlNames[ pk ]
       ENDIF
@@ -2607,7 +2607,7 @@ FUNCTION _ControlPos_FormProc_( hWnd, nMsg, wParam, x, y )
               CASE ! ( k == "" )
                 FOR pk:=1 TO _ControlPos_._ControlPosListControl_.ItemCount
                    IF _ControlPos_._ControlPosListControl_.Item(pk)==k
-                      IF ( i:=aScan(_ControlPos_._ControlPosListControl_.Value,pk)) > 0
+                      IF ( i:=AScan(_ControlPos_._ControlPosListControl_.Value,pk)) > 0
                          lDown := .T.       //move
                          sX0   := sX := x
                          sY0   := sY := y
@@ -2646,19 +2646,19 @@ FUNCTION _ControlPos_FormProc_( hWnd, nMsg, wParam, x, y )
                 _ControlPos_DrawFocus_(0,0,0,{sX0,sY0,sX-sX0,sY-sY0})
              ENDIF
 
-             IF Abs( sX - sX0 ) < 10 .AND. ABS(sY-sY0)<10 .AND. !(k=="")
+             IF Abs( sX - sX0 ) < 10 .AND. Abs(sY-sY0)<10 .AND. !(k=="")
                 IF wParam == MK_SHIFT .AND. GetALTState() < 0
                    _ControlPOs_C_SetWindowPosBottom_(hSel)  //change Z-order of control to bootom
                 ELSE
                    FOR pk := 1 TO _ControlPos_._ControlPosListControl_.ItemCount
                        IF _ControlPos_._ControlPosListControl_.Item(pk)==k
                           IF wParam == MK_CONTROL
-                             IF ( i := aScan((aSel:=_ControlPos_._ControlPosListControl_.Value), pk ) ) > 0
-                                aDel( aSel, i )
-                                aSize( aSel, Len( aSel ) - 1 )
+                             IF ( i := AScan((aSel:=_ControlPos_._ControlPosListControl_.Value), pk ) ) > 0
+                                ADel( aSel, i )
+                                ASize( aSel, Len( aSel ) - 1 )
                                 _ControlPos_._ControlPosListControl_.Value := aSel
                              ELSE
-                                aAdd(aSel,pk)
+                                AAdd(aSel,pk)
                                 _ControlPos_._ControlPosListControl_.Value := aSel
                              ENDIF
                           ELSE
@@ -2678,7 +2678,7 @@ FUNCTION _ControlPos_FormProc_( hWnd, nMsg, wParam, x, y )
 
    ENDCASE
 
-   SetProperty(cF,"Title"," X="+STR(x,5)+'  Y='+STR(y,5)+'  CONTROL: '+ k)
+   SetProperty(cF,"Title"," X="+Str(x,5)+'  Y='+Str(y,5)+'  CONTROL: '+ k)
 
 Return 0
 
@@ -2944,13 +2944,13 @@ FUNCTION _ControlPos_RectSelect_( rx, ry, rw, rh )
 
        // check for rect drag over rect control
        IF _ControlPos_C_RectIn_( rx, ry, rw, rh, c, r, w, h )
-          aAdd( aSel, i )
+          AAdd( aSel, i )
        ENDIF
 
    NEXT
 
-   IF aScan( aSel, _ControlPosFirst_ ) == 0
-      aAdd( aSel , _ControlPosFirst_ )        //We always select "First"
+   IF AScan( aSel, _ControlPosFirst_ ) == 0
+      AAdd( aSel , _ControlPosFirst_ )        //We always select "First"
    ENDIF
 
    _ControlPos_._ControlPosListControl_.Value := aSel
@@ -2977,7 +2977,7 @@ PROCEDURE Undo_Changes()
 
        p       := _ControlPos_._ControlPosListControl_.value[i]
        cK      := _ControlPos_._ControlPosListControl_.Item( p )
-       // MsgBox('control '+str(i)+ '= ' +ck )
+       // MsgBox('control '+Str(i)+ '= ' +ck )
        nPos    := xcontrole( cK )
        iRow    := Val( xArray[ nPos, 5 ] )
        iCol    := Val( xArray[ nPos, 7 ] )
@@ -3010,16 +3010,16 @@ PROCEDURE Save_to_array()
 
        p  := _ControlPos_._ControlPosListControl_.value[i]
        cK := _ControlPos_._ControlPosListControl_.Item( p )
-       // MsgBox( 'control ' + str( i ) + '= ' + ck )
+       // MsgBox( 'control ' + Str( i ) + '= ' + ck )
        r  := GetProperty( cF, cK, "ROW"    )
        c  := GetProperty( cF, cK, "COL"    )
        w  := GetProperty( cF, cK, "WIDTH"  )
        h  := GetProperty( cF, cK, "HEIGHT" )
 
-       SavePropControl( cK, ALLTRIM(STR(r)), "ROW"    )
-       SavePropControl( cK, ALLTRIM(STR(c)), "COL"    )
-       SavePropControl( cK, ALLTRIM(STR(w)), "WIDTH"  )
-       SavePropControl( cK, ALLTRIM(STR(h)), "HEIGHT" )
+       SavePropControl( cK, AllTrim(Str(r)), "ROW"    )
+       SavePropControl( cK, AllTrim(Str(c)), "COL"    )
+       SavePropControl( cK, AllTrim(Str(w)), "WIDTH"  )
+       SavePropControl( cK, AllTrim(Str(h)), "HEIGHT" )
 
    NEXT i
 

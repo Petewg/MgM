@@ -83,23 +83,23 @@ PROCEDURE StatusFmgToMem()
    *    END STATUSBAR
 
    vArray               := aStatus
-   
+
 
    PUBLIC ArrayStatus   := {}
    PUBLIC lAction       := .T.
    PUBLIC aStatusValues := { .F., "Arial Black", 12, .F., .F., .F., .F. }
    //////////
  // cVarray := ''
- // FOR X = 1 TO LEN(VARRAY)
- //  cVarray +=STR(X)+ ' ' + varray[x]+CRLF
+ // FOR X = 1 TO Len(VARRAY)
+ //  cVarray +=Str(X)+ ' ' + varray[x]+CRLF
  //  next x
  //  msgbox('varray= ' +CRLF+cVarray )
    /////////
-   
+
 
    * KEYBOARD * 1 FONT * 2 SIZE * 3 BOLD * 4 ITALIC * 5 UNDERLINE * 6 STRIKEOUT * 7
    //   for x = 1 to Len(aStatusValues)
-   //    MsgBox( "len = "+str(Len(aStatusValues))+" "+ValType(aStatusValues[x]))
+   //    MsgBox( "len = "+Str(Len(aStatusValues))+" "+ValType(aStatusValues[x]))
    //    next x
    IF Len( vArray ) > 1 .AND. ValType( vArray[ 2 ] ) == "C"
       cLine := AllTrim( vArray[ 1 ] )
@@ -154,24 +154,24 @@ PROCEDURE StatusFmgToMem()
       aStatusValues[2] := X11
       aStatusValues[3] := Val( X12 )
       // for x = 1 to Len(aStatusValues)
-      //     MsgBox( "len = "+str(Len(aStatusValues))+" "+ValType(aStatusValues[x]))
+      //     MsgBox( "len = "+Str(Len(aStatusValues))+" "+ValType(aStatusValues[x]))
       // next x
       // MsgBox( aStatusValues[1] +CRLF+aStatusValues[2] +CRLF+aStatusValues[3] +CRLF+aStatusValues[4];
       //   +CRLF+  aStatusValues[5] +CRLF+aStatusValues[6] +CRLF+aStatusValues[7] )
       ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** *
 
       FOR x := 2 TO ( Len( vArray ) - 1 )
-         //    MsgBox("x= "+str(x)+"len varray= "+str(Len(varray)) )
+         //    MsgBox("x= "+Str(x)+"len varray= "+Str(Len(varray)) )
          cLine := vArray[ x ]
 
-         X4 := At( 'STATUSITEM'   , cLine )  
+         X4 := At( 'STATUSITEM'   , cLine )
          X5 := At( 'DATE'         , cLine )
          X6 := At( 'CLOCK'       , cLine )
          X7 := At( 'KEYBOARD'     , cLine )
          X8 := At( 'PROGRESSITEM' , cLine )
 
          IF X4 > 0
-            cValue := "STATUSITEM"   
+            cValue := "STATUSITEM"
          ELSEIF X5 > 0
             cValue := "DATE"
          ELSEIF X6 > 0
@@ -179,14 +179,14 @@ PROCEDURE StatusFmgToMem()
          ELSEIF X7 > 0
             cValue := "KEYBOARD"
          ELSEIF X8 > 0
-            cValue := "PROGRESSITEM"  
+            cValue := "PROGRESSITEM"
          ELSE
             cValue := "STATUSITEM"
          ENDIF
 
           aMenuItens := StatusItens( cLine, cValue )
 
-         aAdd( ArrayStatus, { cValue, aMenuItens[1], ;
+         AAdd( ArrayStatus, { cValue, aMenuItens[1], ;
                aMenuItens[2] , aMenuItens[3], aMenuItens[4] , ;
                aMenuItens[5] , aMenuItens[6], aMenuItens[7] , ;
                aMenuItens[8] , aMenuItens[9], aMenuItens[10], ;
@@ -195,8 +195,8 @@ PROCEDURE StatusFmgToMem()
    ELSE
      //  MsgBox( "empty array " )
       xValue := { "", "", "NIL", "NIL", "NIL", "1", "NIL", "NIL", "NIL", "NIL", "NIL", "NIL", "NIL" }
-               
-      aAdd( ArrayStatus, xValue )
+
+      AAdd( ArrayStatus, xValue )
      //  MsgBox( "len ArrayStatus= " + Str( Len( ArrayStatus ) ) )
    ENDIF
 
@@ -236,12 +236,12 @@ PROCEDURE StatusFillForm( nPos AS NUMERIC )
       StatusbarBuilder.Check_2.Value := .F.
    ENDIF
 
-   IF ArrayStatus[ nPos, 1 ] $ "STATUSITEM,$CLOCK,$DATE,$KEYBOARD,$PROGRESSITEM"   
+   IF ArrayStatus[ nPos, 1 ] $ "STATUSITEM,$CLOCK,$DATE,$KEYBOARD,$PROGRESSITEM"
       IF ArrayStatus[ nPos, 4 ] # "NIL"                            //ACTION
          StatusbarBuilder.Text_2.Value := ArrayStatus[ nPos, 4 ]
       ENDIF
 
-      IF ArrayStatus[ nPos, 3 ] # "NIL"                            //WIDTH  
+      IF ArrayStatus[ nPos, 3 ] # "NIL"                            //WIDTH
          StatusbarBuilder.Text_3.Value := ArrayStatus[ nPos, 3 ]
       ENDIF
 
@@ -325,14 +325,14 @@ PROCEDURE StatusSaveAll()
       cStat += " STRIKEOUT"
    ENDIF
 
-   aAdd( vArray, Space( 5 ) + cStat )
+   AAdd( vArray, Space( 5 ) + cStat )
    //cText2 := ""  // debug
 
    FOR x := 1 TO Len( ArrayStatus )
-        // IF X = 1 
+        // IF X = 1
         //   MSGBOX(' VALUE = 1   ' +ArrayStatus[ x, 1 ] )
-        // ENDIF  
-  
+        // ENDIF
+
        IF ArrayStatus[ x, 1 ] = "STATUSITEM"  .OR.  ArrayStatus[ x, 1 ] = "$STATUSITEM"
           cText := Space( 12 ) + "STATUSITEM " + '"' + ArrayStatus[ x, 2 ] + '"'
 
@@ -344,10 +344,10 @@ PROCEDURE StatusSaveAll()
 
        ELSEIF ArrayStatus[ x, 1 ] = "$KEYBOARD" .OR. ArrayStatus[ x, 1 ] = "KEYBOARD"
           cText := Space( 12 ) + "KEYBOARD"
-          
+
        ELSEIF ArrayStatus[ x, 1 ] = "$PROGRESSITEM" .OR. ArrayStatus[ x, 1 ] = "PROGRESSITEM"
-          cText := Space( 12 ) + "PROGRESSITEM"   
-          
+          cText := Space( 12 ) + "PROGRESSITEM"
+
        ENDIF
 
        IF Len( AllTrim( ArrayStatus[ x, 3 ] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 3 ] ) # "NIL"
@@ -381,36 +381,36 @@ PROCEDURE StatusSaveAll()
        IF ArrayStatus[ x, 9 ] = "1"
           cText += " AMPM "
        ENDIF
-       
+
        IF Len( AllTrim( ArrayStatus[ x, 10 ] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 10 ] ) # "NIL"
           cText += " RANGE " +     Op_HF( ArrayStatus[ x, 10 ], .T. )
        ENDIF
 
-       IF Len( AllTrim( ArrayStatus[ x, 11] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 11 ] ) # "NIL"         
+       IF Len( AllTrim( ArrayStatus[ x, 11] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 11 ] ) # "NIL"
           cText += " VALUE " +     Op_HF( ArrayStatus[ x, 11 ], .T. )
        ENDIF
-       
-       IF Len( AllTrim( ArrayStatus[ x, 12 ] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 12 ] ) # "NIL"       
+
+       IF Len( AllTrim( ArrayStatus[ x, 12 ] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 12 ] ) # "NIL"
           cText += " BACKCOLOR " + Op_HF( ArrayStatus[ x, 12 ], .T., "{" )
        ENDIF
 
-       IF Len( AllTrim( ArrayStatus[ x, 13] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 13 ] ) # "NIL"         
+       IF Len( AllTrim( ArrayStatus[ x, 13] ) ) > 0 .AND. AllTrim( ArrayStatus[ x, 13 ] ) # "NIL"
           cText += " FONTCOLOR " + Op_HF( ArrayStatus[ x, 13 ], .T., "{" )
        ENDIF
-            
-              
-       
+
+
+
 
        ** ** ** ** ** ** ** ** ** ** ** ** ** **
-       aAdd( vArray, cText )
+       AAdd( vArray, cText )
        //cText2 += cText // debug
    NEXT X
 
-   aAdd( vArray, Space( 5 ) + "END STATUSBAR" )
+   AAdd( vArray, Space( 5 ) + "END STATUSBAR" )
 
    aStatus := vArray  // SAVE ALL VALUES TO aStatus
-   
-    //MSGBOX(SPACE(5)+CSTAT+CRLF+cText2+CRLF+SPACE(5)+ "END STATUSBAR" )// debug
+
+    //MSGBOX(Space(5)+CSTAT+CRLF+cText2+CRLF+Space(5)+ "END STATUSBAR" )// debug
 RETURN
 
 
@@ -504,17 +504,17 @@ PROCEDURE StatusCaptionChange()
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 12 ] := ""
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 13 ] := ""
 
-      
+
     ELSEIF StatusbarBuilder.Text_1.Value = "$PROGRESSITEM"
       ArrayStatus[ StatusbarBuilder.Grid_1.Value,1 ] := "$PROGRESSITEM"
       ArrayStatus[ StatusbarBuilder.Grid_1.Value,5 ] := ""
       ArrayStatus[ StatusbarBuilder.Grid_1.Value,6 ] := "1"
       ArrayStatus[ StatusbarBuilder.Grid_1.Value,8 ] := "0"
-      ArrayStatus[ StatusbarBuilder.Grid_1.Value,9 ] := "0" 
+      ArrayStatus[ StatusbarBuilder.Grid_1.Value,9 ] := "0"
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 12 ] := ""
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 13 ] := ""
-  
-      
+
+
    ELSE
       ArrayStatus[ StatusbarBuilder.Grid_1.Value,1 ] = "STATUSITEM"
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 10 ] := ""
@@ -635,7 +635,7 @@ PROCEDURE StatusRangeChange()
    ENDIF
 
    // MsgBox( "rangechange" )
-   IF ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "$PROGRESSITEM"      
+   IF ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "$PROGRESSITEM"
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 10 ] := StatusbarBuilder.Text_6.Value
    ELSE
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 10 ] := ""
@@ -679,9 +679,9 @@ PROCEDURE StatusBackColorChange()
    IF (ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "STATUSITEM" .OR. ; // ICON EMPTY
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "$DATE"      .OR. ;
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "$CLOCK"  )  .AND. ;
-      EMPTY(ArrayStatus[ StatusbarBuilder.Grid_1.Value, 5 ]) 
-         
-      ArrayStatus[ StatusbarBuilder.Grid_1.Value, 12 ] := StatusbarBuilder.Text_8.Value     
+      Empty(ArrayStatus[ StatusbarBuilder.Grid_1.Value, 5 ])
+
+      ArrayStatus[ StatusbarBuilder.Grid_1.Value, 12 ] := StatusbarBuilder.Text_8.Value
    ELSE
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 12 ] := ""
 
@@ -704,8 +704,8 @@ PROCEDURE StatusFontColorChange()
    IF (ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "STATUSITEM" .OR. ; // ICON EMPTY
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "$DATE"      .OR. ;
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ] = "$CLOCK" )   .AND. ;
-      EMPTY(ArrayStatus[ StatusbarBuilder.Grid_1.Value, 5 ]) 
-      
+      Empty(ArrayStatus[ StatusbarBuilder.Grid_1.Value, 5 ])
+
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 13 ] := StatusbarBuilder.Text_9.Value
    ELSE
       ArrayStatus[ StatusbarBuilder.Grid_1.Value, 13 ] := ""
@@ -770,14 +770,14 @@ PROCEDURE StatusNext()
       StatusbarBuilder.Grid_1.Value := StatusbarBuilder.Grid_1.Value + 1
       StatusGridChange()
    ELSE
-      IF Empty( aTail( ArrayStatus )[2] )
+      IF Empty( ATail( ArrayStatus )[2] )
          StatusDelete()
       ENDIF
      xValue := { "STATUSITEM"   ,"New Item" ,"NIL"  ,"NIL"    ,"NIL" ,"1"    ,"NIL"    ,"NIL"    ,"NIL" ,"NIL"   ,"NIL"   ,"NIL"       ,"NIL"}
              //   1-TYPE        2-CAPTION   3-WIDTH  4-ACTION 5-ICON 6-STYLE 7-TOOLTIP 8-DEFAULT 9-AMPM 10 RANGE 11-VALUE 12-BACKCOLOR 13-FONTCOLOR
-    
-      aAdd( ArrayStatus, xValue )
-      StatusbarBuilder.Grid_1.AddItem( { aTail( ArrayStatus )[2] } )
+
+      AAdd( ArrayStatus, xValue )
+      StatusbarBuilder.Grid_1.AddItem( { ATail( ArrayStatus )[2] } )
 
       StatusbarBuilder.Grid_1.Value := StatusbarBuilder.Grid_1.ItemCount
    ENDIF
@@ -809,11 +809,11 @@ PROCEDURE StatusInsert()
               //   1-TYPE        2-CAPTION   3-WIDTH  4-ACTION 5-ICON 6-STYLE 7-TOOLTIP 8-DEFAULT 9-AMPM 10 RANGE 11-VALUE  12-BACKCOLOR 13-FONTCOLOR
       // MsgBox( "len ArrayStatus1= " + Str( Len( ArrayStatus ) ) )
 
-      aSize( ArrayStatus, Len( ArrayStatus ) + 1 )
+      ASize( ArrayStatus, Len( ArrayStatus ) + 1 )
       // MsgBox( "len ArrayStatus2= " + Str( Len( ArrayStatus ) ) )
       // MsgBox( "LEN GRID= " + Str( StatusbarBuilder.Grid_1.Value ) )
 
-      aIns( ArrayStatus, StatusbarBuilder.Grid_1.Value )
+      AIns( ArrayStatus, StatusbarBuilder.Grid_1.Value )
 
       ArrayStatus[ StatusbarBuilder.Grid_1.Value ] := xValue
       tValue                                       := StatusbarBuilder.Grid_1.Value
@@ -839,8 +839,8 @@ PROCEDURE StatusDelete()
    IF StatusbarBuilder.Grid_1.ItemCount > 1
 
       // MsgBox( "len ArrayStatus1= " + Str( Len( ArrayStatus ) ) )
-      aDel( ArrayStatus, StatusbarBuilder.Grid_1.Value )
-      aSize( ArrayStatus, Len( ArrayStatus ) - 1 )
+      ADel( ArrayStatus, StatusbarBuilder.Grid_1.Value )
+      ASize( ArrayStatus, Len( ArrayStatus ) - 1 )
       // MsgBox( "len ArrayStatus2= " + Str( Len( ArrayStatus ) ) )
 
       tValue := StatusbarBuilder.Grid_1.Value
@@ -888,10 +888,10 @@ PROCEDURE StatusGridChange()                             //OPT
 
       TMPSTR := ArrayStatus[ StatusbarBuilder.Grid_1.Value, 1 ]
 
-      IF TMPSTR $ "STATUSITEM,$CLOCK,$DATE,$KEYBOARD,$PROGRESSITEM"                          //ACTION 
+      IF TMPSTR $ "STATUSITEM,$CLOCK,$DATE,$KEYBOARD,$PROGRESSITEM"                          //ACTION
          StatusbarBuilder.Text_2.Value := ArrayStatus[ StatusbarBuilder.Grid_1.Value, 4 ]
 
-         IF ArrayStatus[ StatusbarBuilder.Grid_1.Value, 3 ] # "NIL"                          //WIDTH  
+         IF ArrayStatus[ StatusbarBuilder.Grid_1.Value, 3 ] # "NIL"                          //WIDTH
             StatusbarBuilder.Text_3.Value := ArrayStatus[ StatusbarBuilder.Grid_1.Value, 3 ]
          ELSE
             Statusbarbuilder.Text_3.Value := ""
@@ -934,7 +934,7 @@ PROCEDURE StatusGridChange()                             //OPT
          ELSEIF ArrayStatus[ StatusbarBuilder.Grid_1.Value, 9 ] = "0"
             StatusbarBuilder.CHECK_2.Value := .F.
          ENDIF
-         
+
          IF ArrayStatus[ StatusbarBuilder.Grid_1.Value, 10 ] # "NIL"                            //RANGE
             StatusbarBuilder.Text_6.Value := ArrayStatus[ StatusbarBuilder.Grid_1.Value, 10 ]
          ELSE
@@ -946,7 +946,7 @@ PROCEDURE StatusGridChange()                             //OPT
          ELSE
             StatusbarBuilder.Text_7.Value := ""
          ENDIF
-         
+
          IF ArrayStatus[ StatusbarBuilder.Grid_1.Value, 12 ] # "NIL"                            //BACKCOLOR
             StatusbarBuilder.Text_8.Value := ArrayStatus[ StatusbarBuilder.Grid_1.Value, 12 ]
          ELSE
@@ -958,7 +958,7 @@ PROCEDURE StatusGridChange()                             //OPT
          ELSE
             StatusbarBuilder.Text_9.Value := ""
          ENDIF
-         
+
 
       ELSE
          StatusbarBuilder.Text_2.Value  := ""
@@ -1023,24 +1023,24 @@ RETURN
 FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
 *------------------------------------------------------------*
     LOCAL aStatusItens AS ARRAY   := { NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL, NIL , NIL, NIL  }
-    LOCAL nCaption     AS NUMERIC := At( cStatControl, cLine ) 
-    LOCAL nWidth       AS NUMERIC := At( "WIDTH"     , cLine ) 
-    LOCAL nAction      AS NUMERIC := At( "ACTION"    , cLine ) 
-    LOCAL nIcon        AS NUMERIC := At( "ICON"      , cLine ) 
-    LOCAL nStyle1      AS NUMERIC := At( "FLAT"      , cLine ) 
-    LOCAL nStyle2      AS NUMERIC := At( "RAISED"    , cLine ) 
-    LOCAL nToolTip     AS NUMERIC := At( "TOOLTIP"   , cLine ) 
-    LOCAL nDefault     AS NUMERIC := At( "DEFAULT"   , cLine ) 
-    LOCAL nAmPm        AS NUMERIC := At( "AMPM"      , cLine ) 
-    LOCAL nRange       AS NUMERIC := At( "RANGE"     , cLine ) 
-    LOCAL nValue       AS NUMERIC := At( "VALUE"     , cLine ) 
-    LOCAL nBackColor   AS NUMERIC := At( "BACKCOLOR" , cLine ) 
-    LOCAL nFontColor   AS NUMERIC := At( "FONTCOLOR" , cLine ) 
-   
-   
+    LOCAL nCaption     AS NUMERIC := At( cStatControl, cLine )
+    LOCAL nWidth       AS NUMERIC := At( "WIDTH"     , cLine )
+    LOCAL nAction      AS NUMERIC := At( "ACTION"    , cLine )
+    LOCAL nIcon        AS NUMERIC := At( "ICON"      , cLine )
+    LOCAL nStyle1      AS NUMERIC := At( "FLAT"      , cLine )
+    LOCAL nStyle2      AS NUMERIC := At( "RAISED"    , cLine )
+    LOCAL nToolTip     AS NUMERIC := At( "TOOLTIP"   , cLine )
+    LOCAL nDefault     AS NUMERIC := At( "DEFAULT"   , cLine )
+    LOCAL nAmPm        AS NUMERIC := At( "AMPM"      , cLine )
+    LOCAL nRange       AS NUMERIC := At( "RANGE"     , cLine )
+    LOCAL nValue       AS NUMERIC := At( "VALUE"     , cLine )
+    LOCAL nBackColor   AS NUMERIC := At( "BACKCOLOR" , cLine )
+    LOCAL nFontColor   AS NUMERIC := At( "FONTCOLOR" , cLine )
+
+
  // MSGBOX('cLine= ' + cLine )
- //MSGBOX('len aStatusItens= ' + str(len(aStatusItens)) ) //=11
- //msgbox('nCaption = ' + str(nCaption) + ' cStatControl = ' + cStatControl )
+ //MSGBOX('len aStatusItens= ' + Str(Len(aStatusItens)) ) //=11
+ //msgbox('nCaption = ' + Str(nCaption) + ' cStatControl = ' + cStatControl )
    IF nCaption > 0 .AND. cStatControl = "STATUSITEM"
       IF nWidth > 0
           aStatusItens[ 1 ] := SubStr( cLine, nCaption + 11, nWidth   - nCaption - 11 )
@@ -1060,25 +1060,25 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
           aStatusItens[ 1 ] := SubStr( cLine, nCaption + 11, nBackColor - nCaption - 11 )
       ELSEIF nFontColor > 0
           aStatusItens[ 1 ] := SubStr( cLine, nCaption + 11, nFontColor - nCaption - 11 )
-                        
+
       ELSE
           aStatusItens[ 1 ] := SubStr( cLine, nCaption + 11 ) + " "
       ENDIF
           aStatusItens[ 1 ] := SubStr( aStatusItens[ 1 ], 2, Len( aStatusItens[ 1 ] ) - 3 )
 
-   ELSEIF nCaption > 0 .AND. cStatControl = "DATE"  
+   ELSEIF nCaption > 0 .AND. cStatControl = "DATE"
           aStatusItens[ 1 ] := "$DATE"
 
    ELSEIF nCaption > 0 .AND. cStatControl = "CLOCK"
           aStatusItens[ 1 ] := "$CLOCK"
-          
+
    ELSEIF nCaption > 0 .AND. cStatControl = "KEYBOARD"
           aStatusItens[ 1 ] := "$KEYBOARD"
-          
+
    ELSEIF nCaption > 0 .AND. cStatControl = "PROGRESSITEM"
-          aStatusItens[ 1 ] := "$PROGRESSITEM" 
+          aStatusItens[ 1 ] := "$PROGRESSITEM"
    ELSE
-           aStatusItens[ 1 ] := cStatControl 
+           aStatusItens[ 1 ] := cStatControl
           // MSGBOX('aStatusItens[ 1 ] = ' + aStatusItens[ 1 ] ) // = STATUSITEM ??
 
    ENDIF
@@ -1095,7 +1095,7 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
 
       ELSEIF nStyle2 > 0
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6, nStyle2  - nWidth - 6 )
- 
+
       ELSEIF nToolTip > 0
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6, nToolTip - nWidth - 6 )
 
@@ -1104,20 +1104,20 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
 
       ELSEIF nAmPm > 0
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6, nAmPm    - nWidth - 6 )
-         
+
       ELSEIF nRange > 0
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6, nRange   - nWidth - 6 )
-         
+
       ELSEIF nValue > 0
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6, nValue   - nWidth - 6 )
-          
+
       ELSEIF nBackColor > 0
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6, nBackColor  - nWidth - 6 )
-         
+
       ELSEIF nFontColor > 0
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6, nFontColor  - nWidth - 6 )
-              
-                            
+
+
       ELSE
           aStatusItens[ 2 ] := SubStr( cLine, nWidth + 6 )
       ENDIF
@@ -1143,19 +1143,19 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
 
       ELSEIF nAmPm > 0
           aStatusItens[ 3 ] := SubStr( cLine, nAction + 7, nAmPm    - nAction - 7 )
-         
+
       ELSEIF nRange > 0
           aStatusItens[ 3 ] := SubStr( cLine, nAction + 7, nRange    - nAction - 7 )
-         
+
       ELSEIF nValue > 0
-          aStatusItens[ 3 ] := SubStr( cLine, nAction + 7, nValue    - nAction - 7 )   
-          
+          aStatusItens[ 3 ] := SubStr( cLine, nAction + 7, nValue    - nAction - 7 )
+
       ELSEIF nBackColor > 0
           aStatusItens[ 3 ] := SubStr( cLine, nAction + 7, nBackColor  - nAction - 7 )
-         
+
       ELSEIF nFontColor > 0
-          aStatusItens[ 3 ] := SubStr( cLine, nAction + 7, nFontColor  - nAction - 7 )   
-    
+          aStatusItens[ 3 ] := SubStr( cLine, nAction + 7, nFontColor  - nAction - 7 )
+
 
       ELSE
          aStatusItens[ 3 ] := SubStr( cLine, nAction + 7 )
@@ -1175,7 +1175,7 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
          aStatusItens[ 4 ] := SubStr( cLine, nIcon + 5, nToolTip - nIcon - 5 )
 
       ELSEIF nDefault > 0
-         aStatusItens[ 4 ] := SubStr( cLine, nIcon + 5, nDefault - nIcon - 5 )      
+         aStatusItens[ 4 ] := SubStr( cLine, nIcon + 5, nDefault - nIcon - 5 )
 
       ELSE
          aStatusItens[ 4 ] := SubStr( cLine, nIcon + 5 )
@@ -1191,7 +1191,7 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
 
    ELSEIF nStyle2 > 0
          aStatusItens[ 5 ] := "3" //RAISED
- 
+
    ELSE
          aStatusItens[ 5 ] := "1" //NORMAL
    ENDIF
@@ -1204,12 +1204,12 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
       ELSEIF nRange > 0
          aStatusItens[ 6 ] := SubStr( cLine, nToolTip + 8, nRange   - nToolTip - 8 )
       ELSEIF nValue > 0
-         aStatusItens[ 6 ] := SubStr( cLine, nToolTip + 8, nValue   - nToolTip - 8 )   
+         aStatusItens[ 6 ] := SubStr( cLine, nToolTip + 8, nValue   - nToolTip - 8 )
       ELSEIF nBackColor > 0
          aStatusItens[ 6 ] := SubStr( cLine, nToolTip + 8, nBackColor - nToolTip - 8 )
       ELSEIF nFontColor > 0
-         aStatusItens[ 6 ] := SubStr( cLine, nToolTip + 8, nFontColor - nToolTip - 8 )              
-         
+         aStatusItens[ 6 ] := SubStr( cLine, nToolTip + 8, nFontColor - nToolTip - 8 )
+
       ELSE
          aStatusItens[ 6 ] := SubStr( cLine, nToolTip + 8 )
       ENDIF
@@ -1231,41 +1231,41 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
          aStatusItens[ 8 ] := "0" // NO AMPM
    ENDIF
    **************************FALTA TESTAR
-   
+
    IF nRange > 0
       IF nValue > 0
-         aStatusItens[ 9 ] := SubStr( cLine, nRange + 6, nValue - nRange - 6 )               
-      ELSE  
+         aStatusItens[ 9 ] := SubStr( cLine, nRange + 6, nValue - nRange - 6 )
+      ELSE
          aStatusItens[ 9 ] := SubStr( cLine, nRange + 6 )
       ENDIF
-   ELSE   
-         aStatusItens[ 9 ] := ""               
+   ELSE
+         aStatusItens[ 9 ] := ""
    ENDIF
 
    IF nValue > 0
          aStatusItens[ 10 ] := SubStr( cLine, nValue + 6 )
    ELSE
-         aStatusItens[ 10 ] := ""  
-   ENDIF  
-    
-    
+         aStatusItens[ 10 ] := ""
+   ENDIF
+
+
    IF nBackColor > 0
       IF nFontColor > 0
-         aStatusItens[ 11 ] := SubStr( cLine, nBackColor + 10, nFontColor - nBackColor - 10 )               
-      ELSE  
+         aStatusItens[ 11 ] := SubStr( cLine, nBackColor + 10, nFontColor - nBackColor - 10 )
+      ELSE
          aStatusItens[ 11 ] := SubStr( cLine, nBackColor + 10 )
       ENDIF
-   ELSE   
-         aStatusItens[ 11 ] := ""               
+   ELSE
+         aStatusItens[ 11 ] := ""
    ENDIF
 
    IF nFontColor > 0
          aStatusItens[ 12 ] := SubStr( cLine, nFontColor + 10 )
    ELSE
-         aStatusItens[ 12 ] := ""  
-   ENDIF  
-   
-   /*                            
+         aStatusItens[ 12 ] := ""
+   ENDIF
+
+   /*
    MsgBox( "as1-Caption= " + aStatusItens[ 1 ] + CRLF +;
            "as2-Width= " + aStatusItens[ 2 ] + CRLF +;
            "as3-Action= " + aStatusItens[ 3 ] + CRLF +;
@@ -1277,7 +1277,7 @@ FUNCTION StatusItens( cLine AS STRING, cStatControl AS STRING )
            "as9-Range= " + aStatusItens[ 9 ] + CRLF +;
            "as10-Value=" + aStatusItens[ 10 ] + CRLF +;
            "as11-BackColor=" + aStatusItens[ 11 ] + CRLF +;
-           "as12-FontColor=" + aStatusItens[ 12 ] )                      
+           "as12-FontColor=" + aStatusItens[ 12 ] )
    */
 
 RETURN( aStatusItens )

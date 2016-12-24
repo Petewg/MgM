@@ -19,7 +19,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             HEIGHT 98
             CAPTION "Project"
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE BUTTONEX XBUTTONEX_1
             ROW    30
@@ -30,7 +30,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "PROJECTNEW"
             ACTION new()
             TOOLTIP "New Project"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_2
             ROW    30
@@ -41,7 +41,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "PROJECTOPEN"
             ACTION open()
             TOOLTIP "Open Project"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_3
             ROW    30
@@ -52,7 +52,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "PROJECTCLOSE"
             ACTION ProjectClose()
             TOOLTIP "Close Project"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_4
             ROW    60
@@ -63,7 +63,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "FORMNEW"
             ACTION newform()
             TOOLTIP "New Form"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_5
             ROW    60
@@ -74,7 +74,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "MODULENEW"
             ACTION newmodule()
             TOOLTIP "New Module"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE FRAME Frame_2
             ROW    1
@@ -83,7 +83,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             HEIGHT 98
             CAPTION "Build"
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE BUTTONEX XBUTTONEX_6
             ROW    30
@@ -94,7 +94,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "PROJECTBLD"
             ACTION RUN()
             TOOLTIP "Build using traditional batch processing.."
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX BUTTON_HBMK2Build
             ROW    60
@@ -105,7 +105,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "PROJECTBLD2"
             ACTION HBMK2BUILD()
             TOOLTIP "BUILD using Harbour's official make program (hbmk2)"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE FRAME Frame_3
             ROW    1
@@ -114,7 +114,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             HEIGHT 98
             CAPTION "Controls actions"
             OPAQUE .T.
-     END FRAME  
+     END FRAME
 
      DEFINE CHECKBUTTON Control_01
             ROW    30
@@ -126,7 +126,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             TOOLTIP "DeSelect Object"
             ONCHANGE Control_Click(1)
             PICTURE "BITMAP8"
-     END CHECKBUTTON  
+     END CHECKBUTTON
 
      DEFINE CHECKBUTTON Control_40
             ROW    30
@@ -137,7 +137,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             TOOLTIP "Copy Control"
             ONCHANGE CopyControl()
             PICTURE "BITMAP61"
-     END CHECKBUTTON  
+     END CHECKBUTTON
 
      DEFINE BUTTONEX XBUTTONEX_8
             ROW    30
@@ -148,7 +148,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "CONTROLDEL"
             ACTION xdeletecontrol()
             TOOLTIP "Delete Control"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_9
             ROW    65
@@ -159,7 +159,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "CONTROLORDER"
             ACTION CONTROLORDER()
             TOOLTIP "Control Order"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_16
             ROW    65
@@ -170,7 +170,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "CODEPREVIEW"
             ACTION viewformcode()
             TOOLTIP "Code Viewer/Editor"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_17
             ROW    30
@@ -181,7 +181,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "COLORIZE"
             ACTION definecolors()
             TOOLTIP "Change Colors"
-     END BUTTONEX  
+     END BUTTONEX
 
      DEFINE BUTTONEX XBUTTONEX_18
             ROW    65
@@ -192,7 +192,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
             ICON "REPOSITION"
             ACTION iif(IsWindowDefined(Form_1), ControlPosSTART(), )
             TOOLTIP "Control Position Dialog"
-     END BUTTONEX  
+     END BUTTONEX
 
   DEFINE TAB XTab_3 AT 1,200 WIDTH 682 HEIGHT 98 VALUE 1 FONT "Arial" SIZE 9 TOOLTIP "" FLAT  ON CHANGE Nil
 
@@ -207,7 +207,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Button"
                ONCHANGE Control_Click(2)
                PICTURE "BITMAP9"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_03
                ROW    27
@@ -218,9 +218,9 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "CheckBox"
                ONCHANGE Control_Click(3)
                PICTURE "BITMAP10"
-        END CHECKBUTTON  
-        
-        DEFINE CHECKBUTTON Control_04 
+        END CHECKBUTTON
+
+        DEFINE CHECKBUTTON Control_04
                ROW    27
                COL    69
                WIDTH  32
@@ -228,10 +228,10 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                CAPTION ""
                TOOLTIP "Listbox"
                ONCHANGE Control_Click(4)
-               PICTURE "BITMAP11"            
-        END CHECKBUTTON 
-        
-        
+               PICTURE "BITMAP11"
+        END CHECKBUTTON
+
+
 
         DEFINE CHECKBUTTON Control_05
                ROW    27
@@ -242,7 +242,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "ComboBox"
                ONCHANGE Control_Click(5)
                PICTURE "BITMAP12"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_06
                ROW    27
@@ -253,7 +253,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "CheckButton"
                ONCHANGE Control_Click(6)
                PICTURE "BITMAP13"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_07
                ROW    27
@@ -264,7 +264,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Grid"
                ONCHANGE Control_Click(7)
                PICTURE "BITMAP14"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_08
                ROW    27
@@ -275,7 +275,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Slider"
                ONCHANGE Control_Click(8)
                PICTURE "BITMAP15"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_09
                ROW    27
@@ -286,7 +286,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Spinner"
                ONCHANGE Control_Click(9)
                PICTURE "BITMAP16"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_12
                ROW    27
@@ -297,7 +297,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "DatePicker"
                ONCHANGE Control_Click(12)
                PICTURE "BITMAP19"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_13
                ROW    27
@@ -308,7 +308,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "TextBox"
                ONCHANGE Control_Click(13)
                PICTURE "BITMAP20"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_14
                ROW    27
@@ -319,8 +319,8 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "EditBox"
                ONCHANGE Control_Click(14)
                PICTURE "BITMAP21"
-        END CHECKBUTTON 
-        
+        END CHECKBUTTON
+
          DEFINE CHECKBUTTON Control_39
                ROW    27
                COL    421
@@ -330,7 +330,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Checklistbox"
                ONCHANGE Control_Click(39)
                PICTURE "BITMAP11"
-        END CHECKBUTTON   
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_15
                ROW    60
@@ -341,7 +341,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Label"
                ONCHANGE Control_Click(15)
                PICTURE "BITMAP22"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_16
                ROW    60
@@ -352,7 +352,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Browse"
                ONCHANGE Control_Click(16)
                PICTURE "BITMAP23"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_17
                ROW    60
@@ -363,7 +363,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "RadioGroup"
                ONCHANGE Control_Click(17)
                PICTURE "BITMAP24"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_18
                ROW    60
@@ -374,7 +374,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Frame"
                ONCHANGE Control_Click(18)
                PICTURE "BITMAP25"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_19
                ROW    60
@@ -385,7 +385,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Tab"
                ONCHANGE Control_Click(19)
                PICTURE "BITMAP26"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_20
                ROW    60
@@ -396,7 +396,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "AnimateBox"
                ONCHANGE Control_Click(20)
                PICTURE "BITMAP27"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_21
                ROW    60
@@ -407,7 +407,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "HyperLink"
                ONCHANGE Control_Click(21)
                PICTURE "BITMAP28"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_22
                ROW    60
@@ -418,7 +418,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "MonthCalendar"
                ONCHANGE Control_Click(22)
                PICTURE "BITMAP29"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_23
                ROW    60
@@ -429,7 +429,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "RichEditBox"
                ONCHANGE Control_Click(23)
                PICTURE "BITMAP30"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_24
                ROW    60
@@ -440,7 +440,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "ProgressBar"
                ONCHANGE Control_Click(24)
                PICTURE "BITMAP31"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_25
                ROW    60
@@ -451,7 +451,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Player"
                ONCHANGE Control_Click(25)
                PICTURE "BITMAP32"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_26
                ROW    60
@@ -462,7 +462,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "IpAddress"
                ONCHANGE Control_Click(26)
                PICTURE "BITMAP33"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_27
                ROW    60
@@ -473,7 +473,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Timer"
                ONCHANGE Control_Click(27)
                PICTURE "BITMAP34"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_28
                ROW    27
@@ -484,7 +484,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "ButtonEX"
                ONCHANGE Control_Click(28)
                PICTURE "BITMAP9"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_29
                ROW    27
@@ -495,7 +495,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "ComboBoxEX"
                ONCHANGE Control_Click(29)
                PICTURE "BITMAP12"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_30
                ROW    27
@@ -506,7 +506,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "BtnTextBox"
                ONCHANGE Control_Click(30)
                PICTURE "BITMAP40"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_31
                ROW    27
@@ -517,7 +517,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "HotKeyBox"
                ONCHANGE Control_Click(31)
                PICTURE "BITMAP17"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_32
                ROW    27
@@ -528,7 +528,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "GetBox"
                ONCHANGE Control_Click(32)
                PICTURE "BITMAP20"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_33
                ROW    60
@@ -539,7 +539,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "TimePicker"
                ONCHANGE Control_Click(33)
                PICTURE "BITMAP19"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_34
                ROW    60
@@ -550,7 +550,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Qhtm"
                ONCHANGE Control_Click(34)
                PICTURE "BITMAP32"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_35
                ROW    60
@@ -561,7 +561,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "TsBrowse"
                ONCHANGE Control_Click(35)
                PICTURE "BITMAP23"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_36
                ROW    60
@@ -572,7 +572,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "ActiveX"
                ONCHANGE Control_Click(36)
                PICTURE "BITMAP59"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_37
                ROW    60
@@ -583,7 +583,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Panel"
                ONCHANGE Control_Click(37)
                PICTURE "BITMAP64"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_38
                ROW    60
@@ -594,7 +594,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "CheckLabel"
                ONCHANGE Control_Click(38)
                PICTURE "BITMAP10"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE LABEL Label_1
                ROW    27
@@ -605,7 +605,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                FONTNAME "Times New Roman"
                FONTUNDERLINE .T.
                RIGHTALIGN .T.
-        END LABEL  
+        END LABEL
 
         DEFINE CHECKBUTTON Control_10
                ROW    27
@@ -616,7 +616,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Image"
                ONCHANGE Control_Click(10)
                PICTURE "BITMAP17"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_11
                ROW    27
@@ -627,9 +627,9 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                TOOLTIP "Tree"
                ONCHANGE Control_Click(11)
                PICTURE "BITMAP18"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Builders'
 
@@ -642,7 +642,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                ICON NIL
                ACTION MenuBuilder( "MAIN" )
                TOOLTIP "Main Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XBUTTONEX_11
                ROW    30
@@ -653,7 +653,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                ICON NIL
                ACTION MenuBuilder( "CONTEXT" )
                TOOLTIP "Context Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XBUTTONEX_12
                ROW    30
@@ -664,7 +664,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                ICON NIL
                ACTION MenuBuilder( "STATUSBAR" )
                TOOLTIP "Statusbar Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XBUTTONEX_13
                ROW    30
@@ -675,7 +675,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                ICON NIL
                ACTION MenuBuilder( "TOOLBAR" )
                TOOLTIP "ToolBar Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XBUTTONEX_14
                ROW    30
@@ -686,7 +686,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                ICON NIL
                ACTION MenuBuilder( "NOTIFY" )
                TOOLTIP "Notify Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XBUTTONEX_15
                ROW    30
@@ -697,9 +697,9 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                ICON NIL
                ACTION MenuBuilder( "DROPDOWN" )
                TOOLTIP "Dropdown Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
-    END PAGE 
+    END PAGE
 
     PAGE 'User Components'
 
@@ -709,7 +709,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                WIDTH  210
                HEIGHT 59
                OPAQUE .T.
-        END FRAME  
+        END FRAME
 
         DEFINE COMBOBOX XCombo_1
                ROW    50
@@ -718,14 +718,12 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1048 HEIGHT 184 MINWIDTH 1040 MINHEIGHT 18
                HEIGHT 80
                ITEMS {""}
                ONLISTDISPLAY ReloadUci()
-        END COMBOBOX  
+        END COMBOBOX
 
-    END PAGE 
+    END PAGE
 
-  END TAB 
+  END TAB
 
-      
+
 
 END WINDOW
-
-

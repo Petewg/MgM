@@ -54,7 +54,7 @@ PROCEDURE ControlOrder()
                      cValue := _HMG_aControlPageMap[ i, j, k, 1 ]
                   ENDIF
 
-                  p := aScan( _HMG_aControlhandles, cValue )           // VERIFY IF IS RADIOGROUP CVALUE = ARRAY SCAN CVALUE[1]
+                  p := AScan( _HMG_aControlhandles, cValue )           // VERIFY IF IS RADIOGROUP CVALUE = ARRAY SCAN CVALUE[1]
 
                   IF p = 0
                      p := FindRadioName( cValue )
@@ -62,9 +62,9 @@ PROCEDURE ControlOrder()
 
                   IF p > 0
                      Name := _HMG_aControlNames[ p ]
-                     aAdd( ArrayOrderTemp , Name                    )
-                     aAdd( ArrayOrderTemp1, _HMG_aControlNames[ i ] )
-                     aAdd( ArrayOrderTemp2, cPage                   )
+                     AAdd( ArrayOrderTemp , Name                    )
+                     AAdd( ArrayOrderTemp1, _HMG_aControlNames[ i ] )
+                     AAdd( ArrayOrderTemp2, cPage                   )
                      // MsgBox( "control= " + name + CRLF + "in tab-> " + _HMG_aControlNames[i] + CRLF + "in page-> " + cPage )
                   ENDIF
               NEXT k
@@ -75,7 +75,7 @@ PROCEDURE ControlOrder()
    *********************************************
    IF ! isWindowActive( ControlOrder )
       FillTree()
-      ControlOrder.Tree_1.expand( 1 )
+      ControlOrder.Tree_1.Expand( 1 )
       ACTIVATE WINDOW  ControlOrder
    ELSE
       SHOW WINDOW ControlOrder
@@ -133,14 +133,14 @@ PROCEDURE FillTree()
                ControlOrder.Tree_1.AddItem( cValue, 1 ) // tab in level 0             // add tab
 
                nLen     := ControlOrder.Tree_1.ItemCount // npospage
-               // MsgBox("len= "+str(nlen) )
+               // MsgBox("len= "+Str(nlen) )
                nPosPage := nPosTree( cValue, nLen )
 
                // include control of tab pages
                FOR j := 1 To Len( _HMG_aControlPageMap[ i ] )
 
                   cPage := "Page " + AllTrim( Str( j ) )                     // page one level up
-                  // MsgBox("page "+AllTrim(str(j))+"pos="+str(npospage) )
+                  // MsgBox("page "+AllTrim(Str(j))+"pos="+Str(npospage) )
 
                   ControlOrder.Tree_1.AddItem( cPage, nPosPage )                    // add page
 
@@ -156,7 +156,7 @@ PROCEDURE FillTree()
                         cControl := _HMG_aControlPageMap[ i, j, k, 1 ]
                      ENDIF
 
-                     p := aScan( _HMG_aControlhandles, cControl )
+                     p := AScan( _HMG_aControlhandles, cControl )
 
                      IF p = 0  // added
                         p := FindRadioName( cControl )  // added
@@ -164,7 +164,7 @@ PROCEDURE FillTree()
 
                      IF p > 0 .AND. .NOT. _HMG_aControlDeleted[ p ]
                         Name := _HMG_aControlNames[ p ]
-                        // MsgBox("control of tab= "+name+" pos= "+str(npositem)+ " "+ _HMG_aControlType[p] )
+                        // MsgBox("control of tab= "+name+" pos= "+Str(npositem)+ " "+ _HMG_aControlType[p] )
                         IF ControlOrder.check_1.Value = .F.
                            IF xTypeControl( Name ) # 'LABEL'
                               ControlOrder.Tree_1.AddItem( Name, nPosItem )           // add controls
@@ -178,7 +178,7 @@ PROCEDURE FillTree()
                nPos := 0
             ELSE  // include control
                nPos := 1
-               // MsgBox("control= "+cvalue+"npos = "+str(npos)+"TOT= "+STR(ControlOrder.Tree_1.ItemCount) )
+               // MsgBox("control= "+cvalue+"npos = "+Str(npos)+"TOT= "+Str(ControlOrder.Tree_1.ItemCount) )
                IF .NOT. _HMG_aControlDeleted[ i ]
                IF ControlOrder.check_1.Value = .F.
                    IF xArray[ y, 1 ] # 'LABEL'
@@ -276,13 +276,13 @@ PROCEDURE UpOrder()
             nFound1 := aScan2( ArrayOrderTemp, x2 )
 
             IF nFound1 = 0 .AND. SubStr( x2, 1, 4 ) # "Page"
-               // MsgBox('nfound1= '+ str(nfound1) )
+               // MsgBox('nfound1= '+ Str(nfound1) )
                exit
             ELSE
                ControlOrder.Tree_1.Value := ControlOrder.Tree_1.Value - 1
                x2                        := ControlOrder.Tree_1.Item( ( ControlOrder.Tree_1.Value ) )
 
-               // MsgBox('x2= '+x2+" "+ str(ControlOrder.Tree_1.Value) )
+               // MsgBox('x2= '+x2+" "+ Str(ControlOrder.Tree_1.Value) )
             ENDIF
          enddo
       ENDIF
@@ -373,7 +373,7 @@ PROCEDURE DownOrder()
              cName1 := xArray[ nPos, 3 ]
              // MsgBox("cname1= "+cname1 )
 
-             nPos2 := aScan( ArrayOrderTemp, cName1 )
+             nPos2 := AScan( ArrayOrderTemp, cName1 )
 
              IF nPos2 = 0
 
@@ -459,8 +459,8 @@ PROCEDURE AtualizaArray( x1 AS STRING, x2 AS STRING )
 *------------------------------------------------------------*
    LOCAL xPos1  AS NUMERIC := xControle( x1 )
    LOCAL xPos2  AS NUMERIC := xControle( x2 )
-   LOCAL aTemp1 AS ARRAY   := aClone( xArray[ xPos2 ] )
-   LOCAL aTemp2 AS ARRAY   := aClone( xArray[ xPos1 ] )
+   LOCAL aTemp1 AS ARRAY   := AClone( xArray[ xPos2 ] )
+   LOCAL aTemp2 AS ARRAY   := AClone( xArray[ xPos1 ] )
 
    xArray[ xPos1 ] := aTemp1
    xArray[ xPos2 ] := aTemp2
@@ -512,8 +512,8 @@ PROCEDURE AtualizaOrderMap( x1 AS STRING, x2 AS STRING )
    LOCAL cValue     AS USUAL
 
    // MsgBox("savemap")
-   nItemx1 := aScan( ArrayOrderTemp, x1 )
-   nItemx2 := aScan( ArrayOrderTemp, x2 )  // same of nitemx1
+   nItemx1 := AScan( ArrayOrderTemp, x1 )
+   nItemx2 := AScan( ArrayOrderTemp, x2 )  // same of nitemx1
 
    cTab1   := ArrayOrderTemp1[ nitemx1 ]
    cTab2   := ArrayOrderTemp1[ nitemx2 ]    // same of ctab1
@@ -522,11 +522,11 @@ PROCEDURE AtualizaOrderMap( x1 AS STRING, x2 AS STRING )
    hx1     := MyFindHandle( x1 )
    hx2     := MyFindHandle( x2 )
 
-   nPosTab1 := aScan( _hmg_aControlNames, cTab1 )
-   nPosTab2 := aScan( _hmg_aControlNames, cTab2 )  // same of npostab1
+   nPosTab1 := AScan( _hmg_aControlNames, cTab1 )
+   nPosTab2 := AScan( _hmg_aControlNames, cTab2 )  // same of npostab1
 
-   // MsgBox("handle-x1= "+str(hx1)+" postab1= "+str(npostab1)+ ' controlname= ' + _hmg_acontrolnames[npostab1] )
-   // MsgBox("handle-x2= "+str(hx2)+" postab2= "+str(npostab2)+ ' controlname= ' + _hmg_acontrolnames[npostab2] )
+   // MsgBox("handle-x1= "+Str(hx1)+" postab1= "+Str(npostab1)+ ' controlname= ' + _hmg_acontrolnames[npostab1] )
+   // MsgBox("handle-x2= "+Str(hx2)+" postab2= "+Str(npostab2)+ ' controlname= ' + _hmg_acontrolnames[npostab2] )
 
    i := nPosTab1
 
@@ -537,7 +537,7 @@ PROCEDURE AtualizaOrderMap( x1 AS STRING, x2 AS STRING )
            cValue := _HMG_aControlPageMap[ i, j, k ]
 
            IF ValType( cValue ) = 'N'
-              // MsgBox(str(cvalue)+" = "+str(hx1) )
+              // MsgBox(Str(cvalue)+" = "+Str(hx1) )
               IF ValType( hx1 ) = 'N' .AND. cValue = hx1
                  //  MsgBox( "saving "+ Str( cValue ) + " = " + Str(hx1) )
                  j1 := j
@@ -562,9 +562,9 @@ PROCEDURE AtualizaOrderMap( x1 AS STRING, x2 AS STRING )
            cValue := _HMG_aControlPageMap[ i, j, k ]
 
            IF ValType( cValue ) = 'N'
-              // MsgBox(str(cvalue)+" = "+str(hx2) )
+              // MsgBox(Str(cvalue)+" = "+Str(hx2) )
               IF ValType( hx2 ) = 'N' .AND. cValue = hx2
-                 // MsgBox("saving "+str(cvalue)+" = "+str(hx2) )
+                 // MsgBox("saving "+Str(cvalue)+" = "+Str(hx2) )
                  j2 := j
                  k2 := k
               ENDIF

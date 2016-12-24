@@ -1,7 +1,7 @@
 #include "minigui.ch"
 #include "ide.ch"
 #include "fileio.ch"
- 
+
 DECLARE WINDOW Hbmk2Win
 *------------------------------------------------------------------------------*
 FUNCTION ShowInfo( uMessage AS USUAL )
@@ -19,7 +19,7 @@ FUNCTION ShowInfo( uMessage AS USUAL )
        RETURN NIL
     ENDIF
 
-    uMessage := iif( uMessage == NIL, "Processing! Please wait.", HB_ValToStr( uMessage ) )
+    uMessage := iif( uMessage == NIL, "Processing! Please wait.", hb_ValToStr( uMessage ) )
 
     nLen     := Len( uMessage ) * 10
 
@@ -89,12 +89,12 @@ Function Hbmk2Process( cCommand )
         // MsgInfo(cOutErr, "cOutErr" )
 
          // cOutErr += cDataRead
-         // Hbmk2Win.Edit_1.Value := StrTran(/*cDataRead*/ cOutErr , hb_EoL(), hb_OSNewLine())
-         
+         // Hbmk2Win.Edit_1.Value := StrTran(/*cDataRead*/ cOutErr , hb_eol(), hb_osNewLine())
+
          IF !IsWindowDefined( Hbmk2Win )
             LOAD WINDOW Hbmk2WIn
-         ENDIF  
-         
+         ENDIF
+
          Hbmk2Win.Edit_1.Value := cOutStd + cOutErr
          /* actually cOutErr above is currently always empty,
             but since it's not harmful I put it here as reminder
@@ -111,8 +111,8 @@ Function Hbmk2Process( cCommand )
       FClose( hOutStd )
 //      FClose( hOutErr )
 
-      Hbmk2Win.Edit_1.Value :=  /*hb_OSNewLine() + "**** " + hb_OSNewLine() + cOutErr +*/ ;
-                                hb_OSNewLine() + "**** " + hb_OSNewLine() + cOutStd + hb_OSNewLine()
+      Hbmk2Win.Edit_1.Value :=  /*hb_osNewLine() + "**** " + hb_osNewLine() + cOutErr +*/ ;
+                                hb_osNewLine() + "**** " + hb_osNewLine() + cOutStd + hb_osNewLine()
       Hbmk2Win.Edit_1.CaretPos := Len(Hbmk2Win.Edit_1.Value)
 
       hb_processClose( hProc )
@@ -123,8 +123,8 @@ Function Hbmk2Process( cCommand )
 
    ENDIF
 
-   Hbmk2Win.Edit_1.Value := Hbmk2Win.Edit_1.Value + "****" + hb_OSNewLine() + ;
-                            IF( nExitCode == 0, "Success!", "Failure!" + hb_OSNewLine() )
+   Hbmk2Win.Edit_1.Value := Hbmk2Win.Edit_1.Value + "****" + hb_osNewLine() + ;
+                            IF( nExitCode == 0, "Success!", "Failure!" + hb_osNewLine() )
    Hbmk2Win.Edit_1.CaretPos := Len(Hbmk2Win.Edit_1.Value)
 
    MemoWrit( "_temp" , Hbmk2Win.Edit_1.Value )

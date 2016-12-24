@@ -23,7 +23,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION new()
                TOOLTIP "New Project"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_2
                ROW    29
@@ -35,7 +35,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION open()
                TOOLTIP "Open Project"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_3
                ROW    29
@@ -47,7 +47,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION ProjectClose()
                TOOLTIP "Close Project"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_4
                ROW    56
@@ -59,7 +59,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION newform()
                TOOLTIP "New Form"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_5
                ROW    56
@@ -71,7 +71,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION newmodule()
                TOOLTIP "New Module"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_6
                ROW    56
@@ -83,7 +83,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION RUN()
                TOOLTIP "Run"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_8
                ROW    29
@@ -95,7 +95,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION xdeletecontrol()
                TOOLTIP "Delete Control"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_9
                ROW    29
@@ -107,7 +107,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION CONTROLORDER()
                TOOLTIP "Control Order"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE CHECKBUTTON Control_01
                ROW    29
@@ -119,7 +119,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP "Select Object"
                ONCHANGE Control_Click(1)
                PICTURE "BITMAP8"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE BUTTONEX XButton_16
                ROW    56
@@ -131,7 +131,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION viewformcode()
                TOOLTIP "Code Viewer/Editor"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_17
                ROW    56
@@ -143,7 +143,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION definecolors()
                TOOLTIP "Change Colors"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_18
                ROW    56
@@ -155,9 +155,9 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION iif( IsWindowDefined(Form_1), ControlPosSTART(), )
                TOOLTIP "Control Position Dialog"
-        END BUTTONEX  
+        END BUTTONEX
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Standard'
 
@@ -170,7 +170,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Button"
                ONCHANGE Control_Click(2)
                PICTURE "BITMAP9"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_03
                ROW    29
@@ -181,7 +181,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "CheckBox"
                ONCHANGE Control_Click(3)
                PICTURE "BITMAP10"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_04
                ROW    29
@@ -192,7 +192,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "ListBox"
                ONCHANGE Control_Click(4)
                PICTURE "BITMAP11"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_05
                ROW    29
@@ -203,7 +203,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "ComboBox"
                ONCHANGE Control_Click(5)
                PICTURE "BITMAP12"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_06
                ROW    29
@@ -214,7 +214,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "CheckButton"
                ONCHANGE Control_Click(6)
                PICTURE "BITMAP13"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_07
                ROW    29
@@ -225,7 +225,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Grid"
                ONCHANGE Control_Click(7)
                PICTURE "BITMAP14"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_08
                ROW    29
@@ -236,7 +236,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Slider"
                ONCHANGE Control_Click(8)
                PICTURE "BITMAP15"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_09
                ROW    29
@@ -247,7 +247,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Spinner"
                ONCHANGE Control_Click(9)
                PICTURE "BITMAP16"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_10
                ROW    29
@@ -258,7 +258,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Image"
                ONCHANGE Control_Click(10)
                PICTURE "BITMAP17"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_11
                ROW    29
@@ -269,7 +269,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Tree"
                ONCHANGE Control_Click(11)
                PICTURE "BITMAP18"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_12
                ROW    29
@@ -280,7 +280,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "DatePicker"
                ONCHANGE Control_Click(12)
                PICTURE "BITMAP19"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_13
                ROW    29
@@ -291,7 +291,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "TextBox"
                ONCHANGE Control_Click(13)
                PICTURE "BITMAP20"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_14
                ROW    29
@@ -302,7 +302,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "EditBox"
                ONCHANGE Control_Click(14)
                PICTURE "BITMAP21"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_15
                ROW    56
@@ -313,7 +313,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Label"
                ONCHANGE Control_Click(15)
                PICTURE "BITMAP22"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_16
                ROW    56
@@ -324,7 +324,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Browse"
                ONCHANGE Control_Click(16)
                PICTURE "BITMAP23"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_17
                ROW    56
@@ -335,7 +335,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "RadioGroup"
                ONCHANGE Control_Click(17)
                PICTURE "BITMAP24"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_18
                ROW    56
@@ -346,7 +346,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Frame"
                ONCHANGE Control_Click(18)
                PICTURE "BITMAP25"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_19
                ROW    56
@@ -357,7 +357,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Tab"
                ONCHANGE Control_Click(19)
                PICTURE "BITMAP26"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_20
                ROW    56
@@ -368,7 +368,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "AnimateBox"
                ONCHANGE Control_Click(20)
                PICTURE "BITMAP27"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_21
                ROW    56
@@ -379,7 +379,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "HyperLink"
                ONCHANGE Control_Click(21)
                PICTURE "BITMAP28"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_22
                ROW    56
@@ -390,7 +390,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "MonthCalendar"
                ONCHANGE Control_Click(22)
                PICTURE "BITMAP29"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_23
                ROW    56
@@ -401,7 +401,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "RichEditBox"
                ONCHANGE Control_Click(23)
                PICTURE "BITMAP30"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_24
                ROW    56
@@ -412,7 +412,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "ProgressBar"
                ONCHANGE Control_Click(24)
                PICTURE "BITMAP31"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_25
                ROW    56
@@ -423,7 +423,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Player"
                ONCHANGE Control_Click(25)
                PICTURE "BITMAP32"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_26
                ROW    56
@@ -434,7 +434,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "IpAddress"
                ONCHANGE Control_Click(26)
                PICTURE "BITMAP33"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_27
                ROW    56
@@ -445,9 +445,9 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Timer"
                ONCHANGE Control_Click(27)
                PICTURE "BITMAP34"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Extended'
 
@@ -460,7 +460,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "ButtonEX"
                ONCHANGE Control_Click(28)
                PICTURE "BITMAP9"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_29
                ROW    29
@@ -471,7 +471,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "ComboBoxEX"
                ONCHANGE Control_Click(29)
                PICTURE "BITMAP12"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_30
                ROW    29
@@ -482,7 +482,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "BtnTextBox"
                ONCHANGE Control_Click(30)
                PICTURE "BITMAP40"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_31
                ROW    29
@@ -493,7 +493,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "HotKeyBox"
                ONCHANGE Control_Click(31)
                PICTURE "BITMAP17"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_32
                ROW    29
@@ -504,7 +504,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "GetBox"
                ONCHANGE Control_Click(32)
                PICTURE "BITMAP20"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_33
                ROW    29
@@ -515,7 +515,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "TimePicker"
                ONCHANGE Control_Click(33)
                PICTURE "BITMAP19"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_34
                ROW    29
@@ -526,7 +526,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "Qhtm"
                ONCHANGE Control_Click(34)
                PICTURE "BITMAP32"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE CHECKBUTTON Control_35
                ROW    29
@@ -537,7 +537,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                TOOLTIP   "TsBrowse"
                ONCHANGE Control_Click(35)
                PICTURE "BITMAP23"
-        END CHECKBUTTON  
+        END CHECKBUTTON
 
         DEFINE FRAME Frame_1
                ROW    28
@@ -546,7 +546,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                HEIGHT 51
                CAPTION "User Components"
                OPAQUE .T.
-        END FRAME  
+        END FRAME
 
         DEFINE COMBOBOX XCombo_1
                ROW    48
@@ -554,9 +554,9 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                WIDTH  100
                HEIGHT 100
                ITEMS {""}
-        END COMBOBOX  
+        END COMBOBOX
 
-    END PAGE 
+    END PAGE
 
     PAGE 'Menu Builder'
 
@@ -570,7 +570,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION MenuBuilder( "MAIN" )
                TOOLTIP "Main Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_11
                ROW    29
@@ -582,7 +582,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION MenuBuilder( "CONTEXT" )
                TOOLTIP "Context Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_12
                ROW    29
@@ -594,7 +594,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION MenuBuilder( "STATUSBAR" )
                TOOLTIP "StatusBar Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_13
                ROW    29
@@ -606,7 +606,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION MenuBuilder( "TOOLBAR" )
                TOOLTIP "ToolBar Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_14
                ROW    29
@@ -618,7 +618,7 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION MenuBuilder( "NOTIFY" )
                TOOLTIP "Notify Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
         DEFINE BUTTONEX XButton_15
                ROW    29
@@ -630,12 +630,10 @@ DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 390 HEIGHT 163+iif(IsThemed(),5,0) ICON "A
                ICON NIL
                ACTION MenuBuilder( "DROPDOWN" )
                TOOLTIP "Dropdown Menu Builder"
-        END BUTTONEX  
+        END BUTTONEX
 
-    END PAGE 
+    END PAGE
 
-  END TAB 
+  END TAB
 
 END WINDOW
-
-

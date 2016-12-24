@@ -55,7 +55,7 @@ PROCEDURE MoveControl()
 
    l               := Len( _HMG_aControlHandles )
    fo              := ObjectInspector.xCombo_1.Item( ObjectInspector.xCombo_1.Value )
-   i               := aScan( _HMG_aControlhandles , GetFocus() )
+   i               := AScan( _HMG_aControlhandles , GetFocus() )
 
    IF i > 0
       IF _HMG_aControlNames[ i ] = "Statusbar" .OR. _HMG_aControlNames[ i ] = "Timer" .OR. _HMG_aControlNames[ i ] = "Toolbar"
@@ -80,11 +80,11 @@ PROCEDURE MoveControl()
          DoMethod( "Form_1", _HMG_aControlNames[ i ], "SETFOCUS" )
          CurFocus := GetFocus()
       ELSE
-         i := aScan( _HMG_aControlhandles , CurFocus )
+         i := AScan( _HMG_aControlhandles , CurFocus )
       ENDIF
 
       y := ObjectInspector.xGrid_1.Value
-      // MsgBox(str(i))
+      // MsgBox(Str(i))
       // MsgBox("value0= " + Str( i ) ) //_HMG_aControlNames[ i ] )
 
       IF i = 0
@@ -92,7 +92,7 @@ PROCEDURE MoveControl()
          FOR xx := 1 TO Len( _HMG_aControlhandles )
              IF _HMG_aControlParenthandles[ xx ] = h
 
-                //a := a + str(xx) +" "+_HMG_aControlnames[xx]+ " "+str(_HMG_aControlhandles[xx])+" "+str( _HMG_aControlParenthandles[xx])+" "+str( _hmg_acontrolrangemax[xx])+CRLF
+                //a := a + Str(xx) +" "+_HMG_aControlnames[xx]+ " "+Str(_HMG_aControlhandles[xx])+" "+Str( _HMG_aControlParenthandles[xx])+" "+Str( _hmg_acontrolrangemax[xx])+CRLF
                 // MsgBox(a)
                 IF ValType( _HMG_aControlRangeMax[ xx ] ) = "N"
                    IF _HMG_aControlRangeMax[ xx ] = GetFocus()
@@ -143,9 +143,9 @@ PROCEDURE MoveControl()
             dRow := eRow - iRow
             dCol := eCol - iCol
             //  MsgBox(_HMG_aControlNames[i] )
-            //  MsgBox(ltrim(str( _HMG_aControlCol[i]))+"Col"+CRLF+ ltrim(str( _HMG_aControlRow[i]))+"Row")
-            SavePropControl( _HMG_aControlNames[ i ], ltrim( Str( _HMG_aControlCol[ i ] ) ), "Col" )
-            SavePropControl( _HMG_aControlNames[ i ], ltrim( Str( _HMG_aControlRow[ i ] ) ), "Row" )
+            //  MsgBox(LTrim(Str( _HMG_aControlCol[i]))+"Col"+CRLF+ LTrim(Str( _HMG_aControlRow[i]))+"Row")
+            SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( _HMG_aControlCol[ i ] ) ), "Col" )
+            SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( _HMG_aControlRow[ i ] ) ), "Row" )
 
             lUpdate := .T.
 
@@ -168,18 +168,18 @@ PROCEDURE MoveControl()
 
                   IF ControlHandle <> 0
 
-                     z := aScan( _HMG_aControlHandles, ControlHandle )
-                     // MsgBox("z= "+str(z) )
+                     z := AScan( _HMG_aControlHandles, ControlHandle )
+                     // MsgBox("z= "+Str(z) )
 
                      IF z = 0
                         z := FindRadioName( ControlHandle )
                      ENDIF
 
                      IF z > 0
-                        // MsgBox("z= "+str(z) )
+                        // MsgBox("z= "+Str(z) )
                         u := z // add by Pier 2006.5.21
-                        // MsgBox("acontrolrow= "+str( _HMG_aControlRow[z])+CRLF+"drow= "+str(drow)+CRLF+"HMGCONTAINERROW= "+STR( _HMG_aControlContainerRow[z])+CRLF+"erow= "+str(erow), _HMG_aControlnames[z] )
-                        // MsgBox("acontrolCOL= "+str( _HMG_aControlCOL[z])+CRLF+"dCOL= "+str(dCOL)+CRLF+"HMGCONTAINERCOL= "+STR( _HMG_aControlContainerCOL[z])+CRLF+"ecol= "+str(ecol), _HMG_aControlnames[z] )
+                        // MsgBox("acontrolrow= "+Str( _HMG_aControlRow[z])+CRLF+"drow= "+Str(drow)+CRLF+"HMGCONTAINERROW= "+Str( _HMG_aControlContainerRow[z])+CRLF+"erow= "+Str(erow), _HMG_aControlnames[z] )
+                        // MsgBox("acontrolCOL= "+Str( _HMG_aControlCOL[z])+CRLF+"dCOL= "+Str(dCOL)+CRLF+"HMGCONTAINERCOL= "+Str( _HMG_aControlContainerCOL[z])+CRLF+"ecol= "+Str(ecol), _HMG_aControlnames[z] )
                         // changed by walter 2006-09-07
                         IF lSnap = .F.
                             // MsgBox("lsnap = .F.")
@@ -241,7 +241,7 @@ PROCEDURE MoveControl()
 
             IF ! isComboBoxEx
                InterActiveMove()
-               z := aScan( _HMG_aControlHandles, GetFocus() )
+               z := AScan( _HMG_aControlHandles, GetFocus() )
             ELSE
                InterActiveMoveHandle( _HMG_aControlhandles[ xx ] )
                z := xx
@@ -250,14 +250,14 @@ PROCEDURE MoveControl()
             // MsgBox("control1= "+_HMG_aControlNames[z] )
 
             IF z > 0
-               // MsgBox("windRow= "+str(GetWindowRow( _HMG_aControlhandles[z][1] ) )+"(-) ContRow = "+ str(_HMG_aControlContainerRow[z])+ "(-)BaseRow = "+str(baserow) +"(-)TitleHeight= "+str(TitleHeight) +"(-)Borderheight= "+str(borderheight) )
-               // MsgBox("tot= "+str( _HMG_aControlRow[z] ) )
+               // MsgBox("windRow= "+Str(GetWindowRow( _HMG_aControlhandles[z][1] ) )+"(-) ContRow = "+ Str(_HMG_aControlContainerRow[z])+ "(-)BaseRow = "+Str(baserow) +"(-)TitleHeight= "+Str(TitleHeight) +"(-)Borderheight= "+Str(borderheight) )
+               // MsgBox("tot= "+Str( _HMG_aControlRow[z] ) )
 
                _HMG_aControlRow[ z ] := GetWindowRow( _HMG_aControlHandles[ z ] ) - _HMG_aControlContainerRow[ z ] - BaseRow - TitleHeight - BorderHeight - MenuHeight
                _HMG_aControlCol[ z ] := GetWindowCol( _HMG_aControlHandles[ z ] ) - _HMG_aControlContainerCol[ z ] - BaseCol - BorderWidth
 
-               // MsgBox(str(   _HMG_aControlRow[z])+"   _HMG_aControlRow[z][1] ","ZAPPA 1")
-               // MsgBox(str(   _HMG_aControlCol[z])+"   _HMG_aControlCol[z][1] ","ZAPPA 2")
+               // MsgBox(Str(   _HMG_aControlRow[z])+"   _HMG_aControlRow[z][1] ","ZAPPA 1")
+               // MsgBox(Str(   _HMG_aControlCol[z])+"   _HMG_aControlCol[z][1] ","ZAPPA 2")
                // MsgBox("control= "+_HMG_aControlNames[z] )
 
                cHideControl( _HMG_aControlHandles[ z ] )
@@ -273,16 +273,16 @@ PROCEDURE MoveControl()
                TabCol := _HMG_aControlCol[ TabId ]
 
                /*
-               MsgBox( Str( _HMG_aControlCol[z]   + _HMG_aControlWidth[z] )+" > "+ str(TabCol + TabWidth),"HKLM 1")
-               MsgBox( Str( _HMG_aControlCol[z] ) +" < "+ str(TabCol) ,"HKLM 2")
-               MsgBox( Str( _HMG_aControlRow[z]   + _HMG_aControlHeight[z])+" > "+ str(TabRow + TabHeight),"HKLM 3")
-               MsgBox( Str( _HMG_aControlRow[z] ) +                         " < "+ str(TabRow + 30 ),"HKLM 4" )
+               MsgBox( Str( _HMG_aControlCol[z]   + _HMG_aControlWidth[z] )+" > "+ Str(TabCol + TabWidth),"HKLM 1")
+               MsgBox( Str( _HMG_aControlCol[z] ) +" < "+ Str(TabCol) ,"HKLM 2")
+               MsgBox( Str( _HMG_aControlRow[z]   + _HMG_aControlHeight[z])+" > "+ Str(TabRow + TabHeight),"HKLM 3")
+               MsgBox( Str( _HMG_aControlRow[z] ) +                         " < "+ Str(TabRow + 30 ),"HKLM 4" )
                */
 
                IF IsMovedOutTab( z, TabId )
 
                   PlayHand()
-                  // MsgBox('MOVED OUT '+str(irow)+" = irow"+crlf+str(icol)+" = icol")
+                  // MsgBox('MOVED OUT '+Str(irow)+" = irow"+crlf+Str(icol)+" = icol")
                   _SetControlSizePos( _HMG_aControlnames[ z ], "Form_1", iRow - TabRow, iCol - TabCol, iWidth, iHeight )
 
                   IF isComboBoxEx
@@ -309,10 +309,10 @@ PROCEDURE MoveControl()
 
                      IF _HMG_aControlCol[ z ] >= _HMG_aControlCol[ i ] .AND. _HMG_aControlRow[ z ] >= _HMG_aControlRow[ i ] .AND. _HMG_aControlCol[ z ] < _HMG_aControlCol[ i ] + _HMG_aControlWidth[ i ] .AND. _HMG_aControlRow[ z ] < _HMG_aControlRow[ i ] + _HMG_aControlHeight[ i ]
                         /*
-                        MsgBox("_HMG_aControlCol[z]="+str(_HMG_aControlCol[z])+" >= _HMG_aControlCol[x]="+str(_HMG_aControlCol[x])+crlf+;
-                               "_HMG_aControlRow[z]=" +str(_HMG_aControlRow[z])+" >= _HMG_aControlRow[x]="+str(_HMG_aControlRow[x])+CRLF+;
-                               "_HMG_aControlCol[z] ="+str(_HMG_aControlCol[z])+" < _HMG_aControlCol[x] + _HMG_aControlWidth[x]="+str(_HMG_aControlCol[x] + _HMG_aControlWidth[x])+CRLF+;
-                               "_HMG_aControlRow[Z] ="+str(_HMG_aControlRow[z])+" < _HMG_aControlRow[x] + _HMG_aControlHeight[x]="+str(_HMG_aControlRow[x] + _HMG_aControlHeight[x]),_HMG_aControlType[x])
+                        MsgBox("_HMG_aControlCol[z]="+Str(_HMG_aControlCol[z])+" >= _HMG_aControlCol[x]="+Str(_HMG_aControlCol[x])+crlf+;
+                               "_HMG_aControlRow[z]=" +Str(_HMG_aControlRow[z])+" >= _HMG_aControlRow[x]="+Str(_HMG_aControlRow[x])+CRLF+;
+                               "_HMG_aControlCol[z] ="+Str(_HMG_aControlCol[z])+" < _HMG_aControlCol[x] + _HMG_aControlWidth[x]="+Str(_HMG_aControlCol[x] + _HMG_aControlWidth[x])+CRLF+;
+                               "_HMG_aControlRow[Z] ="+Str(_HMG_aControlRow[z])+" < _HMG_aControlRow[x] + _HMG_aControlHeight[x]="+Str(_HMG_aControlRow[x] + _HMG_aControlHeight[x]),_HMG_aControlType[x])
                         */
 
                         PlayHand()
@@ -338,8 +338,8 @@ PROCEDURE MoveControl()
          IF OkToSave .AND. x*z > 0
 
             // MsgBox("oktosave")
-            SavePropControl( _HMG_aControlNames[ x ], ltrim( Str( _HMG_aControlCol[ z ] + DifCol() ) ), "Col" )
-            SavePropControl( _HMG_aControlNames[ x ], ltrim( Str( _HMG_aControlRow[ z ] + DifRow() ) ), "Row" )
+            SavePropControl( _HMG_aControlNames[ x ], LTrim( Str( _HMG_aControlCol[ z ] + DifCol() ) ), "Col" )
+            SavePropControl( _HMG_aControlNames[ x ], LTrim( Str( _HMG_aControlRow[ z ] + DifRow() ) ), "Row" )
 
             lUpdate := .T.
 
@@ -457,7 +457,7 @@ FUNCTION MoveFrame()
 
             PlayHand()
 
-             // MsgBox(str(irow)+" = irow"+crlf+str(icol)+" = icol")
+             // MsgBox(Str(irow)+" = irow"+crlf+Str(icol)+" = icol")
             _SetControlSizePos( _HMG_aControlNames[ i ], "Form_1", iRow - TabRow, iCol - TabCol, iWidth, iHeight )
 
             cHideControl( _HMG_aControlHandles[ i ] )
@@ -473,8 +473,8 @@ FUNCTION MoveFrame()
 
       CShowControl( _HMG_aControlHandles[ i ] )
 
-      SavePropControl( _HMG_aControlNames[ i ], ltrim( Str( _HMG_aControlCol[ i ] ) ), "Col" )
-      SavePropControl( _HMG_aControlNames[ i ], ltrim( Str( _HMG_aControlRow[ i ] ) ), "Row" )
+      SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( _HMG_aControlCol[ i ] ) ), "Col" )
+      SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( _HMG_aControlRow[ i ] ) ), "Row" )
 
       lUpdate := .T.
 
@@ -515,7 +515,7 @@ FUNCTION MoveFrame()
 
             PlayHand()
 
-            // MsgBox(str(irow)+" = irow"+crlf+str(icol)+" = icol")
+            // MsgBox(Str(irow)+" = irow"+crlf+Str(icol)+" = icol")
             _SetControlSizePos( _HMG_aControlNames[ i ], "Form_1" , iRow - TabRow, iCol - TabCol, iWidth, iHeight )
 
             cHideControl( _HMG_aControlHandles[ i, 1 ] )
@@ -531,8 +531,8 @@ FUNCTION MoveFrame()
 
       cShowControl( _HMG_aControlhandles[ i, 1 ] )
 
-      SavePropControl( _HMG_aControlNames[ i ], Ltrim( Str( _HMG_aControlCol[ i ] - _HMG_aControlContainerRow[ i ] ) ), "Col" )
-      SavePropControl( _HMG_aControlNames[ i ], Ltrim( Str( _HMG_aControlRow[ i ] - _HMG_aControlContainerCol[ i ] ) ), "Row" )
+      SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( _HMG_aControlCol[ i ] - _HMG_aControlContainerRow[ i ] ) ), "Col" )
+      SavePropControl( _HMG_aControlNames[ i ], LTrim( Str( _HMG_aControlRow[ i ] - _HMG_aControlContainerCol[ i ] ) ), "Row" )
 
       lUpdate := .T.
 
@@ -544,7 +544,7 @@ FUNCTION MoveFrame()
    ENDIF
 
    IF iMin != 0   .AND. _HMG_aControlType[ iMin ] # "RADIOGROUP"  .AND. _HMG_aControlType[ iMin ] # "FRAME"
-      // MsgBox('name of control = '+ _HMG_aControlNames[iMin] + '  nr = '+ str(iMin) )
+      // MsgBox('name of control = '+ _HMG_aControlNames[iMin] + '  nr = '+ Str(iMin) )
       nPos := iMin
    ENDIF
 
@@ -558,8 +558,8 @@ PROCEDURE SnapMoved( i )
    LOCAL xCol AS NUMERIC  //? Invalid Hungarian
 
    IF lSnap
-      // MsgBox(str(_HMG_aControlRow[i])+CRLF+str(_HMG_aControlContainerRow[i] ),"SnapMoved1" )
-      // MsgBox(str(_HMG_aControlCol[i])+CRLF+str(_HMG_aControlContainerCol[i] ),"SnapMoved2" )
+      // MsgBox(Str(_HMG_aControlRow[i])+CRLF+Str(_HMG_aControlContainerRow[i] ),"SnapMoved1" )
+      // MsgBox(Str(_HMG_aControlCol[i])+CRLF+Str(_HMG_aControlContainerCol[i] ),"SnapMoved2" )
       xRow := int( _HMG_aControlRow[ i ] / 10 ) * 10
       xCol := int( _HMG_aControlCol[ i ] / 10 ) * 10
    ELSE
@@ -660,8 +660,8 @@ FUNCTION IsInTab( CurFocus )
 
    NEXT i
 
-   aAdd( aIsInTab, IsInTab )
-   aAdd( aIsInTab, TabId   )
+   AAdd( aIsInTab, IsInTab )
+   AAdd( aIsInTab, TabId   )
 
 RETURN( aIsInTab )
 

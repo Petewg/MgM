@@ -10,7 +10,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            HEIGHT 28
            ACTION ReportOk(.t.)
            CAPTION "Preview"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_2
            ROW    390
@@ -19,7 +19,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            HEIGHT 28
            ACTION reportok()
            CAPTION "Ok"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_3
            ROW    390
@@ -28,7 +28,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            HEIGHT 28
            ACTION reportcancel()
            CAPTION "Cancel"
-     END BUTTON  
+     END BUTTON
 
      DEFINE LABEL Label_1
             ROW    20
@@ -36,7 +36,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Title:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_2
             ROW    50
@@ -44,7 +44,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Headers:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_3
             ROW    80
@@ -56,7 +56,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             FONTUNDERLINE .T.
             ACTION Get_field()
             FONTCOLOR {255,0,0}
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_4
             ROW    110
@@ -64,7 +64,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Widths:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_5
             ROW    140
@@ -72,7 +72,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Totals:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_6
             ROW    170
@@ -80,7 +80,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "N.Formats:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_7
             ROW    200
@@ -92,7 +92,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             FONTUNDERLINE .T.
             ACTION ReportEditor.text_7.value:=Op_HF(DBopendbf(),.F.)
             FONTCOLOR {255,0,0}
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_8
             ROW    230
@@ -100,7 +100,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "LPP:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_9
             ROW    260
@@ -108,7 +108,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "CPL:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_10
             ROW    290
@@ -116,7 +116,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "L.Margin:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_11
             ROW    20
@@ -124,7 +124,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  80
             HEIGHT 24
             VALUE "DOS Mode:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_12
             ROW    50
@@ -132,7 +132,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Preview:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_13
             ROW    80
@@ -140,7 +140,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Select:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_14
             ROW    110
@@ -148,7 +148,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Multiple:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_15
             ROW    140
@@ -156,7 +156,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  80
             HEIGHT 24
             VALUE "Grouped By:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_16
             ROW    170
@@ -164,7 +164,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  90
             HEIGHT 24
             VALUE "Group Header:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_17
             ROW    200
@@ -172,7 +172,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  70
             HEIGHT 24
             VALUE "Landscape:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_18
             ROW    230
@@ -180,7 +180,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Papersize:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_19
             ROW    260
@@ -188,7 +188,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "Image:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_20
             ROW    290
@@ -196,7 +196,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  30
             HEIGHT 24
             VALUE "At:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_21
             ROW    320
@@ -204,7 +204,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  30
             HEIGHT 24
             VALUE "To:"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_1
             ROW    10
@@ -212,49 +212,49 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  120
             HEIGHT 24
             ONLOSTFOCUS ReportEditor.text_1.value:=Op_HF(ReportEditor.text_1.value,.T.,['])
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_2
             ROW    40
             COL    90
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_3
             ROW    70
             COL    90
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_4
             ROW    100
             COL    90
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_5
             ROW    130
             COL    90
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_6
             ROW    160
             COL    90
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_7
             ROW    190
             COL    90
             WIDTH  120
             HEIGHT 24
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_8
             ROW    220
@@ -263,7 +263,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             HEIGHT 24
             TOOLTIP "Default 66"
             INPUTMASK "9999"
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_9
             ROW    250
@@ -272,7 +272,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             HEIGHT 24
             TOOLTIP "Default 80"
             INPUTMASK "9999"
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_10
             ROW    280
@@ -281,7 +281,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             HEIGHT 24
             TOOLTIP "Default 0"
             INPUTMASK "9999"
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_11
             ROW    130
@@ -289,7 +289,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  120
             HEIGHT 24
             ONLOSTFOCUS ReportEditor.text_11.value:=if(!empty(ReportEditor.text_11.value),Op_HF(ReportEditor.text_11.value,.T.,[']),'')
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_12
             ROW    160
@@ -297,7 +297,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  120
             HEIGHT 24
             ONLOSTFOCUS ReportEditor.text_12.value:=if(!empty(ReportEditor.text_12.value),Op_HF(ReportEditor.text_12.value,.T.,[']),'')
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_13
             ROW    220
@@ -305,7 +305,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  120
             HEIGHT 24
             VALUE  "DMPAPER_A4"
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_14
             ROW    250
@@ -313,7 +313,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  120
             HEIGHT 24
             ONLOSTFOCUS ReportEditor.text_14.value:=if(!empty(ReportEditor.text_14.value),Op_HF(ReportEditor.text_14.value,.T.,[']),'')
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_15
             ROW    280
@@ -322,7 +322,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             HEIGHT 24
             ONLOSTFOCUS if (chk_Img(),if( empty(alltrim(ReportEditor.text_15.value)) ,ReportEditor.text_15.value := "0",''),'')
             INPUTMASK "9999"
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_16
             ROW    280
@@ -331,7 +331,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             HEIGHT 24
             ONLOSTFOCUS if (chk_Img(),if( empty(alltrim(ReportEditor.text_16.value)) ,ReportEditor.text_16.value := "0",''),'')
             INPUTMASK "9999"
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_17
             ROW    310
@@ -340,7 +340,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             HEIGHT 24
             ONLOSTFOCUS if (chk_Img(),if( empty(alltrim(ReportEditor.text_17.value)) ,ReportEditor.text_17.value := "0",''),'')
             INPUTMASK "9999"
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_18
             ROW    310
@@ -349,7 +349,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             HEIGHT 24
             ONLOSTFOCUS if (chk_Img(),if( empty(alltrim(ReportEditor.text_18.value)) ,ReportEditor.text_18.value := "0",''),'')
             INPUTMASK "9999"
-     END TEXTBOX 
+     END TEXTBOX
 
     DEFINE CHECKBOX Check_1
            ROW    10
@@ -357,7 +357,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            WIDTH  70
            HEIGHT 25
            CAPTION ""
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_2
            ROW    40
@@ -365,7 +365,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            WIDTH  70
            HEIGHT 25
            CAPTION ""
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_3
            ROW    70
@@ -373,7 +373,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            WIDTH  70
            HEIGHT 25
            CAPTION ""
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_4
            ROW    100
@@ -381,7 +381,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            WIDTH  70
            HEIGHT 28
            CAPTION ""
-     END CHECKBOX  
+     END CHECKBOX
 
     DEFINE CHECKBOX Check_5
            ROW    190
@@ -389,7 +389,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            WIDTH  70
            HEIGHT 28
            CAPTION ""
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE LABEL Label_22
             ROW    320
@@ -397,7 +397,7 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
             WIDTH  60
             HEIGHT 24
             VALUE "NoFixed:"
-     END LABEL  
+     END LABEL
 
     DEFINE CHECKBOX Check_6
            ROW    310
@@ -405,8 +405,6 @@ DEFINE WINDOW TEMPLATE AT 137 , 235 WIDTH 469 HEIGHT 477 TITLE "Report Editor" C
            WIDTH  100
            HEIGHT 28
            CAPTION ""
-     END CHECKBOX  
+     END CHECKBOX
 
 END WINDOW
-
-

@@ -13,7 +13,7 @@ PROCEDURE xGridEventEdit()
 *------------------------------------------------------------*
    LOCAL cnt_s  AS NUMERIC   := 0
    LOCAL aWrk   AS ARRAY     := {}
-   LOCAL blskA1 AS CODEBLOCK := { |k| aEval( k, { | x, y | iif( Upper(x) == Upper( AllTrim( A1 ) ), cnt_s := y, "" ) } ) }
+   LOCAL blskA1 AS CODEBLOCK := { |k| AEval( k, { | x, y | iif( Upper(x) == Upper( AllTrim( A1 ) ), cnt_s := y, "" ) } ) }
 
    IF ! IsWindowDefined( Form_1 )
       RETURN
@@ -94,7 +94,7 @@ PROCEDURE xGridPropEdit()
    IF ! IsWindowDefined( Form_1 )
       RETURN
    ENDIF
-   
+
 
 
    A1       := GetColValue( "XGRID_1", "ObjectInspector", 1 )
@@ -103,8 +103,8 @@ PROCEDURE xGridPropEdit()
    A4       := xTypeControl( A3 )
    lChanges := .T.
 
-   blskA1   := { |k| aEval( k, { |x,y| iif( Upper( x ) == AllTrim( Upper( A1 ) ), cnt_s := y, "" ) } ) }
-   blskA3   := { |k| aEval( k, { |x,y| iif( Upper( x ) == AllTrim( Upper( A3 ) ), cnt_s := y, "" ) } ) }
+   blskA1   := { |k| AEval( k, { |x,y| iif( Upper( x ) == AllTrim( Upper( A1 ) ), cnt_s := y, "" ) } ) }
+   blskA3   := { |k| AEval( k, { |x,y| iif( Upper( x ) == AllTrim( Upper( A3 ) ), cnt_s := y, "" ) } ) }
 
    ***********
    *********LOGICAL CONTROLS
@@ -178,8 +178,8 @@ PROCEDURE xGridPropEdit()
       xGridPropCombo.Text_1.Visible       := .F.
       aWrk                                := { "LOWER", "NONE", "UPPER" }
 
-      aEval( aWrk,{ |x| xGridPropCombo.Combo_1.AddItem( x ) } )
-      xGridPropCombo.Combo_1.Value := aScan( aWrk, A2 )
+      AEval( aWrk,{ |x| xGridPropCombo.Combo_1.AddItem( x ) } )
+      xGridPropCombo.Combo_1.Value := AScan( aWrk, A2 )
       aWrk                         := {}
       xGridPropCombo.Center
 
@@ -204,9 +204,9 @@ PROCEDURE xGridPropEdit()
          aWrk := { "CHARACTER","PASSWORD","NUMERIC" }   //BTNTEXTBOX
       ENDIF
 
-      aEval( aWrk, { | x | xGridPropCombo.Combo_1.AddItem( x ) } )
+      AEval( aWrk, { | x | xGridPropCombo.Combo_1.AddItem( x ) } )
 
-      xGridPropCombo.Combo_1.Value := aScan( aWrk, A2 )
+      xGridPropCombo.Combo_1.Value := AScan( aWrk, A2 )
       aWrk                         := {}
       xGridPropCombo.Center
 
@@ -224,9 +224,9 @@ PROCEDURE xGridPropEdit()
 
       xGridPropCombo.Label_1.Value := A1+":"
 
-      aEval( lfnt, { | x | xGridPropCombo.Combo_1.AddItem( x ) } )
+      AEval( lfnt, { | x | xGridPropCombo.Combo_1.AddItem( x ) } )
 
-      xGridPropCombo.Combo_1.Value      := aScan( lfnt, A2 )
+      xGridPropCombo.Combo_1.Value      := AScan( lfnt, A2 )
       xGridPropCombo.Label_2.Visible    := .T.
       xGridPropCombo.RadioGroup_1.Value := iif( isValueTxt( A3, A1 ) = .T., 1, 2 )
       xGridPropCombo.Text_1.Value       := A2
@@ -285,8 +285,8 @@ PROCEDURE xGridPropEdit()
 
                IF A1 = "BackColor"
                   // MsgBox("A3= "+ A3+ " v1= "+atbrowse[ 1, 2 ]+ " v2= "+ atbrowse[ 1, 3 ] )
-                  xPosBrw := aScan( aTbrowse[ 1 ], A3 )
-                  // MsgBox("str(xposbrw) =" + str(xposbrw) )
+                  xPosBrw := AScan( aTbrowse[ 1 ], A3 )
+                  // MsgBox("Str(xposbrw) =" + Str(xposbrw) )
                   // cObrw := atbrowse[ 1, xposbrw ]
                   // MsgBox("val= "+ cObrw+ " valtype = " + ValType(&cObrw) )
                   cObrw := aOtbrowse[ 1, xPosBrw ]
@@ -300,7 +300,7 @@ PROCEDURE xGridPropEdit()
 
                IF A1 = "FontColor"
                   // MsgBox( "A3= " + A3 + " v1= " + aTbrowse[ 1, 2 ]+ " v2= "+ aTbrowse[ 1, 3 ] )
-                  xPosBrw := aScan( aTbrowse[ 1 ], A3 )
+                  xPosBrw := AScan( aTbrowse[ 1 ], A3 )
                   // MsgBox( "Str( xPosBrw ) =" + Str( xPosBrw ) )
                   // cObrw := aTbrowse[ 1, xPosBrw ]
                   // MsgBox( "Val= " + cObrw + " ValType = " + ValType( &cObrw ) )
@@ -471,7 +471,7 @@ PROCEDURE xGridPropEdit()
       IF A1 = "CueBanner" .AND. xTypeControl( A3 ) = "BTNTEXTBOX"
          xGridPropTxt.RadioGroup_1.Value := 1
       ENDIF
-      
+
       IF A1 = "Options" .AND. xTypeControl( A3 ) = "RADIO"
          xGridPropTxt.RadioGroup_1.ReadOnly := { .T., .F. }
       ENDIF
@@ -555,7 +555,7 @@ PROCEDURE xGridPropEdit()
       DECLARE WINDOW xGridPropWin
       LOAD WINDOW xGridPropWin
 
-      xGridPropWin.Combo_1.Value := aScan({"CHILD","MAIN ","MODAL","SPLITCHILD","STANDARD","MDI ","MAINMDI","MDICHILD" }, A2 )
+      xGridPropWin.Combo_1.Value := AScan({"CHILD","MAIN ","MODAL","SPLITCHILD","STANDARD","MDI ","MAINMDI","MDICHILD" }, A2 )
       xGridPropWin.Label_1.Value := A1 + ":"
 
       xGridPropWin.Center
@@ -568,7 +568,7 @@ PROCEDURE xGridPropEdit()
       DECLARE WINDOW xGridPropSli
       LOAD WINDOW   xGridPropSli
 
-      xGridPropSli.Combo_1.Value := aScan( { "HORIZONTAL", "VERTICAL" }, A2 )
+      xGridPropSli.Combo_1.Value := AScan( { "HORIZONTAL", "VERTICAL" }, A2 )
       xGridPropSli.Label_1.Value := A1 + ":"
 
       xGridPropSli.Center
@@ -599,12 +599,12 @@ PROCEDURE xGridPropEdit()
          xGridPropSli2.Combo_1.DeleteAllitems
 
          aWrk := {"RIGHT","BOTH","NONE","LEFT"}
-         aEval( aWrk, { |x| xGridPropSli2.Combo_1.AddItem( x ) } )
+         AEval( aWrk, { |x| xGridPropSli2.Combo_1.AddItem( x ) } )
 
-         xGridPropSli2.Combo_1.Value := aScan( aWrk, A2 )
+         xGridPropSli2.Combo_1.Value := AScan( aWrk, A2 )
       ELSE
 
-         xGridPropSli2.Combo_1.Value := aScan( {"BOTTOM","BOTH","NONE","TOP" }, A2 )
+         xGridPropSli2.Combo_1.Value := AScan( {"BOTTOM","BOTH","NONE","TOP" }, A2 )
       ENDIF
 
       xGridPropSli2.Label_1.Value := A1 + ":"
@@ -620,7 +620,7 @@ PROCEDURE xGridPropEdit()
       DECLARE WINDOW xGridPropSli3
       LOAD WINDOW   xGridPropSli3
 
-      xGridPropSli3.Combo_1.Value := aScan( {"LEFT", "RIGHT", "CENTER"}, A2 )
+      xGridPropSli3.Combo_1.Value := AScan( {"LEFT", "RIGHT", "CENTER"}, A2 )
       xGridPropSli3.Label_1.Value := A1 + ":"
 
       xGridPropSli3.Center
@@ -653,7 +653,7 @@ FUNCTION isVarNum( Param AS STRING )
   LOCAL x       AS NUMERIC
 
   FOR x := 1 TO Len( Param )
-      IF ! isDigit( SubStr( Param, x, 1 ) )
+      IF ! IsDigit( SubStr( Param, x, 1 ) )
          lRetVal := .F.
          EXIT
       ENDIF
@@ -749,17 +749,17 @@ FUNCTION GetFonts()                          // Form DBFview By Grigory Filatov
 
    ReleaseDC( NIL, nHandle )
 
-   aEval( aTmp, {|e| iif( aScan( aFonts, e ) == 0       .AND. ;
+   AEval( aTmp, {|e| iif( AScan( aFonts, e ) == 0       .AND. ;
                           ! "WST_"  $ e                 .AND. ;
                           ! "Chess" $ e                 .AND. ;
                           ! "Math"  $ e,                      ;
-                          aAdd( aFonts, e),                   ;
+                          AAdd( aFonts, e),                   ;
                           NIL                                 ;
                         )                                     ;
                 }                                             ;
         )
 
-RETURN aSort( aFonts )
+RETURN ASort( aFonts )
 
 
 *------------------------------------------------------------*
@@ -772,7 +772,7 @@ FUNCTION LoadGetBox( Param AS STRING )
    LOCAL xItem   AS NUMERIC := 0
    LOCAL xValue  AS STRING  := Param
 
-   aFill( xGetBox, "" )
+   AFill( xGetBox, "" )
 
    FOR x := 1 TO Len( xValue )
        x2 := SubStr( xValue, x, 1 )
@@ -1021,7 +1021,7 @@ PROCEDURE TesteSLI( lVert AS LOGICAL )
 
      IF xRow # -1   // control is in tab
         TabHandle := FindTabHandle( ControlName )
-        nPosTab   := aScan( _HMG_aControlHandles, TabHandle )
+        nPosTab   := AScan( _HMG_aControlHandles, TabHandle )
         cTabName  := _HMG_aControlNames[ nPosTab ]
         nPageNr   := _GetValue( cTabName, "Form_1" )
      ENDIF
@@ -1080,7 +1080,7 @@ PROCEDURE xGridPropSli2Ok()
 
    SetColValue( "XGRID_1", "ObjectInspector", 2, A4 )
 
-   xValue := aWrk[ aScan( aWrk, { | e | e[ 1 ] == A4 } ), 2 ]
+   xValue := aWrk[ AScan( aWrk, { | e | e[ 1 ] == A4 } ), 2 ]
 
    SavePropControl( A3, xValue, A1 )
 
@@ -1169,7 +1169,7 @@ PROCEDURE xGridPropSli3Ok()
 
    IF xRow # -1   // control is in tab
       tabHandle := FindTabHandle( ControlName )
-      nPosTab   := aScan( _HMG_aControlHandles, TabHandle )
+      nPosTab   := AScan( _HMG_aControlHandles, TabHandle )
       cTabName  := _HMG_aControlNames[ nPosTab ]
       nPageNr   := _GetValue( cTabName, "Form_1" )
    ENDIF
@@ -1217,8 +1217,8 @@ PROCEDURE xGridPropSli3Ok()
 
    CHideControl( _HMG_aControlhandles[ z ] )
    CShowControl( _HMG_aControlhandles[ z ] )
-   
-  ENDIF 
+
+  ENDIF
 
    ObjectInspector.xGrid_1.Value := A4
 
@@ -1354,16 +1354,16 @@ PROCEDURE xGridPropTxtOK()
 
       //LOGFORM.LIST_1.AddItem("name have be validated ")
       ****
-      aTempNames := aClone( _HMG_aControlNames )
+      aTempNames := AClone( _HMG_aControlNames )
 
       FOR x := 1 TO Len( aTempNames )
           IF ValType( aTempnames[ x ] ) == "C"
              aTempNames[ x ] := Upper( aTempNames[ x ] )
-             // MsgBox("pos= " + str(x) + " len= "+str(Len( atempnames))+ " nome= "+aTempnames[x])
+             // MsgBox("pos= " + Str(x) + " len= "+Str(Len( atempnames))+ " nome= "+aTempnames[x])
           ENDIF
       NEXT x
 
-      z := aScan( aTempNames ,{|x,i| x == Upper( New_Name ) .AND. _HMG_aControlParenthandles[ i ] == h } )
+      z := AScan( aTempNames ,{|x,i| x == Upper( New_Name ) .AND. _HMG_aControlParenthandles[ i ] == h } )
 
       IF z > 0
          MsgBox( "Invalid Name ->" + _HMG_aControlNames[ z ] )
@@ -1391,7 +1391,7 @@ PROCEDURE xGridPropTxtOK()
                     IF ValType( _HMG_aControlPageMap[ z, j, k ] ) # "A"
 
                        cValue := _HMG_aControlPageMap[ z, j, k ]
-                       p      := aScan( _HMG_aControlHandles, cValue )
+                       p      := AScan( _HMG_aControlHandles, cValue )
 
                        IF _HMG_aControlType[ p ] = "FRAME"
                           _HMG_aControlRangeMin[ p ] := New_Name
@@ -1420,17 +1420,17 @@ PROCEDURE xGridPropTxtOK()
                                 // MsgBox( "ok-defined-value -> " + mvar + "  = " + Str(&mVar.) )
             OldVar := &mVar.
             #ifdef _ZEROPUBLIC_
-               __MVPUT( mVar , 0 )
-               // MsgBox("ok-deleted-1-value"+str(&mVar.) )
+               __mvPut( mVar , 0 )
+               // MsgBox("ok-deleted-1-value"+Str(&mVar.) )
             #ELSE
-               __MVXRELEASE( mVar )
-               // MsgBox("ok-deleted-2-value"+str(&mVar.) )
+               __mvXRelease( mVar )
+               // MsgBox("ok-deleted-2-value"+Str(&mVar.) )
             #ENDIF
          ENDIF
          mVar          := "_" + "Form_1" + "_" + New_Name
          Public &mVar. := oldvar
 
-         // MsgBox("ok-defined-value -> "+mvar+" = " +str(&mVar.) )
+         // MsgBox("ok-defined-value -> "+mvar+" = " +Str(&mVar.) )
 
          *********************
          // SavePropControl( A3, xGridPropTxt.Text_1.Value, A1 )
@@ -1445,7 +1445,7 @@ PROCEDURE xGridPropTxtOK()
                DoMethod( "FORM_1", New_Name, "SETFOCUS" )
             ENDIF
          ENDIF
-         // MsgBox("newname= "+_HMG_aControlNames[x1]+ " nr= "+str(x1) )
+         // MsgBox("newname= "+_HMG_aControlNames[x1]+ " nr= "+Str(x1) )
 
          IF xTypeControl( New_Name ) == "RADIOGROUP"
             x1 := GetControlIndex( New_Name, "Form_1" )
@@ -1750,7 +1750,7 @@ PROCEDURE xGridPropTxtOK()
             z := GetControlIndex( ControlName, "Form_1" )
 
             TabHandle := FindTabHandle( ControlName )
-            nPosTab   := aScan( _HMG_aControlHandles, TabHandle )
+            nPosTab   := AScan( _HMG_aControlHandles, TabHandle )
             cTabName  := _HMG_aControlNames[ nPosTab ]
             IF ValType(X2) # "C" .OR. X2 # cTabName
                X2 := cTabName
@@ -1853,7 +1853,7 @@ PROCEDURE xGridPropNumOK()
 
    OldValue := GetColValue( "XGRID_1", "ObjectInspector", 2 )
 
-   SetColValue( "XGRID_1", "ObjectInspector", 2, AllTrim(STR(xGridPropNum.Spinner_1.Value ) ) )
+   SetColValue( "XGRID_1", "ObjectInspector", 2, AllTrim(Str(xGridPropNum.Spinner_1.Value ) ) )
 
    A1 := GetColValue( "XGRID_1", "ObjectInspector", 1 )
    A3 := ObjectInspector.xCombo_1.Item( ObjectInspector.xCombo_1.Value )
@@ -1867,7 +1867,7 @@ PROCEDURE xGridPropNumOK()
       *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       IF xGridPropNum.Label_1.Value = "Col:"
          DifTabRow := iif( _HMG_aControlContainerRow[i] # -1, _HMG_aControlContainerRow[i], 0 )
-         // MsgBox( "row= " + Str( _HMG_aControlRow[i] ) + " - " + Str( diftabrow ) + " - "+ str(difrow()) + " col= " + Str(xGridPropNum.Spinner_1.Value)+ " - " + Str(DIFCOL())  )
+         // MsgBox( "row= " + Str( _HMG_aControlRow[i] ) + " - " + Str( diftabrow ) + " - "+ Str(difrow()) + " col= " + Str(xGridPropNum.Spinner_1.Value)+ " - " + Str(DIFCOL())  )
          _SetControlSizePos( A3, "Form_1" , _HMG_aControlRow[i]-diftabRow-DifRow(), xGridPropNum.Spinner_1.Value - DifCol(), _HMG_aControlWidth[i], _HMG_aControlHeight[i] ) //
 
       ELSEIF xGridPropNum.Label_1.Value = "Row:"
@@ -2059,7 +2059,7 @@ PROCEDURE xGridPropOk()
             DoMethod( "Form_1", ControlName, "Release" )
 
             acOPTIONS := &(xArray[ X1, 13] )
-            // MsgBox("spacing= "+str(nspacing) )                                       &
+            // MsgBox("spacing= "+Str(nspacing) )                                       &
             IF A4 = ".F."
                @ b0, b1 RADIOGROUP  &ControlName OF FORM_1 OPTIONS acOPTIONS value 1 WIDTH b2  SPACING nSpacing  ON CHANGE  cpreencheGrid( "RADIOGROUP" ) TOOLTIP ControlName
             ELSE
@@ -2096,7 +2096,7 @@ PROCEDURE xGridPropOk()
 
          IF XRow # -1   // control is in tab
             TabHandle := FindTabHandle( ControlName )
-            nPosTab   := aScan( _HMG_aControlHandles, TabHandle )
+            nPosTab   := AScan( _HMG_aControlHandles, TabHandle )
             cTabName  := _HMG_aControlNames[ nPosTab ]
             nPageNr   := _GetValue( cTabName, "Form_1" )
          ENDIF
@@ -2365,31 +2365,31 @@ FUNCTION SavePropControl(                          ; // Save Property Control
    //     A:= A + xArray[x1,X] + " " + xArray[x1, X+1 ] + CRLF
    // NEXT X
    // MsgBox( "VALOR= " + A )
-   
+
   *  MsgBox( "Control nr=" + Str( CurrentControl ) + CRLF + "nome=" + CurrentControlName )
    *****************
    /*
     ccc := ""
     nBreak :=  1
-    FOR x := 1 to 512   
+    FOR x := 1 to 512
     if  xArray[ X1 , x ] # NIL
-       ccc += Str(x) + PADL(xArray[ X1 , x ],25,"_")
+       ccc += Str(x) + PadL(xArray[ X1 , x ],25,"_")
        IF X = nBreak
          CCC += CRLF
          nBreak := nBreak +2
        ENDIF
 
     ENDIF
-    next    
+    next
     IF !IsWIndowDefined ( "DEBUG_1")
-    DEFINE WINDOW DEBUG_1  AT 35 , 564 WIDTH 850 HEIGHT 918 TITLE "Debug Log" CHILD TOPMOST NOMAXIMIZE NOSIZE ON INTERACTIVECLOSE EVAL({||  DEBUG_1.HIDE })
+    DEFINE WINDOW DEBUG_1  AT 35 , 564 WIDTH 850 HEIGHT 918 TITLE "Debug Log" CHILD TOPMOST NOMAXIMIZE NOSIZE ON INTERACTIVECLOSE Eval({||  DEBUG_1.HIDE })
        DEFINE EDITBOX Edit_1
             ROW    30
             COL    30
             WIDTH  840
             HEIGHT 840
             VALUE ''
-            FONTNAME 'Courier New' 
+            FONTNAME 'Courier New'
             FONTSIZE 10
             TOOLTIP ''
             MAXLENGTH  NIL
@@ -2401,7 +2401,7 @@ FUNCTION SavePropControl(                          ; // Save Property Control
     if !IsWIndowActive ( "Debug_1")
         ACTIVATE WINDOW DEBUG_1
     endif
-    IF IsWIndowDefined ( "DEBUG_1") 
+    IF IsWIndowDefined ( "DEBUG_1")
         SHOW WINDOW DEBUG_1
     endif
     */
@@ -2412,7 +2412,7 @@ FUNCTION SavePropControl(                          ; // Save Property Control
 
    FOR y := 1 TO Len( xArray[x1] )
        IF ValType( xArray[ x1, y ] ) = "C"
-          aAdd( xArray3, Upper( xArray[ x1, y ] ) )
+          AAdd( xArray3, Upper( xArray[ x1, y ] ) )
        ENDIF
    NEXT y
 
@@ -2460,13 +2460,13 @@ FUNCTION SavePropControl(                          ; // Save Property Control
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    IF PropName # "NAME"
-      x2 := aScan( xArray3, Upper( PropName ), 4 )
+      x2 := AScan( xArray3, Upper( PropName ), 4 )
    ELSE
-      x2 := aScan( xArray3, Upper( PropName ) )
+      x2 := AScan( xArray3, Upper( PropName ) )
    ENDIF
 
     //MsgBox( "PropName= "       + PropName                        )
-    //MsgBox( "position= "       + str(x2) + " in array"           )
+    //MsgBox( "position= "       + Str(x2) + " in array"           )
     //MsgBox( xArray3[x2+1]      + " "     + " old value in temp"  )
     //MsgBox( xArray[ x1, x2+1 ] + " "     + " old value in final" )
 

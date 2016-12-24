@@ -13,7 +13,7 @@ PROCEDURE InitMenuBuilder()
    MenuToMem()
 
    IF Len( ArrayMenu ) = 0
-      aAdd( ArrayMenu, { "POPUP", 0, "INITMENU", "NIL", "NIL", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )
+      AAdd( ArrayMenu, { "POPUP", 0, "INITMENU", "NIL", "NIL", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )
    ENDIF
 
    MenuFillGrid()
@@ -73,11 +73,11 @@ PROCEDURE MenuToMem()
 
             IF ! First
                * first := .T.
-               aAdd( ArrayMenu, { "POPUP", level, Caption, "NIL", cName, "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )
+               AAdd( ArrayMenu, { "POPUP", level, Caption, "NIL", cName, "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )
                Level++
             ELSE
                level++
-               aAdd( ArrayMenu, { "POPUP", level, Caption, "NIL", cName, "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )
+               AAdd( ArrayMenu, { "POPUP", level, Caption, "NIL", cName, "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )
             ENDIF
 
             LOOP
@@ -89,7 +89,7 @@ PROCEDURE MenuToMem()
 
          IF X4 > 0
             aMenuItens := MenuItens( A1, x4, "item" )
-            aAdd( ArrayMenu, { "ITEM", Level, aMenuItens[1], aMenuItens[2], aMenuItens[3], aMenuItens[4], ;
+            AAdd( ArrayMenu, { "ITEM", Level, aMenuItens[1], aMenuItens[2], aMenuItens[3], aMenuItens[4], ;
                   aMenuItens[5], aMenuItens[6], aMenuItens[7], aMenuItens[8], aMenuItens[9] } )
             LOOP
          ENDIF
@@ -97,7 +97,7 @@ PROCEDURE MenuToMem()
          ********************************************
          X4 := At( "SEPARATOR", Upper( A1 ) )
          IF X4 > 0
-            aAdd( ArrayMenu, { "SEPARATOR", Level, "SEPARATOR", "NIL", "NIL", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )  // ou "-"
+            AAdd( ArrayMenu, { "SEPARATOR", Level, "SEPARATOR", "NIL", "NIL", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" } )  // ou "-"
             LOOP
          ENDIF
 
@@ -143,7 +143,7 @@ PROCEDURE MenuFillGrid()
    MenuBuilder.Grid_2.DeleteAllitems
 
    FOR x := 1 TO Len( ArrayMenu )
-       // MsgBox('item= '+ str(x) + ' level= '+str( ArrayMenu[x,2] ) )
+       // MsgBox('item= '+ Str(x) + ' level= '+Str( ArrayMenu[x,2] ) )
 
        IF ArrayMenu[ x, 2 ] > 0
           xValue := Replicate( "....", ArrayMenu[ x, 2 ] ) + ArrayMenu[ x, 3 ]
@@ -294,7 +294,7 @@ PROCEDURE CheckedChange()
          //ELSE
          //   ArrayMenu[ MenuBuilder.Grid_2.Value, 9 ] := ".T."
          //ENDIF
-         ArrayMenu[ MenuBuilder.Grid_2.Value, 9 ] := xToc( MenuBuilder.Check_1.Value )
+         ArrayMenu[ MenuBuilder.Grid_2.Value, 9 ] := XToC( MenuBuilder.Check_1.Value )
       ENDIF
    ENDIF
 RETURN
@@ -314,7 +314,7 @@ PROCEDURE DisabledChange()
          //ELSE
          //   ArrayMenu[ MenuBuilder.Grid_2.Value, 10 ] := ".T."
          //ENDIF
-         ArrayMenu[ MenuBuilder.Grid_2.Value, 10 ] := xToc( MenuBuilder.CHECK_2.Value )
+         ArrayMenu[ MenuBuilder.Grid_2.Value, 10 ] := XToC( MenuBuilder.CHECK_2.Value )
       ENDIF
    ENDIF
 
@@ -345,16 +345,16 @@ PROCEDURE UpLevel()
       IF ArrayMenu[ MenuBuilder.Grid_2.Value, 2 ] <= ArrayMenu[ (MenuBuilder.Grid_2.Value) - 1, 2 ]
          tValue := MenuBuilder.Grid_2.Value
 
-         // MsgBox('anterior = '+ArrayMenu[(MenuBuilder.Grid_2.Value)-1,1]+ ' level = '+str(ArrayMenu[(MenuBuilder.Grid_2.Value)-1,2]))
-         // MsgBox('atual = '+ArrayMenu[MenuBuilder.Grid_2.Value,1]+ ' level = '+str(ArrayMenu[MenuBuilder.Grid_2.Value,2]))
-         // MsgBox('proximo= '+ArrayMenu[(MenuBuilder.Grid_2.Value)+1,1]+ ' level = '+str(ArrayMenu[(MenuBuilder.Grid_2.Value)+1,2]))
+         // MsgBox('anterior = '+ArrayMenu[(MenuBuilder.Grid_2.Value)-1,1]+ ' level = '+Str(ArrayMenu[(MenuBuilder.Grid_2.Value)-1,2]))
+         // MsgBox('atual = '+ArrayMenu[MenuBuilder.Grid_2.Value,1]+ ' level = '+Str(ArrayMenu[MenuBuilder.Grid_2.Value,2]))
+         // MsgBox('proximo= '+ArrayMenu[(MenuBuilder.Grid_2.Value)+1,1]+ ' level = '+Str(ArrayMenu[(MenuBuilder.Grid_2.Value)+1,2]))
 
          ArrayMenu[ MenuBuilder.Grid_2.Value, 2 ] := ArrayMenu[ MenuBuilder.Grid_2.Value, 2 ] + 1
          ArrayMenu[ MenuBuilder.Grid_2.Value, 1 ] := 'POPUP'
 
-         // MsgBox('anterior = '+ArrayMenu[(MenuBuilder.Grid_2.Value)-1,1]+ ' level = '+str(ArrayMenu[(MenuBuilder.Grid_2.Value)-1,2]))
-         // MsgBox('atual = '+ArrayMenu[MenuBuilder.Grid_2.Value,1]+ ' level = '+str(ArrayMenu[MenuBuilder.Grid_2.Value,2]))
-         // MsgBox('proximo= '+ArrayMenu[(MenuBuilder.Grid_2.Value)+1,1]+ ' level = '+str(ArrayMenu[(MenuBuilder.Grid_2.Value)+1,2]))
+         // MsgBox('anterior = '+ArrayMenu[(MenuBuilder.Grid_2.Value)-1,1]+ ' level = '+Str(ArrayMenu[(MenuBuilder.Grid_2.Value)-1,2]))
+         // MsgBox('atual = '+ArrayMenu[MenuBuilder.Grid_2.Value,1]+ ' level = '+Str(ArrayMenu[MenuBuilder.Grid_2.Value,2]))
+         // MsgBox('proximo= '+ArrayMenu[(MenuBuilder.Grid_2.Value)+1,1]+ ' level = '+Str(ArrayMenu[(MenuBuilder.Grid_2.Value)+1,2]))
 
          MenuFillGrid()
 
@@ -483,8 +483,8 @@ PROCEDURE MenuDelete()
       ENDIF
    ENDIF
 
-   aDel( ArrayMenu, MenuBuilder.Grid_2.Value )
-   aSize( ArrayMenu, Len( ArrayMenu ) - 1 )
+   ADel( ArrayMenu, MenuBuilder.Grid_2.Value )
+   ASize( ArrayMenu, Len( ArrayMenu ) - 1 )
 
    tValue := MenuBuilder.Grid_2.Value
 
@@ -569,8 +569,8 @@ PROCEDURE MenuInsert()
    cItem  := iif( Level = 0, 'POPUP', 'ITEM' )
    xValue := { cItem, Level, "", "NIL", "NIL", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" }
 
-   aSize( ArrayMenu, Len( ArrayMenu ) + 1 )
-   aIns( ArrayMenu, MenuBuilder.Grid_2.Value )
+   ASize( ArrayMenu, Len( ArrayMenu ) + 1 )
+   AIns( ArrayMenu, MenuBuilder.Grid_2.Value )
 
    ArrayMenu[ MenuBuilder.Grid_2.Value] := xValue
 
@@ -605,7 +605,7 @@ PROCEDURE NextMenu()
       ENDIF
 
       xValue := { cValue, Level, "", "NIL", "NIL", "NIL", "NIL", "NIL", ".F.", ".F.", "NIL" }
-      aAdd( ArrayMenu, xValue )
+      AAdd( ArrayMenu, xValue )
 
       x      := Len( ArrayMenu )
       xValue := ArrayMenu[ x, 3 ]
@@ -724,10 +724,10 @@ PROCEDURE xCreateMenu2( PARAM )
    PRIVATE ACTION
 
    aMenu := {}
-   aAdd( aMenu, Space( 5 ) + "DEFINE MAIN MENU" )
+   AAdd( aMenu, Space( 5 ) + "DEFINE MAIN MENU" )
 
    aPopOpen := Array( 256 )
-   aFill( aPopOpen, 0 )
+   AFill( aPopOpen, 0 )
 
    _DefineMainMenu( "Form_1" )   // to change to FORM_1 in hmgs-ide
 
@@ -745,9 +745,9 @@ PROCEDURE xCreateMenu2( PARAM )
           _DefineMenuPopup( Caption, Name )
 
           IF ArrayMenu[ x, 5 ] == "NIL"
-             aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
+             AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
           ELSE
-             aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME " + ArrayMenu[ x, 5 ] )
+             AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME " + ArrayMenu[ x, 5 ] )
           ENDIF
 
           MenuPopOpen ++
@@ -762,7 +762,7 @@ PROCEDURE xCreateMenu2( PARAM )
 
                    _EndMenuPopUp()
 
-                   aAdd( aMenu, iif( Level > 0, Space(((level+1)*5)+5), Space(10)) + "END POPUP " )
+                   AAdd( aMenu, iif( Level > 0, Space(((level+1)*5)+5), Space(10)) + "END POPUP " )
                    MenuPopOpen--
                    aPopOpen[level+1] --
                 ENDIF
@@ -771,9 +771,9 @@ PROCEDURE xCreateMenu2( PARAM )
                 _DefineMenuPopUp( Caption, Name )
 
                 IF ArrayMenu[ x, 5 ] = "NIL"
-                   aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
+                   AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
                 ELSE
-                   aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME "+ ArrayMenu[ x, 5 ] )
+                   AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME "+ ArrayMenu[ x, 5 ] )
                 ENDIF
 
                 MenuPopOpen++
@@ -783,9 +783,9 @@ PROCEDURE xCreateMenu2( PARAM )
                 _DefineMenuPopUp( Caption, Name )
 
                 IF ArrayMenu[ x, 5 ] = "NIL"
-                   aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
+                   AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
                 ELSE
-                   aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME "+ ArrayMenu[ x, 5 ] )
+                   AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME "+ ArrayMenu[ x, 5 ] )
                 ENDIF
 
                 MenuPopOpen++
@@ -797,7 +797,7 @@ PROCEDURE xCreateMenu2( PARAM )
                 DO WHILE .T.
                    IF aPopOpen[ level+1 ] > 0
                       _ENDMENUPOPUP()
-                      aAdd( aMenu, iif( level > 0, Space(((level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
+                      AAdd( aMenu, iif( level > 0, Space(((level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
                       MenuPopOpen --
                       aPopOpen[ Level+1 ] --
                       IF aPopOpen[ Level+1 ] > 0
@@ -821,9 +821,9 @@ PROCEDURE xCreateMenu2( PARAM )
                 _DefineMenuPopUp( Caption, Name )
 
                 IF ArrayMenu[ x, 5 ] = "NIL"
-                   aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
+                   AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' )
                 ELSE
-                   aAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME " + ArrayMenu[ x, 5 ] )
+                   AAdd( aMenu, XSpace( x ) + "DEFINE POPUP " + '"' + ArrayMenu[ x, 3 ] + '"' + " NAME " + ArrayMenu[ x, 5 ] )
                 ENDIF
 
                 MenuPopOpen++
@@ -834,7 +834,7 @@ PROCEDURE xCreateMenu2( PARAM )
 
           IF TypeMenu = "ITEM"
 
-             // MsgBox("ITEM pos= " + STR(X)+ " "+ ArrayMenu[X,3])
+             // MsgBox("ITEM pos= " + Str(X)+ " "+ ArrayMenu[X,3])
              // MsgBox("X " + ArrayMenu[X,1] +" X")
 
              Action    := "{|| MsgInfo('Action Clicked')}"
@@ -905,8 +905,8 @@ PROCEDURE xCreateMenu2( PARAM )
 
                    _EndMenuPopUp()
 
-                   //aAdd( aMenu, XSpace( X ) + "END POPUP " )
-                   aAdd( aMenu, iif( Level > 0, Space(((Level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
+                   //AAdd( aMenu, XSpace( X ) + "END POPUP " )
+                   AAdd( aMenu, iif( Level > 0, Space(((Level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
                    MenuPopOpen --
                 ENDIF
 
@@ -920,7 +920,7 @@ PROCEDURE xCreateMenu2( PARAM )
 
                       _EndMenuPopUp()
 
-                      aAdd( aMenu, iif( Level > 0, Space(((Level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
+                      AAdd( aMenu, iif( Level > 0, Space(((Level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
                       MenuPopOpen --
                       aPopOpen[ Level+1 ] --
 
@@ -946,12 +946,12 @@ PROCEDURE xCreateMenu2( PARAM )
              ENDIF
 
              _DefineMenuItem( Caption, Action, Name, Image, Checked, Disabled, CMessages, Font, Checkmark )
-             aAdd( aMenu, XSpace( X ) + VALUE )
+             AAdd( aMenu, XSpace( X ) + VALUE )
           ENDIF
 
           IF TypeMenu = "SEPARATOR"
              _DefineSeparator()
-             aAdd( aMenu, XSpace( x ) + "SEPARATOR " )
+             AAdd( aMenu, XSpace( x ) + "SEPARATOR " )
           ENDIF
        ENDIF
 
@@ -963,10 +963,10 @@ PROCEDURE xCreateMenu2( PARAM )
          _ENDMENUPOPUP()
 
          IF MenuPopOpen > 1
-            aAdd( aMenu, iif( Level > 0, Space(((Level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
+            AAdd( aMenu, iif( Level > 0, Space(((Level+1)*5)+5), Space( 10 ) ) + "END POPUP " )
             LEVEL --
          ELSE
-            aAdd( aMenu, Space(10) + "END POPUP " )
+            AAdd( aMenu, Space(10) + "END POPUP " )
          ENDIF
          MenuPopOpen --
       ELSE
@@ -976,7 +976,7 @@ PROCEDURE xCreateMenu2( PARAM )
 
    _ENDMENU()
 
-   aAdd( aMenu, Space( 5 ) + "END MENU" )
+   AAdd( aMenu, Space( 5 ) + "END MENU" )
 
    /* TEST
    A := ""
@@ -996,57 +996,57 @@ PROCEDURE CheckMenu()
    LOCAL X
    level := 0
    FOR X = 1 TO Len( ArrayMenu )
-      // MsgBox( 'x= ' + str(x) + ' level = ' + str(level) +' value = '+str(ArrayMenu[X,2]) )
+      // MsgBox( 'x= ' + Str(x) + ' level = ' + Str(level) +' value = '+Str(ArrayMenu[X,2]) )
       IF X = 1
          ArrayMenu[X,1] := 'POPUP'
          ArrayMenu[X,2] := 0
          //level := 0
       ELSEIF X = 2
          IF ArrayMenu[X,2] = LEVEL
-            // MsgBox(  ArrayMenu[X,1]+STR(X),'POPUP-1')
+            // MsgBox(  ArrayMenu[X,1]+Str(X),'POPUP-1')
             ArrayMenu[X,1] := 'POPUP'
          ENDIF
          IF ArrayMenu[X,2] = LEVEL + 1
-            // MsgBox(  ArrayMenu[X,1]+STR(X),'ITEM-2')
+            // MsgBox(  ArrayMenu[X,1]+Str(X),'ITEM-2')
             ArrayMenu[X,1] := 'ITEM'
             LEVEL ++
          ENDIF
          IF Len( ArrayMenu ) - X > 0
             IF ArrayMenu[X+1,2] = ArrayMenu[X,2] + 1
-               // MsgBox(  ArrayMenu[X,1]+STR(X),'POPUP-3')
+               // MsgBox(  ArrayMenu[X,1]+Str(X),'POPUP-3')
                ArrayMenu[X,1] := 'POPUP'
             ENDIF
          ENDIF
       ELSE
-         // MsgBox(STR(X),'VALOR-X')
+         // MsgBox(Str(X),'VALOR-X')
          IF Len( ArrayMenu ) - X > 0  // IS NOT THE LAST ONE
             IF ArrayMenu[X,2] = LEVEL
-               // MsgBox(  ArrayMenu[X,1]+STR(X),'ITEM-4')
+               // MsgBox(  ArrayMenu[X,1]+Str(X),'ITEM-4')
                ArrayMenu[X,1] := 'ITEM'
                IF Upper( ArrayMenu[X,3] ) = 'SEPARATOR' .OR. SubStr( ArrayMenu[x,3], 1, 1 ) = "-"
-                  // MsgBox(  ArrayMenu[X,1]+STR(X),'SEP-5')
+                  // MsgBox(  ArrayMenu[X,1]+Str(X),'SEP-5')
                   ArrayMenu[X,1] := 'SEPARATOR'
                ENDIF
                IF  ArrayMenu[X+1,2] = LEVEL + 1
-                  // MsgBox(  ArrayMenu[X,1]+STR(X),'POP-6')
+                  // MsgBox(  ArrayMenu[X,1]+Str(X),'POP-6')
                   ArrayMenu[X,1] := 'POPUP'
                ENDIF
                IF ArrayMenu[x,2] = 0
-                  // MsgBox(  ArrayMenu[X,1]+STR(X),'POP-7')
+                  // MsgBox(  ArrayMenu[X,1]+Str(X),'POP-7')
                   ArrayMenu[X,1] := 'POPUP'
                ENDIF
             ENDIF
             IF ArrayMenu[X,2] = LEVEL + 1
-               // MsgBox(  ArrayMenu[X,1]+STR(X),'IT-8')
+               // MsgBox(  ArrayMenu[X,1]+Str(X),'IT-8')
                ArrayMenu[X,1] := 'ITEM'
                LEVEL ++
                IF ArrayMenu[X+1,2] = LEVEL + 1
-                  // MsgBox(  ArrayMenu[X,1]+STR(X),'POP-9')
+                  // MsgBox(  ArrayMenu[X,1]+Str(X),'POP-9')
                   ArrayMenu[X,1] := 'POPUP'
                ENDIF
             ENDIF
             IF ArrayMenu[X,2] < LEVEL
-               // MsgBox(  ArrayMenu[X,1]+STR(X),'POP-10')
+               // MsgBox(  ArrayMenu[X,1]+Str(X),'POP-10')
                DO WHILE .T.
                   LEVEL --
                   IF ArrayMenu[X,2] = LEVEL
@@ -1054,7 +1054,7 @@ PROCEDURE CheckMenu()
                      ArrayMenu[X,1] := 'POPUP'
                      * level := level + 1
                      //ELSE
-                     // MsgBox(  ArrayMenu[X,1]+STR(X),'IT-11')
+                     // MsgBox(  ArrayMenu[X,1]+Str(X),'IT-11')
                      //   ArrayMenu[X,1] := 'ITEM'
                      //ENDIF
                      EXIT
@@ -1065,14 +1065,14 @@ PROCEDURE CheckMenu()
 
          IF Len( ArrayMenu ) - X = 0  // IS THE LAST ONE
             IF ArrayMenu[X,2] = 0
-               // MsgBox(  ArrayMenu[X,1]+STR(X),'POP-11')
+               // MsgBox(  ArrayMenu[X,1]+Str(X),'POP-11')
                ArrayMenu[X,1] := 'POPUP'
                LEVEL := ArrayMenu[X,2]
             ELSE
-               // MsgBox(  ArrayMenu[X,1]+STR(X),'ITEM-12')
+               // MsgBox(  ArrayMenu[X,1]+Str(X),'ITEM-12')
                ArrayMenu[X,1] := 'ITEM'
                IF ArrayMenu[X,3] = 'SEPARATOR' .OR. SubStr( ArrayMenu[x,3], 1, 1 ) = "-"
-                  // MsgBox(  ArrayMenu[X,1]+STR(X),'SEP-13')
+                  // MsgBox(  ArrayMenu[X,1]+Str(X),'SEP-13')
                   ArrayMenu[X,1] := 'SEPARATOR'
                ENDIF
             ENDIF

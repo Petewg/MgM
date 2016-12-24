@@ -8,7 +8,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             COL    10
             WIDTH  340
             HEIGHT 285
-     END FRAME  
+     END FRAME
 
      DEFINE LABEL Label_1
             ROW    20
@@ -16,7 +16,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  60
             HEIGHT 20
             VALUE "Caption:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_2
             ROW    50
@@ -24,7 +24,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  50
             HEIGHT 20
             VALUE "Action:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_3
             ROW    80
@@ -32,7 +32,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  40
             HEIGHT 20
             VALUE "Name:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_4
             ROW    110
@@ -40,7 +40,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  40
             HEIGHT 20
             VALUE "Image:"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_5
             ROW    140
@@ -48,7 +48,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  65
             HEIGHT 20
             VALUE "CheckMark"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_1
             ROW    20
@@ -56,7 +56,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  240
             HEIGHT 24
             ONCHANGE CaptionChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_2
             ROW    50
@@ -64,7 +64,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  240
             HEIGHT 24
             ONCHANGE ActionChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_3
             ROW    80
@@ -72,7 +72,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  240
             HEIGHT 24
             ONCHANGE NameChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_4
             ROW    110
@@ -80,7 +80,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  240
             HEIGHT 24
             ONCHANGE ImageChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE CHECKBOX Check_2
             ROW    230
@@ -89,7 +89,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 20
             CAPTION ""
             ONCHANGE DisabledChange()
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE BUTTON Button_1
             ROW    20
@@ -98,7 +98,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 28
             ACTION MenuBuilderOk()
             CAPTION "Ok"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_2
             ROW    60
@@ -107,14 +107,14 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 28
             ACTION ThisWindow.Release
             CAPTION "Cancel"
-     END BUTTON  
+     END BUTTON
 
      DEFINE FRAME Frame_2
             ROW    300
             COL    10
             WIDTH  450
             HEIGHT 41
-     END FRAME  
+     END FRAME
 
      DEFINE BUTTON Button_3
             ROW    305
@@ -125,7 +125,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             CAPTION "Button_3"
             TOOLTIP "Decrease Level"
            PICTURE "BITMAP43"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_4
             ROW    305
@@ -136,7 +136,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             CAPTION "Button_4"
             TOOLTIP "Increase Level"
            PICTURE "BITMAP44"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_5
             ROW    305
@@ -147,7 +147,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             CAPTION "Button_5"
             TOOLTIP "Up Position"
            PICTURE "BITMAP45"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_6
             ROW    305
@@ -158,7 +158,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             CAPTION "Button_6"
             TOOLTIP "Down Position"
            PICTURE "BITMAP46"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_7
             ROW    305
@@ -167,7 +167,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 30
             ACTION NextMenu()
             CAPTION "Next"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_8
             ROW    305
@@ -176,7 +176,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 30
             ACTION PriorMenu()
             CAPTION "Prior"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_9
             ROW    305
@@ -185,7 +185,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 30
             ACTION MenuInsert()
             CAPTION "Insert"
-     END BUTTON  
+     END BUTTON
 
      DEFINE BUTTON Button_10
             ROW    305
@@ -194,7 +194,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 30
             ACTION MenuDelete()
             CAPTION "Delete"
-     END BUTTON  
+     END BUTTON
 
      DEFINE GRID Grid_2
             ROW    350
@@ -205,7 +205,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTHS {250,90,80}
             HEADERS {'ITEMS OF MENU','TYPE','LEVEL'}
             ONCHANGE GridChange()
-     END GRID  
+     END GRID
 
      DEFINE BUTTON Button_11
             ROW    120
@@ -215,7 +215,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             ACTION MostraMenu()
             CAPTION "Test"
             VISIBLE .F.
-     END BUTTON  
+     END BUTTON
 
      DEFINE LABEL Label_6
             ROW    170
@@ -223,7 +223,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  60
             HEIGHT 20
             VALUE "Font"
-     END LABEL  
+     END LABEL
 
      DEFINE CHECKBOX Check_1
             ROW    200
@@ -232,7 +232,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 20
             CAPTION ""
             ONCHANGE CheckedChange()
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE LABEL Label_7
             ROW    200
@@ -240,7 +240,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  60
             HEIGHT 20
             VALUE "Checked"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_5
             ROW    140
@@ -248,7 +248,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  240
             HEIGHT 24
             ONCHANGE CheckMarkChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE BUTTON Button_12
             ROW    170
@@ -258,7 +258,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             ACTION xCreateMenu2()
             CAPTION "Save Menu"
             VISIBLE .F.
-     END BUTTON  
+     END BUTTON
 
      DEFINE LABEL Label_8
             ROW    230
@@ -266,7 +266,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  60
             HEIGHT 20
             VALUE "Disabled"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_9
             ROW    260
@@ -274,7 +274,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  60
             HEIGHT 20
             VALUE "Message"
-     END LABEL  
+     END LABEL
 
      DEFINE TEXTBOX Text_6
             ROW    170
@@ -282,7 +282,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  240
             HEIGHT 24
             ONCHANGE FontChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE TEXTBOX Text_7
             ROW    260
@@ -290,7 +290,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  240
             HEIGHT 24
             ONCHANGE MessageChange()
-     END TEXTBOX 
+     END TEXTBOX
 
      DEFINE BUTTON Button_13
             ROW    305
@@ -299,7 +299,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             HEIGHT 30
             ACTION MenuChangeType()
             CAPTION "Change Type"
-     END BUTTON  
+     END BUTTON
 
      DEFINE CHECKBOX Check_3
             ROW    200
@@ -309,7 +309,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             CAPTION ""
             FONTNAME 'Arial'
             TOOLTIP ''
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE CHECKBOX Check_4
             ROW    230
@@ -319,7 +319,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             CAPTION ""
             FONTNAME 'Arial'
             TOOLTIP ''
-     END CHECKBOX  
+     END CHECKBOX
 
      DEFINE LABEL Label_10
             ROW    200
@@ -327,7 +327,7 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  80
             HEIGHT 24
             VALUE "BreakMenu"
-     END LABEL  
+     END LABEL
 
      DEFINE LABEL Label_11
             ROW    230
@@ -335,8 +335,6 @@ DEFINE WINDOW TEMPLATE AT 134 , 383 WIDTH 480 HEIGHT 556 MODAL NOSIZE ON INIT In
             WIDTH  80
             HEIGHT 24
             VALUE "Separator"
-     END LABEL  
+     END LABEL
 
 END WINDOW
-
-

@@ -18,7 +18,7 @@ FUNCTION ShowInfo2( uMessage )
        RETURN NIL
     ENDIF
 
-    uMessage := IIf(uMessage == NIL, "Processing! Please wait.", HB_ValToStr(uMessage))
+    uMessage := IIf(uMessage == NIL, "Processing! Please wait.", hb_ValToStr(uMessage))
 
     nLen :=  Len(uMessage)*10
 
@@ -60,7 +60,7 @@ FUNCTION ShowInfo2( uMessage )
        WaitWindow.MessageLabel.Width := nLen - 50
        WaitWindow.MessageLabel.Value := uMessage
        WaitWindow.Hide
- 
+
     ENDIF
 
     lOldCenterWindowStyle := _SetCenterWindowStyle ( .T. )

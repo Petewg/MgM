@@ -46,7 +46,7 @@ PROCEDURE mpmc3( ProjectFile, Param1, Param2 )
    cOutputFolder := iif( aData[ _MINIGUIEXT ] = ".T.", aData[ _HMGOUTPUTFOLDER ], aData[ _HMG2OUTPUTFOLDER ] )
 
    /*
-   IF pcount() = 0 .OR. pcount() > 3
+   IF PCount() = 0 .OR. PCount() > 3
       MsgBox( "Usage: mpmc <ProjectFile> [/d] [/c]")
       RETURN
    ENDIF
@@ -57,7 +57,7 @@ PROCEDURE mpmc3( ProjectFile, Param1, Param2 )
       RETURN
    ENDIF
 
-   IF pcount() > 1
+   IF PCount() > 1
       IF AllTrim( Upper( Param1 ) ) = "/D"
          DebugActive := .T.
       ENDIF
@@ -115,7 +115,7 @@ PROCEDURE mpmc3( ProjectFile, Param1, Param2 )
          ELSEIF Upper( Line ) = 'MYSQLSUPPORT'
             ms := ( Upper( SubStr( Line , 14 , 3 ) ) = 'YES' )
          ELSEIF Right( Upper( Line ) , 4 ) == '.PRG'
-            aAdd( prg, AllTrim( Line ) )
+            AAdd( prg, AllTrim( Line ) )
          ENDIF
 
       NEXT i
@@ -159,14 +159,14 @@ PROCEDURE mpmc3( ProjectFile, Param1, Param2 )
    cError1 := MemoRead( '_temp1' )
 
    // MsgBox( 'cError= ' + cError )
-   IF At( 'ERROR', Upper( cError ) ) > 0 .OR. at( 'FATAL', Upper( cError ) ) > 0
+   IF At( 'ERROR', Upper( cError ) ) > 0 .OR. At( 'FATAL', Upper( cError ) ) > 0
       IF buildtype # 'full'
          viewerrors()
       ELSE
          SetProperty( 'build', 'label_17', 'value', 'Finished with errors' )
          SetProperty( 'build', 'edit_2', 'value', cError )
       ENDIF
-   ELSEIF at( 'ERROR', Upper( cError1 ) ) > 0 .OR. at( 'FATAL', Upper( cError1 ) ) > 0
+   ELSEIF At( 'ERROR', Upper( cError1 ) ) > 0 .OR. At( 'FATAL', Upper( cError1 ) ) > 0
       IF buildtype # 'full'
          viewerrors()
       ELSE
@@ -215,8 +215,8 @@ PROCEDURE mpmc3( ProjectFile, Param1, Param2 )
 
    ENDIF
 
-   fErase( '_temp' )
-   fErase( '_temp1' )
+   FErase( '_temp' )
+   FErase( '_temp1' )
 
 RETURN
 
@@ -471,11 +471,11 @@ PROCEDURE Build2()
 
       cdados := {}
       do while .T.
-         x1 := at(';',aData[ _ADDLIBMINMINGHB ])
+         x1 := At(';',aData[ _ADDLIBMINMINGHB ])
          if x1 > 0
             cLib := SubStr(aData[ _ADDLIBMINMINGHB ],1,x1-1)
-            if File(Clib) .AND. at('.LIB',Upper(Clib)) > 0
-               aAdd(cdados,Clib)
+            if File(Clib) .AND. At('.LIB',Upper(Clib)) > 0
+               AAdd(cdados,Clib)
             ENDIF
             aData[ _ADDLIBMINMINGHB ] := SubStr(aData[ _ADDLIBMINMINGHB ],x1+1,Len(aData[ _ADDLIBMINMINGHB ])-x1)
          ELSE
@@ -502,7 +502,7 @@ PROCEDURE Build2()
    MakeName    := MINGW32FOLDER + "\BIN\mingw32-make.exe"
    ParamString := "-f  makefile.gcc 1>_temp 2>_temp1"
 
-   Memowrit( ProjectFolder + iif( Right( ProjectFolder, 1 ) != "\" , "\" , "" ) + "_Build.Bat", "REM @echo off" + CRLF + "REM SET PATH=;" + CRLF + MakeName + " " + ParamString + CRLF + "Echo End > " + ProjectFolder + iif( Right( ProjectFolder, 1 ) != "\" , "\" , "" ) + "End.Txt" + CRLF )
+   MemoWrit( ProjectFolder + iif( Right( ProjectFolder, 1 ) != "\" , "\" , "" ) + "_Build.Bat", "REM @echo off" + CRLF + "REM SET PATH=;" + CRLF + MakeName + " " + ParamString + CRLF + "Echo End > " + ProjectFolder + iif( Right( ProjectFolder, 1 ) != "\" , "\" , "" ) + "End.Txt" + CRLF )
 
    Clean2( .F. , CleanActive )
 
@@ -522,20 +522,20 @@ PROCEDURE Clean2( DeleteExe, DeleteAll )
 *-----------------------------------------------------------------------------*
 
    LOCAL ProjectFolder AS STRING  := pf + iif( Right ( pf , 1 ) != "\" , "\" , "" )
-   LOCAL aCFiles       AS ARRAY   := aDir( ProjectFolder + "OBJ\*.C" )
-   LOCAL aObjFiles     AS ARRAY   := aDir( ProjectFolder + "OBJ\*.O" )
-   LOCAL aMapFiles     AS ARRAY   := aDir( ProjectFolder + "*.MAP"   )
-   LOCAL aTdsFiles     AS ARRAY   := aDir( ProjectFolder + "*.TDS"   )
+   LOCAL aCFiles       AS ARRAY   := ADir( ProjectFolder + "OBJ\*.C" )
+   LOCAL aObjFiles     AS ARRAY   := ADir( ProjectFolder + "OBJ\*.O" )
+   LOCAL aMapFiles     AS ARRAY   := ADir( ProjectFolder + "*.MAP"   )
+   LOCAL aTdsFiles     AS ARRAY   := ADir( ProjectFolder + "*.TDS"   )
    LOCAL i             AS NUMERIC
    LOCAL cOutputFolder AS STRING  := iif( aData[ _MINIGUIEXT ] = ".T.", aData[ _HMGOUTPUTFOLDER ], aData[ _HMG2OUTPUTFOLDER ] )
 
    DEFAULT DeleteExe TO .T.
    DEFAULT DeleteAll TO .T.
 
-   aDir( ProjectFolder + "OBJ\*.C", aCFiles   )
-   aDir( ProjectFolder + "OBJ\*.O", aObjFiles )
-   aDir( ProjectFolder + "*.MAP"  , aMapFiles )
-   aDir( ProjectFolder + "*.TDS"  , aTdsFiles )
+   ADir( ProjectFolder + "OBJ\*.C", aCFiles   )
+   ADir( ProjectFolder + "OBJ\*.O", aObjFiles )
+   ADir( ProjectFolder + "*.MAP"  , aMapFiles )
+   ADir( ProjectFolder + "*.TDS"  , aTdsFiles )
 
    IF DeleteAll
       FOR i := 1 TO Len( aCFiles )
@@ -590,9 +590,9 @@ STATIC FUNCTION GetIncludes()
 
    FOR x := 1 TO Len( aFmgNames )
        IF aFmgNames[ x ][ 2 ] # '<ProjectFolder>\' .AND. ! Empty( aFmgNames[ x ][ 2 ] )
-          z := aScan( aInclude, aFmgNames[ x ][ 2 ] )
+          z := AScan( aInclude, aFmgNames[ x ][ 2 ] )
           if z == 0
-             aAdd( aInclude, aFmgNames[ x ][ 2 ] )
+             AAdd( aInclude, aFmgNames[ x ][ 2 ] )
           ENDIF
        ENDIF
    NEXT x

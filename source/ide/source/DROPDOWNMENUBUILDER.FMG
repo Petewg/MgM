@@ -12,7 +12,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 256 WIDTH 305 HEIGHT 279 TITLE "DropDown Menu Bu
             WIDTHS { 100 }
             HEADERS {'OWNERS'}
             ONDBLCLICK dropdowngridclick()
-     END GRID  
+     END GRID
 
     DEFINE BUTTON Button_1
            ROW    20
@@ -21,7 +21,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 256 WIDTH 305 HEIGHT 279 TITLE "DropDown Menu Bu
            HEIGHT 28
            ACTION dropdownnew()
            CAPTION "New Menu..."
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_2
            ROW    50
@@ -30,7 +30,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 256 WIDTH 305 HEIGHT 279 TITLE "DropDown Menu Bu
            HEIGHT 28
            ACTION dropdownedit()
            CAPTION "Edit Menu..."
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_3
            ROW    80
@@ -39,7 +39,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 256 WIDTH 305 HEIGHT 279 TITLE "DropDown Menu Bu
            HEIGHT 28
            ACTION dropdowndelete()
            CAPTION "Delete Menu"
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_4
            ROW    110
@@ -48,7 +48,7 @@ DEFINE WINDOW TEMPLATE AT 140 , 256 WIDTH 305 HEIGHT 279 TITLE "DropDown Menu Bu
            HEIGHT 28
            ACTION dropdownname()
            CAPTION "Change Owner..."
-     END BUTTON  
+     END BUTTON
 
     DEFINE BUTTON Button_5
            ROW    190
@@ -57,8 +57,6 @@ DEFINE WINDOW TEMPLATE AT 140 , 256 WIDTH 305 HEIGHT 279 TITLE "DropDown Menu Bu
            HEIGHT 28
            ACTION dropdownclose()
            CAPTION "Close"
-     END BUTTON  
+     END BUTTON
 
 END WINDOW
-
-
