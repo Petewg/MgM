@@ -13,28 +13,16 @@ obj
 *.hrb
 
 # 'install'-ed binaries
-*.exe
-*.dll
+# *.exe
+# *.dll
 *.dxe
 *.dylib
 *.so
 *.sl
 *.lib
-*.a
-
-# packages
-/pkg/
-
-# not hosted contribs
-/addons/
+# *.a
 
 # misc junk
 .DS_Store
 *.bak
 
-# exceptions
-!libunicows.a
-!unicows.lib
-!lib/3rd
-!config/*.exe
-!/*.exe
