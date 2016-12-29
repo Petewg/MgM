@@ -31,6 +31,4 @@ This package might be a good choice for harbour & ex-clipper programmers seeking
 a usable way to transfer / reimplement their application(s) into the windows GUI world.
 Try it, to see if it fits with your development environment.
 
----
-P.D.
-29/12/2016
+
