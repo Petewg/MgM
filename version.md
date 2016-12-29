@@ -1,6 +1,6 @@
   
 -------------------------------------------------------------- 
-           MiniguiM Package (build date: 23/12/2016)               
+           MiniguiM Package (build date: 29/12/2016)               
    Download links: https://sourceforge.net/projects/hbpidew/   
                    .  
 -------------------------------------------------------------- 
