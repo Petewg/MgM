@@ -1,17 +1,12 @@
 
-Harbour 3.2
+Harbour 3.2 https://github.com/harbour/core
 -----------
-https://github.com/harbour/core
 
-Harbour 3.4 (szakats fork)
+Harbour 3.4 (szakats fork) https://github.com/vszakats/harbour-core
 --------------------------
-https://github.com/vszakats/harbour-core
 
-Minigui extended
+Minigui extended http://hmgextended.com/download.html
 ----------------
-http://hmgextended.com/download.html
 
-HMG official (parent) project
+HMG official (parent) project http://www.hmgforum.com/
 -----------------------------
-http://www.hmgforum.com/
-
