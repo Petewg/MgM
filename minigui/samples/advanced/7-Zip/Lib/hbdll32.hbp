@@ -1,0 +1,12 @@
+
+-hblib
+-inc-
+-ohbdll32
+
+-I../../include
+
+-D__MINGW32__
+
+-w3 -es2 -ko
+
+hbdll32.c
