@@ -1,7 +1,7 @@
 Harbour Minigui (MinGW Package)
 -------------------------------
 
-Important note: :bangbang: It is recommended to uninstall older version (if any) 
+:warning: Important note: It is recommended to uninstall older version (if any) 
 before installing a new one, for to avoid mixing of outdated components 
 with new ones. This is especially critical for harbour and/or mingw32 libraries!
 
