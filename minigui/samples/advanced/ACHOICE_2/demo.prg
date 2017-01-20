@@ -103,7 +103,7 @@ FUNCTION hmgAchoice( cTitle, aSelection_, cHeading, cFont, nFontSize, lSort )
    //--> calculate dimensions
    nWidth     := GETTEXTWIDTH( Nil, cLonger, cFont )
    nCellWidth := nWidth
-   nHeight    := LEN( aSelection_ ) * nFontSize 
+   nHeight    := iif(ISVISTAORLATER(), 1, 2) * GetBorderWidth()+LEN( aSelection_ ) * nFontSize 
    nHeight    := INT( nHeight / 72 * 25.4 ) + 1
    nHeight    := nHeight * LEN( aSelection_ ) + 40
 
