@@ -69,5 +69,8 @@ IF "%2"=="-norun" SHIFT /2
    DEL _BuildLog.txt > NUL
    IF EXIST %1.ppo DEL %1.ppo > NUL
    IF EXIST ErrorLog.htm DEL ErrorLog.htm > NUL
+   SET PATH=%OLD_PATH%
+
+
 
 	
