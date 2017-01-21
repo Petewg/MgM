@@ -79,7 +79,7 @@ Return Nil
 
 
 FUNCTION DoAchoice( aItems )
-LOCAL nTop := 10
+LOCAL nTop
 LOCAL nLeft := 300
 LOCAL nDefault := 1
 LOCAL nSelected
@@ -87,7 +87,7 @@ LOCAL control := thiswindow.focusedcontrol
 LOCAL value := GetProperty( thiswindow.name, control, 'value' )
 LOCAL aList := {}, aSaveItems, lMultiDim := .F.
 nTop := GetProperty(thiswindow.name,control,'row')
-nLeft := GetProperty(thiswindow.name,control,'col') + GetProperty(thiswindow.name,control,'width') + 5
+nLeft := GetProperty(thiswindow.name,control,'col') + GetProperty(thiswindow.name,control,'width') +  iif(ISVISTAORLATER(),10, 6)
 
 
 if valtype( aItems[1] ) == "A"
@@ -99,7 +99,7 @@ endif
 
 if len(alltrim(value)) > 0
    nDefault := ascan(aItems,value)
-endif   
+endif
 
 nSelected := HMG_AChoice( nTop, nLeft, , , aItems, nDefault )
 
@@ -111,7 +111,7 @@ endif
 return nSelected
 
 STATIC FUNCTION HMG_Achoice(nTop,nLeft,nBottom,nRight,aList,nDefault,lAnyWhere)
-LOCAL nRow := thiswindow.row + GetTitleHeight()
+LOCAL nRow := thiswindow.row + GetTitleHeight()+ iif(ISVISTAORLATER(), 3, -1)
 LOCAL nCol := thiswindow.col
 LOCAL nWindowWidth := thiswindow.width
 LOCAL nWindowHeight := thiswindow.height
@@ -128,7 +128,7 @@ default nBottom := thiswindow.height - GetTitleHeight() - 10
 default nRight := thiswindow.width - 2*GetBorderWidth() - 10
 lAnyWhereSearch := lAnyWhere
 nWidth := iif(nRight < nWindowWidth,  nRight - nLeft,nWindowWidth - nLeft - 2*GetBorderWidth() - 10)
-nHeight := iif(nBottom < nWindowHeight, nBottom - nTop,nWindowHeight - nTop - GetTitleHeight() - 10)
+nHeight := iif(nBottom < nWindowHeight, nBottom - nTop,nWindowHeight - nTop - GetTitleHeight() - 10) -2
 if iswindowdefined(_HMG_aChoice)
    release window _HMG_aChoice
 endif
@@ -143,7 +143,7 @@ DEFINE WINDOW _HMG_aChoice AT nRow+nTop, nCol+nLeft ;
 
    define textbox _edit
       row 5
-      col 5
+      col 0
       width nWidth - 2*GetBorderWidth()
       on change     _aChoiceTextChanged( lAnyWhere )
       on enter      _aChoiceSelected()
@@ -151,9 +151,9 @@ DEFINE WINDOW _HMG_aChoice AT nRow+nTop, nCol+nLeft ;
    end textbox
    define listbox _list
       row 30
-      col 5
+      col 0
       width nWidth - 2*GetBorderWidth()
-      height nHeight - 50
+      height nHeight - 50+ 3
       items aList
       on change _achoicelistchanged()
       on dblclick _aChoiceSelected()
