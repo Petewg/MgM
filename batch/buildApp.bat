@@ -27,8 +27,9 @@ IF "%2"=="-norun" SET RUNEXE=-run-
 IF "%2"=="-norun" SHIFT /2
 
 :Gui
-      hbmk2 -n -mt -cpu=x86 -lang=en -w3 %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
-   :: hbmk2 -n -cpu=x86 -lang=en -w3 %RUNEXE% -ge1 -ql %STRIP%               %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
+echo GUI
+      hbmk2 -n -mt -cpu=x86 -lang=en -w2 %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
+   :: hbmk2 -n -cpu=x86 -lang=en -w3 %RUNEXE% -ge1 -ql %STRIP% %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
    GOTO Check
 
 :Console

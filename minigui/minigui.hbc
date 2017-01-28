@@ -12,7 +12,7 @@
 
 # MiniGUI Libs 
 #{win}libs=minigui hbprinter calldll tsbrowse socket winreport 
-{win}libs=minigui hbprinter tsbrowse socket winreport 
+{win}libs=minigui hbprinter tsbrowse socket winreport
 
 # Minigui additional libs (you can comment out if you don't need them)
 #{win}libs=miniprint adordd bostaurus hbxml qhtm tmsagent propgrid propsheet calldll

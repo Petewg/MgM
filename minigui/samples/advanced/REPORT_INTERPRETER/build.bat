@@ -1,0 +1,1 @@
+@call %~d0\miniguim\batch\buildapp.bat repint repint.hbc hbzebra.hbc
