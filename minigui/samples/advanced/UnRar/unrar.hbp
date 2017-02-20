@@ -1,0 +1,14 @@
+#
+# hmg.hbp
+#
+
+-hblib
+
+-o../../../lib/hbunrar
+
+-I../../../include
+
+-w -es2
+
+unrar.prg
+hb_unrar.c
