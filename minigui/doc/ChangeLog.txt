@@ -1,3 +1,102 @@
+2017/01/31: HMG Extended Edition version 17.01.
+  * Modified: 'Vista Command Link Button' User Component was moved from
+           the samples to a MiniGUI core.
+           Syntax:
+             @ <row>,<col> CLBUTTON <name> ;
+                [ <OF | PARENT> <parent> ] ;
+                [ WIDTH <w> ] [ HEIGHT <h> ] ;
+                CAPTION <caption> NOTETEXT <notes> ;
+                [ <IMAGE | PICTURE> <bitmap> ] ;
+                ACTION <action> [ <default: DEFAULT> ]
+           There are the following properties and method for this control:
+           - pseudo-OOP method SetShield:
+             Form.CLbutton.SetShield()
+             Domethod ( Form, Control, "SetShield" )
+           - write only property 'NoteText':
+             Form.CLbutton.NoteText := 'New Note'
+             SetProperty( Form, Control, 'NoteText', 'New Note' )
+           - read/write property 'Picture'.
+             Form.CLbutton.Picture := 'arrow.bmp'
+             cImage := GetProperty( Form, Control, 'Picture' )
+           Note: This control works properly at Windows Vista or later only.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\CommandLink)
+  * Enhanced: The colored ButtonEx control supports also a simplest form of
+           the GRADIENTFILL <aGradient> clause,
+           where aGradient should be specified in the following way:
+             { { nClrStart, nClrEnd }, { nClrStart, nClrEnd } }
+           Note that the BACKCOLOR clause should be defined also.
+           Based upon a contribution of HMG user KDJ.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\ButtonEx_2)
+  * Enhanced: The CheckBox control supports now an optional MULTILINE clause.
+           If above property is defined, it wraps the text to multiple lines
+           when the text is too long to fit on a single line.
+           Requested by Verchenko Andrey <verchenkoag@gmail.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Enhanced: The Browse control supports now the user-defined functions at
+           management of the first column with the defined IMAGE clause.
+           It is useful at using of a Browse with a record's selection.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\BROWSE_SELECT)
+  * Enhanced: Modified the file batch\Compile.bat:
+           - the switch /W will generate the C-compiler warnings also.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Modified the batch file hbmk2.bat:
+           - the switch /e will use a Harbour switch -w2 as default.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see hbmk2.bat in folder \Batch)
+  * Updated: PropGrid library v.2.0 (see source in folder \source\PropGrid):
+           - Fixed: Typo which prevents a correct using of the function _SetFont().
+             Reported by Rafael Moran <webrmoran[at]yahool.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.16.2 (from 3.15.2).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * New: 'Incremental Search in a Browse' sample.
+           Based upon a contribution of a HMG user.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\BROWSE_SEARCH)
+  * New: 'Selection of records in a Browse' sample.
+           Based upon a contribution of a HMG user.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\BROWSE_SELECT)
+  * New: 'Multi-Monitors support test' sample.
+           Based upon a contribution of Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Basic\Multi_Monitor)
+  * New: 'Listview sorting with showing a corresponding headers image' sample.
+           Based upon a contribution of HMG user KDJ.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\GridSort)
+  * New: 'HbXlsxWriter library test' sample: creating the new Excel XLSX files.
+           Contributed by  Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\HbXlsxWriter)
+  * New: 'Read XLS through ADODB access' sample.
+           Based upon a contribution of a HMG user.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\ReadXLS_2)
+  * New: 'Vista Command Link Component' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Advanced\CommandLink)
+  * New: 'Password Generator with copying to a clipboard' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Applications\GenPassword)
+  * Updated: 'Print Pie Graph' sample: updated the data for December 2016.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\GraphPrint)
+  * Updated: 'Haru PDF' sample:
+           - a code cleaning for warnings with Harbour switch -w2.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\HaruPDF)
+  * Updated: 'Read XLS' sample by Ismael Elias:
+           - added an export of a Grid to DBF;
+           - the minor improvements.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\ReadXLS)
+  * Updated: 'TGif class' sample: added example of using GIF from the resources.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\tgif)
+
 2016/12/19: HMG Extended Edition version 16.12.
   * New: Added a basic support for the multi-monitors system:
            - New: CountMonitors(), EnumDisplayMonitors(), GetMonitorInfo(),
