@@ -35,7 +35,7 @@
     www - http://harbour-project.org
 
     "Harbour Project"
-    Copyright 1999-2016, http://harbour-project.org/
+    Copyright 1999-2017, http://harbour-project.org/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -87,12 +87,12 @@ HB_FUNC( INITCHECKBOX )
    if( hb_parl( 12 ) )
       Style = Style | BS_LEFTTEXT;
 
-   if( hb_parl( 13 ) )
-      Style = Style | BS_AUTO3STATE;
-   else
-      Style = Style | BS_AUTOCHECKBOX;
+   if( hb_parl( 6 ) )
+      Style = Style | BS_MULTILINE;
 
-   if( hb_parl( 14 ) )
+   Style |= ( hb_parl( 7 ) ? BS_AUTO3STATE : BS_AUTOCHECKBOX );
+
+   if( hb_parl( 13 ) )
       hbutton = CreateWindowEx
                 (
          WS_EX_TRANSPARENT,

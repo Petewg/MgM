@@ -37,7 +37,7 @@
     www - http://harbour-project.org
 
     "Harbour Project"
-    Copyright 1999-2016, http://harbour-project.org/
+    Copyright 1999-2017, http://harbour-project.org/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>

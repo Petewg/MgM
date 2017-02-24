@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -333,6 +333,12 @@ FUNCTION InitDialogBrowse( ParentName, ControlHandle, i )
 
 RETURN Nil
 
+#ifndef __XHARBOUR__
+   /* SWITCH ... ; CASE ... ; DEFAULT ; ... ; END */
+   #xcommand DEFAULT => OTHERWISE
+   /* FOR EACH hb_enumIndex() */
+   #xtranslate hb_enumIndex( <!v!> ) => <v>:__enumIndex()
+#endif
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
 *-----------------------------------------------------------------------------*
@@ -407,13 +413,13 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
          CASE 'L'
             image := iif( &cTemp, 1, 0 )
             EXIT
-#ifndef __XHARBOUR__
-         OTHERWISE
-#else
+         CASE 'U'
+            image := iif( ValType( &cTemp ) == 'N', &cTemp, iif( ValType( &cTemp ) == 'L', iif( &cTemp, 1, 0 ), 0 ) )
+            EXIT
          DEFAULT
-#endif
             image := 0
          END SWITCH
+
          AAdd ( aTemp , NIL )
 
          IF processdbc
@@ -431,11 +437,8 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
       ENDIF
 
       FOR EACH cTemp IN Fields
-#ifndef __XHARBOUR__
-         j := cTemp:__enumIndex()
-#else
-         j := hb_enumindex()
-#endif
+
+         j := hb_enumindex( cTemp )
          IF j >= First
 
             IF aProcessDisplayItems [ j ] == .T.
@@ -514,8 +517,8 @@ STATIC FUNCTION _tEval ( bBlock )
 *-----------------------------------------------------------------------------*
    LOCAL tEval := Eval ( bBlock )
 
-   IF ValType ( TEVAL ) == 'A' .AND. Len ( TEVAL ) == 3
-      TEVAL := RGB ( TEVAL [1] , TEVAL [2] , TEVAL [3] )
+   IF ValType ( teval ) == 'A' .AND. Len ( teval ) == 3
+      tEval := RGB ( teval [1] , teval [2] , teval [3] )
    ENDIF
 
 RETURN IFNUMERIC( tEval, tEval, 0 )
@@ -534,7 +537,7 @@ FUNCTION _GetBrowseFieldValue ( cTemp )
    CASE 'I'
    CASE 'B'
    CASE 'Y'
-      cRet := LTrim ( Str ( &cTemp ) )
+      cRet := hb_ntos ( &cTemp )
       EXIT
    CASE 'D'
    CASE 'T'
@@ -576,10 +579,10 @@ FUNCTION _GetBrowseFnValue ( cTemp )
 
    SWITCH ValType ( cTemp )
    CASE 'N'
-      cRet := hb_ntos( &cTemp )
+      cRet := hb_ntos ( &cTemp )
       EXIT
    CASE 'D'
-      cRet := DToC( &cTemp )
+      cRet := DToC ( &cTemp )
       EXIT
    CASE 'L'
       cRet := iif ( &cTemp == .T. , '.T.' , '.F.' )

@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -1555,7 +1555,7 @@ PROCEDURE _ProcessInitProcedure( i )
       _PopEventInfo()
    ENDIF
    IF _HMG_AutoAdjust .AND. _HMG_MainClientMDIHandle == 0
-      IF IsWindowSized( _HMG_aFormHandles [ i ] )
+      IF _HMG_aFormActive [ i ] .AND. IsWindowSized( _HMG_aFormHandles [ i ] )
          _Autoadjust( _HMG_aFormHandles [ i ] )
       ENDIF
    ENDIF
@@ -1571,8 +1571,8 @@ FUNCTION _SetFocusedSplitChild( i )
    IF Len ( _HMG_aFormSplitChildList [ i ] ) > 0
 
       FOR EACH nIndex IN _HMG_aFormSplitChildList [ i ]
-         IF _HMG_aFormFocused[ nIndex ] == .T.
-            SetFocus ( _HMG_aFormHandles[ nIndex ] )
+         IF _HMG_aFormFocused [ nIndex ] == .T.
+            SetFocus ( _HMG_aFormHandles [ nIndex ] )
             SplitFocusFlag := .T.
          ENDIF
       NEXT
@@ -1615,9 +1615,9 @@ PROCEDURE _SetActivationFocus( i )
    IF FocusDefined == .F.
 
       SetFocus ( GetNextDlgTabItem ( hParent, 0, .F. ) )
-      IF _HMG_BeginWindowMDIActive                          // BK 25-Apr-2012
+      IF _HMG_BeginWindowMDIActive                            // BK 25-Apr-2012
          _HMG_aFormFocusedControl [ i ] := GetFocus()
-      ENDIF                                                 // BK End
+      ENDIF
 
    ENDIF
 

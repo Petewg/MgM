@@ -38,7 +38,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -357,15 +357,17 @@ FUNCTION TBBtnEvents( hwndEdit, HwndBtn )
 
       SWITCH AScan ( aHandle, HwndBtn )
       CASE TBB1
-         IF _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
+         IF _DoControlEventProcedure ( _HMG_aControlProcedures [i], i )
             IF ValType( _HMG_aControlMiscData1 [i] ) == 'A' .AND. Len( _HMG_aControlMiscData1 [i] ) >= 4 .AND. ! _HMG_aControlMiscData1 [i] [4]
-               SendMessage ( HwndBtn , BM_SETSTYLE , LOWORD ( BS_PUSHBUTTON ) , 1 )
+               SendMessage ( HwndBtn, BM_SETSTYLE, LOWORD ( BS_PUSHBUTTON ), 1 )
             ENDIF
          ENDIF
          EXIT
       CASE TBB2
-         IF _DoControlEventProcedure ( _HMG_aControlHeadClick [i] , i )
-            SendMessage ( HwndBtn , BM_SETSTYLE , LOWORD ( BS_PUSHBUTTON ) , 1 )
+         IF _DoControlEventProcedure ( _HMG_aControlHeadClick [i], i )
+            IF ValType( _HMG_aControlMiscData1 [i] ) == 'A' .AND. Len( _HMG_aControlMiscData1 [i] ) >= 4 .AND. ! _HMG_aControlMiscData1 [i] [4]
+               SendMessage ( HwndBtn, BM_SETSTYLE, LOWORD ( BS_PUSHBUTTON ), 1 )
+            ENDIF
          ENDIF
       END SWITCH
 

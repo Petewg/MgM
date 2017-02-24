@@ -37,7 +37,7 @@
     www - http://harbour-project.org
 
     "Harbour Project"
-    Copyright 1999-2016, http://harbour-project.org/
+    Copyright 1999-2017, http://harbour-project.org/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -101,7 +101,7 @@ STATIC FUNCTION _GetFormHandle ( xParentForm, cParentFormName )
          xParentForm := GetActiveMdiHandle()
       ELSE
          IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
-            xParentForm := If( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
+            xParentForm := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
          ENDIF
       ENDIF
    ENDIF

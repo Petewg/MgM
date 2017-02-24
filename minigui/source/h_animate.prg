@@ -18,9 +18,9 @@ FUNCTION _DefineAnimateRes ( ControlName, ParentForm, x, y, w, h, cFile, nRes, ;
 *------------------------------------------------------------------------------*
    LOCAL cParentForm, mVar, ControlHandle, hAvi
 
-   DEFAULT h         TO 50
-   DEFAULT w         TO 200
-   DEFAULT invisible TO FALSE
+   hb_default( @w, 200 )
+   hb_default( @h, 50 )
+   hb_default( @invisible, .F. )
 
    IF _HMG_BeginWindowActive
       ParentForm := _HMG_ActiveFormName
@@ -90,7 +90,7 @@ FUNCTION _DefineAnimateRes ( ControlName, ParentForm, x, y, w, h, cFile, nRes, ;
    AAdd ( _HMG_aControlRangeMin, 0  )
    AAdd ( _HMG_aControlRangeMax, 0  )
    AAdd ( _HMG_aControlCaption, ''  )
-   AAdd ( _HMG_aControlVisible, if( invisible, FALSE, TRUE ) )
+   AAdd ( _HMG_aControlVisible, iif( invisible, FALSE, TRUE ) )
    AAdd ( _HMG_aControlHelpId, HelpId )
    AAdd ( _HMG_aControlFontHandle, 0 )
    AAdd ( _HMG_aControlBrushHandle, 0 )

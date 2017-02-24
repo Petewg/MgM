@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -50,8 +50,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
-      fontname, fontsize, tooltip, changeprocedure, w, h, lostfocus, gotfocus, HelpId, invisible, notabstop, ;
-      bold, italic, underline, strikeout, field, backcolor, fontcolor, transparent, leftjustify, threestate, Enter, autosize, nId )
+      fontname, fontsize, tooltip, changeprocedure, w, h, lostfocus, gotfocus, ;
+      HelpId, invisible, notabstop, bold, italic, underline, strikeout, field, ;
+      backcolor, fontcolor, transparent, leftjustify, threestate, Enter, autosize, multiline, nId )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle , blInit , mVar , k , style
    LOCAL ControlHandle , FontHandle , WorkArea
@@ -66,6 +67,7 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
    hb_default( @notabstop, .F. )
    hb_default( @transparent, .F. )
    hb_default( @leftjustify, .F. )
+   hb_default( @multiline, .F. )
    hb_default( @threestate, .F. )
    IF .NOT. threestate
       hb_default( @value, .F. )
@@ -164,7 +166,7 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
    ELSE
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
-      Controlhandle := InitCheckBox ( ParentFormHandle, Caption, 0, x, y, '', 0 , w , h, invisible, notabstop, leftjustify, threestate, transparent )
+      Controlhandle := InitCheckBox ( ParentFormHandle, Caption, 0, x, y, multiline, threestate, w, h, invisible, notabstop, leftjustify, transparent )
 
    ENDIF
 
@@ -334,7 +336,7 @@ FUNCTION _DefineCheckButton ( ControlName, ParentFormName, x, y, Caption, Value,
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      Controlhandle := InitCheckButton ( ParentFormHandle, Caption, 0, x, y, '', 0 , w , h, invisible, notabstop )
+      Controlhandle := InitCheckButton ( ParentFormHandle, Caption, 0, x, y, '', 0, w, h, invisible, notabstop )
 
    ENDIF
 
@@ -503,7 +505,7 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', 0 , bitmap , w , h, invisible, notabstop, IsAppXPThemed() )
+      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', 0, bitmap, w, h, invisible, notabstop, IsAppXPThemed() )
 
       ControlHandle := aRet[1]
       nhImage := aRet[2]

@@ -38,7 +38,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -556,7 +556,7 @@ FUNCTION _MdiChildClose ( hWnd )
 *-----------------------------------------------------------------------------*
    LOCAL i, xRetVal
 
-   i := AScan ( _HMG_aFormhandles , hWnd )
+   i := AScan ( _HMG_aFormHandles , hWnd )
 
    IF i > 0
 
@@ -571,21 +571,22 @@ FUNCTION _MdiChildClose ( hWnd )
          ENDIF
       ENDIF
 
-      DO CASE
-      CASE _HMG_InteractiveClose == 0
+      SWITCH _HMG_InteractiveClose
+      CASE 0
          MsgStop ( _HMG_MESSAGE [3] )
          RETURN 1
-      CASE _HMG_InteractiveClose == 2
+      CASE 2
          IF ! MsgYesNo ( _HMG_MESSAGE [1] , _HMG_MESSAGE [2] )
             RETURN 1
          ENDIF
-      CASE _HMG_InteractiveClose == 3
+         EXIT
+      CASE 3
          IF _HMG_aFormType [i] == 'A'
             IF ! MsgYesNo ( _HMG_MESSAGE [1] , _HMG_MESSAGE [2] )
                RETURN 1
             ENDIF
          ENDIF
-      ENDCASE
+      ENDSWITCH
 
       IF ValType ( _HMG_aFormReleaseProcedure [i] ) == 'B'
          _HMG_InteractiveCloseStarted := .T.
@@ -706,7 +707,8 @@ RETURN Nil
 *-----------------------------------------------------------------------------*
 FUNCTION GetObjectByClientMDI( hWnd )
 *-----------------------------------------------------------------------------*
-   LOCAL oWnd := 0, nPos
+   LOCAL oWnd := NIL, nPos
+
    IF ( nPos := AScan( _TSB_aClientMDIhWnd, hWnd ) ) > 0
       oWnd := _TSB_aControlObjects[ nPos ]
    ENDIF

@@ -35,7 +35,7 @@
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -285,7 +285,10 @@ FUNCTION _SetFontAttr( ControlName, ParentForm, Value, nType )
       AEval( h, {|x| SendMessage ( x, WM_SETFONT, _HMG_aControlFontHandle[ i ], 1 ) }, 2 )
 
    OTHERWISE
-      _HMG_aControlFontHandle[ i ] := _SetFont( h, n, s, ab, ai, au, as, aa )
+      IF IsWindowHandle( h )
+         _HMG_aControlFontHandle[ i ] := _SetFont( h, n, s, ab, ai, au, as, aa )
+      ENDIF
+
    ENDCASE
 
    IF _HMG_aControlType[ i ] == "LABEL" .AND. ISLOGICAL ( _HMG_aControlInputMask[ i ] )

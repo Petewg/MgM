@@ -35,7 +35,7 @@
  www - http://harbour-project.org
 
  "Harbour Project"
- Copyright 1999-2016, http://harbour-project.org/
+ Copyright 1999-2017, http://harbour-project.org/
 
  "WHAT32"
  Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -3706,7 +3706,7 @@ PROCEDURE InitMessages
 
    CASE cLang == "EL"  // Greek - Ellinika
       /////////////////////////////////////////////////////////////
-      //  EL - GREEK - ≈ÀÀ«Õ… ¡
+      // GREEK - ≈ÀÀ«Õ… ¡ - EL
       /////////////////////////////////////////////////////////////
 
       // MISC MESSAGES (EL - GREEK - ≈ÀÀ«Õ… ¡)

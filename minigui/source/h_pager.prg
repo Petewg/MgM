@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -49,15 +49,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 FUNCTION _BeginPager( ControlName, ParentName, nWidth, nHeight, nScroll, cCaption, tooltip, vertical, autoscroll, backcolor )
 *-----------------------------------------------------------------------------*
-   LOCAL hRebar
-   LOCAL ParentForm, ControlHandle,  mVar, k, Id
-
-   DEFAULT nWidth       TO 0
-   DEFAULT nHeight      TO 0
-   DEFAULT nScroll      TO 5
-   DEFAULT cCaption     TO ""
-   DEFAULT Vertical     TO FALSE
-   DEFAULT autoscroll   TO FALSE
+   LOCAL hRebar, ParentForm, ControlHandle,  mVar, k, Id
 
    IF _HMG_BeginPagerActive
       MsgMiniGuiError( "DEFINE PAGER Structures can't be nested." )
@@ -77,6 +69,13 @@ FUNCTION _BeginPager( ControlName, ParentName, nWidth, nHeight, nScroll, cCaptio
    IF _HMG_SplitChildActive
       MsgMiniGuiError( "PAGERBOX Can't Be Defined inside SplitChild Windows." )
    ENDIF
+
+   hb_default( @nWidth, 0 )
+   hb_default( @nHeight, 0 )
+   hb_default( @nScroll, 5 )
+   hb_default( @cCaption, "" )
+   hb_default( @vertical, .F. )
+   hb_default( @autoscroll, .F. )
 
    hRebar := _DefineSplitBox ( ParentName, .F. , vertical )
 
@@ -156,67 +155,3 @@ FUNCTION _EndPager()
    _EndSplitBox ()
 
 RETURN Nil
-
-/*-----------------------------------------------------------------------------*
-FUNCTION _AddChildToPager (  ControlName , ParentForm )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-   AddToPager ( _HMG_ActivePagerForm, c )
-
-RETURN Nil
-
-*-----------------------------------------------------------------------------*
-FUNCTION _Pager_ForwardMouse( ControlName , ParentForm, lEnable )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-   lEnable := IF( ValType( lEnable ) != 'L', .F. , lEnable )
-   PagerForwardMouse( c, lEnable )
-
-RETURN Nil
-
-*-----------------------------------------------------------------------------*
-FUNCTION _Pager_GetButtonSize( ControlName , ParentForm )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-RETURN PagerGetButtonSize( c )
-
-*-----------------------------------------------------------------------------*
-FUNCTION _Pager_SetButtonSize( ControlName , ParentForm, nSize )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-   PagerSetButtonSize( c, nSize )
-
-RETURN Nil
-
-*-----------------------------------------------------------------------------*
-FUNCTION _Pager_GetBorder( ControlName , ParentForm )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-RETURN PagerGetBorder( c )
-
-*-----------------------------------------------------------------------------*
-FUNCTION _Pager_SetBorder( ControlName , ParentForm, nSize )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-RETURN PagerSetBorder( c, nSize )
-
-*-----------------------------------------------------------------------------*
-FUNCTION _Pager_GetPos( ControlName , ParentForm )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-RETURN PagerGetPos( c )
-
-*-----------------------------------------------------------------------------*
-FUNCTION _Pager_SetPos( ControlName , ParentForm, nPos )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName, ParentForm )
-
-RETURN PagerSetPos( c, nPos )
-*/

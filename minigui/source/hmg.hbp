@@ -13,21 +13,20 @@
 # -cflag=-mtune=native
 # -cflag=-O3
 # -warn=<level> set C compiler warning level. <level> can be: max, yes, low, no, def (default: yes)
--warn=max 
 
 -hbx=../include/hmg.hbx
 
 -hblib
 
--inc-
+-inc
 
 -o../lib/minigui
 
 -I../include
 
--warn=max 
-
 -w3 -es2 -ko -l -ql
+
+-warn=max 
 
 -cflag=-DWIN32_LEAN_AND_MEAN
 
@@ -46,8 +45,8 @@ c_cursor.c
 c_datepicker.c
 c_dialog.c
 c_dialogs.c
-c_editbox.c
 c_error.c
+c_editbox.c
 c_folder.c
 c_font.c
 c_frame.c
@@ -55,8 +54,10 @@ c_getbox.c
 c_graph.c
 c_grid.c
 c_help.c
+c_hmgapp.c
 c_hotkey.c
 c_hotkeybox.c
+c_icon.c
 c_image.c
 c_imagelist.c
 c_ini.c
@@ -92,8 +93,6 @@ c_windowsCLS.c
 c_windowsMDI.c
 c_winprop.c
 c_winxp.c
-c_hmgapp.c
-c_icon.c
 
 ErrorSys.prg
 h_activex.prg
@@ -104,6 +103,7 @@ h_button.prg
 h_checkbox.prg
 h_chklabel.prg
 h_chklistbox.prg
+h_clbutton.prg
 h_combo.prg
 h_controlmisc.prg
 h_crypt.prg
@@ -156,7 +156,6 @@ h_taskdlg.prg
 h_textbox.prg
 h_timer.prg
 h_toolbar.prg
-# h_tooltip.prg
 h_tree.prg
 h_wbrush.prg
 h_webcam.prg

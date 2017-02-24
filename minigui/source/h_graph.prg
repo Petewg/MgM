@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - http://harbour-project.org
 
    "Harbour Project"
-   Copyright 1999-2016, http://harbour-project.org/
+   Copyright 1999-2017, http://harbour-project.org/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -442,7 +442,7 @@ STATIC PROCEDURE DrawBar( parent, nY, nX, nHigh, nWidth, l3D, nDeep, aColor )
 
    LOCAL nI, nColTop, nShadow, nH := nHigh
 
-   nColTop := ClrShadow( RGB( aColor[1],aColor[2],aColor[3] ), 15 )
+   nColTop := ClrShadow( RGB( aColor[1], aColor[2], aColor[3] ), 15 )
    nShadow := ClrShadow( nColTop, 15 )
    nColTop := nRGB2Arr( nColTop )
    nShadow := nRGB2Arr( nShadow )
@@ -453,12 +453,12 @@ STATIC PROCEDURE DrawBar( parent, nY, nX, nHigh, nWidth, l3D, nDeep, aColor )
 
    IF l3D
       // Lateral
-      drawpolygon( parent, { { nX - 1,nY + nWidth + 1 }, { nX + nDeep - nHigh,nY + nWidth + 1 }, ;
+      drawpolygon( parent, { { nX - 1, nY + nWidth + 1 }, { nX + nDeep - nHigh, nY + nWidth + 1 }, ;
          { nX - nHigh + 1, nY + nWidth + nDeep }, { nX - nDeep, nY + nWidth + nDeep }, ;
          { nX - 1, nY + nWidth + 1 } }, nShadow, , nShadow )
       // Superior
       nHigh := Max( nHigh, nDeep )
-      drawpolygon( parent, { { nX - nHigh + nDeep,nY + 1 }, { nX - nHigh + nDeep,nY + nWidth + 1 }, ;
+      drawpolygon( parent, { { nX - nHigh + nDeep, nY + 1 }, { nX - nHigh + nDeep, nY + nWidth + 1 }, ;
          { nX - nHigh + 1, nY + nWidth + nDeep }, { nX - nHigh + 1, nY + nDeep }, ;
          { nX - nHigh + nDeep, nY + 1 } }, nColTop, , nColTop )
    ENDIF
