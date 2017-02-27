@@ -13,7 +13,7 @@ SET STRIP=-strip
    
 	IF EXIST *.rc COPY /V /A *.rc PRJ_RES_.rc  > NUL
 	
-   COPY /V /A %MGMPATH%\resources\hmg.rc + %MGMPATH%\resources\filler + PRJ_RES_.rc + %MGMPATH%\resources\filler _temp.rc  > NUL
+   COPY /V /A PRJ_RES_.rc + %MGMPATH%\resources\filler +  %MGMPATH%\resources\hmg.rc   + %MGMPATH%\resources\filler + %MGMPATH%\resources\filler _temp.rc  > NUL
    
 	IF EXIST PRJ_RES_.rc DEL PRJ_RES_.rc > NUL
    
@@ -27,8 +27,8 @@ IF "%2"=="-norun" SET RUNEXE=-run-
 IF "%2"=="-norun" SHIFT /2
 
 :Gui
-echo GUI
-      hbmk2 -n -mt -cpu=x86 -lang=en -w2 %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
+   rem HBMK2 %1 %2 %3 %4 %5 %6 %7 %8 %MGMPATH%\minigui.hbc -strip -D__CALLDLL__ %RUNEXE% -q 2>> _BuildLog.txt
+   hbmk2 -n -mt -cpu=x86 -lang=en -w2 %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
    :: hbmk2 -n -cpu=x86 -lang=en -w3 %RUNEXE% -ge1 -ql %STRIP% %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
    GOTO Check
 
@@ -71,6 +71,7 @@ echo GUI
    IF EXIST %1.ppo DEL %1.ppo > NUL
    IF EXIST ErrorLog.htm DEL ErrorLog.htm > NUL
    SET PATH=%OLD_PATH%
+   SET OLD_PATH=
 
 
 
