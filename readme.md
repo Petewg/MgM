@@ -11,7 +11,7 @@ This Harbour MiniGUI package includes these main components:
 	  Harbour compiler and runtime libraries
 	  ( https://github.com/harbour/core/ )
 	
-   - Harbour MiniGUI Extended version 16.12 (compiled with MinGW 6.2.0)
+   - Harbour MiniGUI Extended version 17.1 (compiled with MinGW 6.2.0)
 	  ( http://hmgextended.com/home.html/ )
 	
    - Mingw 6.2.0 (Built by MinGW-W64 project)
