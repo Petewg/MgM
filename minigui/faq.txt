@@ -1,0 +1,48 @@
+What is HMG Extended Edition ?
+""""""""""""""""""""""""""""""
+Well.. for the new people approaching HMG EE we can say that this is
+a mix between one of the best programming and data manipulation languages
+ever created (xBase) and the simple GUI commands based upon VB RapidQ
+style and WinAPI.
+
+All GUI objects are public and can be created and managed with very simple
+code.
+
+The basic components of HMG Extended Edition are:
+
+* Harbour (or xHarbour) Compiler (generates C code from xBase code).
+
+* Harbour MiniGUI Extended library (functions and preprocessor directives
+  to handle GUI).
+
+* Borland C++ (most often used), MinGW, Open Watcom or Pelles C compilers.
+
+* Harbour MiniGUI IDE (optional tool for two-way visual design).
+
+What are the main project goals ?
+"""""""""""""""""""""""""""""""""
+To keep the GUI handling as easy, elegant and clean as possible and the
+library core as compact, stable and reliable as we can.
+
+At the same time we provide a regular updating of the core for the recent
+Git version of the Harbour Compiler.
+
+Other of the main goal is to hide the complexities associated with the
+operating system internals, allowing to the programmer, focus on his
+application, instead OS technical things.
+
+Where is the HMG EE site ?
+""""""""""""""""""""""""""
+http://hmgextended.com
+
+Where can I download a recent build of HMG EE ?
+"""""""""""""""""""""""""""""""""""""""""""""""
+http://hmgextended.com/download.html
+
+Where are the HMG EE forums ?
+"""""""""""""""""""""""""""""
+- English at http://groups.yahoo.com/group/harbourminigui/
+
+- Brazilian at http://br.groups.yahoo.com/group/miniguibrasil/
+
+- Spanish at http://es.groups.yahoo.com/group/harbourminigui_es/

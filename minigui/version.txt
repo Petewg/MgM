@@ -1,0 +1,1 @@
+Harbour MiniGUI Extended (MinGW) release 17.02

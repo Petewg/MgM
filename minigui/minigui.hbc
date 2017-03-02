@@ -9,17 +9,26 @@
 # gui mode
 {win}gt=gtgui
 
+# allow multiple definition (for bcc compatibility) 
+# Note: hbmk2 warns that the switch below  'is dangerous'. Enable it at your own risk..
+# {win}ldflags=-Wl,--allow-multiple-definition
 
 # MiniGUI Libs 
-#{win}libs=minigui hbprinter calldll tsbrowse socket winreport 
-{win}libs=minigui hbprinter tsbrowse socket winreport
+{win}libs=minigui hbprinter socket
 
-# Minigui additional libs (you can comment out if you don't need them)
-#{win}libs=miniprint adordd bostaurus hbxml qhtm tmsagent propgrid propsheet calldll
-{win}libs=miniprint adordd bostaurus hbxml qhtm tmsagent propsheet 
+# Harbour additional contribs // <hbole> library should be put prior to hbwin, (remark made by Grigory Filatov).
+# {win}libs=hbole
 
 # Harbour contribs
-{win}libs=hbwin.hbc hbct.hbc hbziparc.hbc hbmzip.hbc minizip hbmisc.hbc hbtip.hbc xhb.hbc hbhpdf.hbc hbzebra.hbc
+ {win}libs=hbwin.hbc hbmisc.hbc hbct.hbc hbtip.hbc hbziparc.hbc hbmzip.hbc minizip hbzebra.hbc hbhpdf.hbc xhb.hbc
+
+# Harbour additional contribs; uncomment if you need it
+# {win}libs=hbmemio
+
+# Minigui additional libs (you can comment out if you don't need them)
+#{win}libs=miniprint adordd bostaurus hbxml qhtm propsheet calldll tmsagent propgrid winreport
+ {win}libs=miniprint adordd bostaurus hbxml qhtm propsheet tsbrowse calldll
 
 # MingW Libs (system)
 {win}libs=msvfw32 vfw32
+
