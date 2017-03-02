@@ -1,4 +1,4 @@
-Harbour Minigui (MinGW Package)
+![](https://harbour.github.io/art/harbour-button.png)Harbour Minigui (MinGW Package)
 -------------------------------
 
 :warning: Important note: It is recommended to uninstall older version (if any) 
