@@ -293,6 +293,32 @@ There are the following properties and method for this control:
 Note: This control works properly at Windows Vista or later only.
 --------------------------------------------------------------------------------
 
+SPLITBUTTON control - Vista Split Button with a drop-down menu.
+
+Syntax:
+   @ <row>,<col> SPLITBUTTON <name> [ OF <parent> ] ;
+      [ WIDTH <w> ] [ HEIGHT <h> ] ;
+      CAPTION <caption> ACTION <action> ;
+      [ FONT <cFontName> ] [ SIZE <nFontSize> ] ;
+      [ TOOLTIP <tooltip> ] [ <default: DEFAULT> ]
+
+Example:
+   DEFINE SPLITBUTTON spbtn_1
+	ROW    100
+	COL    10
+	CAPTION 'Split Button'
+	ACTION _dummy()
+	TOOLTIP 'Split Button'
+   END SPLITBUTTON
+
+   DEFINE DROPDOWN MENU BUTTON spbtn_1
+	MENUITEM "Menu 1" ACTION MsgInfo( "Button Drop Down Menu 1" )
+	MENUITEM "Menu 2" ACTION MsgInfo( "Button Drop Down Menu 2" )
+   END MENU
+
+Note: This control works properly at Windows Vista or later only.
+--------------------------------------------------------------------------------
+
 TOOLBAREX control - toolbar with a clauses ROWS, TOOLBARSIZE, IMAGELIST, HOTIMAGELIST and MIXEDBUTTONS, support for CHEVRON menu
 
 Look at folder Samples\Basic\ToolBarEx for samples.

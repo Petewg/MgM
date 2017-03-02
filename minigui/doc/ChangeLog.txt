@@ -1,3 +1,80 @@
+2017/02/28: HMG Extended Edition version 17.02.
+  * Fixed: The problem of a RadioGroup control with TRANSPARENT clause on
+           a THEMED colored form. Reported by Dusko Radojcin.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>.
+  * Fixed: Memory leak in the C-function c_SetPicture() at WinXP and an image
+           with alpha chanel.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+  * New: 'Vista Split Button' control was defined as User Component. A split
+           button control is composed of either a button and a drop-down menu.
+           Syntax:
+             @ <row>,<col> SPLITBUTTON <name> [ OF <parent> ] ;
+                [ WIDTH <w> ] [ HEIGHT <h> ] ;
+                CAPTION <caption> ;
+                ACTION <action> ;
+                [ FONT <cFontName> ] ;
+                [ SIZE <nFontSize> ] ;
+                [ TOOLTIP <tooltip> ] ;
+                [ <default: DEFAULT> ]
+           Note: This control works properly at Windows Vista or later only.
+           Based upon a contribution of Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Advanced\SplitButton)
+  * Modified: Programmatic change executes 'On Change' procedure for all controls
+           certainly for compatibility with Official HMG. It is not guarded via
+           the command SET PROGRAMMATICCHANGE OFF anymore.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\Slider)
+  * Updated: Modified SetFocus method of the 'Command Link' button for a proper
+           handling of a focused look at a few buttons on a form.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\CommandLink)
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG 3.4.3
+           patch 1:
+           - Fixed bug in GetLastActiveFormIndex() and GetLastActiveControlIndex()
+             functions.
+           Based upon a contribution of Claudio Soto <srvet@adinet.com.uy>
+           (see demo in folder \samples\Basic\StopEvents)
+  * New: HbZeeGrid library (see source in folder \Source\HbZeeGrid).
+           ZeeGrid is an editable grid with a similar user interface to Microsoft's
+           Excel spreadsheet. It is released as a compiled DLL and associated header
+           file. You need only distribute the DLL file with your application.
+           Based on the Original Work by David Hillard <david/at/kycsepp.com>.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demos in folder \samples\Advanced\HbZeeGrid)
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - New: added handling of the variable :nStatusItem to TControl class.
+             Contributed by SergKis.
+           - Fixed: correction for compatibility with a last Minigui improvement.
+             Problem was reported by russian user.
+           (see demo in folder \samples\Advanced\TSBrowse)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.17.0 (from 3.16.2).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2017-02-08 19:36):
+           * Fixed: HbZipArc library source code (see in folder \Source\HbZipArc).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * New: 'RadioGroup with multiline items and variable or fixed height' sample.
+           Based upon a contribution of HMG user KDJ.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\RadioGroup_multiline)
+  * New: 'Vista Split Button' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\SplitButton)
+  * Updated: 'ComboBox control with changing of ReadOnly property at runtime'
+           sample. Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\COMBO_4)
+  * Updated: MsgMenu sample by Carlos Britos <bcd12a[at]yahoo.com.ar>:
+           - modified for compatibility with a last Minigui improvement.
+           Problem was reported by Fischer Zsolt <fischer.zsolt[at]gmail.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\MsgMenu)
+  * Updated: 'UPX shell' sample: added embedding of UPX.EXE inside of application.
+           Warning: You should place of upx.exe binary into a project folder for
+           compatibility with this change.
+           Based upon a contribution of Pete D. <pete_westg/at/yahoo.gr>
+           (see in folder \samples\Applications\UPXshell)
+
 2017/01/31: HMG Extended Edition version 17.01.
   * Modified: 'Vista Command Link Button' User Component was moved from
            the samples to a MiniGUI core.
