@@ -35,7 +35,7 @@
 	www - http://harbour-project.org
 
 	"Harbour Project"
-	Copyright 1999-2016, http://harbour-project.org/
+	Copyright 1999-2017, http://harbour-project.org/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -48,26 +48,44 @@
 
 /*
  * Success codes
-*/
-#define S_OK                    0
-#define S_FALSE                 1
+ */
+#define S_OK                0
+#define S_FALSE             1
+
+/*
+ * Object Definitions
+ */
+#define OBJ_PEN             1
+#define OBJ_BRUSH           2
+#define OBJ_DC              3
+#define OBJ_METADC          4
+#define OBJ_PAL             5
+#define OBJ_FONT            6
+#define OBJ_BITMAP          7
+#define OBJ_REGION          8
+#define OBJ_METAFILE        9
+#define OBJ_MEMDC           10
+#define OBJ_EXTPEN          11
+#define OBJ_ENHMETADC       12
+#define OBJ_ENHMETAFILE     13
+#define OBJ_COLORSPACE      14
 
 /*
  * Standard Cursor IDs
  */
-#define IDC_ARROW   32512
-#define IDC_IBEAM   32513
-#define IDC_WAIT   32514
-#define IDC_CROSS   32515
-#define IDC_UPARROW   32516
-#define IDC_SIZENWSE   32642
-#define IDC_SIZENESW   32643
-#define IDC_SIZEWE   32644
-#define IDC_SIZENS   32645
-#define IDC_SIZEALL   32646
-#define IDC_NO   32648
-#define IDC_APPSTARTING   32650
-#define IDC_HELP   32651
+#define IDC_ARROW           32512
+#define IDC_IBEAM           32513
+#define IDC_WAIT            32514
+#define IDC_CROSS           32515
+#define IDC_UPARROW         32516
+#define IDC_SIZENWSE        32642
+#define IDC_SIZENESW        32643
+#define IDC_SIZEWE          32644
+#define IDC_SIZENS          32645
+#define IDC_SIZEALL         32646
+#define IDC_NO              32648
+#define IDC_APPSTARTING     32650
+#define IDC_HELP            32651
 
 #xtranslate SetWaitCursor( <hWnd> ) ;
 => ;

@@ -35,7 +35,7 @@
 	www - http://harbour-project.org
 
 	"Harbour Project"
-	Copyright 1999-2016, http://harbour-project.org/
+	Copyright 1999-2017, http://harbour-project.org/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -59,7 +59,7 @@
 
 #define __HMG_COMPAT__
 
-#xtranslate PICTALIGNMENT TOP => UPPERTEXT .F.
+#xtranslate PICTALIGNMENT TOP => _HMG_ActiveControlUpText := .F. ; _HMG_ActiveControlVertical := .T.
 #xtranslate PICTALIGNMENT LEFT => LEFTTEXT .F.
 #xtranslate PICTALIGNMENT RIGHT => LEFTTEXT .T.
 #xtranslate PICTALIGNMENT BOTTOM => UPPERTEXT .T.
@@ -95,11 +95,17 @@
 #xtranslate SET CONTROL <ControlName> OF <FormName> WINDOWEDGE => HMG_ChangeWindowStyle (GetControlHandle (<"ControlName">, <"FormName">), WS_EX_WINDOWEDGE, NIL, .T.)
 #xtranslate SET CONTROL <ControlName> OF <FormName> NOTEDGE    => HMG_ChangeWindowStyle (GetControlHandle (<"ControlName">, <"FormName">), NIL, hb_bitOr (WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, WS_EX_WINDOWEDGE), .T.)
 
-#xtranslate SetWindowFont (<hWnd>, <hFont> [, <lRedraw> ]) ;
+#define WM_GETFONT               0x0031
+
+#xtranslate GetWindowFont ( <hWnd> ) ;
+   => ;
+   SendMessage( <hWnd>, WM_GETFONT, 0, 0 )
+
+#xtranslate SetWindowFont ( <hWnd>, <hFont> [, <lRedraw> ] ) ;
    => ;
    _SetFontHandle( <hWnd>, <hFont> )
 
-#xtranslate SetCursorSystem (<nCursor>) ;
+#xtranslate SetCursorSystem ( <nCursor> ) ;
    => ;
    SetResCursor( LoadCursor( NIL, <nCursor> ) )
 

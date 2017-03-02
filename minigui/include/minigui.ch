@@ -35,7 +35,7 @@
 	www - http://harbour-project.org
 
 	"Harbour Project"
-	Copyright 1999-2016, http://harbour-project.org/
+	Copyright 1999-2017, http://harbour-project.org/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -46,7 +46,7 @@
 ---------------------------------------------------------------------------*/
 
 #ifndef __HMG__
-#define __HMG__ 0x020608 /* Three bytes: Major + Minor + Build. */
+#define __HMG__ 0x020700 /* Three bytes: Major + Minor + Build. */
 
 #ifndef HMG_LEGACY_ON
   #define HMG_LEGACY_OFF

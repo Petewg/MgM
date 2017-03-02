@@ -35,7 +35,7 @@
 	www - http://harbour-project.org
 
 	"Harbour Project"
-	Copyright 1999-2016, http://harbour-project.org/
+	Copyright 1999-2017, http://harbour-project.org/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -1079,8 +1079,8 @@ Button Text Box
         _HMG_ActiveControlButtonWidth := <width>
 
 #xcommand DISABLEEDIT <disableedit> ;
-      =>;
-      _HMG_ActiveControlReadonly := <disableedit>
+        =>;
+        _HMG_ActiveControlReadonly := <disableedit>
 
 #xcommand KEEPFOCUS <keepfocus> ;
         =>;
@@ -1358,8 +1358,6 @@ Button
         _HMG_ActiveControlNoTabStop         := .f.      ;;
         _HMG_ActiveControlHelpId            := Nil      ;;
         _HMG_ActiveControlInvisible         := .f.      ;;
-        _HMG_ActiveControlRow               := Nil      ;;
-        _HMG_ActiveControlCol               := Nil      ;;
         _HMG_ActiveControlPicture           := Nil      ;;
         _HMG_ActiveControlIcon              := Nil      ;;
         _HMG_ActiveControlImage             := Nil      ;;
@@ -1560,46 +1558,44 @@ ButtonEx
 
 #xcommand DEFINE BUTTONEX <name> ;
         =>;
-        _HMG_ActiveControlName              := <"name"> ;;
-        _HMG_ActiveControlOf                := Nil      ;;
-        _HMG_ActiveControlCol               := Nil      ;;
-        _HMG_ActiveControlRow               := Nil      ;;
-        _HMG_ActiveControlCaption           := Nil      ;;
-        _HMG_ActiveControlAction            := Nil      ;;
-        _HMG_ActiveControlWidth             := Nil      ;;
-        _HMG_ActiveControlHeight            := Nil      ;;
-        _HMG_ActiveControlFont              := Nil      ;;
-        _HMG_ActiveControlSize              := Nil      ;;
-        _HMG_ActiveControlTooltip           := Nil      ;;
-        _HMG_ActiveControlFlat              := .f.      ;;
-        _HMG_ActiveControlOnGotFocus        := Nil      ;;
-        _HMG_ActiveControlOnLostFocus       := Nil      ;;
-        _HMG_ActiveControlNoTabStop         := .f.      ;;
-        _HMG_ActiveControlHelpId            := Nil      ;;
-        _HMG_ActiveControlInvisible         := .f.      ;;
-        _HMG_ActiveControlRow               := Nil      ;;
-        _HMG_ActiveControlCol               := Nil      ;;
-        _HMG_ActiveControlPicture           := Nil      ;;
-        _HMG_ActiveControlIcon              := Nil      ;;
-        _HMG_ActiveControlTransparent       := .t.      ;;
-        _HMG_ActiveControlNoXpStyle         := .f.      ;;
-        _HMG_ActiveControlFontBold          := .f.      ;;
-        _HMG_ActiveControlFontItalic        := .f.      ;;
-        _HMG_ActiveControlFontStrikeOut     := .f.      ;;
-        _HMG_ActiveControlFontUnderLine     := .f.      ;;
-        _HMG_ActiveControlDefault           := .f.      ;;
-        _HMG_ActiveControlBackColor         := NIL      ;;
-        _HMG_ActiveControlFontColor         := NIL      ;;
-        _HMG_ActiveControlVertical          := .f.      ;;
-        _HMG_ActiveControlLefttext          := .f.      ;;
-        _HMG_ActiveControlUptext            := .f.      ;;
-        _HMG_ActiveControlNoHotLight        := .f.      ;;
-        _HMG_ActiveControlJustify           := .f.      ;;
-        _HMG_ActiveControlHandCursor        := .f.      ;;
-        _HMG_ActiveControlShowNone          := -1       ;;
+        _HMG_ActiveControlName           := <"name"> ;;
+        _HMG_ActiveControlOf             := Nil      ;;
+        _HMG_ActiveControlCol            := Nil      ;;
+        _HMG_ActiveControlRow            := Nil      ;;
+        _HMG_ActiveControlCaption        := Nil      ;;
+        _HMG_ActiveControlAction         := Nil      ;;
+        _HMG_ActiveControlWidth          := Nil      ;;
+        _HMG_ActiveControlHeight         := Nil      ;;
+        _HMG_ActiveControlFont           := Nil      ;;
+        _HMG_ActiveControlSize           := Nil      ;;
+        _HMG_ActiveControlTooltip        := Nil      ;;
+        _HMG_ActiveControlFlat           := .f.      ;;
+        _HMG_ActiveControlOnGotFocus     := Nil      ;;
+        _HMG_ActiveControlOnLostFocus    := Nil      ;;
+        _HMG_ActiveControlNoTabStop      := .f.      ;;
+        _HMG_ActiveControlHelpId         := Nil      ;;
+        _HMG_ActiveControlInvisible      := .f.      ;;
+        _HMG_ActiveControlPicture        := Nil      ;;
+        _HMG_ActiveControlIcon           := Nil      ;;
+        _HMG_ActiveControlTransparent    := .t.      ;;
+        _HMG_ActiveControlNoXpStyle      := .f.      ;;
+        _HMG_ActiveControlFontBold       := .f.      ;;
+        _HMG_ActiveControlFontItalic     := .f.      ;;
+        _HMG_ActiveControlFontStrikeOut  := .f.      ;;
+        _HMG_ActiveControlFontUnderLine  := .f.      ;;
+        _HMG_ActiveControlDefault        := .f.      ;;
+        _HMG_ActiveControlBackColor      := NIL      ;;
+        _HMG_ActiveControlFontColor      := NIL      ;;
+        _HMG_ActiveControlVertical       := .f.      ;;
+        _HMG_ActiveControlLefttext       := .f.      ;;
+        _HMG_ActiveControlUptext         := .f.      ;;
+        _HMG_ActiveControlNoHotLight     := .f.      ;;
+        _HMG_ActiveControlJustify        := .f.      ;;
+        _HMG_ActiveControlHandCursor     := .f.      ;;
+        _HMG_ActiveControlShowNone       := -1       ;;
         _HMG_ActiveControlOptions        := Nil      ;;
         _HMG_ActiveControlHorizontal     := .f.      ;;
-        _HMG_ActiveControlStringFormat      := -1
+        _HMG_ActiveControlStringFormat   := -1
 
 #xcommand NOXPSTYLE <noxpstyle> ;
         =>;
@@ -1680,6 +1676,86 @@ ButtonEx
           _HMG_ActiveControlHorizontal )
 
 /*----------------------------------------------------------------------------
+CLButton
+---------------------------------------------------------------------------*/
+
+#xcommand DEFINE CLBUTTON <name> ;
+        =>;
+        _HMG_ActiveControlName              := <"name"> ;;
+        _HMG_ActiveControlOf                := Nil      ;;
+        _HMG_ActiveControlRow               := Nil      ;;
+        _HMG_ActiveControlCol               := Nil      ;;
+        _HMG_ActiveControlCaption           := Nil      ;;
+        _HMG_ActiveControlAction            := Nil      ;;
+        _HMG_ActiveControlWidth             := Nil      ;;
+        _HMG_ActiveControlHeight            := Nil      ;;
+        _HMG_ActiveControlPicture           := Nil      ;;
+	_HMG_ActiveControlFormat            := Nil      ;;
+        _HMG_ActiveControlDefault           := .f.
+
+#xcommand NOTETEXT <text> ;
+        =>;
+        _HMG_ActiveControlFormat :=  <text>
+
+#xcommand END CLBUTTON ;
+        =>;
+          _DefineCLButton (;
+          _HMG_ActiveControlName,;
+          _HMG_ActiveControlRow ,;
+          _HMG_ActiveControlCol ,;
+          _HMG_ActiveControlCaption ,;
+          _HMG_ActiveControlFormat ,;
+          _HMG_ActiveControlAction ,;
+          _HMG_ActiveControlOf ,;
+          _HMG_ActiveControlDefault ,;
+          _HMG_ActiveControlWidth ,;
+          _HMG_ActiveControlHeight ,;
+          _HMG_ActiveControlPicture )
+
+/*----------------------------------------------------------------------------
+Split Button
+---------------------------------------------------------------------------*/
+
+#xcommand DEFINE SPLITBUTTON <name> ;
+        =>;
+        _HMG_ActiveControlName              := <"name"> ;;
+        _HMG_ActiveControlOf                := Nil      ;;
+        _HMG_ActiveControlRow               := Nil      ;;
+        _HMG_ActiveControlCol               := Nil      ;;
+        _HMG_ActiveControlCaption           := Nil      ;;
+        _HMG_ActiveControlAction            := Nil      ;;
+        _HMG_ActiveControlWidth             := Nil      ;;
+        _HMG_ActiveControlHeight            := Nil      ;;
+        _HMG_ActiveControlTooltip           := Nil      ;;
+        _HMG_ActiveControlFont              := Nil      ;;
+        _HMG_ActiveControlSize              := Nil      ;;
+        _HMG_ActiveControlFontBold          := .f.      ;;
+        _HMG_ActiveControlFontItalic        := .f.      ;;
+        _HMG_ActiveControlFontStrikeOut     := .f.      ;;
+        _HMG_ActiveControlFontUnderLine     := .f.      ;;
+        _HMG_ActiveControlDefault           := .f.
+
+#xcommand END SPLITBUTTON ;
+        =>;
+          _DefineSplitButton (;
+          _HMG_ActiveControlName,;
+          _HMG_ActiveControlRow ,;
+          _HMG_ActiveControlCol ,;
+          _HMG_ActiveControlCaption ,;
+          _HMG_ActiveControlAction ,;
+          _HMG_ActiveControlOf ,;
+          _HMG_ActiveControlDefault ,;
+          _HMG_ActiveControlWidth ,;
+          _HMG_ActiveControlHeight ,;
+          _HMG_ActiveControlTooltip, ;
+          _HMG_ActiveControlFont, ;
+          _HMG_ActiveControlSize,;
+          _HMG_ActiveControlFontBold ,;
+          _HMG_ActiveControlFontItalic,;
+          _HMG_ActiveControlFontUnderLine,;
+          _HMG_ActiveControlFontStrikeOut )
+
+/*----------------------------------------------------------------------------
 Image
 ---------------------------------------------------------------------------*/
 
@@ -1748,65 +1824,66 @@ Check Box/Button
 
 #xcommand DEFINE CHECKBOX <name> ;
    =>;
-   _HMG_ActiveControlName       := <"name">    ;;
-   _HMG_ActiveControlOf         := Nil         ;;
-   _HMG_ActiveControlId         := Nil         ;;
-   _HMG_ActiveControlCol        := Nil         ;;
-   _HMG_ActiveControlRow        := Nil         ;;
-   _HMG_ActiveControlCaption    := Nil         ;;
-   _HMG_ActiveControlWidth      := Nil         ;;
-   _HMG_ActiveControlHeight     := Nil         ;;
-   _HMG_ActiveControlValue      := Nil         ;;
-   _HMG_ActiveControlFont       := Nil         ;;
-   _HMG_ActiveControlSize       := Nil         ;;
-   _HMG_ActiveControlTooltip    := Nil         ;;
-   _HMG_ActiveControlOnGotFocus := Nil         ;;
-   _HMG_ActiveControlOnChange   := Nil         ;;
-   _HMG_ActiveControlOnLostFocus   := Nil      ;;
-   _HMG_ActiveControlOnEnter    := Nil         ;;
-   _HMG_ActiveControlHelpId     := Nil         ;;
-   _HMG_ActiveControlInvisible  := .f.         ;;
-   _HMG_ActiveControlNoTabStop  := .f.         ;;
-   _HMG_ActiveControlFontBold   := .f.         ;;
-   _HMG_ActiveControlFontItalic    := .f.      ;;
-   _HMG_ActiveControlFontStrikeOut := .f.      ;;
-   _HMG_ActiveControlFontUnderLine := .f.      ;;
-   _HMG_ActiveControlBackColor     := Nil      ;;
-   _HMG_ActiveControlFontColor     := Nil      ;;
-   _HMG_ActiveControlAutoSize      := .f.      ;;
-   _HMG_ActiveControlTransparent   := .f.      ;;
-   _HMG_ActiveControlField         := Nil      ;;
-   _HMG_ActiveControlLeftJustify   := .f.      ;;
+   _HMG_ActiveControlName       := <"name"> ;;
+   _HMG_ActiveControlOf         := Nil      ;;
+   _HMG_ActiveControlId         := Nil      ;;
+   _HMG_ActiveControlCol        := Nil      ;;
+   _HMG_ActiveControlRow        := Nil      ;;
+   _HMG_ActiveControlCaption    := Nil      ;;
+   _HMG_ActiveControlWidth      := Nil      ;;
+   _HMG_ActiveControlHeight     := Nil      ;;
+   _HMG_ActiveControlValue      := Nil      ;;
+   _HMG_ActiveControlFont       := Nil      ;;
+   _HMG_ActiveControlSize       := Nil      ;;
+   _HMG_ActiveControlTooltip    := Nil      ;;
+   _HMG_ActiveControlOnGotFocus := Nil      ;;
+   _HMG_ActiveControlOnChange   := Nil      ;;
+   _HMG_ActiveControlOnLostFocus   := Nil   ;;
+   _HMG_ActiveControlOnEnter    := Nil      ;;
+   _HMG_ActiveControlHelpId     := Nil      ;;
+   _HMG_ActiveControlInvisible  := .f.      ;;
+   _HMG_ActiveControlNoTabStop  := .f.      ;;
+   _HMG_ActiveControlFontBold   := .f.      ;;
+   _HMG_ActiveControlFontItalic    := .f.   ;;
+   _HMG_ActiveControlFontStrikeOut := .f.   ;;
+   _HMG_ActiveControlFontUnderLine := .f.   ;;
+   _HMG_ActiveControlBackColor     := Nil   ;;
+   _HMG_ActiveControlFontColor     := Nil   ;;
+   _HMG_ActiveControlAutoSize      := .f.   ;;
+   _HMG_ActiveControlTransparent   := .f.   ;;
+   _HMG_ActiveControlField         := Nil   ;;
+   _HMG_ActiveControlLeftJustify   := .f.   ;;
+   _HMG_ActiveControlBorder        := .f.   ;;
    _HMG_ActiveControlThreeState    := .f.
 
 
 #xcommand DEFINE CHECKBUTTON <name> ;
    =>;
-   _HMG_ActiveControlName       := <"name">    ;;
-   _HMG_ActiveControlOf         := Nil         ;;
-   _HMG_ActiveControlId         := Nil         ;;
-   _HMG_ActiveControlCaption      := Nil      ;;
+   _HMG_ActiveControlName       := <"name"> ;;
+   _HMG_ActiveControlOf         := Nil      ;;
+   _HMG_ActiveControlId         := Nil      ;;
+   _HMG_ActiveControlCaption      := Nil    ;;
    _HMG_ActiveControlWidth      := Nil      ;;
-   _HMG_ActiveControlCol      := Nil      ;;
-   _HMG_ActiveControlRow      := Nil      ;;
-   _HMG_ActiveControlHeight      := Nil      ;;
+   _HMG_ActiveControlCol      := Nil        ;;
+   _HMG_ActiveControlRow      := Nil        ;;
+   _HMG_ActiveControlHeight      := Nil     ;;
    _HMG_ActiveControlValue      := Nil      ;;
-   _HMG_ActiveControlFont      := Nil      ;;
-   _HMG_ActiveControlSize      := Nil      ;;
-   _HMG_ActiveControlTooltip      := Nil      ;;
-   _HMG_ActiveControlOnGotFocus   := Nil      ;;
-   _HMG_ActiveControlOnChange      := Nil      ;;
-   _HMG_ActiveControlOnLostFocus   := Nil      ;;
-   _HMG_ActiveControlHelpId      := Nil      ;;
-   _HMG_ActiveControlPicture           := Nil      ;;
-   _HMG_ActiveControlInvisible      := .f.      ;;
-   _HMG_ActiveControlFontBold      := .f.      ;;
-   _HMG_ActiveControlFontItalic   := .f.      ;;
-   _HMG_ActiveControlFontStrikeOut   := .f.      ;;
-   _HMG_ActiveControlFontUnderLine     := .f.      ;;
-   _HMG_ActiveControlNoTabStop         := .f.      ;;
-   _HMG_ActiveControlField             := Nil      ;;
-   _HMG_ActiveControlLeftJustify       := .f.
+   _HMG_ActiveControlFont      := Nil       ;;
+   _HMG_ActiveControlSize      := Nil       ;;
+   _HMG_ActiveControlTooltip      := Nil    ;;
+   _HMG_ActiveControlOnGotFocus   := Nil    ;;
+   _HMG_ActiveControlOnChange      := Nil   ;;
+   _HMG_ActiveControlOnLostFocus   := Nil   ;;
+   _HMG_ActiveControlHelpId      := Nil     ;;
+   _HMG_ActiveControlPicture    := Nil      ;;
+   _HMG_ActiveControlInvisible      := .f.  ;;
+   _HMG_ActiveControlFontBold      := .f.   ;;
+   _HMG_ActiveControlFontItalic   := .f.    ;;
+   _HMG_ActiveControlFontStrikeOut   := .f. ;;
+   _HMG_ActiveControlFontUnderLine   := .f. ;;
+   _HMG_ActiveControlNoTabStop       := .f. ;;
+   _HMG_ActiveControlField           := Nil ;;
+   _HMG_ActiveControlLeftJustify     := .f.
 
 #xcommand VALUE <value> ;
    =>;
@@ -1871,7 +1948,9 @@ Check Box/Button
       _HMG_ActiveControlthreeState,;
       _HMG_ActiveControlOnEnter,;
       _HMG_ActiveControlAutoSize,;
+      _HMG_ActiveControlBorder,;
       _HMG_ActiveControlId )
+
 
 #xcommand END CHECKBUTTON ;
    =>;
@@ -3154,7 +3233,7 @@ Hyperlink
         _HMG_ActiveControlHelpId,;
         _HMG_ActiveControlInvisible,;
         _HMG_ActiveControlFontItalic,;
-	     _HMG_ActiveControlFontUnderLine, ; // was: .f. - changed by p.d. 2016/10/06
+	     _HMG_ActiveControlFontUnderLine, ; // was: .t. - changed by p.d. 2016/10/06
 	.f., ;
         _HMG_ActiveControlAutosize,;
         _HMG_ActiveControlRightAlign,;
@@ -3272,17 +3351,17 @@ Spinner
       _HMG_ActiveControlOnLostFocus,;
       _HMG_ActiveControlOnGotFocus,;
       _HMG_ActiveControlHeight,;
-      _HMG_ActiveControlHelpId , ;
+      _HMG_ActiveControlHelpId, ;
       _HMG_ActiveControlHorizontal,;
-      _HMG_ActiveControlinvisible , ;
-      _HMG_ActiveControlNoTabStop , ;
-      _HMG_ActiveControlFontBold , ;
-      _HMG_ActiveControlFontItalic , ;
-      _HMG_ActiveControlFontUnderLine , ;
-      _HMG_ActiveControlFontStrikeOut , ;
-      _HMG_ActiveControlWrap , ;
-      _HMG_ActiveControlReadOnly , ;
-      _HMG_ActiveControlIncrement ,;
+      _HMG_ActiveControlinvisible,;
+      _HMG_ActiveControlNoTabStop,;
+      _HMG_ActiveControlFontBold,;
+      _HMG_ActiveControlFontItalic,;
+      _HMG_ActiveControlFontUnderLine,;
+      _HMG_ActiveControlFontStrikeOut,;
+      _HMG_ActiveControlWrap,;
+      _HMG_ActiveControlReadOnly,;
+      _HMG_ActiveControlIncrement,;
       _HMG_ActiveControlBackColor,;
       _HMG_ActiveControlFontColor,;
       _HMG_ActiveControlOptions )
@@ -3369,7 +3448,7 @@ Graph
 
 #xcommand SHOWGRID <grid>;
    =>;
-   _HMG_ActiveControlFontItalic  := <grid>
+   _HMG_ActiveControlFontItalic := <grid>
 
 #xcommand SHOWXGRID <xgrid>;
    =>;
@@ -3397,23 +3476,23 @@ Graph
 
 #xcommand SERIENAMES <sn>;
    =>;
-   _HMG_ActiveControlHeaders     := <sn>
+   _HMG_ActiveControlHeaders    := <sn>
 
 #xcommand COLORS <colors>;
    =>;
-   _HMG_ActiveControlFontColor   := <colors>
+   _HMG_ActiveControlFontColor  := <colors>
 
 #xcommand SHOWDATAVALUES <showval>;
    =>;
-   _HMG_ActiveControlinvisible   := <showval>
+   _HMG_ActiveControlinvisible  := <showval>
 
 #xcommand DATAMASK   <mask>;
    =>;
-   _HMG_ActiveControlFormat      := <mask>
+   _HMG_ActiveControlFormat     := <mask>
 
 #xcommand LEGENDSWIDTH <lw>;
    =>;
-   _HMG_ActiveControlIncrement   := <lw>
+   _HMG_ActiveControlIncrement  := <lw>
 
 #xcommand END GRAPH;
    => ;

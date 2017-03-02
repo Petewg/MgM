@@ -35,7 +35,7 @@
 	www - http://harbour-project.org
 
 	"Harbour Project"
-	Copyright 1999-2016, http://harbour-project.org/
+	Copyright 1999-2017, http://harbour-project.org/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -68,13 +68,14 @@
 		[ ON LOSTFOCUS <lostfocus> ] ;
 		[ ON ENTER <enter> ] ;
 		[ <transparent: TRANSPARENT> ] ;
-		[ HELPID <helpid> ] 		;
+		[ <multiline: MULTILINE> ] ;
+		[ HELPID <helpid> ] ;
 		[ <invisible: INVISIBLE> ] ;
 		[ <notabstop: NOTABSTOP> ] ;
 		[ <leftjustify: LEFTJUSTIFY> ] ;
 		[ <threestate : THREESTATE> ] ;
 	=>;
-	_DefineCheckBox ( <"name">, <"parent">, <col>, <row>, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <"field"> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , <.autosize.> , <nId> )
+	_DefineCheckBox ( <"name">, <"parent">, <col>, <row>, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <"field"> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , <.autosize.> , <.multiline.> , <nId> )
 
 
 #command REDEFINE CHECKBOX <name> ;
@@ -97,13 +98,13 @@
 	[ ON LOSTFOCUS <lostfocus> ] ;
 	[ ON ENTER <enter> ] ;
 	[ <transparent: TRANSPARENT> ] ;
-	[ HELPID <helpid> ]         ;
+	[ HELPID <helpid> ] ;
 	[ <invisible: INVISIBLE> ] ;
 	[ <notabstop: NOTABSTOP> ] ;
 	[ <leftjustify: LEFTJUSTIFY> ] ;
 	[ <threestate : THREESTATE> ] ;
     =>;
-	_DefineCheckBox ( <"name">, <"parent">, 0, 0, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <"field"> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , .f. , <nId> )
+	_DefineCheckBox ( <"name">, <"parent">, 0, 0, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <"field"> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , .f. , .f. , <nId> )
 
 
 #command @ <row>,<col> CHECKBUTTON <name> ;
