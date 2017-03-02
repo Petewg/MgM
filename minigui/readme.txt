@@ -1,4 +1,3 @@
-
 Harbour MiniGUI Extended Edition Library
 """"""""""""""""""""""""""""""""""""""""
 
