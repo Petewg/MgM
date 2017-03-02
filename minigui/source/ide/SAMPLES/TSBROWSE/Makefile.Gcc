@@ -1,0 +1,28 @@
+PATH = C:\MiniguiM\comp\mingw32\BIN;C:\MiniguiM\comp\mingw32\LIBEXEC\GCC\MINGW32\3.4.5;C:\MINIGUIM\MINIGUI\SOURCE\IDE\SAMPLES\TSBROWSE
+MINGW = C:\MiniguiM\comp\mingw32
+HRB_DIR = C:\MiniguiM\comp\harbour
+MINIGUI_INSTALL = C:\MINIGUIM\MINIGUI
+INC_DIR = C:\MINIGUIM\MINIGUI\INCLUDE
+OBJ_DIR = C:\MINIGUIM\MINIGUI\SOURCE\IDE\SAMPLES\TSBROWSE\OBJ
+ProjectFolder = C:\MINIGUIM\MINIGUI\SOURCE\IDE\SAMPLES\TSBROWSE
+CFLAGS = -Wall -mwindows -mno-cygwin -O3
+
+SOURCE=Demo
+
+all: Demo.exe $(OBJ_DIR)/Demo.o $(OBJ_DIR)/Demo.c $(MINIGUI_INSTALL)/resources/hbprinter.o  $(MINIGUI_INSTALL)/resources/miniprint.o  $(MINIGUI_INSTALL)/resources/minigui.o 
+
+Demo.exe  : $(OBJ_DIR)/Demo.o  $(MINIGUI_INSTALL)/resources/hbprinter.o  $(MINIGUI_INSTALL)/resources/miniprint.o  $(MINIGUI_INSTALL)/resources/minigui.o 
+   gcc -Wall -mno-cygwin -o$(SOURCE).exe  -mwindows $(OBJ_DIR)/Demo.o  $(MINIGUI_INSTALL)/resources/hbprinter.o  $(MINIGUI_INSTALL)/resources/miniprint.o  $(MINIGUI_INSTALL)/resources/minigui.o -L$(MINGW)/lib -L$(HRB_DIR)/lib -L$(MINIGUI_INSTALL)/lib -Wl,--start-group  -lgtgui  -lminigui -lgtwin -ldll  -luser32 -lwinspool -lcomctl32 -lcomdlg32 -lgdi32 -lole32 -loleaut32 -luuid -lwinmm -lvfw32 -lwsock32  -lhbapollo -lhbbmcdx -lhbbtree -lhbclipsm -lhbcommon -lhbcpage -lhbcplr -lhbct -lhbcurl -lhbfbird -lhbgd -lhbhpdf -lhbhsx -lhblang -lhbmacro -lhbmainstd -lhbmisc -lhbmsql  -lhbmzip -lhbnf  -lhbpcre -lhbpgsql -lhbpp -lhbrdd -lhbrtl -lhbsix -lhbsqlit3 -lhbtip -lhbusrrdd -lhbvm -lhbvpdf -lhbw32  -lrddado  -lrddcdx -lrddfpt -lrddntx -lxhb  -lhbprinter -lminiprint  -lsocket  -Wl,--end-group 
+$(OBJ_DIR)/Demo.o    : $(OBJ_DIR)/Demo.c
+   gcc $(CFLAGS)  -I$(INC_DIR) -I$(HRB_DIR)/include -I$(MINGW)/include -I$(MINGW)/LIB/GCC/MINGW32/3.4.5/include -c $(OBJ_DIR)/Demo.c -o $(OBJ_DIR)/Demo.o
+
+$(OBJ_DIR)/Demo.c   : $(ProjectFolder)/Demo.prg
+   $(HRB_DIR)/bin/harbour.exe $^ -n -w -I$(HRB_DIR)/include -I$(MINIGUI_INSTALL)/include -i$(INC_DIR) -I$(ProjectFolder) -d__WINDOWS__ -o$@ $^
+
+$(MINIGUI_INSTALL)/resources/hbprinter.o    : $(MINIGUI_INSTALL)/resources/hbprinter.rc
+   windres -i $(MINIGUI_INSTALL)/resources/hbprinter.rc -o $(MINIGUI_INSTALL)/resources/hbprinter.o --include-dir $(MINIGUI_INSTALL)/resources
+$(MINIGUI_INSTALL)/resources/miniprint.o    : $(MINIGUI_INSTALL)/resources/miniprint.rc
+   windres -i $(MINIGUI_INSTALL)/resources/miniprint.rc -o $(MINIGUI_INSTALL)/resources/miniprint.o --include-dir $(MINIGUI_INSTALL)/resources
+$(MINIGUI_INSTALL)/resources/minigui.o    : $(MINIGUI_INSTALL)/resources/minigui.rc
+   windres -i $(MINIGUI_INSTALL)/resources/minigui.rc -o $(MINIGUI_INSTALL)/resources/minigui.o --include-dir $(MINIGUI_INSTALL)/resources 
+

@@ -23,23 +23,23 @@ PROCEDURE LoadPreferences()
    LOCAL acwValues AS ARRAY  := { "", d + ":\minigui", bccpath, d + ":\minigui\harbour", d + ":\xharbour", "", "" } // 1-7
 
    ac2 := { "", "", "", "", "", "", "", "", "", "", "", "" }          // 8-19
-   AEval( ac2, { | x | AAdd( acwValues, x )  } )
+   aEval( ac2, { | x | aAdd( acwValues, x )  } )
 
    ac2 := { ".F.", ".F.", ".F.", ".F.", ".F.", ".T.", ".T.", ".F." }  //20-27
-   AEval( ac2, { | x | AAdd( acwValues, x )  } )
+   aEval( ac2, { | x | aAdd( acwValues, x )  } )
 
    ac2 := { ".T.", ".F.", ".T.", ".F.", "1", ".F.", ".F.", "1", "1" } //28-36
-   AEval( ac2, { | x | AAdd( acwValues, x )  } )
+   aEval( ac2, { | x | aAdd( acwValues, x )  } )
 
    ac2 := { "", "", "", "", "", "", "", "", "", "" } // 37-46
-   AEval( ac2, { | x | AAdd( acwValues, x )  } )
+   aEval( ac2, { | x | aAdd( acwValues, x )  } )
 
-   AAdd( acwValues, ".F." )                                 // 47
+   aAdd( acwValues, ".F." )                                 // 47
 
-   AEval( acPaths, { | x | AAdd( acwValues, x )  } ) // 48-54
+   aEval( acPaths, { | x | aAdd( acwValues, x )  } ) // 48-54
 
-   AAdd( acwValues, "Arial" )                               // 55
-   AAdd( acwValues, 10 )                                    // 56
+   aAdd( acwValues, "Arial" )                               // 55
+   aAdd( acwValues, 10 )                                    // 56
 
    IF ! File( cIniFile )
       BEGIN INI File cIniFile
@@ -183,7 +183,7 @@ PROCEDURE LoadPreferences()
      GET acwValues[ _PROJECTFONTSIZE ]          SECTION cSect  ENTRY "wFontSize"                DEFAULT acwValues[ _PROJECTFONTSIZE ]
    END INI
 
-   aData     := AClone( acwValues )
+   aData     := aClone( acwValues )
 
    SET FONT TO '"' + aData[ _PROJECTFONTNAME ] + '"' , aData[ _PROJECTFONTSIZE ]
    BuildType := iif( aData[ _BUILDTYPE ] = "1", "full", "not" )
@@ -519,7 +519,7 @@ STATIC FUNCTION BCC_DETECT()
 
    cPath := GetEnv( "PATH" )
    aPath := hb_ATokens( cPath, hb_osPathListSeparator(), .T., .T. )
-
+ 
    FOR EACH cDir IN aPath
       IF ! Empty( cDir := NoQuota( cDir ) )
          IF hb_FileExists( hb_DirSepAdd( cDir ) + cFileName )

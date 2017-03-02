@@ -1,0 +1,64 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 168 , 375 WIDTH 412 HEIGHT 727 TITLE "Control Order" NOMAXIMIZE NOSIZE ON INTERACTIVECLOSE finalorder()
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    10
+            WIDTH  382
+            HEIGHT 70
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE FRAME Frame_2
+            ROW    90
+            COL    10
+            WIDTH  382
+            HEIGHT 592
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    22
+            COL    28
+            WIDTH  230
+            HEIGHT 18
+            VALUE "Use Arrows to Change Control Position"
+     END LABEL  
+
+    DEFINE BUTTON Button_1
+           ROW    18
+           COL    336
+           WIDTH  24
+           HEIGHT 24
+           ACTION UpOrder()
+           TOOLTIP "Control Up"
+           PICTURE "BITMAP45"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    18
+           COL    364
+           WIDTH  24
+           HEIGHT 24
+           ACTION DownOrder()
+           TOOLTIP "Control Down"
+           PICTURE "BITMAP46"
+     END BUTTON  
+
+    DEFINE CHECKBOX Check_1
+           ROW    48
+           COL    30
+           WIDTH  150
+           HEIGHT 28
+           CAPTION "Show Label Control"
+           ONCHANGE CorderChange()
+     END CHECKBOX  
+
+     DEFINE TREE Tree_1 AT 100 , 20 WIDTH 363 HEIGHT 568
+     END TREE  
+
+END WINDOW
+
+

@@ -48,6 +48,7 @@
 #define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 
 #ifdef MAKELONG

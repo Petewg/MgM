@@ -1,0 +1,89 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 280 HEIGHT 340 CHILD NOMINIMIZE NOSYSMENU ON INTERACTIVECLOSE Exit() ON SIZE wProjBrowResize() ON MAXIMIZE wProjBrowResize()
+
+     DEFINE CONTEXT MENU
+            MENUITEM "Set as Main" ACTION Exe_Cnt( PgmPpos, "MAIN"    ) NAME Smain    DISABLED
+            MENUITEM "Add"         ACTION Exe_Cnt( PgmPpos, "ADD"     ) NAME Add
+            MENUITEM "New"         ACTION Exe_Cnt( PgmPpos, "NEW"     ) NAME New
+            MENUITEM "Remove"      ACTION Exe_Cnt( PgmPpos, "REMOVE"  ) NAME Remove
+            MENUITEM "Refresh"     ACTION Exe_Cnt( PgmPpos, "REFRESH" ) NAME RRefresh DISABLED
+            MENUITEM "Edit"        ACTION Exe_Cnt( PgmPpos, "EDIT"    ) NAME Edit
+     END MENU
+
+  DEFINE TAB XTab_1 AT 5,2 WIDTH 245 HEIGHT 270 VALUE 1 FONT "Arial" SIZE 9 TOOLTIP "Double Click To Edit" HOTTRACK MULTILINE
+
+    PAGE "Modules"
+
+        DEFINE LISTBOX XList_1
+               ROW    50
+               COL    6
+               WIDTH  230
+               HEIGHT 240
+               ITEMS {}
+               VALUE 1
+               TOOLTIP "Double Click To Edit"
+               ONGOTFOCUS ( PgMpPos := 1, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
+               ONDBLCLICK EditPrg()
+        END LISTBOX
+
+    END PAGE
+
+    PAGE "Forms"
+
+        DEFINE LISTBOX XList_2
+               ROW    50
+               COL    6
+               WIDTH  230
+               HEIGHT 240
+               ONGOTFOCUS ( PgMpPos := 2, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
+               ONDBLCLICK fLoadFmg()
+        END LISTBOX
+
+    END PAGE
+
+    PAGE "Rc - Bat"
+
+        DEFINE LISTBOX XList_3
+               ROW    50
+               COL    6
+               WIDTH  230
+               HEIGHT 240
+               ONGOTFOCUS ( PgMpPos := 3, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
+               ONDBLCLICK EditRC()
+        END LISTBOX
+
+    END PAGE
+
+    PAGE "Reports"
+
+        DEFINE LISTBOX XList_4
+               ROW    50
+               COL    6
+               WIDTH  230
+               HEIGHT 240
+               ONGOTFOCUS ( PgMpPos := 4, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
+               ONDBLCLICK LoadReport()
+        END LISTBOX
+
+    END PAGE
+
+    PAGE "Tables"
+
+        DEFINE LISTBOX XList_5
+               ROW    50
+               COL    6
+               WIDTH  230
+               HEIGHT 240
+               ONGOTFOCUS ( PgMpPos := 5, Mnu_Act( iif( Chk_Prj(.F.), 6, PgMpPos ) ) )
+               ONDBLCLICK AddTables()
+        END LISTBOX
+
+    END PAGE
+
+  END TAB
+
+END WINDOW
+
+

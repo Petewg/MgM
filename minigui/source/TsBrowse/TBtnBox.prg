@@ -108,7 +108,7 @@ METHOD New( nRow, nCol, bSetGet, oWnd, nWidth, nHeight, cPict, ;
       ::AddVars( ::hWnd )
       ::Default()
 
-      if hFont != Nil
+      if GetObjectType( hFont ) == OBJ_FONT
          _SetFontHandle( ::hWnd, hFont )
          ::hFont := hFont
       endif

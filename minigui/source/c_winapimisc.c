@@ -1021,7 +1021,7 @@ HB_FUNC( EMPTYWORKINGSET )
    if( pEmptyWorkingSet == NULL )
    {
       HMODULE hLib = LoadLibrary( "Psapi.dll" );
-      pEmptyWorkingSet = ( Func_EmptyWorkingSet ) GetProcAddress( hLib, "EmptyWorkingSet" );
+      pEmptyWorkingSet = ( Func_EmptyWorkingSet ) GetProcAddress( hLib, "K32EmptyWorkingSet" );
    }
 
    if( pEmptyWorkingSet != NULL )

@@ -1,0 +1,6 @@
+incPaths=C:\MiniguiM\minigui\source\IDE\SAMPLES\DROPDOWNMENU 
+libpaths=c:\borland\bcc55\lib
+libs=hbwin 
+gt=gtgui
+mt=no
+instpaths=

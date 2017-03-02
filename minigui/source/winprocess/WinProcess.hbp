@@ -1,0 +1,15 @@
+
+-hblib
+-warn=max
+
+-inc-
+
+-o../../lib/winprocess
+
+-I../../include
+
+-hbx=../../include/${hb_name}.hbx
+
+-w2 -es2 -ko -ql
+
+winprocess.prg

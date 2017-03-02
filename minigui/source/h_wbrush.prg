@@ -89,7 +89,7 @@ FUNCTION _SetWindowBKBrush( cWindow, lNoDelete, cBrushStyle, nHatch, aColor, xIm
 
       END SWITCH
 
-      IF GetObjectType ( hBrush ) == 2  // OBJ_BRUSH
+      IF GetObjectType ( hBrush ) == OBJ_BRUSH
          hOldBrush := SetWindowBrush ( hWnd, hBrush )
          _HMG_aFormBrushHandle[nIndex ] := hBrush
 

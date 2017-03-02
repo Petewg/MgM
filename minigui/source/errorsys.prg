@@ -216,6 +216,7 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
       Html_LineText( nHandle, "Free disk space....: " + strvalue( Round( DiskSpace() / ( 1024 * 1024 ), 0 ) ) + " MB" )
       Html_LineText( nHandle, "" )
       Html_LineText( nHandle, "Operating system...: " + OS() )
+      Html_LineText( nHandle, "MiniGUI version....: " + MiniGUIVersion() )
       Html_LineText( nHandle, "Harbour version....: " + Version() )
 #if ( __HARBOUR__ - 0 > 0x030200 )
       Html_LineText( nHandle, "Harbour built on...: " + hb_Version( HB_VERSION_BUILD_DATE_STR ) )
@@ -417,11 +418,9 @@ STATIC FUNCTION strvalue( c, l )
 
 RETURN ""
 
-/*
-  Date Created: 14/11/2005
-  Author: Antonio Novo <antonionovo@gmail.com>
-  Enable/Disable Error Detail
-*/
+/* Date Created: 14/11/2005
+   Author: Antonio Novo <antonionovo@gmail.com>
+   Enable/Disable Error Detail */
 *-----------------------------------------------------------------------------*
 FUNCTION _lShowDetailError( lNewValue )
 *-----------------------------------------------------------------------------*
@@ -434,6 +433,7 @@ FUNCTION _lShowDetailError( lNewValue )
 
 RETURN lOldValue
 
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
 *-01-01-2003
 *-Author: Antonio Novo
 *-Create/Open the ErrorLog.Htm file
@@ -501,7 +501,7 @@ FUNCTION HTML_INI( ARCH, TITLE )
          MsgStop( "Can`t open errorlog file " + ARCH, "Error" )
       ELSE
          FWrite( HtmArch, "<HTML><HEAD><TITLE>" + TITLE + "</TITLE></HEAD>" + cStyle + "<BODY>" + Chr( 13 ) + Chr( 10 ) )
-         FWrite( HtmArch, '<H1 Align=Center>' + TITLE + '<br>' + MiniGUIVersion() + '</H1><BR>' + Chr( 13 ) + Chr( 10 ) )
+         FWrite( HtmArch, "<H1 Align=Center>" + TITLE + "</H1><BR>" + Chr( 13 ) + Chr( 10 ) )
       ENDIF
    ENDIF
 
@@ -540,6 +540,115 @@ PROCEDURE HTML_END( HTMARCH )
    ENDIF
 
 RETURN
+
+#else
+*-01-01-2003
+*-Author: Antonio Novo
+*-Create/Open the ErrorLog.Htm file
+*-----------------------------------------------------------------------------*
+FUNCTION HTML_ERRORLOG
+*-----------------------------------------------------------------------------*
+   LOCAL HtmArch
+   LOCAL cErrorLogFile := _GetErrorlogFile()
+
+   IF IsErrorLogActive()
+      IF .NOT. hb_vfExists( cErrorLogFile )
+         HtmArch := Html_Ini( cErrorLogFile, "Harbour MiniGUI Errorlog File" )
+         IF HtmArch != NIL
+            Html_Line( HtmArch )
+         ENDIF
+      ELSE
+         HtmArch := hb_vfOpen( cErrorLogFile, FO_WRITE )
+         IF HtmArch != NIL
+            hb_vfSeek( HtmArch, 0, FS_END )
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN ( HtmArch )
+
+*-30-12-2002
+*-Author: Antonio Novo
+*-HTML Page Head
+*-----------------------------------------------------------------------------*
+FUNCTION HTML_INI( ARCH, TITLE )
+*-----------------------------------------------------------------------------*
+   LOCAL HtmArch := -1
+   LOCAL cStyle  := "<style> "     + ;
+      "body{ "                     + ;
+      "font-family: sans-serif;"   + ;
+      "background-color: #ffffff;" + ;
+      "font-size: 75%;"            + ;
+      "color: #000000;"            + ;
+      "}"                          + ;
+      "h1{"                        + ;
+      "font-family: sans-serif;"   + ;
+      "font-size: 150%;"           + ;
+      "color: #0000cc;"            + ;
+      "font-weight: bold;"         + ;
+      "background-color: #f0f0f0;" + ;
+      "}"                          + ;
+      ".updated{"                  + ;
+      "font-family: sans-serif;"   + ;
+      "color: #cc0000;"            + ;
+      "font-size: 110%;"           + ;
+      "}"                          + ;
+      ".normaltext{"               + ;
+      "font-family: sans-serif;"   + ;
+      "font-size: 100%;"           + ;
+      "color: #000000;"            + ;
+      "font-weight: normal;"       + ;
+      "text-transform: none;"      + ;
+      "text-decoration: none;"     + ;
+      "}"                          + ;
+      "</style>"
+
+   IF IsErrorLogActive()
+      HtmArch := hb_vfOpen( ARCH, FO_CREAT + FO_TRUNC + FO_WRITE )
+      IF HtmArch == NIL
+         MsgStop( "Can`t open errorlog file " + ARCH, "Error" )
+      ELSE
+         hb_vfWrite( HtmArch, "<HTML><HEAD><TITLE>" + TITLE + "</TITLE></HEAD>" + cStyle + "<BODY>" + CRLF )
+         hb_vfWrite( HtmArch, "<H1 Align=Center>" + TITLE + "</H1><BR>" + CRLF )
+      ENDIF
+   ENDIF
+
+RETURN ( HtmArch )
+
+*-30-12-2002
+*-Author: Antonio Novo
+*-HTM Page Line
+*-----------------------------------------------------------------------------*
+PROCEDURE HTML_LINETEXT( HTMARCH, LINEA )
+*-----------------------------------------------------------------------------*
+   IF HTMARCH != NIL .AND. IsErrorLogActive()
+      hb_vfWrite( HTMARCH, RTrim( LINEA ) + "<BR>" + CRLF )
+   ENDIF
+
+RETURN
+
+*-30-12-2002
+*-Author: Antonio Novo
+*-HTM Line
+*-----------------------------------------------------------------------------*
+PROCEDURE HTML_LINE( HTMARCH )
+*-----------------------------------------------------------------------------*
+   IF HTMARCH != NIL .AND. IsErrorLogActive()
+      hb_vfWrite( HTMARCH, "<HR>" + CRLF )
+   ENDIF
+
+RETURN
+
+*-----------------------------------------------------------------------------*
+PROCEDURE HTML_END( HTMARCH )
+*-----------------------------------------------------------------------------*
+   IF HTMARCH != NIL .AND. IsErrorLogActive()
+      hb_vfWrite( HTMARCH, "</BODY></HTML>" )
+      hb_vfClose( HTMARCH )
+   ENDIF
+
+RETURN
+#endif
 
 // (JK) HMG 1.0 Build 6
 *-----------------------------------------------------------------------------*

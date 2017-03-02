@@ -98,14 +98,17 @@ METHOD New( nRow, nCol, bSetGet, oWnd, nWidth, nHeight, cPict, bValid,;
    if ! Empty( ::oWnd:hWnd )
 
       ::hWnd := InitDatePick ( ::oWnd:hWnd, 0, nCol, nRow,nWidth, nHeight , '' , 0 , shownone , updown , rightalign, invisible, notabstop )
-      ::AddVars( ::hWnd )
 
+      ::AddVars( ::hWnd )
       ::Default()
-      if hFont != nil
+
+      if GetObjectType( hFont ) == OBJ_FONT
          _SetFontHandle( ::hWnd, hFont )
          ::hFont := hFont
       endif
+
       oWnd:AddControl( ::hWnd )
+
    endif
 
 return Self

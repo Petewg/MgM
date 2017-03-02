@@ -1,12 +1,13 @@
+/*
+ * MINIGUI - Harbour Win32 GUI library source code
+ *
+ * Copyright 2016 Grigory Filatov <gfilatov@inbox.ru>
+ */
 
 #include "minigui.ch"
 
 #ifdef _USERINIT_
 
-#define BS_SPLITBUTTON     0x0000000C
-
-#define BCM_SETNOTE        0x00001609
-#define BCM_SETSHIELD      0x0000160C
 *------------------------------------------------------------------------------*
 INIT PROCEDURE _InitCLButton
 *------------------------------------------------------------------------------*
@@ -82,10 +83,10 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
    _HMG_aControlFontColor[k] :=  Nil
    _HMG_aControlDblClick[k] :=  ""
    _HMG_aControlHeadClick[k] :=  {}
-   _HMG_aControlRow[k] := 0
-   _HMG_aControlCol[k] := 0
-   _HMG_aControlWidth[k] := 0
-   _HMG_aControlHeight[k] := 0
+   _HMG_aControlRow[k] := nRow
+   _HMG_aControlCol[k] := nCol
+   _HMG_aControlWidth[k] := w
+   _HMG_aControlHeight[k] := h
    _HMG_aControlSpacing[k] := 0
    _HMG_aControlContainerRow[k] :=  -1
    _HMG_aControlContainerCol[k] :=  -1
@@ -163,6 +164,7 @@ FUNCTION CLButtonEventhandler ( hWnd, nMsg, wParam, lParam )
 
 RETURN RetVal
 
+#define BCM_SETSHIELD      0x0000160C
 *------------------------------------------------------------------------------*
 PROCEDURE CLButton_SetShield ( cWindow, cControl )
 *------------------------------------------------------------------------------*
@@ -186,15 +188,30 @@ PROCEDURE CLButton_SetShield ( cWindow, cControl )
 
 RETURN
 
+#define BS_COMMANDLINK     0x0000000E
+#define BS_DEFCOMMANDLINK  0x0000000F
+#define BM_SETSTYLE        244
 *------------------------------------------------------------------------------*
 PROCEDURE CLButtonSetFocus ( cWindow, cControl )
 *------------------------------------------------------------------------------*
+   LOCAL hWnd, x, ControlCount, ParentFormHandle
 
    IF GetControlType ( cControl, cWindow ) == 'CLBUTTON'
 
-      SetFocus ( GetControlHandle ( cControl, cWindow ) )
-
       _HMG_UserComponentProcess := .T.
+
+      hWnd := GetControlHandle ( cControl, cWindow )
+      ControlCount := Len ( _HMG_aControlNames )
+      ParentFormHandle := _HMG_aControlParentHandles [ GetControlIndex ( cControl, cWindow ) ]
+      FOR x := 1 TO ControlCount
+         IF _HMG_aControlType [x] == 'CLBUTTON'
+            IF _HMG_aControlParentHandles [x] == ParentFormHandle
+               SendMessage ( _HMG_aControlHandles [x], BM_SETSTYLE, LOWORD ( BS_COMMANDLINK ), 1 )
+            ENDIF
+         ENDIF
+      NEXT
+      SetFocus( hWnd )
+      SendMessage ( hWnd, BM_SETSTYLE, LOWORD ( BS_DEFCOMMANDLINK ), 1 )
 
    ELSE
 

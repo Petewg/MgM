@@ -1,0 +1,25 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 169 , 233 WIDTH 560 HEIGHT 402 TITLE "HMG Activex Demo" MAIN
+
+     DEFINE ACTIVEX Activex_1
+            ROW    10
+            COL    20
+            WIDTH  510
+            HEIGHT 300
+            PROGID "shell.explorer.2"
+     END ACTIVEX  
+
+    DEFINE BUTTON Button_1
+           ROW    320
+           COL    230
+           WIDTH  100
+           HEIGHT 28
+           ACTION demo_button_1_action()
+           CAPTION "Navigate"
+     END BUTTON  
+
+END WINDOW
+
+

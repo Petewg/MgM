@@ -313,22 +313,24 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       ELSE
 
-         FOR i := 1 TO Len ( _HMG_aControlhandles )
+         IF IsXPThemed == Nil
+            IsXPThemed := IsThemed()
+         ENDIF
 
-            IF ValType ( _HMG_aControlHandles [i] ) == 'A'
+         ControlCount := Len ( _HMG_aControlHandles )
+         FOR i := 1 TO ControlCount
+
+            Tmp := _HMG_aControlHandles [i]
+            IF ISARRAY ( Tmp )
 
                IF _HMG_aControlType [i] == 'RADIOGROUP'
 
-                  FOR x := 1 TO Len ( _HMG_aControlHandles [i] )
+                  FOR x := 1 TO Len ( Tmp )
 
-                     IF _HMG_aControlHandles [i] [x] == lParam
+                     IF Tmp [x] == lParam
 
                         IF _HMG_aControlFontColor [i] != Nil
                            SetTextColor( wParam , _HMG_aControlFontColor [i] [1] , _HMG_aControlFontColor [i] [2] , _HMG_aControlFontColor [i] [3] )
-                        ENDIF
-
-                        IF IsXPThemed == Nil
-                           IsXPThemed := IsThemed()
                         ENDIF
 
                         IF IsXPThemed .AND. _HMG_aControlContainerRow [i] <> -1 .AND. _HMG_aControlContainerCol [i] <> -1
@@ -349,10 +351,14 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
                         ENDIF
 
-                        IF ValType ( _HMG_aControlInputMask [i] ) == 'L'
+                        IF ISLOGICAL ( _HMG_aControlInputMask [i] )
                            IF _HMG_aControlInputMask [i] == .T. .AND. _HMG_aControlBkColor [i] == Nil
-                              SetBkMode( wParam , TRANSPARENT )
-                              RETURN GetStockObject( NULL_BRUSH )
+                              IF IsXPThemed .AND. ( a := _HMG_aFormBkColor [ AScan ( _HMG_aFormHandles, _HMG_aControlParentHandles [i] ) ] ) != Nil
+                                 _HMG_aControlBkColor [i] := a
+                              ELSE
+                                 SetBkMode( wParam , TRANSPARENT )
+                                 RETURN GetStockObject( NULL_BRUSH )
+                              ENDIF
                            ENDIF
                         ENDIF
 
@@ -1047,14 +1053,14 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             i := AScan ( _HMG_aFormHandles , hWnd )
             IF i > 0
-               _DoWindowEventProcedure ( _HMG_aFormNotifyIconLeftClick [i] , i )
+               _DoWindowEventProcedure ( _HMG_aFormNotifyIconLeftClick [i] , i , "TASKBAR" )
             ENDIF
             EXIT
 
          CASE TTM_DELTOOLA
 
             IF IsToolTipBalloonActive .AND. hWnd == _HMG_MainHandle
-               _DoWindowEventProcedure ( _HMG_NotifyBalloonClick , AScan ( _HMG_aFormHandles , hWnd ) )
+               _DoWindowEventProcedure ( _HMG_NotifyBalloonClick , AScan ( _HMG_aFormHandles , hWnd ) , "TASKBAR" )
             ENDIF
             EXIT
 
@@ -1062,7 +1068,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             i := AScan ( _HMG_aFormHandles , hWnd )
             IF i > 0
-               _DoWindowEventProcedure ( _HMG_aFormNotifyIconDblClick [i] , i )
+               _DoWindowEventProcedure ( _HMG_aFormNotifyIconDblClick [i] , i , "TASKBAR" )
             ENDIF
             EXIT
 

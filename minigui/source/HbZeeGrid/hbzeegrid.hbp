@@ -1,0 +1,20 @@
+-hblib
+-inc-
+-w3 -es2
+-warn=max
+
+-o../../lib/hbzeegrid
+
+-I../../include
+
+-hbx=../../include/${hb_name}.hbx
+
+
+hbzggrid.c
+zgflat.c
+zgdate.c
+hbutils.c
+
+cells.prg
+
+

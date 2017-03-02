@@ -1,0 +1,26 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 168 , 234 WIDTH 560 HEIGHT 400 TITLE "Hello World!" ICON "demo.ico" MAIN NOTIFYICON "demo.ico" NOTIFYTOOLTIP "This is a Notify Icon ToolTip" ON NOTIFYCLICK MsgExclamation("Notify Icon Clicked!!!")
+
+     DEFINE NOTIFY MENU
+            MENUITEM "Item 1" ACTION MsgInfo("Item 1")
+            MENUITEM "Item 2" ACTION MsgInfo("Item 2")
+            SEPARATOR
+            MENUITEM "Item 3" ACTION MsgInfo("Item 3")
+            MENUITEM "Item 4" ACTION MsgInfo("Item 4")
+            MENUITEM "Exit" ACTION ReleaseAllWindows()
+     END MENU
+
+     DEFINE LABEL Label_1
+            ROW    160
+            COL    130
+            WIDTH  280
+            HEIGHT 30
+            VALUE "This Window has a Notify Icon and a Notify Menu"
+            CENTERALIGN .T.
+     END LABEL  
+
+END WINDOW
+
+

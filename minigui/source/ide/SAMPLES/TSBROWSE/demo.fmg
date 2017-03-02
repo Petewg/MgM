@@ -1,0 +1,36 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2016 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 169 , 243 WIDTH 757 HEIGHT 480 TITLE "Hello World!" MAIN
+
+     DEFINE LABEL Label_1
+            ROW    10
+            COL    20
+            WIDTH  100
+            HEIGHT 20
+            VALUE "Hello World!!"
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE TBROWSE TBROWSE_1 ; 
+            AT    50,20 ; 
+            WIDTH  706 ; 
+            HEIGHT 375 ; 
+            HEADERS 'CODE','FIRST','LAST','MARRIED','BIRTH','BIO' ; 
+            COLSIZES 100,100,100,100,100,100 ; 
+            WORKAREA "DEMO" ; 
+            FIELDS CODE,FIRST,LAST,MARRIED,BIRTH,BIO ; 
+            VALUE 1 ; 
+            FONT "Segoe UI" ; 
+            TOOLTIP NIL ; 
+            BACKCOLOR {235,255,215} ; 
+            FONTCOLOR {0,0,0} ; 
+            EDIT  ; 
+            MESSAGE ""
+     END TBROWSE  
+
+END WINDOW
+
+

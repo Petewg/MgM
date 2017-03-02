@@ -134,7 +134,7 @@ PROCEDURE MAIN( Param AS STRING )
    PUBLIC aItens               AS Array   := Array( 45 )     //
    PUBLIC aTbrowse             AS Array   := { }              //
    PUBLIC aOTbrowse            AS Array   := { }              //
-   PUBLIC VLHASH               AS ARRAY   := hb_Hash()        //
+   PUBLIC VLHASH               AS ARRAY   := HB_HASH()        //
 
    PUBLIC A1                   AS STRING                     //
    PUBLIC Ans                  AS LOGICAL                    // Needed in Form_1.fmg / Form_2.fmg
@@ -533,7 +533,7 @@ PROCEDURE AddControl()
       FOR i := 1 TO Len( _HMG_aControlHandles )
 
     // if    _HMG_aControlParentHandles[ i ] == GetFormHandle( "Form_1" )
-    //  msgbox('value of i = ' + Str(i) + ' control = '+ _HMG_aControlType[ i ] + ' controls = ' + Str( Len( _HMG_aControlHandles )) )
+    //  msgbox('value of i = ' + str(i) + ' control = '+ _HMG_aControlType[ i ] + ' controls = ' + str( Len( _HMG_aControlHandles )) )
     // endif
 
       IF  _HMG_aControlType[ i ] # "TOOLBAR"   .AND.  _HMG_aControlType[ i ] # "TOOLBUTTON"
@@ -1726,7 +1726,7 @@ PROCEDURE DeleteModule()
          ProjectBrowser.Xlist_1.AddItem( aModules[ x, 1 ] )
       NEXT x
 
-      //AEval(aModules,{|x|ProjectBrowser.Xlist_1.AddItem([ x, 1 ]) )
+      //aEval(aModules,{|x|ProjectBrowser.Xlist_1.AddItem([ x, 1 ]) )
 
    ELSE
       ProjectBrowser.Xlist_1.DeleteItem( ProjectBrowser.Xlist_1.Value )
@@ -1750,7 +1750,7 @@ PROCEDURE DeleteArray( param1 AS Array, param2 AS STRING )
 
    FOR x := 1 TO Len( param1 )
 
-      // MsgBox( "x= " + Str(x) )
+      // MsgBox( "x= " + str(x) )
       // MsgBox( "value= " + aPrgNames[x,1] )
 
       IF aTempArray[ x, 1 ] = param2
@@ -2300,7 +2300,7 @@ PROCEDURE OpenProject()
 
       A1 := AllTrim( MemoLine( x2, NIL, x ) )
 
-      hb_FNameSplit( A1, @cPath, @cFileName, @cExt )
+      HB_FNameSplit( A1, @cPath, @cFileName, @cExt )
 
       cFile := cFileName + cExt    // reform file name then upper ext (not to change of real ext)
       cExt  := Upper( cExt )       // Upper cExt for testing
@@ -2341,7 +2341,7 @@ PROCEDURE OpenProject()
 
       /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       IF Upper( Right( A1, 4 ) ) == ".PRG"
-         nPos := RAt( "\", A1 )
+         nPos := Rat( "\", A1 )
          IF nPos > 0
             cPath := SubStr( A1, 1, nPos )
             A1    := SubStr( A1, nPos + 1, Len( A1 ) )
@@ -2354,19 +2354,19 @@ PROCEDURE OpenProject()
             cPath := "<ProjectFolder>\"
          ENDIF
 
-         AAdd( aPrgNames, { A1, cPath } )
+         aAdd( aPrgNames, { A1, cPath } )
 
          IF x = 1
             aMainModule := { { A1, cPath } }
             // MsgBox( "amain1= " + aMainModule[ 1, 1 ] + " amain2= " + aMainModule[ 1, 2 ] )
          ELSE
-            AAdd( aModules, { A1, cPath } )
+            aAdd( aModules, { A1, cPath } )
          ENDIF
       ENDIF
 
       *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       IF Upper( Right( A1, 4 ) ) == ".FMG"
-         nPos := RAt( "\", A1 )
+         nPos := Rat( "\", A1 )
          IF nPos > 0
             cPath := SubStr( A1, 1, nPos )
             A1    := SubStr( A1, nPos + 1, Len( A1 ) )
@@ -2374,31 +2374,31 @@ PROCEDURE OpenProject()
             cPath := ""
          ENDIF
          // MsgBox("cPath= "+cPath+ " A1 = "+A1)
-         AAdd( aFmgNames, { A1, cPath } )
+         aAdd( aFmgNames, { A1, cPath } )
       ENDIF
 
       *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       IF Upper( Right( A1, 3 ) ) == ".RC"
-         nPos := RAt( "\", A1 )
+         nPos := Rat( "\", A1 )
          IF nPos > 0
             cPath := SubStr( A1, 1, nPos )
             A1    := SubStr( A1, nPos + 1, Len( A1 ) )
          ELSE
             cPath := ""
          ENDIF
-         AAdd( aRcNames, { A1, cPath } )
+         aAdd( aRcNames, { A1, cPath } )
       ENDIF
 
       *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       IF Upper( Right( A1, 4 ) ) == ".RPT"
-         nPos := RAt( "\", A1 )  //SL 8/24/2011 10:51:13 PM was Pos
+         nPos := Rat( "\", A1 )  //SL 8/24/2011 10:51:13 PM was Pos
          IF nPos > 0
             cPath := SubStr( A1, 1, nPos )
             A1    := SubStr( A1, nPos + 1, Len( A1 ) )
          ELSE
             cPath := ""
          ENDIF
-         AAdd( aRptNames, { A1, cPath } )
+         aAdd( aRptNames, { A1, cPath } )
       ENDIF
 
       *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2520,7 +2520,7 @@ PROCEDURE NewResource()
          AAdd( aRcNames, { xRcName + ".rc", cPath } )
       ELSE
          //SL: New version but not for now
-         //IF AScan( aRcNames, { |a| Upper( xRcName ) == Upper( a[ 1 ] ) } ) # 0
+         //IF aScan( aRcNames, { |a| Upper( xRcName ) == Upper( a[ 1 ] ) } ) # 0
          //   MsgStop( "Resource Already in Project" )
          //   RETURN
          //ENDIF
@@ -2787,8 +2787,8 @@ PROCEDURE ProcessContainers( ControlName AS STRING )
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // MsgBox( "PROCESS-CONTAINERS" )
    z := GetControlIndex( ControlName , "Form_1" )
-   /* msgbox("difrow= "+Str(difrow()) + "difcol = "+ Str(difcol())+ " z= "+Str(z) )
-       msgbox("name= "+_HMG_aControlNames[z]+ "row = "+ Str(_HMG_aControlRow[z])+ " col= "+ Str(_HMG_aControlCol[z]))
+   /* msgbox("difrow= "+str(difrow()) + "difcol = "+ str(difcol())+ " z= "+str(z) )
+       msgbox("name= "+_HMG_aControlNames[z]+ "row = "+ str(_HMG_aControlRow[z])+ " col= "+ str(_HMG_aControlCol[z]))
    */
    FOR i := 1 TO Len( _HMG_aControlhandles )
       IF _HMG_aControlType[ i ] == "TAB" .AND. _HMG_aControlNames[ i ] # "XTab_1"    .AND. _HMG_aControlNames[ i ] # "XTab_2"  .AND. _HMG_aControlNames[ i ] # "XTab_3"
@@ -3225,7 +3225,7 @@ PROCEDURE ChangeTabPos( nrPagina AS NUMERIC )
             ENDIF
          ELSE
             ControlHandle := _HMG_aControlPageMap[ i, j, k, 1 ] // radio  handle
-            // MsgBox( "ControlHandleRadio= "+Str(controlhandle)+" = h = " + Str(h)+ " page= "+Str(j)+ " = "+ Str(nrpagina) )
+            // MsgBox( "ControlHandleRadio= "+str(controlhandle)+" = h = " + str(h)+ " page= "+str(j)+ " = "+ str(nrpagina) )
 
             IF ControlHandle = h .AND. j # nrPagina
                b0 := _HMG_aControlRow[ i2 ]
@@ -3245,7 +3245,7 @@ PROCEDURE ChangeTabPos( nrPagina AS NUMERIC )
                   @ b0, b1 RADIOGROUP  &ControlName OF FORM_1 OPTIONS acOptions VALUE 1 WIDTH b2 SPACING nSpacing BACKCOLOR acBackColor ON CHANGE cpreencheGrid( "RADIOGROUP" ) TOOLTIP ControlName
                ENDIF
 
-               //z := AScan( _HMG_aControlNames, ControlName )
+               //z := aScan( _HMG_aControlNames, ControlName )
                z := GetControlIndex( ControlName, "Form_1" )
                _AddTabControl( TabName, ControlName, "FORM_1", nrPagina, XROW, XCOL )
             ENDIF
@@ -3598,7 +3598,7 @@ PROCEDURE StoreControlVal( ControlName  )
    xArray1[  9 ] := { "SPINNER"      , "DEFINE SPINNER"      , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "RANGEMIN", "1", "RANGEMAX", "10", "VALUE", "0", "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "ONGOTFOCUS", "NIL", "ONLOSTFOCUS", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "WRAP", ".F.", "READONLY", ".F.", "INCREMENT", "1", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "ENDPROP" }
    xArray1[ 10 ] := { "IMAGE"        , "DEFINE IMAGE"        , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "PICTURE", "", "HELPID", "NIL", "VISIBLE", ".T.", "STRETCH", ".F.", "ACTION", "NIL", "WHITEBACKGROUND", ".F.", "ONMOUSEHOVER", "NIL", "ONMOUSELEAVE", "NIL", "TRANSPARENT", ".F.", "BACKGROUNDCOLOR","NIL","ADJUSTIMAGE",".F.","TOOLTIP",'""',"ENDPROP" }
    xArray1[ 11 ] := { "TREE"         , "DEFINE TREE"         , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "0", "FONT", "Arial", "SIZE", "9", "TOOLTIP", "''", "ONGOTFOCUS", "NIL", "ONCHANGE", "NIL", "ONLOSTFOCUS", "NIL", "ONDBLCLICK", "NIL", "NODEIMAGES", "NIL", "ITEMIMAGES", "NIL", "NOROOTBUTTON", ".F.", "HELPID", "NIL", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "LINECOLOR", "NIL", "INDENT", "17", "ITEMHEIGHT", "18", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "BREAK", ".F.", "ITEMIDS", ".F.", "ENDPROP" }
-   xArray1[ 12 ] := { "DATEPICKER"   , "DEFINE DATEPICKER"   , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "CToD('')", "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "ONGOTFOCUS", "NIL", "ONLOSTFOCUS", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "ONENTER", "NIL", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "SHOWNONE", ".F.", "UPDOWN", ".F.", "RIGHTALIGN", ".F.", "FIELD", "", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "DATEFORMAT", "", "TITLEBACKCOLOR", "NIL", "TITLEFONTCOLOR", "NIL", "ENDPROP" }
+   xArray1[ 12 ] := { "DATEPICKER"   , "DEFINE DATEPICKER"   , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "CTOD('')", "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "ONGOTFOCUS", "NIL", "ONLOSTFOCUS", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "ONENTER", "NIL", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "SHOWNONE", ".F.", "UPDOWN", ".F.", "RIGHTALIGN", ".F.", "FIELD", "", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "DATEFORMAT", "", "TITLEBACKCOLOR", "NIL", "TITLEFONTCOLOR", "NIL", "ENDPROP" }
    xArray1[ 13 ] := { "TEXTBOX"      , "DEFINE TEXTBOX"      , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "ONGOTFOCUS", "NIL", "ONLOSTFOCUS", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "ONENTER", "NIL", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "READONLY", ".F.", "RIGHTALIGN", ".F.", "LOWERCASE", ".F.", "UPPERCASE", ".F.", "NONE", ".T.", "PASSWORD", ".F.", "MAXLENGTH", "0", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "FIELD", "NIL", "INPUTMASK", "''", "FORMAT", "''", "DATE", ".F.", "NUMERIC", ".F.", "CHARACTER", ".T.", "VALUE", "''", "CASECONVERT", ".F.", "DATATYPE", "CHARACTER","BORDER",".T.", "ENDPROP" } //? 2 Times Character is this OK
    xArray1[ 14 ] := { "EDITBOX"      , "DEFINE EDITBOX"      , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "''", "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "ONGOTFOCUS", "NIL", "ONLOSTFOCUS", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "READONLY", ".F.", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "MAXLENGTH", "NIL", "FIELD", "NIL", "HSCROLLBAR", ".T.", "VSCROLLBAR", ".T.", "BREAK", ".F.", "ENDPROP" }
    xArray1[ 15 ] := { "LABEL"        , "DEFINE LABEL"        , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", '"' + ControlName + '"', "FONTNAME", '"Arial"', "FONTSIZE", "9", "TOOLTIP", '""', "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "HELPID", "NIL", "VISIBLE", ".T.", "TRANSPARENT", ".F.", "ACTION", "NIL", "AUTOSIZE", ".F.", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "ALIGNMENT", "1", "LEFTALIGN", ".T.", "RIGHTALIGN", ".F.", "CENTERALIGN", ".F.", "BORDER", ".F.", "CLIENTEDGE", ".F.", "HSCROLL", ".F.", "VSCROLL", ".F.", "BLINK", ".F.", "ONMOUSEHOVER", "NIL", "ONMOUSELEAVE", "NIL", "ENDPROP" }
@@ -3608,7 +3608,7 @@ PROCEDURE StoreControlVal( ControlName  )
    xArray1[ 19 ] := { "TAB"          , "DEFINE TAB"          , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "1", "FONTNAME", "'Arial'", "FONTSIZE", "9", "BOLD", ".F.", "ITALIC", ".F.", "UNDERLINE", ".F.", "STRIKEOUT", ".F.", "TOOLTIP", "''", "BUTTONS", ".F.", "FLAT", ".F.", "HOTTRACK", ".F.", "VERTICAL", ".F.", "ON CHANGE", "NIL", "BOTTOM", ".F.", "NOTABSTOP", ".F.", "MULTILINE", ".F.", "BACKCOLOR", "NIL", "PAGECOUNT", "2", "PAGEIMAGES", "{'',''}", "PAGECAPTIONS", "{'Page 1','Page 2'}", "PAGETOOLTIPS", "{'',''}", "ENDPROP" }
    xArray1[ 20 ] := { "ANIMATEBOX"   , "DEFINE ANIMATEBOX"   , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "FILE", "''", "HELPID", "NIL", "TRANSPARENT", ".F.", "AUTOPLAY", ".F.", "CENTER", ".F.", "BORDER", ".T.", "ENDPROP" }
    xArray1[ 21 ] := { "HYPERLINK"    , "DEFINE HYPERLINK"    , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", '"http://sourceforge.net/projects/hmgs-minigui"', "ADDRESS", '"http://sourceforge.net/projects/hmgs-minigui"', "FONTNAME", '"Arial"', "FONTSIZE", "9", "TOOLTIP", '""', "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "AUTOSIZE", ".F.", "HELPID", "NIL", "VISIBLE", ".T.", "HANDCURSOR", ".F.", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "RIGHTALIGN", ".F.", "CENTERALIGN", ".F.", "ENDPROP" }
-   xArray1[ 22 ] := { "MONTHCALENDAR", "DEFINE MONTHCALENDAR", ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "CToD('')", "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "NOTODAY", ".F.", "NOTODAYCIRCLE", ".F.", "WEEKNUMBERS", ".F.", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "TITLEBACKCOLOR", "NIL", "TITLEFONTCOLOR", "NIL", "BACKGROUNDCOLOR", "NIL", "TRAILINGFONTCOLOR", "NIL", "BACKGROUNDCOLOR", "NIL", "ENDPROP" }
+   xArray1[ 22 ] := { "MONTHCALENDAR", "DEFINE MONTHCALENDAR", ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "CTOD('')", "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "NOTODAY", ".F.", "NOTODAYCIRCLE", ".F.", "WEEKNUMBERS", ".F.", "BACKCOLOR", "NIL", "FONTCOLOR", "NIL", "TITLEBACKCOLOR", "NIL", "TITLEFONTCOLOR", "NIL", "BACKGROUNDCOLOR", "NIL", "TRAILINGFONTCOLOR", "NIL", "BACKGROUNDCOLOR", "NIL", "ENDPROP" }
    xArray1[ 23 ] := { "RICHEDITBOX"  , "DEFINE RICHEDITBOX"  , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "VALUE", "''", "FONTNAME", "'Arial'", "FONTSIZE", "9", "TOOLTIP", "''", "ONCHANGE", "NIL", "ONGOTFOCUS", "NIL", "ONLOSTFOCUS", "NIL", "FONTBOLD", ".F.", "FONTITALIC", ".F.", "FONTUNDERLINE", ".F.", "FONTSTRIKEOUT", ".F.", "HELPID", "NIL", "TABSTOP", ".T.", "VISIBLE", ".T.", "READONLY", ".F.", "BACKCOLOR", "NIL", "FIELD", "NIL", "MAXLENGTH", "NIL", "FILE", "NIL", "ONSELECT", "NIL", "PLAINTEXT", ".F.", "HSCROLLBAR", ".T.", "VSCROLLBAR", ".T.", "FONTCOLOR", "NIL", "BREAK", ".F.", "ONVSCROLL", "NIL", "ENDPROP" }
    xArray1[ 24 ] := { "PROGRESSBAR"  , "DEFINE PROGRESSBAR"  , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "RANGEMIN", "1", "RANGEMAX", "10", "VALUE", "0", "TOOLTIP", "''", "HELPID", "NIL", "VISIBLE", ".T.", "SMOOTH", ".F.", "VERTICAL", ".F.", "BACKCOLOR", "NIL", "FORECOLOR", "NIL", "ORIENTATION", "1","MARQUEE",".F.","VELOCITY","40","ENDPROP" }
    xArray1[ 25 ] := { "PLAYER"       , "DEFINE PLAYER"       , ControlName, "ROW", Row, "COL", Col, "WIDTH", WIDTH, "HEIGHT", HEIGHT, "FILE", "", "HELPID", "NIL", "NOAUTOSIZEWINDOW", ".F.", "NOAUTOSIZEMOVIE", ".F.", "NOERRORDLG", ".F.", "NOMENU", ".F.", "NOOPEN", ".F.", "NOPLAYBAR", ".F.", "SHOWALL", ".F.", "SHOWMODE", ".F.", "SHOWNAME", ".F.", "SHOWPOSITION", ".F.", "ENDPROP" }
@@ -3766,7 +3766,7 @@ PROCEDURE CreateTable
    aDbf[ 6, DBS_DEC ]  := 0
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   dbCreate( System.TempFolder + "\Test", aDbf )
+   DBCreate( System.TempFolder + "\Test", aDbf )
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    USE (System.TempFolder + "\Test.dbf")
@@ -4263,9 +4263,9 @@ FUNCTION hbmk2Build()
 
       IF aData[ _UPX ] = ".T."
          IF Empty( cOutputFolder )
-            hb_processRun( GetStartupFolder() + "\upx.exe --best --lzma " + ProjectFolder + "\" + cExeName )
+            hb_ProcessRun( GetStartupFolder() + "\upx.exe --best --lzma " + ProjectFolder + "\" + cExeName )
          ELSE
-            hb_processRun( GetStartupFolder() + "\upx.exe --best --lzma " + cOutputFolder + "\" + cExeName )
+            hb_ProcessRun( GetStartupFolder() + "\upx.exe --best --lzma " + cOutputFolder + "\" + cExeName )
          ENDIF
       ENDIF
 
@@ -4886,13 +4886,13 @@ FUNCTION wSizeMainForm()           // Called From Controls.fmg
 FUNCTION aScan2( Array AS Array, xFind AS USUAL, nStart AS NUMERIC )
 *------------------------------------------------------------*
    LOCAL x      AS NUMERIC
-   LOCAL lExact AS LOGICAL := Set( _SET_EXACT, .T. )  //SL Save current SET EXACT Setting
+   LOCAL lExact AS LOGICAL := SET( _SET_EXACT, .T. )  //SL Save current SET EXACT Setting
 
    DEFAULT nStart TO 1
 
    x := AScan( Array, xFind, nStart )
 
-   Set( _SET_EXACT, lExact )  // Restore Set Exact Setting to what it was before
+   SET( _SET_EXACT, lExact )  // Restore Set Exact Setting to what it was before
 
    RETURN( x )
 
@@ -5172,7 +5172,7 @@ PROCEDURE xLogForm( Param )
       PARAM := ""
    ENDIF
 
-   LOGFORM.LIST_1.AddItem(Str(ProcLine(1))+" "+ProcName(1)+" "+ Time()+ " "+ PARAM )
+   LOGFORM.LIST_1.AddItem(STR(PROCLINE(1))+" "+PROCNAME(1)+" "+ TIME()+ " "+ PARAM )
 RETURN
 
 

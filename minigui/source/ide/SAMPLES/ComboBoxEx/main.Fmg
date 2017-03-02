@@ -1,0 +1,48 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 179 , 375 WIDTH 550 HEIGHT 350 TITLE "ComboBoxEx Test" MAIN
+
+     DEFINE MAIN MENU
+          DEFINE POPUP "File"
+               MENUITEM "Open" ACTION MsgExclamation("What?")
+          END POPUP 
+     END MENU
+
+DEFINE STATUSBAR FONT "Segoe UI" SIZE 10
+CLOCK AMPM
+END STATUSBAR
+
+     DEFINE COMBOBOXEX Combo_1
+            ROW    20
+            COL    140
+            WIDTH  250
+            HEIGHT 220
+            ITEMS aItems
+            VALUE 1
+            FONTNAME "Arial"
+            ONGOTFOCUS Nil
+            ONCHANGE Nil
+            ONLOSTFOCUS Nil
+            ONENTER Nil
+            ONDISPLAYCHANGE Nil
+            HELPID Nil
+            IMAGE aImages
+     END COMBOBOXEX  
+
+     DEFINE LISTBOX List_1
+            ROW    140
+            COL    140
+            WIDTH  250
+            HEIGHT 100
+            ITEMS aItems
+            VALUE 1
+            FONTNAME 'Arial'
+            TOOLTIP ''
+            SORT .T.
+            MULTITAB .T.
+     END LISTBOX  
+
+END WINDOW
+
+

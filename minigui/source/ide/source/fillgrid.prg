@@ -34,7 +34,7 @@ PROCEDURE xPreencheGrid()                       // Fill grid                //? 
            CurrentControlName:= xArray[ nPosControl , 1 ]
           //  MsgBox( "nome = " + CurrentControlName )
         ENDIF
-
+ 
         // MsgBox( "current= "    + Str( CurrentControl ) )
         // MsgBox( "cType= "      + cTypeOfControl( CurrentControl ) )
         // MsgBox( "nPosControl= " + Str( nPosControl ) + ' value = ' + xArray[ nPosControl , 1 ])
@@ -42,7 +42,7 @@ PROCEDURE xPreencheGrid()                       // Fill grid                //? 
         IF nPosControl                       == 0                  .OR.  ;
            cTypeOfControl( CurrentControl ) == CurrentControlName .OR.  ;
            CurrentControl                   == 1          &&        .OR. ;
-        &&   AScan( aUciControls, xArray[ nPosControl , 1 ] ) # 0
+        &&   aScan( aUciControls, xArray[ nPosControl , 1 ] ) # 0
 
          //   MsgBox( "normal control" )
            ObjInsFillGrid()
@@ -74,7 +74,7 @@ PROCEDURE cpreencheGrid( Frame AS STRING )
 
    IF Frame = NIL
       // LOGFORM.LIST_1.AddItem("FRAME= "+FRAME )
-      i := AScan( _HMG_aControlHandles, GF )  //Add by Pier 08/09/2006 23.17
+      i := aScan( _HMG_aControlHandles, GF )  //Add by Pier 08/09/2006 23.17
 
       IF i > 0
 
@@ -116,7 +116,7 @@ PROCEDURE cpreencheGrid( Frame AS STRING )
 
    nPosControl := xControle( xControl_1 )
 
-   // LOGFORM.LIST_1.AddItem(" nPosControl = "+Str( nPosControl ) )
+   // LOGFORM.LIST_1.AddItem(" nPosControl = "+STR( nPosControl ) )
    // ctitle := GetProperty("form_1","title") + " "+xArray[ nPosControl ,1]
    // SetProperty("form_1","title" ,ctitle )
    CurrentControlName := xArray[ nPosControl , 1 ]
@@ -151,7 +151,7 @@ FUNCTION FindRadioName( gf AS USUAL )                          //? VarType
    FOR i := 1 TO Len( _HMG_aControlHandles )
        IF _HMG_aControlParentHandles[ i ] == GetFormHandle( "Form_1" ) .AND. _HMG_aControlType[ i ] == "RADIOGROUP"
            // MsgBox( "Control= " + _HMG_aControlNames[ i ] )
-           j := AScan( _HMG_aControlHandles[ i ], GF )
+           j := aScan( _HMG_aControlHandles[ i ], GF )
            IF j > 0
                nPos := i
            ENDIF
@@ -192,11 +192,11 @@ PROCEDURE ObjInsFillGrid()
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     *MsgBox( "Control nr=" + Str( CurrentControl ) + CRLF + "nome=" + CurrentControlName )
    *****************
-    *ccc := ""
-    *FOR x := 1 to 512
+    *ccc := ""    
+    *FOR x := 1 to 512  
     *if  xArray[ nPosControl , x ] # NIL
     *   ccc += Str(x) + " " + xArray[ nPosControl , x ] + Space( 15 )
-    *ENDIF
+    *ENDIF   
     *next x
     *MsgBox( ccc )
    ***************
@@ -211,8 +211,8 @@ PROCEDURE ObjInsFillGrid()
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] },;
                            {"Caption"      , xArray[ nPosControl , 13 ] } } &&,;
-
-
+                           
+                           
       txControl        := {{"FontName"     , xArray[ nPosControl , 17 ] },;
                            {"FontSize"     , xArray[ nPosControl , 19 ] },;
                            {"ToolTip"      , xArray[ nPosControl , 21 ] },;
@@ -246,7 +246,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"           , xArray[ nPosControl ,  7 ] },;
                            {"Width"         , xArray[ nPosControl ,  9 ] },;
                            {"Height"        , xArray[ nPosControl , 11 ] }}  &&,;
-
+                           
        txControl       := {{"Caption"       , xArray[ nPosControl , 13 ] },;
                            {"Value"         , xArray[ nPosControl , 15 ] },;
                            {"FontName"      , xArray[ nPosControl , 17 ] },;
@@ -284,7 +284,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl       := {{"Items"        , xArray[ nPosControl , 13 ] },;
                            {"Value"        , xArray[ nPosControl , 15 ] },;
                            {"FontName"     , xArray[ nPosControl , 17 ] },;
@@ -303,7 +303,7 @@ PROCEDURE ObjInsFillGrid()
                            {"MultiSelect"  , xArray[ nPosControl , 51 ] },;
                            {"DragItems"    , xArray[ nPosControl , 53 ] },;
                            {"MultiTab"     , xArray[ nPosControl , 55 ] },;
-                           {"MultiColumn"  , xArray[ nPosControl , 57 ] } ;
+                           {"MultiColumn"  , xArray[ nPosControl , 57 ] } ;                                                      
                          }
 
       txControlEvent  := { {"OnChange"     , xArray[ nPosControl , 23 ] },;
@@ -316,7 +316,7 @@ PROCEDURE ObjInsFillGrid()
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE CurrentControl == 5 .OR. CurrentControlName == "COMBOBOX"
-
+   
     IF xArray[ nPosControl , 69 ] = ".T."
          cCaseConvert := "UPPER"
       ELSEIF xArray[ nPosControl , 71 ] = ".T."
@@ -324,14 +324,14 @@ PROCEDURE ObjInsFillGrid()
       ELSE
          cCaseConvert := "NONE"
       ENDIF
-
-
+   
+   
       txControl0      := { {"Name"         , xArray[ nPosControl ,  3 ] },;
                            {"Row"          , xArray[ nPosControl ,  5 ] },;
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] }} && ,;
-
+                           
        txControl       := {{"Items"        , xArray[ nPosControl , 13 ] },;
                            {"Value"        , xArray[ nPosControl , 15 ] },;
                            {"FontName"     , xArray[ nPosControl , 17 ] },;
@@ -375,7 +375,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
         txControl      :={ {"Caption"      , xArray[ nPosControl , 13 ] },;
                            {"Value"        , xArray[ nPosControl , 15 ] },;
                            {"FontName"     , xArray[ nPosControl , 17 ] },;
@@ -405,13 +405,13 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"              , xArray[ nPosControl ,  7 ] },;
                            {"Width"            , xArray[ nPosControl ,  9 ] },;
                            {"Height"           , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl      := { {"Headers"          , xArray[ nPosControl , 13 ] },;
                            {"Widths"           , xArray[ nPosControl , 15 ] },;
-                           {"Items"            , xArray[ nPosControl , 17 ] },;
-                           {"Value"            , xArray[ nPosControl , 19 ] },;
+                           {"Items"            , xArray[ nPosControl , 17 ] },;                                                       
+                           {"Value"            , xArray[ nPosControl , 19 ] },;                                                 
                            {"FontName"         , xArray[ nPosControl , 21 ] },;
-                           {"FontSize"         , xArray[ nPosControl , 23 ] },;
+                           {"FontSize"         , xArray[ nPosControl , 23 ] },;                         
                            {"FontBold"         , xArray[ nPosControl , 25 ] },;
                            {"FontItalic"       , xArray[ nPosControl , 27 ] },;
                            {"FontUnderLine"    , xArray[ nPosControl , 29 ] },;
@@ -429,30 +429,30 @@ PROCEDURE ObjInsFillGrid()
                            {"ColumnWhen"       , xArray[ nPosControl , 65 ] },;
                            {"ValidMessages"    , xArray[ nPosControl , 67 ] },;
                            {"Virtual"          , xArray[ nPosControl , 69 ] },;
-                           {"ItemCount"        , xArray[ nPosControl , 71 ] },;
-                           {"MultiSelect"      , xArray[ nPosControl , 75 ] },;
+                           {"ItemCount"        , xArray[ nPosControl , 71 ] },;                         
+                           {"MultiSelect"      , xArray[ nPosControl , 75 ] },;                                                    
                            {"NoLines"          , xArray[ nPosControl , 77 ] },;
                            {"ShowHeaders"      , xArray[ nPosControl , 79 ] },;
                            {"NoSortHeaders"    , xArray[ nPosControl , 81 ] },;
                            {"Image"            , xArray[ nPosControl , 83 ] },;
-                           {"Justify"          , xArray[ nPosControl , 85 ] },;
+                           {"Justify"          , xArray[ nPosControl , 85 ] },;                          
                            {"HelpId"           , xArray[ nPosControl , 87 ] },;
-                           {"Break"            , xArray[ nPosControl , 89 ] },;
+                           {"Break"            , xArray[ nPosControl , 89 ] },;                         
                            {"HeaderImage"      , xArray[ nPosControl , 91 ] },;
                            {"NoTabStop"        , xArray[ nPosControl , 93 ] },;
-                           {"CheckBoxes"       , xArray[ nPosControl , 95 ] },;
+                           {"CheckBoxes"       , xArray[ nPosControl , 95 ] },;                                                     
                            {"LockColumns"      , xArray[ nPosControl , 97 ] },;
-                           {"PaintDoubleBuffer", xArray[ nPosControl , 99 ] } ;
+                           {"PaintDoubleBuffer", xArray[ nPosControl , 99 ] } ;                           
                           }
 
-
+                         
       txControlEvent  := { {"OnGotFocus"       , xArray[ nPosControl , 43 ] },;
-                           {"OnChange"         , xArray[ nPosControl , 45 ] },;
+                           {"OnChange"         , xArray[ nPosControl , 45 ] },;                           
                            {"OnLostFocus"      , xArray[ nPosControl , 47 ] },;
                            {"OnDblClick"       , xArray[ nPosControl , 49 ] },;
                            {"OnHeadClick"      , xArray[ nPosControl , 53 ] },;
-                           {"OnCheckboxClicked", xArray[ nPosControl , 55 ] },;
-                           {"OnQueryData"      , xArray[ nPosControl , 73 ] } ;
+                           {"OnCheckboxClicked", xArray[ nPosControl , 55 ] },;    
+                           {"OnQueryData"      , xArray[ nPosControl , 73 ] } ;                                                
                          }
 
       Methods         := { {"Show"},{"Hide"},{"SetFocus"},{"Release"},{"AddItem"},{"DeleteItem"},;
@@ -496,7 +496,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"        , xArray[ nPosControl ,  7 ] },;
                            {"Width"      , xArray[ nPosControl ,  9 ] },;
                            {"Height"     , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
         txControl      := {{"RangeMin"   , xArray[ nPosControl , 13 ] },;
                            {"RangeMax"   , xArray[ nPosControl , 15 ] },;
                            {"Value"      , xArray[ nPosControl , 17 ] },;
@@ -522,7 +522,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
         txControl      := {{"RangeMin"     , xArray[ nPosControl , 13 ] },;
                            {"RangeMax"     , xArray[ nPosControl , 15 ] },;
                            {"Value"        , xArray[ nPosControl , 17 ] },;
@@ -557,7 +557,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"            , xArray[ nPosControl ,  7 ] },;
                            {"Width"          , xArray[ nPosControl ,  9 ] },;
                            {"Height"         , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl       := {{"Picture"        , xArray[ nPosControl , 13 ] },;
                            {"HelpId"         , xArray[ nPosControl , 15 ] },;
                            {"Visible"        , xArray[ nPosControl , 17 ] },;
@@ -566,9 +566,9 @@ PROCEDURE ObjInsFillGrid()
                            {"Transparent"    , xArray[ nPosControl , 29 ] },;
                            {"BackgroundColor", xArray[ nPosControl , 31 ] },;
                            {"AdjustImage"    , xArray[ nPosControl , 33 ] },;
-                           {"Tooltip"        , xArray[ nPosControl , 35 ] } ;
+                           {"Tooltip"        , xArray[ nPosControl , 35 ] } ;                                                                                 
                          }
-
+                         
       txControlEvent  := { {"Action"         , xArray[ nPosControl , 21 ] },;
                            {"OnMouseHover"   , xArray[ nPosControl , 25 ] },;
                            {"OnMouseLeave"   , xArray[ nPosControl , 27 ] } ;
@@ -583,7 +583,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] }} &&,;
-
+                           
          txControl     := {{"Value"        , xArray[ nPosControl , 13 ] },;
                            {"Font"         , xArray[ nPosControl , 15 ] },;
                            {"Size"         , xArray[ nPosControl , 17 ] },;
@@ -623,7 +623,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"           , xArray[ nPosControl ,  7 ] },;
                            {"Width"         , xArray[ nPosControl ,  9 ] },;
                            {"Height"        , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
       txControl       := { {"Value"         , xArray[ nPosControl , 13 ] },;
                            {"FontName"      , xArray[ nPosControl , 15 ] },;
                            {"FontSize"      , xArray[ nPosControl , 17 ] },;
@@ -661,7 +661,7 @@ PROCEDURE ObjInsFillGrid()
       *****test
       *   ccc := ""
       *   for x = 2 to 75 STEP 2
-      *    ccc += Str(x)+" "+xArray[ nPosControl ,x]+" "+xArray[ nPosControl ,x+1]+CRLF
+      *    ccc += str(x)+" "+xArray[ nPosControl ,x]+" "+xArray[ nPosControl ,x+1]+CRLF
       *   next x
       *   MsgBox(ccc)
       *************
@@ -689,7 +689,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] }} &&,;
-
+                           
        txControl       := {{"FontName"     , xArray[ nPosControl , 13 ] },;
                            {"FontSize"     , xArray[ nPosControl , 15 ] },;
                            {"ToolTip"      , xArray[ nPosControl , 17 ] },;
@@ -732,7 +732,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl       := {{"Value"        , xArray[ nPosControl , 13 ] },;
                            {"FontName"     , xArray[ nPosControl , 15 ] },;
                            {"FontSize"     , xArray[ nPosControl , 17 ] },;
@@ -778,7 +778,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl       := {{"Value"        , xArray[ nPosControl , 13 ] },;
                            {"FontName"     , xArray[ nPosControl , 15 ] },;
                            {"FontSize"     , xArray[ nPosControl , 17 ] },;
@@ -815,12 +815,12 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"              , xArray[ nPosControl ,  7 ] },;
                            {"Width"            , xArray[ nPosControl ,  9 ] },;
                            {"Height"           , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl      := { {"Headers"          , xArray[ nPosControl , 13 ] },;
                            {"Widths"           , xArray[ nPosControl , 15 ] },;
                            {"Fields"           , xArray[ nPosControl , 17 ] },;
-                           {"Value"            , xArray[ nPosControl , 19 ] },;
-                           {"WorkArea"         , xArray[ nPosControl , 21 ] },;
+                           {"Value"            , xArray[ nPosControl , 19 ] },;                                                    
+                           {"WorkArea"         , xArray[ nPosControl , 21 ] },;                                             
                            {"FontName"         , xArray[ nPosControl , 23 ] },;
                            {"FontSize"         , xArray[ nPosControl , 25 ] },;
                            {"FontBold"         , xArray[ nPosControl , 27 ] },;
@@ -830,19 +830,19 @@ PROCEDURE ObjInsFillGrid()
                            {"ToolTip"          , xArray[ nPosControl , 35 ] },;
                            {"BackColor"        , xArray[ nPosControl , 37 ] },;
                            {"DynamicBackColor" , xArray[ nPosControl , 39 ] },;
-                           {"DynamicForeColor" , xArray[ nPosControl , 41 ] },;
-                           {"FontColor"        , xArray[ nPosControl , 43 ] },;
+                           {"DynamicForeColor" , xArray[ nPosControl , 41 ] },;                          
+                           {"FontColor"        , xArray[ nPosControl , 43 ] },;                           
                            {"AllowEdit"        , xArray[ nPosControl , 53 ] },;
                            {"InPlaceEdit"      , xArray[ nPosControl , 55 ] },;
                            {"AllowAppend"      , xArray[ nPosControl , 57 ] },;
                            {"InputItems"       , xArray[ nPosControl , 59 ] },;
-                           {"DisplayItems"     , xArray[ nPosControl , 61 ] },;
-                           {"When"             , xArray[ nPosControl , 65 ] },;
+                           {"DisplayItems"     , xArray[ nPosControl , 61 ] },;                           
+                           {"When"             , xArray[ nPosControl , 65 ] },;                           
                            {"Valid"            , xArray[ nPosControl , 67 ] },;
                            {"ValidMessages"    , xArray[ nPosControl , 69 ] },;
                            {"PaintDoubleBuffer", xArray[ nPosControl , 71 ] },;
                            {"ReadOnlyFields"   , xArray[ nPosControl , 73 ] },;
-                           {"Lock"             , xArray[ nPosControl , 75 ] },;
+                           {"Lock"             , xArray[ nPosControl , 75 ] },;                             
                            {"AllowDelete"      , xArray[ nPosControl , 77 ] },;
                            {"NoLines"          , xArray[ nPosControl , 79 ] },;
                            {"Image"            , xArray[ nPosControl , 81 ] },;
@@ -852,18 +852,18 @@ PROCEDURE ObjInsFillGrid()
                            {"Break"            , xArray[ nPosControl , 89 ] },;
                            {"HeaderImage"      , xArray[ nPosControl , 91 ] },;
                            {"NoTabStop"        , xArray[ nPosControl , 93 ] },;
-                           {"DatabaseName"     , xArray[ nPosControl , 95 ] },;
+                           {"DatabaseName"     , xArray[ nPosControl , 95 ] },;     
                            {"DatabasePath"     , xArray[ nPosControl , 97 ] } ;
                           }
-
+                                                      
                         *   {"InputMask"       , xArray[ nPosControl , 99 ] },;
                         *   {"Format"          , xArray[ nPosControl , 101 ] },;
-
-
-
+                                                                              
+                         
+                                                                                                                                                 
 
       txControlEvent  := { {"OnGotFocus"      , xArray[ nPosControl , 45 ] },;
-                           {"OnChange"        , xArray[ nPosControl , 47 ] },;
+                           {"OnChange"        , xArray[ nPosControl , 47 ] },;                          
                            {"OnLostFocus"     , xArray[ nPosControl , 49 ] },;
                            {"OnDblClick"      , xArray[ nPosControl , 51 ] },;
                            {"OnHeadClick"     , xArray[ nPosControl , 63 ] } ;
@@ -882,7 +882,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl       := {{"Options"      , xArray[ nPosControl , 13 ] },;
                            {"Value"        , xArray[ nPosControl , 15 ] },;
                            {"FontName"     , xArray[ nPosControl , 17 ] },;
@@ -915,7 +915,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
      txControl       := {  {"FontName"     , xArray[ nPosControl , 13 ] },;
                            {"FontSize"     , xArray[ nPosControl , 15 ] },;
                            {"FontBold"     , xArray[ nPosControl , 17 ] },;
@@ -941,7 +941,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"            , xArray[ nPosControl ,  7 ] },;
                            {"Width"          , xArray[ nPosControl ,  9 ] },;
                            {"Height"         , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
         txControl      := {{"Value"          , xArray[ nPosControl , 13 ] },;
                            {"FontName"       , xArray[ nPosControl , 15 ] },;
                            {"FontSize"       , xArray[ nPosControl , 17 ] },;
@@ -977,7 +977,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"        , xArray[ nPosControl ,  7 ] },;
                            {"Width"      , xArray[ nPosControl ,  9 ] },;
                            {"Height"     , xArray[ nPosControl , 11 ] } } && ,;
-
+                           
        txControl     := {  {"File"       , xArray[ nPosControl , 13 ] },;
                            {"HelpId"     , xArray[ nPosControl , 15 ] },;
                            {"Transparent", xArray[ nPosControl , 17 ] },;
@@ -999,7 +999,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl      := { {"Value"        , xArray[ nPosControl , 13 ] },;
                            {"Address"      , xArray[ nPosControl , 15 ] },;
                            {"FontName"     , xArray[ nPosControl , 17 ] },;
@@ -1030,7 +1030,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"              , xArray[ nPosControl ,  7 ] },;
                            {"Width"            , xArray[ nPosControl ,  9 ] },;
                            {"Height"           , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl      := { {"Value"            , xArray[ nPosControl , 13 ] },;
                            {"FontName"         , xArray[ nPosControl , 15 ] },;
                            {"FontSize"         , xArray[ nPosControl , 17 ] },;
@@ -1064,7 +1064,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] }} &&,;
-
+                           
       txControl      := {  {"Value"        , xArray[ nPosControl , 13 ] },;
                            {"FontName"     , xArray[ nPosControl , 15 ] },;
                            {"FontSize"     , xArray[ nPosControl , 17 ] },;
@@ -1109,7 +1109,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"        , xArray[ nPosControl ,  7 ] },;
                            {"Width"      , xArray[ nPosControl ,  9 ] },;
                            {"Height"     , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
          txControl     := {{"RangeMin"   , xArray[ nPosControl , 13 ] },;
                            {"RangeMax"   , xArray[ nPosControl , 15 ] },;
                            {"Value"      , xArray[ nPosControl , 17 ] },;
@@ -1121,7 +1121,7 @@ PROCEDURE ObjInsFillGrid()
                            {"BackColor"  , xArray[ nPosControl , 29 ] },;
                            {"ForeColor"  , xArray[ nPosControl , 31 ] },;
                            {"Marquee"    , xArray[ nPosControl , 35 ] },;
-                           {"Velocity"   , xArray[ nPosControl , 37 ] } ;
+                           {"Velocity"   , xArray[ nPosControl , 37 ] } ;                           
                          }
 
       txControlEvent  := {}
@@ -1135,7 +1135,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"             , xArray[ nPosControl ,  7 ] },;
                            {"Width"           , xArray[ nPosControl ,  9 ] },;
                            {"Height"          , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
       txControl       := { {"File"            , xArray[ nPosControl , 13 ] },;
                            {"HelpId"          , xArray[ nPosControl , 15 ] },;
                            {"NoAutoSizeWindow", xArray[ nPosControl , 17 ] },;
@@ -1165,7 +1165,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] }} && ,;
-
+                           
        txControl      := { {"Value"        , xArray[ nPosControl , 13 ] },;
                            {"FontName"     , xArray[ nPosControl , 15 ] },;
                            {"FontSize"     , xArray[ nPosControl , 17 ] },;
@@ -1188,11 +1188,11 @@ PROCEDURE ObjInsFillGrid()
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE CurrentControl == 27 .OR. CurrentControlName == "TIMER"
-
+     
       txControl0      := { {"Name"    , xArray[ nPosControl , 3 ] },;
                            {"Interval", xArray[ nPosControl , 5 ] } ;
                          }
-      txControl        := {}
+      txControl        := {}                  
 
       txControlEvent  := { {"Action"  , xArray[ nPosControl , 7 ] } }
 
@@ -1205,7 +1205,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl      := { {"Caption"      , xArray[ nPosControl , 13 ] },;
                            {"Picture"      , xArray[ nPosControl , 15 ] },;
                            {"Icon"         , xArray[ nPosControl , 17 ] },;
@@ -1241,14 +1241,14 @@ PROCEDURE ObjInsFillGrid()
       Methods         := { {"Show"}, {"Hide"}, {"SetFocus"}, {"Release"}, {"SaveAs"} }
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-   CASE CurrentControl == 29 .OR. CurrentControlName == "COMBOBOXEX"
-
+   CASE CurrentControl == 29 .OR. CurrentControlName == "COMBOBOXEX"    
+      
       txControl0      := { {"Name"           , xArray[ nPosControl ,  3 ] },;
                            {"Row"            , xArray[ nPosControl ,  5 ] },;
                            {"Col"            , xArray[ nPosControl ,  7 ] },;
                            {"Width"          , xArray[ nPosControl ,  9 ] },;
                            {"Height"         , xArray[ nPosControl , 11 ] }} &&,;
-
+                           
         txControl     := { {"Items"          , xArray[ nPosControl , 13 ] },;
                            {"ItemSource"     , xArray[ nPosControl , 15 ] },;
                            {"Value"          , xArray[ nPosControl , 17 ] },;
@@ -1270,7 +1270,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Image"          , xArray[ nPosControl , 63 ] },;
                            {"BackColor"      , xArray[ nPosControl , 65 ] },;
                            {"FontColor"      , xArray[ nPosControl , 67 ] },;
-                           {"ImageList"      , xArray[ nPosControl , 69 ] };
+                           {"ImageList"      , xArray[ nPosControl , 69 ] };                         
                          }
 
       txControlEvent  := { {"OnGotFocus"     , xArray[ nPosControl , 39 ] },;
@@ -1311,7 +1311,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
         txControl     := { {"Field"        , xArray[ nPosControl , 13 ] },;
                            {"Value"        , xArray[ nPosControl , 15 ] },;
                            {"Picture"      , xArray[ nPosControl , 19 ] },;
@@ -1354,7 +1354,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
      txControl      := {   {"Value"        , xArray[ nPosControl , 13 ] },;
                            {"FontName"     , xArray[ nPosControl , 15 ] },;
                            {"FontSize"     , xArray[ nPosControl , 17 ] },;
@@ -1379,9 +1379,9 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
-
-
+      
+      
+                          
         txControl     := { {"Field"        , xArray[ nPosControl , 13 ] },;
                            {"Value"        , xArray[ nPosControl , 15 ] },;
                            {"Picture"      , xArray[ nPosControl , 17 ] },;
@@ -1408,11 +1408,11 @@ PROCEDURE ObjInsFillGrid()
                            {"Image"        , xArray[ nPosControl , 69 ] },;
                            {"ButtonWidth"  , xArray[ nPosControl , 71 ] },;
                            {"Border"       , xArray[ nPosControl , 73 ] },;
-                           {"Nominus"      , xArray[ nPosControl , 75 ] } ;
+                           {"Nominus"      , xArray[ nPosControl , 75 ] } ;                                                      
                          }
-
-
-
+                         
+                         
+                         
 
 
       txControlEvent  := { {"OnChange"     , xArray[ nPosControl , 51 ] },;
@@ -1432,7 +1432,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Row"          , xArray[ nPosControl ,  5 ] },;
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] } } &&,;
-
+                           
        txControl      := { {"Value"        , xArray[ nPosControl , 11 ] },;
                            {"Field"        , xArray[ nPosControl , 13 ] },;
                            {"FontName"     , xArray[ nPosControl , 15 ] },;
@@ -1467,7 +1467,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"     , xArray[ nPosControl ,  7 ] },;
                            {"Width"   , xArray[ nPosControl ,  9 ] },;
                            {"Height"  , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
         txControl     := { {"Value"   , xArray[ nPosControl , 13 ] },;
                            {"File"    , xArray[ nPosControl , 15 ] },;
                            {"Resource", xArray[ nPosControl , 17 ] },;
@@ -1487,7 +1487,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"            , xArray[ nPosControl ,  7 ] },;
                            {"Width"          , xArray[ nPosControl ,  9 ] },;
                            {"Height"         , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl      := { {"Headers"        , xArray[ nPosControl , 13 ] },;
                            {"ColSizes"       , xArray[ nPosControl , 15 ] },;
                            {"WorkArea"       , xArray[ nPosControl , 17 ] },;
@@ -1539,7 +1539,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"   , xArray[ nPosControl ,  7 ] },;
                            {"Width" , xArray[ nPosControl ,  9 ] },;
                            {"Height", xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl      := { {"ProgID", xArray[ nPosControl , 13 ] } ;
                          }
 
@@ -1555,14 +1555,14 @@ PROCEDURE ObjInsFillGrid()
                            {"Width" , xArray[ nPosControl ,  9 ] },;
                            {"Height", xArray[ nPosControl , 11 ] } ;
                          }
-         txControl      := {}
-
+         txControl      := {}                
+                         
 
       txControlEvent  := { { "", "" } }
 
       Methods         := {}
-
-
+      
+      
     CASE CurrentControl == 38 .OR. CurrentControlName == "CHECKLABEL"
       IF xArray[ nPosControl , 59 ] =  "2"
          cAlignment := "RIGHT"
@@ -1577,7 +1577,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
         txControl     := { {"Value"        , xArray[ nPosControl , 13 ] },;
                            {"AutoSize"     , xArray[ nPosControl , 21 ] },;
                            {"FontName"     , xArray[ nPosControl , 23 ] },;
@@ -1598,7 +1598,7 @@ PROCEDURE ObjInsFillGrid()
                            {"VScroll"      , xArray[ nPosControl , 53 ] },;
                            {"Transparent"  , xArray[ nPosControl , 55 ] },;
                            {"Blink"        , xArray[ nPosControl , 57 ] },;
-                           {"Alignment"    , cAlignment                 },;
+                           {"Alignment"    , cAlignment                 },;                                                                                                                                                                                                                                         
                            {"LeftCheck"    , xArray[ nPosControl , 67 ] },;
                            {"Checked"      , xArray[ nPosControl , 69 ] } ;
                          }
@@ -1608,9 +1608,9 @@ PROCEDURE ObjInsFillGrid()
                            {"OnMouseLeave" , xArray[ nPosControl , 19 ] } ;
                          }
 
-      Methods         := { {"Show"}, {"Hide"}, {"Release"}, {"Refresh"}, {"SaveAs"} }
-
-
+      Methods         := { {"Show"}, {"Hide"}, {"Release"}, {"Refresh"}, {"SaveAs"} }  
+      
+      
       *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    CASE CurrentControl == 39 .OR. CurrentControlName == "CHECKLISTBOX"
       txControl0      := { {"Name"         , xArray[ nPosControl ,  3 ] },;
@@ -1618,7 +1618,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Col"          , xArray[ nPosControl ,  7 ] },;
                            {"Width"        , xArray[ nPosControl ,  9 ] },;
                            {"Height"       , xArray[ nPosControl , 11 ] } } &&,;
-
+                           
        txControl       := {{"Items"        , xArray[ nPosControl , 13 ] },;
                            {"Value"        , xArray[ nPosControl , 15 ] },;
                            {"FontName"     , xArray[ nPosControl , 17 ] },;
@@ -1636,7 +1636,7 @@ PROCEDURE ObjInsFillGrid()
                            {"Sort"         , xArray[ nPosControl , 49 ] },;
                            {"MultiSelect"  , xArray[ nPosControl , 51 ] },;
                            {"CheckboxItem" , xArray[ nPosControl , 53 ] },;
-                           {"ItemHeight"   , xArray[ nPosControl , 55 ] } ;
+                           {"ItemHeight"   , xArray[ nPosControl , 55 ] } ;                                                                              
                          }
 
       txControlEvent  := { {"OnChange"     , xArray[ nPosControl , 23 ] },;
@@ -1646,9 +1646,9 @@ PROCEDURE ObjInsFillGrid()
                          }
 
       Methods         := { {"Show"}, {"Hide"}, {"AddItem"}, {"DeleteItem"}, {"DeleteAllItems"}, {"SetFocus"}, {"Release"}, {"SaveAs"} }
-
-
-
+ 
+      
+      
 
    ENDCASE
 
@@ -1664,10 +1664,10 @@ PROCEDURE ObjInsFillGrid()
 
    ObjectInspector.xGrid_2.DeleteAllitems
 
-   ASort( txControlEvent,,, { | x, y | x[ 1 ] < y[ 1 ] } )
+   aSort( txControlEvent,,, { | x, y | x[ 1 ] < y[ 1 ] } )
 
    IF Len( txControlEvent ) > 0
-      AEval( txControlEvent, { | x | ObjectInspector.xGrid_2.AddItem( x ) } )
+      aEval( txControlEvent, { | x | ObjectInspector.xGrid_2.AddItem( x ) } )
    ENDIF
 
    ObjectInspector.xGrid_2.Value := xVal
@@ -1678,21 +1678,21 @@ PROCEDURE ObjInsFillGrid()
    // Load all Property to Grid #1 (Tab 1-Properties)
    ObjectInspector.xGrid_1.DeleteAllitems
 
-   ASort( txControl,,, { | x, y | x[ 1 ] < y[ 1 ] } )
-
+   aSort( txControl,,, { | x, y | x[ 1 ] < y[ 1 ] } )
+   
    *******
    *IF CurrentControlName == "BUTTON"
-      AEval( txControl0,{ |x| ObjectInspector.xGrid_1.AddItem( RetQuota( x ) ) } )
+      aEval( txControl0,{ |x| ObjectInspector.xGrid_1.AddItem( RetQuota( x ) ) } )
    *ENDIF
-   ******
-   AEval( txControl,{ |x| ObjectInspector.xGrid_1.AddItem( RetQuota( x ) ) } )
+   ******   
+   aEval( txControl,{ |x| ObjectInspector.xGrid_1.AddItem( RetQuota( x ) ) } )
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
    // Load all Method to Grid #3 (Tab 3-Methods)
    ObjectInspector.xGrid_3.DeleteAllitems
 
    IF Len( Methods ) > 0
-      AEval( Methods, { | x | ObjectInspector.xGrid_3.AddItem( x ) } )
+      aEval( Methods, { | x | ObjectInspector.xGrid_3.AddItem( x ) } )
    ENDIF
 
    *- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1717,21 +1717,21 @@ FUNCTION RetQuota( x AS ARRAY )
 *------------------------------------------------------------*
    LOCAL aTemp AS ARRAY := {}
 
-   // MsgBox( "VALTYPE X= "+ValType(X)+ " LEN= "+Str(Len(X)) )
+   // MsgBox( "VALTYPE X= "+ValType(X)+ " LEN= "+STR(Len(X)) )
    // MsgBox( "X1= "+X[1]+ "X2= "+X[2] )
-   // MsgBox( "val1= "+Right(X[2],1)+ " val2= "+Left(X[2],1) )
+   // MsgBox( "val1= "+RIGHT(X[2],1)+ " val2= "+LEFT(X[2],1) )
 
    IF Right( x[ 2 ], 1 ) = '"' .AND. Left( x[ 2 ], 1 ) = '"'
-      AAdd( aTemp, x[ 1 ] )
-      AAdd( aTemp, SubStr( x[ 2 ], 2, Len( x[ 2 ] )- 2 ) )
+      aAdd( aTemp, x[ 1 ] )
+      aAdd( aTemp, SubStr( x[ 2 ], 2, Len( x[ 2 ] )- 2 ) )
 
    ELSEIF Right( x[ 2 ], 1 ) = "'" .AND. Left( x[ 2 ], 1 ) = "'"
-      AAdd( aTemp, x[ 1 ])
-      AAdd( aTemp, SubStr( x[ 2 ], 2, Len( x[ 2 ]) - 2 ) )
+      aAdd( aTemp, x[ 1 ])
+      aAdd( aTemp, SubStr( x[ 2 ], 2, Len( x[ 2 ]) - 2 ) )
 
    ELSE
-      AAdd( aTemp, x[ 1 ] )
-      AAdd( aTemp, x[ 2 ] )
+      aAdd( aTemp, x[ 1 ] )
+      aAdd( aTemp, x[ 2 ] )
    ENDIF
 
    // MsgBox( "aTemp1= "+aTemp[1] + " aTemp2= " + aTemp[2] )
@@ -1807,7 +1807,7 @@ FUNCTION UciFillGrid( ControlName AS STRING )
 
    lUpdate        := .T.
    cType          := xTypeControl( ControlName )
-   nValue         := AScan( aUciControls, cType )
+   nValue         := aScan( aUciControls, cType )
    nPosControl     := xControle( ControlName )
 
     //MsgBox( "ControlName=" + ControlName )
@@ -1824,42 +1824,42 @@ FUNCTION UciFillGrid( ControlName AS STRING )
 
    NEXT x
 
-   AAdd( txControl, { "Name"  , xArray[ nPosControl ,  3 ] } )
-   AAdd( txControl, { "Row"   , xArray[ nPosControl ,  5 ] } )
-   AAdd( txControl, { "Col"   , xArray[ nPosControl ,  7 ] } )
-   AAdd( txControl, { "Width" , xArray[ nPosControl ,  9 ] } )
-   AAdd( txControl, { "Height", xArray[ nPosControl , 11 ] } )
+   aAdd( txControl, { "Name"  , xArray[ nPosControl ,  3 ] } )
+   aAdd( txControl, { "Row"   , xArray[ nPosControl ,  5 ] } )
+   aAdd( txControl, { "Col"   , xArray[ nPosControl ,  7 ] } )
+   aAdd( txControl, { "Width" , xArray[ nPosControl ,  9 ] } )
+   aAdd( txControl, { "Height", xArray[ nPosControl , 11 ] } )
 
     //MsgBox( "len= " + Str( Len( txControl ) ) )
    nPos := 10
    FOR x := 1 TO Len( aUciProps[ nValue ] )
        nPos := nPos + 2
-       AAdd( txControl, { xArray[ nPosControl , nPos ], xArray[ nPosControl , nPos + 1 ] } )
+       aAdd( txControl, { xArray[ nPosControl , nPos ], xArray[ nPosControl , nPos + 1 ] } )
    NEXT x
 
    // MsgBox("len= " + Str( Len( txControl ) ) )
    FOR x := 1 TO Len( aUciEvents[ nValue ] )
        nPos := nPos + 2
-       AAdd( txControlEvent, { xArray[ nPosControl , nPos ], xArray[ nPosControl , nPos + 1 ] } )
+       aAdd( txControlEvent, { xArray[ nPosControl , nPos ], xArray[ nPosControl , nPos + 1 ] } )
    NEXT x
 
    xVal := ObjectInspector.xGrid_1.Value
 
    ObjectInspector.xGrid_1.DeleteAllitems
 
-   //ASort( txControl,,,{|x,y| x[1] < y[1]})
+   //aSort( txControl,,,{|x,y| x[1] < y[1]})
 
-   AEval( txControl, { |x| ObjectInspector.xGrid_1.AddItem( x ) } )
+   aEval( txControl, { |x| ObjectInspector.xGrid_1.AddItem( x ) } )
 
    ObjectInspector.xGrid_1.Value := xVal
    xVal                          := ObjectInspector.xGrid_2.Value
 
    ObjectInspector.xGrid_2.DeleteAllitems
 
-   // ASort( txControlEvent,,, { | x, y | x[ 1 ] < y[ 1 ] } )
+   // aSort( txControlEvent,,, { | x, y | x[ 1 ] < y[ 1 ] } )
 
    IF Len( txControlEvent ) > 0
-      AEval( txControlEvent, { | x | ObjectInspector.xGrid_2.AddItem( x ) } )
+      aEval( txControlEvent, { | x | ObjectInspector.xGrid_2.AddItem( x ) } )
    ENDIF
 
    ObjectInspector.xGrid_2.Value := xVal

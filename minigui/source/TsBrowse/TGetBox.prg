@@ -103,15 +103,15 @@ METHOD New( nRow, nCol, bSetGet, oWnd, nWidth, nHeight, cPict, bValid,;
 
       ix := GetControlIndex ( cControl, ParentFormName )
       ::Atx  := ix
-      ::hWnd :=_HMG_aControlHandles  [ix]
+      ::hWnd :=_HMG_aControlHandles [ix]
 
       ::AddVars( ::hWnd )
 
-//      ::Default()
-      if hFont != nil
+      if GetObjectType( hFont ) == OBJ_FONT
          _SetFontHandle( ::hWnd, hFont )
          ::hFont := hFont
       endif
+
       oWnd:AddControl( ::hWnd )
 
    endif

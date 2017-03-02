@@ -1,0 +1,28 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 188 , 419 WIDTH 560 HEIGHT 400 TITLE "Hello World!" MAIN
+
+     DEFINE BUTTON Button_1
+            ROW    30
+            COL    160
+            WIDTH  222
+            HEIGHT 61
+            ACTION OpenTest()
+            CAPTION "Run Test!!!"
+     END BUTTON  
+
+     DEFINE FRAME Frame_1
+            ROW    100
+            COL    160
+            WIDTH  224
+            HEIGHT 141
+            FONTNAME 'Arial'
+            CAPTION "?"
+            FONTCOLOR {255,0,0}
+            OPAQUE .T.
+     END FRAME  
+
+END WINDOW
+
+

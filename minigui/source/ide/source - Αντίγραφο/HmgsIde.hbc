@@ -1,0 +1,6 @@
+incpaths=C:\MiniguiM\minigui\source\IDE\source 
+libpaths=C:\MiniguiM\comp\mingw32\i686-w64-mingw32\lib
+libs=C:\MiniguiM\comp\harbour\lib\hbwin C:\MiniguiM\comp\harbour\lib\tip C:\MiniguiM\comp\mingw32\i686-w64-mingw32\lib\libws2_32.a C:\MiniguiM\comp\harbour\lib\hbmzip.lib C:\MiniguiM\comp\harbour\lib\minizip C:\MiniguiM\comp\harbour\lib\hbziparc C:\MiniguiM\comp\harbour\lib\hbzlib C:\MiniguiM\minigui\lib\tsbrowse
+gt=
+mt=no
+instpaths=

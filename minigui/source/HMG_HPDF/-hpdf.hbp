@@ -1,0 +1,11 @@
+
+-hblib
+-inc
+-o../../lib/hmg_hpdf
+
+-I../../include
+
+-w2 -es2 -q0
+
+hmg_hpdf.prg
+

@@ -1,0 +1,137 @@
+1 24 Windows7.Manifest
+
+AMAINICON      ICON  hmg.ico
+
+PROJECTNEW     ICON  ProjectNew.ico
+PROJECTOPEN    ICON  ProjectOpen.ico
+PROJECTCLOSE   ICON  ProjectClose.ico
+PROJECTBLD     ICON  BuildBatch.ico
+PROJECTBLD2    ICON  hbmk.ico
+
+FORMNEW        ICON  FormNew.ico
+MODULENEW      ICON  ModuleNew.ico
+
+IMAGE          ICON  Image.ico
+PANEL          ICON  Panel.ico
+TAB            ICON  Tab.ico
+TREE           ICON  Tree.ico
+
+COLORIZE       ICON  colorize.ico
+CONTROLCOPY    ICON  ControlCopy.ico
+CONTROLDEL     ICON  ControlClear.ico
+REPOSITION     ICON  Reposition.ico
+CODEPREVIEW    ICON  CodePreview.ico
+CONTROLORDER   ICON  ControlOrder.ico
+
+BUILDAVI       AVI   building.avi
+
+BITMAP1   BITMAP    DIALOG.BMP
+BITMAP2   BITMAP    newproject.bmp
+BITMAP3   BITMAP    openproject.bmp
+BITMAP4   BITMAP    closeproject.bmp
+BITMAP5   BITMAP    newform.bmp
+BITMAP6   BITMAP    newmodule.bmp
+BITMAP7   BITMAP    run.bmp
+BITMAP8   BITMAP    selectobject.bmp
+BITMAP9   BITMAP    button.bmp
+BITMAP10  BITMAP    checkbox.bmp
+BITMAP11  BITMAP    listbox.bmp
+BITMAP12  BITMAP    combobox.bmp
+BITMAP13  BITMAP    checkbutton.bmp
+BITMAP14  BITMAP    grid.bmp
+BITMAP15  BITMAP    slider.bmp
+BITMAP16  BITMAP    spinner.bmp
+BITMAP17  BITMAP    image.bmp
+BITMAP18  BITMAP    tree.bmp
+BITMAP19  BITMAP    datepicker.bmp
+BITMAP20  BITMAP    textbox.bmp
+BITMAP21  BITMAP    editbox.bmp
+BITMAP22  BITMAP    label.bmp
+BITMAP23  BITMAP    browse.bmp
+BITMAP24  BITMAP    radiogroup.bmp
+BITMAP25  BITMAP    frame.bmp
+BITMAP26  BITMAP    tab.bmp
+BITMAP27  BITMAP    animatebox.bmp
+BITMAP28  BITMAP    hyperlink.bmp
+BITMAP29  BITMAP    monthcalendar.bmp
+BITMAP30  BITMAP    richeditbox.bmp
+BITMAP31  BITMAP    progressbar.bmp
+BITMAP32  BITMAP    player.bmp
+BITMAP33  BITMAP    ipaddress.bmp
+BITMAP34  BITMAP    timer.bmp
+BITMAP35  BITMAP    deletecontrol.bmp
+BITMAP36  BITMAP    controlorder.bmp
+BITMAP37  BITMAP    mainmenubuilder.bmp
+BITMAP38  BITMAP    contextmenubuilder.bmp
+BITMAP39  BITMAP    statusbarbuilder.bmp
+BITMAP40  BITMAP    toolbarbuilder.bmp
+BITMAP41  BITMAP    notifymenubuilder.bmp
+BITMAP42  BITMAP    dropdownmenubuilder.bmp
+BITMAP43  BITMAP    arrow1.bmp
+BITMAP44  BITMAP    arrow2.bmp
+BITMAP45  BITMAP    arrow3.bmp
+BITMAP46  BITMAP    arrow4.bmp
+BITMAP47  BITMAP    MONTHCAL01.BMP
+BITMAP48  BITMAP    HMGLOGO.BMP
+BITMAP49  BITMAP    PLAYER1.BMP
+BITMAP50  BITMAP    RADIO.BMP
+BITMAP51  BITMAP    OK.BMP
+BITMAP52  BITMAP    BR0.BMP
+BITMAP53  BITMAP    BR1.BMP
+BITMAP54  BITMAP    BR2.BMP
+BITMAP55  BITMAP    HELP.BMP
+BITMAP56  BITMAP    EDIT.BMP
+BITMAP57  BITMAP    COLORS.BMP
+BITMAP58  BITMAP    TEXTBTN.BMP
+BITMAP59  BITMAP    ACTIVEX.BMP
+BITMAP60  BITMAP    HBMK2S.bmp
+BITMAP61  BITMAP    copy.bmp
+BITMAP63  BITMAP    PANEL.BMP
+BITMAP64  BITMAP    PANEL2.BMP
+
+NEW       BITMAP    menu\new.bmp
+OPEN      BITMAP    menu\open.bmp
+CLOSE     BITMAP    menu\close.bmp
+SAVE      BITMAP    menu\save.bmp
+EXIT      BITMAP    menu\exit.bmp
+
+DELETE    BITMAP    menu\delete.bmp
+
+VIEW      BITMAP    menu\view.bmp
+
+RUN       BITMAP    menu\run.bmp
+NEWFORM   BITMAP    menu\newform.bmp
+NMODULE   BITMAP    menu\nmodule.bmp
+
+HELPBMP   BITMAP    menu\help.bmp
+
+PREFERENCES BITMAP  menu\preferences.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,3,0,0
+PRODUCTVERSION 1,3,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+   BLOCK "040904b0"
+   {
+      VALUE "FileDescription", "HMGS - MiniGUI - IDE\000"
+      VALUE "FileVersion", "1.3.0.0"
+      VALUE "InternalName", "HmgsIde\000"
+      VALUE "LegalCopyright", "Copyright © 2005-2015 Walter Formigoni\000"
+      VALUE "LegalTrademarks", "Harbour"
+      VALUE "OriginalFilename", "ide.exe"
+      VALUE "CompanyName", "Open Source Project\000"
+      VALUE "ProductName", "MiniGUI Utility\000"
+      VALUE "ProductVersion", "1.3.0.0"
+      VALUE "Comments", "http://sourceforge.net/projects/hmgs-minigui\000"
+   }
+}
+
+BLOCK "VarFileInfo"
+{
+   VALUE "Translation", 0x0409, 0x04B0
+}
+}

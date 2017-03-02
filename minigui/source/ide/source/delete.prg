@@ -88,7 +88,7 @@ PROCEDURE DeleteControl()
    gf := GetFocus()
 
    IF gf != h
-      i := AScan( _HMG_aControlHandles, gf )
+      i := aScan( _HMG_aControlHandles, gf )
 
       IF i = 0
          FOR xx := 1 TO Len(_HMG_aControlHandles )
@@ -127,7 +127,7 @@ PROCEDURE DeleteControl()
          ENDIF
 
          IF xTypeControl( cName ) == "BROWSE"
-            AAdd( aTempDeletedControls, cName )
+            aAdd( aTempDeletedControls, cName )
 
            /* Start Code Arcangelo Molinaro 15/12/2007 */
 
@@ -141,13 +141,13 @@ PROCEDURE DeleteControl()
          ENDIF
 
          IF xTypeControl( cName ) == "TBROWSE"
-            xPosBrw := AScan( aTbrowse[1], cName )
+            xPosBrw := aScan( aTbrowse[1], cName )
 
-            ADel( aTbrowse[1], xPosBrw )
-            ASize( aTbrowse[1],( Len( aTbrowse[ 1 ] ) - 1 ) )
+            aDel( aTbrowse[1], xPosBrw )
+            aSize( aTbrowse[1],( Len( aTbrowse[ 1 ] ) - 1 ) )
 
-            ADel( aOtbrowse[1], xPosBrw )
-            ASize( aOtbrowse[1],( Len(aOtbrowse[ 1 ] ) - 1 ) )
+            aDel( aOtbrowse[1], xPosBrw )
+            aSize( aOtbrowse[1],( Len(aOtbrowse[ 1 ] ) - 1 ) )
 
          ENDIF
 
@@ -173,7 +173,7 @@ PROCEDURE DeleteControl()
 
                   IF ValType( _HMG_aControlPageMap[ i , j, k ] ) # 'A'
                      DestroyWindow( _HMG_aControlPageMap[ i, j, k ] )
-                     x := AScan( _HMG_aControlHandles , _HMG_aControlPageMap[ i, j, k ] )
+                     x := aScan( _HMG_aControlHandles , _HMG_aControlPageMap[ i, j, k ] )
                   ELSE
                      FOR l := 1 TO Len( _HMG_aControlPageMap[ i, j, k ]    )
                          DestroyWindow( _HMG_aControlPageMap[ i, j, k, l ] )
@@ -423,15 +423,15 @@ PROCEDURE xDelControl( cName AS STRING )
    LOCAL xValor AS NUMERIC
    LOCAL xPos   AS NUMERIC := xControle( AllTrim( cName ) )
 
-   ADel( xArray, xPos )
+   aDel( xArray, xPos )
 
    xArray[ MAX_CONTROL_COUNT ] := {}
 
    FOR xValor := 1 TO MAX_CONTROL_COUNT
-       AAdd( xArray[ MAX_CONTROL_COUNT ], "" )
+       aAdd( xArray[ MAX_CONTROL_COUNT ], "" )
        ************
        * IF xArray[xvalor,3] # ""
-       *      MsgBox(xArray[xvalor,3],Str(xvalor))
+       *      MsgBox(xArray[xvalor,3],str(xvalor))
        * ENDIF
        *********
    NEXT xValor

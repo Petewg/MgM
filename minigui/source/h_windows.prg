@@ -1246,6 +1246,8 @@ FUNCTION _ActivateWindow ( aForm, lNoWait, lDebugger )
    ENDIF
 #endif
 
+   hb_default( @lNoWait, .F. )
+
    * Set Main Active Public Flag
    IF MainFound == .T.
       _HMG_MainActive := .T.
@@ -1373,6 +1375,7 @@ FUNCTION _ActivateWindow ( aForm, lNoWait, lDebugger )
          ENDIF
       ENDIF
       // JP end
+
       IF _HMG_aFormType [ i ] == "M"
          _ShowWindow ( _HMG_aFormNames [ i ], .F. )
 
@@ -1381,7 +1384,7 @@ FUNCTION _ActivateWindow ( aForm, lNoWait, lDebugger )
          _RefreshDataControls( i )
       ELSE
          * Non Modal Check
-         IF _HMG_IsModalActive .AND. hb_defaultValue( lNoWait, .F. ) == .F.
+         IF _HMG_IsModalActive .AND. lNoWait == .F.
             MsgMiniGUIError( "Non Modal Window " + Formname + " can't be activated when a Modal window is active." )
          ENDIF
 
@@ -1400,7 +1403,7 @@ FUNCTION _ActivateWindow ( aForm, lNoWait, lDebugger )
 
    ENDIF
 
-   IF hb_defaultValue( lNoWait, .F. ) == .F.
+   IF lNoWait == .F.
       * Start The Message Loop
       DO MESSAGE LOOP
    ENDIF
@@ -1710,7 +1713,9 @@ FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam )
    LOCAL lRetVal
 
 #ifdef _HMG_COMPAT_
-   _HMG_LastActiveControlIndex := i
+   IF _HMG_aControlType [ i ] != "HOTKEY"  // ( Claudio Soto, November 2016 )
+      _HMG_LastActiveControlIndex := i
+   ENDIF
    IF Len( _HMG_StopControlEventProcedure ) >= i .AND. _HMG_StopControlEventProcedure [ i ] == .T.  // ( Claudio Soto, April 2013 )
       RETURN .F.
    ENDIF
@@ -1739,7 +1744,9 @@ FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType )
    LOCAL lRetVal := .F.
 
 #ifdef _HMG_COMPAT_
-   _HMG_LastActiveFormIndex := i
+   IF cEventType != "TASKBAR"  // ( Claudio Soto, November 2016 )
+      _HMG_LastActiveFormIndex := i
+   ENDIF
    IF Len( _HMG_StopWindowEventProcedure ) >= i .AND. _HMG_StopWindowEventProcedure [ i ] == .T.  // Claudio Soto, April 2013
       RETURN .F.
    ENDIF

@@ -154,8 +154,8 @@ HB_FUNC( ENUMFONTSEX )
 {
    HDC      hdc;
    LOGFONT  lf;
-   PHB_ITEM pArray    = hb_itemArrayNew( 0 );
-   BOOL     bDeleteDC = FALSE;
+   PHB_ITEM pArray     = hb_itemArrayNew( 0 );
+   BOOL     bReleaseDC = FALSE;
 
    memset( &lf, 0, sizeof( LOGFONT ) );
 
@@ -163,8 +163,8 @@ HB_FUNC( ENUMFONTSEX )
       hdc = ( HDC ) HB_PARNL( 1 );
    else
    {
-      hdc       = GetDC( NULL );
-      bDeleteDC = TRUE;
+      hdc        = GetDC( NULL );
+      bReleaseDC = TRUE;
    }
 
    if( hb_parclen( 2 ) > 0 )
@@ -178,8 +178,8 @@ HB_FUNC( ENUMFONTSEX )
 
    EnumFontFamiliesEx( hdc, &lf, _EnumFontFamExProc, ( LPARAM ) pArray, 0 );
 
-   if( bDeleteDC )
-      DeleteDC( hdc );
+   if( bReleaseDC )
+      ReleaseDC( NULL, hdc );
 
    if( HB_ISBLOCK( 6 ) )
       hb_arraySort( pArray, NULL, NULL, hb_param( 6, HB_IT_BLOCK ) );

@@ -1,0 +1,52 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 170 , 245 WIDTH 560 HEIGHT 400 TITLE "Hello World!" MAIN
+
+     DEFINE LABEL Label_1
+            ROW    170
+            COL    220
+            WIDTH  80
+            HEIGHT 21
+            VALUE "Hello World!!"
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE BTNTEXTBOX BtnTextBox_1
+            ROW    40
+            COL    70
+            WIDTH  361
+            HEIGHT 30
+            FONTNAME 'Arial'
+            CUEBANNER "type something here"
+     END BTNTEXTBOX 
+
+     DEFINE TEXTBOX Text_1
+            ROW    110
+            COL    70
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME 'Arial'
+     END TEXTBOX 
+
+     DEFINE BTNTEXTBOX BtnTextBox_2
+            ROW    230
+            COL    60
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME 'Arial'
+            CUEBANNER "fffffffffff"
+     END BTNTEXTBOX 
+
+     DEFINE BTNTEXTBOX BtnTextBox_3
+            ROW    210
+            COL    350
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME 'Arial'
+            CUEBANNER "hhhhhhhhhhhh"
+     END BTNTEXTBOX 
+
+END WINDOW
+
+

@@ -12,21 +12,22 @@
 # -cflag=-Ofast
 # -cflag=-mtune=native
 # -cflag=-O3
+
 # -warn=<level> set C compiler warning level. <level> can be: max, yes, low, no, def (default: yes)
+-warn=max 
 
 -hbx=../include/hmg.hbx
 
 -hblib
 
--inc
+# we never do incremental build
+-inc-
 
 -o../lib/minigui
 
 -I../include
 
 -w3 -es2 -ko -l -ql
-
--warn=max 
 
 -cflag=-DWIN32_LEAN_AND_MEAN
 
@@ -45,8 +46,8 @@ c_cursor.c
 c_datepicker.c
 c_dialog.c
 c_dialogs.c
-c_error.c
 c_editbox.c
+c_error.c
 c_folder.c
 c_font.c
 c_frame.c
@@ -150,12 +151,14 @@ h_scrsaver.prg
 h_slider.prg
 h_socket.prg
 h_spinner.prg
+h_splitbutton.prg
 h_status.prg
 h_tab.prg
 h_taskdlg.prg
 h_textbox.prg
 h_timer.prg
 h_toolbar.prg
+# h_tooltip.prg
 h_tree.prg
 h_wbrush.prg
 h_webcam.prg

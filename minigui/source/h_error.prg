@@ -109,4 +109,4 @@ RETURN oError
 FUNCTION MiniGuiVersion
 *-----------------------------------------------------------------------------*
 
-RETURN( "Harbour MiniGUI Extended Edition 17.01" )
+RETURN( "Harbour MiniGUI Extended Edition 17.02" )

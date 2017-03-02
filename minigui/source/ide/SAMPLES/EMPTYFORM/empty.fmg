@@ -1,0 +1,14 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 148 , 298 WIDTH 640 HEIGHT 480 TITLE "Empty form" MAIN
+
+     DEFINE MAIN MENU
+          DEFINE POPUP "Menu"
+               MENUITEM "File" ACTION {|| MsgInfo("Hi user"), This.Checked := ! This.Checked} CHECKED
+          END POPUP 
+     END MENU
+
+END WINDOW
+
+

@@ -9978,7 +9978,7 @@ METHOD ReSize( nSizeType, nWidth, nHeight ) CLASS TSBrowse
 
    AEval( ::aColumns, { | oCol | iif( oCol:lVisible, nTotPix += oCol:nWidth, Nil ) } )  // 14.07.2015
 
-   If ::lEditing .and. ::aColumns[ ::nCell ]:oEdit != Nil
+   If ::lEditing .and. ::aColumns[ ::nCell ]:oEdit != Nil .and. IsWindowHandle( ::aColumns[ ::nCell ]:oEdit:hWnd )
       SendMessage( ::aColumns[ ::nCell ]:oEdit:hWnd, WM_KEYDOWN, VK_ESCAPE, 0 )
    EndIf
 

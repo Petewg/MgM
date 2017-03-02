@@ -1280,8 +1280,10 @@ RETURN
 FUNCTION GetNumFromCellText ( Text )
 *-----------------------------------------------------------------------------*
    LOCAL s As String
-   LOCAL x , c
+   // LOCAL x , c 
+   LOCAL c // code optimization - p.d. 03/02/2017 
 
+   /*
    FOR x := 1 TO Len ( Text )
 
       c := SubStr ( Text, x, 1 )
@@ -1291,7 +1293,16 @@ FUNCTION GetNumFromCellText ( Text )
       ENDIF
 
    NEXT x
-
+   */
+   
+   // code optimization - p.d. 03/02/2017 
+   FOR EACH c IN Text
+      IF c $ "0123456789.-"
+         s += c
+      ENDIF
+   NEXT
+   // end code optimization - p.d. 03/02/2017 
+   
    IF Left ( AllTrim( Text ) , 1 ) == '(' .OR.  Right ( AllTrim( Text ) , 2 ) == 'DB'
       s := '-' + s
    ENDIF
@@ -1302,8 +1313,11 @@ RETURN Val( s )
 FUNCTION GETNumFromCellTextSP ( Text )
 *-----------------------------------------------------------------------------*
    LOCAL s As String
-   LOCAL x , c
+   // LOCAL x , c
+   LOCAL c // code optimization - p.d. 03/02/2017 
 
+   // code optimization - p.d. 03/02/2017 
+   /*
    FOR x := 1 TO Len ( Text )
 
       c := SubStr ( Text, x, 1 )
@@ -1323,7 +1337,21 @@ FUNCTION GETNumFromCellTextSP ( Text )
       ENDIF
 
    NEXT x
-
+   */
+   
+   // code optimization - p.d. 03/02/2017 
+   FOR EACH c IN Text
+      IF c $ "0123456789,-."
+         IF c == "."
+            c := ""
+         ELSEIF c == ","
+            c := "."
+         ENDIF
+         s += c
+      ENDIF
+   NEXT
+   // end code optimization - p.d. 03/02/2017 
+   
    IF Left ( AllTrim( Text ) , 1 ) == '(' .OR.  Right ( AllTrim( Text ) , 2 ) == 'DB'
       s := '-' + s
    ENDIF
@@ -1374,14 +1402,15 @@ RETURN
 FUNCTION _GetColumnWidth( ControlName , ParentForm, nColumnNo )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL nWidth := -1, i
+   LOCAL nWidth := -1, i, h
 
    i := GetControlIndex( ControlName , ParentForm )
+   h := _HMG_aControlHandles [i]
 
    Assign z := nColumnNo
 
-   IF z > 0 .AND. z <= ListView_GetColumnCount ( _HMG_aControlHandles [i] )
-      nWidth := ListView_GetColumnWidth( _HMG_aControlHandles [i] , z - 1 )
+   IF z > 0 .AND. z <= ListView_GetColumnCount ( h )
+      nWidth := ListView_GetColumnWidth( h , z - 1 )
    ENDIF
 
 RETURN nWidth
@@ -1390,14 +1419,15 @@ RETURN nWidth
 FUNCTION _SetColumnWidth( ControlName , ParentForm , nColumnNo , nWidth )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL i, lSuccess := .F.
+   LOCAL i, h, lSuccess := .F.
 
    i := GetControlIndex( ControlName , ParentForm )
+   h := _HMG_aControlHandles [i]
 
    Assign z := nColumnNo
 
-   IF z > 0 .AND. z <= ListView_GetColumnCount ( _HMG_aControlHandles [i] )
-      lSuccess := ListView_SetColumnWidth( _HMG_aControlHandles [i] , z - 1 , nWidth )
+   IF z > 0 .AND. z <= ListView_GetColumnCount ( h )
+      lSuccess := ListView_SetColumnWidth( h , z - 1 , nWidth )
    ENDIF
 
 RETURN lSuccess
@@ -1406,14 +1436,15 @@ RETURN lSuccess
 FUNCTION _SetColumnWidthAuto( ControlName , ParentForm , nColumnNo )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL i, lSuccess := .F.
+   LOCAL i, h, lSuccess := .F.
 
    i := GetControlIndex( ControlName , ParentForm )
+   h := _HMG_aControlHandles [i]
 
    Assign z := nColumnNo
 
-   IF z > 0 .AND. z <= ListView_GetColumnCount ( _HMG_aControlHandles [i] )
-      lSuccess := ListView_SetColumnWidthAuto( _HMG_aControlHandles [i] , z - 1 )
+   IF z > 0 .AND. z <= ListView_GetColumnCount ( h )
+      lSuccess := ListView_SetColumnWidthAuto( h , z - 1 )
    ENDIF
 
 RETURN lSuccess
@@ -1422,14 +1453,15 @@ RETURN lSuccess
 FUNCTION _SetColumnWidthAutoH( ControlName , ParentForm , nColumnNo )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL i, lSuccess := .F.
+   LOCAL i, h, lSuccess := .F.
 
    i := GetControlIndex( ControlName , ParentForm )
+   h := _HMG_aControlHandles [i]
 
    Assign z := nColumnNo
 
-   IF z > 0 .AND. z <= ListView_GetColumnCount ( _HMG_aControlHandles [i] )
-      lSuccess := ListView_SetColumnWidthAutoH( _HMG_aControlHandles [i] , z - 1 )
+   IF z > 0 .AND. z <= ListView_GetColumnCount ( h )
+      lSuccess := ListView_SetColumnWidthAutoH( h , z - 1 )
    ENDIF
 
 RETURN lSuccess
@@ -1437,14 +1469,14 @@ RETURN lSuccess
 *-----------------------------------------------------------------------------*
 FUNCTION _SetColumnsWidthAuto( ControlName , ParentForm )
 *-----------------------------------------------------------------------------*
-   LOCAL z, i, ColumnCount, lSuccess := .F.
+   LOCAL z, i, h, ColumnCount, lSuccess := .F.
 
    i := GetControlIndex( ControlName , ParentForm )
-   ColumnCount := ListView_GetColumnCount( _HMG_aControlHandles [i] )
+   h := _HMG_aControlHandles [i]
 
-   IF ColumnCount > 0
+   IF ( ColumnCount := ListView_GetColumnCount( h ) ) > 0
       FOR z := 1 TO ColumnCount
-         lSuccess := ListView_SetColumnWidthAuto( _HMG_aControlHandles [i] , z - 1 )
+         lSuccess := ListView_SetColumnWidthAuto( h , z - 1 )
       NEXT z
    ENDIF
 
@@ -1453,14 +1485,14 @@ RETURN lSuccess
 *-----------------------------------------------------------------------------*
 FUNCTION _SetColumnsWidthAutoH( ControlName , ParentForm )
 *-----------------------------------------------------------------------------*
-   LOCAL z, i, ColumnCount, lSuccess := .F.
+   LOCAL z, i, h, ColumnCount, lSuccess := .F.
 
    i := GetControlIndex ( ControlName , ParentForm )
-   ColumnCount := ListView_GetColumnCount( _HMG_aControlHandles [i] )
+   h := _HMG_aControlHandles [i]
 
-   IF ColumnCount > 0
+   IF ( ColumnCount := ListView_GetColumnCount( h ) ) > 0
       FOR z := 1 TO ColumnCount
-         lSuccess := ListView_SetColumnWidthAutoH( _HMG_aControlHandles [i] , z - 1 )
+         lSuccess := ListView_SetColumnWidthAutoH( h , z - 1 )
       NEXT z
    ENDIF
 

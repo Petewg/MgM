@@ -1,0 +1,26 @@
+  DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 550 HEIGHT 350 VIRTUAL WIDTH GetVirtualFormWidth() VIRTUAL HEIGHT GetVirtualFormHeight() TITLE "" CHILD ON INIT {||f_pontos(), MakeMenu()} ON MOUSECLICK {|| DoMethod('form_1','setfocus'),AddControl(),f_pontos()} ON MOUSEDRAG {||f_pontos()} ON MOUSEMOVE {||ADDROWCOL(),f_pontos() } ON INTERACTIVECLOSE iif(lChanges, ( ans := msgyesnocancel('You want to save the form '+ CurrentForm + " ?", "HMGS-IDE", ,.F.), iif( ans == 1, ( SaveForm(), CloseForm() ), iif( ans == 0, CloseForm(), .F. ) ) ), CloseForm()) ON SIZE {|| AddSizeForm(),f_pontos()} ON MAXIMIZE {||f_pontos()} ON GOTFOCUS f_pontos() ON MOVE {|| AddSizeForm(),f_pontos() }
+
+   ON KEY F1 ACTION MsgInfo('F1-SHOW HELP OF HOT KEYS'     + Chr(13) + Chr(10)+;
+                                 'F2-SHOW OBJECT INSPECTOR'+ Chr(13) + Chr(10)+;
+                                 'F3-SHOW PROJECT BROWSER' + Chr(13) + Chr(10)+;
+                                 'F4-BUILD EXE'            + Chr(13) + Chr(10)+;
+                                 'F5-RUN EXE'              + Chr(13) + Chr(10)+;
+                                 'F6-SHOW FORM'            + Chr(13) + Chr(10)+;
+                                 'F7-SHOW HMGS-IDE'        + Chr(13) + Chr(10), 'HELP OF HOT KEYS')
+   ON KEY F2 ACTION {||objectinspector.SHOW,objectinspector.setfocus}
+   ON KEY F3 ACTION {||projectbrowser.SHOW,projectbrowser.setfocus}
+   ON KEY F4 ACTION TEST_BUILD('NODEBUG')
+   ON KEY F5 ACTION RUN()
+   ON KEY F6 ACTION zform1()
+   ON KEY F7 ACTION {||controls.SHOW,controls.setfocus}
+   ON KEY ALT+F4 OF FORM_1 ACTION Nil
+
+   DEFINE CONTEXT MENU
+            ITEM 'Move'                ACTION MoveControl()
+            ITEM 'Size'                ACTION SizeControl()
+            ITEM 'Delete'              ACTION DeleteControl()
+            ITEM 'Properties'          ACTION Properties_Click() name PtaB
+       ITEM 'Save FORM'           ACTION SAVEFORM()
+   END MENU
+
+  END WINDOW

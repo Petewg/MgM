@@ -1,3 +1,6 @@
+#ifdef __XHARBOUR__
+#define __SYSDATA__
+#endif
 #include "minigui.ch"
 #include "hbclass.ch"
 

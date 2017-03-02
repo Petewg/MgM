@@ -311,9 +311,7 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
       Value := IFEMPTY( Value, CToD( '' ), Value )
       SetMonthCalValue( c, Year( value ), Month( value ), Day( value ) )
 
-      IF _HMG_ProgrammaticChange
-         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-      ENDIF
+      _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
 
    CASE T == "TREE"
       IF Empty( Value )
@@ -392,11 +390,11 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
          ELSE
             SetWindowText ( c , RTrim( value ) )
          ENDIF
+
       ELSEIF T == "EDIT"
          SetWindowText ( c , value )
-         IF _HMG_ProgrammaticChange
-            _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-         ENDIF
+         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
+
       ELSEIF T == "RICHEDIT" .AND. _HMG_IsXPorLater
          IF Empty( value ) .OR. !( Left( value, 7 ) == "{\rtf1\" )
             SetWindowText ( c , value )
@@ -426,7 +424,7 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
          SendMessage ( c , BM_SETCHECK , BST_UNCHECKED , 0 )
       ENDIF
 
-      IF _HMG_ProgrammaticChange .AND. Empty( _HMG_aControlMiscData1 [ix] )
+      IF Empty( _HMG_aControlMiscData1 [ix] )
          _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
       ENDIF
 
@@ -443,12 +441,10 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
             ENDIF
          ENDIF
 
-         IF _HMG_ProgrammaticChange
-            IF value > 0
-               setfocus( h )
-            ENDIF
-            _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
+         IF value > 0
+            setfocus( h )
          ENDIF
+         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
       ENDIF
 
    CASE T == "COMBO"
@@ -472,18 +468,14 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
          ComboSetCursel ( c , value )
       ENDIF
 
-      IF _HMG_ProgrammaticChange
-         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-      ENDIF
+      _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
 
    CASE T == "LIST" .OR. T == "CHKLIST"
       Value := IFNUMERIC( Value, Value, 0 )
 
       ListBoxSetCursel ( c , value )
 
-      IF _HMG_ProgrammaticChange
-         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-      ENDIF
+      _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
 
    CASE T == "GRID"
       IF _HMG_aControlFontColor [ix] == .F.
@@ -536,9 +528,7 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
          SetDatePick( c, Year( value ), Month( value ), Day( value ) )
       ENDIF
 
-      IF _HMG_ProgrammaticChange
-         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-      ENDIF
+      _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
 
    CASE T == "TIMEPICK"
       IF Empty( Value )
@@ -547,9 +537,7 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
          SetTimePick( c, Val( Left( value, 2 ) ), Val( SubStr( value, 4, 2 ) ), Val( SubStr( value, 7, 2 ) ) )
       ENDIF
 
-      IF _HMG_ProgrammaticChange
-         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-      ENDIF
+      _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
 
    CASE T == "PROGRESSBAR"
       Value := IFEMPTY( Value, 0, Value )
@@ -559,9 +547,7 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
       Value := IFEMPTY( Value, 0, Value )
       SendMessage( c , TBM_SETPOS , 1 , value )
 
-      IF _HMG_ProgrammaticChange
-         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-      ENDIF
+      _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
 
    CASE T == "MULTILIST" .OR. T == "MULTICHKLIST"
       LISTBOXSETMULTISEL ( c , value )
@@ -582,12 +568,10 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
    CASE T == "GETBOX"
       _SetGetBoxValue( ix , c , Value )
 
-      IF _HMG_ProgrammaticChange
-         oGet := _HMG_aControlHeadClick [ix]
+      oGet := _HMG_aControlHeadClick [ix]
 
-         IF oGet:Changed
-            _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-         ENDIF
+      IF oGet:Changed
+         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
       ENDIF
 
    CASE T == "HOTKEYBOX"
@@ -863,19 +847,21 @@ FUNCTION _DeleteItem ( ControlName, ParentForm, Value )
          ListViewDeleteString ( c , value )
 
          IF _HMG_aControlFontColor [ix] == .T. .AND. T == "GRID"
+
             IF _HMG_aControlMiscData1 [ix] [ 1 ] == value
                _HMG_aControlMiscData1 [ix] [ 1 ]  := 0
                _HMG_aControlMiscData1 [ix] [ 17 ] := 0
+
             ELSEIF _HMG_aControlMiscData1 [ix] [ 1 ] > value
                _HMG_aControlMiscData1 [ix] [ 1 ] --
-               IF _HMG_ProgrammaticChange
-                  _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
-               ENDIF
+               _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
             ENDIF
+
             AfterCount := ListViewGetItemCount ( c )
             IF value > AfterCount .AND. AfterCount > 0
                _HMG_aControlMiscData1 [ix] [ 1 ] := AfterCount
             ENDIF
+
          ENDIF
 
          _UpdateGridColors ( ix )
@@ -1891,8 +1877,10 @@ FUNCTION _GetItem ( ControlName, ParentForm, Item, idx )
                   ELSEIF CTYPE == 'CHARACTER'
                      ATEMP [CI] := V [CI]
                   ENDIF
+
                ELSEIF AEC == 'DATEPICKER'
                   ATEMP [CI] := CToD ( V [CI] )
+
                ELSEIF AEC == 'COMBOBOX'
                   Z := 0
                   FOR EACH X IN AITEMS
@@ -1902,8 +1890,10 @@ FUNCTION _GetItem ( ControlName, ParentForm, Item, idx )
                      ENDIF
                   NEXT
                   ATEMP [CI] := Z
+
                ELSEIF AEC == 'SPINNER'
                   ATEMP [CI] := Val ( V [CI] )
+
                ELSEIF AEC == 'CHECKBOX'
                   ATEMP [CI] := ( Upper( AllTrim( V [CI] ) ) == Upper( AllTrim( ALABELS [1] ) ) )
                ENDIF
@@ -4475,18 +4465,15 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
       CASE Arg3 == "TABSTOP"
 
          ix := GetControlHandle( Arg2 , Arg1 )
+
          RetVal := IsTabStop( IFARRAY( ix , ix[1] , ix ) )
 
       CASE Arg3 == "READONLY" .OR. Arg3 == "DISABLEEDIT"
 
-         ix := GetControlType ( Arg2 , Arg1 )
-
-         IF ix == "TEXT" .OR. ix == "GETBOX" .OR. ix == "NUMTEXT" .OR. ix == "MASKEDTEXT" .OR. ix == "CHARMASKTEXT" .OR. ix == "SPINNER"
-            RetVal := _HMG_aControlMiscData1 [ GetControlIndex ( Arg2 , Arg1 ), 2 ]
-         ELSEIF ix == "EDIT" .OR. ix == "BTNTEXT" .OR. ix == "BTNNUMTEXT"
-            RetVal := _HMG_aControlMiscData1 [ GetControlIndex ( Arg2 , Arg1 ), 3 ]
-         ELSEIF ix == "RADIOGROUP"
+         IF GetControlType ( Arg2 , Arg1 ) == "RADIOGROUP"
             RetVal := _GetRadioGroupReadOnly ( Arg2 , Arg1 )
+         ELSE
+            RetVal := IsWindowHasStyle ( GetControlHandle ( Arg2 , Arg1 ) , ES_READONLY )
          ENDIF
 
       CASE Arg3 == "INDENT"
@@ -5704,18 +5691,22 @@ STATIC PROCEDURE _SetTextEditReadOnly ( ControlName, ParentForm, Value )
 
    IF t == "TEXT" .OR. t == "NUMTEXT" .OR. t == "MASKEDTEXT" .OR. t == "CHARMASKTEXT" .OR. t == "SPINNER"
       _HMG_aControlMiscData1 [ i, 2 ] := lValue
+
    ELSEIF t == "GETBOX"
       _HMG_aControlMiscData1 [ i, 2 ] := lValue
       _HMG_aControlProcedures [i] := iif( lValue, NIL, _HMG_aControlMiscData1 [ i, 4 ] )
       _HMG_aControlDblClick [i] := iif( lValue, NIL, _HMG_aControlMiscData1 [ i, 5 ] )
+
    ELSEIF t == "EDIT" .OR. t == "BTNTEXT" .OR. t == "BTNNUMTEXT"
       _HMG_aControlMiscData1 [ i, 3 ] := lValue
    ENDIF
 
    IF t == "SPINNER"
       SendMessage( _HMG_aControlHandles [i][1], EM_SETREADONLY, iif( lValue, 1, 0 ), 0 )
+
    ELSEIF t == "COMBO" .AND. _HMG_aControlMiscData1 [i][2] == .T.
       SendMessage( _HMG_aControlRangeMin [i], EM_SETREADONLY, iif( lValue, 1, 0 ), 0 )
+
    ELSE
       SendMessage( _HMG_aControlHandles [i], EM_SETREADONLY, iif( lValue, 1, 0 ), 0 )
    ENDIF
@@ -5912,11 +5903,13 @@ STATIC FUNCTION _SetGetRichValue ( ControlName, ParentForm, cValue, nType )
    LOCAL i := GetControlIndex ( ControlName, ParentForm )
 
    IF _HMG_aControlType [i] == 'RICHEDIT'
+
       IF ValType( cValue ) == 'C'
          _DataRichEditBoxSetValue ( ControlName, ParentForm, cValue, nType )
       ELSE
          RetVal := _DataRichEditBoxGetValue ( ControlName, ParentForm, nType )
       ENDIF
+
    ENDIF
 
 RETURN RetVal
@@ -5929,11 +5922,13 @@ STATIC FUNCTION _SetGetAutoFont ( ControlName, ParentForm, lAuto )
    LOCAL RetVal := .T. , i := GetControlIndex ( ControlName, ParentForm )
 
    IF _HMG_aControlType [i] == 'RICHEDIT'
+
       IF ISLOGICAL ( lAuto )
          SetAutoFontRTF ( GetControlHandle ( ControlName , ParentForm ), lAuto )
       ELSE
          RetVal := GetAutoFontRTF ( GetControlHandle ( ControlName , ParentForm ) )
       ENDIF
+
    ENDIF
 
 RETURN RetVal
@@ -5949,13 +5944,17 @@ STATIC FUNCTION _SetGetCheckboxItemState ( ControlName, ParentForm, Item, lState
    i := GetControlIndex ( ControlName , ParentForm )
 
    IF "GRID" $ _HMG_aControlType [i]
+
       IF _HMG_aControlMiscData1 [i] [18]  // if checkboxes mode was activated
+
          IF ISLOGICAL ( lState )
             ListView_SetCheckState ( _HMG_aControlHandles [i], Item, lState )
          ELSE
             RetVal := ListView_GetCheckState ( _HMG_aControlHandles [i], Item )
          ENDIF
+
       ENDIF
+
    ENDIF
 
 RETURN RetVal
@@ -5996,9 +5995,11 @@ FUNCTION _IsTyped( a, b )    // (c) 1996-1997, Bryan Duchesne
 *-----------------------------------------------------------------------------*
 
    IF a != NIL
+
       IF !( ValType( a ) == ValType( b ) )
          MsgMiniGuiError( "Strongly Typed Variable Assignment: Data Type Mismatch." )
       ENDIF
+
    ENDIF
 
 RETURN b

@@ -1,0 +1,29 @@
+*HMGS-IDE TODO.TXT
+*         bugs
+*         requests
+*******************
+
+
+*Read todo.txt
+*Finish Prop of Controls.           
+*Check if all prop of controls are save/load/changed correct.   
+   
+
+*CONTROL TREE in loadfmg properties (NODE IMAGES, TREEITEM IMAGES)
+*Add option to link libs TsBrowse.lib and TMsAgent.lib in preferences.
+*Add context menu to controls.
+
+*Bug when size RadioGroup.
+
+*Bug: if set in Btntextbox control the datatype to numeric then we lose
+the all Btntextbox properties in the Object Inspector.
+
+
+
+******************************
+*Controls are not implemented:
+******************************
+*ToolbarEx                                                             
+*ImageList                                                             
+*Qhtm        *not finished                                                         
+******************************

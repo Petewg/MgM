@@ -31,6 +31,7 @@ CLASS TControl
    DATA   cCaption
    DATA   nLastRow, nLastCol
    DATA   nAlign AS NUMERIC  // New 1.9 Alignment
+   DATA   nStatusItem INIT 1
 
    DATA   bLClicked                                  // TControl
    DATA   bLDblClick                                 // TControl
@@ -733,19 +734,23 @@ METHOD SetMsg( cText, lDefault ) CLASS TControl
 
     Local cOldText, cParentWnd
 
+    If ::nStatusItem < 1 
+       return Nil 
+    EndIf 
+
     DEFAULT lDefault := .F. , cText := ""
 
-    cParentWnd := IF( _HMG_MainClientMDIHandle == 0, ::cParentWnd, _HMG_MainClientMDIName )
+    cParentWnd := iif( _HMG_MainClientMDIHandle == 0, ::cParentWnd, _HMG_MainClientMDIName )
 
-    if _IsWindowActive (cParentWnd)
+    if _IsWindowActive ( cParentWnd )
       if _IsControlDefined ( "StatusBar" , cParentWnd )
          if !lDefault
-            cOldText := GetItemBar( _HMG_ActiveStatusHandle , 1 )
+            cOldText := GetItemBar( _HMG_ActiveStatusHandle , ::nStatusItem )
             if !(AllTrim(cOldText) == AllTrim(cText))
-               SetProperty( cParentWnd, "StatusBar", "Item", 1, cText )
+               SetProperty( cParentWnd, "StatusBar", "Item", ::nStatusItem, cText )
             endif
          elseif valtype ( _HMG_DefaultStatusBarMessage ) == "C"
-            SetProperty( cParentWnd, "StatusBar", "Item", 1, _HMG_DefaultStatusBarMessage )
+            SetProperty( cParentWnd, "StatusBar", "Item", ::nStatusItem, _HMG_DefaultStatusBarMessage )
          endif
       endif
     endif
@@ -944,11 +949,11 @@ METHOD Command( nWParam, nLParam ) CLASS TControl
    case hWndCtl == 0
 
       * TGet Enter ......................................
-      if HiWord(nWParam) == 0 .And. LoWord(nWParam) == 1
+      if HiWord(nWParam) == 0 .and. LoWord(nWParam) == 1
          ::KeyDown( VK_RETURN, 0 )
       EndIf
       * TGet Escape .....................................
-      if HiWord(nwParam) == 0 .And. LoWord(nwParam) == 2
+      if HiWord(nwParam) == 0 .and. LoWord(nwParam) == 2
          ::KeyDown( VK_ESCAPE, 0 )
       endif
 

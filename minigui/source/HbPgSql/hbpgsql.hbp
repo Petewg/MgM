@@ -1,0 +1,13 @@
+-hblib
+-inc-
+
+-o../../lib/hbpgsql
+
+-I./9.5
+
+-w3 -es2
+
+postgres.c
+rddcopy.c
+
+tpostgre.prg

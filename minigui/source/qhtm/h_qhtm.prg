@@ -35,7 +35,7 @@
 	www - http://www.harbour-project.org
 
 	"Harbour Project"
-	Copyright 1999-2016, http://harbour-project.org/
+	Copyright 1999-2017, http://harbour-project.org/
 
 ---------------------------------------------------------------------------*/
 

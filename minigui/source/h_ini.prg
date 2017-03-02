@@ -130,16 +130,24 @@ FUNCTION _BeginIni( cIniFile )
       cIniFile := ".\" + cIniFile
    ENDIF
 
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
    hFile := iif( File( cIniFile ), FOpen( cIniFile, FO_READ + FO_SHARED ), FCreate( cIniFile ) )
-
    IF hFile == F_ERROR
-      MsgInfo( "Error opening a file INI. DOS ERROR: " + Str( FError(), 2, 0 ) )
+#else
+   hFile := hb_vfOpen( cIniFile, iif( hb_vfExists( cIniFile ), FO_READ + FO_SHARED, FO_CREAT + FO_READWRITE ) )
+   IF hFile == NIL
+#endif
+      MsgInfo( "Error opening a file INI. DOS ERROR: " + hb_ntos( FError() ) )
       Return( -1 )
    ELSE
       _HMG_ActiveIniFile := cIniFile
    ENDIF
 
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
    FClose( hFile )
+#else
+   hb_vfClose( hFile )
+#endif
 
 RETURN( 0 )
 

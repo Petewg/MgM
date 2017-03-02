@@ -66,9 +66,14 @@
 #define WC_STATIC  "Static"
 #endif
 
+#define LOGHIMETRIC_TO_PIXEL( hm, ppli )  MulDiv( ( hm ), ( ppli ), 2540 ) // ppli = Point per Logic Inch
+#define PIXEL_TO_LOGHIMETRIC( px, ppli )  MulDiv( ( px ), 2540, ( ppli ) ) // ppli = Point per Logic Inch
+
 HBITMAP HMG_LoadPicture( char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage );
 HBITMAP HMG_LoadImage( char * FileName );
 LRESULT APIENTRY  PictSubClassFunc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam );
+
+HBITMAP LoadOLEPicturePath( const char * szURLorPath );
 
 static BOOL __bt_Load_GDIplus( void );
 static BOOL __bt_Release_GDIplus( void );
@@ -99,15 +104,23 @@ HB_FUNC( INITIMAGE )
 
 HB_FUNC( C_SETPICTURE )
 {
-   HBITMAP hBitmap;
+   HWND    hWnd    = ( HWND ) HB_PARNL( 1 );
+   HBITMAP hBitmap = NULL;
 
-   if( hb_parclen( 2 ) == 0 )
-      HB_RETNL( ( LONG_PTR ) NULL );
+   if( IsWindow( hWnd ) && ( hb_parclen( 2 ) > 0 ) )
+   {
+      hBitmap = HMG_LoadPicture(
+         ( char * ) hb_parc( 2 ), hb_parni( 3 ), hb_parni( 4 ), hWnd, hb_parni( 5 ), hb_parni( 6 ), hb_parnl( 7 ), hb_parni( 8 ) );
 
-   hBitmap = HMG_LoadPicture( ( char * ) hb_parc( 2 ), hb_parni( 3 ), hb_parni( 4 ), ( HWND ) HB_PARNL( 1 ), hb_parni( 5 ), hb_parni( 6 ), hb_parnl( 7 ), hb_parni( 8 ) );
+      if( hBitmap != NULL )
+      {
+         HBITMAP hOldBitmap = ( HBITMAP ) SendMessage(
+            hWnd, STM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) hBitmap );
 
-   if( hBitmap != NULL )
-      SendMessage( ( HWND ) HB_PARNL( 1 ), ( UINT ) STM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) hBitmap );
+         if( hOldBitmap != NULL )
+            DeleteObject( hOldBitmap );
+      }
+   }
 
    HB_RETNL( ( LONG_PTR ) hBitmap );
 }
@@ -359,13 +372,8 @@ HBITMAP __bt_LoadOLEPicture( TCHAR * FileName, TCHAR * TypePictureResource )
    SetStretchBltMode( memDC, HALFTONE );
    SetBrushOrgEx( memDC, Point.x, Point.y, NULL );
 
-   // Convert HiMetric to Pixel
-   #define HIMETRIC_PER_INCH  2540                                                              // Number of HIMETRIC units per INCH
-   #define __bt_LOGHIMETRIC_TO_PIXEL( hm, ppli )  MulDiv( ( hm ), ( ppli ), HIMETRIC_PER_INCH ) // ppli = Point per Logic Inch
-   #define __bt_PIXEL_TO_LOGHIMETRIC( px, ppli )  MulDiv( ( px ), HIMETRIC_PER_INCH, ( ppli ) ) // ppli = Point per Logic Inch
-
-   pxWidth  = __bt_LOGHIMETRIC_TO_PIXEL( hmWidth, GetDeviceCaps( memDC, LOGPIXELSX ) );
-   pxHeight = __bt_LOGHIMETRIC_TO_PIXEL( hmHeight, GetDeviceCaps( memDC, LOGPIXELSY ) );
+   pxWidth  = LOGHIMETRIC_TO_PIXEL( hmWidth, GetDeviceCaps( memDC, LOGPIXELSX ) );
+   pxHeight = LOGHIMETRIC_TO_PIXEL( hmHeight, GetDeviceCaps( memDC, LOGPIXELSY ) );
 
    hBitmap = __bt_bmp_create_24bpp( memDC, pxWidth, pxHeight );
    SelectObject( memDC, hBitmap );
@@ -596,11 +604,16 @@ HBITMAP HMG_LoadPicture( char * FileName, int New_Width, int New_Height, HWND hW
 
    // First find BMP image in resourses (.EXE file)
    hBitmap = ( HBITMAP ) LoadImage( g_hInstance, FileName, IMAGE_BITMAP, 0, 0, fuLoad );
+
    // If fail: find BMP in disk
    if( hBitmap == NULL )
       hBitmap = ( HBITMAP ) LoadImage( NULL, FileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | fuLoad );
 
-   // If fail: find JPG, GIF, WMF, PNG and TIF images
+   // If fail: find BMP (bitmap), JPEG, WMF (metafile), ICO (icon), or GIF file on disk or URL
+   if( hBitmap == NULL && lstrlen( FileName ) )
+      hBitmap = LoadOLEPicturePath( ( const char * ) FileName );
+
+   // If fail: find JPG, GIF, WMF, PNG and TIF images using OLE or GDI+ methods
    if( hBitmap == NULL )
    {
       bBmpImage = FALSE;
@@ -692,4 +705,47 @@ HBITMAP HMG_LoadPicture( char * FileName, int New_Width, int New_Height, HWND hW
    DeleteObject( hBitmap );
 
    return hBitmap_New;
+}
+
+//*************************************************************************************************
+// LoadOLEPicturePath (szURLorPath) ---> Return hBitmap
+// ( stream must be in BMP (bitmap), JPEG, WMF (metafile), ICO (icon), or GIF format )
+//*************************************************************************************************
+HBITMAP LoadOLEPicturePath( const char * szURLorPath )
+{
+   IPicture   * iPicture = NULL;
+   HBITMAP hBitmap;
+   HDC memDC;
+   LONG hmWidth, hmHeight;
+   INT pxWidth, pxHeight;
+   POINT Point;
+   HRESULT hr;
+
+   hr = OleLoadPicturePath( ( LPOLESTR ) ( LPCTSTR ) hb_mbtowc( szURLorPath ), NULL, 0, 0, &IID_IPicture, ( LPVOID * ) &iPicture );
+
+   if( S_OK != hr )
+      return NULL;
+
+   iPicture->lpVtbl->get_Width( iPicture, &hmWidth );
+   iPicture->lpVtbl->get_Height( iPicture, &hmHeight );
+
+   memDC = CreateCompatibleDC( NULL );
+
+   GetBrushOrgEx( memDC, &Point );
+   SetStretchBltMode( memDC, HALFTONE );
+   SetBrushOrgEx( memDC, Point.x, Point.y, NULL );
+
+   // Convert HiMetric to Pixel
+   pxWidth  = LOGHIMETRIC_TO_PIXEL( hmWidth, GetDeviceCaps( memDC, LOGPIXELSX ) );
+   pxHeight = LOGHIMETRIC_TO_PIXEL( hmHeight, GetDeviceCaps( memDC, LOGPIXELSY ) );
+
+   hBitmap = __bt_bmp_create_24bpp( memDC, pxWidth, pxHeight );
+   SelectObject( memDC, hBitmap );
+
+   iPicture->lpVtbl->Render( iPicture, memDC, 0, 0, pxWidth, pxHeight, 0, hmHeight, hmWidth, -hmHeight, NULL );
+   iPicture->lpVtbl->Release( iPicture );
+
+   DeleteDC( memDC );
+
+   return hBitmap;
 }
