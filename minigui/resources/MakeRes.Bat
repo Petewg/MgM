@@ -1,6 +1,6 @@
 @echo off
 
-SET Root=C:\MiniguiM
+SET Root=%~d0\MiniguiM
 
 SET PATH=%Root%\comp\mingw32\bin
 
