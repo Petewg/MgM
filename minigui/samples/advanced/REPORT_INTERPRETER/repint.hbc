@@ -1,4 +1,4 @@
 incpaths=
 libpaths=
-libs=winreport calldll
+libs=winreport tsbrowse
 

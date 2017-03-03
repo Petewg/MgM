@@ -1,14 +1,20 @@
-#
-# hmg.hbp
-#
-
 -hblib
+-inc
 
--o../../../lib/hbunrar
+-ohbunrar
 
--I../../../include
+-w3 -es2
 
--w -es2
+-stop{!win}
+
+-depoptional=unrar:yes
+-depkeyhead=unrar:unrar.h
+-depimplibs=unrar:unrar.dll
+
+# -iflag={bcc}-a
+
+-hbx=${hb_name}.hbx
+-dflag+=--enable-stdcall-fixup
 
 unrar.prg
 hb_unrar.c

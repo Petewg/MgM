@@ -1,0 +1,30 @@
+//------------------------------------------------
+// HMG Debugger resources
+//------------------------------------------------
+#include "resource.h"
+
+
+IDI_ICON1      ICON  res\_dbg_icon.ico
+
+_about        	PNG   res\_dbg_about.png
+
+_animate      	PNG   res\_dbg_animate.png
+_step         	PNG   res\_dbg_step.png
+_trace        	PNG   res\_dbg_trace.png
+_go           	PNG   res\_dbg_go.png
+_tocursor     	PNG   res\_dbg_tocursor.png
+_next         	PNG   res\_dbg_next.png
+_pause        	PNG   res\_dbg_pause.png
+
+_breakpoint   	PNG   res\_dbg_breakpoint.png
+_watchpoint   	PNG   res\_dbg_watchpoint.png
+_tracepoint   	PNG   res\_dbg_tracepoint.png
+_configuration	PNG   res\_dbg_configuration.png
+_quit         	PNG   res\_dbg_quit.png
+
+//_pointer     	PNG   res\_dbg_pointer.png
+_refresh      BITMAP  res\_dbg_refresh.bmp
+
+_open         BITMAP  res\_dbg_open.bmp
+_save         BITMAP  res\_dbg_save.bmp
+

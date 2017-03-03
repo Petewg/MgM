@@ -1,0 +1,469 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 135 , 117 WIDTH 916 HEIGHT 609 TITLE "FTP Client - 2007 - Walter Formigoni - OPEN SOURCE. Version 0.0.1" ICON NIL MAIN TOPMOST CURSOR NIL ON INIT initgrid() ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR NIL NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK NIL ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+     DEFINE GRID Grid_1
+            ROW    90
+            COL    20
+            WIDTH  410
+            HEIGHT 438
+            ITEMS {{"","","","",""}}
+            VALUE 1
+            WIDTHS aGridWidth
+            HEADERS {'','[Name]','Size','Date','Time'}
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE { || if(lfirst, , CurrentDirectory(1)) }
+            ONGOTFOCUS { ||CurrentDirectory(1) }
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONDBLCLICK Verify()
+            ONHEADCLICK NIL //{, {|| Head_Click(2)}, {|| Head_Click(3)}, {|| Head_Click(4)}, {|| Head_Click(5)} }
+            ONQUERYDATA NIL
+            MULTISELECT .F.
+            ALLOWEDIT .F.
+            VIRTUAL .F.
+            NOLINES .F.
+            HELPID NIL
+            IMAGE {"FOLDER","FILE"}
+            JUSTIFY {, BROWSE_JTFY_LEFT,BROWSE_JTFY_RIGHT,BROWSE_JTFY_CENTER,BROWSE_JTFY_CENTER }
+            ITEMCOUNT NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END GRID  
+
+     DEFINE GRID Grid_2
+            ROW    90
+            COL    450
+            WIDTH  410
+            HEIGHT 438
+            ITEMS {}
+            VALUE 0
+            WIDTHS {0,150,80,80,80,150}
+            HEADERS {'','[Name]','Size','Date','Time','Atributes'}
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONDBLCLICK FTPCWD()
+            ONHEADCLICK NIL
+            ONQUERYDATA NIL
+            MULTISELECT .F.
+            ALLOWEDIT .F.
+            VIRTUAL .F.
+            NOLINES .F.
+            HELPID NIL
+            IMAGE {"FOLDER","FILE"}
+            JUSTIFY NIL
+            ITEMCOUNT NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END GRID  
+
+    DEFINE BUTTON Button_1
+           ROW    290
+           COL    430
+           WIDTH  20
+           HEIGHT 22
+           CAPTION "->"
+           ACTION FTPUP()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP "Upload files to FTP - server"
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    330
+           COL    430
+           WIDTH  20
+           HEIGHT 22
+           CAPTION "<-"
+           ACTION FTPDOWN()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP "Download files from FTP - server"
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    0
+           COL    610
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Connect"
+           ACTION ftpconn1()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    0
+           COL    740
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Disconnect"
+           ACTION ftpclose()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_5
+           ROW    60
+           COL    490
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Make Dir"
+           ACTION ftpmkdir()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_6
+           ROW    60
+           COL    610
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Rename"
+           ACTION ftpren()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_7
+           ROW    60
+           COL    740
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Delete"
+           ACTION ftpdel()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+     DEFINE LABEL Label_3
+            ROW    540
+            COL    20
+            WIDTH  300
+            HEIGHT 24
+            VALUE aSubDirectory[1][1]
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+    DEFINE BUTTON Button_8
+           ROW    59
+           COL    29
+           WIDTH  68
+           HEIGHT 28
+           CAPTION "Make Dir"
+           ACTION localmkdir()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_9
+           ROW    60
+           COL    100
+           WIDTH  65
+           HEIGHT 28
+           CAPTION "Rename"
+           ACTION localren()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_10
+           ROW    60
+           COL    170
+           WIDTH  60
+           HEIGHT 28
+           CAPTION "Delete"
+           ACTION localdel()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_11
+           ROW    60
+           COL    240
+           WIDTH  61
+           HEIGHT 28
+           CAPTION "View"
+           ACTION NIL
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_12
+           ROW    60
+           COL    310
+           WIDTH  61
+           HEIGHT 28
+           CAPTION "Run"
+           ACTION NIL
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+     DEFINE LABEL Label_1
+            ROW    39
+            COL    20
+            WIDTH  410
+            HEIGHT 18
+            VALUE "Local Computer"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR {0,0,255}
+            FONTCOLOR {255,255,255}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    40
+            COL    450
+            WIDTH  410
+            HEIGHT 17
+            VALUE "FTP - Server"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR {0,0,255}
+            FONTCOLOR {255,255,255}
+            CENTERALIGN .T.
+     END LABEL  
+
+    DEFINE BUTTON Button_13
+           ROW    0
+           COL    490
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Sites"
+           ACTION sitemanager()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    10
+            COL    30
+            WIDTH  400
+            HEIGHT 100
+            ITEMS {""}
+            VALUE 0
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS  NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            SORT .F.
+            ONENTER NIL
+            ONDISPLAYCHANGE NIL
+            DISPLAYEDIT .F.
+     END COMBOBOX  
+
+END WINDOW
+
+

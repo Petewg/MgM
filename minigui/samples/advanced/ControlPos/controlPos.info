@@ -1,0 +1,122 @@
+************ CONTROLPOS  (c) Adam Lubszczyk  ********************
+
+Programik mo¿e pos³u¿yæ do poprawienia po³o¿enia i rozmiarów
+kontrolek w oknie utworzonym w MiniGIU dla [x]Harbour w czasie dzia³ania
+programu (on runtime).
+
+Jeœli definujemy okno "z palca" lub za pomoc¹ IDE Roberto Lopeza
+dok³adne okreœlenie pozycji i rozmiaów poszczególnych kontrolek jest dosyæ
+trudne.
+Dodaj¹c ten programik do w³asnego mo¿esz w uruchomionym ju¿ programie
+za pomoc¹ klawiatury przemieszczaæ i zmieniaæ rozmiary wybranych
+kontrolek, a nastêpnie zapisaæ nowe wspó³rzêdne do roboczego pliku.
+Z niego mo¿na wkopiowaæ dane do w³aœciwego PRG lub FMG.
+
+Jeœli Twój program jest kompilowany w xHarbour (nie Harbour) ten programik
+na podstawie oryginalnych *.FMG lub *.PRG tworzy zmodyfikowane wersje
+(*.FMM lub *.PRM) z ju¿ poprawionymi wspó³rzêdnymi bez modyfikacji lub usuwania
+innych danych.
+
+Sposób u¿ycia:
+- wkopiowaæ _ControlPos_.prg do katalogu z w³asnym programem
+- do gównego modu³u (main) dodaæ wpis
+     SET PROCEDURE TO _ControlPos_.prg
+- przed lini¹ aktywuj¹c¹ g³ówne okno programu dodaæ wpis:
+     ControlPosSTART()
+
+
+Po uruchomieniu Twojego programu pojawi siê dodatkowe okno z list¹
+Twoich aktywnych okien (Forms) i ich kontrolkami.
+Wybrana kontrolka zostaje otoczona w jej granicach niebiesk¹ ramk¹.
+Za pomoc¹ klawiatury mo¿esz mnieniæ jej po³o¿enie lub rozmiar:
+  Shift+strza³ki - zmaina po³o¿enia
+  Ctrl+strza³ki  - zmiana rozmiaru
+  Shift+Tab      - nastêpna kontrolka  
+  Ctrl+Tab       - poprzsednia kontrolka
+Na belce tytu³owej okna podawane s¹ aktualne po³o¿enie i rozmiar kontrolki.
+
+(Nowoœæ)
+Mo¿na zaznaczyæ wiêksz¹ iloœæ kontrolek i wykonywaæ operacje na nich wszyskich.
+Wtedy tak¿e z listy COMBO mo¿na wybraæ specjane operacje wyrównywania kontrolek
+lub zmiany ich rozmairów. Operacje te wykonywane s¹ wzglêdem pierwszej zaznaczonej
+kontrolki (ma inny kolor zaznaczenia).
+
+
+Jeœli Twój program otwiera nowe okno, nale¿y przyciskiem "Get controls" odœwie¿yæ
+zawatroœæ list.
+
+Klikaj¹c na przycisk "Save change" mo¿na zapisaæ wspó³rzêdne kontrolek wybranego
+okna do roboczego pliku *.POS.
+Jeœli jest to xHarboru to przedtem mo¿na wskazaæ plik Ÿród³owy *.FMG lub *.PRG
+zawieraj¹cy definicjê danego okna i zostanie zapisana poprawiona wersja
+do pliku *.FMM lub *.PRM
+
+
+Uwagi do tej wersji programu:
+
+1. W pliku *.POS wspó³rzêdne kontrolek zapisywane s¹ w 3 formatach:
+ a\  DEFINE CONTROLTYPE controlname
+         ROW rr
+         COL cc
+          ...
+ b\  @ rr,cc CONTROLTYPE controlname ;
+         ROW rr ;
+         COL cc ;
+         ...
+ c\  formname.controlname.row := rr
+     formname.controlname.col := cc  
+     ...  
+
+2. Okna zawieraj¹ce DEFINE SPLITBOX s¹ nieobs³ugowane.
+
+3. Okna z VIRTUAL WIDTH , VIRTUAL HEIGHT nie mog¹ byæ przesuniête.
+
+4. Ramke wokó³ kontrolki s¹ rysowane za pomoc¹ DRAWLINE() i przed
+   narysowaniem nowych WSZYSTKIE obiety typu DRAW s¹ kasowne, tak¿e
+   te u¿ytkowinka ( sorry :-( )
+
+5. Programik odczytuje tak¿e szerokoœci kolum w kontrolkach typu GRID i BROWSE
+   (mo¿na je za pomoc¹ myszki zmieniaæ) i zapisuje do w³aœciwoœci WIDTHS
+
+6. Wybieraj¹c kontrolkê umieszczone na TAB na niewidocznej aktualnie zak³adce,
+   tak¿e j¹ przemieszczamy a ramka jest rysowana w miejscu gdzie kontrolka pojawi
+   siê po wybraniu jej zak³adki.
+
+7. Do modyfikacji oryginalnych plików Ÿród³owych u¿ywam regular expresion
+   (dlatego musi byæ xHarbour). Jeœli w pliku Ÿród³owym (zwa³aszcza PRG)
+   bêd¹ komentarze zawieraj¹ce s³owa typu ROW COL mo¿e dojœæ do nieoczekiwanych
+   wyników, dlatego zalecam kontrolê powsta³ych plików przed u¿yciem.
+
+
+
+Adam Lubszczyk
+Chêtnych proszê o przet³umaczenie na angielski, oraz usuniêcie b³êdów jêzykowych
+ze Ÿród³a programu  :)
+
+
+*****************************************************************************
+*****************************************************************************
+*****************************************************************************
+Changelog:
+
+2005.08.18
+ * Ver 1.00
+
+ * MULTISELECT kontrolek; "pierwsza" na niebiesko, nastêpne na ró¿owo
+   (kolory zdefiniowane w _CONTROLPOS_COLOR1_  i _CONTROLPOS_COLOR2_ ) 
+  + mo¿a równoczeœnie zmieniaæ wszystkie zaznaczone kontrolki 
+
+ + Dodano COMBOBOX z list¹ "ekstra" operacji na kontrolkach jak wyrównywanie
+   czy ustawienie wielkoœci
+  * Wszystkie operacje "ekstra" wykonywane s¹ wzglêdem kontrolki "pierwszej"
+
+ * Lista z kontrolkami jest "sortowana" na podstawie po³o¿enia kontrolek (mo¿na
+   to wy³¹czyæ definiuj¹c  _CONTROLPOS_NO_SORT_ )
+
+
+
+
+**************************************
+2005.07.27
+ * Ver 0.90
+ Pierwsza publiczna prezantacja

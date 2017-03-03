@@ -36,7 +36,7 @@ RETURN Hb_ProcessFile( ArchiveName, cPassWord, , File, RAR_TEST )
 STATIC FUNCTION Hb_ProcessFile( ArchiveName, cPassWord, cPath, File, Operation )
    LOCAL lSuccess := .F.
    LOCAL sw, sw1, i, j
-   LOCAL aFileList := {}, aFile := {}
+   LOCAL aFileList /*:= {}*/, aFile := {}
 
    IF File( ArchiveName )
       IF ( HB_ISNIL( File ) )		

@@ -1,0 +1,80 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 1000 HEIGHT 575 TITLE "Map Location" ICON "GOOGLE.ICO" MAIN NOMAXIMIZE NOSIZE ON INIT FOPENACTIVEX() ON RELEASE FCLOSEACTIVEX()
+
+     DEFINE LABEL Label_1
+            ROW    440
+            COL    10
+            WIDTH  120
+            HEIGHT 18
+            VALUE "Street and number:"
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    490
+            COL    10
+            WIDTH  60
+            HEIGHT 18
+            VALUE "City:"
+     END LABEL  
+
+    DEFINE BUTTON Button_1
+           ROW    480
+           COL    330
+           WIDTH  100
+           HEIGHT 28
+           ACTION SEARCH()
+           CAPTION "&Search"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    480
+           COL    450
+           WIDTH  100
+           HEIGHT 28
+           ACTION GOOGLE.RELEASE
+           CAPTION "E&xit"
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    480
+           COL    570
+           WIDTH  100
+           HEIGHT 28
+           ACTION fPrint(.t.)
+           CAPTION "Print"
+     END BUTTON  
+
+     DEFINE LABEL Label_3
+            ROW    490
+            COL    190
+            WIDTH  120
+            HEIGHT 18
+            VALUE "Country:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    460
+            COL    10
+            WIDTH  300
+            HEIGHT 21
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    510
+            COL    10
+            WIDTH  160
+            HEIGHT 21
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    510
+            COL    190
+            WIDTH  121
+            HEIGHT 21
+     END TEXTBOX 
+
+END WINDOW
+
+

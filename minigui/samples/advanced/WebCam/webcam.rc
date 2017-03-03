@@ -1,0 +1,8 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//	Resource name	Resource Type   Resource FileName
+//
+	MAIN		ICON		main.ico
+
+	IMAGE		BITMAP		image.bmp

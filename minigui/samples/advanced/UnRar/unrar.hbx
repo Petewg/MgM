@@ -1,0 +1,43 @@
+/* --------------------------------------------------------------------
+ * NOTE: You can add manual override which functions to include or
+ *       exclude from automatically generated EXTERNAL/DYNAMIC list.
+ *          Syntax: // HB_FUNC_INCLUDE <func>
+ *                  // HB_FUNC_EXCLUDE <func>
+ */
+
+/* --------------------------------------------------------------------
+ * WARNING: Automatically generated code below. DO NOT EDIT! (except casing)
+ *          Regenerate using hbmk2 '-hbx=' option.
+ */
+
+#ifndef __HBEXTERN_CH__UNRAR__
+#define __HBEXTERN_CH__UNRAR__
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__UNRAR__ANNOUNCE )
+   ANNOUNCE __HBEXTERN__UNRAR__
+#endif
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__UNRAR__REQUEST )
+   #command DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+DYNAMIC HB_RARGETARCHIVEINFO
+DYNAMIC HB_RARGETCMTBUFSIZE
+DYNAMIC HB_RARGETCOMMENT
+DYNAMIC HB_RARGETDLLVERSION
+DYNAMIC HB_RARGETERRORINFO
+DYNAMIC HB_RARGETFILESCOUNT
+DYNAMIC HB_RARGETFILESLIST
+DYNAMIC HB_RARGETPROCSTATUS
+DYNAMIC HB_RARSETCMTBUFSIZE
+DYNAMIC HB_RARTESTFILES
+DYNAMIC HB_RGETFILENAMESLIST
+DYNAMIC HB_RGETFILESLIST
+DYNAMIC HB_RPROCESSFILES
+DYNAMIC HB_UNRARFILES
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__UNRAR__REQUEST )
+   #uncommand DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+#endif

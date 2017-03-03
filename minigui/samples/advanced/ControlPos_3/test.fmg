@@ -1,0 +1,310 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 61 , 82 WIDTH 850 HEIGHT 742 MAIN
+
+     DEFINE MAIN MENU
+          DEFINE POPUP "Menu1"
+               MENUITEM "menu11" ACTION MsgBox("menu11")
+          END POPUP
+          DEFINE POPUP "Menu2"
+               MENUITEM "menu21" ACTION MsgBox("menu21")
+          END POPUP
+     END MENU
+
+     DEFINE CONTEXT MENU
+        ITEM "Item 1"       ACTION MsgInfo ("Item 1") MESSAGE "Message 1"
+        ITEM "Item 2"       ACTION MsgInfo ("Item 2") MESSAGE "Message 2"
+        SEPARATOR
+        ITEM "Item 3"       ACTION MsgInfo ("Item 3") MESSAGE "Message 3"
+     END MENU
+
+     DEFINE TOOLBAR Toolbar_1 CAPTION "Toolbar_1" BUTTONSIZE 64,64 FONT "Arial" SIZE 9 BORDER
+            BUTTON NewButton1 CAPTION nil ACTION MsgBox("Toolbar1") PICTURE "Button1.BMP"
+            BUTTON NewButton2 CAPTION nil ACTION MsgBox("Toolbar1") PICTURE "Button2.BMP"
+     END TOOLBAR
+
+     DEFINE STATUSBAR FONT "Arial Black" SIZE 10
+            STATUSITEM "Bar1"
+            STATUSITEM "Bar2"
+     END STATUSBAR
+
+    DEFINE BUTTON Button_1
+           ROW    109
+           COL    18
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Button_1"
+     END BUTTON
+
+    DEFINE CHECKBOX Check_1
+           ROW    207
+           COL    29
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Check_1"
+     END CHECKBOX
+
+     DEFINE LISTBOX List_1
+            ROW    254
+            COL    24
+            WIDTH  100
+            HEIGHT 100
+            ITEMS {"lista1","lista2"}
+     END LISTBOX
+
+     DEFINE COMBOBOX Combo_1
+            ROW    106
+            COL    168
+            WIDTH  115
+            HEIGHT 82
+            ITEMS {"combo1","combo2"}
+     END COMBOBOX
+
+     DEFINE RADIOGROUP RadioGroup_1
+            ROW    169
+            COL    170
+            WIDTH  120
+            HEIGHT 50
+            OPTIONS {'Option 1','Option 2'}
+            READONLY NIL
+     END RADIOGROUP
+
+     DEFINE FRAME Frame_1
+            ROW    129
+            COL    325
+            WIDTH  215
+            HEIGHT 142
+            CAPTION "Frame_1"
+     END FRAME
+
+     DEFINE LABEL Label_1
+            ROW    154
+            COL    337
+            WIDTH  191
+            HEIGHT 52
+            VALUE 'If frame is defined before, controls "on" this frame is not posible.'+CHR(10)+'Click Shift+Alt+RButton on frame.'
+     END LABEL
+
+     DEFINE TEXTBOX Text_1
+            ROW    219
+            COL    353
+            WIDTH  159
+            HEIGHT 24
+     END TEXTBOX
+
+  DEFINE TAB Tab_1 AT 256,171 WIDTH 150 HEIGHT 120 VALUE 1 FONT "Arial" SIZE 9 TOOLTIP "" ON CHANGE NIL
+
+    PAGE "Page 1"
+
+       DEFINE BUTTON Button_2
+              ROW    41
+              COL    30
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Button_2"
+        END BUTTON
+
+        DEFINE LABEL Label_2
+               ROW    81
+               COL    17
+               WIDTH  120
+               HEIGHT 24
+               VALUE "Label_2"
+        END LABEL
+
+    END PAGE
+
+    PAGE "Page 2" IMAGE ""
+
+       DEFINE CHECKBOX Check_2
+              ROW    31
+              COL    20
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Check_2"
+        END CHECKBOX
+
+       DEFINE BUTTON Button_3
+              ROW    71
+              COL    30
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Button_3"
+        END BUTTON
+
+    END PAGE
+
+  END TAB
+
+     DEFINE GRID Grid_1
+            ROW    289
+            COL    398
+            WIDTH  146
+            HEIGHT 119
+            ITEMS {{"Item1","Item2"},{"Item3","Item4"}}
+            VALUE 0
+            WIDTHS {60,60}
+            HEADERS {'Head1','Head2'}
+     END GRID
+
+     DEFINE EDITBOX Edit_1
+            ROW    138
+            COL    557
+            WIDTH  120
+            HEIGHT 120
+     END EDITBOX
+
+     DEFINE CHECKBUTTON CheckBtn_1
+            ROW    156
+            COL    19
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "CheckBtn_1"
+     END CHECKBUTTON
+
+     DEFINE SPINNER Spinner_1
+            ROW    380
+            COL    22
+            WIDTH  100
+            HEIGHT 24
+            RANGEMIN 0
+            RANGEMAX 50
+            INCREMENT 5
+     END SPINNER
+
+     DEFINE SLIDER Slider_1
+            ROW    338
+            COL    589
+            WIDTH  120
+            HEIGHT 35
+            RANGEMIN 1
+            RANGEMAX 10
+     END SLIDER
+
+     DEFINE IMAGE Image_1
+            ROW    429
+            COL    21
+            WIDTH  100
+            HEIGHT 100
+            PICTURE "button1.bmp"
+    END IMAGE
+
+     DEFINE TREE Tree_1 AT 448 , 159 WIDTH 100 HEIGHT 100
+
+        NODE "Node1"
+           TREEITEM "item1"
+           TREEITEM "item2"
+        END NODE
+
+        NODE "Node2"
+           TREEITEM "item3"
+           TREEITEM "item4"
+        END NODE
+
+     END TREE
+
+     DEFINE ANIMATEBOX Animate_1
+            ROW    458
+            COL    299
+            WIDTH  100
+            HEIGHT 50
+      END ANIMATEBOX
+
+     DEFINE MONTHCALENDAR MonthCal_1
+            ROW    426
+            COL    599
+            WIDTH  199
+            HEIGHT 175
+     END MONTHCALENDAR
+
+     DEFINE RICHEDITBOX RichEdit_1
+            ROW    144
+            COL    715
+            WIDTH  100
+            HEIGHT 100
+            MAXLENGTH  NIL
+     END RICHEDITBOX
+
+     DEFINE PROGRESSBAR ProgressBar_1
+            ROW    448
+            COL    429
+            WIDTH  120
+            HEIGHT 24
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 4
+     END PROGRESSBAR
+
+     DEFINE BUTTONEX ButtonEX_1
+            ROW    636
+            COL    256
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "ButtonEX_1"
+     END BUTTONEX
+
+     DEFINE BTNTEXTBOX BtnTextBox_1
+            ROW    538
+            COL    385
+            WIDTH  120
+            HEIGHT 84
+     END BTNTEXTBOX
+
+     DEFINE HOTKEYBOX HotKeyBox_1
+            ROW    554
+            COL    25
+            WIDTH  120
+            HEIGHT 84
+            VALUE 0
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            TOOLTIP ""
+            ONCHANGE NIL
+            HELPID NIL
+            VISIBLE .T.
+            TABSTOP .T.
+     END HOTKEYBOX
+
+
+     DEFINE TIMEPICKER TimePicker_1
+            ROW    579
+            COL    199
+            WIDTH  80
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            TOOLTIP ""
+            TIMEFORMAT ""
+            ONGOTFOCUS NIL
+            ONCHANGE NIL
+            ONLOSTFOCUS NIL
+            ONENTER NIL
+            HELPID NIL
+     END TIMEPICKER
+
+
+     DEFINE IPADDRESS IpAddress_1
+            ROW    637
+            COL    541
+            WIDTH  120
+            HEIGHT 24
+     END IPADDRESS
+
+     DEFINE PLAYER Player_1
+            ROW    273
+            COL    720
+            WIDTH  100
+            HEIGHT 100
+            FILE ""
+     END PLAYER
+
+END WINDOW
+
+

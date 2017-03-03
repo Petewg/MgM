@@ -1,0 +1,56 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2008 Roberto Lopez <harbourminigui@gmail.com>
+* http://harbourminigui.googlepages.com
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 766 HEIGHT 566 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "HMG Hex Viewer" ICON "MAIN.ICO" MAIN CURSOR NIL ON INIT OpenFile() ON RELEASE ClosFile() ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+      DEFINE MAIN MENU
+         POPUP "&File"
+            MENUITEM "&Open"            NAME mitOpen ACTION OpenFile()
+            MENUITEM "&Close"           NAME mitClos ACTION ClosFile()
+            SEPARATOR
+            MENUITEM "&Go    ( ^G )"    NAME mitGo   ACTION GoOffset()
+            MENUITEM "S&kip  ( ^K )"    NAME mitSkip ACTION SkipNBytes()
+            MENUITEM "&Find  ( ^F )"    NAME mitFind ACTION FindString()
+            SEPARATOR
+            MENUITEM "E&xit"     ACTION frmHVMain.Release
+         END POPUP
+         POPUP "&Help"
+            MENUITEM "&About"    ACTION SayAbout()
+         END POPUP   
+      END MENU
+
+      @ 0,0 BROWSE HexVwBrw ;
+             WIDTH     frmHVMain.WIDTH - 10 ;
+             HEIGHT    frmHVMain.HEIGHT - 100 ; 
+             HEADERS   aBrwHeds    ;
+             FONT      "FixedSys" SIZE 12 ;
+             WIDTHS    aBrwLens ;
+             READONLY  aBrwROCs ; 
+             WORKAREA  TEMP ;
+             FIELDS    aBrwFlds ;               
+             ON CHANGE frmHVMain.StatusBar.Item(2) := PADC(NTrim(CTON(TEMP->PT,16))+"/"+NTrim(nFilSize),20) ;
+             TOOLTIP   "Right click for navigation commands"
+      
+      @ 450,200 PROGRESSBAR pbrPBar1 ;
+        RANGE 0 , 100         ;
+        WIDTH 300             ;
+        HEIGHT 16             
+
+      DEFINE CONTEXT MENU 
+         ITEM "&Go    ( ^G )"    NAME cmitGo  ACTION GoOffset()
+         ITEM "S&kip  ( ^K )"    NAME cmitGo  ACTION SkipNBytes()
+         ITEM "&Find  ( ^F )"    NAME mitFind ACTION FindString()
+      END MENU
+
+
+      DEFINE STATUSBAR FONT 'Verdana' SIZE 8
+         STATUSITEM "" 
+         STATUSITEM "" WIDTH 150
+         DATE          WIDTH 80
+         CLOCK         WIDTH 83         
+      END STATUSBAR
+
+END WINDOW
+
+

@@ -1,0 +1,47 @@
+Some words about using fonts in this library from the original site.
+
+There are several types of fonts available in libHaru.
+
+  1. Base14 Font - The built-in font of PDF. Can be used for all viewer applications.
+  2. Type1 Font - A font format used by PostScript.
+  3. TrueType Font - Widely used outline font format.
+  4. CID Font - Font format for multi-byte characters. Developed by Adobe. 
+
+  [b]1. Base14 Fonts:
+
+     Base14 fonts are built into PDF and all viewer applications can display these fonts. An application can get a base14 font handle any time. PDF files which use base14 fonts are smaller than those which use other type of fonts. Moreover, PDF processing is faster because there is no need to load external fonts. However, base14 fonts are only able to display the latin1 character set. To use other character sets, an application must use other fonts.
+
+     Built-in base14 fonts :
+
+       [i]Courier
+       [i]Courier-Bold
+       [i]Courier-Oblique
+       [i]Courier-BoldOblique
+       [i]Helvetica
+       [i]Helvetica-Bold
+       [i]Helvetica-Oblique
+       [i]Helvetica-BoldOblique
+       [i]Times-Roman
+       [i]Times-Bold
+       [i]Times-Italic
+       [i]Times-BoldItalic
+       [i]Symbol
+       [i]ZapfDingbats 
+
+  [b]2. Type1 Fonts
+
+     Type1 is a format of outline fonts developed by Adobe. An AFM file is necessary to use an external Type1 font on Haru. If a PFA/PFB file is specified at invoking, the glyf data of the font is embedded to the PDF file. Otherwise, only metrics data in AFM file is embedded. 
+
+  [b]3. TrueType Fonts
+
+     libHaru can use TrueType fonts. There are two types of TrueType fonts. The first format, with ".ttf" extension, contains only one font-data in the file. The second format, with ".ttc" extension, contains multiple font-data in the file. You have to give the exact location of the ttf file to include. (for example c:\windows\fonts\arial.ttf)
+
+     Haru can use only TrueType fonts which have Unicode cmap and the following tables. "OS/2", "cmap", "cvt ", "fpgm", "glyf", "head", "hhea", "hmtx", "loca", "maxp", "name", "post", "prep". 
+
+  [b]4. CID Fonts
+
+     CIDFont is a font for multi byte character developed by Adobe. Two simplified Chinese fonts, one traditional Chinese fonts, four Japanese fonts, and four Korean fonts are available on Haru. An application have to invoke the following functions once before using CID fonts.
+
+For more information, you can read here:
+
+[u]http://libharu.org/wiki/Documentation/Fonts

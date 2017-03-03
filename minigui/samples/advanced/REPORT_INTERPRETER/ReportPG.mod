@@ -1,6 +1,6 @@
 !PDFPRINT
 # REPORTS.MOD This Line Will be ignored!
-[Declare]80/PREV
+[Declare]80/PRE
 VAR PLT C []
 (m->PLT := [This is a small paragraph to be printed inside a rectangular area left aligned.])
 SET SPLASH TO

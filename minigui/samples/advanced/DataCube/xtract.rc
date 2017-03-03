@@ -1,0 +1,9 @@
+cube   ICON   cube.ico
+up     BITMAP edit_up.bmp
+down   BITMAP edit_down.bmp
+cube1  BITMAP cube1.bmp
+cube2  BITMAP cube2.bmp
+print1 BITMAP edit_print.bmp
+close  BITMAP edit_close.bmp
+right  BITMAP br_ok.bmp
+wrong  BITMAP br_no.bmp

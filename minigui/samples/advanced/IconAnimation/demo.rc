@@ -1,0 +1,18 @@
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+
+IDI_ICON1               ICON         "CPICKER1.ICO"
+IDI_ICON2               ICON         "CPICKER2.ICO"
+IDI_ICON3               ICON         "CPICKER3.ICO"
+IDI_ICON4               ICON         "CPICKER4.ico"
+IDI_ICON5               ICON         "CPICKER5.ico"
+IDI_ICON6               ICON         "CPICKER6.ico"
+IDI_ICON7               ICON         "CPICKER7.ico"
+IDI_ICON8               ICON         "CPICKER8.ico"

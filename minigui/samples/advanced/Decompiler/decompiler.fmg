@@ -1,0 +1,77 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+/*
+* decompiler.fmg.
+* .Exe to .Prg  Harbour Recover Code
+*
+* Copyright 2008-2009 Arcangelo Molinaro <arcangelo.molinaro@fastwebnet.it>
+* Donated to Public Domain.
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2, or (at your option)
+* any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*
+*/
+
+
+DEFINE WINDOW TEMPLATE AT 180 , 60 WIDTH 940 HEIGHT 680 TITLE "*.Exe to *.Prg Harbour Decompiler - Alpha 0.1  <arcangelo.molinaro@fastwebnet.it>" ICON "demo.ico" MAIN
+
+     DEFINE MAIN MENU                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+          DEFINE POPUP "Start"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+               MENUITEM "GO" ACTION e2cHD()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+          END POPUP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+     END MENU                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+     DEFINE STATUSBAR FONT "Arial" SIZE 8 BOLD
+            STATUSITEM "[x] Harbour Power Ready!"
+            CLOCK
+            DATE
+     END STATUSBAR
+
+     DEFINE LABEL Label_1
+            ROW    8
+            COL    150
+            WIDTH  200
+            HEIGHT 20
+            VALUE "*.Exe to *.C (PCODE) "
+            FONTSIZE 12
+     END LABEL  
+
+     DEFINE RICHEDITBOX RichEdit_1
+            ROW    30
+            COL    30
+            WIDTH  400
+            HEIGHT 550
+            FONTSIZE 12
+            READONLY .T.
+            PLAINTEXT  .T.
+     END RICHEDITBOX  
+
+     DEFINE LABEL Label_2
+            ROW    8
+            COL    650
+            WIDTH  200
+            HEIGHT 20
+            VALUE "*.C (PCODE) to *.prg"
+            FONTSIZE 12
+     END LABEL  
+
+     DEFINE RICHEDITBOX RichEdit_2
+            ROW    30
+            COL    500
+            WIDTH  400
+            HEIGHT 550
+            FONTSIZE 12
+            READONLY .T.
+            PLAINTEXT  .T.
+     END RICHEDITBOX  
+
+END WINDOW
+
+

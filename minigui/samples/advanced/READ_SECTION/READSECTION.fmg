@@ -1,0 +1,82 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 112 , 306 WIDTH 635 HEIGHT 572 MAIN
+
+     DEFINE MAIN MENU                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+          DEFINE POPUP "File"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+               MENUITEM "GO" ACTION leggi_Sezioni()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+          END POPUP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+     END MENU                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+     DEFINE STATUSBAR FONT "Arial" SIZE 9 BOLD
+            STATUSITEM "Table of Sections Example" ACTION Msginfo("Donated to public domain by <arcangelo.molinaro@fastwebnet.it>","Credits")
+            CLOCK
+     END STATUSBAR
+
+     DEFINE LABEL Lbl_1
+            ROW    35
+            COL    25
+            WIDTH  95
+            HEIGHT 200
+            VALUE NIL
+            BACKCOLOR {192,192,192}
+     END LABEL  
+
+     DEFINE LABEL Lbl_2
+            ROW    35
+            COL    130
+            WIDTH  95
+            HEIGHT 200
+            VALUE NIL
+            BACKCOLOR {192,192,192}
+     END LABEL  
+
+     DEFINE LABEL Lbl_3
+            ROW    35
+            COL    235
+            WIDTH  95
+            HEIGHT 200
+            VALUE NIL
+            BACKCOLOR {192,192,192}
+     END LABEL  
+
+     DEFINE LABEL Lbl_4
+            ROW    35
+            COL    340
+            WIDTH  95
+            HEIGHT 200
+            VALUE NIL
+            BACKCOLOR {192,192,192}
+     END LABEL  
+
+     DEFINE LABEL Lbl_5
+            ROW    35
+            COL    445
+            WIDTH  95
+            HEIGHT 200
+            VALUE NIL
+            BACKCOLOR {192,192,192}
+     END LABEL  
+
+     DEFINE LABEL Lbl_6
+            ROW    260
+            COL    25
+            WIDTH  95
+            HEIGHT 200
+            VALUE NIL
+            BACKCOLOR {192,192,192}
+     END LABEL  
+
+     DEFINE LABEL Lbl_7
+            ROW    260
+            COL    130
+            WIDTH  420
+            HEIGHT 200
+            VALUE NIL
+            BACKCOLOR {192,192,192}
+     END LABEL  
+
+END WINDOW
+
+

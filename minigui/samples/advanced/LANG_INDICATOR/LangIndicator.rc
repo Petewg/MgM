@@ -1,0 +1,41 @@
+AMAIN  ICON   main.ico
+
+RU	ICON	FLAGS\RU.ico
+EN	ICON	FLAGS\EN.ico
+UA	ICON	FLAGS\UA.ico
+DE	ICON	FLAGS\DE.ico
+FR	ICON	FLAGS\FR.ico
+IT	ICON	FLAGS\IT.ico
+ES	ICON	FLAGS\ES.ico
+PL	ICON	FLAGS\PL.ico
+BG ICON  FLAGS\BG.ico
+EL ICON  FLAGS\GR.ico
+
+1 VERSIONINFO
+FILEVERSION 1,0,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Language Indicator\000"
+		VALUE "FileVersion", "1.0.2.0"
+		VALUE "InternalName", "LangIndicator\000"
+		VALUE "LegalCopyright", "Freeware 2003-2006\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "LangIndicator.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+   {
+	   VALUE "Translation", 0x0409, 0x04B0
+   }
+}

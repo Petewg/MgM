@@ -1,0 +1,104 @@
+{\rtf1\ansi\ansicpg1251\uc1 \deff0\deflang1033\deflangfe1049{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f16\froman\fcharset238\fprq2 Times New Roman CE;}{\f17\froman\fcharset204\fprq2 Times New Roman Cyr;}
+{\f19\froman\fcharset161\fprq2 Times New Roman Greek;}{\f20\froman\fcharset162\fprq2 Times New Roman Tur;}{\f21\froman\fcharset186\fprq2 Times New Roman Baltic;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;
+\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;
+\red128\green128\blue128;\red192\green192\blue192;}{\stylesheet{\widctlpar\adjustright \fs20\lang1049\cgrid \snext0 Normal;}{\s1\keepn\widctlpar\outlinelevel0\adjustright \b\fs20\lang1049\cgrid \sbasedon0 \snext0 heading 1;}{\*\cs10 \additive 
+Default Paragraph Font;}}{\info{\title How to use Explorer to show special objects}{\author User}{\operator User}{\creatim\yr2006\mo3\dy9\hr12\min54}{\revtim\yr2006\mo3\dy9\hr12\min59}{\version1}{\edmins5}{\nofpages2}{\nofwords812}{\nofchars4630}
+{\*\company OFFICE}{\nofcharsws5685}{\vern89}}\paperw11906\paperh16838 \widowctrl\ftnbj\aenddoc\formshade\viewkind4\viewscale100\pgbrdrhead\pgbrdrfoot \fet0\sectd \linex0\headery709\footery709\colsx709\endnhere\sectdefaultcl {\*\pnseclvl1
+\pnucrm\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang{\pntxta )}}{\*\pnseclvl5
+\pndec\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl8\pnlcltr\pnstart1\pnindent720\pnhang
+{\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}\pard\plain \s1\keepn\widctlpar\outlinelevel0\adjustright \b\fs20\lang1049\cgrid {How to use Explorer to show special objects}{\lang1033 
+\par }\pard\plain \widctlpar\adjustright \fs20\lang1049\cgrid {\lang1033 
+\par }{
+The Windows Shell program, Explorer.exe, is stored in the Windows folder, obtained through the environment variable WinDir. Usually, this folder is a part of the PATH environment variable. And as a consequence, we don't need to specify the whole path to E
+xplorer.exe when calling this program.
+\par 
+\par The table below summarizes some of the command-line parameters passed to Explorer and the result of the execution. Note that all the examples given in this table have been tested only on the Windows XP platform. There
+ is no reason that these examples will not work on at least NT-platforms (NT4/2K/XP/2003). The general Explorer command-line syntax is well known, and can be found on many Internet sites (see for example, the Q130510 article on the Microsoft site). But, t
+he article main contribution consists in showing how to specify some parameters (X, Y)=(object, sub-object) (see next section) to show special objects like }{\i My Computer, My Documents, Control Panel}{
+ etc. Some of these objects are available in the Start Menu of the tasks bar (one of the graphical parts of the Explorer). To try the examples below, just open a console (cmd or command depending on your OS) and copy/paste each example. }{\lang1033 
+
+\par 
+\par }{Object X and optionally sub-object Y (general case)
+\par }{\b General Syntax:
+\par }{Explorer [/n][/e][,/root],X,[[/Select],Y]
+\par 
+\par Notes:
+\par Use /e to show left Explorer pane (TreeView) together with the right pane (ListView) 
+\par Use /n to hide left Explorer pane (TreeView) 
+\par If /root is present, we start exploring at the root object (X) and objects belonging to X 
+\par If /root is not present, we explore the object X, its children, and other Explorer objects as well. 
+\par }{\b Examples:
+\par }{Exploring drive C: only with Folders panel and then without it: 
+\par Explorer /E,/Root,C:
+\par 
+\par Explorer /Root,%SystemDrive%
+\par 
+\par Exploring Windows directory only: 
+\par Explorer /E,/Root,%windir%
+\par 
+\par Exploring the Logon Server (you can use UNC paths) only: 
+\par Explorer /E,/Root,%LogonServer%
+\par 
+\par Exploring the current user profile path only: 
+\par Explorer /E,/Root,%HOMEDRIVE%%HOMEPATH%
+\par 
+\par Exploring the System32 folder and putting the focus on the calc.exe program: 
+\par Explorer /N,%windir%\\system32,/select,%windir%\\system32\\calc.exe
+\par  
+\par My Computer
+\par  Explorer /E,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}
+\par 
+\par Explanation: The object My Computer is a namespace which has the CLSID: \{20D04FE0-3AEA-1069-A2D8-08002B30309D\}
+\par  
+\par Control Panel
+\par  Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{21EC2020-3AEA-1069-A2DD-08002B30309D\}
+\par 
+\par Explanation: The Control Panel object whose CLSID is: \{21EC2020-3AEA-1069-A2DD-08002B30309D\} is a sub-object of My Computer.
+\par  
+\par Printers and telecopiers
+\par  Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{21EC2020-3AEA-1069-A2DD-08002B30309D\}\\::\{2227A280-3AEA-1069-A2DE-08002B30309D\}
+\par  
+\par Fonts
+\par  Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{21EC2020-3AEA-1069-A2DD-08002B30309D\}\\::\{D20EA4E1-3957-11d2-A40B-0C5020524152\}
+\par  
+\par Scanners and Cameras Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{21EC2020-3AEA-1069-A2DD-08002B30309D\}\\::\{E211B736-43FD-11D1-9EFB-0000F8757FCD\}
+\par  
+\par Network Neighbourhood Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{21EC2020-3AEA-1069-A2DD-08002B30309D\}\\::\{7007ACC7-3202-11D1-AAD2-00805FC1270E\}
+\par  
+\par Administration Tools Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{21EC2020-3AEA-1069-A2DD-08002B30309D\}\\::\{D20EA4E1-3957-11d2-A40B-0C5020524153\}
+\par  
+\par Tasks Scheduler
+\par  Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{21EC2020-3AEA-1069-A2DD-08002B30309D\}\\::\{D6277990-4C6A-11CF-8D87-00AA0060F5BF\}
+\par  
+\par Web Folders Explorer /N,::\{20D04FE0-3AEA-1069-A2D8-08002B30309D\}\\::\{BDEADF00-C265-11D0-BCED-00A0C90AB50F\}
+\par  
+\par My Documents Explorer /N,::\{450D8FBA-AD25-11D0-98A8-0800361B1103\}
+\par  
+\par Recycle Bin Explorer /N,::\{645FF040-5081-101B-9F08-00AA002F954E\}
+\par  
+\par Network Favorites Explorer /N,::\{208D2C60-3AEA-1069-A2D7-08002B30309D\}
+\par  
+\par Default Navigator Explorer /N,::\{871C5380-42A0-1069-A2EA-08002B30309D\}
+\par  
+\par Computer search results folder Explorer /N,::\{1F4DE370-D627-11D1-BA4F-00A0C91EEDBA\}
+\par  
+\par Network Search Results computer Explorer /N,::\{E17D4FC0-5564-11D1-83F2-00A0C90DC849\}
+\par  
+\par 
+\par }\pard\plain \s1\keepn\widctlpar\outlinelevel0\adjustright \b\fs20\lang1049\cgrid {Where the CLSIDs of special Explorer objects can be found?}{\lang1033 
+\par }\pard\plain \widctlpar\adjustright \fs20\lang1049\cgrid {\b\lang1033 
+\par }{There are many ways to find the CLSIDs referenced in examples given in the previous section. Three methods are given below:
+\par 
+\par The first place to look for is the registry in the hive: HKEY_CLASSES_ROOT\\CLSID, for example. Some of the special CLSIDS can also be found in the registry keys where the related namespace extensions are specified as in the key: HKEY_LOCAL_MACHINE\\
+SOFTWARE\\Microsoft\\Windows\\ CurrentVersion\\Explorer\\ControlPanel\\NameSpace\\ where you can find all CLSIDs related to the Control Panel.
+\par 
+\par The second place to look for, is the OS shell resources DLL shell32.dll. To find the CLSIDs, you have to follow these steps:
+\par 
+\par Step 1: Launch VS6, for example. 
+\par Step 2: Click on the menu File-Open, and select file type: Executable Files, Open as: Resources,
+ and then select the file shell32.dll, which is found in the System32 system folder (if the DLL is locked, you have to make a copy of it elsewhere and open it from the new place). 
+\par Step 3: Open the custom resources "REGINST" as indicated in the figure be
+low. Open this resource, and you will find all default CLSIDs installed on your OS. In fact, this file has the INF file format, and the CLSIDs can be found in the [Strings] section. All CLSIDs are prefixed by CLSID_. 
+\par 
+\par The third place, is the Windows CD setup in the i386 folder in a INF file used during the installation process. If you have a Windows XP CD setup, you can find these CLSIDs in the HIVECLS.INF file.
+\par }}

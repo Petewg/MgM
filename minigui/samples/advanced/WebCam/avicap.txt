@@ -1,0 +1,725 @@
+                             AVICap
+ 
+You can easily incorporate video capture capabilities into your application
+by using the AVICap window class. AVICap provides applications with a simple,
+message-based interface to access video and waveform-audio acquisition
+hardware and to control the process of streaming video capture to disk.
+ 
+AVICap supports streaming video capture and single-frame capture in
+real-time. In addition, AVICap provides control of video sources that
+are Media Control Interface (MCI) devices so the user can control (through
+an application) the start and stop positions of a video source, and augment
+the capture operation to include step frame capture.
+ 
+The windows you create by using the AVICap window class can perform the
+following tasks:
+ 
+- Capture audio and video streams to an audio-video interleaved (AVI)
+  file
+- Connect and disconnect video and audio input devices dynamically
+- View a live incoming video signal by using the overlay or preview
+  methods
+- Specify a file to use when capturing and copy the contents of the
+  capture file to another file
+- Set the capture rate
+- Display dialog boxes that control the video source and format
+- Create, save, and load palettes
+- Copy images and palettes to the clipboard
+- Capture and save a single image as a device-independent bitmap (DIB)
+ 
+Video capture digitizes a stream of video and audio data, and stores it on a
+hard disk or some other type of persistent storage device. This section
+describes how to add a simple form of video capture to an application using
+three statements of code. It also describes how to end or abort a capture
+session by sending messages to the capture window.
+ 
+An AVICap capture window handles the details of streaming audio and video
+capture to AVI files. This frees your application from involvement in the
+AVI file format, video and audio buffer management, and the low-level access
+of video and audio device drivers. AVICap provides a flexible interface for
+applications. You can add video capture to your application, using only the
+following lines of code:
+ 
+hWndC = capCreateCaptureWindow ( "My Own Capture Window",
+    WS_CHILD | WS_VISIBLE , 0, 0, 160, 120, hwndParent, nID);
+ 
+SendMessage (hWndC, WM_CAP_DRIVER_CONNECT, 0 /* wIndex */, 0L);
+ 
+SendMessage (hWndC, WM_CAP_SEQUENCE, 0, 0L);
+ 
+ 
+A macro interface is also available that provides an alternative to using
+the SendMessage function and improves the readability of an application.
+The following example uses the macro interface to add video capture to an
+application.
+ 
+hWndC = capCreateCaptureWindow ( "My Own Capture Window",
+    WS_CHILD | WS_VISIBLE , 0, 0, 160, 120, hwndParent, nID);
+ 
+capDriverConnect (hWndC, 0);
+ 
+capCaptureSequence (hWndC);
+ 
+ 
+After your application creates a capture window of the AVICap window class
+and connects it to a video driver, the capture window is ready to capture
+data. At this point, your application can simply send the WM_CAP_SEQUENCE
+message (or the capCaptureSequence macro) to begin capturing.
+Using default settings, WM_CAP_SEQUENCE initiates the capture of video and
+audio input to a file named CAPTURE.AVI. Capture continues until one of the
+following events occurs:
+ 
+- The user presses the ESC key or a mouse button
+- Your application stops or aborts capture operation
+- The disk becomes full
+ 
+ 
+In an application, you can stop streaming captured data to a file by sending
+the WM_CAP_STOP (or the capCaptureStop macro) message to a capture window.
+You can also abort the capture operation by sending the WM_CAP_ABORT message
+(or the capCaptureAbort macro) to a capture window.
+ 
+By modifying one or more of the capture parameters defined in the
+CAPTUREPARMS structure, you can perform the following tasks:
+ 
+- Change the frame capture rate
+- Specify keyboard or mouse control for ending a capture session
+- Specify a duration for a capture session
+ 
+typedef struct {
+    DWORD dwRequestMicroSecPerFrame;
+    BOOL  fMakeUserHitOKToCapture;
+    UINT  wPercentDropForError;
+    BOOL  fYield;
+    DWORD dwIndexSize;
+    UINT  wChunkGranularity;
+    BOOL  fUsingDOSMemory;
+    UINT  wNumVideoRequested;
+    BOOL  fCaptureAudio;
+    UINT  wNumAudioRequested;
+    UINT  vKeyAbort;
+    BOOL  fAbortLeftMouse;
+    BOOL  fAbortRightMouse;
+    BOOL  fLimitEnabled;
+    UINT  wTimeLimit;
+    BOOL  fMCIControl;
+    BOOL  fStepMCIDevice;
+    DWORD dwMCIStartTime;
+    DWORD dwMCIStopTime;
+    BOOL  fStepCaptureAt2x;
+    UINT  wStepCaptureAverageFrames;
+    DWORD dwAudioBufferSize;
+    BOOL  fDisableWriteCache;
+    UINT  AVStreamMaster;
+} CAPTUREPARMS;
+ 
+ 
+The capture rate is the number of frames that are captured each second of a
+capture session. You can retrieve the current capture rate by using the
+WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+The current capture rate is stored in the dwRequestMicroSecPerFrame member
+of the CAPTUREPARMS structure. You can set the capture rate by specifying
+the number of microseconds between successive frames as the value of this
+member, then sending the updated CAPTUREPARMS structure to the capture
+window by using the WM_CAP_SET_SEQUENCE_SETUP message (or the
+capCaptureSetSetup macro). The default value of dwRequestMicroSecPerFrame
+is 66667, which corresponds to 15 frames per second.
+ 
+You can allow the user to abort a capture session by pressing a key or
+keystroke combination from the keyboard, or by pressing the right or left
+mouse button. If the user aborts a real-time capture session, the contents
+of the capture file are discarded. If the user aborts a step-frame capture
+session, the contents of the capture file up to the point of aborting the
+capture are saved.
+ 
+You can retrieve the settings for aborting a capture session by using the
+WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+The current keystroke setting is stored in the vKeyAbort member of the
+CAPTUREPARMS structure; the current mouse settings are stored in the
+fAbortLeftMouse and fAbortRightMouse members. You can set a new key or
+keystroke combination by specifying the keycode or keycode combination
+(as in a CTRL or SHIFT key combination) as the value of vKeyAbort, or set
+the left or right mouse button as the abort key by specifying the
+fAbortLeftMouse or fAbortRightMouse member. After you set these members,
+send the updated CAPTUREPARMS structure to the capture window by using the
+WM_CAP_SET_SEQUENCE_SETUP message (or the capCaptureSetSetup macro).
+The default value of vKeyAbort is VK_ESCAPE. You must call the RegisterHotKey
+function before specifying a keystroke that can abort a capture session.
+The default values of fAbortLeftMouse and fAbortRightMouse are TRUE.
+ 
+You can limit the duration of a capture operation by using the fLimitEnabled
+and wTimeLimit members of the CAPTUREPARMS structure. The fLimitEnabled
+member indicates whether the capture operation is to be timed, while
+wTimeLimit specifies the maximum duration of the capture operation.
+ 
+You can retrieve the values for fLimitEnabled and wTimeLimit by using the
+WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+You can enable a timer for the capture operation by specifying TRUE as the
+value of fLimitEnabled, or you can set the duration of the capture operation
+by specifying a value, in seconds, for wTimeLimit. After you set these
+members, send the updated CAPTUREPARMS structure to the capture window by
+using the WM_CAP_SET_SEQUENCE_SETUP message (or the capCaptureSetSetup macro).
+The default value of fLimitEnabled is FALSE.
+ 
+Capture windows are conceptually similar to standard controls (such as
+buttons, list boxes, or scroll bars). Typically, capture windows use the
+WS_CHILD and WS_VISIBLE window styles.
+ 
+You can create a capture window of the AVICap window class by using the
+capCreateCaptureWindow function.
+ 
+HWND VFWAPI capCreateCaptureWindow (
+ 
+    LPCSTR lpszWindowName,
+    DWORD dwStyle,
+    int x,
+    int y,
+    int nWidth,
+    int nHeight,
+    HWND hWnd,
+    int nID
+   );
+ 
+This function returns a window handle that identifies the capture window
+and is used by an application to send subsequent messages to the window.
+ 
+You can create one or more capture windows in an application and connect
+each capture window to a different capture device.
+ 
+You can dynamically connect or disconnect a capture window to a capture
+driver. You can connect or associate a capture window with a capture driver
+by using the WM_CAP_DRIVER_CONNECT message (or the capDriverConnect macro)
+ 
+BOOL capDriverConnect ( hwnd, iIndex );
+ 
+After a capture window and capture driver are connected, you can send
+device-specific messages to the capture driver associated with a capture
+window.
+ 
+If you have more than one capture device installed on a system, you can
+connect a capture window to a particular video capture device driver by
+specifying an integer for the wParam parameter of the WM_CAP_DRIVER_CONNECT
+message. The integer is an index that identifies a video capture driver
+listed in the registry or in the [drivers] section of the SYSTEM.INI file.
+Use zero for the first index entry.
+ 
+ 
+You can retrieve the name and version of an installed capture driver by
+using the the capGetDriverDescription function. Your application can use
+this function to enumerate the installed capture devices and drivers, so
+the user can select a capture device to connect to a capture window.
+ 
+You can retrieve the name of the capture device driver connected to a capture
+window by using the WM_CAP_DRIVER_GET_NAME message (or the capDriverGetName
+macro). To retrieve the version of an installed capture driver, use the
+WM_CAP_DRIVER_GET_VERSION message (or the capDriverGetVersion macro).
+You can disconnect a capture window from a capture driver by using the
+WM_CAP_DRIVER_DISCONNECT message (or the capDriverDisconnect macro).
+ 
+When an capture window is destroyed, any connected video capture device
+drivers are automatically disconnected.
+ 
+Some system-level messages, such as WM_PALETTECHANGED and WM_QUERYNEWPALETTE,
+are sent only to top-level and overlapped windows. If a capture window is a
+child window, its parent must forward these messages.
+ 
+Similarly, if the parent window changes size, it might need to send
+notification messages to the capture window. Conversely, if the dimensions
+of the captured video change, the capture window might need to send
+notification messages to the parent window. The simplest way to manage this
+is to always keep the capture window dimensions equal to the size of the
+captured video stream, notifying the parent whenever these dimensions change.
+ 
+You can retrieve the current status of a capture window by using the
+WM_CAP_GET_STATUS message (or the capGetStatus macro). This message
+retrieves a copy of the CAPSTATUS structure with the current values of
+its members:
+ 
+typedef struct {
+    UINT     uiImageWidth;
+    UINT     uiImageHeight;
+    BOOL     fLiveWindow;
+    BOOL     fOverlayWindow;
+    BOOL     fScale;
+    POINT    ptScroll;
+    BOOL     fUsingDefaultPalette;
+    BOOL     fAudioHardware;
+    BOOL     fCapFileExists;
+    DWORD    dwCurrentVideoFrame;
+    DWORD    dwCurrentVideoFramesDropped;
+    DWORD    dwCurrentWaveSamples;
+    DWORD    dwCurrentTimeElapsedMS;
+    HPALETTE hPalCurrent;
+    BOOL     fCapturingNow;
+    DWORD    dwReturn;
+    UINT     wNumVideoAllocated;
+    UINT     wNumAudioAllocated;
+} CAPSTATUS;
+ 
+The CAPSTATUS structure contains information regarding the
+dimensions of the image, scroll position, and whether overlay or preview
+of the image is enabled. Because the information represented in CAPSTATUS
+is dynamic, your application should refresh the contents of the structure
+whenever the size or format of the captured video stream might have changed
+(such as after displaying the video format of the capture driver).
+ 
+Changing the dimensions of the capture window has no effect on the dimensions
+of the actual captured video stream. The format dialog box displayed by the
+video capture device driver controls the dimensions of the captured video
+stream.
+ 
+A capture driver and the underlying hardware can dictate several aspects of
+video capture, including acceptable video sources, display options, formats,
+and compression options. An audio driver specifies the audio format and an
+optional compression option used with captured audio data.
+ 
+You can retrieve the hardware capabilities of the currently connected capture
+driver by using the WM_CAP_DRIVER_GET_CAPS message (or the capDriverGetCaps
+macro). This message returns the capabilities of the capture driver and
+underlying hardware in the CAPDRIVERCAPS structure.
+ 
+Each capture driver can provide up to four dialog boxes to control aspects
+of the video digitization and capture process, and to define compression
+attributes used in reducing the size of the video data. The contents of
+these dialog boxes are defined by the video capture driver.
+ 
+The Video Source dialog box controls the selection of video input channels
+and parameters affecting the video image being digitized in the frame buffer.
+This dialog box enumerates the types of signals that connect the video source
+to the capture card (typically SVHS and composite inputs), and provides
+controls to change hue, contrast, or saturation. If the dialog box is
+supported by a video capture driver, you can display and update it by using
+the WM_CAP_DLG_VIDEOSOURCE message (or the capDlgVideoSource macro).
+ 
+The Video Format dialog box controls selection of the digitized video frame
+dimensions and image-depth, and compression options of the captured video.
+If the dialog box is supported by a video capture driver, you can display and
+update it by using the WM_CAP_DLG_VIDEOFORMAT message (or the
+capDlgVideoFormat macro).
+The Video Display dialog box controls the appearance of the video on the
+monitor during capture. The controls in this dialog box have no effect on
+the digitized video data, but they might affect the presentation of the
+digitized signal. For example, capture devices that support overlay might
+allow altering hue and saturation, key color, or alignment of the overlay.
+If the dialog box is supported by a video capture driver, you can display
+and update it by using the WM_CAP_DLG_VIDEODISPLAY message (or the
+capDlgVideoDisplay macro).
+ 
+The Video Compression dialog box controls the post-capture video compression
+attributes. If the dialog box is supported by a video capture driver, you
+can display and update it by using the WM_CAP_DLG_VIDEOCOMPRESSION message
+(or the capDlgVideoCompression macro).
+ 
+A capture driver can implement two methods for viewing an incoming video
+stream: preview mode and overlay mode. If a capture driver implements both
+methods, the user can choose which method to use.
+ 
+Preview mode transfers digitized frames from the capture hardware to system
+memory and then displays the digitized frames in the capture window by using
+graphics device interface (GDI) functions. Applications might decrease the
+preview rate when the parent window loses focus, and increase the preview
+rate when the parent window gains focus. This action improves general system
+responsiveness because the preview operation is processor intensive.
+There are three messages to control the preview operation.
+ 
+-  Use the WM_CAP_SET_PREVIEW message to enable or disable preview mode
+   by sending the (or the capPreview macro) to a capture window.
+-  Use the WM_CAP_SET_PREVIEWRATE message (or the capPreviewRate macro)
+   to set the rate at which frames are displayed in preview mode
+-  Use the WM_CAP_SET_SCALE message (or the capPreviewScale macro) to
+   enable or disable scaling of the preview video.
+ 
+ 
+ 
+When preview and scaling are both enabled, the captured video frame is
+stretched to the dimensions of the capture window. Enabling preview mode
+automatically disables overlay mode.
+Overlay mode is a hardware function that displays the contents of the capture
+buffer on the monitor without using CPU resources. You can enable and disable
+overlay mode by sending the WM_CAP_SET_OVERLAY message (or the capOverlay
+macro) to a capture window. Enabling overlay mode automatically disables
+preview mode.
+ 
+You can also set the scroll position of the video frame within the client
+area of the capture window for preview mode or overlay mode by sending the
+WM_CAP_SET_SCROLL message (or the capSetScrollPos macro) to a capture window.
+ 
+You can retrieve the structure that specifies the video format or the size
+of that structure by sending the WM_CAP_GET_VIDEOFORMAT message (or the
+capGetVideoFormat and capGetVideoFormatSize macros) to a capture window.
+You can set the format of captured video data by sending the
+WM_CAP_SET_VIDEOFORMAT message (or the capSetVideoFormat macro) to a capture
+window.
+ 
+The CAPTUREPARMS structure contains the control parameters for streaming
+video capture. This structure controls several aspects of the capture process,
+and allows you to perform the following tasks:
+ 
+- Specify the frame rate.
+- Specify the number of allocated video buffers.
+- Disable and enable audio capture.
+- Specify the time interval for the capture.
+- Specify whether an MCI device (VCR or videodisc) is used during capture.
+- Specify keyboard or mouse control for ending streaming.
+- Specify the type of video averaging applied during capture.
+ 
+ 
+ 
+You can retrieve the current capture settings within the CAPTUREPARMS
+structure by sending the WM_CAP_GET_SEQUENCE_SETUP message (or the
+capCaptureGetSetup macro) to a capture window. You can set one or more
+current capture settings by updating the appropriate members of the
+CAPTUREPARMS structure and then sending the WM_CAP_SET_SEQUENCE_SETUP
+message (or the capCaptureSetSetup macro) and CAPTUREPARMS to a capture
+window.
+ 
+You can retrieve the current capture format for audio data or the size of
+the audio format structure by sending the WM_CAP_GET_AUDIOFORMAT message
+(or the capGetAudioFormat and capGetAudioFormatSize macros) to a capture
+window. The default audio capture format is mono, 8-bit, 11 kHz PCM (Pulse
+Code Modulation). When you retrieve the format by using
+WM_CAP_GET_AUDIOFORMAT, always use the WAVEFORMATEX structure.
+ 
+You can set the capture format for audio data by sending the
+WM_CAP_SET_AUDIOFORMAT message (or the capSetAudioFormat macro) to a capture
+window. When setting the audio format, you can pass a pointer to a
+WAVEFORMAT, WAVEFORMATEX, or PCMWAVEFORMAT structure, depending on the
+specified audio format.
+ 
+AVICap, by default, routes video and audio stream data from a capture window
+to a file named CAPTURE.AVI in the root directory of the current drive.
+You can specify an alternate filename by sending the
+WM_CAP_FILE_SET_CAPTURE_FILE message (or the capFileSetCaptureFile macro) to
+a capture window. This message specifies the filename; it does not create,
+allocate, or open the file. You can retrieve the current capture filename by
+sending the WM_CAP_FILE_GET_CAPTURE_FILE message (or the
+capFileGetCaptureFile macro) to a capture window.
+ 
+If the user wants to save captured data, the application should save the
+contents of the capture file to another file by using the WM_CAP_FILE_SAVEAS
+message (or the capFileSaveAs macro). This message does not change the name
+or contents of the capture file. Your application must specify a name for
+the new file because the capture file retains its original filename.
+ 
+Typically, a capture file is preallocated for the largest capture segment
+anticipated, and only a portion of it might be used to capture data.
+This message copies only the portion of the capture file containing the
+capture data.
+ 
+Preallocating disk space for the capture file builds a file of a specified
+size on the disk before the start of a capture operation. Preallocating a
+capture file reduces the processing required while capture is in progress
+and results in fewer dropped frames. You can preallocate a capture file by
+using the WM_CAP_FILE_ALLOCATE message (or the capFileAlloc macro).
+ 
+Typically, your application should preallocate enough disk space to contain
+the largest capture file anticipated. Preallocating disk space does not
+restrict the size of the captured file. The file size is automatically
+enlarged if the captured data exceeds the allocated space. Subsequent write
+operations to the capture file reuse the portions of disk space allocated
+for the file, preserving the size and fragmentation of the file.
+You can also improve capture performance by defragmenting the capture file.
+To defragment the file, use a defragmentation utility such as Disk
+Defragmenter. If you use a defragmented capture file and later enlarge it,
+you should defragment the enlarged file. Enlarging a defragmented capture
+file can fragment the expanded portion of the file and reduce performance in
+the capture operation.
+ 
+You might also improve performance by using an uncompressed disk for video
+capture. Compressing data during capture can limit capture throughput to the
+disk.
+An application can reserve a permanent capture file to eliminate the time
+required to preallocate and defragment a file each time it is started.
+Because a capture file can require considerable disk space, and preallocating
+a capture file removes all data from an existing capture file, an application
+should let the user decide if the file is permanent or temporary.
+ 
+Each AVI file uses an index of a specified size to locate video and audio
+data chunks within the file. An entry in the index locates one video frame
+or waveform-audio buffer. Consequently, the value of the index size
+indirectly sets the upper limit on the number of frames that can be captured
+in a file.
+ 
+You can retrieve the current index size by using the
+WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+The current index size is stored in the dwIndexSize member of the
+CAPTUREPARMS structure. You can specify a new index size as the value of
+dwIndexSize and then send the updated CAPTUREPARMS structure to the capture
+window by using the WM_CAP_SET_SEQUENCE_SETUP message (or the
+capCaptureSetSetup macro). The default index size is 34,952 entries
+(allowing 32K frames and a proportional number of audio buffers).
+ 
+The chunk granularity is a logical block size for an AVI file that is used
+for writing and retrieving audio and video data chunks. When writing audio
+and video chunks to disk, AVICap adds filler chunks (RIFF "JUNK" chunks) as
+necessary to fill each logical block of data.
+ 
+You can retrieve the current chunk granularity setting by using the
+WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+The current chunk granularity is stored in the wChunkGranularity member of
+the CAPTUREPARMS structure. You can specify a new chunk granularity as the
+value of wChunkGranularity and then send the updated CAPTUREPARMS structure
+to the capture window by using the WM_CAP_SET_SEQUENCE_SETUP message (or the
+capCaptureSetSetup macro). You can also specify zero for this member to set
+the chunk granularity to the sector size of the disk.
+ 
+The buffers used with video capture reside in the memory heap. The number of
+buffers used in a capture operation can vary and depend on the value of the
+wNumVideoRequested member of the CAPTUREPARMS structure and available system
+memory.
+ 
+You can retrieve the current value of requested video buffers by using the
+WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+The current requested number of video buffers is stored in the
+wNumVideoRequested member of the CAPTUREPARMS structure. You can request the
+placement and number of buffers by updating this member, and then sending
+the updated CAPTUREPARMS structure to the capture window by using the
+WM_CAP_SET_SEQUENCE_SETUP message (or the capCaptureSetSetup macro).
+ 
+You can control the audio portion of a capture operation in three ways:
+ 
+- Include or exclude audio from the capture operation.
+- Request a specific number of audio buffers.
+- Request that audio buffers be a specific size.
+ 
+ 
+ 
+You can retrieve the settings for audio buffers by using the
+WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+The fCaptureAudio member of the CAPTUREPARMS structure specifies whether
+audio is included or excluded from the capture operation. The current
+requested number of audio buffers is stored in the wNumAudioRequested member,
+and the current audio buffer size is stored in the dwAudioBufferSize member.
+You can specify whether to include audio capture, specify the size and number
+of audio buffers by updating these members, and send the updated CAPTUREPARMS
+structure to the capture window by using the WM_CAP_SET_SEQUENCE_SETUP
+message (or the capCaptureSetSetup macro).
+ 
+By default, audio is included in the capture operation, and four audio
+buffers are allocated. The default value of fCaptureAudio is TRUE.
+The default buffer size (the value of dwAudioBufferSize) can contain 0.5
+seconds of audio data or 10K, whichever is greater.
+ 
+If you want to individually specify the frames to capture in a video stream,
+you can control the sequence by using the WM_CAP_SINGLE_FRAME_OPEN,
+WM_CAP_SINGLE_FRAME, and WM_CAP_SINGLE_FRAME_CLOSE messages (or the
+capCaptureSingleFrameOpen, capCaptureSingleFrame, and
+capCaptureSingleFrameClose macros). Typically, these messages are used to
+create animation by appending individual frames to the capture file.
+WM_CAP_SINGLE_FRAME_OPEN opens a file for a manually driven capture
+operation. WM_CAP_SINGLE_FRAME captures an individual frame and appends it to
+the capture file. WM_CAP_SINGLE_FRAME_CLOSE closes the file used for manual
+frame capture. (Note: This capture method does not support simultaneous audio
+capture with video capture).
+ 
+If you want to capture a single frame as a still image, you can use the
+WM_CAP_GRAB_FRAME_NOSTOP or WM_CAP_GRAB_FRAME message (or the
+capGrabFrameNoStop or capGrabFrame macro) to capture the digitized image in
+an internal frame buffer. You can freeze the display on the captured image
+by using WM_CAP_GRAB_FRAME. Otherwise, use WM_CAP_GRAB_FRAME_NOSTOP.
+ 
+Once captured, you can copy the image for use by other applications. You can
+copy an image from the frame buffer to the clipboard by using the
+WM_CAP_EDIT_COPY message (or the capEditCopy macro). You can also copy the
+image from the frame buffer to a device-independent bitmap (DIB) by using
+the WM_CAP_FILE_SAVEDIB message (or the capFileSaveDIB macro).
+Your application can also use the two single-frame capture messages to edit
+a sequence frame by frame, or to create a time-lapse photography sequence.
+ 
+You can use capture services without writing the data to a disk file by
+using the WM_CAP_SEQUENCE_NOFILE message (or the capCaptureSequenceNoFile
+macro). This message is useful only in conjunction with callback functions
+that allow your application to use the video and audio data directly.
+For example, videoconferencing applications might use this message to obtain
+streaming video frames. The callback functions would transfer the captured
+images to the remote computer.
+ 
+MCI devices augment the capture operation in real-time capture and step-frame
+capture. You can specify the MCI device, such as a videodisc or
+video-cassette recorder (VCR), acting as the video source for your capture
+operation by using the WM_CAP_SET_MCI_DEVICE message (or the
+capSetMCIDeviceName macro) and specifying the name of the device.
+You can also retrieve the device name currently set by using the
+WM_CAP_GET_MCI_DEVICE message (or the capGetMCIDeviceName macro).
+ 
+In real-time capture, the capture window synchronizes the capture operation
+and compensates for delays associated with positioning the MCI video source
+and initializing the resources (such as capture buffers) required for
+capturing data. The capture window expects a valid MCI video device to be
+ installed in the system for capturing data this way.
+Specifications for controlling an MCI device are stored in the members of
+the CAPTUREPARMS structure. MCI-compatible video sources include VCRs and
+laserdiscs. If the fMCIControl member of this structure is set to TRUE, the
+capture window coordinates MCI operation. The capture window uses the
+parameters specified in the dwMCIStartTime and dwMCIStopTime members to
+obtain the starting and stopping positions, in milliseconds, of the sequence.
+If the value of fMCIControl is FALSE, the video source is not treated as an
+MCI device and the contents of dwMCIStartTime and dwMCIStopTime are ignored.
+ 
+You can use Media Player to quickly verify that an MCI video device is
+properly connected to the system. Playing a device with Media Player
+verifies that the MCI configuration for the device is correct. If an image
+appears on the video display, the video source is connected properly to the
+capture hardware.
+In step-frame capture, the capture window synchronizes the capture operation
+and compensates for the delays associated with positioning the MCI video
+source and initializing the resources required for capturing data.
+In addition, the capture window ensures that no frames are dropped; it steps
+through the video frames individually, ensuring that the frame is captured
+and stored before capturing the next frame in the video stream.
+ 
+Specifications for controlling step-frame capture are stored in the members
+of the CAPTUREPARMS structure. Step-frame capture uses the following members
+in addition to the members used for real-time capture: fStepMCIDevice,
+fStepCaptureAt2x, and wStepCaptureAverageFrames. If the fStepMCIDevice member
+is set to TRUE, the capture window coordinates step-frame capture.
+The capture window uses the parameters specified in the dwMCIStartTime and
+dwMCIStopTime members for the starting and stopping positions, in
+milliseconds, of the sequence. The capture window uses fStepCaptureAt2x to
+determine if the capture hardware should capture video frames at twice the
+normal resolution and uses wStepCaptureAverageFrames to specify the number
+of times each frame in the capture operation is sampled.
+ 
+If fStepMCIDevice is FALSE, real-time capture is used instead of step-frame
+capture and the contents of fStepCaptureAt2x, and wStepCaptureAverageFrames
+are ignored.
+If a step-frame capture is specified and fStepCaptureAt2x is set to TRUE,
+the capture hardware captures at twice the specified resolution. (The
+resolutions of both the height and width are doubled.) The software
+interpolates the pixels in the higher resolution image to produce the image
+at the specified resolution. This form of averaging can improve the edge
+definition of images in a frame. You can enable this option if the hardware
+does not support hardware-based decimation and you are capturing in the RGB
+format.
+ 
+Note: If your hardware supports hardware-based decimation, it can capture
+samples at a higher rate than specified and use these additional samples to
+obtain color definitions that are more consistent with the original image.
+The additional samples are discarded after they are used, and the hardware
+passes samples to the capture driver at the specified rate.
+ 
+If a step-frame capture is specified, the wStepCaptureAverageFrames member
+specifies the number of times a frame is sampled when creating a frame based
+on the average sample. This averaging technique reduces the random
+digitization noise appearing in a frame. A typical value for the number of
+averages is 5.
+For more information about MCI, see MCI.
+ 
+One way to measure video quality is to limit the number of captured frames
+dropped during the capture operation. When streaming capture has finished,
+the quality value is compared with the ratio of dropped frames to total
+frames. If the percentage of dropped frames is greater than the value of the
+wPercentDropForError member of the CAPTUREPARMS structure, AVICap sends an
+error message to the error callback function if it is installed.
+ 
+You can retrieve the current limit of dropped frames (expressed as a
+percentage) by using the WM_CAP_GET_SEQUENCE_SETUP message (or the
+capCaptureGetSetup macro). You can set a new limit by specifying a percentage
+as the value of the wPercentDropForError member of the CAPTUREPARMS structure,
+and then sending the updated structure to the capture window by using the
+WM_CAP_SET_SEQUENCE_SETUP message (or the capCaptureSetSetup macro).
+The default value of wPercentDropForError is 10 percent.
+ 
+You can retrieve the current value of the user-initiated capture flag by
+using the WM_CAP_GET_SEQUENCE_SETUP message (or the capCaptureGetSetup macro).
+The value of the flag is stored in the fMakeUserHitOKToCapture member of the
+CAPTUREPARMS structure. You can provide the user with precise control over
+when to start a capture session by setting this member to TRUE. AVICap
+displays a dialog box after allocating all video and audio buffers for a
+capture session. This lets the user eliminate capture delays because of
+software initialization. If your application uses a small number of video
+buffers, this dialog box is probably unnecessary. The default value is FALSE.
+ 
+Initially, if the video capture format requires a palette, the capture
+window uses the palette supplied by the capture driver. This palette might
+consist of gray-scale values for black-and-white reproduction, or a broad
+selection of color values. You can retrieve an existing palette to replace
+the default palette by using the WM_CAP_PAL_PASTE or WM_CAP_PAL_OPEN message
+(or the capPalettePaste or capPaletteOpen macro). Alternatively, you can
+create a custom palette to replace the default palette by using the
+WM_CAP_PAL_AUTOCREATE or WM_CAP_PAL_MANUALCREATE message (or the
+capPaletteAuto or capPaletteManual macro). After you replace the default
+palette, the capture window and driver use the replacement palette until you
+create or open another palette.
+ 
+The WM_CAP_PAL_AUTOCREATE or WM_CAP_PAL_MANUALCREATE message creates an
+optimized palette based on the current video input. This custom palette
+gives a video sequence the best color fidelity because it is based on colors
+that exist in the sequence. The capture window creates a three-dimensional
+histogram of the colors it samples. It reduces the number of colors by
+examining the absolute error between adjacent colors and consolidating those
+with the smallest error value.
+ 
+When sending WM_CAP_PAL_AUTOCREATE, you must specify the number of frames
+for AVICap to sample, and specify the size of the color palette. When
+specifying the number of frames, include enough frames to ensure that all
+colors in the sequence are sampled.
+You can sample the current frame by using WM_CAP_PAL_MANUALCREATE. By using
+this message with several manually selected frames, you can create a palette
+that contains the colors you want to appear in the palette.
+A palette can contain up to 256 colors. If you merge palettes or if the
+video sequence is to be displayed simultaneously with other video or images,
+you should use a smaller color selection so that colors from each image or
+video clip can coexist.
+ 
+You save a new palette by using the WM_CAP_PAL_SAVE message (or the
+capPaletteSave macro) and later retrieve it by using the WM_CAP_PAL_OPEN
+message. You can save a palette for post-processing of the palette or for
+use in another application.
+You can paste a palette from the clipboard into the capture window by using
+the WM_CAP_PAL_PASTE message. The capture window passes the palette to the
+capture driver. Other applications can copy palettes to the clipboard. You
+can also copy a palette to the clipboard by using the WM_CAP_EDIT_COPY
+message (or the capEditCopy macro). This message copies the video frame
+buffer, including the palette, onto the clipboard.
+ 
+You can insert information chunks, such as text or custom data, in an AVI
+file by using the WM_CAP_FILE_SET_INFOCHUNK message (or the
+capFileSetInfoChunk macro). You can also use this message to clear
+information chunks from an AVI file.
+ 
+You can associate data with a capture window by using the
+WM_CAP_GET_USER_DATA and WM_CAP_SET_USER_DATA messages (or the
+capGetUserData and capSetUserData macros). You can retrieve a LONG data
+value by using the WM_CAP_GET_USER_DATA message and set a LONG data value
+by using the WM_CAP_SET_USER_DATA message.
+ 
+Your application can register callback functions with a capture window to
+have it notify your application when the status changes, when errors occur,
+when video frame and audio buffers become available, and to yield during
+streaming capture. The following messages set the callback function.
+ 
+Message Description
+WM_CAP_SET_CALLBACK_CAPCONTROL  Specifies the callback function in the
+application called to give precise control over capture start and end.
+You can also use the capSetCallbackOnCapControl macro to send this message.
+ 
+WM_CAP_SET_CALLBACK_ERROR       Specifies the callback function in the
+application called when an error occurs. You can also use the
+capSetCallbackOnError macro to send this message.
+ 
+WM_CAP_SET_CALLBACK_FRAME       Specifies the callback function in the
+application called when preview frames are captured. You can also use the
+capSetCallbackOnFrame macro to send this message.
+ 
+WM_CAP_SET_CALLBACK_STATUS      Specifies the callback function in the
+application called when the status changes. You can also use the
+capSetCallbackOnStatus macro to send this message.
+ 
+WM_CAP_SET_CALLBACK_VIDEOSTREAM Specifies the callback function in the
+application called during streaming capture when a new video buffer becomes
+available. You can also use the capSetCallbackOnVideoStream macro to send
+this message.
+ 
+WM_CAP_SET_CALLBACK_WAVESTREAM  Specifies the callback function in the
+application called during streaming capture when a new audio buffer becomes
+available. You can also use the capSetCallbackOnWaveStream macro to send
+this message.
+ 
+WM_CAP_SET_CALLBACK_YIELD       Specifies the callback function in the
+application called when yielding during streaming capture. You can also use
+the capSetCallbackOnYield macro to send this message.
+ 
+The following topics describe the different callback functions, the
+notifications sent to the functions, and their uses.
+ 

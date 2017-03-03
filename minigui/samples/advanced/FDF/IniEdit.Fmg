@@ -1,0 +1,127 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 530 HEIGHT 251 TITLE "Pdf Form Filler Test 1.1" ICON NIL CHILD NOSIZE CURSOR NIL ON INIT NIL ON RELEASE if( IsWIndowDefined (Dbview),DoMethod ( "DbView", "release" ),NIL) ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON PAINT NIL BACKCOLOR Nil ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+DEFINE STATUSBAR FONT "Arial" SIZE 0
+STATUSITEM " Pdf Form Filler Power Ready!"
+END STATUSBAR
+
+    DEFINE BUTTON Button_0
+           ROW    160
+           COL     20
+           WIDTH  80
+           HEIGHT 28
+           CAPTION "&DbView"
+           ACTION if( !IsWIndowDefined (Dbview),DbView(),DoMethod ( "DbView", "setfocus" ))
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS Nil
+           ONLOSTFOCUS Nil
+           HELPID Nil
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON
+
+    DEFINE BUTTON Button_1
+           ROW    160
+           COL    120
+           WIDTH  80
+           HEIGHT 28
+           CAPTION "&Test"
+           ACTION Test()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS Nil
+           ONLOSTFOCUS Nil
+           HELPID Nil
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON
+
+    DEFINE BUTTON Button_2
+           ROW    160
+           COL    220
+           WIDTH  80
+           HEIGHT 28
+           CAPTION "&Delete Row"
+           ACTION Obrw1:deleterow()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS Nil
+           ONLOSTFOCUS Nil
+           HELPID Nil
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON
+
+    DEFINE BUTTON Button_3
+           ROW    160
+           COL    320
+           WIDTH  80
+           HEIGHT 28
+           CAPTION "&Save Fields"
+           ACTION (FDF:SaveIniField(),FDF:LoadData())
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_9
+           ROW    160
+           COL    420
+           WIDTH  80
+           HEIGHT 28
+           CAPTION "&Quit"
+           ACTION Thiswindow.release
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS Nil
+           ONLOSTFOCUS Nil
+           HELPID Nil
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+END WINDOW
+
+

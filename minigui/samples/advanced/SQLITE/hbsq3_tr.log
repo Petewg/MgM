@@ -1,0 +1,14 @@
+PRAGMA auto_vacuum=0
+PRAGMA page_size=4096
+CREATE TABLE t1( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER )
+BEGIN TRANSACTION;
+INSERT INTO t1( name, age ) VALUES( 'Bob', 52 );
+INSERT INTO t1( name, age ) VALUES( 'Fred', 40 );
+INSERT INTO t1( name, age ) VALUES( 'Sasha', 25 );
+INSERT INTO t1( name, age ) VALUES( 'Ivet', 28 );
+COMMIT;
+INSERT INTO t1( name, age ) VALUES( 'Andy', 17 )
+INSERT INTO t1( name, age ) VALUES( 'Mary', 19 )
+SELECT * FROM t1 WHERE name == 'Andy' 
+SELECT * FROM t1 WHERE age >= 40
+SELECT name, age  FROM t1 WHERE age BETWEEN 10 AND 20

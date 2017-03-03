@@ -1,0 +1,137 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 250 , 371 WIDTH 646 HEIGHT 331 VIRTUAL WIDTH 800 VIRTUAL HEIGHT 500 TITLE "SAVE ControlPos"
+
+     DEFINE LABEL _ControlPos_Save_Label_1_
+            ROW    3
+            COL    21
+            WIDTH  336
+            HEIGHT 33
+            VALUE "Form_1 yy"
+            FONTNAME "Arial"
+            FONTSIZE 20
+            FONTITALIC .T.
+            FONTBOLD .T.
+            CENTERALIGN .T.
+     END LABEL
+
+     DEFINE RADIOGROUP _ControlPos_Save_Type_
+            ROW    34
+            COL    28
+            WIDTH  135
+            HEIGHT 50
+            OPTIONS {'Save to *.POS','Modify *.FMG,*.PRG'}
+            READONLY NIL
+            VALUE 1
+     END RADIOGROUP
+
+    DEFINE CHECKBOX _ControlPos_Save_OnlySel_
+           ROW    92
+           COL    48
+           WIDTH  193
+           HEIGHT 28
+           CAPTION "Only selected controls"
+           VALUE .T.
+     END CHECKBOX
+
+    DEFINE CHECKBOX _ControlPos_Save_ColWidth_
+           ROW    120
+           COL    48
+           WIDTH  255
+           HEIGHT 28
+           CAPTION "Write columns width in GRID and BROWS"
+           VALUE .T.
+     END CHECKBOX
+
+    DEFINE CHECKBOX _ControlPos_Save_FormPos_
+           ROW    148
+           COL    48
+           WIDTH  193
+           HEIGHT 28
+           CAPTION "Form position"
+           VALUE .F.
+     END CHECKBOX
+
+    DEFINE CHECKBOX _ControlPos_Save_FormSize_
+           ROW    176
+           COL    48
+           WIDTH  193
+           HEIGHT 28
+           CAPTION "Form size"
+           VALUE .T.
+     END CHECKBOX
+
+    DEFINE BUTTON _ControlPos_Save_BSave_
+           ROW    233
+           COL    64
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Save"
+           ACTION nil
+     END BUTTON
+
+    DEFINE BUTTON _ControlPos_Save_BCancel_
+           ROW    233
+           COL    225
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Cancel"
+           ACTION  nil
+     END BUTTON
+
+     DEFINE FRAME _ControlPos_Save_Frame_1_
+            ROW    52
+            COL    20
+            WIDTH  341
+            HEIGHT 170
+            CAPTION ""
+     END FRAME
+
+  DEFINE TAB Tab_1 AT 68,375 WIDTH 189 HEIGHT 149 VALUE 1 FONT "Arial" SIZE 9 TOOLTIP "" ON CHANGE NIL
+
+    PAGE "Page 1"
+
+       DEFINE BUTTON Button_2
+              ROW    39
+              COL    24
+              WIDTH  107
+              HEIGHT 27
+              CAPTION "Button_2"
+        END BUTTON
+
+        DEFINE LABEL Label_2
+               ROW    81
+               COL    17
+               WIDTH  120
+               HEIGHT 24
+               VALUE "Label_2"
+        END LABEL
+
+    END PAGE
+
+    PAGE "Page 2" IMAGE ""
+
+       DEFINE CHECKBOX Check_2
+              ROW    31
+              COL    20
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Check_2"
+        END CHECKBOX
+
+       DEFINE BUTTON Button_3
+              ROW    71
+              COL    30
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Button_3"
+        END BUTTON
+
+    END PAGE
+
+  END TAB
+
+END WINDOW
+
+

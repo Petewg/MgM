@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ROOT Title="PropertyGrid">
+  <category Name="Appearance" Value="" cData="" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName="">
+    <syscolor Name="Cell Colour" Value="ButtonHighlight" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <syscolor Name="Cell Text Colour" Value="Desktop" cData="" disabled="false" changed="true" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <syscolor Name="Cell Text Colour" Value="Highlight" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <string Name="Cursor" Value="Default" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <font Name="Font" Value="Arial,8,Bold" cData="Arial;8;true;false;false;false" disabled="false" changed="true" disableedit="true" ItemID="0" Info="" VarName=""/>
+    <string Name="Label" Value="PropertyGrid Sample" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <color Name="Line Colour" Value="(68,236,19)" cData="68;236;19" disabled="false" changed="true" disableedit="true" ItemID="0" Info="" VarName=""/>
+    <color Name="Margin Colour" Value="(208,205,110)" cData="208;205;110" disabled="false" changed="false" disableedit="true" ItemID="0" Info="" VarName=""/>
+  </category>
+  <category Name="Custom User Property" Value="" cData="" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName="">
+    <category Name="CustomProperty" Value="" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName="">
+      <string Name="Label" Value="CustomProperty" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+      <image Name="Image" Value="Image.bmp" cData="*.bmp;*.ico" disabled="false" changed="false" disableedit="true" ItemID="0" Info="" VarName=""/>
+      <enum Name="Enum Item" Value="Windows 2000" cData="Windows 98;Windows 2000;Windows XP;Windows Vista" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+      <date Name="Date" Value="02/02/2007" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+      <flag Name="Flag Item" Value="[Windows 98]" cData="All Windows;Windows 98;Windows 2000;Windows XP;Windows Vista" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+      <check Name="Check Item 1" Value="Option 1" cData="false" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+      <check Name="Check Item 2" Value="False" cData="False;True" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+      <check Name="Check Item 3" Value="Included" cData="Excluded;Included" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+      <check Name="Check Item 4" Value="Option 3" cData="false" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    </category>
+  </category>
+  <category Name="Environment" Value="" cData="" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName="">
+    <sysinfo Name="Operating System" Value="Windows 7 (Service Pack 1,Build 7601)" cData="SYSTEM" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <sysinfo Name="User Home" Value="C:\Users\jpora\Documents" cData="USERHOME" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <sysinfo Name="User Id" Value="jpora" cData="USERID" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <sysinfo Name="User Name" Value="PL1238" cData="USERNAME" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+  </category>
+  <category Name="More Examples" Value="" cData="" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName="">
+    <string Name="AdvImageFileProperty" Value="" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <file Name="Demo File" Value="PropGrid.txt" cData="*.txt;*.rtf" disabled="false" changed="false" disableedit="true" ItemID="0" Info="" VarName=""/>
+    <folder Name="Demo Folder" Value="C\Documents and Settings" cData="Folder" disabled="false" changed="false" disableedit="true" ItemID="0" Info="" VarName=""/>
+    <array Name="ArrayProperty" Value="-1.000000, -0.500000, 0.000000, 0.500000, 1.000000" cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <string Name="Information" Value="Editing properties will have immediate effect on this window, and vice versa (atleast in most cases, that is). Low priority after Examples means it will be hidden in Compact mode." cData="" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+    <list Name="Edit list Item" Value="Windows 2000" cData="Windows 98;Windows 2000;Windows XP;Windows Vista" disabled="false" changed="false" disableedit="false" ItemID="0" Info="" VarName=""/>
+  </category>
+  <category Name="Positions" Value="" cData="" disabled="true" changed="false" disableedit="false" ItemID="0" Info="" VarName="">
+    <size Name="Size" Value="(608,408)" cData="Height;Width" disabled="false" changed="false" disableedit="true" ItemID="0" Info="" VarName=""/>
+    <size Name="Position" Value="(308,80)" cData="Row;Col" disabled="false" changed="false" disableedit="true" ItemID="0" Info="" VarName=""/>
+  </category>
+</ROOT>

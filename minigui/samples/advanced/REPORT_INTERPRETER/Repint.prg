@@ -9,9 +9,6 @@
 
    Comments		:
 *******************************************************************************/
-#ifndef __CALLDLL__
-#define __CALLDLL__
-#endif
 #include 'minigui.ch'
 #include 'winprint.ch'
 
@@ -30,7 +27,7 @@ procedure main()
 *-----------------------------------------------------------------------------*
 private aPrinters, aports
 
-   AddFont()   && unused but left for example
+   AddFont()
 
    INIT PRINTSYS
    GET PRINTERS TO aprinters
@@ -82,7 +79,7 @@ return
 function print(arg1)
 *-----------------------------------------------------------------------------*
 local atag := {2,3,4}, afld:= {"First","Last","Birth" }, afldn:={"Simple","Apellido","Nato"}
-local choice, aDrv:={[HBPRINTER],[MINIPRINT],[PDFPRINT]}
+local choice := 0, aDrv:={[HBPRINTER],[MINIPRINT],[PDFPRINT]}
 
 private tagged, asay :={}
 if arg1=1
@@ -300,7 +297,7 @@ return ritorno
 
 #include "S_Mchoice.prg"
 
-Static Function AddFont  && unused but left for example
+Static Function AddFont
 
    Local nRet := AddFontResourceEx("FREE3OF9.TTF"+Chr(0),FR_PRIVATE+FR_NOT_ENUM,0)
 
@@ -313,20 +310,21 @@ Static Function RemoveFont
 
    Local nRet := RemoveFontResourceEx("FREE3OF9.TTF"+Chr(0),FR_PRIVATE+FR_NOT_ENUM,0)
 
-   If !nRet
+   If nRet == 0
       MsgStop("An error is occured removing font FREE3OF9.TTF","Warning")
    EndIf
    return Nil
-
-function AddFontResourceEx( lpszFilename, fl, pdv ) ; local uResult ; uResult := HMG_CallDLL( "GDI32.DLL", 0x0000003, "AddFontResourceEx", lpszFilename, fl, pdv ) ; return uResult
-function RemoveFontResourceEx( lpFileName, fl, pdv ) ; local uResult ; uResult := HMG_CallDLL( "GDI32.DLL", 0x0000008, "RemoveFontResourceEx", lpFileName, fl, pdv ) ; return uResult
-
+ 
+ 
+#include "hbdll32.ch"
+DECLARE ANSI AddFontResourceEx ( lpszFilename, fl, pdv ) IN GDI32.DLL
+DECLARE ANSI RemoveFontResourceEx ( lpFileName, fl, pdv ) IN GDI32.DLL
 /*
 */
 *-----------------------------------------------------------------------------*
 Function Scegli(opt,title,note,def)
 *-----------------------------------------------------------------------------*
-   local r:= 0, S_HG
+   local r:= 0, S_HG := 0
    default title to "Scelta stampe", opt to {"Questa Scheda","Tutte"}
    Default note to "", def to 1
    note := space(10)+ note

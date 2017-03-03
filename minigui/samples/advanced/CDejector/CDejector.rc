@@ -1,0 +1,28 @@
+AMAIN ICON main.ico
+OPEN ICON cdopen.ico
+CLOSE ICON cdclose.ico
+
+1 VERSIONINFO
+FILEVERSION 1,2,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "CompanyName", ""
+		VALUE "FileDescription", "CD Ejector\000"
+		VALUE "FileVersion", "1.2.2.0"
+		VALUE "InternalName", "CDEjector"
+		VALUE "LegalCopyright", "Copyright © 2002-2011, Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "CDEjector.exe"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Freeware, but see aditional notes for conditions\000"
+		VALUE "Aditional Notes", "Not for distribution without the authors permission"
+	}
+}
+}

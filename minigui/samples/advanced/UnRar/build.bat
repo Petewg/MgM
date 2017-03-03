@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat demo demo.hbc
+@call %~d0\miniguim\batch\buildapp.bat demo -L. -lhbunrar -lunrar 

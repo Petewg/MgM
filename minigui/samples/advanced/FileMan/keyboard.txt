@@ -1,0 +1,56 @@
+-------------------------------------------------------------------------------
+File  : 'Keyboard.txt' - Keyboard layout for FileMan
+Author: Grigory Filatov
+E-Mail: gfilatov@inbox.ru
+-------------------------------------------------------------------------------
+
+Key	    Action
+~~~         ~~~~~~
+
+F1          Help (not implement)
+F2          Reread source window
+F3          List file
+F4          Edit file
+F5          Copy file
+F6          Rename file
+F7          Create directory
+F8/DEL      Delete file
+F10         Activate left menu
+
+ALT+F1      Change left drive
+ALT+F2      Change right drive
+ALT+F4      Exit
+ALT+F7      Find (not implement yet)
+ALT+F8      Opens the history list of the command line
+
+SHIFT+F4    Create new text file and load into editor
+SHIFT+ESC   Iconize Fileman
+
+TAB         Switch between left and right
+            file list
+ENTER       Change directory/run program/
+            run associated program / execute
+            command line (if not empty and have focus).
+BACKSPACE   Change to parent directory (corresponds to cd ..)
+
+
+Command line: keys
+
+Here the layout for some keys:
+
+ENTER       The command line is executed, if it 
+            contains at least one character (otherwise,
+            the program under the cursor in the source
+            window is started). If it is an internal
+            DOS command, DOS will be executed with this
+            command. Otherwise, a program with the given
+            name is executed.
+CTRL-ENTER  The file under the cursor in the source 
+            directory is appended to the command line.
+CTRL-CURSORDOWN
+or ALT+F8   A list with the latest command lines (history-
+            list) is opened.
+TAB         Puts the cursor back to the source directory.
+Cursor keys Cursor up and cursor down move the cursor
+            through the command line.
+ESC,CTRL+Y  Clears the command line.

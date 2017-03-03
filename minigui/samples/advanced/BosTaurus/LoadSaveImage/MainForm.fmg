@@ -1,0 +1,60 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2016 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 155 , 320 WIDTH 775 HEIGHT 479 TITLE "Load - Save pictures using `BosTaurus library`" MAIN NOMAXIMIZE ON INIT InitProc() ON PAINT pix_test_paint() ON RELEASE ReleaseProc()
+
+     DEFINE BUTTONEX ButtonOpenImage
+            ROW    10
+            COL    610
+            WIDTH  140
+            HEIGHT 28
+            CAPTION "Load image"
+            ACTION pix_test_draw_image()
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP 'Select an image (.JPG only) to be used as a background'
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonBmpSave
+            ROW    50
+            COL    610
+            WIDTH  140
+            HEIGHT 28
+            CAPTION "Save as BMP image"
+            ACTION pix_test_save_image( "BMP" )
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP "Save the selected image as the default name 'test.bmp'"
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonJpgSave
+            ROW    90
+            COL    610
+            WIDTH  140
+            HEIGHT 28
+            CAPTION "Save as JPG image"
+            ACTION pix_test_save_image( "JPG" )
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP "Save the selected image as the default name 'test.jpg'"
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonExit
+            ROW    410
+            COL    610
+            WIDTH  140
+            HEIGHT 28
+            CAPTION "Exit"
+            ACTION ThisWindow.Release
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP "Save the selected image as the default name 'test.jpg'"
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+END WINDOW
+
+

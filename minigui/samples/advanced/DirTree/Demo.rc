@@ -1,0 +1,16 @@
+MAIN		ICON	Res\Struct.ico
+
+STRUCTURE	BITMAP	Res\Struct.bmp
+
+OK		BITMAP	Res\OK.bmp
+STOP		BITMAP	Res\Stop.bmp
+SELECTDIR	BITMAP	Res\Filefind.bmp
+
+DOCUMENTS	BITMAP	Res\Documents.bmp
+FOLDER		BITMAP	Res\Folder.bmp
+ARC_ZIP		BITMAP	Res\Arc_Zip.bmp
+ARC_7ZIP	BITMAP	Res\Arc_7z.bmp
+
+ZOOMIN		BITMAP	Res\ZoomIn.bmp
+ZOOMOUT		BITMAP	Res\ZoomOut.bmp
+OPEN		BITMAP	Res\Open.bmp

@@ -1,0 +1,123 @@
+* Harbour Minigui IDE HMI+ form generated code
+* (c)2004 Ciro Vargas Clemow   sistemascvc@softhome.net
+
+DEFINE WINDOW  TEMPLATE ; 
+AT 261,129 ;
+WIDTH 703 ;
+HEIGHT 445 ; 
+TITLE 'Demo - Minigui + hbComm.lib' ; 
+ICON '' ; 
+MAIN ;
+NOSIZE ;
+BACKCOLOR {236,233,216 } ; 
+FONT 'Verdana' ;
+SIZE 10 ;
+
+
+@ 42,9 EDITBOX edit_1 ; 
+WIDTH 676 ; 
+HEIGHT 154 ; 
+READONLY  ; 
+FONT 'MS Sans Serif' ;
+SIZE 10 ;
+MAXLENGTH 30 ; 
+
+
+main.edit_1.fontcolor:={0,0,0}
+main.edit_1.backcolor:={255,255,255}
+
+@ 227,12 EDITBOX edit_2 ; 
+WIDTH 673 ; 
+HEIGHT 142 ; 
+FONT 'MS Sans Serif' ;
+SIZE 10 ;
+MAXLENGTH 30 ; 
+
+
+main.edit_2.fontcolor:={0,0,0}
+main.edit_2.backcolor:={255,255,255}
+
+@ 377,11 BUTTON button_1 ;
+CAPTION 'Conectar' ; 
+ACTION fConecta() ;
+WIDTH 100 ;
+HEIGHT 28 ; 
+FONT 'MS Sans Serif' ;
+SIZE 10 ;
+FLAT  ;
+ 
+
+main.button_1.fontcolor:={0,0,0}
+
+@ 377,472 BUTTON button_2 ;
+CAPTION 'Desconectar' ; 
+ACTION fDesconecta() ;
+WIDTH 100 ;
+HEIGHT 28 ; 
+FONT 'MS Sans Serif' ;
+SIZE 10 ;
+FLAT  ;
+ 
+
+main.button_2.fontcolor:={0,0,0}
+
+@ 377,577 BUTTON button_3 ;
+CAPTION 'Salir' ; 
+ACTION fSale() ;
+WIDTH 100 ;
+HEIGHT 28 ; 
+FONT 'MS Sans Serif' ;
+SIZE 10 ;
+FLAT  ;
+ 
+
+main.button_3.fontcolor:={0,0,0}
+
+@ 200,13 LABEL label_1 ; 
+WIDTH 120 ; 
+HEIGHT 24 ; 
+VALUE 'A Enviar :' ; 
+FONT 'Verdana' ; 
+SIZE 10 ;
+BACKCOLOR {236 , 233 , 216 } ; 
+BOLD ;
+
+
+main.label_1.fontbold:=.T.
+main.label_1.fontcolor:={0,0,0}
+
+@ 17,10 LABEL label_2 ; 
+WIDTH 120 ; 
+HEIGHT 24 ; 
+VALUE 'Recepcion :' ; 
+FONT 'Verdana' ; 
+SIZE 10 ;
+BACKCOLOR {236 , 233 , 216 } ; 
+BOLD ;
+
+
+main.label_2.fontbold:=.T.
+main.label_2.fontcolor:={0,0,0}
+
+@ 377,367 BUTTON button_4 ;
+CAPTION '&Enviar' ; 
+ACTION fEnvia() ;
+WIDTH 100 ;
+HEIGHT 28 ; 
+FONT 'Verdana' ;
+SIZE 10 ;
+FLAT  ;
+ 
+
+main.button_4.fontcolor:={0,0,0}
+
+DEFINE TIMER timer_1 ; 
+INTERVAL 1000 ; 
+ACTION frecibe() ;
+
+
+main.timer_1.enabled:=.F.
+
+END WINDOW 
+
+

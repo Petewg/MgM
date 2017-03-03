@@ -1,0 +1,51 @@
+#[Legenda]  Riga  col   expr    Font   Sz  Bld  It  Und  Strk  Color  Align
+#             1    2     3       4     5    6    7    8   9     10    11  
+#
+#[Legenda]  Row   Col   PRINT   ToRow  ToCol  Width  Color  [Rounded]
+#            1     2     3        4      5      6      7       8          
+[S0]
+'ReportName','Print Queue - MiniLabel Demo'
+'Orientation','PORTRAIT'
+'HeadLen','13'
+#'BodyLen','40'
+#'Printername','EPSON Stylus C80 Series'
+
+[S1]
+'6','8','PRINT IMAGE','rosa.jpg','10','10','1'
+'6','190','PRINT IMAGE','rosa.jpg','10','10','1'
+'12',' 20',' date()','TIMES NEW ROMAN','10','1','','','','','LEFT' 
+' 7',' 95','[Head 1] ','Arial','12','1','','','','',''
+'12',' 85','[Test header number 2]','COURIER NEW','12','','','','','',''
+'16.5','200','[Pag.]+ trans(m->npag,[999])','TIMES NEW ROMAN','11','1','','','','','RIGHT'
+'40','140','PRINT RECTANGLE TO','80','190','1.5','255,0,255','1'
+'16.5','8','PRINT LINE TO','16.5','200','0.1',''
+'21.5','8','PRINT LINE TO','21.5','200','0.1',''
+'45','145','PRINT RECTANGLE TO','75','185','0.5','BLUE',''
+'60','150','PRINT LINE TO','60','151','1.5','RED'
+'61','150','PRINT LINE TO','61','151','1.5','RED'
+'62','150','PRINT LINE TO','62','151','1.5','RED'
+'60','155','PRINT LINE TO','60','156','1.5','GREEN'
+'61','155','PRINT LINE TO','61','156','1.5','GREEN'
+'62','155','PRINT LINE TO','62','156','1.5','GREEN'
+'55','162','[ITALIAN]','COURIER NEW','10','1','','','','RED',''
+'59','162','[MINIPRINT]','COURIER NEW','10','1','','','','',''
+'63','162','[DEMO]','COURIER NEW','10','1','','','','GREEN',''
+'160','60','PRINT IMAGE','rosa.jpg','15','15','1'
+'16.5',' 10','[ Put here as you want!]','COURIER NEW','12','','','','','',''
+
+[S2]
+'22+(c_rec * linestep)',' 15','Field->Code    ','ARIAL','8','','','','','if(recno()<=10,[255,0,0],[BLUE])','RIGHT'
+'22+(c_rec * linestep)',' 21','if(Field->Married,"Married","No Married")','TIMES NEW ROMAN','8','','','','','',''
+'22+(c_rec * linestep)',' 36','Field->First','ARIAL','8','','','','','',''
+'22+(c_rec * linestep)',' 79','Field->Last','ARIAL','8','','','','','',''
+'22+(c_rec * linestep)','119','Field->BIRTH ','ARIAL','8','','','','','',''
+
+[S3]
+'22+(c_rec * linestep)','8','PRINT LINE TO','22+(c_rec * linestep)','200','0.1',''
+'22+(c_rec * linestep)','200','"Continue to pag. "+zaps(m->npag+1)','TIMES NEW ROMAN','11','1','','','','','RIGHT'
+
+[S4]
+'18+(c_rec * linestep)','8','PRINT LINE TO','18+(c_rec * linestep)','200','0.1',''
+'22+(c_rec * linestep)','200','"End Report "','Arial','8','','','','','','RIGHT'
+
+[STOP]

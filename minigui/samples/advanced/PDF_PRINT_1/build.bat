@@ -1,0 +1,1 @@
+@call %~d0\miniguim\batch\buildapp.bat hpdf_fonts.hbp hpdf_fonts.hbc hbhpdf.hbc

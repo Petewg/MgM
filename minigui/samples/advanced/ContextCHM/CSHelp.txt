@@ -1,0 +1,9 @@
+.topic 100
+In your Help you would have introduction topic
+
+.topic 200
+Enter topic text here.
+
+.topic 10000
+This is the famous HELP INDEX
+

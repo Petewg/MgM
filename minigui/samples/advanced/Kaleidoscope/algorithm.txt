@@ -1,0 +1,101 @@
+Electronic Kaleidoscopes for the Mind
+
+The essences are each a separate glass, through which the sun of being's light 
+is passed -- each tinted fragment sparkles in the sun: a thousand colors, but 
+the light is one.
+- Jami (15th Century) 
+
+Here is a simple method used to create computer-generated kaleidoscopes, and the 
+concept should be easy for most personal computer users. The kaleidoscopes are 
+composed primarily of triangles, with a few circles also scattered about. 
+
+Rather than use triangles, readers may easily apply these principles to a 
+collection of points, if this is easier. 
+
+Start by randomly selecting 3 vertices of a triangle. We will call the first 
+three vertices 
+
+ ( x1 , y1 ), ( x2 , y2 ) and ( x3 , y3 ).
+
+Readers may draw this triangle using any computer graphics package available (or 
+if they have patience, they can draw it by hand!). This is the "parent" 
+triangle. All the reflected versions are called "children." Readers can 
+calculate the positions of the children points rather easily. Just take each of 
+the three (x,y) coordinates, and negate them, or shuffle them in all the 
+possible ways: 
+
+ (x,y),
+ (-x,y),
+ (x,-y),
+ (-x,-y),
+ (y,x),
+ (-y,x),
+ (y,-x),
+ (-y,-x).
+
+This produces a kaleidoscopic symmetry. To insure that the initially selected 
+random points of the triangle fall within the triangular region of the plane, we 
+actually swap "x" and "y" whenever a randomly selected "x" is greater than a "y" 
+in an (x,y) pair. The pseudocode shows how to do this. 
+
+ALGORITHM: How to Create a Computer Kaleidoscope. 
+
+DO FOR i = 1 to 40
+    x1 = random;   y1 = random
+    x2 = random;   y2 = random
+    x3 = random;   y3 = random
+    /* Confine initial pattern to lower right quadrant */
+    if ( x1 > y1 ) then (save=x1; x1=y1; y1=save;)
+    if ( x2 > y2 ) then (save=x2; x2=y2; y2=save;)
+    if ( x3 > y3 ) then (save=x3; x3=y3; y3=save;)
+    DrawTriangleAt(x1,y1,x2,y2,x3,y3)
+    /* Create 7 reflected images /
+    DO FOR j = 1 to 7
+        Flip (x,y) Points as Described in Text
+        DrawTriangleAt (x1,y1,x2,y2,x3,y3)
+    END
+END
+
+The same basic idea applies to the positioning of the small circles in the 
+designs. Colors may be chosen randomly. 
+
+We have access to special purpose graphics hardware that can render many 
+thousands of triangular facets in a second, but even with simpler computer 
+systems, beautiful pictures can result fairly quickly. For additional beauty, 
+the patterns described by the above (x,y) shufflings can be translated several 
+times in a checkerboard pattern, as we have done for the figures on the 
+kaleidoscope pages. For additional beauty, we have also interpolated color 
+across the facet of each triangle. This means that if one vertex is randomly 
+chosen to be red, and the other two green, then various shades between red and 
+green will show on the facets. 
+
+As we stare at the patterns moving and unfolding on the graphics screen we can 
+only wonder what Sir David Brewster in 1817 would have thought. Would the 
+modern-day electronic kaleidoscopes, involving no physical mirrors, be 
+infringements on his patent? Probably not, but like the real thing, the 
+electronic kaleidoscope's colored pieces make a fantastic "wallpaper for the 
+mind." Readers are encouraged to design a similar system and to try applying 
+different kinds of symmetries. Readers may also try designing a 3-D version, 
+where the triangles and circles are scattered about in three dimensions, and not 
+limited to a plane. Finally, assymetry may be introduced into the designs by 
+choosing NOT to reflect certain triangles. Here is an interesting example where 
+the computer allows experimenters to design a non-physical kaleidoscope which 
+could not be created using mirrors in the real world. 
+
+For readers interested in learning more about traditional kaleidoscopes, 
+consider Through the Kaleidoscope and Beyond by Cozy Baker (Beechcliff Books, 
+1987). The book describes handcrafted models, and contains beautiful color 
+photographs. It also has a list of current kaleidoscope makers and shops. 
+
+Another interesting book is Computers in Art, Design and Animation by Lansdown 
+and Earnshaw (Springer, 1989). A chapter in this book discusses computer 
+kaleidoscopes operating on digitized images of people and scenery. Another 
+source for information on kaleidoscopes is The Family Creative Workshop series 
+of books. This series published in 1974 by Plenary Publications in New York has 
+a fascinating chapter on how to create various kaleidoscopes using mirrors, 
+acrylic strips, and related. 
+
+I describe computer-generated kaleidoscopes in more detail in my book Mazes for 
+the Mind: Computers and the Unexpected (St. Martins Press: New York). 
+
+Cliff 

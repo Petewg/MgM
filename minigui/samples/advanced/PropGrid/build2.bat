@@ -1,0 +1,1 @@
+@call %~d0\miniguim\batch\buildapp.bat  Demo2 -lhbxml -lpropgrid

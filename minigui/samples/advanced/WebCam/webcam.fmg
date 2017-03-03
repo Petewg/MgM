@@ -1,0 +1,96 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2011 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 447 HEIGHT 420 TITLE "WebCam Capture Demo" ICON "MAIN" MAIN NOMAXIMIZE NOSIZE ON INIT OnFormLoad() ON RELEASE OnFormUnLoad()
+
+     DEFINE LABEL Label_0
+            ROW    8
+            COL    140
+            WIDTH  200
+            HEIGHT 18
+            VALUE "Click Me to start your webcam"
+            FONTBOLD .T.
+            ACTION StartClick()
+     END LABEL  
+
+     DEFINE LABEL Label_1
+            ROW    34
+            COL    10
+            WIDTH  80
+            HEIGHT 18
+            VALUE "Select device:"
+     END LABEL  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    30
+            COL    100
+            WIDTH  320
+            HEIGHT 200
+            ITEMS {}
+     END COMBOBOX  
+
+     DEFINE BUTTON Button_5
+            ROW    70
+            COL    20
+            WIDTH  74
+            HEIGHT 28
+            ACTION Button5_Click()
+            CAPTION "Snap"
+     END BUTTON  
+
+     DEFINE BUTTON Button_4
+            ROW    70
+            COL    100
+            WIDTH  74
+            HEIGHT 28
+            ACTION Button4_Click()
+            CAPTION "Preview"
+     END BUTTON  
+
+     DEFINE BUTTON Button_2
+            ROW    70
+            COL    180
+            WIDTH  74
+            HEIGHT 28
+            ACTION Button2_Click()
+            CAPTION "Record"
+     END BUTTON  
+
+     DEFINE BUTTON Button_1
+            ROW    70
+            COL    260
+            WIDTH  74
+            HEIGHT 28
+            ACTION Button1_Click()
+            CAPTION "Stop"
+     END BUTTON  
+
+     DEFINE BUTTON Button_3
+            ROW    70
+            COL    340
+            WIDTH  74
+            HEIGHT 28
+            ACTION Button3_Click()
+            CAPTION "Save"
+     END BUTTON  
+
+     DEFINE LABEL Label_2
+            ROW    110
+            COL    10
+            WIDTH  120
+            HEIGHT 18
+            VALUE "Picture from camera:"
+     END LABEL  
+
+     DEFINE IMAGE Image_1
+            ROW    130
+            COL    60
+            WIDTH  320
+            HEIGHT 240
+            PICTURE "IMAGE"
+            STRETCH .T.
+     END IMAGE  
+
+END WINDOW
+
+

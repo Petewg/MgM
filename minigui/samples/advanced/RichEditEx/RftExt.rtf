@@ -1,0 +1,1236 @@
+{\rtf1\ansi\ansicpg1250\deff0\deflang1045\deflangfe1045{\fonttbl{\f0\fswiss\fprq2\fcharset0 Arial;}{\f1\fnil\fprq2\fcharset2 Wingdings;}{\f2\fswiss\fprq2\fcharset0 Verdana;}{\f3\fswiss\fprq2\fcharset238{\*\fname Arial;}Arial CE;}}
+{\colortbl ;\red0\green0\blue0;\red0\green64\blue0;\red0\green0\blue255;\red0\green64\blue64;\red0\green51\blue153;}
+{\stylesheet{ Normal;}{\s1 heading 1;}}
+\viewkind4\uc1\pard\keepn\nowidctlpar\s1\cf1\lang2057\b\f0\fs32 Functions  _SetFontNameRTF\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri119\cf1\lang1033 The \b _\lang2057  SetFontNameRTF\lang1033\b0  function sets name of character formatting in a rich edit control.\par
+\pard\nowidctlpar\li640\cf0\lang2057\par
+\pard\nowidctlpar\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 _SetFontNameRTF\cf0\b0  ( <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  , [<\cf3\i lAll\cf0\i0 >] ) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters:\cf3\par
+\pard\nowidctlpar\li640\tx2268\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Character string - a name of font.\cf3\i\par
+\b <lAll>\b0\tab - \cf1\i0 Logical - if TRUE all text is formatting otherwise only selected text.\par
+\cf3\i\par
+\pard\nowidctlpar\cf4\b\i0\fs22 Return\cf1  \par
+\pard\nowidctlpar\li640\fs18 TRUE \cf0\b0 value if successful, otherwise \cf1\b FALSE\cf0\b0\par
+\par
+\pard\nowidctlpar\cf1\b\fs32\par
+Functions  _SetFontSizeRTF \par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri119\cf1\lang1033 The \b _\lang2057  SetFontSizeRTF\lang1033\b0  function sets size of character formatting in a rich edit control.\par
+\pard\nowidctlpar\cf0\par
+\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  \cf1\b _SetFontSizeRTF\cf0\b0  ( <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  , [<\cf3\i lAll\cf0\i0 >]) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+\par
+\cf2\b\fs22 Parameters:\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\pard\nowidctlpar\li640\tx2080\tx2268\b <ControlName>\tab\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\pard\nowidctlpar\li640\tx2268\b <Value>\b0\tab - \cf1\i0 Numeric - size of font.\cf3\i\par
+\cf0\i0  \cf3\b\i <lAll>\b0\tab - \cf1\i0 Logical - if TRUE all text is formatting otherwise only selected text.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\cf1\b\fs32\par
+Functions  _SetFontBoldRTF\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri119\cf1\lang1033 The \b _\lang2057  SetFontBoldRTF\lang1033\b0  function sets bold of character formatting in a rich edit control.\par
+\pard\nowidctlpar\cf0\par
+\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  \cf1\b _SetFontBoldRTF\cf0\b0  ( <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0 , [<\cf3\i lAll\cf0\i0 >]  ) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+ \par
+\cf4\b\fs22 Parameters:\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Logical - TRUE value for bold font.\cf3\i\par
+\b <lAll>\b0\tab - \cf1\i0 Logical - if TRUE all text is formatting otherwise only selected text.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\par
+\pard\nowidctlpar\cf0\b0\par
+\cf1\b\fs32 Function  _SetFontItalicRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri119\cf1\lang1033 The \b _\lang2057  SetFontItalicRTF\lang1033\b0  function sets italic of character formatting in a rich edit control.\par
+\pard\nowidctlpar\cf0\par
+\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  \cf1\b _SetFontItalicRTF\cf0\b0  (<\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  , [<\cf3\i lAll\cf0\i0 >] ) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Logical - TRUE value for italic font.\cf3\i\par
+\b <lAll>\b0\tab - \cf1\i0 Logical - if TRUE all text is formatting otherwise only selected text.\par
+\pard\nowidctlpar\li640\tx2080 .\cf3\i\par
+\pard\nowidctlpar\cf4\b\i0\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\cf1\b\fs32 Function  _SetFontUnderlineRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri119\cf1\lang1033 The \b _\lang2057  SetFontUnderlineRTF\lang1033\b0  function sets underline of character formatting in a rich edit control.\par
+\pard\nowidctlpar\cf0\par
+\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18  _SetFontUnderlineRTF\cf0\b0  (<\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  , [<\cf3\i lAll\cf0\i0 >] ) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Logical - TRUE value for underline font.\cf3\i\par
+\b <lAll>\b0\tab - \cf1\i0 Logical - if TRUE all text is formatting otherwise only selected text.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\cf1\b\fs32 Function  _SetFontStrikeOutRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri119\cf1\lang1033 The \b _\lang2057  SetFontSrikeOutRTF\lang1033\b0  function sets strikeout of character formatting in a rich edit control.\par
+\pard\nowidctlpar\cf0\par
+\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  \cf1\b _SetFontStrikeOutRTF \cf0\b0 ( \cf3\i  \cf0\i0 <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0 , [<\cf3\i lAll\cf0\i0 >]  ) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Logical - TRUE value for Strikeout font.\cf3\i\par
+\b <lAll>\b0\tab - \cf1\i0 Logical - if TRUE all text is formatting otherwise only selected text.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\cf1\b\fs32 Function  GetCharFormat()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b GetCharFormat\b0  function determines the current character formatting in a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetCharFormat\b0  \lang2057\b  \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 > , <\cf3\i SelSize\cf0\i0 > )  \f1\'e0\f0  aCharFormat\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1770\li2410\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <SelSize>\b0\tab - \cf1\i0 Numeric - s\cf0 pecifies size of current selection\par
+\tab    \lang1033 Value more than 0 - g\cf1 ets the current selection's character formatting otherwise gets the default  character formatting.\par
+\pard\nowidctlpar\li640\tx2080\par
+\pard\nowidctlpar\cf4\lang2057\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - Specifies value character formatting:\par
+\pard\nowidctlpar\li640\tx1020\par
+\pard\nowidctlpar\li1560\tx2835 Character\tab FaceName \par
+Numeric \tab PointSize\par
+Logical  \tab Bold \par
+Logical  \tab Italic \par
+Numeric \tab TextColor \par
+Logical  \tab Underline \par
+Logical  \tab Strikeout \par
+Numeric \tab CharSet \par
+\pard\nowidctlpar\par
+\par
+\par
+\cf1\b\fs32 Function  \lang1033 SetCharFormat()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b SetCharFormat\b0  message sets character formatting in a rich edit control.\par
+\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\fi-1487\li2127\cf1\lang1033\fs18 SetCharFormat\b0  \lang2057\b  \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 > , <\cf3\i SelMode\cf0\i0 > ,  <\cf3\i FaceName\cf0\i0 > , <\cf3\i PointSize\cf0\i0 > , <\cf3\i lBold\cf0\i0 > , <\cf3\i lItalic\cf0\i0 > , <\cf3\i aColor\cf0\i0 > , <\cf3\i lUnderline\cf0\i0 > , <\cf3\i lStrikeOut\cf0\i0 >  )  \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\ri119\cf1\lang1033\par
+\pard\nowidctlpar\cf4\lang2057\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1770\li2410\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <SelMode>\b0\tab - \cf1\i0 Numeric - s\cf0 pecifies mode for selection:\par
+\tab    \lang1033 SelMode  =  -1  - \cf1 Applies the formatting to all text in the control\par
+\cf0\tab    SelMode  >= 0  - \cf1 Applies the formatting to the current selection. \par
+\cf3\b\i <FaceName>\cf1\b0\i0           \tab - Character string specifying the font name\cf0\lang2057\par
+\cf3\lang1033\b\i <P\lang2057 ointSize>\cf0\lang1033\b0\i0  \tab - Numeric\tab  H\cf1 eight, in printer's point. \cf0\par
+\cf3\b\i <lB\lang2057 old>\cf0\lang1033\b0\i0  \tab - Logical\tab\cf1 Characters are bold\cf0\par
+\cf3\b\i <lItalic>\cf0\b0\i0  \tab - Logical\tab\cf1 Characters are italic. \cf0\par
+\cf3\b\i <aColor>\cf0\b0\i0  \tab - Numeric\tab\cf1 Text color.\cf0\par
+\cf3\b\i <lUnderline>\cf0\b0\i0  \tab - Logical\tab\cf1 Characters are underlined\cf0\par
+\cf3\lang2057\b\i <lStrikeOut>\cf0\b0\i0  \tab - Logical\tab\cf1\lang1033 Characters are struck.\cf0\lang2057\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\cf1\b\fs32\par
+\cf0\b0\fs18\par
+\cf1\b\fs32 Function  _SetFormatLeftRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\cf1\lang1033 The \b _\lang2057  SetFormatLeftRTF \lang1033\b0 function sets the paragraph formatting to left for the current selection in a rich edit control.\par
+\cf0\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  _\cf1\b SetFormatLeftRTF \cf0\b0 (\cf3\i  \cf0\i0 <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  ) \f1\'e0\f0  lSuccess\cf3\i\par
+\cf0\i0\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Logical - TRUE value for left text adjust.\cf3\i\par
+\pard\nowidctlpar\cf0\i0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  _SetFormatCenterRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\cf1\lang1033 The \b _\lang2057  SetFormatCenterRTF \lang1033\b0 function sets the paragraph formatting to center for the current selection in a rich edit control.\par
+\cf0\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  _\cf1\b SetFormatCenterRTF \cf0\b0 ( <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  ) \f1\'e0\f0  lSuccess\cf3\i\par
+\cf0\i0\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Logical - TRUE value for centre text adjust.\cf3\i\par
+\pard\nowidctlpar\cf0\i0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  _SetFormatRightRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\cf1\lang1033 The \b _\lang2057  SetFormatRightRTF \lang1033\b0 function sets the paragraph formatting to right for the current selection in a rich edit control.\par
+\cf0\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  _\cf1\b SetFormatRightRTF \cf0\b0 ( <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  ) \f1\'e0\f0  lSuccess\cf3\i\par
+\cf0\i0\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Logical - TRUE value for right text adjust.\cf3\i\par
+\pard\nowidctlpar\cf0\i0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  _SetFormatTabRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+\cf1\lang1033 The \b _\lang2057  SetFormatTabRTF \lang1033\b0 function sets the paragraph formatting to tab array for the current selection in a rich edit control.\par
+\cf0\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  _\cf1\b SetFormatTabRTF \cf0\b0 ( <\cf3\i ParentForm\cf1 > , <\cf3 ControlName\cf1 >, <\cf3 Value\cf1 >\cf0\i0  )  \f1\'e0\f0  lSuccess\cf3\i\par
+\cf0\i0\par
+\pard\nowidctlpar   \par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ParentForm>\b0\tab - \cf1\i0 Character string - a name of the Parent Window.\cf3\i\par
+\b <ControlName>\b0\tab - \cf1\i0 Character string - a name of the RichEditBox Control.\cf3\i\par
+\b <Value>\b0\tab - \cf1\i0 Numeric Array - array for tab position.\cf3\i\par
+\pard\nowidctlpar\cf0\i0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\cf1\b\fs32 Function  GetParForm()\par
+\cf2\fs16\par
+\pard\nowidctlpar\li640\cf1\lang1033\b0\fs18 The \lang2057\b GetParForm\lang1033\b0  function retrieves the paragraph formatting of the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetParForm\cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 > \b0  )  \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0  \par
+\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - Specifies value character formatting:\par
+\pard\nowidctlpar\par
+\tab Logical\tab  left \par
+\tab Logical\tab  center \par
+\tab Logical\tab  right \par
+\tab Numeric\tab TabCount \par
+\tab Logical\tab  nNumb \par
+\tab Numeric\tab StartIndent \par
+\tab Numeric\tab dxRightIndent \par
+\tab Numeric\tab dxOffset \par
+\par
+\cf1\b\fs32\par
+Function  SetParForm()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \lang2057\b SetParForm \lang1033\b0  function sets the paragraph formatting for the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\fi-1187\li1827\cf1\fs18 SetParForm \cf0\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 > \b0 , <\cf3\i left\cf0\i0 > , <\cf3\i Center\cf0\i0 > , <\cf3\i Right\cf0\i0 > , <\cf3\i Tab\cf0\i0 > , <\cf3\i Numbering\cf0\i0 >, <\cf3\i StartIndent\cf0\i0 >, <\cf3\i RightIndent\cf0\i0 >, <\cf3\i Offset\cf0\i0 > )  \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric\tab  a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\fi-1770\li2410\tx2268\cf3\b\i <left>\cf1\lang1033\b0\i0           \tab - Logical\tab\cf0 if TRUE p\cf1 aragraphs are aligned with the left margin\cf0\lang2057\par
+\cf3\lang1033\b\i <Center>\cf0\b0\i0  \tab - Logical\tab if TRUE p\cf1 aragraphs are centered.\cf0\par
+\cf3\b\i <Right >\cf0\b0\i0\tab - Logical\tab if TRUE p\cf1 aragraphs are aligned with the right margin.\cf0\par
+\cf3\b\i <Tab>\cf0\b0\i0  \tab - Numeric\tab\cf1 Number of tab stops.\cf0\par
+\cf3\b\i <Numbering>\cf0\b0\i0  \tab - Logical\tab\cf1 Value specifying numbering options. \cf0\par
+\cf3\b\i <StartIdent>\cf0\b0\i0  \tab - Numeric\tab\cf1 Indentation of the first line in the paragraph.\cf0\par
+\cf3\b\i <RightIdent>\cf0\b0\i0  \tab - Numeric\tab\cf1 Size, of the right indentation relative to the right margin.\cf0\par
+\cf3\b\i <Offset>\cf0\b0\i0  \tab - Numeric\tab\cf1\f2\fs16 I\f0\fs18 ndentation of the second and subsequent lines of a paragraph relative to the starting indentation\cf0\par
+\pard\nowidctlpar\lang2057\par
+\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\cf1\b\par
+\fs32 Function  GetParTabs()\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\b0\fs18\par
+\pard\nowidctlpar\li640\lang1033 The \b GetParTabs \b0 function retrieves array of absolute tab stop positions of the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetParTabs \cf0\lang2057\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  ) \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - Specifies \cf1\lang1033 array of absolute tab stop positions\cf0\lang2057\par
+\pard\nowidctlpar\par
+\par
+\par
+\cf1\b\fs32 Function  SetParTabs()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \b SetParTabs \b0 function sets in the paragraph array of absolute tab stop positions\cf0\lang2057\par
+\cf1\lang1033 for the current selection in a rich edit control.\par
+\cf0\lang2057\par
+\pard\nowidctlpar\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 SetParTabs \cf0\lang2057\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  , <\cf3\i aTabs\cf0\i0 >)  \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <aTabs>\b0\tab - \cf1\i0 Array - an \lang1033 array of absolute tab stop positions\lang2057 .\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\cf1\b\fs32 Function  GetParStartId()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \b GetParStartId \b0 function retrieves positions of the first line in the paragraph of the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetParStartId \cf0\lang2057\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  )  \f1\'e0\f0  nStartId\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value - \cf1\lang1033 positions of the first line in the paragraph.\cf0\lang2057\par
+\pard\nowidctlpar\cf1\b\fs32\par
+Function  SetParStartId()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \b SetParStartId \b0 function sets in the paragraph array of absolute tab stop positions\cf0\lang2057\par
+\cf1\lang1033 for the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetParStartId \cf0\b0 (  \b <\cf3\b0\i ControlHandle\cf0\b\i0 > , <\cf3\b0\i nStartId\cf1\i0 >\cf0  )  \f1\'e0\f0  oldPos\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nStartId>\b0\tab - \cf1\i0 Numeric - a \lang1033 positions of the first line in the paragraph, in twips.\lang2057\par
+\pard\nowidctlpar\li640\cf0\par
+\pard\nowidctlpar\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value - old \cf1\lang1033 position of the first line in the paragraph.\cf0\lang2057\par
+\pard\nowidctlpar\par
+\par
+\cf1\b\fs32 Function  GetParRightId()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \b GetParRightId \b0 function retrieves size of the right indentation relative to the right margin of the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetParRightId \cf0\lang2057\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  ) \f1\'e0\f0  nSize \par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\li640\cf0\par
+\pard\nowidctlpar\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value - \cf1\lang1033 Size, of the right indentation relative to the right margin, in twips\cf0\lang2057 .\par
+\pard\nowidctlpar\par
+\cf1\b\fs32\par
+Function  SetParRightId()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \b SetParRightId \b0 function sets size, of the right indentation relative to the right margin\cf0\lang2057\par
+\cf1\lang1033 for the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetParStartId \cf0\b0 (  \b <\cf3\b0\i ControlHandle\cf0\b\i0 > , <\cf3\b0\i nRightId\cf1\i0 >\cf0  ) \f1\'e0\f0  oldRightId\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nRightId>\b0\tab - \cf1\i0 Numeric - s\lang1033 ize, of the right indentation relative to the right margin, in twips.\lang2057\par
+\pard\nowidctlpar\li640\cf0\par
+\pard\nowidctlpar\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value - old s\cf1\lang1033 ize, of the right indentation.\cf0\lang2057\par
+\pard\nowidctlpar\par
+\par
+\cf1\b\fs32 Function  GetParOffset()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \b GetParOffset \b0 function retrieves indentation of the second and subsequent lines of a paragraph relative to the starting indentation of the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetParOffset \cf0\lang2057\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  ) \f1\'e0\f0  nOffset \par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\li640\cf0\par
+\pard\nowidctlpar\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf1\b0\fs18 Numeric\cf0  value - \cf1\lang1033 indentation of the second and subsequent lines of a paragraph relative to the starting indentation, in twips\lang2057 .\par
+\pard\nowidctlpar\cf0\par
+\par
+\cf1\b\fs32 Function  SetParOffset()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 The \b SetParOffset \b0 function sets indentation of the second and subsequent lines of a paragraph relative to the starting indentation for the current selection in a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 SetParOffset \cf0\lang2057\b0 (  \b <\cf3\b0\i ControlHandle\cf0\b\i0 > , <\cf3\b0\i nOffset\cf1\i0 >\cf0  )  \f1\'e0\f0  oldOffset\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nOffset>\b0\tab - \cf1\i0 Numeric - \cf0  a \cf1\lang1033 indentation of the second and subsequent lines of a paragraph relative to the starting indentation, in twips\lang2057\par
+\pard\nowidctlpar\li640\cf0\par
+\pard\nowidctlpar\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value -  old \cf1\lang1033 indentation of the second and subsequent lines of a paragraph , in twips.\cf0\lang2057\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  SetOptions()\par
+\lang1033\b0\f2\fs16\par
+\pard\nowidctlpar\li720\f0\fs18 The \lang2057\b SetOptions \lang1033\b0 function sets the options for a rich edit control.\par
+\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\par
+\pard\nowidctlpar\li640\cf1\fs18 SetOptions \cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >, <\cf3\i nOption\cf0\i0 > )\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\cf3\i\par
+\b <nOption>\b0\tab - \cf1\i0 Numeric - \lang1033 specifies one or more of the following values\lang2057 .\cf3\lang1033\i\par
+\pard\nowidctlpar\li1440\tx3969\cf1\i0\f2\fs16 ECO_AUTOWORDSELECTION \tab\tab Automatic selection of word on double-click. \par
+ECO_AUTOVSCROLL \tab\tab Same as ES_AUTOVSCROLL style. \par
+ECO_AUTOHSCROLL \tab\tab Same as ES_AUTOHSCROLL style. \par
+ECO_NOHIDESEL \tab\tab Same as ES_NOHIDESEL style. \par
+ECO_READONLY \tab\tab Same as ES_READONLY style. \par
+ECO_WANTRETURN \tab\tab Same as ES_WANTRETURN style. \par
+ECO_SELECTIONBAR \tab\tab Same as ES_SELECTIONBAR style. \par
+ECO_VERTICAL \tab\tab Same as ES_VERTICAL style. Available in Asian-language versions only.\par
+\pard\nowidctlpar\cf0\lang2057\f0\fs18\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\cf1\b\par
+\pard\nowidctlpar\cf0\b0\par
+\cf1\b\fs32\par
+Function  RangeSelRTF()\par
+\pard\nowidctlpar\li640\cf0\b0\fs18\par
+The \cf1\b RangeSelRTF\cf0\b0  retrieves  a range current selection.\par
+\par
+\pard\nowidctlpar\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  \cf1\b RangeSelRTF\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >)  \f1\'e0\f0  nNumeric\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\cf3\i\par
+\pard\nowidctlpar\cf0\i0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value - size of current selection.\cf1\b\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\cf1\b\fs32 Function  \lang1033 GetSelRange()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li759\ri119\cf1\lang1033\f2\fs16 The \lang2057\b\f0\fs18 GetSelRange\lang1033\b0\f2\fs16  function retrieves the starting and ending character positions of the selection in a rich edit control.\par
+\par
+\pard\nowidctlpar\cf2\lang2057\b\f0\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetSelRange\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 > ) \f1\'e0\f0  aArray\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\cf3\i\par
+\pard\nowidctlpar\cf0\i0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - \cf1\lang1033\f2\fs16 the starting and ending character positions of the selection\lang2057 .\par
+\b\f0\fs18\par
+\pard\nowidctlpar\cf0\b0\par
+\cf1\b\fs32 Function  \lang1033 SetSelRange()\lang2057\par
+\pard\nowidctlpar\li119\ri119\lang1033\b0\fs18\par
+\pard\nowidctlpar\li759\ri119 The \cf0\lang2057\b SetSelRange\cf1\lang1033  \b0 function selects a range of characters and/or Component Object Model (COM) objects in a Microsoft Rich Edit control.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetSelRange\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >  , <\cf3\i PosMin\cf0\i0 > , <\cf3\i PosMax\cf0\i0 > )\par
+\pard\nowidctlpar\par
+\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <PosMin>\b0\tab - \cf1\i0 Numeric - a starting character position of the selection.\par
+\cf3\b\i <PosMax>\b0\tab - \cf1\i0 Numeric - a ending character position of the selection.\par
+\pard\nowidctlpar\cf0\par
+   \cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\cf1\b\par
+\pard\nowidctlpar\cf0\b0\par
+\cf1\b\fs32\par
+Function  SelectionType()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri119\cf1\lang1033 The \lang2057\b SelectionType \b0 function\lang1033  determines the selection type for a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SelectionType \cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 > ) \f1\'e0\f0  nType\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+   \cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li720\cf1\lang1033\b0\f2\fs16\par
+\pard\nowidctlpar\li839\ri840\f0\fs18 If the selection is empty, the return value is SEL_EMPTY (1).\par
+If the selection is not empty, the return value containing one of the following values.\par
+\par
+\pard\nowidctlpar\fi-19\li839\tx2694\tx6791 SEL_TEXT\tab (2) -Text.\par
+\pard\nowidctlpar\fi-19\li839\tx2694\tx3640\tx6780 SEL_OBJECT\tab (3) - At least one Component Object Model (COM) object.\par
+\pard\nowidctlpar\fi-19\li839\tx2694\tx6791 SEL_MULTICHAR\tab (4) - More than one character of text.\par
+\pard\nowidctlpar\fi-19\li839\tx2694 SEL_MULTIOBJECT\tab (5) - More than one COM object.\par
+\pard\nowidctlpar\li720\f2\fs16\par
+\pard\nowidctlpar\cf0\lang2057\f0\fs18\par
+\cf1\b\fs32 Function  HideSelection()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b HideSelection\b0  function hides or shows the selection in a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 HideSelection\cf0\lang2057\b0  ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\cf1\b0  \cf0 , \b <\cf3\b0\i nHide\cf1\b\i0 >\b0  \cf0 )\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nHide>\cf1\b0\i0\tab - Numeric - \lang1033 specifying whether to hide or show the selection. If this parameter is zero, the selection is shown. Otherwise, the selection is hidden. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  \lang1033 GetRect()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b GetRect\lang1033  \b0 function retrieves the \cf5\i formatting rectangle\cf1\i0  of a rich edit control. The formatting rectangle is the limiting rectangle into which the control draws the text. The limiting rectangle is independent of the size of the edit-control window. You can send this message to either an edit control or a rich edit control.\par
+\cf0\lang2057\par
+\pard\nowidctlpar\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetRect \cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 > ) \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - Specifies the coordinate for of the rectangle:\par
+\pard\nowidctlpar\li1280\tx1960 left\tab x-coordinate of the upper-left corner  \par
+top\tab y-coordinate of the upper-left corner \par
+right\tab x-coordinate of the lower-right corner\par
+bottom\tab y-coordinate of the lower-right corner \par
+\pard\nowidctlpar\li1280\par
+\pard\nowidctlpar\par
+\par
+\cf1\b\fs32 Function  \lang1033 SetRect()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033\f2\fs16 The \lang2057\b\f0\fs18 SetRect\lang1033  \b0\f2\fs16 function sets the \cf5 formatting rectangle\cf1  of a multiline rich edit control. The formatting rectangle is the limiting rectangle into which the control draws the text. The limiting rectangle is independent of the size of the edit control window. \par
+\pard\nowidctlpar\cf2\lang2057\b\f0\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetRect \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 > , <\cf3\i Left\cf0\i0 >, <\cf3\i Top\cf0\i0 >, <\cf3\i Right\cf0\i0 >, <\cf3\i Bottom\cf0\i0 > )\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <Left>\b0\tab - \cf1\i0 Numeric - s\cf0 pecifies the x-coordinate of the upper-left corner of the rectangle\cf1 .\par
+\cf3\b\i <Top>\b0\tab - \cf1\i0 Numeric - s\cf0 pecifies the\cf1  \cf0 y-coordinate of the upper-left corner of the rectangle.\cf1\par
+\cf3\b\i <Right>\b0\tab - \cf1\i0 Numeric - s\cf0 pecifies the x-coordinate of the lower-right corner of the rectangle\cf1\par
+\cf3\b\i <Bottom>\b0\tab - \cf1\i0 Numeric - s\cf0 pecifies the y-coordinate of the lower-right corner of the rectangle.\cf1\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\cf1\b\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\cf1\b\fs32 Function  AutoUrlDetect()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 An \lang2057\b AutoUrlDetect \lang1033\b0  function enables or disables automatic detection of URLs by a rich edit control. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 AutoUrlDetect \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 > , <\cf3\i lTryb\cf0\i0 > )\par
+\pard\nowidctlpar\par
+\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <\lang1033 lTryb\lang2057 >\b0\tab - \cf1\lang1033\i0 Logical\lang2057  - \lang1033 TRUE  enables and FALSE disables automatic detection of URLs\cf0\par
+\pard\nowidctlpar\lang2057\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\cf1\b\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\cf1\b\fs32 Function  \lang1033 CopyRtf()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 A function \lang2057\b CopyRTF\cf0\lang1033\b0  \cf1 sends the \b WM_COPY\b0  message to a rich edit control to copy the current selection to the clipboard in text format. \par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 CopyRTF \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 > )\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\cf1\b\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\cf1\b\fs32 Function  \lang1033 PasteRtf()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 A function \b Paste\lang2057 RTF\lang1033  \b0 sends a \b WM_PASTE\b0  message to a rich edit control to copy the current content of the clipboard to the rich edit control at the current caret position. Data is inserted only if the clipboard contains data in text format. \par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 PasteRTF \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 > )\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\par
+\pard\nowidctlpar\cf1\b\par
+\par
+\fs32 Function  \lang1033 CutRtf()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 A function \b Cut\lang2057 RTF\lang1033\b0  sends a \b WM_CUT\b0  message to a rich edit control to delete (cut) the current selection, if any, in the rich edit control and copy the deleted text to the clipboard in text format. \par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 CutRTF \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  )\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\par
+\cf1\b   \par
+\par
+\pard\nowidctlpar\fs32 Function  \lang1033 ClearRtf()\lang2057\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 A function \b Clear\lang2057 RTF\lang1033\b0  sends a \b WM_CLEAR\b0  message to a rich edit control to delete (clear) the current selection, if any, from the rich edit control. \par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 ClearRTF \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  )\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\par
+\pard\nowidctlpar\par
+\par
+\cf1\b\fs32 Function  UndoRtf()\par
+\lang1033\b0\f2\fs16\par
+\pard\nowidctlpar\li640\f0\fs18 The \lang2057\b UndoRTF \lang1033\b0 function undoes the last rich edit control operation in the control's undo queue.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 UndoRTF \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  )\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\par
+\pard\nowidctlpar\par
+\cf1\b\fs32 Function  \lang1033 RedoRtf()\lang2057\par
+\lang1033\b0\f2\fs16\par
+\pard\nowidctlpar\li640\ri119\f0\fs18 Function \b RedoRtf \b0 send an \b EM_REDO\b0  message to a rich edit control to redo the next action in the control's redo queue.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 RedoRTF \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  )\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\par
+\pard\nowidctlpar\par
+\cf1\b\fs32 Function  \lang1033 CanUndo()\lang2057\par
+\pard\nowidctlpar\li119\ri119\lang1033\b0\f2\fs16\par
+\pard\nowidctlpar\li640\ri119\f0\fs18 The \b CanUndo \b0 function determines whether there are any actions in an edit control's undo queue. You can send this message to either an edit control or a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 CanUndo \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  ) \f1\'e0\f0  lSuccess\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf4\fs22\par
+\cf0\b0\fs18\par
+\cf1\b\fs32 Function  CanRedo()\par
+\pard\nowidctlpar\li119\ri119\lang1033\b0\f2\fs16\par
+\pard\nowidctlpar\li640\ri119\f0\fs18 The \b CanRedo\b0  function determines whether there are any actions in the control redo queue. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 CanRedo \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  )  \f1\'e0\f0  lSuccess\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf4\fs22\par
+\cf0\b0\fs18\par
+\cf1\b\fs32 Function  CanPaste()\par
+\pard\nowidctlpar\li119\ri119\lang1033\b0\f2\fs16\par
+\pard\nowidctlpar\li640\ri119\f0\fs18 The \b CanPaste\b0  function determines whether a rich edit control can paste a specified clipboard format.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 CanPaste \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 > )  \f1\'e0\f0  lSuccess\par
+\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\li640\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\cf1\b\fs32 Function  GetUndoName()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b GetUndoName \b0 function retrieve the type of the next undo action, if any. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetUndoName\cf0\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\cf1\b0   \cf0 ) \f1\'e0\f0  eUndotype\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li839\ri839\cf1\lang1033\b0\fs18 If there is an undo action, the value returned is an \cf5\ul UNDONAMEID \cf1\ulnone enumeration value that indicates the type of the next action in the control's undo queue.\par
+\par
+\pard\nowidctlpar\li1280 The \b UNDONAMEID\b0  enumeration type :\cf0\lang2057\par
+\pard\nowidctlpar\li1280\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8244\tx9160\tx10076\tx10992\tx11908\tx12824\tx13740\tx14656\cf1\lang1033     UID_UNKNOWN = 0,\par
+    UID_TYPING = 1,\par
+    UID_DELETE = 2,\par
+    UID_DRAGDROP = 3,\par
+    \lang2057 UID_CUT = 4,\par
+    UID_PASTE = 5\par
+\pard\nowidctlpar\cf0\par
+\par
+\par
+\cf1\b\fs32 Function  StopUndoGroup()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b StopUndoGroup \b0 function sends message to a rich edit control to stop the control from collecting additional typing actions into the current undo action. The control stores the next typing action, if any, into a new action in the undo queue. \par
+\cf0\lang2057\par
+\pard\nowidctlpar\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 StopUndoGroup \cf0\lang2057\b0 ( \b <\cf3\i ControlHandle\cf0\i0 >\cf1\b0  \cf0  \cf1  \cf0 )\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\lang1033\b0\fs18 The return value is zero\par
+\pard\nowidctlpar\cf0\lang2057\par
+\par
+\par
+\cf1\b\fs32 Function  ClearUndoBuffer()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b ClearUndoBuffer\b0  function resets the undo flag of an rich edit control. The undo flag is set whenever an operation within the rich edit control can be undone. You can used this function in edit control too.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 ClearUndoBuffer\b0  \cf0\lang2057 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\cf1\b0  \cf0  \cf1  \cf0 )\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  FindChr()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b FindChr \lang1033\b0 function finds text within a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 FindChr \cf0\b0 ( \b  \b0 <\cf3\i ControlHandle\cf0\i0 >\b  \b0 , <\cf3\i cText\cf0\i0 >, <\cf3\i Direction\cf0\i0 >, <\cf3\i Wholeword\cf0\i0 >, <\cf3\i Mcase\cf0\i0 >, <\cf3\i Seltxt\cf0\i0 > ) \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <cText>\cf0\b0\i0\tab - Character - \cf1\lang1033\f2\fs16 text to search \cf0\lang2057\f0\fs18\par
+\cf3\lang1033\b\i <Direction>\cf0\b0\i0\tab - Numeric\par
+\pard\nowidctlpar\fi-1628\li2268\ri840\tx2268\tab\tab Value = 1  -\cf1  the search is from the end of the current selection to the end of the document. \par
+\tab\tab Value = 0 -  the search is from the end of the current selection to the beginning of the document. \par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\b\i <Wholeword>\cf0\b0\i0\tab - Logical -  \cf1\f2\fs16 If TRUE, the operation searches only for whole words that match the search string. If FALSE, the operation also searches for word fragments that match the search string\par
+\pard\nowidctlpar\fi-1628\li2268\ri840\tx2268\cf3\b\i\f0\fs18 <Mcase>\cf1\b0\i0\tab - Logical - If TRUE, the search operation is case-sensitive. If FALSE, the search operation is case-insensitive. \par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\lang2057\b\i <SelTxt>\cf0\b0\i0\tab - Logical - If TRUE function don't\cf1\ul  \lang1033\ulnone selects a range of funded characters.\cf0\lang2057\par
+\pard\nowidctlpar  \par
+\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - Specifies value finding selections:\par
+\pard\nowidctlpar\tab\tab Numeric \tab Begin positions of the finding selections, \par
+\tab\tab Numeric \tab End positions of the finding selections, \par
+\tab\tab Numeric \tab Value = 0  - search text not found. \par
+\par
+\par
+\cf1\b\fs32\par
+Function  \lang1033 TestChr\lang2057 ()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b TestChr\lang1033\b0  function finds text within a rich edit control. Another than \b FindChr \b0 function doesn't change caret position.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 TestChr\cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 >\b  \b0 , <\cf3\i cText\cf0\i0 >, <\cf3\i Direction\cf0\i0 >  ) \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <cText>\cf0\b0\i0\tab - Character - \cf1\lang1033 text to search \cf0\lang2057\par
+\cf3\lang1033\b\i <Direction>\cf0\b0\i0\tab - Numeric\par
+\pard\nowidctlpar\fi-1628\li2268\ri840\tx2268\tab\tab Value = 1  -\cf1  the search is from the end of the current selection to the end of the document. \par
+\tab\tab Value = 0 -  the search is from the end of the current selection to the beginning of the document. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\ri839\cf1\b0\fs18 Array\cf0  value - \cf1\lang1033 contains positions of the founded text and the search\rquote s result \par
+\pard\nowidctlpar\cf0\lang2057\tab cpMint\tab Numeric\tab\tab begin position of the text. \par
+\tab cpMaxt\tab Numeric\tab\tab end position of the text. \par
+\tab Result\tab Numeric\tab\tab if null value - text doesn't found. \par
+\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  LinePos()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li720\ri840\cf1\lang1033 The \lang2057\b LinePos \lang1033\b0  function  retrieves the line number of the current line (the line containing the caret) and the position the caret  of the line. \par
+\pard\nowidctlpar\lang2057\b\fs32\par
+\cf2\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 LinePos \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 > \b0  ) \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0  \par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - Specifies the line and position in line of the caret:\par
+\pard\nowidctlpar\li1280\tx1960 line\tab\tab Numeric - \cf1\lang1033\f2\fs16 Specifies the zero-based line number\cf0\lang2057\f0\fs18\par
+position\tab\tab Numeric - position caret oft the line .\par
+\pard\nowidctlpar\par
+\cf1\b\fs32\par
+Function  GetLineCount()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li759\ri119\cf1\lang1033 The \b GetLineCount\b0  Function retrieves the number of lines in a multiline rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetLineCount\b0  \cf0\lang2057 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 > \b0  )  \f1\'e0\f0  nLine\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value - l\cf1\lang1033 the number of lines\cf0\lang2057 .\cf1\b\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+ \par
+\cf1\b\fs32 Function  GetLine()\par
+\lang1033\b0\fs18\par
+\pard\nowidctlpar\li640 The \lang2057\b GetLine\lang1033\b0  Function copies a line of text from an rich edit control and places it in a specified buffer. \par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetLine \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0 , \b <\cf3\b0\i nLine\cf1\b\i0 >\b0  \cf0 )  \f1\'e0\f0  cCharacter\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nLine>\cf1\b0\i0\tab - Numeric -  \lang1033 specifies the zero-based line number.\lang2057\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Character\cf0  value - \cf1\lang1033 buffer that receives a copy of the line\lang2057\b\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\cf1\b\fs32 Function  GetLineIndex()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b GetLineIndex\b0  function retrieves the character index of the first character of a specified line in a multiline rich edit control. A character index is the zero-based index of the character from the beginning of the rich edit control. You can used this function in edit control too.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetLineIndex \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\cf1\b0  \cf0 , \b <\cf3\b0\i nLine\cf1\b\i0 >\b0  \cf0 )\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nLine>\cf1\b0\i0\tab - Numeric - \lang1033 specifies the zero-based line number.\lang2057\par
+\pard\nowidctlpar\cf4\par
+\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Numeric\cf0  value - the\cf1\lang1033  character index of the line specified in the parameter.\lang2057\par
+\pard\nowidctlpar\cf0\par
+\par
+\par
+\cf1\b\fs32 Function  ModifyRtf()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b ModifyRtf\b0  function sets or clears the modification flag for an rich edit control. The modification flag indicates whether the text within the edit control has been modified. You can used this function in edit control too.\par
+\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 ModifyRtf \cf0\b0 ( \b  <\cf3\b0\i ControlHandle\cf0\b\i0 >\cf1\b0  \cf0 , \b <\cf3\b0\i nModify\cf1\b\i0 >\b0  \cf0 )  \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nModify>\cf1\b0\i0\tab - Numeric - if \lang1033 the value is 0 retrieves the modification flag, otherwise clears the modification flag. \par
+\pard\nowidctlpar\cf4\lang2057\b\fs22\par
+Return: \par
+\pard\nowidctlpar\li839\ri839\cf1\lang1033\b0\fs18 If the contents of edit control have been modified, the return value is TRUE; otherwise, it is FALSE.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\par
+\cf1\b\fs32 Function  GetSelText()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b GetSelText \lang1033\b0  function retrieves the currently selected text in a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetSelText \cf0\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 > \b0 )  \f1\'e0\f0  cCharacter\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf1\lang1033\par
+\cf4\lang2057\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Character\cf0  value -  a \cf1\lang1033 buffer that receives the selected text\par
+\lang2057\par
+\pard\nowidctlpar\cf0\par
+\cf1\b\fs32 Function  PrintRtf()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b PrintRtf\b0  function sends a portion of the contents of a rich edit control, previously formatted, for a print device.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 PrintRtf\b0  \cf0\lang2057 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 > , <\cf3\b0\i hDC\cf0\i0 > , <\cf3\i wPage\cf0\i0 > , <\cf3\i hPage\cf0\i0 > , <\cf3\i MinSel\cf0\i0 >, <\cf3\i MaxSel\cf0\i0 > , <\cf3\i lPrn\cf0\i0 > ) \f1\'e0\f0  nPos\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <hDC>\b0\tab - \cf1\i0 Numeric - \lang1033 target device to format for\lang2057 .\par
+\cf3\b\i <wPage>\b0\tab - \cf1\i0 Numeric - specifies the width of the paper selected by the user.\par
+\cf3\b\i <hPage>\b0\tab - \cf1\i0 Numeric - specifies the height of the paper selected by the user.\par
+\cf3\b\i <MinSel>\b0\tab - \cf1\i0 Numeric - begin position of the selection to format.\par
+\cf3\b\i <MaxSel>\b0\tab - \cf1\i0 Numeric - end position of the selection to format.\par
+\cf3\b\i <lPrn>\b0\tab - \cf1\i0 Logical   - if value is FALSE selected text is not printed.\par
+\pard\nowidctlpar\lang1033\f2\fs16\par
+\cf4\lang2057\b\f0\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\lang1033\b0\fs18 Numeric\cf0\lang2057  value -  \lang1033 Last position \lang2057 a \lang1033 portion of the contents sends for a print device.\cf1\par
+\pard\nowidctlpar\f2\fs16\par
+\cf0\f0\fs18\par
+\lang2057\par
+\cf1\b\fs32 Function  GetLenText()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b GetLenText\b0  function calculates text length in various ways. It is usually called before creating a buffer to receive the text from the control. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetLenText\b0  \cf0\lang2057 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 > \b0 ) \f1\'e0\f0  nLen\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\lang1033\b0\fs18 The function returns the number of \b TCHAR\b0 s in the edit control, \cf0\lang2057\par
+\pard\nowidctlpar\par
+\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  ReplaceSel()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b ReplaceSel\b0  function replaces the current selection in an rich edit control with the specified text. You can used this function in edit control too.\par
+\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 ReplaceSel \cf0\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\cf1\b0  \cf0 , \b <\cf3\b0\i cText\cf1\b\i0 >\b0  \cf0 )\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <cText>\cf1\b0\i0\tab - Character - a \lang1033 string containing the replacement text. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\pard\nowidctlpar\par
+\par
+\pard\nowidctlpar\li640\par
+\pard\nowidctlpar\par
+\par
+\cf1\b\fs32 Function  GetZoom()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b GetZoom\b0  function gets the current zoom ratio, which is always between 1/64 and 64. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 GetZoom\b0  \cf0\lang2057 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\cf1\b0  \cf0  \cf1  \cf0 )\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 Array\cf0  value - Specifies the zoom ratio:\par
+\pard\nowidctlpar\li720\ri840\cf1\lang1033\tab Numeric - the numerator of the zoom ratio. \par
+\i\tab\i0 Numeric - the denominator of the zoom ratio. \par
+\pard\nowidctlpar\cf4\lang2057\b\fs22\par
+\par
+\cf1\fs32 Function  SetZoom()\par
+\cf0\b0\fs18\par
+\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetZoom \cf0\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0 , <\cf3\i numerator\cf0\i0 >, <\cf3\i denominator\cf0\i0 > ) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <numerator>\b0\tab - \cf1\i0 Numeric - a \lang1033 numerator of the zoom ratio\lang2057 .\par
+\cf3\b\i <denominator>\b0\tab - \cf1\i0 Numeric - a \lang1033 denominator of the zoom ratio\lang2057 .\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Remarks: \par
+\pard\nowidctlpar\li720\ri840\cf1\lang1033\b0\f2\fs16 These parameters can have the following values:\par
+\pard\nowidctlpar\li1360\ri840\b Both 0\b0  \par
+     Turns off zooming.\par
+\b 1/64 < (\cf0\lang2057 numerator\cf1\lang1033  / \cf0\lang2057 denominator\cf1\lang1033 ) < 64 \par
+\b0      Zooms display by the zoom ratio numerator/denominator\par
+\pard\nowidctlpar\cf4\lang2057\b\f0\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\par
+\pard\nowidctlpar\par
+\cf0\b0\par
+\cf1\b\fs32 Function  ShowScrollBar()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b ShowScrollBar\b0  function shows or hides one of the scroll bars in the Text Host window. \par
+\pard\nowidctlpar\cf2\lang2057\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 ShowScrollBar\cf0\b0 ( \cf1\lang1033\b  \cf0\lang2057\b0  \b <\cf3\b0\i ControlHandle\cf0\b\i0 > ,\b0  <\cf3\i lVert\cf1\i0 > , <\cf3\i lHide\cf1\i0 >\cf0  ) \par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <lVert>\b0\tab - \cf1\i0 Logical - \cf0  \cf1\lang1033 Identifies which scroll bar to display: horizontal or vertical. This parameter must be :\par
+\pard\nowidctlpar\fi-1628\li4188\tx2268\lang1031\b SB_VERT  = TRUE\par
+SB_HORZ = FALSE\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\lang2057\i <lHide>\b0\tab - \cf1\i0 Logical - \lang1033 Specifies whether to show the scroll bar or hide it. Specify \b TRUE \b0 to show the scroll bar and \b FALSE \b0 to hide it. \par
+\pard\nowidctlpar\li80\ri840\par
+\pard\nowidctlpar\cf4\lang2057\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\pard\nowidctlpar\par
+\par
+\cf1\b\fs32 Function  PosFromChar()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \b PosFromChar\b0  function retrieves the client area coordinates of a specified character in an rich edit control. You can used this function in edit control too.\par
+ \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\lang1033\fs18 PosFromChar\b0  \cf0\lang2057 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  ) \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\li640\cf0\par
+\pard\nowidctlpar\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\ri839\cf1\b0\fs18 Array\cf0  value - \cf1\lang1033 contains the client area coordinates of the character:\par
+\pard\nowidctlpar\li1280\ri839 - the horizontal coordinate\par
+- the vertical coordinate. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\par
+\cf1\b\fs32 Function  GetTextMode()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 A function \b GetTextMode \b0 sends a message to get the current text mode and undo level of a rich edit control. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetTextMode \cf0\b0 ( \b <\cf3\b0\i ControlHandle\cf0\b\i0 >\b0  ) \f1\'e0\f0  nTextMode\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\li640\cf0\par
+\pard\nowidctlpar\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li839\ri839\cf1\lang1033\b0\f2\fs16 The return value is one or more values from the \cf5\ul TEXTMODE\cf1\ulnone  enumeration type. The values indicate the current text mode and undo level of the control: \par
+\pard\nowidctlpar\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8244\tx9160\tx10076\tx10992\tx11908\tx12824\tx13740\tx14656  \par
+\pard\nowidctlpar\li1280\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8244\tx9160\tx10076\tx10992\tx11908\tx12824\tx13740\tx14656\b     TM_PLAINTEXT = 1,\par
+    TM_RICHTEXT = 2,\par
+    TM_SINGLELEVELUNDO = 4,\par
+    TM_MULTILEVELUNDO = 8,\par
+    TM_SINGLECODEPAGE = 16,\par
+    TM_MULTICODEPAGE = 32\par
+\pard\nowidctlpar\cf0\lang2057\b0\f0\fs18\par
+\cf1\b\fs32 Function  SetTextMode()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 A function \b SetTextMode \b0 sends message to set the text mode or undo level of a rich edit control. The message fails if the control contains any text. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetTextMode\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >, <\cf3\i nMode\cf0\i0 >) \f1\'e0\f0  lSuccess\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <nMode>\b0\tab - \cf1\i0 Numeric - \lang1033\f2\fs16 Specify one of the following values to set the text mode parameter:\lang2057\f0\fs18 .\par
+\pard\nowidctlpar\li2560\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8244\tx9160\tx10076\tx10992\tx11908\tx12824\tx13740\tx14656\lang1033\f2\fs16     \b TM_PLAINTEXT = 1\b0  -\f0\fs18  Indicates plain text mode\par
+\f2\fs16     \b TM_RICHTEXT = 2\b0   -\f0\fs18  Indicates rich text mode\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\fs18 TRUE\cf0\b0  value if successful, otherwise \cf1\b FALSE\par
+\pard\nowidctlpar\cf0\b0\par
+\par
+\par
+\par
+\cf1\b\fs32 Function  GetEventMask()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b GetEventMask\lang1033\b0  function retrieves the event mask for a rich edit control. The event mask specifies which notification messages the control sends to its parent window.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetEventMask\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >) \f1\'e0\f0  nEventMask\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\b\par
+\cf4\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\lang1033\b0\fs18 This function returns the event mask for the rich edit control. For a list of event masks, see \lang2057 description for function \b SetEventMask.\lang1033\b0  \par
+\pard\nowidctlpar\cf0\lang2057\par
+\par
+\par
+\cf1\b\fs32 Function  SetEventMask()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b SetEventMask\lang1033\b0  function sets the event mask for a rich edit control. The event mask specifies which notification messages the control sends to its parent window.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetEventMask \cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >, <\cf3\i eMask\cf0\i0 > ) \par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <eMask>\b0\tab - \cf1\i0 Numeric - \lang1033 New event mask for the rich edit control.\lang2057\par
+\pard\nowidctlpar\li1280\ri119\lang1033 The event mask can be none or a combination of these values. \par
+\pard\nowidctlpar\fi-2834\li3969\ri840\tx3544\tx3969\b ENM_CHANGE\b0   \tab 1\tab Sends \cf5\ul EN_CHANGE \cf1\ulnone notifications. \par
+\b ENM_CORRECTTEXT\b0   \tab\tab Sends \cf5\ul EN_CORRECTTEXT\cf1\ulnone  notifications. \par
+\b ENM_DRAGDROPDONE\b0   \tab\tab Sends \cf5\ul EN_DRAGDROPDONE\cf1\ulnone  notifications. \par
+\b ENM_DROPFILES\b0   \tab\tab Sends \cf5\ul EN_DROPFILES\cf1\ulnone  notifications. \par
+\b ENM_IMECHANGE\b0   \tab\tab Microsoft Rich Edit 1.0 only: Sends \cf5\ul EN_IMECHANGE\cf1\ulnone  notifications when the IME conversion status has changed. Only for Asian-language versions of the operating system. \par
+\b ENM_KEYEVENTS\b0   \tab\tab Sends \cf5\ul EN_MSGFILTER\cf1\ulnone  notifications for keyboard events. \par
+\b ENM_LINK\b0   \tab\tab\b Rich Edit 2.0 and later:\b0  Sends \cf5\ul EN_LINK\cf1\ulnone  notifications when the mouse pointer is over text that has the CFE_LINK and one of several mouse actions is performed. \par
+\b ENM_MOUSEEVENTS\b0   \tab\tab Sends \cf5\ul EN_MSGFILTER\cf1\ulnone  notifications for mouse events. \par
+\b ENM_OBJECTPOSITIONS\b0  \tab\tab Sends \cf5\ul EN_OBJECTPOSITIONS\cf1\ulnone  notifications. \par
+\b ENM_PROTECTED\b0   \tab\tab Sends \cf5\ul EN_PROTECTED\cf1\ulnone  notifications. \par
+\b ENM_REQUESTRESIZE\b0   \tab\tab Sends \cf5\ul EN_REQUESTRESIZE\cf1\ulnone  notifications. \par
+\b ENM_SCROLL\b0   \tab\tab Sends \cf5\ul EN_HSCROLL \cf1\ulnone  and \cf5\ul EN_VSCROLL \cf1\ulnone notifications. \par
+\b ENM_SCROLLEVENTS\b0   \tab\tab Sends \cf5\ul EN_MSGFILTER\cf1\ulnone  notifications for mouse wheel events. \par
+\lang1031\b ENM_SELCHANGE\b0   \tab\tab Sends \cf5\ul EN_SELCHANGE\cf1\ulnone  notifications. \par
+\lang1033\b ENM_UPDATE\b0   \tab\tab Sends \cf5\ul EN_UPDATE \cf1\ulnone  notifications. \par
+\pard\nowidctlpar\cf0\par
+ \lang2057\par
+\cf1\b\fs32 Function  PageSetupRtf()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640 The \cf1\b PageSetupRtf \cf0\b0 function creates a Page Setup dialog box that enables the user to specify the attributes of a printed page. These attributes include the paper size and source, the page orientation (portrait or landscape), and the width of the page margins. \par
+\pard\nowidctlpar\cf2\b\fs22\par
+Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 PageSetupRtf \cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 > , <\cf3\i lMar\cf0\i0 > , <\cf3\i rMar\cf0\i0 > , <\cf3\i tMar\cf0\i0 > , <\cf3\i bMar\cf0\i0 > , <\cf3\i wPage\cf0\i0 >, <\cf3\i hPage\cf0\i0 >, <\cf3\i sPage\cf0\i0 >, <\cf3\i oPage\cf0\i0 > )  \f1\'e0\f0  aArray\par
+\pard\nowidctlpar\cf4\b\fs22\par
+Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <\cf0\b0\i0  \cf3\b\i lMar, rMar,tMar, bMar>\b0\tab - \cf1\i0 Numeric - \lang1033 Specifies the widths of the left, top, right, and bottom margins.\lang2057\par
+\cf3\b\i <wPage, hPage>\b0\tab - \cf1\i0 Numeric - Specifies the dimensions of the paper selected by the user.\par
+\cf3\b\i <sPage>\b0\tab - \cf1\i0 Numeric - Selects the size of the paper to print on. This member can be set to zero if the length and width of the paper are both set by the \cf3\b\i wPage\cf1\b0\i0  and \cf3\b\i hPage\cf1\b0\i0  parameters. Otherwise, the \cf3\b\i sPage \cf1\b0\i0 parameter can be set to one of  predefined values. See in Manual - Print\par
+\cf3\b\i <oPage>\b0\tab - \cf1\i0 Numeric - Selects the orientation of the paper. This member can be either DMORIENT_PORTRAIT (1) or DMORIENT_LANDSCAPE (2). \par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\ri839\cf1\b0\fs18 Array\cf0  value - \cf1\lang1033 contains the \cf0\lang2057 attributes of a printed page\lang1033 :\cf1\par
+\pard\nowidctlpar\cf0\lang2057\tab Result\tab Numeric\tab\tab if null value - attributes aren't changed.; \par
+\tab lMart   \tab Numeric\tab\tab left margin, \par
+\tab rMar\tab Numeric  \tab right margin\par
+\tab tMar   \tab Numeric \tab top margin\par
+\tab bMar \tab Numeric\tab\tab bottom margin \par
+\tab wPage\tab Numeric \tab width page\par
+\tab hPage\tab Numeric \tab height page\par
+\tab sPage\tab Numeric \tab predefined paper size \par
+\tab oPage \tab Numeric\tab\tab orientation of the paper\par
+   \par
+\par
+ \par
+\par
+\cf1\b\fs32 Function  RtfRefresh()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640 The \cf1\b RtfRefresh \cf0\b0 function adds a rectangle to the specified window\rquote s update region. The update region represents the portion of the window\rquote s client area that must be redrawn. \par
+\pard\nowidctlpar\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 RtfRefresh \cf0\b0 (  <\cf3\i ControlHandle\cf0\i0 >\b  \b0 , <\cf3\i lMargin\cf0\i0 > , <\cf3\i rMargin\cf0\i0 >  )\par
+\pard\nowidctlpar  \par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <lMargin>\cf0\b0\i0\tab - \cf1 Numeric \cf0 - left margin adds to the update region,\cf1\lang1033  \cf0\lang2057\par
+\cf3\b\i <\lang1033 rMargin\lang2057 >\cf0\lang1033\b0\i0\tab - Numeric - right margin adds to the update region,\par
+\pard\nowidctlpar\lang2057\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf0\b0\fs18 If the function succeeds, the return value is nonzero.\par
+\pard\nowidctlpar  \par
+\cf1\b\fs32 Function  SetBkgndColor()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li759\ri119\cf1\lang1033 The \lang2057\b SetBkgndColor\lang1033\b0  function sets the background color for a rich edit control.\par
+\pard\nowidctlpar\cf2\lang2057\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 SetBkgndColor\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >, <\cf3\i Syscol\cf0\i0 > , <\cf3\i nRed\cf0\i0 > , <\cf3\i nGreen\cf0\i0 > , <\cf3\i nBlue\cf0\i0 > ) \f1\'e0\f0  nColor\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\lang1033\b\i <lSysCol>\cf0\lang2057\b0\i0\tab - \cf1 Numeric\lang1033  \cf0\lang2057 - \cf1\lang1033 If this parameter is a nonzero value, the background is set to the window background system color. Otherwise, the background is set to the specified color. \cf0\lang2057 ,\cf1\lang1033  \cf0\lang2057\par
+\cf3\lang1033\b\i <\lang2057 nRed, nGreen, nBlue\lang1033 >\cf0\b0\i0\tab - Numeric - parameters\cf1  specifying the color if SysCol is zero\cf0\par
+\pard\nowidctlpar\lang2057\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\lang1033\b0\fs18 This function returns the original background color\cf0\lang2057\par
+\pard\nowidctlpar\par
+\par
+\par
+\cf1\b\fs32 Function  \lang1033 ScrollCaret\lang2057 ()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b ScrollCaret\lang1033\b0  function scrolls the caret into view in an rich edit control. You can used this function in edit control too.\par
+\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 ScrollCaret \cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >\cf1  )\cf0\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\pard\nowidctlpar\par
+\par
+\cf1\b\fs32 Function  LineScroll()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li119\ri119\cf1\lang1033\f2\fs16 The \lang2057\b\f0\fs18 LineScroll\lang1033\b0\f2\fs16  function scrolls the text in a multiline rich edit control. \par
+\pard\nowidctlpar\cf0\lang2057\f0\fs18\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 LineScroll \cf0\b0 (<\cf3\i ControlHandle\cf0\i0 >, <\cf3\i nLine\cf0\i0 > ) \par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <\lang1033 nLine\lang2057 >\b0\tab - \cf1\i0 Numeric - \lang1033 specifies the number of lines to scroll vertically. \par
+\pard\nowidctlpar\f2\fs16\par
+\cf4\lang2057\b\f0\fs22 Return: \par
+\pard\nowidctlpar\li640\ri839\cf1\lang1033\b0\fs18 For the multiline rich edit control, the return value is TRUE. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\par
+\par
+\cf1\b\fs32 Function  \lang1033 GetFirstVisibleLine\lang2057 ()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 The \lang2057\b GetFirstVisibleLine\lang1033\b0  message retrieves the zero-based index of the uppermost visible line in a multiline edit control. You can send this message to either an edit control or a rich edit control.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf1\fs18 GetFirstVisibleLine\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 >\cf1  )  \f1\'e0\f0  nIndex\cf0\par
+\pard\nowidctlpar\par
+\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\cf0\par
+\cf4\b\fs22 Return: \par
+\pard\nowidctlpar\li640\ri839\cf1\lang1033\b0\fs18 The return value is the zero-based index of the uppermost visible line in a multiline edit control. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\par
+\cf1\b\fs32 Function  GetScrollPosRtf()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\ri119\cf1\lang1033 A function  \lang2057\b GetScrollPosRtf\lang1033\b0  sends message to obtain the current scroll position of the edit control. \par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  \cf1\b GetScrollPosRtf\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 > ) \f1\'e0\f0  aArray\lang1045\f3  \lang2057\f0\par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\pard\nowidctlpar\li720\ri840\lang1033\f2\fs16\par
+\pard\nowidctlpar\cf4\lang2057\b\f0\fs22 Return: \par
+\pard\nowidctlpar\li640\ri839\cf1\b0\fs18 Array\cf0  value - \cf1\lang1033 contains a value of point in the virtual text space of the document, expressed in pixels. This point will be the point that is currently located in the upper-left corner of the rich edit control window. \par
+\pard\nowidctlpar\ri840\cf0\lang2057\par
+\pard\nowidctlpar\par
+\cf1\b\fs32 Function  GetScrollPosRtf()\par
+\cf0\b0\fs18\par
+\pard\nowidctlpar\li640\cf1\lang1033 A function \lang2057\b SetScrollPosRtf\lang1033\b0  sends a message to tell the rich edit control to scroll to a particular point.\par
+\pard\nowidctlpar\cf0\lang2057\par
+\cf2\b\fs22 Syntax:\par
+\pard\nowidctlpar\li640\cf0\b0\fs18  \cf1\b SetScrollPosRtf\cf0\b0 ( <\cf3\i ControlHandle\cf0\i0 > , <\cf3\i xPt\cf0\i0 > , <\cf3\i yPt\cf0\i0 > ) \par
+\pard\nowidctlpar\cf4\b\fs22 Parameters\cf1 :\par
+\pard\nowidctlpar\fi-1628\li2268\tx2268\cf3\i\fs18 <ControlHandle>\b0\tab - \cf1\i0 Numeric - a reference to the RichEditBox Control.\par
+\cf3\b\i <\lang1033 xPt, yPt\lang2057 >\b0\tab - \cf1\i0 Numeric - \lang1033 Parameters to a \cf5\ul POINT\cf1\ulnone  structure which specifies a point in the virtual text space of the document, expressed in pixels. The document will be scrolled until this point is located in the upper-left corner of the edit control window\cf0\par
+\pard\nowidctlpar\cf4\lang2057\b\fs22 Return: \par
+\pard\nowidctlpar\li640\cf1\b0\fs18 No return\cf0  value.\par
+\pard\nowidctlpar\par
+\par
+}
+ 

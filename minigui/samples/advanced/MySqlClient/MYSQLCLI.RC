@@ -1,0 +1,17 @@
+A_ICO_MAIN           ICON            "BASE.ICO"
+ICO_LEDON            ICON            "LEDON.ICO"
+ICO_LEDOFF           ICON            "LEDOFF.ICO"
+BMP_32_CONNECT       BITMAP          "CONN_32.BMP"
+BMP_32_DISCONNECT    BITMAP          "DCON_32.BMP"
+BMP_16_ITEMOFF       BITMAP          "OFF_16.BMP"
+BMP_16_ITEMON        BITMAP          "ON_16.BMP"
+BMP_16_SERVER        BITMAP          "SERV_16.BMP"
+BMP_32_BASE          BITMAP          "BASE1_32.BMP"
+BMP_32_TABLE         BITMAP          "BASE2_32.BMP"
+
+
+
+
+
+
+

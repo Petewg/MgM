@@ -1,0 +1,16 @@
+# BREAKPOINTS #
+BP dbg_test1.prg 44
+BP dbg_test1.prg 59
+BP FuncBP
+
+# TRACEPOINTS #
+TP z==5
+TP private_x=="X"
+
+# WATCHPOINTS #
+WP i
+
+# OTHERS #
+CodeBlockTrace YES
+AnimateBreakPoint YES
+AnimateTracePoint YES

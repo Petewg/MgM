@@ -1,0 +1,60 @@
+#define ICON_1 1001
+#define ICON_2 1002
+#define ICON_3 1003
+#define ICON_4 1004
+#define ICON_5 1005
+#define ICON_6 1006
+#define ICON_7 1007
+#define ICON_8 1008
+#define ICON_9 1009
+#define ICON_10 1010
+#define ICON_11 1011
+#define ICON_12 1012
+
+MAIN ICON main.ico
+
+ICON_1 ICON ico\Icon_1.ico
+ICON_2 ICON ico\Icon_2.ico
+ICON_3 ICON ico\Icon_3.ico
+ICON_4 ICON ico\Icon_4.ico
+ICON_5 ICON ico\Icon_5.ico
+ICON_6 ICON ico\Icon_6.ico
+ICON_7 ICON ico\Icon_7.ico
+ICON_8 ICON ico\Icon_8.ico
+ICON_9 ICON ico\Icon_9.ico
+ICON_10 ICON ico\Icon_10.ico
+ICON_11 ICON ico\Icon_11.ico
+ICON_12 ICON ico\Icon_12.ico
+
+INFO BITMAP menu\info.bmp
+EXIT BITMAP menu\exit.bmp
+CHECK BITMAP menu\check.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,0,1,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "SysInfo Tray\000"
+		VALUE "FileVersion", "1.0.1.0"
+		VALUE "InternalName", "SysInfoTray\000"
+		VALUE "LegalCopyright", "Freeware 2007-2011\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "SysInfoTray.exe\000"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+// BLOCK "VarFileInfo"
+// {
+	// VALUE "Translation", 0x0409 0x04B0
+// }
+}

@@ -1,0 +1,153 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2016 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 145 , 343 WIDTH 655 HEIGHT 498 TITLE "DownLoad File" MAIN NOMAXIMIZE
+
+DEFINE MAIN MENU
+          DEFINE POPUP "File"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                MENUITEM "DownLoad" ACTION DownloadFile()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                SEPARATOR                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                MENUITEM "Exit" ACTION Thiswindow.Release                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+          END POPUP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+     END MENU                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+     DEFINE LABEL Label_1
+            ROW    20
+            COL    20
+            WIDTH  80
+            HEIGHT 20
+            VALUE "File URL"
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+     END LABEL  
+
+     DEFINE TEXTBOX txt_URL
+            ROW    20
+            COL    105
+            WIDTH  390
+            HEIGHT 24
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+     END TEXTBOX 
+
+     DEFINE LABEL Label_2
+            ROW    200
+            COL    320
+            WIDTH  120
+            HEIGHT 20
+            VALUE "Time Elapsed (secs)"
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+     END LABEL  
+
+     DEFINE LABEL lbl_Size
+            ROW    200
+            COL    100
+            WIDTH  200
+            HEIGHT 20
+            VALUE ""
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            FONTBOLD .T.
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    200
+            COL    20
+            WIDTH  80
+            HEIGHT 20
+            VALUE "File size (Kb)"
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+     END LABEL  
+
+     DEFINE LABEL lbl_Time
+            ROW    200
+            COL    450
+            WIDTH  40
+            HEIGHT 20
+            VALUE ""
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            FONTBOLD .T.
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    50
+            COL    20
+            WIDTH  80
+            HEIGHT 35
+            VALUE "File/Server Info"
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+     END LABEL  
+
+     DEFINE RICHEDITBOX Edit_1
+            ROW    50
+            COL    105
+            WIDTH  390
+            HEIGHT 138
+            VALUE ''
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP ''
+            TABSTOP .F.
+            READONLY .T.
+            BACKCOLOR {243,200,150}
+     END RICHEDITBOX  
+
+     DEFINE BUTTONEX ButtonEX_1
+            ROW    20
+            COL    510
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "Info"
+            ACTION GetHeaders()
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP ''
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_2
+            ROW    60
+            COL    510
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "Dowload"
+            ACTION DownloadFile()
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP ''
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_3
+            ROW    370
+            COL    510
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "About"
+            ACTION MsgInfo( "DownLoad file sample" + hb_eol() + MiniguiVersion())
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP ''
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_4
+            ROW    400
+            COL    510
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "Exit"
+            ACTION ThisWindow.Release
+            FONTNAME "Segoe UI"
+            FONTSIZE 10
+            TOOLTIP ''
+            HANDCURSOR .F.
+     END BUTTONEX  
+
+END WINDOW
+
+

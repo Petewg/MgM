@@ -1,0 +1,78 @@
+
+          *** InputWindowEx ***
+
+    an enhanced HMG InputWindow function
+=============================================
+
+- backward compatibility with standard InputWindow syntax;
+
+New possibilities :
+
+	- accept a label without a control. You may set a font attributes like bold,italic,strikeout or underline.
+
+	- a label/control size may be changed;
+
+	- labels/controls defined in a InputWindowEx window may be controlled by an external codeblock;
+
+Syntax:
+
+	InputWindowEx(	<Title>, <acLabels>, <aInitialValues>, <aFormats>,<nRow> , <nCol>, <lCenterWindow>,;
+			<aButOKCancelCaptions>, <bCodeblock> )  -->  aResult
+
+InputWindowEx() Argument Description :
+
+	Argument         	Meaning 
+	---------------------------------------------------------------------
+	<Title>			Window Title 
+	<acLabels>		Character array containing labels with item descriptions 
+	<aInitialValues>	Array containig initial values to edit 
+	<aFormats>		Array containing format information for editing 
+	<nRow>			Initial row position 
+	<nCol>			Initial colums position 
+	<lCenterWindow>		Logical center flag
+	<aButOKCancelCaptions>  Character array containing captions with button descriptions
+	<bCodeBlock>		External codeblock
+
+
+ An automatic control creation is compatible with InputWindow() function :
+
+	Initial Value Type  -  Format Type     -     Control Created 
+	-------------------------------------------------------------------------------
+	Character		Numeric (< 32)		TEXTBOX 
+	Character		Numeric (>= 32)		EDITBOX 
+	Logical			Nil			CHECKBOX 
+	Numeric			Character Array		COMBOBOX 
+	Numeric			Character (InputMask)	TEXTBOX(NUMERIC) 
+	Date			Nil			DATEPICKER 
+
+ A InputWindowEx default values may be changed by <aFormats> parameter.
+
+   <aFormats> optional syntax :
+
+     {{ nLabelWidth, cControlType, nControlWidth, nControlHeight, xControlValue },...}
+
+	Control created   -	cControlType values :
+	--------------------------------------------------------------
+	LABEL			Empty string or nil        
+	TEXTBOX			TX
+	TEXTBOX NUMERIC      	TN
+	EDITBOX			EB
+	CHECKBOX		CH
+	COMBOBOX		CB
+	DATEPICKER		DP
+
+ Example :
+	InputWindowEx(  cTitle,;
+			{'first row - label','second row - checkbox','third row - textbox'},;	// labels
+			{nil,.t.,'some text...'},;		// values
+			{{250,,,,'BOLD ITALIC'},;		// defined LABEL, width 250, font bold and italic 
+			 nil,;					// LABEL + CHECKBOX ( standard definition )
+			 {100,'TX',200,,}},;			// LABEL ( width 100) + TEXTBOX ( width 200 )
+			nRow, nCol, lCenter, aButtons )
+
+ With external codeblock some default properties may be changed or tested
+ (f.e. control BACKCOLOR, FONTCOLOR, FONTSIZE, FONTITALIC etc.).
+
+ See included DEMO.prg
+
+ Some parts of above text are borrowed from (x)Harbour MiniGUI help edited by Janusz Pora ;-)

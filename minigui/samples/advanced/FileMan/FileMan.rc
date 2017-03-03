@@ -1,0 +1,44 @@
+MAIN	ICON	main.ico
+
+REREAD	BITMAP	bmps\refresh.bmp
+
+NOTES	BITMAP	bmps\notepad.bmp
+WRITE	BITMAP	bmps\write.bmp
+PAINT	BITMAP	bmps\paint.bmp
+CALC	BITMAP	bmps\calc.bmp
+CPANEL	BITMAP	bmps\cpanel.bmp
+SYSTEM	BITMAP	bmps\system.bmp
+TOOLS	BITMAP	bmps\tools.bmp
+SAVER	BITMAP	bmps\saver.bmp
+
+FLOPPY	BITMAP	bmps\floppy.bmp
+REMOVE	BITMAP	bmps\remove.bmp
+HARD	BITMAP	bmps\hard.bmp
+REMOTE	BITMAP	bmps\remote.bmp
+CDROM	BITMAP	bmps\cdrom.bmp
+RAMDISK	BITMAP	bmps\ramdisk.bmp
+
+1 VERSIONINFO
+FILEVERSION 0,5,1,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Simple File Manager\000"
+		VALUE "FileVersion", "0.5.1.0"
+		VALUE "InternalName", "FileMan\000"
+		VALUE "LegalCopyright", "Copyright © 2003-2012 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "FileMan.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+}

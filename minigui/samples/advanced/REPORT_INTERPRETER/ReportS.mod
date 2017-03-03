@@ -60,12 +60,6 @@ set backcolor white
 @(NLINE*lstep),21 SAY Field->first FONT ARIAL SIZE 10 BOLD align left COLOR BLUE
 @(NLINE*lstep),71 SAY Field->code FONT ARIAL SIZE 10 BOLD COLOR [255,0,150] align right
 @(NLINE*lstep),74 PRINT Field->LAST FONT ARIAL SIZE 10 BOLD
-if (recno()==2)
-   @(NLINE*lstep),108 PRINT Field->LAST FONT ARIAL SIZE 10 BOLD  color black
-   if ("6" $ field->last)
-   @(NLINE*lstep),138 PRINT "Field->LAST" FONT ARIAL SIZE 10 BOLD  color BROWN
-   endif
-Endif
 @(NLINE*lstep),108 MEMOSAY FIELD->BIO len 35 FONT ARIAL SIZE 10 BOLD        color red
 @(NLINE*lstep),200 SAY trans(Field->INCOMING,format[1]) color ORANGE FONT ARIAL SIZE 10 BOLD align right
 [FEET]4

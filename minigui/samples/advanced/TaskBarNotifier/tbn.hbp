@@ -1,0 +1,12 @@
+
+-hblib
+-inc
+-otbn
+
+-I../../../include
+
+-w2 -es0 -ko 
+
+TTimerClass.prg 
+TTaskbarNotifierClass.prg 
+WndProc.prg

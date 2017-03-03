@@ -1,0 +1,143 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 557 HEIGHT 510 + IF(IsXPThemeActive(), 12, 0) TITLE "DirTree" ICON "MAIN" MAIN NOMAXIMIZE NOSIZE
+
+     DEFINE STATUSBAR FONT "Tahoma" SIZE 9
+	STATUSITEM ""
+     END STATUSBAR
+
+     DEFINE FRAME Frame_1
+            ROW    5
+            COL    5
+            WIDTH  541
+            HEIGHT 155
+            FONTNAME "Tahoma"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    25
+            COL    15
+            WIDTH  40
+            HEIGHT 18
+            VALUE "Source"
+            FONTNAME "Tahoma"
+     END LABEL  
+
+     DEFINE BTNTEXTBOX BtnTextBox_1
+            ROW    20
+            COL    70
+            WIDTH  465
+            HEIGHT 24
+            ACTION SelectDir()
+            PICTURE "SELECTDIR"
+            BUTTONWIDTH 24
+            FONTNAME "Tahoma"
+     END BTNTEXTBOX 
+
+     DEFINE LABEL Label_2
+            ROW    65
+            COL    15
+            WIDTH  54
+            HEIGHT 18
+            VALUE "Mask"
+            FONTNAME "Tahoma"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    60
+            COL    70
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME "Tahoma"
+     END TEXTBOX 
+
+    DEFINE CHECKBOX Check_1
+           ROW    60
+           COL    210
+           WIDTH  190
+           HEIGHT 24
+           CAPTION "Include hidden folders and files"
+           VALUE .T.
+           FONTNAME "Tahoma"
+     END CHECKBOX  
+
+    DEFINE CHECKBOX Check_3
+           ROW    90
+           COL    15
+           WIDTH  140
+           HEIGHT 28
+           CAPTION "Include empty folders"
+     END CHECKBOX  
+
+    DEFINE CHECKBOX Check_2
+           ROW    125
+           COL    15
+           WIDTH  115
+           HEIGHT 24
+           CAPTION "Archives as folder"
+           VALUE .T.
+           FONTNAME "Tahoma"
+           ONCHANGE SetProperty( 'wMain', 'Combo_1', 'Enabled', This.Value )
+     END CHECKBOX  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    125
+            COL    140
+            WIDTH  200
+            HEIGHT 100
+            ITEMS {"ZIP"}
+            VALUE 1
+            FONTNAME "Tahoma"
+     END COMBOBOX  
+
+     DEFINE BUTTONEX ButtonEX_1
+            ROW    125
+            COL    435
+            WIDTH  100
+            HEIGHT 24
+            CAPTION "Scan"
+            PICTURE "OK"
+            FONTNAME "Tahoma"
+     END BUTTONEX  
+
+     DEFINE TREE Tree_1 AT 170 , 0 WIDTH 545 HEIGHT 252 FONT "Tahoma" NODEIMAGES { 'FOLDER' } ITEMIMAGES { 'DOCUMENTS' }
+     END TREE  
+
+     DEFINE BUTTONEX ButtonEX_2
+            ROW    432
+            COL    9
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "Expand all"
+            PICTURE "ZOOMIN"
+            ACTION ShowTreeNode(1)
+            FONTNAME "Tahoma"
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_3
+            ROW    432
+            COL    149
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "Collapse all"
+            PICTURE "ZOOMOUT"
+            ACTION ShowTreeNode(0)
+            FONTNAME "Tahoma"
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_4
+            ROW    432
+            COL    415
+            WIDTH  120
+            HEIGHT 24
+            CAPTION "Open"
+            PICTURE "OPEN"
+            ACTION OpenObj( 'wMain', 'Tree_1' )
+            FONTNAME "Tahoma"
+     END BUTTONEX  
+
+END WINDOW
+
+

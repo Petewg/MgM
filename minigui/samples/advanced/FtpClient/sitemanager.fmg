@@ -1,0 +1,165 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 60 , 130 WIDTH 468 HEIGHT 350 TITLE "Site Manager" ICON NIL TOPMOST CURSOR NIL ON INIT NIL ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR NIL NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK NIL ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+     DEFINE BROWSE Browse_1
+            ROW    10
+            COL    0
+            WIDTH  346
+            HEIGHT 233
+            VALUE 0
+            WIDTHS {600,1000,600,200}
+            HEADERS {'NAME','ADDRESS','USER','PASSWORD'}
+            WORKAREA Sites
+            FIELDS {'Sites->NAME','Sites->ADDRESS','Sites->USER','Sites->PASSWORD'}
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONDBLCLICK editsite()
+            ALLOWEDIT .F.
+            ALLOWAPPEND .F.
+            ONHEADCLICK NIL
+            ALLOWDELETE .F.
+            HELPID NIL
+            VALID NIL
+            VALIDMESSAGES NIL
+            LOCK .F.
+            VSCROLLBAR .T.
+            DYNAMICFORECOLOR NIL
+            DYNAMICBACKCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            WHEN NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            IMAGE NIL
+            JUSTIFY NIL
+            NOLINES .F.
+            READONLYFIELDS NIL
+            INPLACEEDIT .F.
+     END BROWSE  
+
+    DEFINE BUTTON Button_1
+           ROW    10
+           COL    350
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Connect"
+           ACTION ftpconn2()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    40
+           COL    350
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Create site..."
+           ACTION editsite("new")
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    70
+           COL    350
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Edit..."
+           ACTION editsite()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    100
+           COL    350
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Delete"
+           ACTION ftpdelete()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_5
+           ROW    130
+           COL    350
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Exit"
+           ACTION sitemanagerexit()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+END WINDOW

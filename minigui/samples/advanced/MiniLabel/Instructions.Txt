@@ -1,0 +1,130 @@
+Minilabel Demo v1.0
+
+The scope of Minilabel is that one to read to the objects and the methods 
+from rows external.  
+In order to make that it needs that the objects are separabili are singularly
+are in groups.  
+The sections are subdivided from parenthesis quadrants beginning from [S0], 
+classified to the declaration of some parameters of base until to [S(n)] 
+where n it is a number to your pleasure.  
+
+The sections preceded from # will not be executed.
+
+In the section [S0] it is possible to define the following options:   
+		  ReportName, Orientation, BodyLen, Printername 
+Being executed runtime overwriting any similar commando has been given in
+precedence; as an example it is possible to declare printing that it will 
+have to execute the report, name of the tail of press that will appear in 
+the Spooler and also in some display of printing laser.  
+
+ORIENTATION allows to choose between Portrait and Landscape is admitted 
+the compressed shape like PORT and LAND 
+
+BODYLEN declares the maximum number of lines from 1/6 of inch that will be
+printed publication in the section BODY 
+
+PRINTERNAME is the name of printing that it will execute the press. 
+
+Every object is constituted from a type Array tightens that of it describes
+the methods.  
+Obviously one is followed base outline to which applying the present objects 
+in the several sections [S(n)].  
+In this Demo I have subdivided the report in three main parts. 
+	Header 
+	Body 
+	Feet 
+A more complete version would have to contain:  
+Header 
+	  Head 
+	  Body 
+	  Feet 
+Footer 
+In every section we execute the objects that serve to us, therefore is 
+possible to construct structure of the report to the inside of the program
+in order then to modify it with the external definitions 
+
+Only the methods mark to you with (* expression) will be macro expanded for 
+means of one EVAL. 
+
+In particular it marks it section COLOR that it supports is the direct names 
+like BLACK, RED etcetera, that the shape rgb like [255,0,0] 
+The other methods are therefore interpret to you:  
+If the method is one tightens empty or contains "0" or contains ".F.", it will
+return .F. 
+If the method is not one tightens empty and its numerical value is greater of 1, 
+or it contains ".T.", will return .T. 
+Example BOLD will be .T. if declared like "1" or like ".T." 
+
+Minilabel prints the objects declares to you in rows external following 
+the following outline 
+
+Objects:  
+		  PRINT 
+		  PRINT IMAGE 
+		  PRINT LINE TO 
+		  PRINT RECTANGLE TO 
+
+Methods:  
+[ PRINT ] 
+		  ROW 
+		  WIDTH
+		  DATE  (* expression) 
+		  FONT 
+		  SIZE 
+		  BOLD 
+		  ITALIC 
+		  UNDERLINE 
+		  STRIKEOUT 
+		  COLOR (* expression) 
+		  ALIGN 
+
+Example: Row  col   expr  Font   Sz  Bld  It  Und  Strk  Color  Align
+          1    2     3     4     5     6   7   8    9     10      11  
+		 		 
+[ PRINT IMAGE ] 
+		  ROW 
+		  COL
+		  IMAGE 
+		  WIDTH 
+		  HEIGHT 
+		  STRETCH 
+
+[ PRINT LINE TO ] 
+		  ROW 
+		  WIDTH
+		  TOROW 
+		  TOCOL 
+		  PENWIDTH 
+		  COLOR (* expression) 
+
+[ PRINT RECTANGLE TO ] 
+		  ROW 
+		  WIDTH
+		  TOROW 
+		  TOCOL 
+		  PENWIDTH 
+		  COLOR (* expression) 
+		  ROUNDED 
+
+Example   Row   Col   PRINT   ToRow  ToCol  Width  Color  [Rounded]
+           1     2     3        4      5      6      7       8          
+
+The objects come recognized automatically from the third parameter of the method.  
+I send back you to the Report1.Fld rows in order to try with hand as she works.  
+
+IMPORTANT
+All the measures are in Millimeters.
+If not present, the Report1.Fld rows it will come created
+automatically confirming printing in the SetPrinter section!
+This job compile with Minigui or HMG distributions.
+
+Please contact me if you want to report bugs, grammar mistakes,
+or give your opinion about the program, or any comments etc...
+
+This is all, good life to all
+
+Author: Pierpaolo Martinello
+E-Mail: pier.martinello [at] alice.it
+
+Biella (italy) October 2006
+

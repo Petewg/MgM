@@ -1,0 +1,12 @@
+MAIN		    ICON	Res\Main.ico
+LOGO_QHTM	 BITMAP	Res\Logo.bmp
+
+LOGO_HMG	    RCDATA  DISCARDABLE     Res\hmg.gif
+LOGO_HARBOUR RCDATA  DISCARDABLE     Res\harbour.gif
+TEAR		    RCDATA  DISCARDABLE     Res\tear.gif
+CRAZY		    RCDATA  DISCARDABLE     Res\crazy.gif
+INFO		    RCDATA  DISCARDABLE     Res\Info.gif
+THINK 		 RCDATA  DISCARDABLE     Res\Think.gif
+GALLERY		 RCDATA  DISCARDABLE     Res\gallery.gif
+
+TOPBAR		 RCDATA	DISCARDABLE	RES\HTML\Topbar.html

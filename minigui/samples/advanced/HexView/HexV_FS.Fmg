@@ -1,0 +1,195 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2008 Roberto Lopez <harbourminigui@gmail.com>
+* http://harbourminigui.googlepages.com
+
+DEFINE WINDOW TEMPLATE AT 280 , 325 WIDTH 395 HEIGHT 216 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Search String" ICON NIL CHILD CURSOR NIL ON INIT FS_Init() ON RELEASE lFSContnu := .F. ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE LABEL lblEntStrg
+        ROW    22
+        COL    30
+        WIDTH  130
+        HEIGHT 20
+        VALUE "Enter String to search :"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE TEXTBOX txtFS
+        ROW    20
+        COL    160
+        WIDTH  210
+        HEIGHT 20
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Use '0x' prefix for HEX values"
+        ONCHANGE FS.btnFNext.Enabled := !EMPTY( FS.txtFS.Value )
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER ApplyFS()
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+    END TEXTBOX
+
+    DEFINE RADIOGROUP rgpDirect
+        ROW    70
+        COL    40
+        WIDTH  50
+        HEIGHT 28
+        OPTIONS { 'Up','Down'}
+        VALUE 2
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 10
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        READONLY Nil
+        HORIZONTAL .T. 
+    END RADIOGROUP
+
+    DEFINE FRAME freDir
+        ROW    50
+        COL    30
+        WIDTH  140
+        HEIGHT 60
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Direction"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE RADIOGROUP rgpMatch
+        ROW    70
+        COL    190
+        WIDTH  85
+        HEIGHT 28
+        OPTIONS { 'Exact Match','Ignore Case'}
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 5
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        READONLY Nil
+        HORIZONTAL .T. 
+    END RADIOGROUP
+
+    DEFINE FRAME freMatch
+        ROW    50
+        COL    180
+        WIDTH  190
+        HEIGHT 60
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Match"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE BUTTON btnCancel
+        ROW    130
+        COL    60
+        WIDTH  90
+        HEIGHT 28
+        ACTION FS.Release
+        CAPTION "Cancel"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE BUTTON btnFNext
+        ROW    130
+        COL    230
+        WIDTH  100
+        HEIGHT 28
+        ACTION ApplyFS()
+        CAPTION "Find Next"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+    END BUTTON
+
+END WINDOW
+
+

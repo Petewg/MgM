@@ -1,0 +1,10 @@
+HP_END2          BITMAP  images\go_last_page_24.bmp
+HP_TOP2          BITMAP  images\go_first_page_24.bmp
+HP_NEXT2         BITMAP  images\go_next_page_24.bmp
+HP_BACK2         BITMAP  images\go_previous_page_24.bmp
+HP_PRINT2        BITMAP  images\print_24.bmp
+HP_ZOOM2         BITMAP  images\Zoom_24.bmp
+HP_GOPAGE2       BITMAP  images\go_to_page_24.bmp
+HP_CLOSE2        BITMAP  images\Exit_24.bmp
+HP_SAVE2         BITMAP  images\save_24.bmp
+HP_THUMBNAIL2    BITMAP  images\ThumNails.bmp

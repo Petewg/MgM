@@ -1,0 +1,12 @@
+:Base RichEdit
+:Title Rich Edit
+1 Introduction=IDH_INTRODUCTION>Win_1
+1 Text Formatting=IDH_FORMATING>Win_1
+1 Current Selection in a Rich Edit Control=IDH_SELECTION>Win_1
+1 Rich Edit Clipboard Operations=IDH_CLIPBOARD>Win_1
+1 URL Detect=IDH_URL>Win_1
+1 Versions of Rich Edit=IDH_VERSION>Win_1
+1 New Features 3.0=IDH_FEATURES>Win_1
+1 Conversion table=IDH_CONVERSION>Win_1
+1 Limits on text in Rich Edit=IDH_LIMITS>Win_1
+1 Rich Edit Shortcut Keys=IDH_SHORTCUTKEYS>Win_1

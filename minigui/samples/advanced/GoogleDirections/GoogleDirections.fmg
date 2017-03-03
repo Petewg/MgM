@@ -1,0 +1,199 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE 	AT 0,0 	WIDTH 800 HEIGHT 580  TITLE "Google Directions" ICON "GOOGLE.ICO" MAIN NOMAXIMIZE NOSIZE ON INIT FOPENACTIVEX() ON RELEASE FCLOSEACTIVEX()
+
+     DEFINE LABEL Label_1
+            ROW    440
+            COL    10
+            WIDTH  120
+            HEIGHT 18
+            VALUE "Directions from:"
+            FONTNAME "Verdana"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    490
+            COL    10
+            WIDTH  120
+            HEIGHT 18
+            VALUE "Directions to:"
+            FONTNAME "Verdana"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+     
+      DEFINE LABEL Label_2a
+            ROW    512
+            COL    330
+            WIDTH  150
+            HEIGHT 26
+            VALUE "By Roberto M Manini  conexxus@yahoo.com.br"
+            FONTNAME "Arial"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .T.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL 
+	       
+     DEFINE BUTTON Button_1p
+           ROW    430
+           COL    330
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "&Print"
+           ACTION fPrint(.t.)
+           FONTNAME "Verdana"
+           FONTSIZE 8
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_1
+           ROW    480
+           COL    330
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "&Search"
+           ACTION SEARCH()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    480
+           COL    450
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Exit"
+           ACTION GoogleDirections.RELEASE
+           FONTNAME "Verdana"
+           FONTSIZE 8
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+     DEFINE TEXTBOX Text_1
+            ROW    460
+            COL    10
+            WIDTH  300
+            HEIGHT 21
+            FONTNAME "Verdana"
+            FONTSIZE 9
+            TOOLTIP "Inform's street name and number"
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.                  
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    510
+            COL    10
+            WIDTH  300
+            HEIGHT 21
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP "Inform your final destination"
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+END WINDOW 

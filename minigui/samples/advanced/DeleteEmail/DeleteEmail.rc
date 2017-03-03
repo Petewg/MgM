@@ -1,0 +1,37 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN ICON "RES\MAIN.ICO"
+
+ADDREC BITMAP "RES\ADDREC.BMP"
+DELREC BITMAP "RES\DELREC.BMP"
+SAVEREC BITMAP "RES\SAVE.BMP"
+INFO BITMAP "RES\INFO.BMP"
+
+1 VERSIONINFO
+FILEVERSION 1,0,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Destruction of All messages from the mailbox(es) filled by spam\000"
+		VALUE "FileVersion", "1.0.2.0"
+		VALUE "InternalName", "DeleteEmail\000"
+		VALUE "LegalCopyright", "Copyright © 2004-2007 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "DeleteEmail.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409, 0x04B0
+}
+}

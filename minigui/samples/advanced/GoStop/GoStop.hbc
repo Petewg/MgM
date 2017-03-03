@@ -1,0 +1,4 @@
+incpaths=
+libpaths=${hb_curdir}
+libs=winprocess
+

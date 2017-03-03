@@ -1,0 +1,1 @@
+@call %~d0\miniguim\batch\buildapp.bat demo %1 -lhbtip -lws2_32 hbtip.hbc

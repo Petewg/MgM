@@ -1,0 +1,14 @@
+
+AddRec        BITMAP  Images\AddRec.bmp
+Delete        BITMAP  Images\Delete.bmp
+Exit          BITMAP  Images\Exit.bmp  
+First         BITMAP  Images\First.bmp 
+Last          BITMAP  Images\Last.bmp  
+NewDok        BITMAP  Images\NewDok.bmp
+next          BITMAP  Images\next.bmp  
+Open          BITMAP  Images\Open.bmp  
+OpenNo        BITMAP  Images\OpenNo.bmp
+prior         BITMAP  Images\prior.bmp 
+Save          BITMAP  Images\Save.bmp  
+edit          BITMAP  Images\edit.bmp
+editNo        BITMAP  Images\editNo.bmp

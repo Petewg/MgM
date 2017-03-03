@@ -1,0 +1,119 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2009 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 800 HEIGHT 600 TITLE _MYTITLE_ ICON "DEMO.ICO" MAIN
+
+    DEFINE BUTTON Button1
+           ROW    20
+           COL    650
+           WIDTH  120
+           HEIGHT 28
+           ACTION Btn1Click()
+           CAPTION "State"
+     END BUTTON  
+
+    DEFINE BUTTON Button2
+           ROW    60
+           COL    650
+           WIDTH  120
+           HEIGHT 28
+           ACTION Btn2Click()
+           CAPTION "Properties"
+     END BUTTON  
+
+    DEFINE BUTTON Button3
+           ROW    100
+           COL    650
+           WIDTH  120
+           HEIGHT 28
+           ACTION Btn3Click()
+           CAPTION "Inactive"
+     END BUTTON  
+
+    DEFINE BUTTON Button4
+           ROW    140
+           COL    650
+           WIDTH  120
+           HEIGHT 52
+           ACTION Btn4Click()
+           CAPTION "List Services Running in a Process"
+           MULTILINE .T.
+     END BUTTON  
+
+    DEFINE BUTTON Button5
+           ROW    200
+           COL    650
+           WIDTH  120
+           HEIGHT 42
+           ACTION Btn5Click()
+           CAPTION "Changes in System Event Log"
+           MULTILINE .T.
+     END BUTTON
+
+	DEFINE FRAME Form_1Frame
+		ROW 300-20
+		COL 635
+		WIDTH (Form_1.Width - 650)
+		HEIGHT (Form_1.Height - 320)
+		FONTNAME 'Trebuchet MS'
+		FONTSIZE 10
+		FONTBOLD .T.
+		BackColor {190, 190, 255}
+		CAPTION ' :: stringBuffer :: '
+	END FRAME
+
+    DEFINE BUTTON Button_1
+           ROW    300+20
+           COL    650
+           WIDTH  120
+           HEIGHT 28
+           ACTION Btn_1Click()
+           CAPTION "State"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    300+60
+           COL    650
+           WIDTH  120
+           HEIGHT 28
+           ACTION Btn_2Click()
+           CAPTION "Properties"
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    300+100
+           COL    650
+           WIDTH  120
+           HEIGHT 28
+           ACTION Btn_3Click()
+           CAPTION "Inactive"
+     END BUTTON  
+
+    DEFINE BUTTON Button_4
+           ROW    300+140
+           COL    650
+           WIDTH  120
+           HEIGHT 52
+           ACTION Btn_4Click()
+           CAPTION "List Services Running in a Process"
+           MULTILINE .T.
+     END BUTTON  
+
+    DEFINE BUTTON Button_5
+           ROW    300+200
+           COL    650
+           WIDTH  120
+           HEIGHT 42
+           ACTION Btn_5Click()
+           CAPTION "Changes in System Event Log"
+           MULTILINE .T.
+     END BUTTON  
+
+     DEFINE RICHEDITBOX RichEdit_1
+            ROW    20
+            COL    10
+            WIDTH  620
+            HEIGHT 530
+     END RICHEDITBOX  
+
+END WINDOW

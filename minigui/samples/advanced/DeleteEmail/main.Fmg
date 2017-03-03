@@ -1,0 +1,155 @@
+* Harbour MiniGUI Two-Way Form Designer Generated Code
+* (c)2004 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE ;
+	AT 0, 0 ;
+	WIDTH 428 HEIGHT 300 + IF(IsXPThemeActive(), 10, 0) ;
+	TITLE "Delete Email" ;
+	ICON IDI_MAIN ;
+	MAIN ;
+	NOMAXIMIZE NOSIZE ;
+	ON INIT LoadAcc() ;
+	ON RELEASE SocketExit() ;
+	FONT "Tahoma" SIZE 9
+
+    DEFINE COMBOBOX Combo_1
+        ROW    10
+        COL    140
+        WIDTH  270
+        HEIGHT 120
+        ITEMS {""}
+        VALUE 0
+        ON CHANGE ComboChange()
+        TOOLTIP "Account Name"
+    END COMBOBOX
+
+    DEFINE BUTTON Button_1
+        ROW    10
+        COL    10
+        WIDTH  20
+        HEIGHT 20
+        PICTURE "ADDREC"
+        ACTION AddAcc()
+        FLAT .T.
+        TOOLTIP "Add"
+    END BUTTON
+
+    DEFINE BUTTON Button_2
+        ROW    10
+        COL    40
+        WIDTH  20
+        HEIGHT 20
+        PICTURE "DELREC"
+        ACTION DelAcc()
+        FLAT .T.
+        TOOLTIP "Delete"
+    END BUTTON
+
+    DEFINE BUTTON Button_3
+        ROW    10
+        COL    70
+        WIDTH  20
+        HEIGHT 20
+        PICTURE "SAVEREC"
+        ACTION SaveAcc()
+        FLAT .T.
+        TOOLTIP "Save"
+    END BUTTON
+
+    DEFINE BUTTON Button_4
+        ROW    10
+        COL    100
+        WIDTH  20
+        HEIGHT 20
+        PICTURE "INFO"
+        ACTION MsgAbout()
+        FLAT .T.
+        TOOLTIP "About"
+    END BUTTON
+
+    DEFINE LABEL Label_1
+        ROW    50
+        COL    10
+        WIDTH  120
+        HEIGHT 18
+        VALUE "POP3 Server"
+        TOOLTIP ""
+    END LABEL
+
+    DEFINE TEXTBOX Edit_1
+        ROW    70
+        COL    10
+        WIDTH  400
+        HEIGHT 20
+        VALUE ""
+        TOOLTIP "POP3 Server Name"
+    END TEXTBOX
+
+    DEFINE LABEL Label_2
+        ROW    100
+        COL    10
+        WIDTH  120
+        HEIGHT 18
+        VALUE "Login"
+        TOOLTIP ""
+    END LABEL
+
+    DEFINE TEXTBOX Edit_2
+        ROW    120
+        COL    10
+        WIDTH  400
+        HEIGHT 20
+        VALUE ""
+        TOOLTIP "User Name"
+    END TEXTBOX
+
+    DEFINE LABEL Label_3
+        ROW    151
+        COL    10
+        WIDTH  120
+        HEIGHT 18
+        VALUE "Password"
+        TOOLTIP ""
+    END LABEL
+
+    DEFINE TEXTBOX Edit_3
+        ROW    170
+        COL    10
+        WIDTH  400
+        HEIGHT 20
+        VALUE ""
+        PASSWORD .T.
+        TOOLTIP "Password"
+    END TEXTBOX
+
+    DEFINE BUTTON Button_5
+        ROW    198
+        COL    160
+        WIDTH  100
+        HEIGHT 24
+        CAPTION "Delete"
+        ACTION DeleteMails()
+        TOOLTIP "Start of deleting"
+    END BUTTON
+
+    DEFINE PROGRESSBAR ProgressBar_1
+        ROW    230
+        COL    10
+        WIDTH  400
+        HEIGHT 18
+        RANGEMIN 1
+        RANGEMAX 100
+        VALUE 0
+        SMOOTH .T.
+        TOOLTIP ""
+    END PROGRESSBAR
+
+	DEFINE STATUSBAR
+		STATUSITEM "Waiting..." WIDTH 80
+		CLOCK WIDTH 68
+	END STATUSBAR
+
+	ON KEY ESCAPE ACTION ReleaseAllWindows()
+
+END WINDOW
+

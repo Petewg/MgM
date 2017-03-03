@@ -1,0 +1,296 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 369 , 248 WIDTH 557 HEIGHT 277  TITLE "FTP Server Properties" ICON NIL  TOPMOST NOSYSMENU CURSOR NIL ON INIT NIL ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR NIL ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+     DEFINE FRAME Frame_1
+            ROW    19
+            COL    9
+            WIDTH  523
+            HEIGHT 177
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            CAPTION ""
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    30
+            COL    20
+            WIDTH  60
+            HEIGHT 24
+            VALUE "Site name"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    70
+            COL    20
+            WIDTH  80
+            HEIGHT 24
+            VALUE "FTP Server"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    100
+            COL    20
+            WIDTH  60
+            HEIGHT 24
+            VALUE "User id"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    140
+            COL    20
+            WIDTH  60
+            HEIGHT 24
+            VALUE "Password"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    30
+            COL    110
+            WIDTH  300
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    60
+            COL    110
+            WIDTH  300
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    100
+            COL    110
+            WIDTH  300
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_4
+            ROW    130
+            COL    110
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            PASSWORD  .T.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+    DEFINE BUTTON Button_1
+           ROW    200
+           COL    300
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Save"
+           ACTION ftppropsave()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    200
+           COL    420
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Cancel"
+           ACTION ftppropcancel()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE CHECKBOX Check_1
+           ROW    130
+           COL    250
+           WIDTH  120
+           HEIGHT 28
+           CAPTION "Mask Password"
+           VALUE  .T.
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           ONCHANGE NIL
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           BACKCOLOR NIL
+           FONTCOLOR NIL
+           HELPID NIL
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END CHECKBOX  
+
+END WINDOW
+

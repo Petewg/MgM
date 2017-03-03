@@ -1,0 +1,30 @@
+ICON_1 ICON "System.ico"
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Toggles desktop icon text background between transparent and colored\000"
+		VALUE "FileVersion", "1.0.0.0"
+		VALUE "InternalName", "TransDesk"
+		VALUE "LegalCopyright", "Freeware 2003"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "TransDesk.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+// BLOCK "VarFileInfo"
+// {
+	// VALUE "Translation", 0x0409 0x04B0
+// }
+}

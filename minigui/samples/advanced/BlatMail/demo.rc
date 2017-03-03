@@ -1,0 +1,5 @@
+MAIL		ICON		res\MAIL.ICO
+B_Anexar	BITMAP		res\Anexar.bmp
+B_Enviar	BITMAP		res\Enviar.bmp
+B_Sair		BITMAP		res\Sair.bmp
+

@@ -1,0 +1,3 @@
+libpaths=${hb_curdir}
+libs=hbxlsxwriter xlsxwriter
+

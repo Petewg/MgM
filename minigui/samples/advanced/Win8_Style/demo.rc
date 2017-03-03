@@ -1,0 +1,18 @@
+// Resource name   Resource Type    Resource FileName
+
+AMAIN         ICON		res\1IconWin.ico
+MYFOTO        JPG       res\MyFoto.jpg
+BING          PNG       res\Bing.png
+DESKTOP       JPG       res\Desktop_Win8.jpg
+iExit         ICON		res\iExit64.ico
+iPeople       ICON		res\iPeople64.ico
+iMessage      ICON		res\iMessage64.ico
+iMusic        ICON		res\iMusic64.ico
+
+bIE           BITMAP		res\bIE.bmp
+bMail         BITMAP		res\bMail.bmp
+bMaps         BITMAP		res\bMaps.bmp
+bNews         BITMAP		res\bNews.bmp
+bShop         BITMAP		res\bShop.bmp
+bSkyDrive     BITMAP		res\bSkyDrive.bmp
+bWeather      BITMAP		res\bWeather.bmp

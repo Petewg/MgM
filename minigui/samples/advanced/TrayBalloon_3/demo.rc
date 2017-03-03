@@ -1,0 +1,9 @@
+#define	IDI_BOB		1001
+#define	IDI_TOOTH	1002
+#define	IDI_STIMPY	1003
+
+IDI_BOB     ICON    bob.ico
+IDI_TOOTH   ICON    beaver.ico
+IDI_STIMPY  ICON    stimpy.ico
+
+MINIGUI      AVI     minigui.avi

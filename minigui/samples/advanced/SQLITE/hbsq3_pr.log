@@ -1,0 +1,14 @@
+PRAGMA auto_vacuum=0 - 2000000
+PRAGMA page_size=4096 - 1000000
+CREATE TABLE t1( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER ) - 166000000
+BEGIN TRANSACTION; - 1000000
+INSERT INTO t1( name, age ) VALUES( 'Bob', 52 ); - 1000000
+INSERT INTO t1( name, age ) VALUES( 'Fred', 40 ); - 1000000
+INSERT INTO t1( name, age ) VALUES( 'Sasha', 25 ); - 0
+INSERT INTO t1( name, age ) VALUES( 'Ivet', 28 ); - 1000000
+COMMIT; - 260000000
+INSERT INTO t1( name, age ) VALUES( :name, :age ) - 99000000
+INSERT INTO t1( name, age ) VALUES( :name, :age ) - 82000000
+SELECT * FROM t1 WHERE name == :name  - 3000000
+SELECT * FROM t1 WHERE age >= ?5 - 20000000
+SELECT name, age  FROM t1 WHERE age BETWEEN 10 AND 20 - 1000000

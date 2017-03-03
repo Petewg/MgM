@@ -1,6 +1,6 @@
 @echo off
 
-SET HMGPATH=C:\MiniguiM\comp
+SET HMGPATH=%~d0\MiniguiM\comp
 
 SET PATH=%HMGPATH%\mingw32\bin;%HMGPATH%\harbour\bin
 

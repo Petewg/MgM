@@ -1,0 +1,238 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2012 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 450 HEIGHT 391 TITLE "Minigui Pdf Generator" ICON "ACROBAT_ICO" MAIN
+
+DEFINE STATUSBAR FONT "Arial" SIZE 10 BOLD
+STATUSITEM ""
+END STATUSBAR
+
+     DEFINE CHECKBOX Check_1
+            ROW    20
+            COL    20
+            WIDTH  123
+            HEIGHT 28
+            CAPTION "Require Password"
+            FONTSIZE 10
+            ONCHANGE (Mh.StatusBar.Item(1) := if (GetProperty ( "MH", "check_1" , "value" )=.T.,"     Password is 'owner' and 'user'",''),if (!this.value,mh.Check_3.value := .F.,''))
+     END CHECKBOX  
+
+     DEFINE BUTTON Button_1
+            ROW    290
+            COL    150
+            WIDTH  100
+            HEIGHT 28
+            ACTION Generate(MyPdf)
+            CAPTION "&Make Pdf"
+            FONTSIZE 10
+     END BUTTON  
+
+     DEFINE BUTTON Button_2
+            ROW    290
+            COL    270
+            WIDTH  100
+            HEIGHT 28
+            ACTION view( Mypdf )
+            CAPTION "&View"
+            FONTSIZE 10
+     END BUTTON  
+
+     DEFINE CHECKBOX Check_2
+            ROW    20
+            COL    150
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Disable Print"
+            FONTSIZE 10
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_3
+            ROW    20
+            COL    270
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Encrypt"
+            FONTSIZE 10
+            ONCHANGE if (this.value,mh.check_1.value:=.t.,'')
+     END CHECKBOX  
+
+     DEFINE FRAME Frame_1
+            ROW    0
+            COL    10
+            WIDTH  411
+            HEIGHT 56
+            CAPTION "Password and permission"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE CHECKBOX Check_4
+            ROW    60
+            COL    150
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Image Demo"
+            FONTSIZE 10
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_5
+            ROW    60
+            COL    270
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Lines Demo"
+            FONTSIZE 10
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_6
+            ROW    100
+            COL    20
+            WIDTH  120
+            HEIGHT 28
+            CAPTION "Alignment Demo"
+            FONTSIZE 10
+            ONCHANGE if (!this.value,mh.Check_7.value := .F.,'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_7
+            ROW    100
+            COL    150
+            WIDTH  75
+            HEIGHT 28
+            CAPTION "Add Grid"
+            FONTSIZE 10
+            ONCHANGE if (this.value,mh.check_6.value:=.t.,'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_8
+            ROW    130
+            COL    20
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Text Demo"
+            FONTSIZE 10
+            ONCHANGE if (!this.value,mh.Check_9.value := .F.,'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_9
+            ROW    130
+            COL    150
+            WIDTH  75
+            HEIGHT 28
+            CAPTION "Add Grid"
+            FONTSIZE 10
+            ONCHANGE if (this.value,mh.check_8.value:=.t.,'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_10
+            ROW    160
+            COL    20
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Graphic Demo"
+            FONTSIZE 10
+            ONCHANGE if (!this.value,mh.Check_11.value := .F.,'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_11
+            ROW    160
+            COL    150
+            WIDTH  75
+            HEIGHT 28
+            CAPTION "Add Grid"
+            FONTSIZE 10
+            ONCHANGE if (this.value,mh.check_10.value:=.t.,'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_12
+            ROW    100
+            COL    270
+            WIDTH  116
+            HEIGHT 28
+            CAPTION "Anotation Demo"
+            FONTSIZE 10
+            ONCHANGE if (!this.value,mh.Check_14.value := .F.,'')
+     END CHECKBOX  
+
+     DEFINE FRAME Frame_2
+            ROW    90
+            COL    10
+            WIDTH  230
+            HEIGHT 104
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE CHECKBOX Check_13
+            ROW    130
+            COL    270
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Code Pages"
+            FONTSIZE 10
+            ONCHANGE if (!this.value,mh.Check_14.value := .F.,'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_14
+            ROW    160
+            COL    270
+            WIDTH  149
+            HEIGHT 28
+            CAPTION "Page Link annotation"
+            FONTSIZE 10
+            ONCHANGE if (this.value,(mh.check_12.value:=.t.,mh.check_13.value:=.t.),'')
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_18
+            ROW    200
+            COL    20
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Qr && Barcode"
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_15
+            ROW    230
+            COL    20
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Font demo"
+            FONTSIZE 10
+            ONCHANGE mh.RadioGroup_1.visible := mh.check_15.value
+     END CHECKBOX  
+
+     DEFINE RADIOGROUP RadioGroup_1
+            ROW    231
+            COL    151
+            WIDTH  116
+            HEIGHT 28
+            OPTIONS {'Enbedded','Not embedded'}
+            VALUE 1
+            FONTSIZE 10
+            VISIBLE .F.
+            SPACING 5
+            HORIZONTAL .T.
+     END RADIOGROUP  
+
+     DEFINE CHECKBOX Check_16
+            ROW    260
+            COL    20
+            WIDTH  253
+            HEIGHT 28
+            CAPTION "Slide (Require full Screen [CTRL-T] )"
+            FONTSIZE 10
+     END CHECKBOX  
+
+     DEFINE CHECKBOX Check_17
+            ROW    60
+            COL    20
+            WIDTH  100
+            HEIGHT 28
+            CAPTION "Default Demo"
+            VALUE .T.
+            FONTSIZE 10
+     END CHECKBOX  
+
+END WINDOW
+
+

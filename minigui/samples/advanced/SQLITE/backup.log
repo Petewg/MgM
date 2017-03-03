@@ -1,0 +1,7 @@
+CREATE TABLE person( name TEXT, age INTEGER )
+INSERT INTO person( name, age ) VALUES( 'Bob', 52 )
+INSERT INTO person( name, age ) VALUES( 'Fred', 32 )
+INSERT INTO person( name, age ) VALUES( 'Sasha', 17 )
+INSERT INTO person( name, age ) VALUES( 'Andy', 20 )
+INSERT INTO person( name, age ) VALUES( 'Ivet', 28 )
+SELECT * FROM main.person WHERE age BETWEEN 20 AND 40

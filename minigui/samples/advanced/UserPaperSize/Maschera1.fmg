@@ -1,0 +1,477 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 165 , 236 WIDTH 566 HEIGHT 429 TITLE "User-defined Form module maintenance by <arcangelo.molinaro@fastwebnet.it>" ICON NIL MAIN NOMAXIMIZE NOSIZE ON INIT OnInit()
+
+     DEFINE STATUSBAR FONT "Arial" SIZE 8
+            STATUSITEM "Message Status"
+            CLOCK AMPM 
+            DATE
+            KEYBOARD
+     END STATUSBAR
+
+     DEFINE LABEL Label_1
+            ROW    10
+            COL    20
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Installed Printers"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LISTBOX List_1
+            ROW    35
+            COL    20
+            WIDTH  300
+            HEIGHT 120
+            ITEMS aPrinters
+            VALUE  1
+            FONTNAME "Arial"
+            FONTSIZE  9
+            TOOLTIP   ""
+            ONCHANGE  NIL
+            ONGOTFOCUS  NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            ONDBLCLICK setprtname(aPorts)
+            HELPID  NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            SORT .F.
+            MULTISELECT .F.
+     END LISTBOX  
+
+     DEFINE LABEL Label_2
+            ROW    165
+            COL    20
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Available Forms"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LISTBOX List_2
+            ROW    190
+            COL    20
+            WIDTH  300
+            HEIGHT 120
+            ITEMS aForms
+            VALUE  1
+            FONTNAME "Arial"
+            FONTSIZE  9
+            TOOLTIP   ""
+            ONCHANGE  NIL
+            ONGOTFOCUS  NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            ONDBLCLICK GetDataForm()
+            HELPID  NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            SORT .F.
+            MULTISELECT .F.
+     END LISTBOX  
+
+     DEFINE LABEL Label_3
+            ROW    10
+            COL    340
+            WIDTH  120
+            HEIGHT 23
+            VALUE "Selected Printer"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    35
+            COL    340
+            WIDTH  200
+            HEIGHT 23
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .T.
+            RIGHTALIGN .F.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+     DEFINE LABEL Label_4
+            ROW    70
+            COL    340
+            WIDTH  120
+            HEIGHT 23
+            VALUE "Connected Port"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE TEXTBOX Text_2
+            ROW    95
+            COL    340
+            WIDTH  200
+            HEIGHT 23
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .T.
+            RIGHTALIGN .F.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+     DEFINE LABEL Label_5
+            ROW    130
+            COL    340
+            WIDTH  120
+            HEIGHT 23
+            VALUE "Form Name"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_6
+            ROW    190
+            COL    450
+            WIDTH  70
+            HEIGHT 17
+            VALUE "Length (mm)"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .T.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_7
+            ROW    190
+            COL    340
+            WIDTH  64
+            HEIGHT 21
+            VALUE "Width (mm)"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .T.
+            ACTION NIL
+            AUTOSIZE .T.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_8
+            ROW    250
+            COL    340
+            WIDTH  120
+            HEIGHT 23
+            VALUE "Form Type"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .T.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE GETBOX GetBox_1
+            ROW    155
+            COL    340
+            WIDTH  200
+            HEIGHT 24
+            VALUE ''
+            PICTURE "@K !XXXXXXXXXXXXXXXXXXXX"
+            VALID {|| LEN(ALLTRIM(This.Value))>=2}
+            VALIDMESSAGE "Minimum 2 Characters "
+            MESSAGE "Character Input"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            TOOLTIP ""
+            BACKCOLOR {{255,255,255},{255,255,200},{200,255,255}}
+            FONTCOLOR {{0,0,0},{255,255,200},{0,0,255}}
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            HELPID NIL
+     END GETBOX  
+
+     DEFINE GETBOX GetBox_2
+            ROW    215
+            COL    340
+            WIDTH  90
+            HEIGHT 24
+            VALUE 0
+            PICTURE '@E 9,999.99'
+            VALID { |x| _RangeCheck( x, 70, 215 ) }
+            VALIDMESSAGE "Value between 70,215"
+            MESSAGE "Numeric Input"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .T.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            TOOLTIP "'Numeric Input - Range 70 , 215'"
+            BACKCOLOR {{255,255,255},{255,255,200},{200,255,255}}
+            FONTCOLOR {{0,0,0},{255,255,200},{0,0,255}}
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            RIGHTALIGN .T.
+            HELPID NIL
+     END GETBOX  
+
+     DEFINE GETBOX GetBox_3
+            ROW    215
+            COL    450
+            WIDTH  90
+            HEIGHT 24
+            VALUE 0
+            PICTURE '@E 9,999.99'
+            VALID { |x| _RangeCheck( x, 116, 406 ) }
+            VALIDMESSAGE "Value between 116,406"
+            MESSAGE "Numeric Input"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .T.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            TOOLTIP ""
+            BACKCOLOR {{255,255,255},{255,255,200},{200,255,255}}
+            FONTCOLOR {{0,0,0},{255,255,200},{0,0,255}}
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            RIGHTALIGN .T.
+            HELPID NIL
+     END GETBOX  
+
+     DEFINE TEXTBOX Text_3
+            ROW    279
+            COL    340
+            WIDTH  140
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .T.
+            RIGHTALIGN .T.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE ""
+     END TEXTBOX 
+
+    DEFINE BUTTON Button_1
+           ROW    330
+           COL    20
+           WIDTH  125
+           HEIGHT 30
+           CAPTION "New User Form"
+           ACTION NewUsrFrm()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    330
+           COL    220
+           WIDTH  125
+           HEIGHT 30
+           CAPTION "Save User Form"
+           ACTION ModifyForm()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_3
+           ROW    330
+           COL    410
+           WIDTH  125
+           HEIGHT 30
+           CAPTION "Delete User Form"
+           ACTION DelUserForm()
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+END WINDOW
+

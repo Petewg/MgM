@@ -1,0 +1,30 @@
+
+                                 MAilWithBlat Version 0.90
+
+MailWithBlat.PRG contains an object which can be used to send email with BLAT.
+
+
+BLAT (currently at version 2.6.2) is a long established program for sending email
+using the SMTP protocol.  (BLAT can also be used to send messages to News Readers
+but I have not included those functions in this object.)  MailWithBlat handles all
+of the command structure for BLAT allowing the xHarbour programmer to concentrate
+on the data and not the construct.  MailWithBlat is also useful for those wishing
+to understand how to call a DLL from within xHarbour.
+
+Information about BLAT can be obtained at www.blat.net.  It is an open source project
+that is hosted on sourceforge.  BLAT is a relatively sophisticated program that handles
+multiple variations of login procedures (authenticated and non-authenticated SMTP, POP3
+before SMTP, MD5 - even when it really isn't MD5).  It handles multiple attachments, HTML
+with embeded files, alternate plain text among other features.  Please see the included
+syntax.html file for all of the commands and options.
+
+MailWithBlat uses the DLL version of BLAT.  The MailWithBlat.PRG file contains code
+that allows you to select how the DLL is loaded.  One can dynamically load BLAT only when
+you need to send and email using calls to LOADLIBRARY and DLLCALL or you can load it
+at run time and call BLAT using the link library supplied with BLAT.  This option is
+selected using the _use_CallDLL define.  If it is defined then you will use the method that
+loads the DLL only when needed.  The default is to use the link library which I believe
+will yield faster execution times.
+
+Leo Letendre
+26 Jan 2007

@@ -1,0 +1,10 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//	Resource name	Resource Type    Resource FileName
+//
+	DB_ADD         BITMAP            res\db_add.bmp
+	DB_REMOVE      BITMAP            res\db_remove.bmp
+	SORT_BY_DATE   BITMAP            res\sort_by_date.bmp
+	SORT_BY_NAME   BITMAP            res\sort_by_name.bmp
+	STATISTICS     BITMAP            res\statistics.bmp

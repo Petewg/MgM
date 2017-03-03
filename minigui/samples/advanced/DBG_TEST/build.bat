@@ -1,0 +1,1 @@
+@call %~d0\miniguim\batch\buildapp.bat dbg_test.hbp dbg_test.hbc -b

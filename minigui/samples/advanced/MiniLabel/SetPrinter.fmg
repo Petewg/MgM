@@ -1,0 +1,207 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2006 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 167 , 233 WIDTH 378 HEIGHT 244 TITLE "Printer choice" ICON "AASIC" MODAL NOSIZE CURSOR NIL ON INIT (Escape_on("SetPrinter"),ReadPr(.t.)) ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON PAINT NIL BACKCOLOR Nil ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    10
+            WIDTH  260
+            HEIGHT 50
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            CAPTION "Reports with:"
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    30
+            COL    20
+            WIDTH  240
+            HEIGHT 120
+            ITEMS m->Stampanti
+            VALUE 0
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE Nil
+            ONGOTFOCUS  Nil
+            ONLOSTFOCUS Nil
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            SORT .F.
+            ONENTER Nil
+            ONDISPLAYCHANGE Nil
+            DISPLAYEDIT .F.
+     END COMBOBOX  
+
+     DEFINE FRAME Frame_2
+            ROW    63
+            COL    10
+            WIDTH  260
+            HEIGHT 50
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            CAPTION "Labels with:"
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE COMBOBOX Combo_2
+            ROW    79
+            COL    20
+            WIDTH  240
+            HEIGHT 120
+            ITEMS m->stampanti
+            VALUE 0
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE Nil
+            ONGOTFOCUS  Nil
+            ONLOSTFOCUS Nil
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            SORT .F.
+            ONENTER Nil
+            ONDISPLAYCHANGE Nil
+            DISPLAYEDIT .F.
+     END COMBOBOX  
+
+    DEFINE BUTTON Button_1
+           ROW    130
+           COL    50
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "&Ok"
+           ACTION   SetPr()
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           HELPID  Nil
+           FLAT    .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    130
+           COL    220
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "C&ancel"
+           ACTION   SetPrinter.release
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           HELPID  Nil
+           FLAT    .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE CHECKBOX Check_1
+           ROW    30
+           COL    310
+           WIDTH  30
+           HEIGHT 20
+           CAPTION ""
+           VALUE   .F.
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           ONCHANGE  Nil
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           BACKCOLOR NIL
+           FONTCOLOR NIL
+           HELPID  Nil
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END CHECKBOX  
+
+    DEFINE CHECKBOX Check_2
+           ROW    80
+           COL    310
+           WIDTH  30
+           HEIGHT 20
+           CAPTION ""
+           VALUE   .F.
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           ONCHANGE  Nil
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           BACKCOLOR NIL
+           FONTCOLOR NIL
+           HELPID  Nil
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END CHECKBOX  
+
+     DEFINE FRAME Frame_3
+            ROW    10
+            COL    280
+            WIDTH  75
+            HEIGHT 103
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            CAPTION "Preview"
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            OPAQUE .T.
+     END FRAME  
+
+END WINDOW
+
+

@@ -1,164 +1,337 @@
-*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
-*OPEN SOURCE PROJECT 2005-2016 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2005 Roberto Lopez <roblez@ciudad.com.ar>
 
-DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 288 HEIGHT 333 TITLE "Barcode Reader Setup" ICON "SCANNER" MAIN NOMAXIMIZE NOSIZE ON INIT (Escape_on('Setbarcode'),CommConnect(.t.)) ON RELEASE FinCom()
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 288 HEIGHT 344 TITLE "Barcode Reader Setup" ICON "Scanner" MAIN NOSIZE CURSOR NIL ON INIT (Escape_on('Setbarcode'),CommConnect(.t.)) ON RELEASE FinCom() ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
 
-     DEFINE STATUSBAR FONT "Arial" SIZE 9
-            STATUSITEM "" WIDTH 80 RAISED 
-            CLOCK
-     END STATUSBAR
+    DEFINE STATUSBAR FONT "Arial" SIZE 9
+        STATUSITEM "" WIDTH 80 RAISED
+        CLOCK
+    END STATUSBAR
 
-     DEFINE FRAME Frame_1
-            ROW    10
-            COL    10
-            WIDTH  90
-            HEIGHT 140
-            CAPTION "Com-Ports"
-            OPAQUE .T.
-     END FRAME  
+    DEFINE RADIOGROUP RadioGroup_1
+        ROW    30
+        COL    20
+        WIDTH  73
+        HEIGHT 150
+        OPTIONS {'Com-1','Com-2','Com-3','Com-4','Com-5','Com-6'}
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Connection Port"
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 25
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END RADIOGROUP
 
-     DEFINE FRAME Frame_2
-            ROW    10
-            COL    110
-            WIDTH  150
-            HEIGHT 140
-            CAPTION "Default"
-            OPAQUE .T.
-     END FRAME  
+    DEFINE FRAME Frame_1
+        ROW    10
+        COL    10
+        WIDTH  90
+        HEIGHT 180
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Com-Ports"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
 
-     DEFINE BUTTON Button_1
-            ROW    240
-            COL    40
-            WIDTH  81
-            HEIGHT 31
-            ACTION BarsSet()
-            CAPTION "C&onfirm"
-     END BUTTON  
+    DEFINE FRAME Frame_2
+        ROW    10
+        COL    110
+        WIDTH  160
+        HEIGHT 140
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Default"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
 
-     DEFINE BUTTON Button_2
-            ROW    240
-            COL    160
-            WIDTH  81
-            HEIGHT 31
-            ACTION (m->esegui:=.f.,Setbarcode.release)
-            CAPTION "&Undo/Exit"
-     END BUTTON  
+    DEFINE BUTTON Button_1
+        ROW    155
+        COL    110
+        WIDTH  70
+        HEIGHT 30
+        CAPTION "C&onfirm"
+        ACTION BarsSet()
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
 
-     DEFINE LABEL Label_1
-            ROW    40
-            COL    150
-            WIDTH  60
-            HEIGHT 80
-            VALUE "Com 1 Baud 9600 Parity N Bits 8 Stop 1"
-            FONTBOLD .T.
-            FONTCOLOR {255,0,0}
-     END LABEL  
+    DEFINE BUTTON Button_2
+        ROW    155
+        COL    199
+        WIDTH  70
+        HEIGHT 30
+        CAPTION "&Undo/Exit"
+        ACTION (m->esegui:=.f.,Setbarcode.release)
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
 
-     DEFINE FRAME Frame_3
-            ROW    156
-            COL    10
-            WIDTH  90
-            HEIGHT 44
-            CAPTION "Baud"
-            OPAQUE .T.
-     END FRAME  
+    DEFINE LABEL Label_1
+        ROW    40
+        COL    150
+        WIDTH  60
+        HEIGHT 80
+        VALUE "Com 1 Baud 9600 Parity N Bits 8 Stop 1"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR {255,0,0}
+    END LABEL
 
-     DEFINE FRAME Frame_4
-            ROW    156
-            COL    110
-            WIDTH  50
-            HEIGHT 44
-            CAPTION "Parity"
-            OPAQUE .T.
-     END FRAME  
+    DEFINE FRAME Frame_3
+        ROW    190
+        COL    10
+        WIDTH  90
+        HEIGHT 40
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Baud"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
 
-     DEFINE FRAME Frame_5
-            ROW    156
-            COL    164
-            WIDTH  50
-            HEIGHT 43
-            CAPTION "Bits"
-            OPAQUE .T.
-     END FRAME  
+    DEFINE FRAME Frame_4
+        ROW    190
+        COL    110
+        WIDTH  50
+        HEIGHT 40
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Parity"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
 
-     DEFINE FRAME Frame_6
-            ROW    156
-            COL    216
-            WIDTH  50
-            HEIGHT 44
-            CAPTION "Stop"
-            OPAQUE .T.
-     END FRAME  
+    DEFINE FRAME Frame_5
+        ROW    190
+        COL    164
+        WIDTH  50
+        HEIGHT 39
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Bits"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
 
-     DEFINE TIMER Timer_1 INTERVAL m->delay ACTION if(!empty(commDataRx()),(Setbarcode.Label_3.Value :=commDataRx(),playbeep(),readcommpure(.t.)),'')
+    DEFINE FRAME Frame_6
+        ROW    190
+        COL    216
+        WIDTH  50
+        HEIGHT 40
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Stop"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
 
-     DEFINE COMBOBOX Combo_1
-            ROW    169
-            COL    15
-            WIDTH  80
-            HEIGHT 100
-            ITEMS m->baud
-            VALUE 3
-            TOOLTIP "Connection Speed"
-     END COMBOBOX  
+    DEFINE TIMER Timer_1 INTERVAL m->delay ACTION  if(!empty(commDataRx()),(Setbarcode.Label_3.Value :=commDataRx(),playbeep(),readcommpure(.t.)),'')
 
-     DEFINE COMBOBOX Combo_2
-            ROW    169
-            COL    115
-            WIDTH  40
-            HEIGHT 100
-            ITEMS m->parity
-            VALUE 1
-            TOOLTIP "Connection Parity"
-     END COMBOBOX  
+    DEFINE COMBOBOX Combo_1
+        ROW    203
+        COL    15
+        WIDTH  80
+        HEIGHT 100
+        ITEMS m->baud
+        VALUE 3
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Connection Speed"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+    END COMBOBOX
 
-     DEFINE COMBOBOX Combo_3
-            ROW    169
-            COL    168
-            WIDTH  40
-            HEIGHT 100
-            ITEMS {"7","8"}
-            VALUE 2
-            TOOLTIP "Connection Bits"
-     END COMBOBOX  
+    DEFINE COMBOBOX Combo_2
+        ROW    203
+        COL    115
+        WIDTH  40
+        HEIGHT 100
+        ITEMS m->parity
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Connection Parity"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+    END COMBOBOX
 
-     DEFINE COMBOBOX Combo_4
-            ROW    169
-            COL    220
-            WIDTH  40
-            HEIGHT 104
-            ITEMS {"1","2"}
-            VALUE 1
-            TOOLTIP "Stop Bits"
-     END COMBOBOX  
+    DEFINE COMBOBOX Combo_3
+        ROW    203
+        COL    168
+        WIDTH  40
+        HEIGHT 100
+        ITEMS {"7","8"}
+        VALUE 2
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Connection Bits"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+    END COMBOBOX
 
-     DEFINE LABEL Label_3
-            ROW    207
-            COL    10
-            WIDTH  260
-            HEIGHT 25
-            VALUE "Last Barcode"
-            FONTSIZE 14
-            FONTBOLD .T.
-            BACKCOLOR {255,255,0}
-            FONTCOLOR {0,0,255}
-            CENTERALIGN .T.
-     END LABEL  
+    DEFINE COMBOBOX Combo_4
+        ROW    203
+        COL    220
+        WIDTH  40
+        HEIGHT 100
+        ITEMS {"1","2"}
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Stop Bits"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+    END COMBOBOX
 
-     DEFINE SLIDER Slider_1
-            ROW    27
-            COL    35
-            WIDTH  35
-            HEIGHT 120
-            RANGEMIN 1
-            RANGEMAX 6
-            VALUE 1
-            TOOLTIP ''
-            ONCHANGE Setbarcode.Frame_1.caption:="Com_Port ("+ltrim(str(this.value))+")"
-            ONSCROLL Setbarcode.Frame_1.caption:="Com_Port ("+ltrim(str(this.value))+")"
-            LEFT .T.
-            VERTICAL .T.
-     END SLIDER  
+    DEFINE LABEL Label_3
+        ROW    240
+        COL    10
+        WIDTH  260
+        HEIGHT 25
+        VALUE "Last Barcode"
+        FONTNAME "Arial"
+        FONTSIZE 14
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {255,255,0}
+        FONTCOLOR {0,0,255}
+        CENTERALIGN .T. 
+    END LABEL
 
 END WINDOW
 

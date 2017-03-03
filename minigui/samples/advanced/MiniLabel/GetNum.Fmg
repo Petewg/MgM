@@ -1,0 +1,104 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2006 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 166 , 237 WIDTH 289 HEIGHT 195 TITLE "Property Edit" ICON 'AASIC' MODAL CURSOR NIL ON INIT Ld_base("GetNum") ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON PAINT NIL BACKCOLOR Nil ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+     DEFINE SPINNER Spinner_1
+            ROW    50
+            COL    30
+            WIDTH  220
+            HEIGHT 21
+            RANGEMIN 0
+            RANGEMAX 10000
+            VALUE 0
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE Nil
+            ONGOTFOCUS Nil
+            ONLOSTFOCUS Nil
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            WRAP .F.
+            READONLY .F.
+            INCREMENT 1
+            BACKCOLOR NIL
+            FORECOLOR NIL
+     END SPINNER  
+
+     DEFINE LABEL Label_1
+            ROW    20
+            COL    30
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Label_1"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID Nil
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION Nil
+            AUTOSIZE  .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+    DEFINE BUTTON Button_1
+           ROW    90
+           COL    30
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Ok"
+           ACTION   (out[1]:=Getnum.spinner_1.value,Getnum.release)
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           HELPID  Nil
+           FLAT    .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    90
+           COL    150
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Cancel"
+           ACTION   Getnum.release
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           HELPID  Nil
+           FLAT    .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+END WINDOW
+
+

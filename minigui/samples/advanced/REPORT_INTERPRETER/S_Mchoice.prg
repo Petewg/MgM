@@ -137,8 +137,8 @@
 *-----------------------------------------------------------------------------------------------*
 FUNCTION mchoice(aOptions,nTop,nLeft,nBottom,nRight,cTitle,lAlpha,nStart,nRow,aSelectable,Multi)
 *-----------------------------------------------------------------------------------------------*
-   Local oLbx, Ritorna :=0, _H_Modal ,aBmp[1] ,dSel:= 0, aCloneSel:={}
-   Local lnO, bcolor, adummy
+   Local oLbx, Ritorna :=0, nElement := 1 ,_H_Modal ,aBmp[1] ,dSel:= 0, aCloneSel:={}
+   Local lnO, bcolor
    Default aOptions to {}
    Default nTop to 150, nLeft to 100
    Default nBottom to 550, nRight to  650
@@ -191,9 +191,9 @@ FUNCTION mchoice(aOptions,nTop,nLeft,nBottom,nRight,cTitle,lAlpha,nStart,nRow,aS
           DEFINE TBROWSE oLbx AT 10,15  ;
                  OF Mchoice WIDTH 470 HEIGHT 290 CELLED;
                  COLORS  {CLR_BLACK, CLR_NBLUE};
-                 ON DBLCLICK ( If( aSelectable[oLbx:nAt],;
+                 ON DBLCLICK If( aSelectable[oLbx:nAt],;
                              if(multi=.F.,(ritorna:=oLbx:nAt,Mchoice.release),ritorna := olbx:aSelected);
-                            ,MsgStop("Not Allowed!","Action Info") ),adummy := {nrow,ncol,nflags} )
+                            ,MsgStop("Not Allowed!","Action Info") )
 
           oLbx:SetArray( aOptions ) // this is necessary to work with arrays
 
@@ -351,9 +351,9 @@ FUNCTION TagIt(aTagged, aFields, aFieldNames, cTitle, nFreeze, cell,nHw,nVw)
    Local oTag, Ritorna :={}, _H_Modal ,aBmp[1], aFld := {}, cAlias := alias()
    Local nWinWidth  := if (getdesktopwidth() = 800,800*.9, getdesktopwidth() * 0.9 )+40
    Local nWinHeight := if (getdesktopheight() = 600,600*.85, getdesktopheight() * 0.9 )
-   Local nBrwWidth , nBrwHeight
+   Local nBrwWidth  := 0 , nBrwHeight := 0
    if aFields == NIL
-      aEval( ( cAlias )->( DbStruct() ),{|e| aAdd(aFld, e[DBS_NAME]) } )
+      aEval( ( cAlias )->( DbStruct() ),{|e,n| aAdd(aFld, e[DBS_NAME]) } )
    Endif
    Default  aTagged to {}, aFields to aFld , aFieldNames to {}
    Default cTitle to "" , nFreeze to 1 , cell to .F.

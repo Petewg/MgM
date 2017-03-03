@@ -1,0 +1,129 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2005 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 84 , 303 WIDTH 310 HEIGHT 460 TITLE "Administrador de Tipos" ICON NIL MODAL NOSIZE CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON PAINT Nil BACKCOLOR {120,199,241} ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE TOOLBAR ToolBar_1 BUTTONSIZE 58,35 FONT "Arial" SIZE 9 FLAT BORDER
+        BUTTON Nuevo CAPTION "Nuevo" PICTURE "nuevo.bmp" ACTION Agregar()
+        BUTTON Editar CAPTION "Editar" PICTURE "editar.bmp" ACTION Modificar()
+        BUTTON Eliminar CAPTION "Eliminar" PICTURE "borrar.bmp" ACTION Borrar()
+        BUTTON Imprimir CAPTION "Imprimir" PICTURE "imprimir2.bmp" ACTION Impresion()
+        BUTTON Cerrar CAPTION "Cerrar" PICTURE "Cerrar.bmp" ACTION Win_2.release
+    END TOOLBAR
+
+    DEFINE STATUSBAR FONT "Arial" SIZE 9
+        STATUSITEM 'Ingrese "*" para todos los registros'
+    END STATUSBAR
+
+    DEFINE LABEL Label_1
+        ROW    60
+        COL    10
+        WIDTH  40
+        HEIGHT 24
+        VALUE "Buscar"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {120,199,241}
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE TEXTBOX Text_1
+        ROW    60
+        COL    60
+        WIDTH  195
+        HEIGHT 24
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP 'Buscar (Ingrese "*" para todos los registros)'
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER if(Busqueda() == .T. ,( Win_2.Grid_1.Value := WIn_2.Grid_1.Setfocus),Nil)
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+	UPPERCASE .T.
+    END TEXTBOX
+
+    DEFINE BUTTON Button_1
+        ROW    60
+        COL    265
+        WIDTH  25
+        HEIGHT 25
+        CAPTION ""
+        ACTION if(Busqueda() == .T. ,(Win_2.Grid_1.Value := WIn_2.Grid_1.Setfocus),Nil)
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Buscar"
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        PICTURE "buscar.bmp"
+    END BUTTON
+
+    DEFINE GRID Grid_1
+        ROW    95
+        COL    10
+        WIDTH  280
+        HEIGHT 310
+        ITEMS { {"",""} }
+        VALUE 0
+        WIDTHS {60,220}
+        HEADERS {'Codigo','Descripcion'}
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONDBLCLICK Nil
+        ONHEADCLICK Nil
+        ONQUERYDATA Nil
+        MULTISELECT .F.
+        ALLOWEDIT .F.
+        VIRTUAL .F.
+        NOLINES .F.
+        HELPID Nil
+        IMAGE Nil
+        JUSTIFY Nil
+        ITEMCOUNT Nil
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END GRID
+
+END WINDOW
+
+

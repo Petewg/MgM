@@ -1,0 +1,1 @@
+@call %~d0\miniguim\batch\buildapp.bat Server -mt -lhbnetio -lhbzlib -lws2_32

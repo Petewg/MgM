@@ -1,0 +1,32 @@
+IMAGE	ICON	magic.ico
+
+TB_24	PNG	tb_24.png
+
+1 VERSIONINFO
+FILEVERSION 1,6,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Simple FreeImage Viewer\000"
+		VALUE "FileVersion", "1.6.0.0"
+		VALUE "InternalName", "FreeView\000"
+		VALUE "LegalCopyright", "Copyright © 2003-2015 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "FreeView.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409, 0x04B0
+}
+}

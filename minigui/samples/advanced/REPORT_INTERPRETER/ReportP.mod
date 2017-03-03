@@ -1,6 +1,6 @@
 !PDFPRINT
 # REPORTS.MOD This Line Will be ignored!
-[Declare]80/PREV
+[Declare]80/PRE
 VAR PIZZA C ''
 VAR PLT C []
 VAR PLT1 C []

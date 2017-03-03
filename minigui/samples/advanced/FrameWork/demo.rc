@@ -1,0 +1,84 @@
+
+#include "resource.h"
+#include <windows.h>
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+ID_MAIN                 ICON                    res\star.ico
+
+
+ID_TOOLBAR              BITMAP                  res\toolbar.bmp
+
+IDD_DIALOG1 DIALOG 0, 0, 186, 90
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+
+CAPTION "About"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,68,49,50,14
+    CTEXT           "Frame Application",IDC_STATIC,60,22,64,11
+    ICON            ID_MAIN,0,4,4,20,20
+END
+
+
+STRINGTABLE
+BEGIN
+    ID_MAIN                 "Frame Window"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW            "Create a New Document"
+    ID_FILE_OPEN           "Open Existing Document"
+    ID_FILE_SAVE           "Save the Document"
+    ID_FILE_SAVEAS         "Save the Document with a new name"
+    ID_FILE_PRINT          "Print the Document"
+    ID_FILE_EXIT           "End the Program"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_UNDO           "Undo the last action"
+    ID_EDIT_REDO           "Redo the previously undone action"
+    ID_EDIT_CUT            "Cut the Selected Contents to the Clipboard"
+    ID_EDIT_COPY           "Copy the Selected Contents to the Clipboard"
+    ID_EDIT_PASTE          "Paste the Clipboard Contents to the Document"
+    ID_EDIT_DELETE         "Erase the selected Contents"
+    ID_VIEW_TOOLBAR        "Show or hide the tool bar"
+    ID_VIEW_STATUSBAR      "Show or hide the status bar"
+END
+
+STRINGTABLE
+BEGIN
+    ID_HELP_ABOUT          "Display Information about this program"
+END
+
+STRINGTABLE
+BEGIN
+    61536                   "Close the Window"
+END
+
+STRINGTABLE
+BEGIN
+    61488                   "Maximize the Window"
+END
+
+STRINGTABLE
+BEGIN
+    61472                   "Minimize the WIndow"
+END
+
+STRINGTABLE
+BEGIN
+    61456                   "Move the Window"
+END
+
+STRINGTABLE
+BEGIN
+    61728                   "Restore the Window"
+END
+
+STRINGTABLE
+BEGIN
+    61440                   "Resize the Window"
+END

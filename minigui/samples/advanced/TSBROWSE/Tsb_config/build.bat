@@ -1,0 +1,3 @@
+@call %~d0\miniguim\batch\buildapp.bat Tsb_Config
+
+::@for  %%i  IN (*.prg) DO @call %~d0\miniguim\batch\buildapp.bat %%~ni

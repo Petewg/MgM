@@ -1,0 +1,233 @@
+
+REPORT DEFINITION
+-----------------
+
+
+DEFINE REPORT <Name> | TEMPLATE
+
+	BEGIN DATA
+
+		ITERATOR <xExpression>
+
+		STOPPER <xExpression>
+
+	END DATA
+
+	BEGIN LAYOUT
+
+		PAPERSIZE	<nValue>
+
+		ORIENTATION	<nValue>
+
+		[ PAPERWIDTH	<nValue> ]
+
+		[ PAPERLENGTH	<nValue> ]
+
+	END LAYOUT
+
+	BEGIN HEADER
+
+		BANDHEIGHT	<nValue>
+
+		 < Report Object Definitions >
+
+	END HEADER
+
+	BEGIN DETAIL 
+
+		BANDHEIGHT	<nValue>
+
+		 < Report Object Definitions >
+
+	END DETAIL
+
+	BEGIN FOOTER
+
+		BANDHEIGHT	<nValue>
+
+		 < Report Object Definitions >
+
+	END FOOTER
+
+	BEGIN SUMMARY
+
+		BANDHEIGHT	<nValue>
+
+		 < Report Object Definitions >
+
+	END SUMMARY
+
+	BEGIN GROUP
+
+		GROUPEXPRESSION	<Value>
+
+		BEGIN GROUPHEADER
+
+			BANDHEIGHT	<nValue>
+
+			 < Report Object Definitions >
+
+		END GROUPHEADER
+
+		BEGIN GROUPFOOTER
+
+			BANDHEIGHT	<nValue>
+
+			 < Report Object Definitions >
+
+		END GROUPFOOTER
+
+	END GROUP
+
+END REPORT
+
+
+- 'TEMPLATE' should be used instead report name on external reports (defined on 
+  a text file with '.rmg' extension.
+
+- PAPERWIDTH and PAPERLENGTH properties are required in layout section only 
+  when PRINTER_PAPER_USER is defined.
+
+
+REPORT OBJECTS
+--------------
+
+Positions are relative to current band top left margin for all objects. Measure
+unit is millimeters.
+
+
+TEXT
+----
+
+	BEGIN TEXT
+		VALUE		<xValue>
+		ROW		<nValue>	
+		COL		<nValue>	
+		WIDTH		<nValue>	
+		HEIGHT		<nValue>	
+		FONTNAME	<cValue>
+		FONTSIZE	<nValue>	
+		FONTBOLD	<lValue>
+		FONTITALIC	<lValue>
+		FONTUNDERLINE	<lValue>
+		FONTSTRIKEOUT	<lValue>
+		FONTCOLOR	<anValue>
+		ALIGNMENT	Left | Center | Right
+	END TEXT
+
+
+PICTURE
+-------
+
+	BEGIN PICTURE
+		VALUE		<cValue>
+		ROW		<nValue>	
+		COL		<nValue>	
+		WIDTH		<nValue>	
+		HEIGHT		<nValue>	
+		STRETCH		<lValue>
+	END PICTURE
+
+
+LINE
+----
+
+	BEGIN LINE
+		FROMROW		<nValue>	
+		FROMCOL		<nValue>	
+		TOROW		<nValue>	
+		TOCOL		<nValue>	
+		PENWIDTH	<nValue>	
+		PENCOLOR	<anValue>	
+	END LINE
+
+
+RECTANGLE 
+---------
+
+	BEGIN RECTANGLE
+		FROMROW		<nValue>	
+		FROMCOL		<nValue>	
+		TOROW		<nValue>	
+		TOCOL		<nValue>	
+		PENWIDTH	<nValue>	
+		PENCOLOR	<anValue>	
+	END RECTANGLE
+
+
+REPORT EXECUTION
+----------------
+
+	ExecuteReport ( <cReportName> , <lPrintPreview> , <lSelectPrinter> , <cOutputFile> )
+	
+	Or
+
+	EXECUTE REPORT <ReportName> [ PREVIEW ] [ PRINTERSELECT ] [ FILE <cFile> ]
+
+
+PDF Output:
+-----------
+
+- If <cOutputFile> with 'pdf' extension is specified, a PDF file with report 
+  content will be generated. (<lPrintPreview> and <lSelectPrinter> parameters 
+  will be ignored). 
+
+- The following limitations applies when report is redirected to a PDF file:
+
+
+	- Only .jpg image files are allowed. 
+
+	- When 'Underline' property is .t., color property is ignored 
+	(assumed black) for expressions. 
+
+	- The following fonts are supported (all other are assumed as 'Times'):
+
+		- Times
+		- Helvetica
+		- Courier
+
+	- The following paper sizes are supported:
+
+		- PRINTER_PAPER_LETTER
+		- PRINTER_PAPER_LEGAL
+		- PRINTER_PAPER_A4
+		- PRINTER_PAPER_TABLOID
+		- PRINTER_PAPER_EXECUTIVE
+		- PRINTER_PAPER_A3
+		- PRINTER_PAPER_ENV_10
+		- PRINTER_PAPER_B4
+		- PRINTER_PAPER_B5
+		- PRINTER_PAPER_P32K
+		- PRINTER_PAPER_ENV_C5
+		- PRINTER_PAPER_ENV_DL
+		- PRINTER_PAPER_ENV_B5
+		- PRINTER_PAPER_ENV_MONARCH
+
+
+- Sample: Demo6.prg
+
+
+HTML Output:
+------------
+
+- If <cOutputFile> with 'html' extension is specified, an HTML file with 
+  report content will be generated. (<lPrintPreview> and <lSelectPrinter> 
+  parameters  will be ignored). 
+
+- Sample: Demo7.prg
+
+
+REPORT VARIABLES
+----------------
+
+	_PAGENO
+
+
+EXTERNAL REPORT
+---------------
+	
+This is a report defined in a separate text file with '.rmg' extension.
+'TEMPLATE' should be used instead report name.
+
+
+	LOAD REPORT <ReportFileName>

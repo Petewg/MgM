@@ -1,0 +1,5 @@
+2005.04.10 Release 001
+
+2005.06.14 Release 002
+
+	Fixed: 'SqlTrace' memvar not defined error.
