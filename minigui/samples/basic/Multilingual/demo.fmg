@@ -1,0 +1,229 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 300 HEIGHT 230 TITLE "" ICON NIL MAIN NOMAXIMIZE NOSIZE CURSOR NIL ON INIT Form_Load() ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR NIL NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK NIL ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+     DEFINE LABEL Label_1
+            ROW    9
+            COL    9
+            WIDTH  110
+            HEIGHT 28
+            VALUE "Label_1"
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE COMBOBOX Combo_1
+            ROW    10
+            COL    120
+            WIDTH  130
+            HEIGHT 120
+            ITEMS {""}
+            VALUE 0
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 8
+            TOOLTIP ""
+            ONCHANGE InterfaceLanguage_Click()
+            ONGOTFOCUS  NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            SORT .F.
+            ONENTER NIL
+            ONDISPLAYCHANGE NIL
+            DISPLAYEDIT .F.
+     END COMBOBOX  
+
+     DEFINE LABEL Label_2
+            ROW    60
+            COL    10
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Label_2"
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_3
+            ROW    95
+            COL    10
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Label_3"
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    130
+            COL    9
+            WIDTH  160
+            HEIGHT 28
+            VALUE "Label_4"
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            BORDER .T.
+            CENTERALIGN .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR WHITE
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    165
+            COL    9
+            WIDTH  280
+            HEIGHT 30
+            VALUE "Label_5"
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 8
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    55
+            COL    140
+            WIDTH  140
+            HEIGHT 26
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 10
+            TOOLTIP ""
+            ONCHANGE CalculateResult()
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .T.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            VALUE 0.00 
+            INPUTMASK "99999999.99"
+            FORMAT NIL
+            NUMERIC .T.
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    90
+            COL    140
+            WIDTH  140
+            HEIGHT 26
+            FONTNAME "MS Sans Serif"
+            FONTSIZE 10
+            TOOLTIP ""
+            ONCHANGE CalculateResult()
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .T.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            VALUE 0.00 
+            INPUTMASK "99999999.99"
+            FORMAT NIL
+            NUMERIC .T.
+     END TEXTBOX 
+
+    DEFINE BUTTON Button_1
+           ROW    130
+           COL    190
+           WIDTH  74
+           HEIGHT 28
+           CAPTION "Button_1"
+           ACTION ThisWindow.Release
+           FONTNAME "MS Sans Serif"
+           FONTSIZE 9
+           TOOLTIP ""
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS NIL
+           ONLOSTFOCUS NIL
+           HELPID NIL
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+END WINDOW
+
+

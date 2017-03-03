@@ -1,0 +1,39 @@
+#include "DemoRes.h"
+#include <windows.h>
+/*////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+/*/
+
+
+DLG_FIRST DIALOG 0, 0, 180, 134
+STYLE WS_POPUP | WS_VISIBLE | WS_CHILD  | WS_CAPTION
+CAPTION "PEOPLE"
+FONT 10, "MS Sans Serif"
+BEGIN
+AUTOCHECKBOX "male", 201, 10, 10, 80, 10
+AUTOCHECKBOX "female", 202, 10, 20, 80, 10
+AUTOCHECKBOX "children", 203, 10, 30, 80, 10
+LTEXT "Note: this page has no HELP button", 204, 10, 60, 200, 12
+END
+
+DLG_SECOND DIALOG 0, 0, 180, 134
+STYLE WS_POPUP | WS_VISIBLE |WS_CHILD | DS_CONTROL
+CAPTION "ANIMALS"
+FONT 10, "MS Sans Serif"
+BEGIN
+AUTOCHECKBOX "cat" , 211, 50, 50, 80, 10
+AUTOCHECKBOX "dog" , 212, 50, 60, 80, 10
+AUTOCHECKBOX "horse", 213, 50, 70, 80, 10
+END
+
+DLG_THIRD DIALOG 0, 0, 180, 134
+STYLE WS_POPUP | WS_VISIBLE | WS_CHILD |DS_CONTROL | WS_THICKFRAME
+CAPTION "BUILDINGS"
+FONT 10, "MS Sans Serif"
+BEGIN
+AUTOCHECKBOX "house" , 221, 50, 100, 80, 10
+AUTOCHECKBOX "garage" , 222, 50, 110, 80, 10
+AUTOCHECKBOX "dog house", 223, 50, 120, 80, 10
+END
+

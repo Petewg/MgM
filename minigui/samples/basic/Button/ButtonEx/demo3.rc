@@ -1,0 +1,25 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//   Resource name   Resource Type    Resource FileName
+        aaaa          ICON		res\globus.ico
+        clearico      ICON		res\clear.ico
+        globus        ICON		res\globus.ico
+        boldico       ICON		res\bold.ico
+        snail         ICON		res\snail.ico
+        sheep         ICON		res\sheep.ico
+        pressit       ICON		res\pressit.ico
+        question      bitmap		res\question.bmp
+        strzal        bitmap		res\arrowdn1.bmp
+        strzal3       bitmap		res\arrowdn3.bmp
+        cancel        bitmap		res\cancel.bmp
+        ok            bitmap		res\ok.bmp
+        strzald       bitmap		res\arrowdn2.bmp
+        close         bitmap		res\close.bmp
+        closed        bitmap		res\closed.bmp
+        clear         bitmap		res\clear.bmp
+        cleard        bitmap		res\cleard.bmp
+        bold          bitmap		res\bold.bmp
+        boldd         bitmap		res\boldd.bmp
+        sample        bitmap		res\bitmap3.bmp
+        surg          bitmap		res\surg.bmp

@@ -1,0 +1,93 @@
+* HMG-UNICODE IDE Form Designer Generated Code
+* (c) Roberto Lopez - http://sites.google.com/site/hmgweb
+
+DEFINE WINDOW TEMPLATE AT 327 , 448 WIDTH 512 HEIGHT 317 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Message Functions Improvements Tests" ICON NIL MAIN CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE COMBOBOX cmbMsgTypes
+        ROW    50
+        COL    40
+        WIDTH  180
+        HEIGHT 200
+        ITEMS { 'MsgBox', 'MsgExclamation', 'MsgInfo', 'MsgOkCancel', 'MsgRetryCancel', 'MsgStop', 'MsgYesNo', 'MsgDebug()', 'WhereIsIt()' }
+        VALUE 1
+        FONTNAME "Verdana"
+        FONTSIZE 11
+        TOOLTIP ""
+        ONCHANGE MsgFTsts.cmbDataTypes.Enabled := ( This.Value < 8 )
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+        IMAGE Nil
+        DROPPEDWIDTH Nil
+        ONDROPDOWN Nil
+        ONCLOSEUP Nil
+    END COMBOBOX
+
+    DEFINE COMBOBOX cmbDataTypes
+        ROW    50
+        COL    280
+        WIDTH  190
+        HEIGHT 120
+        ITEMS { 'Character', 'Numeric', 'Date', 'Logical', 'Array' }
+        VALUE 1
+        FONTNAME "Verdana"
+        FONTSIZE 11
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+        IMAGE Nil
+        DROPPEDWIDTH Nil
+        ONDROPDOWN Nil
+        ONCLOSEUP Nil
+    END COMBOBOX
+
+    DEFINE BUTTON Button_1
+        ROW    220
+        COL    200
+        WIDTH  100
+        HEIGHT 28
+        ACTION ApplyMsg()
+        CAPTION "Apply"
+        FONTNAME "Verdana"
+        FONTSIZE 11
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+END WINDOW
+

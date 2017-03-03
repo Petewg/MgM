@@ -1,0 +1,99 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 543 HEIGHT 270 TITLE "Demo paths" MAIN NOMAXIMIZE
+
+     DEFINE LABEL Label_1
+            ROW    15
+            COL    5
+            WIDTH  80
+            HEIGHT 20
+            VALUE "Target folder"
+     END LABEL  
+
+     DEFINE BTNTEXTBOX BtnTextBox_1
+            ROW    10
+            COL    90
+            WIDTH  439
+            HEIGHT 24
+            ACTION SelectDir()
+            BACKCOLOR {255,255,255}
+            ONCHANGE MakePaths()
+     END BTNTEXTBOX 
+
+     DEFINE LABEL Label_2
+            ROW    60
+            COL    5
+            WIDTH  120
+            HEIGHT 20
+            VALUE "Compact path:"
+     END LABEL  
+
+     DEFINE SPINNER Spinner_1
+            ROW    55
+            COL    480
+            WIDTH  50
+            HEIGHT 24
+            RANGEMIN 10
+            RANGEMAX 60
+            ONCHANGE ShowCompactPath()
+            WRAP .T.
+     END SPINNER  
+
+     DEFINE LABEL Label_3
+            ROW    85
+            COL    5
+            WIDTH  525
+            HEIGHT 20
+            VALUE "Label_3"
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_4
+            ROW    60
+            COL    400
+            WIDTH  70
+            HEIGHT 24
+            VALUE "Max chars"
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    119
+            COL    5
+            WIDTH  70
+            HEIGHT 20
+            VALUE "Short path:"
+     END LABEL  
+
+     DEFINE LABEL Label_6
+            ROW    145
+            COL    5
+            WIDTH  525
+            HEIGHT 20
+            VALUE "Label_6"
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+     DEFINE LABEL Label_7
+            ROW    180
+            COL    5
+            WIDTH  525
+            HEIGHT 24
+            VALUE "Path relative"
+     END LABEL  
+
+     DEFINE LABEL Label_8
+            ROW    205
+            COL    5
+            WIDTH  525
+            HEIGHT 20
+            VALUE "Label_8"
+            BACKCOLOR {255,255,255}
+            BORDER .T.
+     END LABEL  
+
+END WINDOW
+
+

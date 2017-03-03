@@ -1,0 +1,55 @@
+/*
+* Harbour MiniGUI Demo
+* (c) 2002-2009 Roberto Lopez <harbourminigui@gmail.com>
+*/
+
+#include "minigui.ch"
+
+#xcommand  WAIT WINDOW <message> ;
+      => ;
+	WaitWindow ( <message> , .F. )
+
+#xcommand  WAIT WINDOW <message> NOWAIT ;
+      => ;
+	WaitWindow ( <message> , .T. )
+
+#xcommand  WAIT CLEAR ;
+      => ;
+	WaitWindow ()
+
+
+Function Main
+
+	DEFINE WINDOW Win_1 ;
+		AT 0,0 ;
+		WIDTH 400 ;
+		HEIGHT 400 ;
+		TITLE 'WAIT WINDOW DEMO 1' ;
+		MAIN
+
+		@ 70,70 BUTTON Button_1 CAPTION 'WAIT WINDOW "Processing..." NOWAIT' ACTION Test1() WIDTH 250
+		@ 100,70 BUTTON Button_2 CAPTION 'WAIT CLEAR' ACTION Test2() WIDTH 250
+
+	END WINDOW
+
+	InitWaitWindow()
+
+	CENTER WINDOW Win_1 
+
+	ACTIVATE WINDOW ALL
+
+Return Nil
+
+procedure test1()
+
+	WAIT WINDOW "Processing..."  NOWAIT
+
+return
+
+procedure test2()
+
+	WAIT CLEAR
+
+return
+
+#include "WaitWindow.prg"

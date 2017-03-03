@@ -1,0 +1,3 @@
+FoldLock PNG    res\FolderLock.png
+key32    BITMAP res\key32.bmp
+DragCurs CURSOR res\movewind.cur

@@ -1,0 +1,19 @@
+DEFINE REPORT TEMPLATE
+   TITLE  'REPORT OF CINEMA ARTISTS | second title'
+   HEADERS  {'','','',''} , { 'SIMPLE', 'LAST NAME', 'BIO', 'INCOME' }
+   FIELDS   {'code','last','BIO','incoming'}
+   WIDTHS   {10,20,26,14}
+   TOTALS   {.F.,.F.,.F.,.T.}
+   NFORMATS {'','','','@E 99,999,999.99'}
+   WORKAREA Test
+   LPP      55     
+   CPL      77
+   LMARGIN  3
+   TMARGIN 3
+   PAPERSIZE DMPAPER_A4
+   PREVIEW 
+   SELECT
+   MULTIPLE
+   GROUPED BY 'EVERY PAGE'
+   HEADRGRP 'Sum : '
+END REPORT

@@ -1,0 +1,246 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2007 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE ;
+	AT 0, 0 ;
+	WIDTH 510 HEIGHT 397 ;
+	TITLE "Message Box Show" ;
+	ICON "MAIN" ;
+	MAIN ;
+	NOMAXIMIZE NOSIZE ;
+        FONT "MS Sans Serif" ;
+        SIZE 9
+
+     DEFINE LABEL Label_1
+            ROW    10
+            COL    10
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Title bar:"
+            TOOLTIP ""
+            FONTBOLD .T.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    30
+            COL    10
+            WIDTH  255
+            HEIGHT 24
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            ONENTER NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE  ""
+     END TEXTBOX 
+
+     DEFINE LABEL Label_2
+            ROW    60
+            COL    10
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Message:"
+            TOOLTIP ""
+            FONTBOLD .T.
+            HELPID NIL
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION NIL
+            AUTOSIZE .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE EDITBOX Edit_1
+            ROW    80
+            COL    10
+            WIDTH  255
+            HEIGHT 120
+            VALUE ""
+            TOOLTIP ""
+            ONCHANGE NIL
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            NOHSCROLLBAR .T.
+            NOVSCROLLBAR .T.
+     END EDITBOX  
+
+     DEFINE FRAME Frame_1
+            ROW    210
+            COL    10
+            WIDTH  255
+            HEIGHT 140
+            CAPTION "Icon"
+            FONTBOLD .T.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            OPAQUE .F.
+     END FRAME  
+
+     DEFINE RADIOGROUP RadioGroup_1
+            ROW    228
+            COL    20
+            WIDTH  120
+            HEIGHT 50
+            OPTIONS {'None','Error','Warning','Information','Question'}
+            VALUE 1
+            TOOLTIP ""
+            ONCHANGE ChangeImage()
+            FONTBOLD .T.
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            TRANSPARENT .F.
+            SPACING 22
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END RADIOGROUP  
+
+     DEFINE IMAGE Image_1
+            ROW    218
+            COL    230
+            WIDTH  32
+            HEIGHT 32
+            PICTURE ""
+            HELPID   NIL
+            VISIBLE  .T.
+            STRETCH  .F.
+            ACTION   NIL
+     END IMAGE
+
+     DEFINE FRAME Frame_4
+            ROW    10
+            COL    286
+            WIDTH  204
+            HEIGHT 180
+            CAPTION "Buttons"
+            FONTBOLD .T.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            OPAQUE .F.
+     END FRAME  
+
+     DEFINE RADIOGROUP RadioGroup_2
+            ROW    30
+            COL    300
+            WIDTH  150
+            HEIGHT 50
+            OPTIONS {'Ok','Ok, Cancel','Abort, Retry, Ignore','Yes, No, Cancel','Yes, No','Retry, Cancel'}
+            VALUE 1
+            TOOLTIP ""
+            ONCHANGE NIL
+            FONTBOLD .T.
+            HELPID NIL
+            TABSTOP .T.
+            VISIBLE .T.
+            TRANSPARENT .F.
+            SPACING 25
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END RADIOGROUP  
+
+     DEFINE BUTTONEX ButtonEX_1
+            ROW    210
+            COL    300
+            WIDTH  180
+            HEIGHT 28
+            CAPTION "Test"
+            PICTURE ""
+            ACTION TestMessage()
+            FONTBOLD .T.
+            VERTICAL .F.
+            LEFTTEXT .F.
+            UPPERTEXT .F.
+            ADJUST .F.
+            TOOLTIP ""
+            BACKCOLOR NIL
+            NOHOTLIGHT .F.
+            FLAT .F.
+            NOTRANSPARENT .F.
+            NOXPSTYLE .F.
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            TABSTOP .T.
+            HELPID NIL
+            VISIBLE .T.
+            DEFAULT .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_2
+            ROW    250
+            COL    300
+            WIDTH  180
+            HEIGHT 28
+            CAPTION "About"
+            PICTURE ""
+            ACTION MsgAbout()
+            FONTBOLD .T.
+            VERTICAL .F.
+            LEFTTEXT .F.
+            UPPERTEXT .F.
+            ADJUST .F.
+            TOOLTIP ""
+            BACKCOLOR NIL
+            NOHOTLIGHT .F.
+            FLAT .F.
+            NOTRANSPARENT .F.
+            NOXPSTYLE .F.
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            TABSTOP .T.
+            HELPID NIL
+            VISIBLE .T.
+            DEFAULT .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_3
+            ROW    290
+            COL    300
+            WIDTH  180
+            HEIGHT 28
+            CAPTION "Cancel"
+            PICTURE ""
+            ACTION ThisWindow.Release
+            FONTBOLD .T.
+            VERTICAL .F.
+            LEFTTEXT .F.
+            UPPERTEXT .F.
+            ADJUST .F.
+            TOOLTIP ""
+            BACKCOLOR NIL
+            NOHOTLIGHT .F.
+            FLAT .F.
+            NOTRANSPARENT .F.
+            NOXPSTYLE .F.
+            ONGOTFOCUS NIL
+            ONLOSTFOCUS NIL
+            TABSTOP .T.
+            HELPID NIL
+            VISIBLE .T.
+            DEFAULT .F.
+     END BUTTONEX  
+
+END WINDOW
+
+

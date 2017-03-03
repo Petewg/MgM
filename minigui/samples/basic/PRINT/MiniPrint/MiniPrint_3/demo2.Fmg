@@ -1,0 +1,251 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2009 Roberto Lopez <harbourminigui@gmail.com>
+* http://harbourminigui.googlepages.com
+
+DEFINE WINDOW TEMPLATE AT 252 , 281 WIDTH 400 HEIGHT 324 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Print Job Test" ICON NIL MAIN NOMAXIMIZE NOSIZE CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE FRAME Frame_1
+        ROW    10
+        COL    10
+        WIDTH  370
+        HEIGHT 90
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Available Printers"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE COMBOBOX Combo_Printers
+        ROW    30
+        COL    20
+        WIDTH  350
+        HEIGHT 170
+        ITEMS myPrinters
+        VALUE 0
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Select a Printer, please..."
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+        IMAGE Nil
+        DROPPEDWIDTH Nil
+        ONDROPDOWN Nil
+        ONCLOSEUP Nil
+    END COMBOBOX
+
+    DEFINE CHECKBOX Check_1
+        ROW    70
+        COL    30
+        WIDTH  190
+        HEIGHT 20
+        CAPTION "Show Only LOCAL PRINTERS"
+        VALUE .F.
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE {|| printers_filter() }
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE FRAME Frame_2
+        ROW    110
+        COL    10
+        WIDTH  370
+        HEIGHT 60
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Select Paper Size"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE COMBOBOX Combo_Papers
+        ROW    130
+        COL    20
+        WIDTH  350
+        HEIGHT 170
+        ITEMS papers_to_select
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Select your preferred Paper Size..."
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+        IMAGE Nil
+        DROPPEDWIDTH Nil
+        ONDROPDOWN Nil
+        ONCLOSEUP Nil
+    END COMBOBOX
+
+    DEFINE CHECKBOX preview_not_yes
+        ROW    180
+        COL    40
+        WIDTH  150
+        HEIGHT 20
+        CAPTION "Preview"
+        VALUE .F.
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Check this if you want preview your print job..."
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE LABEL Label_1
+        ROW    240
+        COL    10
+        WIDTH  370
+        HEIGHT 1
+        VALUE ""
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {128,128,128}
+        FONTCOLOR Nil
+    END LABEL
+
+    DEFINE BUTTON Button_1
+        ROW    250
+        COL    280
+        WIDTH  100
+        HEIGHT 30
+        ACTION thisWindow.Release
+        CAPTION "Ca&ncel"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Cancel print job..."
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE BUTTON Button_2
+        ROW    250
+        COL    90
+        WIDTH  180
+        HEIGHT 30
+        ACTION {|| _Print_My_Job(aPapers) }
+        CAPTION "Continue &Print Job"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Continue print job..."
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE RADIOGROUP RadioGroup_1
+        ROW    180
+        COL    220
+        WIDTH  120
+        HEIGHT 50
+        OPTIONS { 'Portrait', 'LandScape' }
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Select paper orientation..."
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 25
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        READONLY Nil
+        HORIZONTAL .F. 
+    END RADIOGROUP
+
+END WINDOW
+
+

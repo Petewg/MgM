@@ -1,0 +1,4 @@
+/* the first icon will also defines the executable icon in Explorer */ 
+MAIN		ICON		".\..\..\..\RESOURCES\DEFAULT.ICO"
+
+PAPER		GIF		"Paper.gif"

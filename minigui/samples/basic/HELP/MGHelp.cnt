@@ -1,0 +1,5 @@
+:Base MGHelp.hlp
+:Title MiniGui Help Demo
+1 Topic1=IDH_0001>WinDemo
+1 Topic2=IDH_0002
+1 Topic3=IDH_0003>WinDemo

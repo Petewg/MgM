@@ -1,0 +1,10 @@
+-oclient
+main.prg
+main_connect_action.prg
+main_delete_action.prg
+main_disconnect_action.prg
+main_grid_1_onquerydata.prg
+main_modify_action.prg
+main_new_action.prg
+main_query_server_action.prg
+client.hbc

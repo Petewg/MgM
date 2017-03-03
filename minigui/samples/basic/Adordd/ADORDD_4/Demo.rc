@@ -1,0 +1,10 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//   Resource name	Resource Type	Resource FileName
+//
+	EDIT		BITMAP		IMAGE\EDIT.BMP
+	EXIT2		BITMAP		IMAGE\EXIT2.BMP
+	FIND		BITMAP		IMAGE\FIND.BMP
+	NAVI2		BITMAP		IMAGE\NAVI2.BMP
+	SAVE		BITMAP		IMAGE\SAVE.BMP

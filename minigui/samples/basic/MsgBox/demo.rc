@@ -1,0 +1,7 @@
+#include "resource.h"
+IDI_HMG        ICON          hmg.ico
+IDI_DEMO       ICON          demo.ico
+IDI_COMP       ICON          comp.ico
+IDI_PRINT      ICON          print.ico
+IDI_SNAIL      ICON          snail.ico
+HMG        ICON          hmg.ico

@@ -1,0 +1,66 @@
+* Harbour MiniGUI Two-Way Form Designer Generated Code
+* (c)2004 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 132 , 235 WIDTH 550 HEIGHT 370 TITLE "AppWin Controls List" MODAL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON PAINT Nil BACKCOLOR Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil
+
+    DEFINE GRID Grid_1
+        ROW    10
+        COL    20
+        WIDTH  490
+        HEIGHT 280
+        ITEMS {{'',''}}
+        VALUE 0
+        WIDTHS {100,370-IF(IsXPThemeActive(),1,0) }
+        HEADERS {'Control Name', 'Control Value'}
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONDBLCLICK Nil
+        ONHEADCLICK Nil
+        ONQUERYDATA Nil
+        MULTISELECT .F.
+        ALLOWEDIT .F.
+        VIRTUAL .F.
+        NOLINES .F.
+        HELPID Nil
+        IMAGE Nil
+        JUSTIFY Nil
+        ITEMCOUNT Nil
+        BACKCOLOR {255,250,155}
+        FONTCOLOR NIL
+    END GRID
+
+    DEFINE BUTTON Button_1
+        ROW    300
+        COL    210
+        WIDTH  130
+        HEIGHT 30
+        CAPTION "Close"
+        ACTION Ctrls.Release
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+END WINDOW
+
+

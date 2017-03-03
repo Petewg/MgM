@@ -1,0 +1,352 @@
+* Harbour MiniGUI Two-Way Form Designer Generated Code
+* (c)2004 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 63 , 144 WIDTH 596 HEIGHT 509 TITLE "AppWin" MAIN ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil
+
+    DEFINE LABEL Label_1
+        ROW    10
+        COL    10
+        WIDTH  140
+        HEIGHT 60
+        VALUE "Here are some controls we gona play with..."
+        FONTNAME "Arial"
+        FONTSIZE 12
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {255,255,0}
+        FONTCOLOR {255,0,0}
+        CENTERALIGN .T. 
+    END LABEL
+
+    DEFINE SPINNER Spinner_1
+        ROW    40
+        COL    170
+        WIDTH  120
+        HEIGHT 24
+        RANGEMIN 1
+        RANGEMAX 10
+        VALUE 0
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 1
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END SPINNER
+
+    DEFINE DATEPICKER DatePicker_1
+        ROW    90
+        COL    170
+        WIDTH  120
+        HEIGHT 24
+        VALUE CTOD(" / / ")
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SHOWNONE .F.
+        UPDOWN .F.
+        RIGHTALIGN .F.
+    END DATEPICKER
+
+    DEFINE TEXTBOX Text_1
+        ROW    130
+        COL    170
+        WIDTH  120
+        HEIGHT 24
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE "Some text"
+    END TEXTBOX
+
+    DEFINE EDITBOX Edit_1
+        ROW    170
+        COL    170
+        WIDTH  310
+        HEIGHT 80
+        VALUE "Edit box"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END EDITBOX
+
+    DEFINE HYPERLINK HyperLink_1
+        ROW    30
+        COL    310
+        WIDTH  230
+        HEIGHT 28
+        VALUE "http://harbourminigui.googlepages.com"
+        ADDRESS "http://harbourminigui.googlepages.com"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        AUTOSIZE .F.
+        HELPID Nil
+        VISIBLE .T.
+        HANDCURSOR .T.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END HYPERLINK
+
+    DEFINE RICHEDITBOX RichEdit_1
+        ROW    270
+        COL    180
+        WIDTH  120
+        HEIGHT 120
+        VALUE "Rich edit"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        BACKCOLOR NIL
+    END RICHEDITBOX
+
+    DEFINE SLIDER Slider_1
+        ROW    100
+        COL    40
+        WIDTH  80
+        HEIGHT 290
+        RANGEMIN 1
+        RANGEMAX 100
+        VALUE 45
+        TOOLTIP ""
+        ONCHANGE SetProperty( ThisWindow.Name, "ProgressBar_1", "Value", GetProperty( ThisWindow.Name, "Slider_1", "Value" ) )
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        VERTICAL .T. 
+        BACKCOLOR NIL
+    END SLIDER
+
+    DEFINE BUTTON Button_1
+        ROW    340
+        COL    460
+        WIDTH  110
+        HEIGHT 28
+        CAPTION "Show Ctrl Values"
+        ACTION ShowControls( "AppWin" )
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE BUTTON Button_2
+        ROW    430
+        COL    460
+        WIDTH  110
+        HEIGHT 28
+        CAPTION "Exit"
+        ACTION AppWin.Release
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE CHECKBOX Check_1
+        ROW    70
+        COL    320
+        WIDTH  100
+        HEIGHT 28
+        CAPTION "Check_1"
+        VALUE .F.
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE RADIOGROUP RadioGroup_1
+        ROW    280
+        COL    330
+        WIDTH  70
+        HEIGHT 100
+        OPTIONS { 'Option 1','Option 2','Option 3','Option 4' }
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 25
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END RADIOGROUP
+
+    DEFINE BUTTON Button_3
+        ROW    370
+        COL    460
+        WIDTH  110
+        HEIGHT 28
+        CAPTION "Disable controls"
+        ACTION EnableDisableCtrls( 'AppWin' )
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE FRAME Frame_1
+        ROW    260
+        COL    310
+        WIDTH  130
+        HEIGHT 130
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Radios"
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE PROGRESSBAR ProgressBar_1
+        ROW    410
+        COL    50
+        WIDTH  390
+        HEIGHT 30
+        RANGEMIN 1
+        RANGEMAX 100
+        VALUE 45
+        TOOLTIP ""
+        HELPID Nil
+        VISIBLE .T.
+        SMOOTH .F.
+        VERTICAL .F. 
+        BACKCOLOR {0,0,255}
+        FORECOLOR {253,248,43}
+    END PROGRESSBAR
+
+END WINDOW
+
+

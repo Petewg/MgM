@@ -1,0 +1,37 @@
+/*
+   Display Structure v1.1
+   Copyright 2004 Marcos Antonio Gambeta
+
+   Contato: marcosgambeta@yahoo.com.br
+            marcosgambeta@uol.com.br
+            marcos_gambeta@hotmail.com
+
+   Website: http://geocities.yahoo.com.br/marcosgambeta/
+
+   Este arquivo é parte do programa "Display Structure".
+
+   "Display Structure" é um software livre; você pode redistribuí-lo e/ou
+   modificá-lo dentro dos termos da Licença Pública Geral GNU como
+   publicada pela Fundação do Software Livre (FSF); na versão 2 da
+   Licença, ou (na sua opinião) qualquer versão.
+
+   Este programa é distribuído na esperança que possa ser útil,
+   mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÂO a qualquer
+   MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU
+   para maiores detalhes.
+
+   Você deve ter recebido uma cópia da Licença Pública Geral GNU
+   junto com este programa, se não, escreva para a Fundação do Software
+   Livre(FSF) Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+   Uma versão da Licença Pública Geral GNU pode ser encontrada no endereço
+   abaixo:
+
+   http://www.gnu.org/copyleft/gpl.txt
+
+*/
+
+MAIN_ICON         ICON        res\main.ico
+IMAGE_MINIGUI     BITMAP      res\minigui.bmp
+IMAGE_MAIN        BITMAP      res\main.bmp
+

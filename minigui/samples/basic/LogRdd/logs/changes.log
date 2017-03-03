@@ -1,0 +1,7 @@
+20160726 14:08:24 HAL9001\User1 Open table : "test.dbf", Alias : "TEST", WorkArea : 1
+20160726 14:08:29 HAL9001\User1 TEST(2)->FIRST      := [C]>>>"4"<<< replaced
+20160726 14:08:31 HAL9001\User1 Close table : "test.dbf", Alias : "TEST", WorkArea : 1
+20160812 09:06:17 HAL9001\User1 Open table : "test.dbf", Alias : "TEST", WorkArea : 1
+20160812 09:06:47 HAL9001\User1 TEST(45)->FIRST      := [C]>>>"Name       is45"<<< replaced
+20160812 09:06:52 HAL9001\User1 TEST(45)->LAST       := [C]>>>"?"<<< replaced
+20160812 09:07:05 HAL9001\User1 Close table : "test.dbf", Alias : "TEST", WorkArea : 1

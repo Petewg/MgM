@@ -1,0 +1,14 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//   Resource name   Resource Type   Resource FileName
+//
+   FLOPPY      BITMAP      FLOPPY1.bmp
+   CDROM      BITMAP      CDROM1.bmp
+   HD         BITMAP      HD1.bmp
+   NET         BITMAP      NET1.bmp
+   BR0         BITMAP      br0.bmp
+   BR1         BITMAP      br1.bmp
+   BR2         BITMAP      br2.bmp
+   MSE         BITMAP      MSE.bmp
+   BR_LIST     BITMAP      BR_LIST.bmp
