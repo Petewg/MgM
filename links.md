@@ -10,6 +10,6 @@
 
   - [Harbour Reference Guide](https://harbour.github.io/doc/index.html)
 
-  - [Harbour Functions Dictionary](https://github.com/Petewg/harbour-core/wiki)
+  - [Harbour Functions Dictionary](https://github.com/Petewg/V-harbour-core/wiki)
   
   - [HMG Forum](http://www.hmgforum.com/app.php/portal)
