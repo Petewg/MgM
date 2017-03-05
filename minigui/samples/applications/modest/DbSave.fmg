@@ -1,0 +1,349 @@
+DEFINE WINDOW TEMPLATE AT 0,0 HEIGHT 322 WIDTH 373 TITLE "Save files" ICON "AMODEST" MODAL NOSIZE CURSOR "" FONT "Tahoma" SIZE 9
+
+    DEFINE FRAME FRAME_3
+        COL 5
+        ROW 5
+        CAPTION " Database "
+        WIDTH 355
+        HEIGHT 100
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR Nil
+        FONTCOLOR {0,0,106}
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL lblFileName
+        COL 20
+        ROW 38
+        VALUE "File"
+        ACTION Nil
+        WIDTH 30
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE BTNTEXTBOX btnDatabase
+        COL 65
+        ROW 35
+        WIDTH 285
+        HEIGHT 24
+        TOOLTIP ""
+        ACTION WhatSave()
+        PICTURE "FILE_FIND"
+        BUTTONWIDTH 24
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        NUMERIC .F.
+        PASSWORD .F.
+        TOOLTIP "Select database file"
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE SetEnabled()
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END BTNTEXTBOX
+
+    DEFINE LABEL lblRDD
+        COL 20
+        ROW 73
+        VALUE "RDD"
+        ACTION Nil
+        WIDTH 30
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE COMBOBOX cmbRDD
+        COL 66
+        ROW 70
+        WIDTH 100
+        HEIGHT 65
+        VALUE 1
+        ITEMS {"DBFNTX","DBFCDX"}
+        SORT .F.
+        DISPLAYEDIT .F.
+        LISTWIDTH 10
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTUNDERLINE .F.
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        ONLISTDISPLAY Nil
+        ONLISTCLOSE Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+    END COMBOBOX
+
+    DEFINE FRAME FRAME_1
+        COL 5
+        ROW 115
+        CAPTION " Save now "
+        WIDTH 175
+        HEIGHT 105
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR Nil
+        FONTCOLOR {0,0,106}
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE CHECKBOX cbxSaveStru
+        COL 20
+        ROW 145
+        WIDTH 110
+        HEIGHT 18
+        VALUE .F.
+        CAPTION "Structure DBF"
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE SetEnabled()
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        TRANSPARENT .F.
+        VISIBLE .T.
+        LEFTJUSTIFY .F.
+        THREESTATE .F.
+    END CHECKBOX
+
+    DEFINE CHECKBOX cbxSaveDescript
+        COL 20
+        ROW 185
+        WIDTH 110
+        HEIGHT 18
+        VALUE .F.
+        CAPTION "Description"
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE SetEnabled()
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        TRANSPARENT .F.
+        VISIBLE .T.
+        LEFTJUSTIFY .F.
+        THREESTATE .F.
+    END CHECKBOX
+
+    DEFINE FRAME FRAME_2
+        COL 185
+        ROW 115
+        CAPTION " Keep "
+        WIDTH 175
+        HEIGHT 105
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR Nil
+        FONTCOLOR {0,0,106}
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE CHECKBOX cbxDeleted
+        COL 200
+        ROW 145
+        WIDTH 150
+        HEIGHT 18
+        VALUE .F.
+        CAPTION "Deleted records"
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        TRANSPARENT .F.
+        VISIBLE .T.
+        LEFTJUSTIFY .F.
+        THREESTATE .F.
+    END CHECKBOX
+
+    DEFINE CHECKBOX cbxCreateBAK
+        COL 200
+        ROW 185
+        WIDTH 150
+        HEIGHT 18
+        VALUE .F.
+        CAPTION "Create .bak"
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        TRANSPARENT .F.
+        VISIBLE .T.
+        LEFTJUSTIFY .F.
+        THREESTATE .F.
+    END CHECKBOX
+
+    DEFINE BUTTONEX btnOK
+        COL 60
+        ROW 245
+        WIDTH 100
+        HEIGHT 30
+        CAPTION "OK"
+        ACTION { || KeepParams(), lSuccess := .T., ThisWindow.Release }
+        PICTURE Nil
+        ICON "OK"
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        FONTCOLOR Nil
+        VERTICAL .F.
+        LEFTTEXT .F.
+        UPPERTEXT .F.
+        ADJUST .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        NOHOTLIGHT .F.
+        FLAT .F.
+        NOTRANSPARENT .F.
+        NOXPSTYLE .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTONEX
+
+    DEFINE BUTTONEX btnCancel
+        COL 215
+        ROW 245
+        WIDTH 100
+        HEIGHT 30
+        CAPTION "Cancel"
+        ACTION ThisWindow.Release
+        PICTURE Nil
+        ICON "CANCEL"
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        FONTCOLOR Nil
+        VERTICAL .F.
+        LEFTTEXT .F.
+        UPPERTEXT .F.
+        ADJUST .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        NOHOTLIGHT .F.
+        FLAT .F.
+        NOTRANSPARENT .F.
+        NOXPSTYLE .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTONEX
+
+END WINDOW
+

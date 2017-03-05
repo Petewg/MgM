@@ -1,0 +1,462 @@
+DEFINE WINDOW TEMPLATE AT 0,0 HEIGHT 335 WIDTH 355 TITLE "Options" ICON "AMODEST" MODAL NOSIZE CURSOR "" FONT "Tahoma" SIZE 9
+
+    DEFINE FRAME FRAME_3
+        COL 5
+        ROW 10
+        CAPTION " New field defaults"
+        WIDTH 335
+        HEIGHT 105
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR Nil
+        FONTCOLOR {0,0,106}
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL lblFileName
+        COL 20
+        ROW 40
+        VALUE "Prefix name"
+        ACTION Nil
+        WIDTH 70
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX txbName
+        COL 100
+        ROW 38
+        WIDTH 80
+        HEIGHT 24
+        VALUE Nil
+        READONLY .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        PASSWORD .F.
+        TOOLTIP "Maximum 7 symbols"
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        INPUTMASK Nil
+        FORMAT Nil
+        MAXLENGTH 7
+        UPPERCASE .T.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE LABEL lblType
+        COL 220
+        ROW 40
+        VALUE "Type"
+        ACTION Nil
+        WIDTH 50
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE COMBOBOX cmbType
+        COL 280
+        ROW 38
+        WIDTH 40
+        HEIGHT 110
+        VALUE 1
+        ITEMS {"C","N","D","L","M"}
+        SORT .F.
+        DISPLAYEDIT .F.
+        LISTWIDTH 40
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTUNDERLINE .F.
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        ONLISTDISPLAY Nil
+        ONLISTCLOSE Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+    END COMBOBOX
+
+    DEFINE LABEL lblLen
+        COL 20
+        ROW 78
+        VALUE "Length"
+        ACTION Nil
+        WIDTH 70
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE SPINNER spnLen
+        COL 100
+        ROW 75
+        RANGEMIN 1
+        RANGEMAX 254
+        VALUE 1
+        WIDTH 50
+        HEIGHT 24
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP "Maximum 254"
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS { || SetProperty( 'wOptions', 'spnLen', 'Value', This.Value ), This.Show }
+        HELPID Nil
+        VISIBLE .T.
+        TABSTOP .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 1
+    END SPINNER
+
+    DEFINE LABEL lblDec
+        COL 220
+        ROW 78
+        VALUE "Decimals"
+        ACTION Nil
+        WIDTH 50
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE SPINNER spnDec
+        COL 280
+        ROW 75
+        RANGEMIN 0
+        RANGEMAX 20
+        VALUE 0
+        WIDTH 50
+        HEIGHT 24
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP "Maximum 20"
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS { || SetProperty( 'wOptions', 'spnDec', 'Value', This.Value ), This.Show }
+        HELPID Nil
+        VISIBLE .T.
+        TABSTOP .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 1
+    END SPINNER
+
+    DEFINE FRAME FRAME_1
+        COL 5
+        ROW 120
+        CAPTION ""
+        WIDTH 335
+        HEIGHT 60
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL lblRDD
+        COL 20
+        ROW 145
+        VALUE "RDD"
+        ACTION Nil
+        WIDTH 70
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE COMBOBOX cmbRDD
+        COL 100
+        ROW 142
+        WIDTH 100
+        HEIGHT 65
+        VALUE 1
+        ITEMS {"DBFNTX","DBFCDX"}
+        SORT .F.
+        DISPLAYEDIT .F.
+        LISTWIDTH 10
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTUNDERLINE .F.
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        ONLISTDISPLAY Nil
+        ONLISTCLOSE Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+    END COMBOBOX
+
+    DEFINE BUTTONEX btnOK
+        COL 45
+        ROW 260
+        WIDTH 100
+        HEIGHT 30
+        CAPTION "OK"
+        ACTION { || DoSave(), ThisWindow.Release }
+        PICTURE Nil
+        ICON "OK"
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        FONTCOLOR Nil
+        VERTICAL .F.
+        LEFTTEXT .F.
+        UPPERTEXT .F.
+        ADJUST .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        NOHOTLIGHT .F.
+        FLAT .F.
+        NOTRANSPARENT .F.
+        NOXPSTYLE .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTONEX
+
+    DEFINE BUTTONEX btnCancel
+        COL 200
+        ROW 260
+        WIDTH 100
+        HEIGHT 30
+        CAPTION "Cancel"
+        ACTION ThisWindow.Release
+        PICTURE Nil
+        ICON "CANCEL"
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        FONTCOLOR Nil
+        VERTICAL .F.
+        LEFTTEXT .F.
+        UPPERTEXT .F.
+        ADJUST .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        NOHOTLIGHT .F.
+        FLAT .F.
+        NOTRANSPARENT .F.
+        NOXPSTYLE .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTONEX
+
+    DEFINE LABEL lblExpression
+        COL 20
+        ROW 210
+        VALUE "Expression of substitution"
+        ACTION Nil
+        WIDTH 150
+        HEIGHT 18
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE FRAME FRAME_2
+        COL 5
+        ROW 185
+        CAPTION ""
+        WIDTH 335
+        HEIGHT 60
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE TEXTBOX txbExpression
+        COL 185
+        ROW 207
+        WIDTH 70
+        HEIGHT 24
+        VALUE Nil
+        READONLY .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 10
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        PASSWORD .F.
+        TOOLTIP "Expression for transormation rules. Maximum 10 symbols."
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        INPUTMASK Nil
+        FORMAT Nil
+        MAXLENGTH 10
+        UPPERCASE .T.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+END WINDOW
+

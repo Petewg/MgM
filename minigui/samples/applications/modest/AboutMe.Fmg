@@ -1,0 +1,161 @@
+DEFINE WINDOW TEMPLATE AT 0,0 HEIGHT 255 + IF(IsThemed() .and. !IsSeven(), 5, 0) WIDTH 364 TITLE "About me" ICON "AMODEST" MODAL NOSIZE CURSOR "" FONT "Tahoma" SIZE 9
+
+    DEFINE IMAGE Image_1
+        COL 20
+        ROW 27
+        PICTURE "LOGO"
+        WIDTH 55
+        HEIGHT 55
+        ACTION Nil
+        TOOLTIP Nil
+        STRETCH .F.
+        WHITEBACKGROUND .F.
+        HELPID Nil
+        VISIBLE .T.
+    END IMAGE
+
+    DEFINE FRAME Frame_1
+        COL 5
+        ROW 5
+        CAPTION ""
+        WIDTH 345
+        HEIGHT 130
+        FONTNAME "Verdana"
+        FONTSIZE 5
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL lblAppName
+        COL 95
+        ROW 30
+        VALUE "Label_1"
+        ACTION Nil
+        WIDTH 245
+        HEIGHT 25
+        AUTOSIZE .F.
+        FONTNAME "Verdana"
+        FONTSIZE 16
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP ""
+        BACKCOLOR NIL
+        FONTCOLOR {128,0,64}
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        CENTERALIGN .T.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL lblAppVersion
+        COL 95
+        ROW 60
+        VALUE "Label_2"
+        ACTION Nil
+        WIDTH 245
+        HEIGHT 25
+        AUTOSIZE .F.
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP ""
+        BACKCOLOR NIL
+        FONTCOLOR {0,0,128}
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        CENTERALIGN .T.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL lblCopyright
+        COL 95
+        ROW 95
+        VALUE "Label_3"
+        ACTION Nil
+        WIDTH 245
+        HEIGHT 29
+        AUTOSIZE .F.
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 6
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP ""
+        BACKCOLOR NIL
+        FONTCOLOR {255,0,0}
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        RIGHTALIGN .T.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE FRAME Frame_2
+        COL 5
+        ROW 140
+        CAPTION "Components"
+        WIDTH 345
+        HEIGHT 80
+        FONTNAME "Tahoma"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR {128,0,64}
+        OPAQUE .T.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL lblComponents
+        COL 10
+        ROW 165
+        VALUE "Label_4"
+        ACTION Nil
+        WIDTH 336
+        HEIGHT 52
+        AUTOSIZE .F.
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 6
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP ""
+        BACKCOLOR NIL
+        FONTCOLOR {0,0,128}
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+END WINDOW
+

@@ -1,0 +1,4 @@
+incpaths=${hb_curdir}
+libpaths=
+libs=xhb hbwin
+

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Database file="C:\MiniguiM\minigui\samples\applications\Modest\test.dbf">
+ <Description></Description>
+ <Structure>
+  <Field name="ID" type="N" len="10" dec="0"/>
+  <Field name="FIRST" type="C" len="20" dec="0"/>
+  <Field name="LAST" type="C" len="20" dec="0"/>
+  <Field name="STREET" type="C" len="30" dec="0"/>
+  <Field name="CITY" type="C" len="30" dec="0"/>
+  <Field name="STATE" type="C" len="2" dec="0"/>
+  <Field name="ZIP" type="C" len="10" dec="0"/>
+  <Field name="HIREDATE" type="D" len="8" dec="0"/>
+  <Field name="MARRIED" type="L" len="1" dec="0"/>
+  <Field name="AGE" type="N" len="2" dec="0"/>
+  <Field name="SALARY" type="N" len="6" dec="0"/>
+  <Field name="NOTES" type="C" len="70" dec="0"/>
+ </Structure>
+</Database>
+
