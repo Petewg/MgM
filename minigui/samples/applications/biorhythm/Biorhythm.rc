@@ -1,0 +1,35 @@
+//////////////////////////////////////////////////////////////
+MAINICON ICON main.ico
+//////////////////////////////////////////////////////////////
+ABOUT   BITMAP    about.bmp
+
+
+
+1 VERSIONINFO
+FILEVERSION 1,0,3,0
+PRODUCTVERSION 1,0,3,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+  BLOCK "041504b0"
+  {
+    VALUE "FileDescription" , "Biorhythm\000"
+    VALUE "FileVersion"     , "1.0.3.0\000"
+    VALUE "InternalName"    , "Biorhythm\000"
+    VALUE "LegalCopyright"  , "GPL\000"
+    VALUE "LegalTrademarks" , "GPL\000"
+    VALUE "OriginalFilename", "Biorhythm.exe\000"
+    VALUE "CompanyName"     , "Christian T. Kurowski\000"
+    VALUE "ProductName"     , "Biorhythm\000"
+    VALUE "ProductVersion"  , "1.0.3.0\000"
+    VALUE "Comments"        , "http://xharbour.webpark.pl/\000"
+  }
+}
+
+BLOCK "VarFileInfo"
+{
+  VALUE "Translation", 0x0415, 0x04B0
+}
+}

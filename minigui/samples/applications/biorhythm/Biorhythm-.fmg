@@ -1,0 +1,346 @@
+/*
+ * MINIGUI - Harbour Win32 GUI library Demo
+ *
+ * Author: Christian T. Kurowski <xharbour@wp.pl>
+ *
+ * Translators:
+ *   Adam Trub³ajewicz (EN)
+ *   Alexey L. Gustow  (RU)
+ *   Danail Dikov (BG)
+ *
+ * see: http://en.wikipedia.org/wiki/Biorhythm
+ *      http://ru.wikipedia.org/wiki/%D0%91%D0%B8%D0%BE%D1%80%D0%B8%D1%82%D0%BC
+ *
+*/
+
+
+
+DEFINE WINDOW TEMPLATE ;
+              AT 0 , 0 ;
+              WIDTH 800 HEIGHT 600 ;
+              TITLE "MiniGUI Biorhythms" ;
+              ICON "MAINICON" ;
+              MAIN ;
+              NOMAXIMIZE ;
+              NOSIZE ;
+              ON INIT      {|| DrawBiorhythm() } ;
+              ON RELEASE   {|| ReleaseBiorhytms() } ;
+              ON GOTFOCUS  {|| IIF(IsFirstRun,(IsFirstRun:=.F.,DrawBiorhythm()),NIL) } ;
+              ON LOSTFOCUS {|| IsFirstRun:=.T. }
+
+     ON KEY ESCAPE ACTION { || ThisWindow.Release}
+     ON KEY F1 ACTION DISPLAY HELP MAIN
+     ON KEY F2 ACTION { || ThisWindow.Center }
+
+     DEFINE FRAME frBiorhythms
+            ROW    0
+            COL    10
+            WIDTH  775
+            HEIGHT 365
+            CAPTION "frBiorhythms"
+     END FRAME  
+     
+     DEFINE BUTTON Button_HELP
+            ROW    8
+            COL    764
+            WIDTH  20
+            HEIGHT 20
+            PICTURE "ABOUT"
+            ACTION { || AboutBox() }
+            NOXPSTYLE .T.
+            FONTNAME "Arial"
+            FONTSIZE 10
+     END BUTTON
+
+     DEFINE FRAME frDateOfBirth
+            ROW    20
+            COL    20
+            WIDTH  275
+            HEIGHT 55
+            CAPTION "frDateOfBirth"
+     END FRAME  
+
+     DEFINE FRAME frDateOfCalc
+            ROW    20
+            COL    500
+            WIDTH  275
+            HEIGHT 55
+            CAPTION "frDateOfCalc"
+     END FRAME  
+
+     DEFINE SPINNER SpinnerBorn
+            ROW    40
+            COL    30
+            WIDTH  40
+            HEIGHT 23
+            RANGEMIN 1
+            RANGEMAX 31
+            VALUE 1
+            ONCHANGE  {|| IIF(!IsPlusMinus,(IsFirstRun:=.T., DateChanged(), IsFirstRun:=.F.), IsPlusMinus:=.T.) }
+     END SPINNER  
+
+     DEFINE COMBOBOX ComboBorn
+            ROW    40
+            COL    80
+            WIDTH  150
+            HEIGHT 210
+            ITEMS aMonth
+            VALUE 1
+            ONCHANGE  {|| IIF(!IsPlusMinus,(IsFirstRun:=.T., DateChanged(), IsFirstRun:=.F.), IsPlusMinus:=.T.) }
+     END COMBOBOX  
+
+     DEFINE TEXTBOX TextBorn
+            ROW    40
+            COL    240
+            WIDTH  42
+            HEIGHT 23
+            VALUE "1970"
+            ONCHANGE  {|| IIF(!IsPlusMinus,(IsFirstRun:=.T., DateChanged(), IsFirstRun:=.F.), IsPlusMinus:=.T.) }
+     END TEXTBOX 
+
+     DEFINE SPINNER SpinnerCurrent
+            ROW    40
+            COL    510
+            WIDTH  40
+            HEIGHT 23
+            RANGEMIN 1
+            RANGEMAX 31
+            ONCHANGE  {|| IIF(!IsPlusMinus,(IsFirstRun:=.T., DateChanged(), IsFirstRun:=.F.), IsPlusMinus:=.T.) }
+     END SPINNER  
+
+     DEFINE COMBOBOX ComboCurrent
+            ROW    40
+            COL    560
+            WIDTH  150
+            HEIGHT 210
+            ITEMS aMonth
+            VALUE 1
+            ONCHANGE  {|| IIF(!IsPlusMinus,(IsFirstRun:=.T., DateChanged(), IsFirstRun:=.F.), IsPlusMinus:=.T.) }
+     END COMBOBOX  
+
+     DEFINE TEXTBOX TextCurrent
+            ROW    40
+            COL    720
+            WIDTH  42
+            HEIGHT 23
+            VALUE "1970"
+            ONCHANGE  {|| IIF(!IsPlusMinus,(IsFirstRun:=.T., DateChanged(), IsFirstRun:=.F.), IsPlusMinus:=.T.) }
+     END TEXTBOX 
+
+     DEFINE FRAME frCycles
+            ROW    370
+            COL    10
+            WIDTH  775
+            HEIGHT 190
+            CAPTION "frCycles"
+     END FRAME  
+
+     DEFINE CHECKBOX ShowAll
+            ROW     375+4
+            COL     175
+            WIDTH   400
+            HEIGHT   18
+            CAPTION "checkbox ShowAll"
+            VALUE   .T. 
+            ONCHANGE { || ShowAll_Change(3), DrawBiorhythm() }
+     END CHECKBOX 
+     
+     DEFINE FRAME frClassicalCycles
+            ROW    390
+            COL    20
+            WIDTH  550
+            HEIGHT 160
+            CAPTION "frClassicalCycles"
+     END FRAME  
+
+     DEFINE FRAME frAdditionalCycle
+            ROW    390
+            COL    600
+            WIDTH  170
+            HEIGHT 100
+            CAPTION "frAdditionalCycle"
+     END FRAME  
+
+     DEFINE FRAME frPhysicalCycle
+            ROW    410
+            COL    30
+            WIDTH  170
+            HEIGHT 80
+            CAPTION "frPhysicalCycle"
+     END FRAME  
+
+     DEFINE FRAME frEmotionalCycle
+            ROW    410
+            COL    210
+            WIDTH  170
+            HEIGHT 80
+            CAPTION "frEmotionalCycle"
+     END FRAME  
+
+     DEFINE FRAME frIntellectualCycle
+            ROW    410
+            COL    390
+            WIDTH  170
+            HEIGHT 80
+            CAPTION "frIntellectualCycle"
+     END FRAME  
+
+     DEFINE CHECKBUTTON Button_Phys
+            ROW    430
+            COL    40
+            WIDTH  150
+            HEIGHT 29
+            CAPTION "Button_Phys"
+            VALUE   .T.
+            ONCHANGE  {|| ShowAll_Change(1), DrawBiorhythm() }
+     END CHECKBUTTON  
+
+     DEFINE CHECKBUTTON Button_Emot
+            ROW    430
+            COL    220
+            WIDTH  150
+            HEIGHT 28
+            CAPTION "Button_Emot"
+            VALUE   .T.
+            ONCHANGE  {|| ShowAll_Change(1), DrawBiorhythm() }
+     END CHECKBUTTON  
+
+     DEFINE CHECKBUTTON Button_Inte
+            ROW    430
+            COL    400
+            WIDTH  150
+            HEIGHT 28
+            CAPTION "Button_Inte"
+            VALUE   .T.
+            ONCHANGE  {|| ShowAll_Change(1), DrawBiorhythm() }
+     END CHECKBUTTON  
+
+     DEFINE CHECKBUTTON Button_Intu
+            ROW    430
+            COL    610
+            WIDTH  150
+            HEIGHT 28
+            CAPTION "Button_Intu"
+            VALUE   .T.
+            ONCHANGE  {|| ShowAll_Change(1), DrawBiorhythm() }
+     END CHECKBUTTON  
+
+     DEFINE FRAME frLanguage
+            ROW    500
+            COL    600
+            WIDTH  170
+            HEIGHT  50
+            CAPTION "frLanguage"
+     END FRAME  
+               
+     DEFINE COMBOBOX Combo_Language
+            ROW    520
+            COL    610
+            WIDTH  150
+            HEIGHT 120
+            ONCHANGE {|| SelectLanguage(1), Begin(1), ValidDate() }
+            SORT .F.
+     END COMBOBOX      
+     
+     DEFINE CHECKBUTTON Button_Summary
+            ROW    495
+            COL    40
+            WIDTH  510
+            HEIGHT 30
+            CAPTION "Button_Summary"
+            ONCHANGE  {|| ShowAll_Change(2), DrawBiorhythm() }
+     END CHECKBUTTON  
+
+     DEFINE BUTTON Button_Today
+            ROW    15
+            COL    330
+            WIDTH  140
+            HEIGHT 20
+            CAPTION "Button_Today"
+            ACTION { || IsFirstRun:=.F., ChangeCurrentDate(0),  DrawBiorhythm(), IsFirstRun:=.T. }
+     END BUTTON  
+
+     DEFINE BUTTON Button_Calculate
+            ROW    40
+            COL    330
+            WIDTH  140
+            HEIGHT 30
+            CAPTION "Button_Calculate"
+            ACTION { || ShowCycles(1),  DrawBiorhythm() }
+     END BUTTON  
+
+     DEFINE LABEL LabelCurrent
+            ROW    340
+            COL    325
+            WIDTH  120
+            HEIGHT 23
+            VALUE ""
+            FONTCOLOR {255,0,0}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE LABEL LabelMinus
+            ROW    340
+            COL    115
+            WIDTH  120
+            HEIGHT 23
+            VALUE ""
+            FONTCOLOR BLUE
+            RIGHTALIGN .T.
+     END LABEL  
+
+     DEFINE BUTTON Button_Minus
+            ROW    340
+            COL    38
+            WIDTH  26
+            HEIGHT 20
+            CAPTION "-10"
+            ACTION { || IsPlusMinus:=.T., IsFirstRun:=.F., ChangeCurrentDate(-10),  DrawBiorhythm(), IsPlusMinus:=.F. }
+            FONTNAME "Arial"
+            FONTSIZE 6
+     END BUTTON  
+
+     DEFINE BUTTON Button_MinusONE
+            ROW    340
+            COL    70
+            WIDTH  25
+            HEIGHT 20
+            CAPTION "-1"
+            ACTION { || IsPlusMinus:=.T., IsFirstRun:=.F., ChangeCurrentDate(-1),  DrawBiorhythm(), IsPlusMinus:=.F. }
+            FONTNAME "Arial"
+            FONTSIZE 6
+     END BUTTON  
+          
+     DEFINE LABEL LabelPlus
+            ROW    340
+            COL    565
+            WIDTH  120
+            HEIGHT 23
+            VALUE ""
+            FONTCOLOR BLUE
+            RIGHTALIGN .F.
+     END LABEL  
+     
+     DEFINE BUTTON Button_Plus
+            ROW    340
+            COL    740
+            WIDTH  25
+            HEIGHT 20
+            CAPTION "+10"
+            ACTION { || IsPlusMinus:=.T., IsFirstRun:=.F., ChangeCurrentDate(+10),  DrawBiorhythm(), IsPlusMinus:=.F. }
+            FONTNAME "Arial"
+            FONTSIZE 6
+     END BUTTON  
+
+     DEFINE BUTTON Button_PlusONE
+            ROW    340
+            COL    710
+            WIDTH  25
+            HEIGHT 20
+            CAPTION "+1"
+            ACTION { || IsPlusMinus:=.T., IsFirstRun:=.F., ChangeCurrentDate(+1),  DrawBiorhythm(), IsPlusMinus:=.F. }
+            FONTNAME "Arial"
+            FONTSIZE 6
+     END BUTTON  
+     
+END WINDOW

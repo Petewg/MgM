@@ -1,0 +1,170 @@
+/*
+ * MINIGUI - Harbour Win32 GUI library Demo
+ *
+ * Author: Christian T. Kurowski <xharbour@wp.pl>
+ *
+ * Translators:
+ *   Adam Trub³ajewicz (EN)
+ *   Alexey L. Gustow  (RU)
+ *   Danail Dikov (BG)
+ *
+ * see: http://en.wikipedia.org/wiki/Biorhythm
+ *      http://ru.wikipedia.org/wiki/%D0%91%D0%B8%D0%BE%D1%80%D0%B8%D1%82%D0%BC
+ *
+*/
+
+
+
+DEFINE WINDOW TEMPLATE ;
+              AT 0, 0 ;
+              WIDTH 450  HEIGHT 360 ;
+              TITLE "frAbout" ;
+              ICON "MAINICON" ;
+              MODAL ;
+              ON INIT {|| AboutBox_Init() }
+
+     ON KEY ESCAPE ACTION { || ThisWindow.Release }
+     ON KEY F2 ACTION { || ThisWindow.Center }
+
+
+     DEFINE TAB Tab_1 ;
+            AT  10 ,5 ;
+            WIDTH  435; 
+            HEIGHT 300;
+            BUTTONS 
+
+            
+          PAGE ''
+               DEFINE FRAME frAbout
+                      ROW      30
+                      COL       5
+                      WIDTH   425
+                      HEIGHT  260
+                      CAPTION "frAbout"
+               END FRAME  
+
+
+               DEFINE LABEL LabelProgram
+                      ROW      55
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   30
+                      VALUE PROGRAM
+                      FONTNAME "Arial"
+                      FONTSIZE 20
+                      FONTBOLD .T.
+                      CENTERALIGN .T.
+               END LABEL
+
+
+               DEFINE LABEL LabelVersion
+                      ROW     100
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   30
+                      VALUE lgVersion
+                      FONTNAME "Arial"
+                      FONTSIZE 12
+                      CENTERALIGN .T.
+               END LABEL
+
+
+               DEFINE LABEL Label_CTK
+                      ROW     130
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   30
+                      VALUE "Christian T. Kurowski  xharbour@wp.pl"
+                      FONTNAME "Arial"
+                      FONTSIZE 12
+                      CENTERALIGN .T.
+               END LABEL
+
+
+               DEFINE LABEL Label_xHarbourPL
+                      ROW     160
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   30
+                      VALUE "http://xharbour.webpark.pl"
+                      FONTNAME "Arial"
+                      FONTSIZE 12
+                      CENTERALIGN .T.
+               END LABEL
+
+
+               DEFINE LABEL Label_MGV
+                      ROW     190
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   30
+                      VALUE MiniGuiVersion()
+                      FONTNAME "Arial"
+                      FONTSIZE 10
+                      CENTERALIGN .T.
+               END LABEL
+
+
+               DEFINE LABEL Label_MGWEB
+                      ROW     210
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   30
+                      VALUE "http://harbourminigui.googlepages.com"
+                      FONTNAME "Arial"
+                      FONTSIZE 10
+                      CENTERALIGN .T.
+               END LABEL
+
+
+               DEFINE LABEL Label_MGVER
+                      ROW     240
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   20
+                      VALUE version()
+                      FONTNAME "Arial"
+                      FONTSIZE 10
+                      CENTERALIGN .T.
+               END LABEL
+
+
+               DEFINE LABEL Label_Harbour
+                      ROW     260
+                      COL      30
+                      WIDTH   390
+                      HEIGHT   20
+                      VALUE "http://www.harbour-project.org"
+                      FONTNAME "Arial"
+                      FONTSIZE 10
+                      CENTERALIGN .T.
+               END LABEL
+
+          END PAGE
+
+
+          PAGE ''
+               DEFINE FRAME frTranslators
+                      ROW      30
+                      COL       5
+                      WIDTH   425
+                      HEIGHT  260
+                      CAPTION "frTranslators"
+               END FRAME
+
+               DEFINE GRID Grid_1
+                      ROW      50
+                      COL      15
+                      WIDTH   405
+                      HEIGHT  230
+                      HEADERS {"",""}
+                      WIDTHS  {100, 300}
+                      ITEMS aItems
+               END GRID
+                 
+
+          END PAGE
+     
+     END TAB
+
+END WINDOW
