@@ -22,7 +22,7 @@ Win32 GUI development environment, continuing the xBase tradition but with
 an extremely easy to use, genuine graphical user interface."   
 
 A good way to start using this package is to browse into samples (sub)folders    
-[MgM/minigui/samples], and execute the **build.bat** file, found inside each of them;   
+[MgM/minigui/samples](https://github.com/Petewg/MgM/tree/master/minigui/samples), and execute the **build.bat** file, found inside each of them;   
 by doing so, you will build and run the included sample.  
 
 This package might be a good choice for harbour & ex-clipper programmers seeking   
