@@ -21,8 +21,9 @@ For details about the above products, please visit their respective sites.
 Win32 GUI development environment, continuing the xBase tradition but with   
 an extremely easy to use, genuine graphical user interface."*   
 
-A good way to start using this package is to browse into **[samples](https://github.com/Petewg/MgM/tree/master/minigui/samples) (sub)folders**, and execute the **build.bat** file, found inside each of them;   
-by doing so, you will build and run the included sample.  
+A good way to start using this package is to browse into **[samples](https://github.com/Petewg/MgM/tree/master/minigui/samples) (sub)folders**,   
+and execute the **build.bat** file, found inside each of them; by doing so,   
+you will build and run the included sample.  
 
 This package might be a good choice for harbour & ex-clipper programmers seeking   
 a usable way to transfer / reimplement their application(s) into the windows GUI world.   
