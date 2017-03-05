@@ -1,4 +1,4 @@
-![](https://github.com/Petewg/MgM/blob/master/minigui/resources/mgm32.png)Harbour Minigui (MinGW Package)
+![](https://github.com/Petewg/MgM/blob/master/minigui/resources/mgm32.png)   Harbour Minigui (MinGW Package)
 -------------------------------
 
 ####Description   
