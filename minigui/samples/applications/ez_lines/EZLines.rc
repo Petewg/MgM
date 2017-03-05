@@ -1,0 +1,88 @@
+// Icon
+
+MAIN ICON Diamond.ico
+
+// Images
+
+BallBlue BITMAP Images\BallBlue.bmp
+BallBrown BITMAP Images\BallBrown.bmp
+BallCyan BITMAP Images\BallCyan.bmp
+BallGray BITMAP Images\BallGray.bmp
+BallGreen BITMAP Images\BallGreen.bmp
+BallOrange BITMAP Images\BallOrange.bmp
+BallPink BITMAP Images\BallPink.bmp
+BallRed BITMAP Images\BallRed.bmp
+BallViolet BITMAP Images\BallViolet.bmp
+BallYellow BITMAP Images\BallYellow.bmp
+Cell BITMAP Images\Cell.bmp
+CurrBlue BITMAP Images\CurrBlue.bmp
+CurrBrown BITMAP Images\CurrBrown.bmp
+CurrCyan BITMAP Images\CurrCyan.bmp
+CurrGray BITMAP Images\CurrGray.bmp
+CurrGreen BITMAP Images\CurrGreen.bmp
+CurrOrange BITMAP Images\CurrOrange.bmp
+CurrPink BITMAP Images\CurrPink.bmp
+CurrRed BITMAP Images\CurrRed.bmp
+CurrViolet BITMAP Images\CurrViolet.bmp
+CurrYellow BITMAP Images\CurrYellow.bmp
+//DestBlack BITMAP Images\DestBlack.bmp
+DestBlue BITMAP Images\DestBlue.bmp
+DestBrown BITMAP Images\DestBrown.bmp
+DestCyan BITMAP Images\DestCyan.bmp
+DestGray BITMAP Images\DestGray.bmp
+DestGreen BITMAP Images\DestGreen.bmp
+DestOrange BITMAP Images\DestOrange.bmp
+DestPink BITMAP Images\DestPink.bmp
+DestRed BITMAP Images\DestRed.bmp
+DestViolet BITMAP Images\DestViolet.bmp
+DestYellow BITMAP Images\DestYellow.bmp
+Next BITMAP Images\Next.bmp
+NextBlue BITMAP Images\NextBlue.bmp
+NextBrown BITMAP Images\NextBrown.bmp
+NextCyan BITMAP Images\NextCyan.bmp
+NextGray BITMAP Images\NextGray.bmp
+NextGreen BITMAP Images\NextGreen.bmp
+NextOrange BITMAP Images\NextOrange.bmp
+NextPink BITMAP Images\NextPink.bmp
+NextRed BITMAP Images\NextRed.bmp
+NextViolet BITMAP Images\NextViolet.bmp
+NextYellow BITMAP Images\NextYellow.bmp
+Path BITMAP Images\Path.bmp
+
+// Sounds
+
+Delete WAVE Sounds\Delete.wav
+Select WAVE Sounds\Select.wav
+Move WAVE Sounds\Move.wav
+Stop WAVE Sounds\Stop.wav
+Fail WAVE Sounds\Fail.wav
+Victory WAVE Sounds\Victory.wav
+
+1 VERSIONINFO
+FILEVERSION 1,2,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Easy Lines game\000"
+		VALUE "FileVersion", "1.2.2.0"
+		VALUE "InternalName", "EZLines\000"
+		VALUE "LegalCopyright", "Copyright © 2005-2006 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "EZLines.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409, 0x04B0
+}
+}

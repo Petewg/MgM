@@ -1,0 +1,1 @@
+@call %~d0\miniguim\batch\buildapp.bat EZLines %1 %2 %3 %4
