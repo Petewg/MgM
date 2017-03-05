@@ -1,9 +1,7 @@
 ![](https://github.com/Petewg/MgM/blob/master/minigui/resources/mgm32.png)Harbour Minigui (MinGW Package)
 -------------------------------
 
-:warning: Important note: It is recommended to uninstall older version (if any) 
-before installing a new one, for to avoid mixing of outdated components 
-with new ones. This is notably critical for harbour and/or mingw32 libraries!
+####Description   
 
 This Harbour MiniGUI package includes these main components:
 	
@@ -30,4 +28,6 @@ This package might be a good choice for harbour & ex-clipper programmers seeking
 a usable way to transfer / reimplement their application(s) into the windows GUI world.
 Try it, to see if it fits with your development environment.
 
-
+:warning: Important note: It is recommended to uninstall older version (if any)  
+before installing a new one, for to avoid mixing of outdated components   
+with new ones. This is notably critical for harbour and/or mingw32 libraries!
