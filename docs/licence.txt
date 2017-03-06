@@ -1,0 +1,33 @@
+Harbour Minigui extended (mingw bundle) package License
+-------------------------------------------------------------------------
+
+A fundamental rule of this bundle is that all of its contents 
+are free open source software, that are released under 
+the GNU General Public License; 
+proprietary and/or closed-source programs cannot and should not
+included among the components of this package due to their 
+restrictive licenses.
+
+You can freely redistribute this package but only as a whole,
+which means that you should not remove any of its components
+leading it to become non-functional or broken. 
+However, you are free and welcome, respecting the share-alike aspect,
+to improve this work, as well as, add new components provided
+that the those new components conform to the above fundamental
+rule (free & open source software).
+
+Any License accompanying the included programs, are strictly 
+and fully respected and always take precedence, in the case of
+any conflict.
+For detailed informations about licenses, please read the
+relevant files of each component.
+
+This package is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA (or visit
+their web site at http://www.gnu.org/).
