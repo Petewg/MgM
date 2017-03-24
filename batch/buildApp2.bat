@@ -30,6 +30,7 @@
       )
 
    :: Compile Resources
+   ECHO #define HMGRPATH %MGMPATH%\RESOURCES > _hmg_resconfig.h
    IF EXIST _temp.rc DEL _temp.rc   > NUL
    IF EXIST *.rc (
       COPY /V /A *.rc PRJ_RES_.rc  > NUL
@@ -80,6 +81,7 @@
 :Quit
    :: clean up
    DEL _temp.* > NUL
+   DEL _hmg_resconfig.h
    DEL _BuildLog.txt > NUL
    IF EXIST %1.ppo DEL %1.ppo > NUL
    IF EXIST ErrorLog.htm DEL ErrorLog.htm > NUL
