@@ -490,7 +490,7 @@ GRID, BROWSE - property 'ColumnWidth(n)' and methods:
 
 GRID - read/write property 'CheckboxItem', NOSORTHEADERS and COLUMNSORT clauses.
 
-IMAGE - ON MOUSEHOVER and ON MOUSELEAVE events.
+IMAGE - ALPHALEVEL clause, ON MOUSEHOVER and ON MOUSELEAVE events.
 
 LABEL - BLINK and VCENTERALIGN clauses, ON MOUSEHOVER and ON MOUSELEAVE events.
 

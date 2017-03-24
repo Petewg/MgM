@@ -1,3 +1,81 @@
+2017/03/21: HMG Extended Edition version 17.03.
+  * Fixed: The problem with a repaint into a GRID without the colored cells
+           (introduced in the build 16.05).
+           Reported and contributed by Dusko Radojcin.
+  * Modified: Revised GdiPlus.dll system library handling:
+           - reworked GDI+ support for improvement of a speed of loading of
+             the images;
+           - added possibility to show the images from URL
+             (see demo in folder \samples\Basic\IMAGE_3);
+           - used the C-function AlphaBlend() for showing the 32 bpp bitmaps
+             with transparency instead of the C-function TransparentBlt().
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Basic\IMAGE_2)
+  * Enhanced: The IMAGE control supports optional ALPHALEVEL clause at definition
+            to set an alpha channel transparence level for the 32 bpp images:
+            * New: added automatic support for images with Alpha Channel;
+            * New: added the function HasAlpha( cFilename ) --> lYesNo
+              which checks if an image has alpha channel (transparency).
+           Suggested by Petr Chornyj <myorg63@mail.ru>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: An image scaling in the PRINT GRAPH command is a similar now for the
+           HbPrinter and MiniPrint libraries (get out of the "magic" numbers).
+           Based upon a contribution of Roberto Lopez <mail.box.hmg@gmail.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG:
+           - New: 'Print' method for window objects.
+           Examples:
+           - function syntax:
+             DoMethod ( Form, "Print" )
+           - pseudo-OOP syntax:
+             Form.Print [()]
+           Based upon a contribution of Roberto Lopez <mail.box.hmg@gmail.com>
+           (see demo in folder \samples\Basic\MAINDEMO_(SYNTAX_I))
+  * Updated: 'Bos Taurus' Graphics Library:
+           - updated for xHarbour compatibility.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see source in folder \Source\BosTaurus)
+  * Updated: HbPgSQL harbour library:
+           - TPQQuery: fixed assigning of variable :lError in the method Refresh.
+             Problem was reported by russian user.
+           (see in folder \Source\HbPgSql)
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - a cell with checkbox will respect of return value of bPrevEdit block
+             in the method Edit(). Suggested and contributed by Igor Nazarov.
+           - added a new method SetNoHoles( nDelta, lSet ). Contributed by SergKis
+             (see demo in folder \samples\Advanced\Tsb_addrecord_3)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.18.0dev (from 3.17.0).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2017-03-15 14:39).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * Updated: HMGS-IDE v.1.4.2 Project Manager and Two-Way Visual Form Designer.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look for what's new at changelog.txt in folder \Ide)
+  * New: 'Vista UI buttons' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\VistaUI)
+  * New: 'Alpha Blend usage' samples.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\AlphaBlend_2)
+  * New: 'Horizontal and Vertical Splitter' samples.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\Splitter)
+  * Updated: 'Gradient Background usage' sample.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\FillGreen)
+  * Updated: 'Fill Triangle' sample.
+           Based upon a contribution of Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\FillTriangle)
+  * Updated: The following samples are revised for compatibility with the latest
+           Minigui changes:
+           - \samples\Basic\Histogram;
+           - \samples\Basic\MAINDEMO_(SYNTAX_I);
+           - \samples\Advanced\Kaleidoscope;
+           - \samples\Applications\Reservation.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+
 2017/02/28: HMG Extended Edition version 17.02.
   * Fixed: The problem of a RadioGroup control with TRANSPARENT clause on
            a THEMED colored form. Reported by Dusko Radojcin.
@@ -146,7 +224,7 @@
            Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
            (see in folder \samples\Advanced\GridSort)
   * New: 'HbXlsxWriter library test' sample: creating the new Excel XLSX files.
-           Contributed by  Petr Chornyj <myorg63@mail.ru>
+           Contributed by Petr Chornyj <myorg63@mail.ru>
            (see in folder \samples\Advanced\HbXlsxWriter)
   * New: 'Read XLS through ADODB access' sample.
            Based upon a contribution of a HMG user.
