@@ -56,8 +56,9 @@
 WINCOMMCTRLAPI void WINAPI ImageList_EndDrag( void );
 #endif
 
-extern HBITMAP HMG_LoadImage( char * FileName );
-extern HBITMAP HMG_LoadPicture( char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage );
+extern HBITMAP HMG_LoadImage( const char * FileName );
+extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
+                                HB_BOOL bAlphaFormat, int iAlpfaConstant );
 
 extern HINSTANCE g_hInstance;
 
@@ -91,7 +92,7 @@ HB_FUNC( IL_ADD )          //IL_Add( hwnd , image , maskimage , ix , iy , imagec
    if( himage1 == NULL )
       himage1 = ( HBITMAP ) LoadImage( 0, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage1 == NULL )
-      himage1 = ( HBITMAP ) HMG_LoadImage( ( char * ) hb_parc( 2 ) );
+      himage1 = ( HBITMAP ) HMG_LoadImage( hb_parc( 2 ) );
 
    himage2 = 0;
    if( hb_parclen( 3 ) )
@@ -100,7 +101,7 @@ HB_FUNC( IL_ADD )          //IL_Add( hwnd , image , maskimage , ix , iy , imagec
       if( himage2 == NULL )
          himage2 = ( HBITMAP ) LoadImage( 0, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
       if( himage2 == NULL )
-         himage2 = ( HBITMAP ) HMG_LoadImage( ( char * ) hb_parc( 3 ) );
+         himage2 = ( HBITMAP ) HMG_LoadImage( hb_parc( 3 ) );
    }
 
    if( GetObject( himage1, sizeof( BITMAP ), &bm ) != 0 )
@@ -129,7 +130,7 @@ HB_FUNC( IL_ADDMASKED ) //IL_AddMasked( hwnd , image , color , ix , iy , imageco
    if( himage1 == NULL )
       himage1 = ( HBITMAP ) LoadImage( 0, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage1 == NULL )
-      himage1 = ( HBITMAP ) HMG_LoadPicture( ( char * ) hb_parc( 2 ), -1, -1, hwnd, 0, 1, -1, 0 );
+      himage1 = ( HBITMAP ) HMG_LoadPicture( hb_parc( 2 ), -1, -1, hwnd, 0, 1, -1, 0, HB_FALSE, 255 );
 
    if( GetObject( himage1, sizeof( BITMAP ), &bm ) != 0 )
       if( ( hb_parni( 4 ) * ic == bm.bmWidth ) & ( hb_parni( 5 ) == bm.bmHeight ) )

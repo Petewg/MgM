@@ -69,7 +69,7 @@
 #define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 
 extern void       hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
-extern HBITMAP    HMG_LoadImage( char * FileName );
+extern HBITMAP    HMG_LoadImage( const char * FileName );
 
 extern HINSTANCE g_hInstance;
 static PHB_DYNS  g_ListenerDyns = NULL;
@@ -386,7 +386,7 @@ HB_FUNC( REGISTERWINDOW )
          hImage = ( HBITMAP ) LoadImage( NULL, lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( hImage == NULL )
-         hImage = ( HBITMAP ) HMG_LoadImage( ( char * ) hb_parc( 3 ) );
+         hImage = ( HBITMAP ) HMG_LoadImage( hb_parc( 3 ) );
 
       if( hImage != NULL )
          hBrush = CreatePatternBrush( hImage );

@@ -12,7 +12,8 @@
    #define MAKELONG( a, b )   ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 #endif
 
-extern HBITMAP   HMG_LoadPicture( char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage );
+extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
+                                HB_BOOL bAlphaFormat, int iAlpfaConstant );
 
 BOOL Array2Rect( PHB_ITEM aRect, RECT * rc );
 PHB_ITEM             Rect2Array( RECT * rc );
@@ -204,7 +205,7 @@ HB_FUNC( LOADIMAGE )
    HWND hwnd = HB_ISNIL( 2 ) ? GetActiveWindow() : ( HWND ) HB_PARNL( 2 );
    HWND himage;
 
-   himage = ( HWND ) HMG_LoadPicture( ( char * ) hb_parc( 1 ), -1, -1, hwnd, 0, 1, -1, 0 );
+   himage = ( HWND ) HMG_LoadPicture( hb_parc( 1 ), -1, -1, hwnd, 1, 1, -1, 0, HB_FALSE, 255 );
 
    HB_RETNL( ( LONG_PTR ) himage );
 }

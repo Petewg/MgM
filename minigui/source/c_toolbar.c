@@ -62,8 +62,9 @@
 #endif
 #define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 
-extern HBITMAP    HMG_LoadPicture( char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor,
-                                   int AdjustImage );
+extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
+                                HB_BOOL bAlphaFormat, int iAlpfaConstant );
+
 LRESULT APIENTRY  ToolBarExFunc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 
 extern HINSTANCE g_hInstance;
@@ -120,26 +121,23 @@ HB_FUNC( INITTOOLBAR )
 
 HB_FUNC( INITTOOLBUTTON )
 {
-   HWND        hwndTB;
+   HWND        hwndTB = ( HWND ) HB_PARNL( 1 );
    HWND        himage;
    TBADDBITMAP tbab;
    TBBUTTON    tbb[ NUM_TOOLBAR_BUTTONS ];
    int         index;
    int         nPoz;
    int         nBtn;
-   int         Style;
+   int         Style = TBSTYLE_BUTTON;
 
    memset( tbb, 0, sizeof tbb );
 
-   hwndTB = ( HWND ) HB_PARNL( 1 );
-   himage = ( HWND ) HMG_LoadPicture( ( char * ) hb_parc( 8 ), -1, -1, hwndTB, 0, 1, -1, 0 );
+   himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwndTB, 1, 1, -1, 0, HB_FALSE, 255 );
 
    // Add the bitmap containing button images to the toolbar.
 
-   Style = TBSTYLE_BUTTON;
-
    if( hb_parl( 11 ) )
-      Style = Style | TBSTYLE_AUTOSIZE;
+      Style |= TBSTYLE_AUTOSIZE;
 
    nBtn       = 0;
    tbab.hInst = NULL;
@@ -155,16 +153,16 @@ HB_FUNC( INITTOOLBUTTON )
    }
 
    if( hb_parl( 12 ) )
-      Style = Style | BTNS_CHECK;
+      Style |= BTNS_CHECK;
 
    if( hb_parl( 13 ) )
-      Style = Style | BTNS_GROUP;
+      Style |= BTNS_GROUP;
 
    if( hb_parl( 14 ) )
-      Style = Style | BTNS_DROPDOWN;
+      Style |= BTNS_DROPDOWN;
 
    if( hb_parl( 15 ) )
-      Style = Style | BTNS_WHOLEDROPDOWN;
+      Style |= BTNS_WHOLEDROPDOWN;
 
    SendMessage( hwndTB, TB_AUTOSIZE, 0, 0 );
 
@@ -340,7 +338,7 @@ HB_FUNC( INITTOOLBUTTONEX )
    if( himage == NULL )
       himage = ( HWND ) LoadImage( 0, hb_parc( 8 ), IMAGE_BITMAP, ix, iy, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage == NULL )
-      himage = ( HWND ) HMG_LoadPicture( ( char * ) hb_parc( 8 ), -1, -1, hwndTB, 0, 1, -1, 0 );
+      himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwndTB, 1, 1, -1, 0, HB_FALSE, 255 );
 
    if( himage != NULL )
    {
@@ -605,7 +603,7 @@ HB_FUNC( REPLACETOOLBUTTONIMAGE )
    int     nButtonID  = ( int ) hb_parni( 5 );
    HBITMAP hBitmapNew;
 
-   hBitmapNew = ( HBITMAP ) HMG_LoadPicture( ( char * ) hb_parc( 3 ), -1, -1, hwndTB, 0, 1, -1, 0 );
+   hBitmapNew = ( HBITMAP ) HMG_LoadPicture( hb_parc( 3 ), -1, -1, hwndTB, 1, 1, -1, 0, HB_FALSE, 255 );
 
    if( ( hBitmapOld != NULL ) && ( hBitmapNew != NULL ) )
    {

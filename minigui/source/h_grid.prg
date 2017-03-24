@@ -638,24 +638,25 @@ PROCEDURE _UpdateGridColors ( i )
    LOCAL dBc := _HMG_aControlMiscData1 [i, 12]
    LOCAL dFc := _HMG_aControlMiscData1 [i, 11]
    LOCAL processdbc := ISARRAY ( dbc ) , processdfc := ISARRAY ( dfc )
-   LOCAL Cols , Rows
+   LOCAL h, Cols , Rows
 
-   IF processdbc .OR. processdfc
-
-      Rows := ListViewGetItemCount ( _HMG_aControlHandles [i] )
-      Cols := ListView_GetColumnCount ( _HMG_aControlHandles [i] )
-
-      IF processdbc
-         ProcessDynamicArray ( i , Rows , Cols , dBc , 22 )
-      ENDIF
-
-      IF processdfc
-         ProcessDynamicArray ( i , Rows , Cols , dFc , 21 )
-      ENDIF
-
+   IF processdbc == .F. .AND. processdfc == .F.
+      RETURN
    ENDIF
 
-   ReDrawWindow ( _HMG_aControlHandles [i] )
+   h := _HMG_aControlHandles [i]
+   Rows := ListViewGetItemCount ( h )
+   Cols := ListView_GetColumnCount ( h )
+
+   IF processdbc
+      ProcessDynamicArray ( i , Rows , Cols , dBc , 22 )
+   ENDIF
+
+   IF processdfc
+      ProcessDynamicArray ( i , Rows , Cols , dFc , 21 )
+   ENDIF
+
+   ReDrawWindow ( h )
 
 RETURN
 

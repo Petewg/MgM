@@ -1,6 +1,3 @@
-/*
- * $Id: hbvpsup.prg 11201 2009-06-03 10:26:40Z vszakats $
- */
 
 FUNCTION vpdf_FontsDat()
    RETURN StrB64Decode( ;
@@ -102,7 +99,7 @@ FUNCTION vpdf_FontsDat()
 
 // ; Decodes a base-64 encoded string. (RFC1521)
 // ; Based on VB code from: 1999-2004 Antonin Foller, http://www.motobit.com, http://motobit.cz
-// ; Converted to Clipper and optimized by Viktor Szakats (harbour.01 syenar.hu).
+// ; Converted to Clipper and optimized by Viktor Szakats.
 
 STATIC FUNCTION StrB64Decode( cString )
    LOCAL cResult

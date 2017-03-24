@@ -51,10 +51,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
       ProcedureName, tooltip, HelpId, invisible, stretch, aBKColor, transparent, adjustimage, ;
-      mouseover, mouseleave, nId )
+      mouseover, mouseleave, nAlphaLevel, nId )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle , blInit , mVar , action := .F. , k , Style , aSize
-   LOCAL ControlHandle , lDialogInMemory, BackgroundColor
+   LOCAL ControlHandle , lDialogInMemory , BackgroundColor , lCheckAlpha := ISNUMBER( nAlphaLevel )
 
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
       ParentFormName := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
@@ -93,11 +93,15 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
       action := .T.
    ENDIF
 
-   IF ValType (aBKColor) == "A"
+   IF ValType( aBKColor ) == "A"
       BackgroundColor := RGB (aBKColor[1], aBKColor[2], aBKColor[3])
    ENDIF
 
    DEFAULT stretch TO FALSE, BackgroundColor TO -1, transparent TO FALSE, adjustimage TO FALSE
+
+   IF ValType( nAlphaLevel ) == "N" .AND. ( nAlphaLevel < 0 .OR. nAlphaLevel > 255 )
+      nAlphaLevel := 255
+   ENDIF
 
    mVar := '_' + ParentFormName + '_' + ControlName
    k := _GetControlFree()
@@ -171,7 +175,7 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
    _HMG_aControlDeleted  [k] :=  .F.
    _HMG_aControlBkColor  [k] :=  Nil
    _HMG_aControlFontColor  [k] :=  Nil
-   _HMG_aControlDblClick  [k] :=  ""
+   _HMG_aControlDblClick  [k] :=  lCheckAlpha
    _HMG_aControlHeadClick  [k] :=  {}
    _HMG_aControlRow  [k] :=  y
    _HMG_aControlCol  [k] :=  x
@@ -194,7 +198,7 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
    _HMG_aControlFontHandle  [k] :=   0
    _HMG_aControlBrushHandle  [k] :=  0
    _HMG_aControlEnabled  [k] :=  .T.
-   _HMG_aControlMiscData1 [k] := 0
+   _HMG_aControlMiscData1 [k] := nAlphaLevel
    _HMG_aControlMiscData2 [k] := ''
 
    IF .NOT. lDialogInMemory
@@ -208,7 +212,9 @@ FUNCTION InitDialogImage( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
 
    IF ValType( ParentName ) <> 'U'
-      _HMG_aControlBrushHandle [k] := C_SetPicture ( ControlHandle , _HMG_aControlPicture [k] , _HMG_aControlWidth [k] , _HMG_aControlHeight [k] , _HMG_aControlValue [k] , _HMG_aControlInputMask [k] , _HMG_aControlSpacing [k] , _HMG_aControlCaption [k] )
+      _HMG_aControlBrushHandle [k] := C_SetPicture ( ControlHandle , _HMG_aControlPicture [k] , _HMG_aControlWidth [k] , ;
+         _HMG_aControlHeight [k] , _HMG_aControlValue [k] , _HMG_aControlInputMask [k] , _HMG_aControlSpacing [k] , ;
+         _HMG_aControlCaption [k] , _HMG_aControlDblClick [k] .AND. HasAlpha( _HMG_aControlPicture [k] ) , _HMG_aControlMiscData1 [k] )
       IF Empty( _HMG_aControlValue [k] )
          _HMG_aControlWidth [k] := GetWindowWidth  ( ControlHandle )
          _HMG_aControlHeight [k] := GetWindowHeight ( ControlHandle )
@@ -238,3 +244,16 @@ FUNCTION BmpSize( Bitmap )
    ENDIF
 
 RETURN aRet
+
+*-----------------------------------------------------------------------------*
+FUNCTION HasAlpha( FileName )
+*-----------------------------------------------------------------------------*
+   LOCAL Bitmap, lRet
+
+   IF GetObjectType( Bitmap := LoadBitmap( FileName ) ) != OBJ_BITMAP
+      Bitmap := C_GetResPicture( FileName )
+   ENDIF
+   lRet := C_HasAlpha( Bitmap )
+   DeleteObject( Bitmap )
+
+RETURN lRet

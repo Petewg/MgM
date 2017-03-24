@@ -274,7 +274,7 @@ FUNCTION _DefinePropGrid ( ControlName, ParentFormName, row, col, width, height,
       ENDIF
       _SetFont ( aControlHandle[2], fontname, _HMG_DefaultFontSize, .T. , italic, underline, strikeout )
       _SetFont ( aControlHandle[3], fontname, _HMG_DefaultFontSize, bold, italic, underline, strikeout )
-      IF aControlHandle[3] != 0
+      IF aControlHandle[5] != 0
          _SetFont ( aControlHandle[5], fontname, _HMG_DefaultFontSize, .T. , italic, underline, strikeout )
       ENDIF
       FontHandle := _SetFont ( aControlHandle[1], fontname, _HMG_DefaultFontSize, bold, italic, underline, strikeout )

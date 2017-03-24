@@ -67,7 +67,7 @@
 #endif
 #define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 
-extern HBITMAP    HMG_LoadImage( char * FileName );
+extern HBITMAP    HMG_LoadImage( const char * FileName );
 HRGN              BitmapToRegion( HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cTolerance );
 
 extern HINSTANCE g_hInstance;
@@ -848,11 +848,12 @@ HB_FUNC( GETTABBEDCONTROLBRUSH )
 {
    RECT   rc;
    HBRUSH hBrush;
+   HDC    hDC = ( HDC ) HB_PARNL( 1 );
 
-   SetBkMode( ( HDC ) HB_PARNL( 1 ), TRANSPARENT );
+   SetBkMode( hDC, TRANSPARENT );
    GetWindowRect( ( HWND ) HB_PARNL( 2 ), &rc );
    MapWindowPoints( NULL, ( HWND ) HB_PARNL( 3 ), ( LPPOINT ) ( &rc ), 2 );
-   SetBrushOrgEx( ( HDC ) HB_PARNL( 1 ), -rc.left, -rc.top, NULL );
+   SetBrushOrgEx( hDC, -rc.left, -rc.top, NULL );
    hBrush = ( HBRUSH ) HB_PARNL( 4 );
 
    HB_RETNL( ( LONG_PTR ) hBrush );
@@ -968,7 +969,7 @@ HB_FUNC( CREATEPATTERNBRUSH )
    }
    if( hImage == NULL )
    {
-      hImage = ( HBITMAP ) HMG_LoadImage( ( char * ) hb_parc( 1 ) );
+      hImage = ( HBITMAP ) HMG_LoadImage( hb_parc( 1 ) );
    }
 
    HB_RETNL( ( hImage != NULL ) ? ( LONG_PTR ) CreatePatternBrush( hImage ) : ( LONG_PTR ) 0 );

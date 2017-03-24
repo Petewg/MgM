@@ -68,6 +68,7 @@ RETURN
 *-----------------------------------------------------------------------------*
 EXIT PROCEDURE ClipExit()
 *-----------------------------------------------------------------------------*
+   GdiplusShutdown()
    ExitProcess()
 
 RETURN
@@ -109,4 +110,4 @@ RETURN oError
 FUNCTION MiniGuiVersion
 *-----------------------------------------------------------------------------*
 
-RETURN( "Harbour MiniGUI Extended Edition 17.02" )
+RETURN( "Harbour MiniGUI Extended Edition 17.03" )

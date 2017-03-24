@@ -41,12 +41,16 @@ EXTERN OrdKeyNo, OrdKeyCount, OrdKeyGoto
 #define nInstance    asTSB[10]
 
 // api maximal vertical scrollbar position
-#define MAX_POS 65535
+#define MAX_POS                         65535
+
+#define xlWorkbookNormal                -4143
+#define xlContinuous                        1
+#define xlHAlignCenterAcrossSelection       7
 
 #ifndef __XHARBOUR__
-   #xcommand TRY              => BEGIN SEQUENCE WITH {|__o| break(__o) }
-   #xcommand CATCH [<!oErr!>] => RECOVER [USING <oErr>] <-oErr->
-   #xcommand FINALLY          => ALWAYS
+   #xcommand TRY                            => BEGIN SEQUENCE WITH {|__o| break(__o) }
+   #xcommand CATCH [<!oErr!>]               => RECOVER [USING <oErr>] <-oErr->
+   #xcommand FINALLY                        => ALWAYS
 #endif
 
 #ifdef __XHARBOUR__
@@ -67,10 +71,6 @@ EXTERN OrdKeyNo, OrdKeyCount, OrdKeyGoto
 MEMVAR _TSB_aControlhWnd
 MEMVAR _TSB_aControlObjects
 MEMVAR _TSB_aClientMDIhWnd
-
-#define xlWorkbookNormal          -4143
-#define xlContinuous                  1
-#define xlHAlignCenterAcrossSelection 7
 
 Static asTSB := { Nil, Nil, 0, Nil, Nil, 0, 0, Nil, Nil, Nil }
 Static hToolTip := 0   //V90
@@ -770,7 +770,7 @@ CLASS TSBrowse FROM TControl
                                                   If( ::lDrawHeaders, ::nHeightHead, 0 ), ;
                                                   If( ::lFooting .and. ::lDrawFooters, ::nHeightFoot, 0 ), ;
                                                   If( ::lDrawHeaders, ::nHeightSuper, 0 ),;
-                                                  If( ::lDrawSpecHd, ::nHeightSpecHd, 0 ))
+                                                  If( ::lDrawSpecHd, ::nHeightSpecHd, 0 ) )
 
    METHOD GoBottom()
 
@@ -873,7 +873,7 @@ CLASS TSBrowse FROM TControl
    METHOD nRowCount() INLINE CountRows( ::hWnd, ::nHeightCell, If( ::lDrawHeaders, ::nHeightHead, 0 ), ;
                                         If( ::lFooting .and. ::lDrawFooters, ::nHeightFoot, 0 ), ;
                                         If( ::lDrawHeaders, ::nHeightSuper, 0 ),;
-                                        If( ::lDrawSpecHd, ::nHeightSpecHd, 0 ))
+                                        If( ::lDrawSpecHd, ::nHeightSpecHd, 0 ) )
 
    METHOD PageUp( nLines )
 
@@ -952,6 +952,8 @@ CLASS TSBrowse FROM TControl
 
    METHOD SetDBF( cAlias )
 
+   METHOD SetNoHoles ( nDelta, lSet )  //BK
+
    METHOD SetOrder( nColumn, cPrefix, lDescend )
 
    METHOD SetRecordSet( oRSet )
@@ -988,13 +990,13 @@ CLASS TSBrowse FROM TControl
 
    METHOD HideColumns( nColumn, lHide )  //JP 1.58
 
-   METHOD AutoSpec(nCol)
+   METHOD AutoSpec( nCol )
 
-   METHOD RefreshARow(xRow)  //JP 1.88
+   METHOD RefreshARow( xRow )  //JP 1.88
 
    METHOD UserPopup( bUserPopupItem, aColumn )  //JP 1.92
 
-   METHOD GetCellInfo( nRowPos, nCell, lColSpecHd )  //SergKis
+   METHOD GetCellInfo( nRowPos, nCell, lColSpecHd )  //BK
 
 ENDCLASS
 
@@ -1295,7 +1297,7 @@ METHOD AddColumn( oColumn ) CLASS TSBrowse
    Default ::aColSizes := {}
 
    If ::lDrawHeaders
-      cHeading := If( Valtype( oColumn:cHeading ) == "B", Eval( oColumn:cHeading ), oColumn:cHeading )
+      cHeading := If( Valtype( oColumn:cHeading ) == "B", Eval( oColumn:cHeading, ::nColCount() + 1, Self ), oColumn:cHeading )
 
       If Valtype( cHeading ) == "C" .and. ( nAt := At( Chr( 13 ), cHeading ) ) > 0
          nOcurs := 1
@@ -1319,7 +1321,7 @@ METHOD AddColumn( oColumn ) CLASS TSBrowse
       ::lDrawFooters := If( ::lDrawFooters == Nil, .T., ::lDrawFooters )
       ::lFooting := ::lDrawFooters
 
-      cHeading := If( Valtype( oColumn:cFooting ) == "B", Eval( oColumn:cFooting ), oColumn:cFooting )
+      cHeading := If( Valtype( oColumn:cFooting ) == "B", Eval( oColumn:cFooting, ::nColCount() + 1, Self ), oColumn:cFooting )
 
       If Valtype( cHeading ) == "C" .and. ( nAt := At( Chr( 13 ), cHeading ) ) > 0
          nOcurs := 1
@@ -1344,7 +1346,7 @@ METHOD AddColumn( oColumn ) CLASS TSBrowse
       EndIf
    EndIf
 
-   AAdd( ::aColumns , oColumn )
+   AAdd( ::aColumns, oColumn )
 
    If Len( ::aColSizes ) < Len( ::aColumns )
       AAdd( ::aColSizes, oColumn:nWidth )
@@ -3749,7 +3751,10 @@ METHOD Edit( uVar, nCell, nKey, nKeyFlags, cPicture, bValid, nClrFore, ;
    If oCol:bPrevEdit != Nil
       If ::lIsArr .and. ( ::lAppendMode .or. ::nAt > Len( ::aArray ) ) // append mode for arrays
       ElseIf nKey != VK_RETURN // GF 15-10-2015
-         Eval( oCol:bPrevEdit, uValue, Self )
+         uVar := Eval( oCol:bPrevEdit, uValue, Self )
+         If ValType( uVar ) == "L" .and. ! uVar
+            nKey := VK_RETURN
+         EndIf
       EndIf
    EndIf
 
@@ -3766,7 +3771,7 @@ METHOD Edit( uVar, nCell, nKey, nKeyFlags, cPicture, bValid, nClrFore, ;
             ::lChanged := uVar == .T.
             uVar := .F.
          ElseIf nKey == VK_SPACE
-            uVar := ! uVar
+            uVar := ! uValue
             ::lChanged := .T.
          Else
             Return 0
@@ -3781,7 +3786,7 @@ METHOD Edit( uVar, nCell, nKey, nKeyFlags, cPicture, bValid, nClrFore, ;
          ::lPostEdit := .T.
          ::lChanged := .F.
          ::oWnd:nLastKey := nKey
-         ::PostEdit( uVar, nCell )
+         ::PostEdit( uValue, nCell )
          ::lPostEdit := .F.
          Return 0
       EndIf
@@ -4025,7 +4030,7 @@ METHOD Edit( uVar, nCell, nKey, nKeyFlags, cPicture, bValid, nClrFore, ;
       ::SetMsg( oCol:cMsgEdit )
 
       If oCol:bEditing != Nil
-         Eval( oCol:bEditing, uVar, Self )
+         Eval( oCol:bEditing, uValue, Self )
       EndIf
 
    EndIf
@@ -4647,7 +4652,7 @@ METHOD ExcelOle( cXlsFile, lActivate, hProgress, cTitle, hFont, lSave, bExtern, 
       cLet := Chr( 64 + Len( If( aColSel != Nil, aColSel, ::aColumns ) ) )
    EndIf
 
-   aRepl      := {}
+   aRepl := {}
 
    ::lNoPaint := .F.
 
@@ -4662,8 +4667,8 @@ METHOD ExcelOle( cXlsFile, lActivate, hProgress, cTitle, hFont, lSave, bExtern, 
       cXlsFile := AllTrim( StrTran( Upper( cXlsFile ), ".XLS" ) )
    EndIf
 
-   cTitle   := AllTrim( cTitle )
-   bError   := ErrorBlock( { | x | Break( x ) } )
+   cTitle := AllTrim( cTitle )
+   bError := ErrorBlock( { | x | Break( x ) } )
 
    Begin Sequence
       oExcel := TOleAuto():New("Excel.Application")
@@ -4962,37 +4967,37 @@ METHOD ExpLocate( cExp, nCol ) CLASS TSBrowse
 
    If nRecNo != ( ::cAlias )->( RecNo() ) .and. ::nLen > nLines
 
-         nRecNo := ( ::cAlias )->( RecNo() )
-         ( ::cAlias )->( DbSkip( nLines - ::nRowPos ) )
+      nRecNo := ( ::cAlias )->( RecNo() )
+      ( ::cAlias )->( DbSkip( nLines - ::nRowPos ) )
 
-         If ( ::cAlias )->( EoF() )
+      If ( ::cAlias )->( EoF() )
 
-            Eval( ::bGoBottom )
-            ::nRowPos := nLines
-            ::nAt := ::nLogicPos()
+         Eval( ::bGoBottom )
+         ::nRowPos := nLines
+         ::nAt := ::nLogicPos()
 
-            While ::nRowPos > 1 .and. ( ::cAlias )->( RecNo() ) != nRecNo
-               ::Skip( -1 )
-               ::nRowPos --
-            EndDo
-         Else
-            ( ::cAlias )->( DbGoTo( nRecNo ) )
-            ::nAt := ::nLogicPos()
-         EndIf
-
-         ::Refresh( .F. )
-         ::ResetVScroll()
-      ElseIf nRecNo != ( ::cAlias )->( RecNo() )
-         nRecNo := ( ::cAlias )->( RecNo() )
-         Eval( ::bGoTop )
-         ::nAt := ::nRowPos := 1
-
-         While nRecNo != ( ::cAlias )->( RecNo() )
-            ::Skip( 1 )
-            ::nRowPos++
+         While ::nRowPos > 1 .and. ( ::cAlias )->( RecNo() ) != nRecNo
+            ::Skip( -1 )
+            ::nRowPos --
          EndDo
-         ::Refresh( .F. )
-         ::ResetVScroll()
+      Else
+         ( ::cAlias )->( DbGoTo( nRecNo ) )
+         ::nAt := ::nLogicPos()
+      EndIf
+
+      ::Refresh( .F. )
+      ::ResetVScroll()
+   ElseIf nRecNo != ( ::cAlias )->( RecNo() )
+      nRecNo := ( ::cAlias )->( RecNo() )
+      Eval( ::bGoTop )
+      ::nAt := ::nRowPos := 1
+
+      While nRecNo != ( ::cAlias )->( RecNo() )
+         ::Skip( 1 )
+         ::nRowPos++
+      EndDo
+      ::Refresh( .F. )
+      ::ResetVScroll()
    EndIf
 
    If ::bChange != Nil
@@ -5033,41 +5038,41 @@ METHOD GoToRec( nRec ) CLASS TSBrowse
   
       If ::nLen > nLines
 
-           nRecNo := ( ::cAlias )->( RecNo() )
-          ( ::cAlias )->( DbSkip( nLines - ::nRowPos ) )
+         nRecNo := ( ::cAlias )->( RecNo() )
+         ( ::cAlias )->( DbSkip( nLines - ::nRowPos ) )
 
-          If ( ::cAlias )->( EoF() )
+         If ( ::cAlias )->( EoF() )
 
-             Eval( ::bGoBottom )
-             ::nRowPos := nLines
-             ::nAt := ::nLogicPos()
+            Eval( ::bGoBottom )
+            ::nRowPos := nLines
+            ::nAt := ::nLogicPos()
   
-             While ::nRowPos > 1 .and. ( ::cAlias )->( RecNo() ) != nRecNo
-                ::Skip( -1 )
-                ::nRowPos --
-             EndDo
-          Else
-             ( ::cAlias )->( DbGoTo( nRecNo ) )
-             ::nLastPos := nRecNo
-             ::nAt := ::nLogicPos()
-          EndIf
+            While ::nRowPos > 1 .and. ( ::cAlias )->( RecNo() ) != nRecNo
+               ::Skip( -1 )
+               ::nRowPos --
+            EndDo
+         Else
+            ( ::cAlias )->( DbGoTo( nRecNo ) )
+            ::nLastPos := nRecNo
+            ::nAt := ::nLogicPos()
+         EndIf
 
-          ::Refresh( .F. )
-          ::ResetVScroll()
+         ::Refresh( .F. )
+         ::ResetVScroll()
 
       ElseIf nRecNo != ( ::cAlias )->( RecNo() )
 
-          nRecNo := ( ::cAlias )->( RecNo() )
-          Eval( ::bGoTop )
-          ::nAt := ::nRowPos := 1
+         nRecNo := ( ::cAlias )->( RecNo() )
+         Eval( ::bGoTop )
+         ::nAt := ::nRowPos := 1
 
-          While nRecNo != ( ::cAlias )->( RecNo() )
-             ::Skip( 1 )
-             ::nRowPos ++
-          EndDo
+         While nRecNo != ( ::cAlias )->( RecNo() )
+            ::Skip( 1 )
+            ::nRowPos ++
+         EndDo
 
-          ::Refresh( .F. )
-          ::ResetVScroll()
+         ::Refresh( .F. )
+         ::ResetVScroll()
 
       EndIf
 
@@ -5134,40 +5139,40 @@ METHOD ExpSeek( cExp, lSoft ) CLASS TSBrowse
 
    If nRecNo != ( ::cAlias )->( RecNo() ) .and. ::nLen > nLines
 
-         nRecNo := ( ::cAlias )->( RecNo() )
-         ( ::cAlias )->( DbSkip( nLines - ::nRowPos ) )
+      nRecNo := ( ::cAlias )->( RecNo() )
+      ( ::cAlias )->( DbSkip( nLines - ::nRowPos ) )
 
-         If ( ::cAlias )->( EoF() )
+      If ( ::cAlias )->( EoF() )
 
-            Eval( ::bGoBottom )
-            ::nRowPos := nLines
-            ::nAt := ::nLogicPos()
+         Eval( ::bGoBottom )
+         ::nRowPos := nLines
+         ::nAt := ::nLogicPos()
 
-            While ::nRowPos > 1 .and. ( ::cAlias )->( RecNo() ) != nRecNo
-               ::Skip( -1 )
-               ::nRowPos --
-            EndDo
-         Else
-            ( ::cAlias )->( DbGoTo( nRecNo ) )
-            ::nAt := ::nLogicPos()
-         EndIf
-
-         ::Refresh( .F. )
-         ::ResetVScroll()
-
-      ElseIf nRecNo != ( ::cAlias )->( RecNo() )
-
-         nRecNo := ( ::cAlias )->( RecNo() )
-         Eval( ::bGoTop )
-         ::nAt := ::nRowPos := 1
-
-         While nRecNo != ( ::cAlias )->( RecNo() )
-            ::Skip( 1 )
-            ::nRowPos ++
+         While ::nRowPos > 1 .and. ( ::cAlias )->( RecNo() ) != nRecNo
+            ::Skip( -1 )
+            ::nRowPos --
          EndDo
+      Else
+         ( ::cAlias )->( DbGoTo( nRecNo ) )
+         ::nAt := ::nLogicPos()
+      EndIf
 
-         ::Refresh( .F. )
-         ::ResetVScroll()
+      ::Refresh( .F. )
+      ::ResetVScroll()
+
+   ElseIf nRecNo != ( ::cAlias )->( RecNo() )
+
+      nRecNo := ( ::cAlias )->( RecNo() )
+      Eval( ::bGoTop )
+      ::nAt := ::nRowPos := 1
+
+      While nRecNo != ( ::cAlias )->( RecNo() )
+         ::Skip( 1 )
+         ::nRowPos ++
+      EndDo
+
+      ::Refresh( .F. )
+      ::ResetVScroll()
 
    EndIf
 
@@ -6560,7 +6565,6 @@ METHOD KeyDown( nKey, nFlags ) CLASS TSBrowse
             Else  // GF 16-05-2008
                uVal := Eval( ::aColumns[ nCol ]:bData )
                uVal := Eval( ::aColumns[ nCol ]:bPrevEdit, uVal, Self )
-
                If ValType( uVal ) == "L" .and. ! uVal
                   Return 0
                EndIf
@@ -11623,7 +11627,64 @@ METHOD SetIndexCols( nCol1, nCol2, nCol3, nCol4, nCol5 ) CLASS TSBrowse
 Return Nil
 
 * ============================================================================
-* METHOD TSBrowse:SetOrder() VVersion 9.0 Nov/30/2009
+* METHOD TSBrowse:SetNoHoles() adjusts TBrowse height to the whole cells amount
+* ============================================================================
+METHOD SetNoHoles( nDelta, lSet ) CLASS TSBrowse
+
+   LOCAL nH, nK, nHeight, nHole
+
+   DEFAULT nDelta := 2, lSet := .T.
+
+   nHole := ::nHeight - ::nHeightHead - ::nHeightSuper - ;
+            ::nHeightFoot - ::nHeightSpecHd - ;
+            If( ::lNoHScroll, 0, GetHScrollBarHeight() )
+  
+   nHole   -= ( Int( nHole / ::nHeightCell ) * ::nHeightCell )
+   nHole   -= nDelta
+   nHeight := nHole
+
+   If lSet
+
+      nH := If( ::nHeightSuper  > 0, 1, 0 ) + ;
+            If( ::nHeightHead   > 0, 1, 0 ) + ;
+            If( ::nHeightSpecHd > 0, 1, 0 ) + ;
+            If( ::nHeightFoot   > 0, 1, 0 )
+
+      If nH > 0
+
+         nK := int( nHole / nH )
+
+         If ::nHeightFoot   > 0
+            ::nHeightFoot   += nK
+            nHole           -= nK
+         EndIf
+         If ::nHeightSuper  > 0
+            ::nHeightSuper  += nK
+            nHole           -= nK
+         EndIf
+         If ::nHeightSpecHd > 0
+            ::nHeightSpecHd += nK
+            nHole           -= nK
+         EndIf
+         If ::nHeightHead   > 0
+            ::nHeightHead   += nHole
+         EndIf
+
+      Else
+
+         SetProperty( ::cParentWnd, ::cControlName, "Height", ;
+         GetProperty( ::cParentWnd, ::cControlName, "Height" ) - nHole )
+
+      EndIf
+
+      ::Display()
+
+   EndIf
+
+RETURN nHeight 
+
+* ============================================================================
+* METHOD TSBrowse:SetOrder() Version 9.0 Nov/30/2009
 * ============================================================================
 
 METHOD SetOrder( nColumn, cPrefix, lDescend ) CLASS TSBrowse
@@ -13087,7 +13148,7 @@ Static Function SetHeights( oBrw )
       For nEle := 1 TO Len( oBrw:aColumns )
 
          oColumn := oBrw:aColumns[ nEle ]
-         cHeading := If( Valtype( oColumn:cHeading ) == "B", Eval( oColumn:cHeading ), oColumn:cHeading )
+         cHeading := If( Valtype( oColumn:cHeading ) == "B", Eval( oColumn:cHeading, nEle, oBrw ), oColumn:cHeading )
          hFont := If( oColumn:hFontHead != Nil, oColumn:hFontHead, oBrw:hFont )
          hFont := If( ValType( hFont ) == "B", Eval( hFont, 0, nEle, oBrw ), hFont )
          hFont := If( hFont == Nil, 0, oBrw:hFont )
@@ -13134,7 +13195,7 @@ Static Function SetHeights( oBrw )
       For nEle := 1 TO Len( oBrw:aColumns )
 
          oColumn := oBrw:aColumns[ nEle ]
-         cHeading := If( Valtype( oColumn:cFooting ) == "B", Eval( oColumn:cFooting ), oColumn:cFooting )
+         cHeading := If( Valtype( oColumn:cFooting ) == "B", Eval( oColumn:cFooting, nEle, oBrw ), oColumn:cFooting )
          hFont := If( oColumn:hFontFoot != Nil, oColumn:hFontFoot, If( oBrw:hFont != Nil, oBrw:hFont, 0 ) )
 
          hFont := If( ValType( hFont ) == "B", Eval( hFont, 0, nEle, oBrw ), hFont )

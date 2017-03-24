@@ -65,7 +65,8 @@
 #endif
 
 static HBRUSH     CreateGradientBrush( HDC hDC, INT nWidth, INT nHeight, COLORREF Color1, COLORREF Color2 );
-extern HBITMAP    HMG_LoadPicture( char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage );
+HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
+                         HB_BOOL bAlphaFormat, int iAlpfaConstant );
 LRESULT CALLBACK  OwnButtonProc( HWND hbutton, UINT msg, WPARAM wParam, LPARAM lParam );
 
 extern HINSTANCE g_hInstance;
@@ -176,7 +177,7 @@ HB_FUNC( INITIMAGEBUTTON )
             himage = ( HWND ) LoadImage( 0, hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | ImgStyle );
 
          if( himage == NULL )
-            himage = ( HWND ) HMG_LoadPicture( ( char * ) hb_parc( 8 ), -1, -1, hwnd, 0, hb_parl( 10 ) ? 0 : 1, -1, 0 );
+            himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwnd, 0, hb_parl( 10 ) ? 0 : 1, -1, 0, HB_FALSE, 255 );
 
          SendMessage( hbutton, ( UINT ) BM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) himage );
 
@@ -337,7 +338,7 @@ HB_FUNC( INITOWNERBUTTON )
          himage = ( HWND ) LoadImage( 0, hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | ImgStyle );
 
       if( himage == NULL )
-         himage = ( HWND ) HMG_LoadPicture( ( char * ) hb_parc( 8 ), hb_parni( 15 ), hb_parni( 16 ), hwnd, 0, hb_parl( 10 ) ? 0 : 1, -1, 0 );
+         himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), hb_parni( 15 ), hb_parni( 16 ), hwnd, 0, hb_parl( 10 ) ? 0 : 1, -1, 0, HB_FALSE, 255 );
 
       hb_reta( 2 );
       HB_STORVNL( ( LONG_PTR ) hbutton, -1, 1 );
@@ -372,7 +373,7 @@ HB_FUNC( _SETBTNPICTURE )
       himage = ( HWND ) LoadImage( 0, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
    if( himage == NULL )
-      himage = ( HWND ) HMG_LoadPicture( ( char * ) hb_parc( 2 ), hb_parni( 3 ), hb_parni( 4 ), hwnd, 0, 1, -1, 0 );
+      himage = ( HWND ) HMG_LoadPicture( hb_parc( 2 ), hb_parni( 3 ), hb_parni( 4 ), hwnd, 0, 1, -1, 0, HB_FALSE, 255 );
 
    SendMessage( hwnd, ( UINT ) BM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) himage );
 

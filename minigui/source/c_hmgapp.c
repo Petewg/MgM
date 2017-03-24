@@ -49,9 +49,15 @@
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
  */
 
+#define WINVER  0x0410
+
 #include <mgdefs.h>
 #include "shlwapi.h"
 #include "hbinit.h"
+
+#define _HMG_STUB_
+# include "hbgdiplus.h"
+#undef _HMG_STUB_
 
 #ifdef MAKELONG
 #undef MAKELONG
@@ -59,11 +65,12 @@
 #define MAKELONG( a, b )             ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 #define PACKVERSION( major, minor )  MAKELONG( minor, major )
 
-extern void  hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
+extern void hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
+extern GpStatus GdiplusInit( void );
 
-HINSTANCE    GetInstance( void );
-HMODULE      hmg_LoadLibrarySystem( LPCTSTR pFileName );
-// util
+HINSTANCE GetInstance( void );
+HMODULE   hmg_LoadLibrarySystem( LPCTSTR pFileName );
+// util's
 TCHAR * hmg_tstrdup( const TCHAR * pszText );
 TCHAR * hmg_tstrncat( TCHAR * pDest, const TCHAR * pSource, HB_SIZE nLen );
 HB_SIZE hmg_tstrlen( const TCHAR * pText );
@@ -87,6 +94,9 @@ static void hmg_init( void )
    g_dwComCtl32Ver = DllGetVersion( lpszDllName );
 
    GetInstance();
+
+   if( Ok != GdiplusInit() )
+      hmg_ErrorExit( TEXT( "GdiplusInit( void )" ), 0, TRUE );
 }
 
 HB_CALL_ON_STARTUP_BEGIN( _hmg_init_ )
@@ -130,7 +140,7 @@ static DWORD DllGetVersion( LPCTSTR lpszDllName )
          dvi.info1.cbSize = sizeof( dvi );
 
          hr = ( *pDllGetVersion )( &dvi );
-         if( hr == S_OK )
+         if( S_OK == hr )
             dwVersion = PACKVERSION( dvi.info1.dwMajorVersion, dvi.info1.dwMinorVersion );
       }
       FreeLibrary( hinstDll );
@@ -147,6 +157,11 @@ HB_FUNC( GETINSTANCE )
 HB_FUNC( GETCOMCTL32DLLVER )
 {
    hb_retnint( g_dwComCtl32Ver );
+}
+
+HB_FUNC( OLEDATARELEASE )
+{
+   CoUninitialize();
 }
 
 // borrowed from hbwapi.lib [vszakats]

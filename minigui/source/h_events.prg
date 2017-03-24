@@ -3161,9 +3161,19 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
       // Remove Child Controls
 
          FOR EACH r IN _HMG_aControlParentHandles
+
             IF r == hWnd
-               _EraseControl ( hb_enumindex( r ) , i )
+
+               x := hb_enumindex( r )
+
+               IF _HMG_aControlType [x] == "MESSAGEBAR"
+                  _ReleaseControl ( "StatusBar" , GetParentFormName( x ) )
+               ELSE
+                  _EraseControl ( x , i )
+               ENDIF
+
             ENDIF
+
          NEXT
 
       // Delete Brush

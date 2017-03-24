@@ -5,7 +5,7 @@
 -o../../lib/miniprint
 
 -cflag=-D__MINGW32__
-
+-cflag=-D_ERRORMSG_
 -hbx=../../include/${hb_name}.hbx
 
 -I../../include

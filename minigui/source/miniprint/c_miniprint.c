@@ -56,11 +56,10 @@
   #define CINTERFACE
 #endif
 
-#define WINVER  0x0410
+#define WINVER     0x0410
 
 #include <mgdefs.h>
 #include "hbapiitm.h"
-
 #include "olectl.h"
 
 #ifndef WC_STATIC
@@ -68,12 +67,14 @@
 #endif
 
 static DWORD charset = DEFAULT_CHARSET;
+
+extern HINSTANCE g_hInstance;
 extern HBITMAP HMG_LoadImage( char * FileName );
 
 #if defined( __BORLANDC__ )
 #undef MAKELONG
-#define MAKELONG( a, b )      ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | \
-                                           ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
+#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | \
+                                       ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 #endif
 
 HB_FUNC( _HMG_SETCHARSET )
@@ -1367,7 +1368,7 @@ HB_FUNC( _HMG_PRINTER_SHOWPAGE )
 {
 
    HENHMETAFILE hemf;
-   HWND         hWnd = ( HWND ) HB_PARNL( 2 );
+   HWND         hWnd       = ( HWND ) HB_PARNL( 2 );
    HDC          hDCPrinter = ( HDC ) HB_PARNL( 3 );
    RECT         rct;
    RECT         aux;
@@ -1565,7 +1566,7 @@ HB_FUNC( _HMG_PRINTER_C_IMAGE )
       dc = ( odc * GetDeviceCaps( hdcPrint, LOGPIXELSX ) / 1000 );
       dr = ( odr * GetDeviceCaps( hdcPrint, LOGPIXELSY ) / 1000 );
 
-      hBitmap = ( HBITMAP ) LoadImage( GetModuleHandle( NULL ), FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+      hBitmap = ( HBITMAP ) LoadImage( g_hInstance, FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
       if( hBitmap == NULL )
          hBitmap = ( HBITMAP ) LoadImage( NULL, FileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
@@ -1573,7 +1574,7 @@ HB_FUNC( _HMG_PRINTER_C_IMAGE )
       if( hBitmap == NULL )
       {
          bBmpImage = FALSE;
-         hBitmap = HMG_LoadImage( FileName );
+         hBitmap   = HMG_LoadImage( FileName );
       }
       if( hBitmap == NULL )
          return;
@@ -1745,7 +1746,7 @@ HB_FUNC( INITEMFFILE )
    if( hb_parl( 6 ) )
       Style |= SS_NOTIFY;
 
-   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), GetModuleHandle( NULL ), NULL );
+   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), g_hInstance, NULL );
 
    HB_RETNL( ( LONG_PTR ) hWnd );
 }

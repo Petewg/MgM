@@ -2458,8 +2458,8 @@ FUNCTION _SetPicture ( ControlName, ParentForm, FileName )
 
       DeleteObject ( _hmg_aControlBrushHandle [i] )
       _HMG_aControlPicture [i] := FileName
-      _HMG_aControlBrushHandle [i] := C_SetPicture ( c , FileName , w , h , _HMG_aControlValue [i] , _HMG_aControlInputMask [i] , _HMG_aControlSpacing [i] , _HMG_aControlCaption [i] )
-
+      _HMG_aControlBrushHandle [i] := C_SetPicture ( c , FileName , w , h , _HMG_aControlValue [i] , _HMG_aControlInputMask [i] , ;
+         _HMG_aControlSpacing [i] , _HMG_aControlCaption [i] , _HMG_aControlDblClick [i] .AND. HasAlpha( FileName ) , _HMG_aControlMiscData1 [i] )
       IF Empty( _HMG_aControlValue [i] )
          _HMG_aControlWidth [i] := GetWindowWidth  ( c )
          _HMG_aControlHeight [i] := GetWindowHeight ( c )
@@ -3310,14 +3310,6 @@ FUNCTION _EraseControl ( i, p )
 
    DO CASE
 
-   CASE t == "MESSAGEBAR"
-      // Remove StatusItem's icons
-      IF ( mVar := SendMessage( _HMG_aControlHandles [i], SB_GETPARTS, 0, 0 ) ) > 0
-         FOR x := 1 TO mVar
-            SetStatusItemIcon ( _HMG_aControlHandles [i] , x , Nil )
-         NEXT x
-      ENDIF
-
    CASE t == 'HOTKEY'
       ReleaseHotKey ( _HMG_aControlParentHandles [i] , _HMG_aControlIds [i] )
 
@@ -3642,15 +3634,19 @@ PROCEDURE SetProperty( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 )
 
             IF "TEXT" $ GetControlType( Arg2, Arg1 )
                SendMessageWideString( GetControlHandle ( Arg2, Arg1 ), EM_SETCUEBANNER, .T., Arg4 )
+
             ELSEIF GetControlType( Arg2, Arg1 ) == "SPINNER"
                SendMessageWideString( GetControlHandle ( Arg2, Arg1 ) [1], EM_SETCUEBANNER, .T., Arg4 )
+
             ELSEIF GetControlType( Arg2, Arg1 ) == "COMBO"
                i := GetControlIndex ( Arg2 , Arg1 )
+
                IF _HMG_aControlMiscData1 [i] [2] == .T.
                   SendMessageWideString( _HMG_aControlRangeMin [i], EM_SETCUEBANNER, .T., Arg4 )
                ELSE
                   SendMessageWideString( GetControlHandle ( Arg2, Arg1 ), CB_SETCUEBANNER, .T., Arg4 )
                ENDIF
+
             ENDIF
 
          ENDIF
@@ -3763,15 +3759,19 @@ PROCEDURE SetProperty( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 )
       CASE Arg3 == "BLINK"
 
          IF "LABEL" $ GetControlType ( Arg2 , Arg1 )
+
             i := GetControlIndex ( Arg2 , Arg1 )
             IF _HMG_aControlMiscData1 [i] [2] == .T.
                iif ( Arg4 == .T. , _EnableControl ( 'BlinkTimer' + hb_ntos( i ) , Arg1 ) , _DisableControl ( 'BlinkTimer' + hb_ntos( i ) , Arg1 ) )
                _ShowControl ( Arg2 , Arg1 )
+
             ELSEIF Arg4 == .T.
                _HMG_aControlMiscData1 [i] [2] := Arg4
                _DefineTimer ( 'BlinkTimer' + hb_ntos( i ) , Arg1 , 500 , {|| _HMG_aControlMiscData1 [i] [3] := ! _HMG_aControlMiscData1 [i] [3], ;
                   iif( _HMG_aControlMiscData1 [i] [3] == .T. , _ShowControl ( Arg2 , Arg1 ), _HideControl ( Arg2 , Arg1 ) ) } )
+
             ENDIF
+
          ENDIF
 
       CASE Arg3 == "RANGEMIN"
@@ -6032,30 +6032,38 @@ RETURN .F.
 *-----------------------------------------------------------------------------*
 FUNCTION cFilePath( cPathMask )
 *-----------------------------------------------------------------------------*
+RETURN hb_DirSepDel( hb_FNameDir( cPathMask ) ) // p.d. 03/03/2017
+/*
    LOCAL cPath
 
    hb_FNameSplit( cPathMask, @cPath )
 
 RETURN Left( cPath, Len( cPath ) - 1 )
+*/
 
 *-----------------------------------------------------------------------------*
 FUNCTION cFileNoPath( cPathMask )
 *-----------------------------------------------------------------------------*
+RETURN hb_FNameNameExt( cPathMask ) // p.d. 03/03/2017
+
+/*
    LOCAL cName, cExt
 
    hb_FNameSplit( cPathMask, , @cName, @cExt )
 
 RETURN ( cName + cExt )
-
+*/
 *-----------------------------------------------------------------------------*
 FUNCTION cFileNoExt( cPathMask )
 *-----------------------------------------------------------------------------*
+RETURN hb_FNameName( cPathMask ) // p.d. 03/03/2017
+/*
    LOCAL cName
 
    hb_FNameSplit( cPathMask, , @cName )
 
 RETURN cName
-
+*/
 // (JK) HMG 1.0 Experimental Build 8
 *-----------------------------------------------------------------------------*
 FUNCTION _IsComboExtend ( ControlName, ParentForm )

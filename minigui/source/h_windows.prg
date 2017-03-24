@@ -46,6 +46,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 ---------------------------------------------------------------------------*/
 
 #include "minigui.ch"
+#include "miniprint.ch"
 #include "i_winuser.ch"
 
 #ifdef _HMG_COMPAT_
@@ -2568,5 +2569,117 @@ STATIC PROCEDURE EfeitoLabel( cTxt )
    SetProperty( cFormName, "Message", "Value", cDescEfeito )
 
 RETURN
+
+*-----------------------------------------------------------------------------*
+FUNCTION PRINTWINDOW ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeight )
+*-----------------------------------------------------------------------------*
+   LOCAL lSuccess, nOrientation
+   LOCAL TempName, W, H, HO, VO
+   LOCAL bw, bh, r, tw := 0, th
+   LOCAL ntop, nleft, nbottom, nright
+
+   IF ValType ( nRow ) == 'U' .OR. ;
+      ValType ( nCol ) == 'U' .OR. ;
+      ValType ( nWidth ) == 'U' .OR. ;
+      ValType ( nHeight ) == 'U'
+
+      ntop := -1
+      nleft := -1
+      nbottom := -1
+      nright := -1
+
+   ELSE
+
+      ntop := nRow
+      nleft := nCol
+      nbottom := nHeight + nRow
+      nright := nWidth + nCol
+
+   ENDIF
+
+   IF ValType ( lDialog ) == 'U'
+      lDialog := .F.
+   ENDIF
+
+   IF ValType ( lPreview ) == 'U'
+      lPreview := .F.
+   ENDIF
+
+   IF ! _IsWIndowDefined ( cWindowName )
+      MsgMiniGuiError ( _HMG_BRWLangError[ 1 ] + cWindowName + _HMG_BRWLangError[ 2 ], .F. )
+   ENDIF
+
+   IF ntop == -1
+
+      bw := GetProperty ( cWindowName, 'Width' )
+      bh := GetProperty ( cWindowName, 'Height' ) - GetTitleHeight ()
+
+   ELSE
+
+      bw := nright - nleft
+      bh := nbottom - ntop
+
+   ENDIF
+
+   IF lDialog
+
+      IF lPreview
+         SELECT PRINTER DIALOG TO lSuccess PREVIEW
+      ELSE
+         SELECT PRINTER DIALOG TO lSuccess
+      ENDIF
+
+      IF ! lSuccess
+         RETURN NIL
+      ENDIF
+
+   ELSE
+
+      nOrientation := iif( bw > bh, PRINTER_ORIENT_LANDSCAPE, PRINTER_ORIENT_PORTRAIT )
+
+      IF lPreview
+         SELECT PRINTER DEFAULT TO lSuccess ORIENTATION nOrientation PREVIEW
+      ELSE
+         SELECT PRINTER DEFAULT TO lSuccess ORIENTATION nOrientation
+      ENDIF
+
+      IF ! lSuccess
+         MsgMiniGuiError ( _HMG_aLangUser[ 25 ] )
+      ENDIF
+
+   ENDIF
+
+   TempName := GetTempFolder() + '\_hmg_printwindow_' + hb_ntos( Int( Seconds() * 100 ) ) + '.bmp'
+
+   SaveWindowByHandle ( GetFormHandle ( cWindowName ), TempName, ntop, nleft, nbottom, nright )
+
+   HO := GetPrintableAreaHorizontalOffset()
+   VO := GetPrintableAreaVerticalOffset()
+
+   W := GetPrintableAreaWidth() - 10 - HO * 2
+   H := GetPrintableAreaHeight() - 10 - VO * 2
+
+   r := bw / bh
+
+   REPEAT
+
+      th := ++tw / r
+
+   UNTIL ( tw < w .OR. th < h )
+
+   START PRINTDOC
+
+      START PRINTPAGE
+
+         @ VO + 10 + ( h - th ) / 2, HO + 10 + ( w - tw ) / 2 PRINT IMAGE TempName WIDTH tW HEIGHT tH
+
+      END PRINTPAGE
+
+   END PRINTDOC
+
+   DO EVENTS
+   FErase( TempName )
+
+RETURN NIL
 
 #endif

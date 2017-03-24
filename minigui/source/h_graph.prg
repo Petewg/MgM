@@ -965,14 +965,20 @@ RETURN nil
 STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
 
    LOCAL cTempFile := GetTempFolder() + '\_hmg_printwindow_' + StrZero( Seconds() * 100 , 8 ) + '.bmp'
-   LOCAL lsuccess, aSize, nOrientation, cprinter
-   LOCAL nvfij := 12 / 1.65, nhfij := 12 / 1.85, nmhor := 12 / 4.75, nmver := 10 / 2.35
+   LOCAL aSize, nOrientation, lSuccess
+   LOCAL W, H, HO, VO, bw, bh, r, tW := 0, tH
 
    DO EVENTS
    DoMethod( cForm, 'SaveAs', cTempFile )
 
    aSize := BmpSize( cTempFile )
-   nOrientation := iif( aSize[1] > aSize[2], PRINTER_ORIENT_LANDSCAPE, PRINTER_ORIENT_PORTRAIT )
+
+   bw := aSize[ 1 ]
+   bh := aSize[ 2 ]
+
+   r := bw / bh
+
+   nOrientation := iif( bw > bh, PRINTER_ORIENT_LANDSCAPE, PRINTER_ORIENT_PORTRAIT )
 
    IF hb_defaultValue( nLibrary, 1 ) == 2
 
@@ -994,11 +1000,27 @@ STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
 
       SET PREVIEW RECT MAXIMIZED
 
+      SET UNITS MM
+
+      HO := hbprn:devcaps[ 10 ] / hbprn:devcaps[ 6 ] * 25.4
+      VO := hbprn:devcaps[ 9 ] / hbprn:devcaps[ 5 ] * 25.4
+
+      W := HBPRNMAXCOL - x - HO * 2
+      H := HBPRNMAXROW - y - VO * 2
+
+      REPEAT
+
+         th := ++tw / r
+
+      UNTIL ( tw < w - x .OR. th < h - y )
+
       DoMethod ( cForm, 'Hide' )
 
       START DOC
          START PAGE
-            @ y * nmver + nvfij - 4, x * nmhor + nhfij - 2 PICTURE cTempFile SIZE 7 * nmver + nvfij, iif( IsWinNT(), 48, 32 ) * nmhor + nhfij
+
+            @ VO + y + ( h - th ) / 2, HO + x + ( w - tw ) / 2 PICTURE cTempFile SIZE tH, tW
+
          END PAGE
       END DOC
 
@@ -1006,20 +1028,33 @@ STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
 
    ELSE
 
-      cprinter := GetDefaultPrinter()
-      SELECT PRINTER cprinter TO lsuccess ORIENTATION nOrientation PREVIEW
+      SELECT PRINTER DEFAULT TO lSuccess ORIENTATION nOrientation PREVIEW
 
-      IF .NOT. lsuccess
+      IF .NOT. lSuccess
          DoMethod ( cForm, 'Release' )
          _cleanprint()
          RETURN .F.
       ENDIF
 
+      HO := GetPrintableAreaHorizontalOffset()
+      VO := GetPrintableAreaVerticalOffset()
+
+      W := GetPrintableAreaWidth() - x - HO * 2
+      H := GetPrintableAreaHeight() - y - VO * 2
+
+      REPEAT
+
+         th := ++tw / r
+
+      UNTIL ( tw < w - x .OR. th < h - y )
+
       DoMethod ( cForm, 'Hide' )
 
       START PRINTDOC NAME 'MINIPRINT'
          START PRINTPAGE
-            @ y * nmver + nvfij - 2, x * nmhor + nhfij PRINT IMAGE cTempFile WIDTH 90 * nmhor + nhfij HEIGHT 15 * nmver + nvfij
+
+            @ VO + y + ( h - th ) / 2, HO + x + ( w - tw ) / 2 PRINT IMAGE cTempFile WIDTH tW HEIGHT tH
+
          END PRINTPAGE
       END PRINTDOC
 

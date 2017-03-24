@@ -2180,7 +2180,16 @@ RETURN Nil
 #endif
 
 static DWORD charset = DEFAULT_CHARSET;
+
+extern HINSTANCE g_hInstance;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern HBITMAP HMG_LoadImage( char * FileName );
+#ifdef __cplusplus
+}
+#endif
 
 #if defined( __BORLANDC__ )
 #undef MAKELONG
@@ -3682,7 +3691,7 @@ HB_FUNC( _HMG_PRINTER_C_IMAGE )
       dc = ( odc * GetDeviceCaps( hdcPrint, LOGPIXELSX ) / 1000 );
       dr = ( odr * GetDeviceCaps( hdcPrint, LOGPIXELSY ) / 1000 );
 
-      hBitmap = ( HBITMAP ) LoadImage( GetModuleHandle( NULL ), FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+      hBitmap = ( HBITMAP ) LoadImage( g_hInstance, FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
       if( hBitmap == NULL )
          hBitmap = ( HBITMAP ) LoadImage( NULL, FileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
@@ -3862,7 +3871,7 @@ HB_FUNC( INITEMFFILE )
    if( hb_parl( 6 ) )
       Style |= SS_NOTIFY;
 
-   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), GetModuleHandle( NULL ), NULL );
+   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), g_hInstance, NULL );
 
    HB_RETNL( ( LONG_PTR ) hWnd );
 }

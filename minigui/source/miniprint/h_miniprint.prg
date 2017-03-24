@@ -139,8 +139,8 @@ Local icb
 
 	DEFINE WINDOW _HMG_PRINTER_SHOWPREVIEW ;
 			AT 0,0 ;
-			WIDTH GetDesktopWidth() - 103 - IF ( IsVistaThemed , 25 , 0);
-			HEIGHT GetDesktopHeight() - 103  - IF ( IsVistaThemed , 25 , 0);
+			WIDTH GetDesktopWidth() - 103 - iif ( IsVistaThemed , 25 , 0);
+			HEIGHT GetDesktopHeight() - 103  - iif ( IsVistaThemed , 25 , 0);
 			VIRTUAL WIDTH ( GetDesktopWidth() - 103 ) * 2 ;
 			VIRTUAL HEIGHT ( GetDesktopHeight() - 103 ) * 2 ;
 			TITLE _hmg_printer_usermessages [01] + ' [' + alltrim(str(_hmg_printer_CurrentPageNumber)) + '/' + ;
@@ -417,9 +417,9 @@ Local icb
 	endif
 
 	DEFINE WINDOW _HMG_PRINTER_PPNAV ;
-			AT 1 + IF( IsVistaThemed , 3 , 0 ) , GetDesktopWidth() - 320 - IF ( IsVistaThemed , 5 , 0 ) ;
+			AT 1 + iif ( IsVistaThemed , 3 , 0 ) , GetDesktopWidth() - 320 - iif ( IsVistaThemed , 5 , 0 ) ;
 			WIDTH 312 + GetBorderWidth() ;
-			HEIGHT 35 + GetTitleHeight() - IF ( IsVistaThemed .Or. ! _HMG_IsXP , 0 , GetBorderHeight() ) ;
+			HEIGHT 35 + GetTitleHeight() - iif ( IsVistaThemed .Or. ! _HMG_IsXP , 0 , GetBorderHeight() ) ;
 			TITLE ' ' + _hmg_printer_usermessages [02] ;
 			PALETTE ;
 			NOMAXIMIZE ;
@@ -543,7 +543,7 @@ Local icb
 
 	CENTER WINDOW _HMG_PRINTER_SHOWPREVIEW
 
-	Tmp := _HMG_PRINTER_SHOWPREVIEW.ROW + GetTitleHeight()
+	Tmp := _HMG_PRINTER_SHOWPREVIEW.ROW + GetTitleHeight() + iif ( IsVistaThemed , GetBorderHeight() , 0 )
 
 	_HMG_PRINTER_SHOWPREVIEW.ROW := Tmp
 

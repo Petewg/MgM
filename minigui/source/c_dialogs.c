@@ -53,7 +53,6 @@
 #endif
 
 #include <mgdefs.h>
-
 #include <commdlg.h>
 #include <shlobj.h>
 #include <commctrl.h>

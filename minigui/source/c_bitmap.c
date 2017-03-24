@@ -58,10 +58,94 @@
 #include "hbapiitm.h"
 #include "hbapifs.h"
 
-HANDLE   ChangeBmpFormat( HBITMAP, HPALETTE );
+HANDLE   DibFromBitmap( HBITMAP, HPALETTE );
 WORD     GetDIBColors( LPSTR );
 
 extern HINSTANCE g_hInstance;
+
+HB_FUNC( SAVEWINDOWBYHANDLE )
+{
+   const char *       File = hb_parc( 2 );
+   HWND               hWnd = ( HWND ) HB_PARNL( 1 );
+   HDC                hDC  = GetDC( hWnd );
+   HDC                hMemDC;
+   RECT               rc;
+   HBITMAP            hBitmap;
+   HBITMAP            hOldBmp;
+   HPALETTE           hPal = 0;
+   HANDLE             hDIB;
+   int                top    = hb_parni( 3 );
+   int                left   = hb_parni( 4 );
+   int                bottom = hb_parni( 5 );
+   int                right  = hb_parni( 6 );
+   BITMAPFILEHEADER   bmfHdr;
+   LPBITMAPINFOHEADER lpBI;
+   HANDLE             filehandle;
+   DWORD              dwDIBSize;
+   DWORD              dwWritten;
+   DWORD              dwBmBitsSize;
+
+   if( top != -1 && left != -1 && bottom != -1 && right != -1 )
+   {
+      rc.top    = top;
+      rc.left   = left;
+      rc.bottom = bottom;
+      rc.right  = right;
+   }
+   else
+   {
+      GetClientRect( hWnd, &rc );
+   }
+
+   hMemDC  = CreateCompatibleDC( hDC );
+   hBitmap = CreateCompatibleBitmap( hDC, rc.right - rc.left, rc.bottom - rc.top );
+   hOldBmp = ( HBITMAP ) SelectObject( hMemDC, hBitmap );
+   BitBlt( hMemDC, 0, 0, rc.right - rc.left, rc.bottom - rc.top, hDC, rc.top, rc.left, SRCCOPY );
+   SelectObject( hMemDC, hOldBmp );
+   hDIB = DibFromBitmap( hBitmap, hPal );
+
+   filehandle = CreateFile( File, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
+
+   lpBI = ( LPBITMAPINFOHEADER ) GlobalLock( hDIB );
+   if( ! lpBI )
+   {
+      CloseHandle( filehandle );
+      return;
+   }
+
+   if( lpBI->biSize != sizeof( BITMAPINFOHEADER ) )
+   {
+      GlobalUnlock( hDIB );
+      CloseHandle( filehandle );
+      return;
+   }
+
+   bmfHdr.bfType = ( ( WORD ) ( 'M' << 8 ) | 'B' );
+
+   dwDIBSize = *( LPDWORD ) lpBI + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
+
+   dwBmBitsSize      = ( ( ( ( lpBI->biWidth ) * ( ( DWORD ) lpBI->biBitCount ) ) + 31 ) / 32 * 4 ) * lpBI->biHeight;
+   dwDIBSize        += dwBmBitsSize;
+   lpBI->biSizeImage = dwBmBitsSize;
+
+   bmfHdr.bfSize      = dwDIBSize + sizeof( BITMAPFILEHEADER );
+   bmfHdr.bfReserved1 = 0;
+   bmfHdr.bfReserved2 = 0;
+
+   bmfHdr.bfOffBits = ( DWORD ) sizeof( BITMAPFILEHEADER ) + lpBI->biSize + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
+
+   WriteFile( filehandle, ( LPSTR ) &bmfHdr, sizeof( BITMAPFILEHEADER ), &dwWritten, NULL );
+
+   WriteFile( filehandle, ( LPSTR ) lpBI, dwDIBSize, &dwWritten, NULL );
+
+   GlobalUnlock( hDIB );
+   CloseHandle( filehandle );
+
+   DeleteObject( hBitmap );
+   DeleteDC( hMemDC );
+   GlobalFree( hDIB );
+   ReleaseDC( hWnd, hDC );
+}
 
 HB_FUNC( WNDCOPY )
 {
@@ -92,7 +176,7 @@ HB_FUNC( WNDCOPY )
    hOldBmp = ( HBITMAP ) SelectObject( hMemDC, hBitmap );
    BitBlt( hMemDC, 0, 0, rc.right - rc.left, rc.bottom - rc.top, hDC, 0, 0, SRCCOPY );
    SelectObject( hMemDC, hOldBmp );
-   hDIB = ChangeBmpFormat( hBitmap, hPal );
+   hDIB = DibFromBitmap( hBitmap, hPal );
 
    filehandle = CreateFile( File, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
 
@@ -136,36 +220,80 @@ HB_FUNC( WNDCOPY )
    ReleaseDC( hWnd, hDC );
 }
 
-HANDLE ChangeBmpFormat( HBITMAP hBitmap, HPALETTE hPal )
+WORD DibNumColors( VOID FAR * pv )
+{
+   int bits;
+   LPBITMAPINFOHEADER lpbi;
+   LPBITMAPCOREHEADER lpbc;
+
+   lpbi = ( ( LPBITMAPINFOHEADER ) pv );
+   lpbc = ( ( LPBITMAPCOREHEADER ) pv );
+
+   /*  With the BITMAPINFO format headers, the size of the palette
+    *  is in biClrUsed, whereas in the BITMAPCORE - style headers, it
+    *  is dependent on the bits per pixel ( = 2 raised to the power of
+    *  bits/pixel).
+    */
+   if( lpbi->biSize != sizeof( BITMAPCOREHEADER ) )
+   {
+      if( lpbi->biClrUsed != 0 )
+         return ( WORD ) lpbi->biClrUsed;
+      bits = lpbi->biBitCount;
+   }
+   else
+      bits = lpbc->bcBitCount;
+
+   switch( bits )
+   {
+      case 1:
+         return 2;
+      case 4:
+         return 16;
+      case 8:
+         return 256;
+      default:
+         /* A 24 bitcount DIB has no color table */
+         return 0;
+   }
+}
+
+static WORD PaletteSize( VOID FAR * pv )
+{
+   LPBITMAPINFOHEADER lpbi;
+   WORD NumColors;
+
+   lpbi = ( LPBITMAPINFOHEADER ) pv;
+
+   NumColors = DibNumColors( lpbi );
+
+   if( lpbi->biSize == sizeof( BITMAPCOREHEADER ) )
+      return ( WORD ) ( NumColors * sizeof( RGBTRIPLE ) );
+   else
+      return ( WORD ) ( NumColors * sizeof( RGBQUAD ) );
+}
+
+#define WIDTHBYTES( i )  ( ( i + 31 ) / 32 * 4 )
+
+HANDLE DibFromBitmap( HBITMAP hbm, HPALETTE hpal )
 {
    BITMAP bm;
-   BITMAPINFOHEADER   bi;
-   LPBITMAPINFOHEADER lpbi;
-   DWORD   dwLen;
-   HGLOBAL hDIB;
-   HGLOBAL h;
-   HDC     hDC;
-   WORD    biBits;
+   BITMAPINFOHEADER       bi;
+   BITMAPINFOHEADER FAR * lpbi;
+   DWORD  dwLen;
+   WORD   biBits;
+   HANDLE hdib;
+   HANDLE h;
+   HDC    hdc;
 
-   if( ! hBitmap )
-      return 0;
+   if( ! hbm )
+      return NULL;
 
-   if( ! GetObject( hBitmap, sizeof( bm ), ( LPSTR ) &bm ) )
-      return 0;
+   if( hpal == NULL )
+      hpal = ( HPALETTE ) GetStockObject( DEFAULT_PALETTE );
 
-   if( hPal == 0 )
-      hPal = ( HPALETTE ) GetStockObject( DEFAULT_PALETTE );
+   GetObject( hbm, sizeof( bm ), ( LPSTR ) &bm );
 
    biBits = ( WORD ) ( bm.bmPlanes * bm.bmBitsPixel );
-
-   if( biBits <= 1 )
-      biBits = 1;
-   else if( biBits <= 4 )
-      biBits = 4;
-   else if( biBits <= 8 )
-      biBits = 8;
-   else
-      biBits = 24;
 
    bi.biSize          = sizeof( BITMAPINFOHEADER );
    bi.biWidth         = bm.bmWidth;
@@ -179,82 +307,76 @@ HANDLE ChangeBmpFormat( HBITMAP hBitmap, HPALETTE hPal )
    bi.biClrUsed       = 0;
    bi.biClrImportant  = 0;
 
-   dwLen = bi.biSize + ( GetDIBColors( ( LPSTR ) &bi ) * sizeof( RGBTRIPLE ) );
+   dwLen = bi.biSize + PaletteSize( &bi );
 
-   hDC = GetDC( NULL );
+   hdc  = GetDC( NULL );
+   hpal = SelectPalette( hdc, hpal, FALSE );
+   RealizePalette( hdc );
 
-   hPal = SelectPalette( hDC, hPal, FALSE );
-   RealizePalette( hDC );
+   hdib = GlobalAlloc( GHND, dwLen );
 
-   hDIB = GlobalAlloc( GHND, dwLen );
-
-   if( ! hDIB )
+   if( ! hdib )
    {
-      SelectPalette( hDC, hPal, TRUE );
-      RealizePalette( hDC );
-      ReleaseDC( NULL, hDC );
-      return 0;
+      SelectPalette( hdc, hpal, FALSE );
+      ReleaseDC( NULL, hdc );
+      return NULL;
    }
 
-   lpbi = ( LPBITMAPINFOHEADER ) GlobalLock( hDIB );
+   lpbi = ( LPBITMAPINFOHEADER ) GlobalLock( hdib );
 
-   *lpbi = bi;
+   memcpy( ( char * ) lpbi, ( char * ) &bi, sizeof( bi ) );
 
-   GetDIBits( hDC, hBitmap, 0, ( UINT ) bi.biHeight, NULL, ( LPBITMAPINFO ) lpbi, DIB_RGB_COLORS );
+   /*  call GetDIBits with a NULL lpBits param, so it will calculate the
+    *  biSizeImage field for us
+    */
+   GetDIBits( hdc, hbm, 0L, ( DWORD ) bi.biHeight,
+              ( LPBYTE ) NULL, ( LPBITMAPINFO ) lpbi, ( DWORD ) DIB_RGB_COLORS );
 
-   bi = *lpbi;
-   GlobalUnlock( hDIB );
+   memcpy( ( char * ) &bi, ( char * ) lpbi, sizeof( bi ) );
+   GlobalUnlock( hdib );
 
+   /* If the driver did not fill in the biSizeImage field, make one up */
    if( bi.biSizeImage == 0 )
-      bi.biSizeImage = ( ( ( ( DWORD ) bm.bmWidth * biBits ) + 31 ) / 32 * 4 ) * bm.bmHeight;
+   {
+      bi.biSizeImage = WIDTHBYTES( ( DWORD ) bm.bmWidth * biBits ) * bm.bmHeight;
+   }
 
-   dwLen = bi.biSize + ( GetDIBColors( ( LPSTR ) &bi ) * sizeof( RGBTRIPLE ) ) + bi.biSizeImage;
+   /*  realloc the buffer big enough to hold all the bits */
+   dwLen = bi.biSize + PaletteSize( &bi ) + bi.biSizeImage;
 
-   h = GlobalReAlloc( hDIB, ( SIZE_T ) dwLen, 0 );
+   h = GlobalReAlloc( hdib, dwLen, 0 );
    if( h )
-      hDIB = h;
+      hdib = h;
    else
    {
-      GlobalFree( hDIB );
-      hDIB = NULL;
-      SelectPalette( hDC, hPal, TRUE );
-      RealizePalette( hDC );
-      ReleaseDC( NULL, hDC );
-      return hDIB;
+      GlobalFree( hdib );
+
+      SelectPalette( hdc, hpal, FALSE );
+      ReleaseDC( NULL, hdc );
+      return NULL;
    }
 
-   lpbi = ( LPBITMAPINFOHEADER ) GlobalLock( hDIB );
+   /*  call GetDIBits with a NON-NULL lpBits param, and actualy get the
+    *  bits this time
+    */
+   lpbi = ( LPBITMAPINFOHEADER ) GlobalLock( hdib );
 
-   if
-   (
-      GetDIBits
-      (
-         hDC,
-         hBitmap,
-         0,
-         ( UINT ) bi.biHeight,
-         ( LPSTR ) lpbi + ( WORD ) lpbi->biSize + ( GetDIBColors( ( LPSTR ) lpbi ) * sizeof( RGBTRIPLE ) ),
-         ( LPBITMAPINFO ) lpbi,
-         DIB_RGB_COLORS
-      ) == 0
-   )
+   if( GetDIBits( hdc, hbm, 0L, ( DWORD ) bi.biHeight,
+                  ( LPBYTE ) lpbi + ( WORD ) lpbi->biSize + PaletteSize( lpbi ),
+                  ( LPBITMAPINFO ) lpbi, ( DWORD ) DIB_RGB_COLORS ) == 0 )
    {
-      GlobalFree( hDIB );
-      hDIB = NULL;
-      SelectPalette( hDC, hPal, TRUE );
-      RealizePalette( hDC );
-      ReleaseDC( NULL, hDC );
-      return hDIB;
+      GlobalUnlock( hdib );
+
+      SelectPalette( hdc, hpal, FALSE );
+      ReleaseDC( NULL, hdc );
+      return NULL;
    }
 
-   bi = *lpbi;
+   GlobalUnlock( hdib );
+   SelectPalette( hdc, hpal, FALSE );
+   ReleaseDC( NULL, hdc );
 
-   GlobalUnlock( hDIB );
-   SelectPalette( hDC, hPal, TRUE );
-   RealizePalette( hDC );
-   ReleaseDC( NULL, hDC );
-
-   return hDIB;
+   return hdib;
 }
 
 WORD GetDIBColors( LPSTR lpDIB )
@@ -262,6 +384,40 @@ WORD GetDIBColors( LPSTR lpDIB )
    WORD wBitCount = ( ( LPBITMAPCOREHEADER ) lpDIB )->bcBitCount;
 
    return wBitCount;
+}
+
+HB_FUNC( C_HASALPHA ) // hBitmap --> lYesNo
+{
+   HANDLE hDib;
+   BOOL   bAlphaChannel = FALSE;
+   HDC    hDC = GetDC( GetDesktopWindow() );
+
+   if( GetDeviceCaps( hDC, BITSPIXEL ) < 32 )
+   {
+      ReleaseDC( GetDesktopWindow(), hDC );
+      hb_retl( FALSE );
+      return;
+   }
+
+   ReleaseDC( GetDesktopWindow(), hDC );
+
+   hDib = DibFromBitmap( ( HBITMAP ) HB_PARNL( 1 ), 0 );
+
+   if( hDib )
+   {
+      LPBITMAPINFO    lpbmi = ( LPBITMAPINFO ) GlobalLock( hDib );
+      unsigned char * uc    = ( LPBYTE ) lpbmi + ( WORD ) lpbmi->bmiHeader.biSize + PaletteSize( lpbmi );
+      unsigned long   ul;
+
+      for( ul = 0; ul < lpbmi->bmiHeader.biSizeImage && ! bAlphaChannel; ul += 4 )
+         if( uc[ ul + 3 ] != 0 )
+            bAlphaChannel = TRUE;
+
+      GlobalUnlock( hDib );
+      GlobalFree( hDib );
+   }
+
+   hb_retl( bAlphaChannel );
 }
 
 // HMG 1.0 Experimental Build 9a
