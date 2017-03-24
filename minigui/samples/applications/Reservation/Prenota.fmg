@@ -1,0 +1,235 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2012 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 191 , 282 WIDTH 728 HEIGHT 274 TITLE "Reservations details." ICON "FARFALLA" MODAL NOSIZE ON INIT Load_prenota_base(risorsa)
+
+     DEFINE STATUSBAR FONT "Arial Black" SIZE 12
+            STATUSITEM " Today:" WIDTH 30
+            DATE WIDTH 250
+            CLOCK WIDTH 170
+     END STATUSBAR
+
+     DEFINE LABEL Label_1
+            ROW    20
+            COL    20
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Resource"
+     END LABEL  
+
+     DEFINE COMBOBOXEX ComboBoxEX_1
+            ROW    20
+            COL    110
+            WIDTH  130
+            HEIGHT 150
+            ITEMS M->aRisorse[alng]
+            VALUE val(Presa->resource)
+            FONTNAME 'Arial'
+            TOOLTIP ''
+            ONCHANGE Testdata()
+            GRIPPERTEXT ''
+            IMAGE aImages
+     END COMBOBOXEX  
+
+     DEFINE LABEL Label_2
+            ROW    20
+            COL    270
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Day:"
+     END LABEL  
+
+     DEFINE DATEPICKER DatePicker_1
+            ROW    20
+            COL    360
+            WIDTH  120
+            HEIGHT 24
+            VALUE CTOD('')
+            FONTNAME 'Arial'
+            FONTSIZE 12
+            TOOLTIP ''
+            ONCHANGE Testdata()
+            FONTBOLD .T.
+            FIELD PRESA->data_in
+     END DATEPICKER 
+
+     DEFINE LABEL Label_3
+            ROW    50
+            COL    20
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Start time:"
+     END LABEL  
+
+     DEFINE TIMEPICKER TimePicker_1
+            ROW    50
+            COL    110
+            WIDTH  70
+            FIELD PRESA->TIME_IN
+            FONTNAME 'Arial'
+            FONTSIZE 12
+            FONTBOLD .T.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            TOOLTIP ''
+            TIMEFORMAT "HH:mm"
+            ONGOTFOCUS NIL
+            ONCHANGE NIL
+            ONLOSTFOCUS NIL
+            ONENTER NIL
+            HELPID NIL
+     END TIMEPICKER  
+
+     DEFINE LABEL Label_4
+            ROW    50
+            COL    270
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Stop time:"
+     END LABEL  
+
+     DEFINE TIMEPICKER TimePicker_2
+            ROW    50
+            COL    360
+            WIDTH  70
+            FIELD PRESA->TIME_OUT
+            FONTNAME 'Arial'
+            FONTSIZE 12
+            FONTBOLD .T.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            TOOLTIP ''
+            TIMEFORMAT "HH:mm"
+            ONGOTFOCUS NIL
+            ONCHANGE NIL
+            ONLOSTFOCUS NIL
+            ONENTER NIL
+            HELPID NIL
+     END TIMEPICKER  
+
+     DEFINE LABEL Label_5
+            ROW    80
+            COL    20
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Event:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_5
+            ROW    80
+            COL    110
+            WIDTH  370
+            HEIGHT 24
+            FONTNAME 'Arial'
+            TOOLTIP ''
+            FIELD PRESA->motivo
+            INPUTMASK ''
+            FORMAT ''
+            VALUE ''
+     END TEXTBOX 
+
+     DEFINE BUTTONEX ButtonEX_1
+            ROW    160
+            COL    300
+            WIDTH  125
+            HEIGHT 34
+            CAPTION _HMG_MESSAGE [6]
+            PICTURE "Minigui_EDIT_OK"
+            ICON NIL
+            ACTION Prenota_push()
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END BUTTONEX  
+
+     DEFINE LABEL Label_6
+            ROW    110
+            COL    20
+            WIDTH  80
+            HEIGHT 24
+            VALUE "Booked by:"
+     END LABEL  
+
+     DEFINE TEXTBOX Text_6
+            ROW    110
+            COL    110
+            WIDTH  370
+            HEIGHT 24
+            FONTNAME 'Arial'
+            TOOLTIP ''
+            READONLY .T.
+            INPUTMASK ''
+            FORMAT ''
+            FIELD PRESA->DA //getusername()
+     END TEXTBOX 
+
+     DEFINE BUTTONEX ButtonEX_3
+            ROW    160
+            COL    20
+            WIDTH  125
+            HEIGHT 34
+            CAPTION _HMG_aLangButton [2]
+            PICTURE "Minigui_edit_new"
+            ICON NIL
+            ACTION (ofatt:prenuova:=.t.,prenota.ComboBoxEX_1.value:=indice,EnableNew(.t.))
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_4
+            ROW    160
+            COL    160
+            WIDTH  125
+            HEIGHT 34
+            CAPTION _HMG_aLangButton [4]
+            PICTURE "TRASH"
+            ICON NIL
+            ACTION DelRecord()
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END BUTTONEX  
+
+     DEFINE BUTTONEX ButtonEX_2
+            ROW    160
+            COL    580
+            WIDTH  125
+            HEIGHT 34
+            CAPTION _HMG_aLangButton [7]+"/"+_HMG_aABMLangButton[1] //'&Cancel/Exit'
+            PICTURE "Minigui_EDIT_CANCEL"
+            ICON NIL
+            ACTION if (ofatt:prenuova,(ofatt:prenuova:=.f.,enablenew()),thiswindow.release)
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END BUTTONEX  
+
+     DEFINE BROWSE Browse_1
+            ROW    20
+            COL    500
+            WIDTH  204
+            HEIGHT 129
+            WIDTHS {67,20,44,44}
+            HEADERS abHead[alng]
+            WORKAREA Presa
+            FIELDS {"data_in","resource","time_in","Time_out" }
+            FONTNAME 'Arial'
+            TOOLTIP ''
+            ONCHANGE Prenota_Pull()
+     END BROWSE  
+
+     DEFINE BUTTONEX ButtonEX_5
+            ROW    160
+            COL    440
+            WIDTH  125
+            HEIGHT 34
+            CAPTION _HMG_aLangButton [6]
+            PICTURE "hp_print"
+            ICON NIL
+            ACTION Listato()
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END BUTTONEX  
+
+END WINDOW
+
+

@@ -26,3 +26,4 @@ obj
 .DS_Store
 *.bak
 
+minigui/samples/applications/Reservation/BuildLog.txt

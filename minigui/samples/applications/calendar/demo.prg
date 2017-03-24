@@ -17,7 +17,7 @@ STATIC Ldia
 FUNCTION Main()
 *------------------------------------------------------------*
 
-   LOCAL r := 50, c := 10, i, m, imagen
+   LOCAL r := 50, c := 10, i, m, z, imagen
 
    SET LANGUAGE TO ENGLISH    // GAL (SPANISH -> ENGLISH)
 
@@ -159,7 +159,7 @@ FUNCTION Main()
          COL    10
          WIDTH  150
          HEIGHT 24
-         VALUE ""
+         VALUE z
          FONTNAME "Arial"
          FONTSIZE 14
          VISIBLE .T.
@@ -209,7 +209,7 @@ RETURN NIL
 FUNCTION Calend( Ldia )
 *------------------------------------------------------------*
 
-   LOCAL i, n, m, start
+   LOCAL r := 50, c := 10, i, n, m, start
 
    start := DoW( ctod("01/" + substr( dtoc( Ldia ), 4, 3) + ;
                               substr( dtoc( Ldia ), 7, 4) ) ) - 1

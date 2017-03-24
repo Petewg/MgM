@@ -1,0 +1,196 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2012 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 181 , 221 WIDTH 535 HEIGHT 520 TITLE {"Reservation 1.1.0","Prenotazione 1.1.0"}[alng] ICON "main" MAIN NOSIZE NOMAXIMIZE ON INIT Load_base() ON RELEASE dbcloseall()
+
+DEFINE STATUSBAR FONT "Arial" SIZE 12
+STATUSITEM "     The least interval among the bookings is of " ACTION SetDelay()
+END STATUSBAR
+
+     DEFINE MONTHCALENDAR MonthCal_1
+            ROW    20 + IF(_HMG_IsXP, 0, 10)
+            COL    20 + IF(_HMG_IsXP, 15, 0)
+            WIDTH  235
+            HEIGHT 258
+            VALUE CTOD("")
+            FONTNAME 'Arial'
+            TOOLTIP ''
+            ONCHANGE  DrawMeter(THIS.VALUE)
+            FONTBOLD .T.
+            BACKGROUNDCOLOR ORANGE
+     END MONTHCALENDAR  
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    270
+            WIDTH  240
+            HEIGHT 215
+            FONTNAME 'Arial'
+            CAPTION "Legenda:"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE LABEL Label_1
+            ROW    442
+            COL    100
+            WIDTH  350
+            HEIGHT 20
+            VALUE "Click on bars for new or edit!"
+            FONTSIZE 12
+            FONTBOLD .T.
+            FONTCOLOR {255,0,0}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE LABEL Label_1X
+            ROW    285
+            COL    20
+            WIDTH  480
+            HEIGHT 24
+            VALUE ""
+            TOOLTIP aRisorse[alng,1]+atooltip[alng]
+            FONTBOLD .T.
+            ACTION aPrenota(principale.monthcal_1.value)
+            BACKCOLOR aColore[1] // {255,255,128}
+     END LABEL  
+
+     DEFINE LABEL Label_2X
+            ROW    315
+            COL    20
+            WIDTH  480
+            HEIGHT 24
+            VALUE ""
+            TOOLTIP aRisorse[alng,2]+atooltip[alng] //"Room 2 (Click for edit)"
+            ACTION aPrenota(principale.monthcal_1.value)
+            BACKCOLOR aColore[2] // {255,128,64}
+     END LABEL  
+ 
+     DEFINE LABEL Label_3x
+            ROW    345
+            COL    20
+            WIDTH  480
+            HEIGHT 24
+            VALUE ""
+            TOOLTIP aRisorse[alng,3]+atooltip[alng] //"Room 3 (Click for edit)"
+            ACTION aPrenota(principale.monthcal_1.value)
+            BACKCOLOR aColore[3] //{128,255,255}
+     END LABEL  
+
+     DEFINE LABEL Label_4x
+            ROW    375
+            COL    20
+            WIDTH  480
+            HEIGHT 24
+            VALUE ""
+            TOOLTIP aRisorse[alng,4]+atooltip[alng] //"Video (Click for edit)"
+            ACTION aPrenota(principale.monthcal_1.value)
+            BACKCOLOR aColore[4] //{128,255,128}
+     END LABEL  
+
+     DEFINE LABEL Label_5
+            ROW    405
+            COL    20
+            WIDTH  480
+            HEIGHT 24
+            VALUE ""
+            TOOLTIP aRisorse[alng,5]+atooltip[alng] //"Car (Click for edit)"
+            ACTION aPrenota(principale.monthcal_1.value)
+            BACKCOLOR aColore[5] // {255,0,255}
+     END LABEL  
+
+     DEFINE LABEL Label_6x
+            ROW    30
+            COL    280
+            WIDTH  100
+            HEIGHT 24
+            VALUE aRisorse[alng,1]
+            FONTSIZE 12
+            FONTBOLD .T.
+            BACKCOLOR aColore[1] // {255,255,128}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE LABEL Label_7x
+            ROW    70
+            COL    280
+            WIDTH  100
+            HEIGHT 24
+            VALUE aRisorse[alng,2]
+            FONTSIZE 12
+            FONTBOLD .T.
+            BACKCOLOR aColore[2] // {255,128,64}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE LABEL Label_8x
+            ROW    110
+            COL    280
+            WIDTH  100
+            HEIGHT 24
+            VALUE aRisorse[alng,3]
+            FONTSIZE 12
+            FONTBOLD .T.
+            BACKCOLOR aColore[3] // {128,255,255}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE LABEL Label_9x
+            ROW    150
+            COL    280
+            WIDTH  100
+            HEIGHT 24
+            VALUE aRisorse[alng,4]
+            FONTSIZE 12
+            FONTBOLD .T.
+            BACKCOLOR aColore[4] // {128,255,128}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE LABEL Label_10x
+            ROW    190
+            COL    280
+            WIDTH  100
+            HEIGHT 24
+            VALUE aRisorse[alng,5]
+            FONTSIZE 12
+            FONTBOLD .T.
+            BACKCOLOR aColore[5] // {255,0,255}
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE FRAME Frame_2
+            ROW    270
+            COL    10
+            WIDTH  500
+            HEIGHT 167
+            FONTNAME 'Arial'
+            CAPTION ''
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE IMAGE Image_1
+            ROW    30
+            COL    400
+            WIDTH  90
+            HEIGHT 90
+            PICTURE "FARFALLA"
+            ACTION Autore()
+            TRANSPARENT .T.
+     END IMAGE  
+
+     DEFINE BUTTONEX ButtonEX_1
+            ROW    140
+            COL    400
+            WIDTH  90
+            HEIGHT 34
+            CAPTION _HMG_aLangButton [6]
+            PICTURE "hp_print"
+            ICON NIL
+            ACTION Stampe()
+            FONTNAME 'Arial'
+            TOOLTIP ''
+     END BUTTONEX  
+
+END WINDOW
+
+
