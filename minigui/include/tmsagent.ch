@@ -7,12 +7,12 @@
 // |                                       |
 // | AGRADECIMIENTO ESPECIAL: Patrick Fan  |
 // | *Gracias Patrick, era mas sencillo de |
-// |  lo que podï¿½a imaginar*               |
+// |  lo que podía imaginar*               |
 // |                                       |
 // | Con esta clase se puede tener acceso  |
 // | al agente de microsoft.               |
 // |                                       |
-// | 25 de Junio del 2004, Mï¿½xico D.F.     |
+// | 25 de Junio del 2004, México D.F.     |
 // |                                       |
 // +---------------------------------------+
 
@@ -61,7 +61,7 @@
 #define ANIMATE_IDLE2_2                  "idle2_2"
 #define ANIMATE_IDLE3_1                  "idle3_1"
 
-// Cuidado, para algunos caracteres esta animaciï¿½n es repetitiva
+// Cuidado, para algunos caracteres esta animación es repetitiva
 // y necesita oAgent:Stop() / Warning !! for some characters this
 // is a looping animation, so it needs oAgent:Stop()
 // **************************************************

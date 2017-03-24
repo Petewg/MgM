@@ -6,10 +6,10 @@
 //   Section   : Shell Extensions
 //
 //   Windows ShellAPI provides functions to implement:
-//   ï¿½	The drag-drop feature 
-//   ï¿½	Associations (used) to find and start applications 
-//   ï¿½	Extraction of icons from executable files 
-//   ï¿½	Explorer File operation
+//   ·	The drag-drop feature 
+//   ·	Associations (used) to find and start applications 
+//   ·	Extraction of icons from executable files 
+//   ·	Explorer File operation
 //
 //      
 // =========================================================================== 
