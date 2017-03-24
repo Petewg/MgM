@@ -1,15 +1,15 @@
 ![](https://github.com/Petewg/MgM/blob/master/minigui/resources/mgm32.png)   Harbour Minigui (MinGW Package)
 -------------------------------
 
-####Description   
+#### Description   
 
 This Harbour MiniGUI package includes these main components:   
 	
-   - Harbour 3.2.0dev
+   - Harbour 3.4.0dev
 	  Harbour compiler and runtime libraries   
-	  ( https://github.com/harbour/core/ )
+	  ( https://github.com/vszakats/harbour-core )
 	
-   - Harbour MiniGUI Extended version 17.02 (compiled with MinGW 6.3.0)   
+   - Harbour MiniGUI Extended version 17.03 (compiled with MinGW 6.3.0)   
 	  ( http://hmgextended.com/home.html/ )
 	
    - Mingw 6.3.0 (Built by MinGW-W64 project)   
