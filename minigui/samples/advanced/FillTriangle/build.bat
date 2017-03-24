@@ -1,1 +1,2 @@
-@call %~d0\miniguim\batch\buildapp.bat FillTriangle -lmsimg32 -DWINVER
+
+@for  %%i  IN (*.prg) DO @call %~d0\miniguim\batch\buildapp.bat %%~ni

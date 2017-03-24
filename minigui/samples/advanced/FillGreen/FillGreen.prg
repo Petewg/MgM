@@ -8,61 +8,46 @@ ANNOUNCE RDDSYS
 
 #include "minigui.ch"
 
-Function Main()
-Local aColor1 := {0,200,0}, aColor2 := {0,0,0}
-Local nColor1 := RGB ( aColor1[1], aColor1[2], aColor1[3] )
-Local nColor2 := RGB ( aColor2[1], aColor2[2], aColor2[3] )
+PROCEDURE Main()
 
-	DEFINE WINDOW Form_1 ;
-		AT 0,0;
-		WIDTH GetDesktopWidth() HEIGHT GetDesktopHeight() ;
-		TITLE 'Demo for Gradient Background';
-		ICON 'setup.ico' ;
-		MAIN ; 
-		ON RELEASE ExitGradientFunc() ;
-		NOMAXIMIZE NOSIZE ;
-		ON PAINT ( FillGreen(_HMG_MainHandle, nColor1, nColor2 ),;
-                           TextPaint() )
+   LOCAL nClr1 := RGB ( 0, 200, 0 )
+   LOCAL nClr2 := RGB ( 0,   0, 0 )
 
-		ON KEY ESCAPE ACTION ThisWindow.Release
-
-	END WINDOW
-
-	CENTER WINDOW Form_1
-
-	ACTIVATE WINDOW Form_1
-
-Return Nil
-
-/*
-*/
-function TextPaint()
+   DEFINE WINDOW Form_1 ;
+      TITLE 'Demo for Gradient Background';
+      ICON 'setup.ico' ;
+      MAIN ; 
+      NOMAXIMIZE NOSIZE ;
+      ON PAINT ( FillGreen( This.Handle, nClr1, nClr2 ) )
 
       DRAW TEXT IN WINDOW Form_1 AT 10, 14 ;
-		VALUE "Program Setup" ;
-		FONT "Verdana" SIZE 24 BOLD ITALIC ;
-		FONTCOLOR WHITE TRANSPARENT
+         VALUE "Program Setup" ;
+         FONT "Verdana" SIZE 24 BOLD ITALIC ;
+         FONTCOLOR WHITE TRANSPARENT
 
       DRAW TEXT IN WINDOW Form_1 AT Form_1.Height - 54, Form_1.Width - 250 ;
-		VALUE "Copyright (c) 2007 by P.Chornyj" ;
-		FONT "Tahoma" SIZE 10 ITALIC ;
-		FONTCOLOR WHITE TRANSPARENT
+         VALUE "Copyright (c) 2007-2017 by P.Chornyj" ;
+         FONT "Tahoma" SIZE 10 ITALIC ;
+         FONTCOLOR WHITE TRANSPARENT
 
-Return Nil
+      ON KEY ESCAPE ACTION ThisWindow.Release
+
+   END WINDOW
+
+   ACTIVATE WINDOW Form_1
+
+   RETURN
 
 /*
 */
-Function Fillgreen( hWnd, clr1, clr2 )
-LOCAL hDC, pps
+FUNCTION FillGreen( hWnd, clrFrom, clrTo )
 
-	hDC := BeginPaint( hWnd, @pps )
+   LOCAL hdc, pps
 
-	FillGradient( hDC,;
-                      0, 0,;
-                      Form_1.Height, Form_1.Width, .T.,;
-                      clr1, clr2 )
+   hdc := BeginPaint( hWnd, @pps )
 
-	EndPaint( hWnd, pps )
-	ReleaseDC( hWnd, hDC )
+   FillGradient( hDC, 0, 0, Form_1.Height, Form_1.Width, .T., clrFrom, clrTo )
 
-Return Nil
+   EndPaint( hWnd, pps )
+
+   RETURN NIL

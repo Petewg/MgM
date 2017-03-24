@@ -3,8 +3,8 @@
  *
  * Author: P.Chornyj <myorg63@mail.ru>
  *
- * Revised by Grigory Filatov, 31/08/2012
-*/
+ * Last Revised by Grigory Filatov 10/03/2017
+ */
 
 ANNOUNCE RDDSYS
 
@@ -12,17 +12,19 @@ ANNOUNCE RDDSYS
 
 Function Main()
 
-	DEFINE WINDOW Form_1 AT 0,0 ;
-		WIDTH 261 ;
-		HEIGHT 287 - IF(_HMG_IsXP .And. IsXPThemeActive(), 0, 7) ;
+	DEFINE WINDOW Form_1 ;
+		WINDOWTYPE MAIN ;
+		CLIENTAREA iif(IsXPThemeActive(), 245, 253), iif(IsXPThemeActive(), 245, 253) ;
 		TITLE 'Gradient Triangle Demo' ;
-		MAIN ;
-		NOMAXIMIZE NOSIZE NOSYSMENU ;
-		ON RELEASE ExitGradientFunc() ;
 		ON PAINT OnPaint() ;
                 ON MOUSEMOVE ShowRGB()  
 
+		This.MaxButton := .F.
+		This.Sizable := .F.
+		This.SysMenu := .F.
+
 		ON KEY ESCAPE ACTION ThisWindow.Release
+
 	END WINDOW
 
 	CENTER WINDOW Form_1
@@ -37,31 +39,32 @@ Return Nil
 Function OnPaint()
 LOCAL hDC, pps
 
-	hDC := BeginPaint( _HMG_MainHandle, @pps )
+	hDC := BeginPaint( This.Handle, @pps )
 
 	FillGradientEx( hDC )
 
-	EndPaint( _HMG_MainHandle, pps )
-	ReleaseDC( _HMG_MainHandle, hDC )
+	EndPaint( This.Handle, pps )
 
 Return Nil
 
 Function ShowRGB()
-LOCAL hdc, x, y, aColor := {0,0,0}
+LOCAL hdc, x, y, aColor := {0, 0, 0}
 
-	hdc := GetDC( _HMG_MainHandle )
+	hdc := GetDC( This.Handle )
 	x := _HMG_MouseCol
 	y := _HMG_MouseRow
+
 	IF GetPixelColor( hdc, x, y, @aColor )
-		Form_1.Title := "RGB (" ;
+		ThisWindow.Title := "RGB (" ;
 				+ " r:" + str(aColor[1], 3 ) ;
 				+ " g:" + str(aColor[2], 3 ) ;
 				+ " b:" + str(aColor[3], 3 ) ;
 				+ " )"
 	ELSE
-		Form_1.Title := "RGB ( CLR_INVALID )"
+		ThisWindow.Title := "RGB ( CLR_INVALID )"
 	ENDIF
-	ReleaseDC( _HMG_MainHandle, hdc )
+
+	ReleaseDC( This.Handle, hdc )
 
 Return Nil
 
@@ -70,15 +73,7 @@ Return Nil
 */
 #pragma BEGINDUMP
 
-#include <windows.h>
-
-#include "hbapi.h"
-
-#ifdef __XHARBOUR__
-#define HB_STORNI( n, x, y ) hb_storni( n, x, y )
-#else
-#define HB_STORNI( n, x, y ) hb_storvni( n, x, y )
-#endif
+#include <mgdefs.h>
 
 typedef UINT (CALLBACK* MSIMG32GradientFill)(HDC,CONST PTRIVERTEX,DWORD,CONST PVOID,DWORD,DWORD);
 
@@ -92,10 +87,11 @@ HB_FUNC( FILLGRADIENTEX )
    BOOL bPaintedGradient = FALSE;
 
    m_hMsimg32 = LoadLibrary( "msimg32.dll" );
-   if ( m_hMsimg32 != NULL ) {
-     m_dllGradientFillFunc = ( (MSIMG32GradientFill) GetProcAddress( m_hMsimg32, "GradientFill" ) );
-     if ( m_dllGradientFillFunc != NULL ) {
-
+   if ( m_hMsimg32 != NULL )
+   {
+     m_dllGradientFillFunc = ( MSIMG32GradientFill ) GetProcAddress( m_hMsimg32, "GradientFill" );
+     if ( m_dllGradientFillFunc != NULL )
+     {
        rcVertex[0].x = 0;
        rcVertex[0].y = 0;
        rcVertex[0].Red = (USHORT) (255 << 8);
@@ -138,6 +134,7 @@ HB_FUNC( FILLGRADIENTEX )
      }
      FreeLibrary( m_hMsimg32 );
    }
+
    hb_retl( bPaintedGradient );
 }
 
@@ -146,17 +143,19 @@ HB_FUNC( GETPIXELCOLOR )
   COLORREF pixel, C1, C2, C3;
   BOOL result;
 
-  pixel = GetPixel( (HDC) ( hb_parnl( 1 ) ), hb_parnl( 2 ), hb_parnl( 3 ) );
-  result = ( pixel != CLR_INVALID ? TRUE : FALSE );
+  pixel = GetPixel( ( HDC ) hb_parnl( 1 ), hb_parnl( 2 ), hb_parnl( 3 ) );
+
+  result = ( pixel != CLR_INVALID ? HB_TRUE : HB_FALSE );
   if ( result )
   {  
-    C1 = (USHORT) ( GetRValue( pixel ) ); 
-    C2 = (USHORT) ( GetGValue( pixel ) );
-    C3 = (USHORT) ( GetBValue( pixel ) );
+    C1 = ( USHORT ) ( GetRValue( pixel ) ); 
+    C2 = ( USHORT ) ( GetGValue( pixel ) );
+    C3 = ( USHORT ) ( GetBValue( pixel ) );
     HB_STORNI( C1, 4, 1);
     HB_STORNI( C2, 4, 2);
     HB_STORNI( C3, 4, 3);
   }  
+
   hb_retl( result );  
 }
 
