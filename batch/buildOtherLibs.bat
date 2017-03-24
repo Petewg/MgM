@@ -12,7 +12,7 @@ echo    >>  Build.log
 echo    >>  Build.log
 echo === HBPRINTER (%date% %time%) === >> Build.log
 CD /d %SRC%\HbPrinter
-hbmk2 -ql winprint.hbp   2>> %~dp0Build.log
+hbmk2 -ql winprint.hbp   >> %~dp0Build.log 2>>&1
 
 echo    >>  %~dp0Build.log
 echo === MINIPRINT (%date% %time%) === >> %~dp0Build.log
@@ -113,6 +113,16 @@ echo    >>  %~dp0Build.log
 echo === HbOLE (%date% %time%) === >> %~dp0Build.log
 CD /d %SRC%\HbOLE
 hbmk2 -ql hbole.hbp    2>> %~dp0Build.log
+
+echo    >>  %~dp0Build.log
+echo === HBPGSQL (%date% %time%) === >> %~dp0Build.log
+CD /d %SRC%\hbpgsql
+hbmk2 -ql hbpgsql.hbp    2>> %~dp0Build.log
+
+echo    >>  %~dp0Build.log
+echo === HBZEEGRID (%date% %time%) === >> %~dp0Build.log
+CD /d %SRC%\hbzeegrid
+hbmk2 -ql hbzeegrid.hbp    2>> %~dp0Build.log
 
 echo   >> %~dp0Build.log
 echo Build Other Libs finished on %date% %time% >> %~dp0Build.log

@@ -1,16 +1,13 @@
-@echo off
+@ECHO OFF
 
-SET ROOT=%~d0\MiniguiM
+SET MGROOT=%~d0\MiniguiM
 
-REM SET MINGW=C:\mingw32\bin
-SET MINGW=%ROOT%\comp\mingw32\bin
+SET RES=%MGROOT%\minigui\resources
+IF NOT EXIST %RES%\_hmg_resconfig.h ECHO #define HMGRPATH %RES% > %RES%\_hmg_resconfig.h
+SET RES=
 
-SET OLD_PATH=%PATH%
-
-REM SET PATH=%ROOT%\comp\mingw32\bin;%ROOT%\comp\harbour\bin;%windir%\system32
-SET PATH=%MINGW%;%ROOT%\comp\harbour\bin;%windir%\system32
-
-SET MGMPATH=%ROOT%\minigui
-
-SET ROOT=
+SET MINGW=%MGROOT%\comp\mingw32\bin
+SET PATH=%MINGW%;%MGROOT%\comp\harbour\bin;%windir%\system32
 SET MINGW=
+
+SET MGMPATH=%MGROOT%\minigui

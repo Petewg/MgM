@@ -1,35 +1,48 @@
-@ECHO OFF
+   @ECHO OFF
 
 :: ECHO Compiling %1 sources 
 
-CALL %~dp0SetPaths.bat
-SET RUNEXE=-run
-SET STRIP=-strip
+:: preserve current path, to restore it after execution...
+   SET OLD_PATH=%PATH%
+
+   CALL %~dp0SetPaths.bat
+
+:: we usually want to run the program
+   SET RUNEXE=-run
+
+:: not necessary to strip sample binaries, (normaly it's used on production/release builds)
+:: but if you wish so, feel free to uncomment next line.
+   :: SET STRIP=-strip
+
+:: we use a 'flag' file named <warnlev.max> 
+:: you should either delete or create it, 
+:: in order to define a lower or elevated warning level
+   IF EXIST %MGROOT%\batch\warnlev.max (
+      SET WARNLEV=-w3
+      SET EXITLEV=-es2
+      ) ELSE (
+      SET WARNLEV=-w2
+      SET EXITLEV=-es0
+      )
 
 :: Compile Resources
    IF EXIST _temp.rc DEL _temp.rc   > NUL
+   IF EXIST *.rc (
+      COPY /V /A *.rc PRJ_RES_.rc  > NUL
+      COPY /V /A %MGMPATH%\resources\hmg.rc + %MGMPATH%\resources\filler + PRJ_RES_.rc + %MGMPATH%\resources\filler _temp.rc  > NUL
+      DEL PRJ_RES_.rc > NUL 
+      ) ELSE COPY /V /A %MGMPATH%\resources\hmg.rc + %MGMPATH%\resources\filler _temp.rc  > NUL
+      
+   windres  --include-dir=%MGMPATH%\resources --input=_temp.rc --output=_temp.o  2> _BuildLog.txt
    
-	ECHO #define HMGRPATH %MGMPATH%\RESOURCES > _hmg_resconfig.h
-   
-	IF EXIST *.rc COPY /V /A *.rc PRJ_RES_.rc  > NUL
-	
-   COPY /V /A PRJ_RES_.rc + %MGMPATH%\resources\filler +  %MGMPATH%\resources\hmg.rc   + %MGMPATH%\resources\filler + %MGMPATH%\resources\filler _temp.rc  > NUL
-   
-	IF EXIST PRJ_RES_.rc DEL PRJ_RES_.rc > NUL
-   
-	windres -i _temp.rc -o _temp.o  2> _BuildLog.txt
-   
-   :: DEL _hmg_resconfig.h > NUL
 
 IF "%2"=="-c" GOTO Console
-
 IF "%2"=="-norun" SET RUNEXE=-run-
 IF "%2"=="-norun" SHIFT /2
 
 :Gui
-   rem HBMK2 %1 %2 %3 %4 %5 %6 %7 %8 %MGMPATH%\minigui.hbc -strip -D__CALLDLL__ %RUNEXE% -q 2>> _BuildLog.txt
-   hbmk2 -n -mt -cpu=x86 -lang=en -w2 %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
-   :: hbmk2 -n -cpu=x86 -lang=en -w3 %RUNEXE% -ge1 -ql %STRIP% %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
+   hbmk2 -n -mt -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
+   :: hbmk2 -n -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%               %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
    GOTO Check
 
 :Console
@@ -37,9 +50,8 @@ IF "%2"=="-norun" SHIFT /2
    IF "%2"=="-norun" SET RUNEXE=-run-
    IF "%2"=="-norun" SHIFT /2
    ::hbmk2 -n -cpu=x86 -lang=en %RUNEXE% -ql -info -exitstr %STRIP% -D__CALLDLL__ %1 _temp.o %2 %3 %4 %5 %6 %7 2>> _BuildLog.txt
-   hbmk2 -n -mt -cpu=x86 -lang=en -w3 %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
+   hbmk2 -n -mt -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGMPATH%\minigui.hbc 2>> _BuildLog.txt
    
-
 :Check
    IF ERRORLEVEL 1 GOTO Err
    GOTO Run
@@ -53,26 +65,25 @@ IF "%2"=="-norun" SHIFT /2
 
 :Run
    IF "%2"=="-norun" GOTO Quit
-	IF "%RUNEXE%"=="-run-" GOTO Quit
+   IF "%RUNEXE%"=="-run-" GOTO Quit
    ECHO  
-   ECHO Running %1 ...
-   ECHO ----------------------------------------------
-   ECHO When end running, press a key to delete %1.exe
+   ECHO running %1.exe ... when end running, press a key to delete it.
+   ECHO(
    PAUSE > NUL
-   IF EXIST %1.exe DEL %1.exe
-
+   IF EXIST %1.exe DEL %1.exe && ECHO sample %1.exe removed from disk...
+   ECHO(
 
 :Quit
-   :: Clean up
+   :: clean up
+   SET MGROOT=
    SET MGMPATH=
    DEL _hmg_resconfig.h
    DEL _temp.* > NUL
    DEL _BuildLog.txt > NUL
    IF EXIST %1.ppo DEL %1.ppo > NUL
    IF EXIST ErrorLog.htm DEL ErrorLog.htm > NUL
+   
+   :: restore path
    SET PATH=%OLD_PATH%
-   SET OLD_PATH=
 
-
-
-	
+   
