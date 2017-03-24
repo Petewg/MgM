@@ -5,14 +5,14 @@
 
 This Harbour MiniGUI package includes these main components:   
 	
-   - Harbour 3.4.0dev
-	  Harbour compiler and runtime libraries   
-	  ( https://github.com/vszakats/harbour-core )
-	
+   - Harbour 3.4.0dev Harbour compiler and runtime libraries   
+       (https://github.com/vszakats/harbour-core)   
+       (binaries built with MinGW32 6.3.0) 
+       
    - Harbour MiniGUI Extended version 17.03 (compiled with MinGW 6.3.0)   
 	  ( http://hmgextended.com/home.html/ )
 	
-   - Mingw 6.3.0 (Built by MinGW-W64 project)   
+   - MinGW32 v. 6.3.0 (Built by MinGW-W64 project)   
 	  ( http://sourceforge.net/projects/mingw-w64/ )
 
 For details about the above products, please visit their respective sites.   
