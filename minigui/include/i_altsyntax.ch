@@ -1778,6 +1778,7 @@ Image
    _HMG_ActiveControlJustify     := .F.      ;;
    _HMG_ActiveControlOnGotFocus  := Nil      ;;
    _HMG_ActiveControlOnLostFocus := Nil      ;;
+   _HMG_ActiveControlOnDblClick  := Nil      ;;
    _HMG_ActiveControlInvisible   := .F.
 
 #xcommand END IMAGE ;
@@ -1800,23 +1801,28 @@ Image
       _HMG_ActiveControlJustify,;
       _HMG_ActiveControlOnGotFocus,;
       _HMG_ActiveControlOnLostFocus,;
+      _HMG_ActiveControlOnDblClick,;
       _HMG_ActiveControlId )
 
 #xcommand STRETCH         <stretch>;
    =>;
-   _HMG_ActiveControlStretch   := <stretch>
+   _HMG_ActiveControlStretch    := <stretch>
 
 #xcommand BACKGROUNDCOLOR <bkgcolor>;
    =>;
-   _HMG_ActiveControlWhiteBack := <bkgcolor>
+   _HMG_ActiveControlWhiteBack  := <bkgcolor>
 
-#xcommand WHITEBACKGROUND      <whitebg>;
+#xcommand WHITEBACKGROUND <whitebg>;
    =>;
-   _HMG_ActiveControlWhiteBack := iif( <whitebg>, { 255 , 255 , 255 }, Nil )
+   _HMG_ActiveControlWhiteBack  := iif( <whitebg>, { 255 , 255 , 255 }, Nil )
 
 #xcommand ADJUSTIMAGE     <adjust>;
    =>;
-   _HMG_ActiveControlJustify   := <adjust>
+   _HMG_ActiveControlJustify    := <adjust>
+
+#xcommand ALPHALEVEL      <alpha>;
+   =>;
+   _HMG_ActiveControlOnDblClick := <alpha>
 
 /*----------------------------------------------------------------------------
 Check Box/Button
@@ -1916,6 +1922,7 @@ Check Box/Button
 #xcommand THREESTATE <threestate> ;
    =>;
    _HMG_ActiveControlthreeState   := <threestate>
+
 
 #xcommand END CHECKBOX ;
    =>;
@@ -2672,6 +2679,10 @@ Label
 #xcommand BORDER   <border>;
    =>;
    _HMG_ActiveControlBorder      := <border>
+
+#xcommand NOBORDER <border>;
+   =>;
+   _HMG_ActiveControlBorder      := .NOT. <border>
 
 #xcommand CLIENTEDGE   <clientedge>;
    =>;

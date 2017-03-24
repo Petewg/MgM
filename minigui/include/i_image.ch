@@ -58,11 +58,12 @@
    [ <transparent: TRANSPARENT> ] ;
    [ BACKGROUNDCOLOR <backgroundcolor> ] ;
    [ <adjustimage: ADJUSTIMAGE, ADJUST> ] ;
+   [ ALPHALEVEL <nAlpha> ] ;
    [ TOOLTIP <tooltip> ] ;
    [ HELPID <helpid> ] ;
    [ <invisible: INVISIBLE> ] ;
  =>;
- _DefineImage ( <"name">, <"parent">, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, <backgroundcolor>, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nId> )
+ _DefineImage ( <"name">, <"parent">, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, <backgroundcolor>, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nAlpha>, <nId> )
 
 #xcommand @ <row>,<col> IMAGE <name> ;
    [ID <nId>] ;
@@ -78,10 +79,11 @@
    WHITEBACKGROUND ;
    [ <transparent: TRANSPARENT> ] ;
    [ <adjustimage: ADJUSTIMAGE, ADJUST> ] ;
+   [ ALPHALEVEL <nAlpha> ] ;
    [ HELPID <helpid> ] ;
    [ <invisible: INVISIBLE> ] ;
  =>;
- _DefineImage ( <"name">, <"parent">, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, { 255 , 255 , 255 }, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nId> )
+ _DefineImage ( <"name">, <"parent">, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, { 255 , 255 , 255 }, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nAlpha>, <nId> )
 
 #xcommand REDEFINE IMAGE <name> ;
     ID <nId> ;
@@ -94,5 +96,4 @@
     [ HELPID <helpid> ] ;
     [ <invisible: INVISIBLE> ] ;
  =>;
- _DefineImage ( <"name">, <"parent">, 0, 0, <filename>, 0, 0, <{action}>, , <helpid>, <.invisible.>, <.stretch.>, iif( <.whitebg.>, { 255 , 255 , 255 }, ), <.transparent.>, , , , <nId> )
-
+ _DefineImage ( <"name">, <"parent">, 0, 0, <filename>, 0, 0, <{action}>, , <helpid>, <.invisible.>, <.stretch.>, iif( <.whitebg.>, { 255 , 255 , 255 }, ), <.transparent.>, , , , , <nId> )

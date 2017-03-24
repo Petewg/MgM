@@ -224,7 +224,7 @@
 		[ LEGENDSWIDTH <nLegendsWidth> ];
 		[ <lNoborder : NOBORDER> ]	; 
 => ;
-		GraphShow(<"window">,		;
+	GraphShow(<"window">,			;
 		<nT>,				;
 		<nL>,				;
 		<nB>,				;
@@ -279,7 +279,7 @@
 		[ LEGENDSWIDTH <nLegendsWidth> ];
 		[ LIBRARY <clib> ]		; 
 => ;
-		_GraphPrint(<"window">,		;
+	_GraphPrint(<"window">,			;
 		<nT>,				;
 		<nL>,				;
 		<nB>,				;
@@ -304,7 +304,7 @@
 		<aColor>,			;
 		<nType>,			;
 		<.lViewVal.>,			;
-		<mask>, <nLegendsWidth>, 0, 0, <"clib">)
+		<mask>, <nLegendsWidth>, 10, 7, <"clib">)
 
 #xcommand PRINT GRAPH IN WINDOW <window>;
       AT <nT>,<nL>			;
@@ -336,4 +336,4 @@
 		<.lxVal.>,;
 		<.lSLeg.>,;
 		<mask>,;
-		0, 0, <"clib">, <"placement">)
+		10, 5, <"clib">, <"placement">)

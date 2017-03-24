@@ -227,6 +227,10 @@ _GetClientRect ( GetControlHandle ( <ControlName> , <FormName> ) ) \[3]
 => ;
 _GetClientRect ( GetControlHandle ( <ControlName> , <FormName> ) ) \[4]
 
+#translate DoMethod ( <FormName> , "Print" ) ;
+=> ;
+PrintWindow( <FormName> )
+
 #translate DoMethod ( <FormName> , "SaveAs", <FileName> ) ;
 => ;
 WndCopy( GetFormHandle( <FormName> ), .f., <FileName> )

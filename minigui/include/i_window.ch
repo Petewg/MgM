@@ -62,7 +62,7 @@
    =>;
    #xtranslate <w>   . \<p:Name,Handle,Type,Index,Title,Height,Width,ClientHeight,ClientWidth,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Topmost,HelpButton\> => GetProperty ( <"w">, \<"p"\> ) ;;
    #xtranslate <w>   . \<p:Name,Title,Height,Width,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,Cursor,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Topmost,HelpButton\> := \<n\> => SetProperty ( <"w">, \<"p"\> , \<n\> ) ;;
-   #xtranslate <w>   . \<p:Activate,Center,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus\> \[()\] => DoMethod ( <"w">, \<"p"\> ) ;;
+   #xtranslate <w>   . \<p:Activate,Center,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus,Print\> \[()\] => DoMethod ( <"w">, \<"p"\> ) ;;
    #xtranslate <w>   . \<p:SaveAs\> (\<a\>) => DoMethod ( <"w"> , "SaveAs", \<a\> ) ;;
    #xtranslate <w>   . \<c\> . \<p:SaveAs\> (\<a\>) => DoMethod ( <"w"> , \<"c"\> , "SaveAs", \<a\> ) ;;
    #xtranslate <w>   . \<c\> . \<p:Value,Name,Handle,Type,Index,ClientHeight,ClientWidth,Address,BackColor,FontColor,Picture,Icon,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop,Object\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
@@ -124,7 +124,7 @@
    =>;
    #xtranslate <w>   . \<p:Name,Handle,Type,Index,Title,Height,Width,ClientHeight,ClientWidth,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Topmost,HelpButton\> => GetProperty ( <"w">, \<"p"\> ) ;;
    #xtranslate <w>   . \<p:Name,Title,Height,Width,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,Cursor,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Topmost,HelpButton\> := \<n\> => SetProperty ( <"w">, \<"p"\> , \<n\> ) ;;
-   #xtranslate <w>   . \<p:Activate,Center,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus\> \[()\] => DoMethod ( <"w">, \<"p"\> ) ;;
+   #xtranslate <w>   . \<p:Activate,Center,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus,Print\> \[()\] => DoMethod ( <"w">, \<"p"\> ) ;;
    #xtranslate <w>   . \<p:SaveAs\> (\<a\>) => DoMethod ( <"w"> , "SaveAs", \<a\> ) ;;
    #xtranslate <w>   . \<c\> . \<p:SaveAs\> (\<a\>) => DoMethod ( <"w"> , \<"c"\> , "SaveAs", \<a\> ) ;;
    #xtranslate <w>   . \<c\> . \<p:Value,Name,Handle,Type,Index,ClientHeight,ClientWidth,Address,BackColor,FontColor,Picture,Icon,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
