@@ -1,12 +1,6 @@
 REM @echo off
 
-SET OLDCD=%cd%
-SET OLDDRV=%~d0
-%~d0
-cd %~d0%~p0..
-SET ROOT=%cd%
-%OLDDRV%
-cd %OLDCD%
+SET ROOT=%~d0\MiniguiM
 
 REM SET MINGW=C:\mingw32\bin
 SET MINGW=%ROOT%\comp\mingw32\bin
