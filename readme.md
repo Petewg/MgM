@@ -4,19 +4,19 @@
 #### Description   
 
 This Harbour MiniGUI package includes these main components:   
-	
+   
    - Harbour 3.4.0dev Harbour compiler and runtime libraries   
        (https://github.com/vszakats/harbour-core)   
        (binaries built with MinGW32 6.3.0) 
        
    - Harbour MiniGUI Extended version 17.03 (compiled with MinGW 6.3.0)   
-	  ( http://hmgextended.com/home.html/ )
-	
+     ( http://hmgextended.com/home.html/ )
+   
    - MinGW32 v. 6.3.0 (Built by MinGW-W64 project)   
-	  ( http://sourceforge.net/projects/mingw-w64/ )
+     ( http://sourceforge.net/projects/mingw-w64/ )
 
 For details about the above products, please visit their respective sites.   
-	
+   
 *"When used together, these tools offer a free and open source, xBase oriented,    
 Win32 GUI development environment, continuing the xBase tradition but with   
 an extremely easy to use, genuine graphical user interface."*   
