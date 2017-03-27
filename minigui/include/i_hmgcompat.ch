@@ -215,6 +215,8 @@
 #xtranslate EventRemoveAll () => iif ( EventCount() > 0, _HMG_aCustomEventProcedure := {}, )
 #xtranslate EventRemove ([<x>]) => iif ( EventCount() > 0, hb_ADel (_HMG_aCustomEventProcedure, EventCount(), .T.), )
 
+#translate GetProperty ( <FormName> , "CLIENTAREAWIDTH" ) => _GetClientRect ( GetFormHandle ( <FormName> ) ) \[3]
+#translate GetProperty ( <FormName> , "CLIENTAREAHEIGHT" ) => _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 
 #xtranslate GetFormNameByIndex ( <nFormIndex> ) => _HMG_aFormNames \[<nFormIndex>]
 #xtranslate GetFormHandleByIndex ( <nFormIndex> ) => _HMG_aFormHandles \[<nFormIndex>]
