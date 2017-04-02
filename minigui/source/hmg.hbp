@@ -167,5 +167,7 @@ h_windows.prg
 h_windowsMDI.prg
 h_winprop.prg
 
+mgmFunctions.c
 mgmFunctions.prg
+
 hbwin.hbc
