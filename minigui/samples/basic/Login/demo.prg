@@ -27,6 +27,9 @@ Define window sample At 0,0 width 600 height 400 main title "Want to login?" on 
          item "Check &Permissions" action CheckPermissions()
          item "Show &User List" action ShowUserList() name UserList
       End Popup
+      Popup "Security"
+         item "Lock desktop!" action Iif( MsgYesNo( "Lock desktop!"+hb_eol()+"Are you sure?", "LockDesktop() function" ), LockDeskTop(), NIL )
+      End Popup      
    End Menu
 End window
 
@@ -74,6 +77,14 @@ local ok, attempts := 0
          value ""
          uppercase .t.
       END textbox
+      DEFINE LABEL Label_Hint
+         ROW 65
+         COL 10
+         AUTOSIZE .T.
+         VALUE "Hint: USERNAME - PASSWORD"
+         FONTNAME "Segoe UI"
+         FONTSIZE 7
+      END LABEL
       DEFINE button login
          Row 80
          Col 45
