@@ -29,8 +29,7 @@ FUNCTION Main()
 
    DEFINE WINDOW Agenda;
       AT 0, 0;
-      WIDTH  310+GetBorderWidth();
-      HEIGHT 390+GetTitleHeight()+GetBorderHeight();
+      CLIENTAREA 310, 390;
       TITLE "Calendar";
       ICON 'AGENDA.ICO';
       MAIN;

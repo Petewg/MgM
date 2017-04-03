@@ -16,12 +16,8 @@ memvar _aItems, _nSelected, lAnyWhereSearch
 Function Main
 LOCAL aCountries := HB_ATOKENS( MEMOREAD( "Countries.lst" ), CRLF )
 
-aCountries := {}
-for n := 1 to 100
-   aadd( aCountries, { hb_ntos(n) + ". покитеиа / йяатос with a very long name ", hb_ntos(n) } )
-next
-
 set font to _GetSysFont() , 10
+set default icon to "mgm"
 
 define window sample at 0,0 width 640 height 480 title "HMG Achoice Demo" main
    define label label1
@@ -80,7 +76,7 @@ Return Nil
 
 FUNCTION DoAchoice( aItems )
 LOCAL nTop
-LOCAL nLeft := 300
+LOCAL nLeft
 LOCAL nDefault := 1
 LOCAL nSelected
 LOCAL control := thiswindow.focusedcontrol
