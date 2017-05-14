@@ -51,59 +51,81 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern HFONT PrepareFont( char *, int, int, int, int, int, int, int );
+extern BOOL Array2ColorRef( PHB_ITEM aCRef, COLORREF * cr );
+extern HFONT PrepareFont( const char *, int, int, int, int, int, int, int );
 #ifdef __cplusplus
 }
 #endif
 
 HB_FUNC( TEXTDRAW )
 {
-   HWND    hWnd1;
-   HDC     hdc1;
-   RECT    rect1;
-   HFONT   font;
-   HGDIOBJ hgdiobj1;
-   int     bold      = FW_NORMAL;
-   int     italic    = 0;
-   int     underline = 0;
-   int     strikeout = 0;
-   int     angle     = hb_parni( 16 );
+   HWND hWnd = ( HWND ) ( LONG_PTR ) HB_PARNL( 1 );
+   HDC  hDC;
+   BOOL bDC = FALSE;
 
-   hWnd1 = ( HWND ) HB_PARNL( 1 );
-   hdc1  = GetDC( ( HWND ) hWnd1 );
-
-   if( hb_parl( 11 ) )
-      bold = FW_BOLD;
-
-   if( hb_parl( 12 ) )
-      italic = 1;
-
-   if( hb_parl( 13 ) )
-      underline = 1;
-
-   if( hb_parl( 14 ) )
-      strikeout = 1;
-
-   font = PrepareFont( ( char * ) hb_parc( 9 ), ( LPARAM ) hb_parni( 10 ), bold, italic, underline, strikeout, angle, DEFAULT_CHARSET );
-
-   hgdiobj1 = SelectObject( hdc1, font );
-
-   if( hb_parl( 15 ) )
-      SetBkMode( hdc1, TRANSPARENT );
+   if( IsWindow( hWnd ) )
+   {
+      hDC = GetDC( hWnd );
+      bDC = TRUE;
+   }
    else
-      SetBkColor( hdc1, RGB( HB_PARNI( 8, 1 ), HB_PARNI( 8, 2 ), HB_PARNI( 8, 3 ) ) );
+      hDC = ( HDC ) ( LONG_PTR ) HB_PARNL( 1 );
 
-   SetTextColor( hdc1, RGB( HB_PARNI( 7, 1 ), HB_PARNI( 7, 2 ), HB_PARNI( 7, 3 ) ) );
+   if( GetObjectType( ( HGDIOBJ ) hDC ) == OBJ_DC )
+   {
+      int   bold      = hb_parl( 11 ) ? FW_BOLD : FW_NORMAL;
+      DWORD italic    = ( DWORD ) hb_parl( 12 );
+      DWORD underline = ( DWORD ) hb_parl( 13 );
+      DWORD strikeout = ( DWORD ) hb_parl( 14 );
+      DWORD angle     = hb_parnl( 16 );
 
-   SetRect( &rect1, hb_parni( 3 ), hb_parni( 2 ), hb_parni( 6 ), hb_parni( 5 ) );
-   ExtTextOut( hdc1, hb_parni( 3 ), hb_parni( 2 ), ETO_OPAQUE, &rect1, hb_parc( 4 ), hb_parclen( 4 ), NULL );
+      HFONT    font;
+      HGDIOBJ  hgdiobj;
+      int      iBkMode;
+      COLORREF crBkColor = CLR_INVALID;
+      COLORREF crFgColor = CLR_INVALID;
+      RECT     rect;
 
-   if( hb_parl( 15 ) )
-      SetBkMode( hdc1, OPAQUE );
+      font = PrepareFont( hb_parc( 9 ), hb_parni( 10 ), bold, italic, underline, strikeout, angle, DEFAULT_CHARSET );
 
-   SelectObject( hdc1, hgdiobj1 );
-   DeleteObject( font );
-   ReleaseDC( hWnd1, hdc1 );
+      hgdiobj = SelectObject( hDC, font );
+
+      if( hb_parl( 15 ) )
+         iBkMode = SetBkMode( hDC, TRANSPARENT );
+      else
+      {
+         iBkMode = SetBkMode( hDC, OPAQUE );
+
+         if( Array2ColorRef( hb_param( 8, HB_IT_ANY ), &crBkColor ) )
+            crBkColor = SetBkColor( hDC, crBkColor );
+      }
+
+      if( Array2ColorRef( hb_param( 7, HB_IT_ANY ), &crFgColor ) )
+         SetTextColor( hDC, crFgColor );
+
+      SetRect( &rect, hb_parni( 3 ), hb_parni( 2 ), hb_parni( 6 ), hb_parni( 5 ) );
+
+      hb_retl( ExtTextOut( hDC, hb_parni( 3 ), hb_parni( 2 ), ETO_OPAQUE, &rect, hb_parc( 4 ), hb_parclen( 4 ), NULL )
+               ? HB_TRUE : HB_FALSE );
+
+      SelectObject( hDC, hgdiobj );
+
+      if( 0 != iBkMode )
+         SetBkMode( hDC, iBkMode );
+
+      if( CLR_INVALID != crBkColor )
+         SetBkColor( hDC, crBkColor );
+
+      if( CLR_INVALID != crFgColor )
+         SetTextColor( hDC, crFgColor );
+
+      DeleteObject( font );
+
+      if( bDC )
+         ReleaseDC( hWnd, hDC );
+   }
+   else
+      hb_retl( HB_FALSE );
 }
 
 HB_FUNC( LINEDRAW )

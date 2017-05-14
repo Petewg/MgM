@@ -731,7 +731,6 @@ LOCAL hWnd, k
 #ifndef __HMG__
    MEMVAR _HMG_SYSDATA
 #endif
-
    IF ValType (lReleasePreviousBitmap) <> "L"
       lReleasePreviousBitmap := .T.
    ENDIF
@@ -741,9 +740,9 @@ LOCAL hWnd, k
    
       #ifdef __HMG__    // HMG Extended
          IF _HMG_aControlContainerHandle [k] <> 0 .AND. lReleasePreviousBitmap == .T.
-            BT_BitmapRelease (_HMG_aControlContainerHandle [k])
+            BT_BitmapRelease (_HMG_aControlBrushHandle [k])
          ENDIF
-         _HMG_aControlContainerHandle [k] := hBitmap
+         _HMG_aControlBrushHandle [k] := hBitmap
          _HMG_aControlWidth  [k] := BT_BitmapWidth  (hBitmap)
          _HMG_aControlHeight [k] := BT_BitmapHeight (hBitmap)
       #else             // HMG Official

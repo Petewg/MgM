@@ -49,8 +49,11 @@
  */
 
 #include <mgdefs.h>
+#include "hbapifs.h"
 
 extern HINSTANCE g_hInstance;
+
+#if defined( __XHARBOUR__ )
 
 HB_FUNC( RCDATATOFILE )
 {
@@ -110,3 +113,63 @@ HB_FUNC( RCDATATOFILE )
 
    hb_retnl( dwRet );
 }
+
+#else
+
+HB_FUNC( RCDATATOFILE )
+{
+   HMODULE hModule = ( HMODULE ) ( 0 != HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : g_hInstance );
+   /* lpType is RT_RCDATA by default */
+   LPTSTR  lpType = ( hb_parclen( 3 ) > 0 ) ? ( LPTSTR ) hb_parc( 3 ) : MAKEINTRESOURCE( hb_parnldef( 3, 10 ) );
+   HRSRC   hResInfo;
+   HGLOBAL hResData;
+   DWORD   dwResult = 0;
+
+   if( hb_parclen( 1 ) > 0 )
+      hResInfo = FindResourceA( hModule, hb_parc( 1 ), lpType );
+   else
+      hResInfo = FindResource( hModule, MAKEINTRESOURCE( hb_parnl( 1 ) ), lpType );
+
+   if( NULL != hResInfo )
+   {
+      hResData = LoadResource( hModule, hResInfo );
+
+      if( NULL == hResData )
+         dwResult = -2;  // can't load
+   }
+   else
+      dwResult = -1;  // can't find
+
+   if( 0 == dwResult )
+   {
+      LPVOID lpData = LockResource( hResData );
+
+      if( NULL != lpData )
+      {
+         DWORD    dwSize = SizeofResource( hModule, hResInfo );
+         PHB_FILE pFile;
+
+         pFile = hb_fileExtOpen( hb_parcx( 2 ), NULL, FO_CREAT | FO_WRITE | FO_EXCLUSIVE | FO_PRIVATE, NULL, NULL );
+
+         if( NULL != pFile )
+         {
+            dwResult = ( DWORD ) hb_fileWrite( pFile, ( const void * ) lpData, ( HB_SIZE ) dwSize, -1 );
+
+            if( dwResult != dwSize )
+               dwResult = -5;  // can't write
+
+            hb_fileClose( pFile );
+         }
+         else
+            dwResult = -4;  // can't open
+      }
+      else
+         dwResult = -3;  // can't lock
+
+      FreeResource( hResData );
+   }
+
+   hb_retnl( dwResult );
+}
+
+#endif /* __XHARBOUR__ */

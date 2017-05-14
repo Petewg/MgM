@@ -444,3 +444,12 @@ HB_FUNC( UNREGISTERWINDOW )
 {
    UnregisterClass( hb_parc( 1 ), g_hInstance );
 }
+
+HB_FUNC( MSC_VER )
+{
+#if defined( _MSC_VER ) && ! defined( __POCC__ )
+   hb_retnl( _MSC_VER );
+#else
+   hb_retnl( 0 );
+#endif   
+}

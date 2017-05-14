@@ -1,6 +1,6 @@
 /***************************************************************
    This file contains the special painting routines used by TSBrowse Class
-   Last update: 02/11/2016
+   Last update: 04/19/2017
 ***************************************************************/
 
 #define _WIN32_IE     0x0500
@@ -222,11 +222,7 @@ void DrawMasked( HDC hDC, HBITMAP hbm, int wRow, int wCol )
       BitBlt( hDC, wRow, wCol, bm.bmWidth, bm.bmHeight, hDcMask, 0, 0, SRCAND );
       BitBlt( hDC, wRow, wCol, bm.bmWidth, bm.bmHeight, hDcBmp, 0, 0, SRCINVERT );
 
-      //
-
       BitBlt( hDcBmp, 0, 0, bm.bmWidth, bm.bmHeight, hDC, wRow, wCol, SRCCOPY );
-
-      //
 
       SelectObject( hDcMask, hOldBmp2 );
       DeleteObject( hBmpMask );
@@ -281,10 +277,10 @@ HB_FUNC( TSDRAWCELL )
    BOOL  bHeader    = ( nHeadFoot == 1 ? TRUE : FALSE );
    BOOL  bFooter    = ( nHeadFoot == 2 ? TRUE : FALSE );
    BOOL  bSuper     = ( nHeadFoot == 3 ? TRUE : FALSE );
-   BOOL  bSpecHd    = ( nHeadFoot == 4 ? TRUE : FALSE );             //New SH
+   BOOL  bSpecHd    = ( nHeadFoot == 4 ? TRUE : FALSE );
    BOOL  bChecked   = ( nVertText == 3 ? TRUE : FALSE );
-   BOOL  bBrush     = FALSE;                                         //v90
-   BOOL  bDegrad    = ( bBrush || clrTo == clrBack ? FALSE : TRUE ); //v90
+   BOOL  bBrush     = FALSE;
+   BOOL  bDegrad    = ( bBrush || clrTo == clrBack ? FALSE : TRUE );
    HFONT hOldFont   = NULL;
    BOOL  bDestroyDC = FALSE;
    HPEN  hGrayPen   = CreatePen( PS_SOLID, 1, clrLine );
@@ -370,8 +366,8 @@ HB_FUNC( TSDRAWCELL )
                   nLeft = rct.left + ( ( rct.right - rct.left + 1 ) / 2 ) - ( bm.bmWidth / 2 ) - 1;
                   break;
 
-               case 2:                                    // column right
-                  nLeft = rct.right - ( bm.bmWidth + 1 ); //v90
+               case 2:           // column right
+                  nLeft = rct.right - ( bm.bmWidth + 1 );
                   break;
 
                case 3:           // left of centered text
@@ -426,7 +422,7 @@ HB_FUNC( TSDRAWCELL )
          }
       }
 
-      if( nLen )                  //v90
+      if( nLen )
       {
          if( iAlign == DT_LEFT )
             rct.left += ( 2 + ( hBitMap && ixLayOut == 0 ? bm.bmWidth + 1 : 0 ) );
@@ -456,7 +452,7 @@ HB_FUNC( TSDRAWCELL )
                rct.right  -= 1;
 
                SetTextColor( hDC, b3DInv ? nClr3DS : nClr3DL );
-               DrawTextEx( hDC, cData, nLen, &rct, iFlags, NULL );   //v90
+               DrawTextEx( hDC, cData, nLen, &rct, iFlags, NULL );
 
                rct.top    += 2;
                rct.left   += 2;
@@ -464,7 +460,7 @@ HB_FUNC( TSDRAWCELL )
                rct.right  += 2;
 
                SetTextColor( hDC, b3DInv ? nClr3DL : nClr3DS );
-               DrawTextEx( hDC, cData, nLen, &rct, iFlags, NULL );    //v90
+               DrawTextEx( hDC, cData, nLen, &rct, iFlags, NULL );
 
                rct.top    -= 1;
                rct.left   -= 1;
@@ -474,7 +470,7 @@ HB_FUNC( TSDRAWCELL )
                SetTextColor( hDC, clrFore );
             }
 
-            DrawTextEx( hDC, cData, nLen, &rct, iFlags, NULL );       //v90
+            DrawTextEx( hDC, cData, nLen, &rct, iFlags, NULL );
             SetBkMode( hDC, nBkOld );
          }
 
@@ -487,7 +483,7 @@ HB_FUNC( TSDRAWCELL )
          if( nVertText == 1 )
          {
             rct.right  -= ( 4 * nLen );
-            rct.bottom -= 10;                 //v90
+            rct.bottom -= 10;
          }
       }
 
@@ -498,7 +494,7 @@ HB_FUNC( TSDRAWCELL )
          if( ( nWidth != -2 ) && bGrid )  // -1 draw gridline in phantom column; -2 don't draw gridline in phantom column
             WndBoxDraw( hDC, &rct, hWhitePen, hGrayPen, b3DLook ? 4 : nLineStyle, bHeader );
 
-         if( lCursor )                        //v90
+         if( lCursor )
             cDrawCursor( hWnd, &rct, lCursor, clrFore );
       }
       else
@@ -508,7 +504,7 @@ HB_FUNC( TSDRAWCELL )
          if( ( nWidth != -2 ) && bGrid )  // -1 draw gridline in phantom column; -2 don't draw gridline in phantom column
             WndBoxDraw( hDC, &rct, hGrayPen, hGrayPen, nLineStyle, bHeader );
 
-         if( lCursor )                        //v90
+         if( lCursor )
             cDrawCursor( hWnd, &rct, lCursor, clrFore );
       }
    }
@@ -667,7 +663,7 @@ HB_FUNC( ROWFROMPIX )
    hb_retni( iRow );
 }
 
-HB_FUNC( SBGETHEIGHT )   //SBGetHeigh( hWnd, hFont, nTotal )
+HB_FUNC( SBGETHEIGHT )   // ( hWnd, hFont, nTotal )
 {
    HWND  hWnd   = ( HWND ) HB_PARNL( 1 );
    HFONT hFont  = ( HFONT ) HB_PARNL( 2 );
@@ -702,8 +698,8 @@ HB_FUNC( SBGETHEIGHT )   //SBGetHeigh( hWnd, hFont, nTotal )
    }
 }
 
-HB_FUNC( COUNTROWS )     // ( hWnd, nHeightCell, nHeightHead,
-{ //   nHeightFoot, nHeightSuper, nHeightSpec ) -> nRows
+HB_FUNC( COUNTROWS )     // ( hWnd, nHeightCell, nHeightHead, nHeightFoot, nHeightSuper, nHeightSpec ) -> nRows
+{
    HWND hWnd  = ( HWND ) HB_PARNL( 1 );
    int  iCell = hb_parni( 2 );
 
@@ -852,10 +848,10 @@ static void GoToPoint( HDC hDC, int ix, int iy )
 
 static void DegradColor( HDC hDC, RECT * rori, COLORREF cFrom, signed long cTo )
 {
-   float  clr1r, clr1g, clr1b, clr2r, clr2g, clr2b;                                                  //v90
-   float  iEle, iRed, iGreen, iBlue;                                                                 //v90
-   BOOL   bDir, bHoriz = cTo < 0;                                                                    //v90
-   float  iTot = ( ! bHoriz ? ( rori->bottom + 2 - rori->top ) : ( rori->right + 2 - rori->left ) ); //v90
+   float  clr1r, clr1g, clr1b, clr2r, clr2g, clr2b;
+   float  iEle, iRed, iGreen, iBlue;
+   BOOL   bDir, bHoriz = cTo < 0;
+   float  iTot = ( ! bHoriz ? ( rori->bottom + 2 - rori->top ) : ( rori->right + 2 - rori->left ) );
    RECT   rct;
    HBRUSH hOldBrush, hBrush;
 
@@ -868,27 +864,27 @@ static void DegradColor( HDC hDC, RECT * rori, COLORREF cFrom, signed long cTo )
    clr1g = GetGValue( cFrom );
    clr1b = GetBValue( cFrom );
 
-   cTo   = ( cTo < 0 ? -cTo : cTo );            //v90
+   cTo   = ( cTo < 0 ? -cTo : cTo );
    clr2r = GetRValue( cTo );
    clr2g = GetGValue( cTo );
    clr2b = GetBValue( cTo );
 
-   iRed   = clr2r - clr1r;                      //v90
-   iGreen = clr2g - clr1g;                      //v90
-   iBlue  = clr2b - clr1b;                      //v90
+   iRed   = clr2r - clr1r;
+   iGreen = clr2g - clr1g;
+   iBlue  = clr2b - clr1b;
 
-   iRed   = ( iRed / iTot );                    //v90
-   iGreen = ( iGreen / iTot );                  //v90
-   iBlue  = ( iBlue / iTot );                   //v90
+   iRed   = ( iRed / iTot );
+   iGreen = ( iGreen / iTot );
+   iBlue  = ( iBlue / iTot );
 
-   iRed   = ( iRed < 0 ? -iRed : iRed );        //v90
-   iGreen = ( iGreen < 0 ? -iGreen : iGreen );  //v90
-   iBlue  = ( iBlue < 0 ? -iBlue : iBlue );     //v90
+   iRed   = ( iRed < 0 ? -iRed : iRed );
+   iGreen = ( iGreen < 0 ? -iGreen : iGreen );
+   iBlue  = ( iBlue < 0 ? -iBlue : iBlue );
 
-   if( ! bHoriz )                               //v90
-      rct.bottom = rct.top + 1;                 //v90
-   else                                         //v90
-      rct.right = rct.left + 1;                 //v90
+   if( ! bHoriz )
+      rct.bottom = rct.top + 1;
+   else
+      rct.right = rct.left + 1;
 
    hBrush    = CreateSolidBrush( RGB( clr1r, clr1g, clr1b ) );
    hOldBrush = ( HBRUSH ) SelectObject( hDC, hBrush );
@@ -926,15 +922,15 @@ static void DegradColor( HDC hDC, RECT * rori, COLORREF cFrom, signed long cTo )
       SelectObject( hDC, hBrush );
       FillRect( hDC, &rct, hBrush );
 
-      if( ! bHoriz )          //v90
-      {                      //v90
+      if( ! bHoriz )
+      {
          rct.top++;
          rct.bottom++;
       }
-      else                   //v90
+      else
       {
-         rct.left++;         //v90
-         rct.right++;        //v90
+         rct.left++;
+         rct.right++;
       }
    }
 
@@ -991,7 +987,8 @@ HB_FUNC( INITEDSPINNER )
    HWND hwnd;
    HWND hedit;
    HWND hupdown;
-   int  Style = WS_CHILD | UDS_ARROWKEYS | UDS_ALIGNRIGHT | UDS_SETBUDDYINT | UDS_NOTHOUSANDS | WS_VISIBLE | UDS_HOTTRACK;
+   int  Style = WS_CHILD | WS_VISIBLE | UDS_ARROWKEYS | UDS_ALIGNRIGHT | UDS_SETBUDDYINT | UDS_NOTHOUSANDS | UDS_HOTTRACK;
+   int  iMin, iMax;
 
    INITCOMMONCONTROLSEX i;
 
@@ -1002,9 +999,13 @@ HB_FUNC( INITEDSPINNER )
    hwnd  = ( HWND ) HB_PARNL( 1 );
    hedit = ( HWND ) HB_PARNL( 2 );
 
-   hupdown = CreateUpDownControl( Style, hb_parni( 3 ), hb_parni( 4 ), 15, hb_parni( 6 ), hwnd, 777, GetModuleHandle( NULL ),
-                                  hedit, hb_parni( 8 ), hb_parni( 7 ), 0 );
-   SendMessage( hupdown, UDM_SETRANGE32, ( WPARAM ) hb_parni( 7 ), ( LPARAM ) hb_parni( 8 ) );
+   iMin  = hb_parni( 7 );
+   iMax  = hb_parni( 8 );
+
+   hupdown = CreateUpDownControl( Style, hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ), hb_parni( 6 ), hwnd, 0, GetModuleHandle( NULL ),
+                                  hedit, iMax, iMin, hb_parni( 9 ) );
+
+   SendMessage( hupdown, UDM_SETRANGE32, ( WPARAM ) iMin, ( LPARAM ) iMax );
 
    HB_RETNL( ( LONG_PTR ) hupdown );
 }
@@ -1014,6 +1015,9 @@ HB_FUNC( SETINCREMENTSPINNER )
    UDACCEL inc;
 
    SendMessage( ( HWND ) HB_PARNL( 1 ), UDM_GETACCEL, ( WPARAM ) 1, ( LPARAM ) &inc );
-   inc.nInc = hb_parnl( 2 );
+
+   inc.nSec = 1;
+   inc.nInc = hb_parni( 2 );
+
    SendMessage( ( HWND ) HB_PARNL( 1 ), UDM_SETACCEL, ( WPARAM ) 1, ( LPARAM ) &inc );
 }

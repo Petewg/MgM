@@ -49,10 +49,8 @@
 #include "miniprint.ch"
 #endif
 
-#ifndef __XHARBOUR__
 #ifndef _BT_
 #include "BosTaurus.ch"
-#endif
 #endif
 
 #ifndef __HMG_COMPAT__
@@ -110,6 +108,15 @@
    SetResCursor( LoadCursor( NIL, <nCursor> ) )
 
 #xtranslate HMGVersion () => MiniGUIVersion ()
+
+#translate GetProperty ( <FormName> , "CLIENTAREAWIDTH" ) ;
+=> ;
+_GetClientRect ( GetFormHandle ( <FormName> ) ) \[3]
+
+#translate GetProperty ( <FormName> , "CLIENTAREAHEIGHT" ) ;
+=> ;
+_GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
+
 
 #xtranslate CellNavigationColor (_SELECTEDCELL_FORECOLOR, <aColor>) => ( _HMG_GridSelectedCellForeColor := <aColor> )
 #xtranslate CellNavigationColor (_SELECTEDCELL_BACKCOLOR, <aColor>) => ( _HMG_GridSelectedCellBackColor := <aColor> )
@@ -215,8 +222,6 @@
 #xtranslate EventRemoveAll () => iif ( EventCount() > 0, _HMG_aCustomEventProcedure := {}, )
 #xtranslate EventRemove ([<x>]) => iif ( EventCount() > 0, hb_ADel (_HMG_aCustomEventProcedure, EventCount(), .T.), )
 
-#translate GetProperty ( <FormName> , "CLIENTAREAWIDTH" ) => _GetClientRect ( GetFormHandle ( <FormName> ) ) \[3]
-#translate GetProperty ( <FormName> , "CLIENTAREAHEIGHT" ) => _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 
 #xtranslate GetFormNameByIndex ( <nFormIndex> ) => _HMG_aFormNames \[<nFormIndex>]
 #xtranslate GetFormHandleByIndex ( <nFormIndex> ) => _HMG_aFormHandles \[<nFormIndex>]

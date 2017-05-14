@@ -19,7 +19,7 @@
    02111-1307 USA (or visit the web site http://www.gnu.org/).
 
    As   a   special  exception, you have permission for additional uses of the
-   text  contained  in  this  release  of  Harbour Minigui. 
+   text  contained  in  this  release  of  Harbour Minigui.
 
    The   exception   is that,   if   you  link  the  Harbour  Minigui  library
    with  other    files   to  produce   an   executable,   this  does  not  by
@@ -53,11 +53,23 @@
 
 extern HINSTANCE g_hInstance;
 
+// HICON WINAPI CopyIcon( HICON hIcon )
+HB_FUNC( COPYICON )
+{
+   HB_RETNL( ( LONG_PTR ) CopyIcon( ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) ) );
+}
+
 // BOOL WINAPI DestroyIcon( HICON hIcon )
 HB_FUNC( DESTROYICON )
 {
    hb_retl( DestroyIcon( ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) ) );
-}   
+}
+
+// HICON WINAPI DuplicateIcon( HINSTANCE hInst, HICON hIcon )
+HB_FUNC( DUPLICATEICON )
+{
+   HB_RETNL( ( LONG_PTR ) DuplicateIcon( ( HINSTANCE ) NULL, ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) ) );
+}
 
 // HICON LoadIcon( HINSTANCE hInstance, LPCTSTR lpIconName )
 HB_FUNC( LOADICON )
@@ -79,9 +91,7 @@ HB_FUNC( EXTRACTICONEX )
    int nIconIndex = hb_parni( 2 );
 
    if( nIconIndex == -1 )
-   {
       hb_retni( ExtractIconEx( hb_parc( 1 ), -1, NULL, NULL, 0 ) );
-   }
    else
    {
       // TODO
@@ -95,5 +105,46 @@ HB_FUNC( EXTRACTICONEX )
          HB_STORVNL( ( LONG_PTR ) hIconLarge, -1, 1 );
          HB_STORVNL( ( LONG_PTR ) hIconSmall, -1, 2 );
       }
+   }
+}
+
+HB_FUNC( LOADICONBYNAME )
+{
+   HICON hIcon = NULL;
+
+   if( hb_parclen( 1 ) > 0 )
+   {
+      const char * pszResOrFile = hb_parc( 1 );
+      int cxDesired = hb_parni( 2 );
+      int cyDesired = hb_parni( 3 );
+      HINSTANCE hInstance = HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : g_hInstance;
+ 
+      hIcon = ( HICON ) LoadImage( hInstance, pszResOrFile, IMAGE_ICON, cxDesired, cyDesired, LR_DEFAULTCOLOR );
+
+      if( hIcon == NULL )
+         hIcon = ( HICON ) LoadImage( 0, pszResOrFile, IMAGE_ICON, cxDesired, cyDesired, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+   }
+
+   HB_RETNL( ( LONG_PTR ) hIcon );
+}
+
+HB_FUNC( DRAWICONEX )
+{
+   HWND   hwnd  = ( HWND ) HB_PARNL( 1 );
+   
+   if( IsWindow( hwnd ) )
+   {
+      HICON  hIcon = ( HICON ) HB_PARNL( 4 );
+      HDC    hdc   = GetDC( hwnd );
+      HBRUSH hbrFlickerFreeDraw = CreateSolidBrush( hb_parni( 7 ) );
+
+      hb_retl( DrawIconEx( hdc, hb_parni( 2 ), hb_parni( 3 ), hIcon, hb_parni( 5 ), hb_parni( 6 ), 0, hbrFlickerFreeDraw, DI_NORMAL ) );
+
+      DeleteObject( hbrFlickerFreeDraw );
+   
+      if( hb_parldef( 8, HB_TRUE ) )
+         DestroyIcon( hIcon );
+
+      ReleaseDC( hwnd, hdc );
    }
 }

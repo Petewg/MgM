@@ -111,43 +111,6 @@ HB_FUNC( INVERTRECT )
    }
 }
 
-HB_FUNC( BEGINPAINT )
-{
-   PAINTSTRUCT pps;
-
-   HB_RETNL( ( LONG_PTR ) BeginPaint( ( HWND ) HB_PARNL( 1 ), &pps ) );
-   hb_storclen( ( char * ) &pps, sizeof( PAINTSTRUCT ), 2 );
-}
-
-HB_FUNC( ENDPAINT )
-{
-   hb_retl( EndPaint( ( HWND ) HB_PARNL( 1 ), ( PAINTSTRUCT * ) hb_parc( 2 ) ) );
-}
-/*
-HB_FUNC( GETSCROLLRANGE )
-{
-   int lpMinPos;
-   int lpMaxPos;
-
-   if( GetScrollRange( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ), &lpMinPos, &lpMaxPos ) )
-   {
-      if( HB_ISBYREF( 3 ) && HB_ISBYREF( 4 ) )
-      {
-         hb_storni( lpMinPos, 3 );
-         hb_storni( lpMaxPos, 4 );
-         hb_retl( 1 );
-      }
-      else
-      {
-         hb_retl( 0 );
-      }
-   }
-   else
-   {
-      hb_retl( 0 );
-   }
-}
-*/
 HB_FUNC( GETCLASSINFO )
 {
    WNDCLASS WndClass;

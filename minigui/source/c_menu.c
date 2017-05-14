@@ -343,6 +343,8 @@ HB_FUNC( MENUITEM_SETICON )
          lpMenuItem->hBitmap = himage1;
       }
    }
+   else
+      SetMenuItemBitmaps( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND, himage1, himage1 );
 
    HB_RETNL( ( LONG_PTR ) himage1 );
 }

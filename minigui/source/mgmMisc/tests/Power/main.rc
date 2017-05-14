@@ -1,0 +1,11 @@
+EXIT   BITMAP  res\Exit.bmp
+EXITH  BITMAP  res\ExitH.bmp
+QUESTION PNG   res\question2.png
+QUESTIONH PNG   res\question2H.png
+
+AAMAIN   ICON  res\shutdown48.ico
+HIBER    ICON  res\hiber48.ico
+LOGOUT   ICON  res\logout48.ico
+SUSPEND  ICON  res\suspend48.ico
+SHUTDOWN ICON  res\shutdown48.ico
+MONITOR  ICON  res\screen48.ico

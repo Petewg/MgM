@@ -27,7 +27,7 @@
 
 # Minigui additional libs (you can comment out if you don't need them)
 #{win}libs=miniprint adordd bostaurus hbxml qhtm propsheet calldll tmsagent propgrid winreport
- {win}libs=miniprint adordd bostaurus hbxml qhtm propsheet tsbrowse calldll
+ {win}libs=miniprint adordd bostaurus hbxml qhtm propsheet calldll tsbrowse
 
 # MingW Libs (system)
 {win}libs=msvfw32 vfw32

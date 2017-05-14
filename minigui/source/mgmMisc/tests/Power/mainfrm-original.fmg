@@ -1,0 +1,257 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 0,0 WIDTH 1024 HEIGHT 768 MAIN ICON "" TITLE "" NOSIZE NOSYSMENU NOCAPTION ON MOUSECLICK MoveActiveWindow(,this.name) BACKCOLOR {31,37,61}
+
+  DEFINE LABEL LblAppBar
+    ROW    0
+    COL    0
+    WIDTH  1024
+    HEIGHT 40
+    VALUE "Sample Form with MiniGUI"
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    BACKCOLOR HeaderBackColor
+    FONTCOLOR HeaderFontColor
+    CENTERALIGN .T.
+     VCENTERALIGN .T.
+  END LABEL
+
+  DEFINE BUTTONEX BtnExit
+    ROW    5
+    COL    990
+    WIDTH  32
+    HEIGHT 32
+    CAPTION ""
+    PICTURE "Graphics\Exit.bmp"
+    ICON NIL
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    TOOLTIP ''
+    ON GOTFOCUS this.picture := "Graphics\ExitH.bmp"  
+    ON LOSTFOCUS this.picture := "Graphics\Exit.bmp"
+    FONTCOLOR HeaderFontColor
+    BACKCOLOR HeaderBackColor
+      ACTION ReleaseMainFrm()
+    FLAT .T.
+    NOTRANSPARENT .T.
+    NOXPSTYLE .T.
+    TABSTOP .F.
+    HANDCURSOR .T.         
+  END BUTTONEX
+  
+//-----------------------------------------MENU------------------------------------------//
+
+  DEFINE BUTTONEX BtnOption_1
+    ROW    50
+    COL    36
+    WIDTH  48
+    HEIGHT 48
+    CAPTION ""
+    PICTURE "Graphics\Option_1.bmp"
+    ICON NIL
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    TOOLTIP ""
+    ON GOTFOCUS HoverButton(1)  
+    ON LOSTFOCUS LeaveHoverButton(1)
+    FONTCOLOR HeaderFontColor
+    BACKCOLOR HeaderBackColor
+      ACTION MsgInfo("Option_1") 
+    FLAT .T.
+    NOTRANSPARENT .T.
+    NOXPSTYLE .T.
+    TABSTOP .F.
+    HANDCURSOR .T.         
+  END BUTTONEX
+
+  DEFINE LABEL LblOption_1
+    ROW    100
+    COL    10
+    WIDTH  100
+    HEIGHT 30
+    VALUE "Option No1"
+    FONTNAME mainFont
+    FONTSIZE smallFontSize
+    TRANSPARENT .T.
+    CENTERALIGN .T.
+    FONTCOLOR { 255, 255, 255 } 
+    BACKCOLOR {  62,  70,  79 }
+  END LABEL   
+
+  DEFINE BUTTONEX BtnOption_2
+    ROW    50
+    COL    156
+    WIDTH  48
+    HEIGHT 48
+    CAPTION ""
+    PICTURE "Graphics\Option_2.bmp"
+    ICON NIL
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    TOOLTIP ""
+    ON GOTFOCUS HoverButton(2)  
+    ON LOSTFOCUS LeaveHoverButton(2)
+    FONTCOLOR HeaderFontColor
+    BACKCOLOR HeaderBackColor
+      ACTION MsgInfo("Option_2")
+    FLAT .T.
+    NOTRANSPARENT .T.
+    NOXPSTYLE .T.
+    TABSTOP .F.
+    HANDCURSOR .T.         
+  END BUTTONEX
+
+  DEFINE LABEL LblOption_2
+    ROW    100
+    COL    130
+    WIDTH  100
+    HEIGHT 30
+    VALUE "Option No2"
+    FONTNAME mainFont
+    FONTSIZE smallFontSize
+    TRANSPARENT .T.
+    CENTERALIGN .T.
+    FONTCOLOR { 255, 255, 255 } 
+    BACKCOLOR {  62,  70,  79 }
+  END LABEL
+
+  DEFINE BUTTONEX BtnOption_3
+    ROW    50
+    COL    276
+    WIDTH  48
+    HEIGHT 48
+    CAPTION ""
+    PICTURE "Graphics\Option_3.bmp"
+    ICON NIL
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    TOOLTIP ""
+    ON GOTFOCUS HoverButton(3)  
+    ON LOSTFOCUS LeaveHoverButton(3)
+    FONTCOLOR HeaderFontColor
+    BACKCOLOR HeaderBackColor
+      ACTION ReleaseMainFrm()
+    FLAT .T.
+    NOTRANSPARENT .T.
+    NOXPSTYLE .T.
+    TABSTOP .F.
+    HANDCURSOR .T.         
+  END BUTTONEX
+
+  DEFINE LABEL LblOption_3
+    ROW    100
+    COL    250
+    WIDTH  100
+    HEIGHT 30
+    VALUE "Exit"
+    FONTNAME mainFont
+    FONTSIZE smallFontSize
+    TRANSPARENT .T.
+    CENTERALIGN .T.
+    FONTCOLOR { 255, 255, 255 } 
+    BACKCOLOR {  62,  70,  79 }
+  END LABEL
+
+//-----------------------------------------FOOTER-----------------------------------------//
+  DEFINE LABEL LblFooter
+    ROW    728
+    COL    0
+    WIDTH  1024
+    HEIGHT 40
+    VALUE ''
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    BACKCOLOR HeaderBackColor
+    FONTCOLOR HeaderFontColor
+    CENTERALIGN .T.
+     VCENTERALIGN .T.
+  END LABEL
+
+  DEFINE IMAGE Img_Footer1
+    ROW    732
+    COL    5
+    WIDTH  32
+    HEIGHT 32
+    PICTURE "GRAPHICS\LOCALDB_SMALL.BMP"
+    TOOLTIP ""
+  END IMAGE
+
+  DEFINE LABEL LblFooter1
+    ROW    728
+    COL    40
+    WIDTH  150
+    HEIGHT 40
+    VALUE 'Footer Label 1'
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    BACKCOLOR HeaderBackColor
+    FONTCOLOR colYellow
+     VCENTERALIGN .T.       
+    TOOLTIP ""
+  END LABEL
+
+  DEFINE LABEL LblFooterSeparator1
+    ROW    728
+    COL    200
+    WIDTH  1
+    HEIGHT 40
+    VALUE ''
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    BACKCOLOR colGray
+    FONTCOLOR HeaderFontColor
+    CENTERALIGN .T.
+     VCENTERALIGN .T.
+  END LABEL
+          
+  DEFINE LABEL LblLeftBorder
+    ROW    0
+    COL    0
+    WIDTH  1
+    HEIGHT 768
+    VALUE ""
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    BACKCOLOR HeaderBackColor
+    FONTCOLOR HeaderFontColor
+    FONTBOLD .T.
+    CENTERALIGN .T.
+     VCENTERALIGN .T.
+  END LABEL
+
+  DEFINE LABEL LblRightBorder
+    ROW    0
+    COL    1023
+    WIDTH  1
+    HEIGHT 768
+    VALUE ""
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    BACKCOLOR HeaderBackColor
+    FONTCOLOR HeaderFontColor
+    FONTBOLD .T.
+    CENTERALIGN .T.
+     VCENTERALIGN .T.
+  END LABEL
+  
+  DEFINE LABEL LblBottomBorder
+    ROW    767
+    COL    0
+    WIDTH  1024
+    HEIGHT 1
+    VALUE ""
+    FONTNAME mainFont
+    FONTSIZE mainFontSize
+    BACKCOLOR HeaderBackColor
+    FONTCOLOR HeaderFontColor
+    FONTBOLD .T.
+    CENTERALIGN .T.
+     VCENTERALIGN .T.
+  END LABEL
+
+ON KEY ESCAPE ACTION ReleaseMainFrm()
+                      
+END WINDOW
+
+

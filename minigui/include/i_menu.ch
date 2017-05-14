@@ -219,6 +219,16 @@ _DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.
 => ;
 _DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> )
 
+#xcommand ITEM <caption> [ ACTION <action> ] [ NAME <name> ] [ ICON <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
+   [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
+=> ;
+_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image> )
+
+#xcommand MENUITEM <caption> [ <dummy1: ACTION, ONCLICK> <action> ] [ NAME <name> ] [ ICON <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
+   [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
+=> ;
+_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image> )
+
 #xcommand SEPARATOR ;
 => ;
 _DefineSeparator ()

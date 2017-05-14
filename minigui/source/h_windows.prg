@@ -230,6 +230,13 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
       hscroll := .T.
    ENDIF
 
+   IF MSC_VER() > 0
+      IF nosize .AND. IsThemed()
+         w += 10
+         h += 10
+      ENDIF
+   ENDIF
+
    IF ValType ( aRGB ) == 'U'
       aRGB := { -1, -1, -1 }
    ENDIF
@@ -511,6 +518,13 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
          MsgMiniGuiError( "DEFINE WINDOW: Virtual Width must be greater than Window Width." )
       ENDIF
       hscroll := .T.
+   ENDIF
+
+   IF MSC_VER() > 0
+      IF nosize .AND. IsThemed()
+         w += 10
+         h += 10
+      ENDIF
    ENDIF
 
    IF ValType ( aRGB ) == 'U'
@@ -1474,7 +1488,7 @@ PROCEDURE _RefreshDataControls( i )
 *-----------------------------------------------------------------------------*
    LOCAL v, ControlIndex, SplitIndex
 
-   IF ( Len ( _HMG_aFormGraphTasks [ i ] ) > 0 .OR. ISBLOCK( _HMG_aFormPaintProcedure [ i ] ) ) .AND. _HMG_ProgrammaticChange
+   IF ( Len ( _HMG_aFormGraphTasks [ i ] ) > 0 .OR. ISBLOCK( _HMG_aFormPaintProcedure [ i ] ) ) .AND. _HMG_AutoScroll
       InvalidateRect( _HMG_aFormHandles [ i ], 0 ) // GF 07/11/2012
    ENDIF
 
@@ -1535,7 +1549,7 @@ PROCEDURE _SetActivationFlag( i )
 
       NEXT
 
-      IF NoAutoReleaseFound == .F.
+      IF NoAutoReleaseFound == .F. .AND. _HMG_ProgrammaticChange
          iif( _HMG_IsXPorLater, KeyToggleNT( VK_INSERT ), KeyToggle( VK_INSERT ) )  
       ENDIF
 

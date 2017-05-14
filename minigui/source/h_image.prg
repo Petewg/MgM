@@ -228,19 +228,19 @@ FUNCTION InitDialogImage( ParentName, ControlHandle, k )
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
-FUNCTION BmpSize( Bitmap )
+FUNCTION BmpSize( xBitmap )
 *-----------------------------------------------------------------------------*
    LOCAL aRet := { 0, 0, 4 }
 
-   IF ISSTRING ( Bitmap )
-      aRet := BitmapSize( Bitmap )
+   IF ISSTRING ( xBitmap )
+      aRet := GetBitmapSize( xBitmap )
       IF Empty( aRet [1] ) .AND. Empty( aRet [2] )
-         Bitmap := C_GetResPicture( Bitmap )
-         aRet := GetBitmapSize( Bitmap )
-         DeleteObject( Bitmap )
+         xBitmap := C_GetResPicture( xBitmap )
+         aRet := GetBitmapSize( xBitmap )
+         DeleteObject( xBitmap )
       ENDIF
-   ELSEIF ISNUMERIC ( Bitmap )
-      aRet := GetBitmapSize( Bitmap )
+   ELSEIF ISNUMERIC ( xBitmap )
+      aRet := GetBitmapSize( xBitmap )
    ENDIF
 
 RETURN aRet
@@ -248,12 +248,12 @@ RETURN aRet
 *-----------------------------------------------------------------------------*
 FUNCTION HasAlpha( FileName )
 *-----------------------------------------------------------------------------*
-   LOCAL Bitmap, lRet
+   LOCAL hBitmap, lRet := .F.
 
-   IF GetObjectType( Bitmap := LoadBitmap( FileName ) ) != OBJ_BITMAP
-      Bitmap := C_GetResPicture( FileName )
+   hBitmap := C_GetResPicture( FileName )
+   IF GetObjectType( hBitmap ) == OBJ_BITMAP .AND. BmpSize( FileName ) [3] == 32
+      lRet := C_HasAlpha( hBitmap )
    ENDIF
-   lRet := C_HasAlpha( Bitmap )
-   DeleteObject( Bitmap )
+   DeleteObject( hBitmap )
 
 RETURN lRet

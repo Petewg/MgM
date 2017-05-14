@@ -565,6 +565,10 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
             ELSE
                oGet:changed := .T.
                oGet:original := oGet:buffer
+               IF lClrFocus
+                  _HMG_aControlBkColor [i] := aOldBackClr
+                  _HMG_aControlFontColor [i] := aOldFontClr
+               ENDIF
             ENDIF
 
             lInValid := .F.

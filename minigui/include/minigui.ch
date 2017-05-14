@@ -46,7 +46,7 @@
 ---------------------------------------------------------------------------*/
 
 #ifndef __HMG__
-#define __HMG__ 0x020701 /* Three bytes: Major + Minor + Build. */
+#define __HMG__ 0x020702 /* Three bytes: Major + Minor + Build. */
 
 #ifndef HMG_LEGACY_ON
   #define HMG_LEGACY_OFF

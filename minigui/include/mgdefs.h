@@ -22,108 +22,94 @@
  *
  */
 
-#ifndef MG_VERSION
-   #define MG_VERSION   0x06A7  /* 1703 */
+#ifndef MG_SETUP_H_
+#define MG_SETUP_H_
+
+#ifndef WINVER
+#if defined( __WIN98__ )
+  #define WINVER   0x0400        /* version 4.0 */
+#else
+  #define WINVER   0x0501        /* version 5.0 */
+#endif
+#endif /* !WINVER */
+
+#ifndef _WIN32_WINNT
+  #define _WIN32_WINNT   WINVER  /* XP = 0x0501 , Vista = 0x0600 */
 #endif
 
-#ifndef MG_SETUP_H_
+#ifndef _WIN32_IE
+  #define _WIN32_IE 0x0501
+#endif /* !_WIN32_IE */
 
-   #define MG_SETUP_H_
+#include "hbapi.h"
+#include <windows.h>
 
-   #ifndef WINVER
-      #if defined( __WIN98__ )
-        #define WINVER   0x0400        /* version 4.0 */
-      #else
-        #define WINVER   0x0501        /* version 5.0 */
-      #endif
-   #endif /* !WINVER */
+#ifndef HMG_LEGACY_ON
+//#define HMG_LEGACY_OFF
+#endif
 
-   #ifndef _WIN32_WINNT
-     #define _WIN32_WINNT   WINVER  /* XP = 0x0501 , Vista = 0x0600 */
-   #endif
+#if defined( _WIN64 )
+  #define HB_arraySetNL    hb_arraySetNLL
+  #define HB_arrayGetNL    hb_arrayGetNLL
+  #define HB_PARNI         hb_parvni
+  #define HB_PARNL         hb_parnll
+  #define HB_PARVNL        hb_parvnll
+  #define HB_RETNL         hb_retnll
+  #define HB_STORC         hb_storvc
+  #define HB_STORNI        hb_storvni
+  #define HB_STORNL        hb_stornll
+  #define HB_STORVNL       hb_storvnll
+  #define HB_STORL         hb_storvl
+#else
+  #define HB_arraySetNL    hb_arraySetNL
+  #define HB_arrayGetNL    hb_arrayGetNL
+  #define HB_PARNL         hb_parnl
+  #define HB_RETNL         hb_retnl
+  #define HB_STORNL        hb_stornl
+#if !( defined( __XHARBOUR__ ) || defined( __XCC__ ) )
+  #define HB_PARNI         hb_parvni
+  #define HB_PARVNL        hb_parvnl
+  #define HB_STORC         hb_storvc
+  #define HB_STORNI        hb_storvni
+  #define HB_STORVNL       hb_storvnl
+  #define HB_STORL         hb_storvl
+#else
+  #define HB_PARNI         hb_parni
+  #define HB_PARVNL        hb_parnl
+  #define HB_STORC         hb_storc
+  #define HB_STORNI        hb_storni
+  #define HB_STORVNL       hb_stornl
+  #define HB_STORL         hb_storl
+#endif /* !( __XHARBOUR__ || __XCC__ ) */
+#endif /* _WIN64 */
 
-   #ifndef _WIN32_IE
-     #define _WIN32_IE 0x0501
-   #endif /* !_WIN32_IE */
+/* Harbour macro\functions mapped to xHarbour ones */
+#ifdef __XHARBOUR__
+#include "hbverbld.h"
 
-   #include "hbapi.h"
-   #include <windows.h>
+#if defined( HB_VER_CVSID ) && ( HB_VER_CVSID < 9639 )
+  #define HB_ISCHAR        ISCHAR
+  #define HB_ISNUM         ISNUM
+  #define HB_ISBYREF       ISBYREF
+#endif
 
-   #ifndef HMG_LEGACY_ON
-   //#define HMG_LEGACY_OFF
-   #endif
+#if defined( HB_VER_CVSID ) && ( HB_VER_CVSID < 9798 )
+  #define HB_ISNIL         ISNIL
+#endif
 
-   #if defined( _WIN64 )
+#if defined( HB_VER_CVSID ) && ( HB_VER_CVSID < 9820 )
+  #define HB_ISLOG         ISLOG
+  #define HB_ISARRAY       ISARRAY
+#endif
 
-      #define HB_arraySetNL    hb_arraySetNLL
-      #define HB_arrayGetNL    hb_arrayGetNLL
-      #define HB_PARNI         hb_parvni
-      #define HB_PARNL         hb_parnll
-      #define HB_PARVNL        hb_parvnll
-      #define HB_RETNL         hb_retnll
-      #define HB_STORC         hb_storvc
-      #define HB_STORNI        hb_storvni
-      #define HB_STORNL        hb_stornll
-      #define HB_STORVNL       hb_storvnll
-      #define HB_STORL         hb_storvl
-      
-   #else
-      
-      #define HB_arraySetNL    hb_arraySetNL
-      #define HB_arrayGetNL    hb_arrayGetNL
-      #define HB_PARNL         hb_parnl
-      #define HB_RETNL         hb_retnl
-      #define HB_STORNL        hb_stornl
-      
-      #if !( defined( __XHARBOUR__ ) || defined( __XCC__ ) )
-      
-         #define HB_PARNI         hb_parvni
-         #define HB_PARVNL        hb_parvnl
-         #define HB_STORC         hb_storvc
-         #define HB_STORNI        hb_storvni
-         #define HB_STORVNL       hb_storvnl
-         #define HB_STORL         hb_storvl
-         
-      #else
-         
-         #define HB_PARNI         hb_parni
-         #define HB_PARVNL        hb_parnl
-         #define HB_STORC         hb_storc
-         #define HB_STORNI        hb_storni
-         #define HB_STORVNL       hb_stornl
-         #define HB_STORL         hb_storl
-         
-      #endif /* !( __XHARBOUR__ || __XCC__ ) */
-      
-   #endif /* _WIN64 */
+#define HB_ISDATE          ISDATE
 
-   /* Harbour macro\functions mapped to xHarbour ones */
-   #ifdef __XHARBOUR__
-      #include "hbverbld.h"
+#define hb_parldef( l1, l2 )        ( ISLOG( l1 ) ? hb_parl( l1 )    : l2 )
+#define hb_parnidef( n1, n2 )       ( ISNUM( n1 ) ? hb_parni( n1 )   : n2 )
+#define hb_parnldef( n1, n2 )       ( ISNUM( n1 ) ? hb_parnl( n1 )   : n2 )
+#define hb_parnintdef( n1, n2 )     ( ISNUM( n1 ) ? hb_parnint( n1 ) : n2 )
+#endif /* __XHARBOUR__ */
 
-      #if defined( HB_VER_CVSID ) && ( HB_VER_CVSID < 9639 )
-        #define HB_ISCHAR        ISCHAR
-        #define HB_ISNUM         ISNUM
-        #define HB_ISBYREF       ISBYREF
-      #endif
-
-      #if defined( HB_VER_CVSID ) && ( HB_VER_CVSID < 9798 )
-        #define HB_ISNIL         ISNIL
-      #endif
-
-      #if defined( HB_VER_CVSID ) && ( HB_VER_CVSID < 9820 )
-        #define HB_ISLOG         ISLOG
-        #define HB_ISARRAY       ISARRAY
-      #endif
-
-      #define HB_ISDATE          ISDATE
-
-      #define hb_parldef( l1, l2 )        ( ISLOG( l1 ) ? hb_parl( l1 )    : l2 )
-      #define hb_parnidef( n1, n2 )       ( ISNUM( n1 ) ? hb_parni( n1 )   : n2 )
-      #define hb_parnldef( n1, n2 )       ( ISNUM( n1 ) ? hb_parnl( n1 )   : n2 )
-      #define hb_parnintdef( n1, n2 )     ( ISNUM( n1 ) ? hb_parnint( n1 ) : n2 )
-   #endif /* __XHARBOUR__ */
-
-   #define _isValidCtrlClass  _isValidCtrlClassA
+#define _isValidCtrlClass  _isValidCtrlClassA
 
 #endif /* MG_SETUP_H_ */

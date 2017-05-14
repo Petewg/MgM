@@ -45,7 +45,7 @@
 
 ---------------------------------------------------------------------------*/
 
-#xcommand DRAW TEXT IN WINDOW <windowname> ;
+#xcommand DRAW TEXT IN WINDOW <window> ;
           AT <nRow>,<nCol> ;
           VALUE <cString>  ;
           [ FONT <cFont> ] ;
@@ -59,8 +59,26 @@
           [ <lTransparent: TRANSPARENT> ] ;
           [ ANGLE <nAngle> ] ;
        =>;
-          drawtextout(<"windowname">,<nRow>,<nCol>,<cString>,<aRGB>,<aBkRGB>,<cFont>,<nSize>, ;
+          drawtextout(<"window">,<nRow>,<nCol>,<cString>,<aRGB>,<aBkRGB>,<cFont>,<nSize>, ;
 		<.lBold.>,<.lItalic.>,<.lUnderline.>,<.lStrikeout.>,<.lTransparent.>,<nAngle>)
+
+#xcommand DRAW TEXT IN <context> ;
+          AT <nRow>,<nCol> ;
+          VALUE <cString>  ;
+          [ FONT <cFont> ] ;
+          [ SIZE <nSize> ] ;
+          [ BACKCOLOR <aBkRGB> ] ;
+          [ FONTCOLOR <aRGB> ] ;
+          [ <lBold : BOLD> ] ;
+          [ <lItalic : ITALIC> ] ;
+          [ <lUnderline : UNDERLINE> ] ;
+          [ <lStrikeout : STRIKEOUT> ] ;
+          [ <lTransparent: TRANSPARENT> ] ;
+          [ ANGLE <nAngle> ] ;
+          [ <lOnce : ONCE> ] ;
+       =>;
+          drawtextout(<context>,<nRow>,<nCol>,<cString>,<aRGB>,<aBkRGB>,<cFont>,<nSize>, ;
+		<.lBold.>,<.lItalic.>,<.lUnderline.>,<.lStrikeout.>,<.lTransparent.>,<nAngle>,<.lOnce.>)
 
 #xcommand DRAW LINE IN WINDOW <windowname> AT <frow>,<fcol> ;
              TO <trow>,<tcol> ;
@@ -132,13 +150,13 @@
 
 
 #xcommand DRAW ICON IN WINDOW <windowname> AT <row>,<col> ;
-          PICTURE <filename> ;
+          <dummy: PICTURE,IMAGE,HICON> <icon> ;
           [ WIDTH <w> ] ;
           [ HEIGHT <h> ] ;
           [ COLOR <rgb> ] ; 
           [ <transparent: TRANSPARENT> ] ;
           => ;
-          hmg_drawicon(<"windowname">,<filename>,<row>,<col>,[<w>],[<h>],[<rgb>],<.transparent.>)
+          hmg_drawicon(<"windowname">,<icon>,<row>,<col>,[<w>],[<h>],[<rgb>],<.transparent.>)
 
 
 #xcommand ERASE WINDOW <windowname> ;

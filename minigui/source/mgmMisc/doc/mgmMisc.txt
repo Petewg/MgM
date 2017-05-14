@@ -1,0 +1,126 @@
+/*
+ * Content: Documentation for `mgmMisc` library functions
+ * Copyright: 2016-2017 Pete D. <pete_westg@yahoo.gr>
+ * Licence: GPL  
+ *
+ */
+
+
+hb_GetProcess( <cExeFile>, [(by ref) nProcessID] ) -> Bool
+      Returns: .T. if cExeFile is running
+            Process Id (PID) can be obtained if the optional param nProcessID
+            passed by reference and cExeFile is running.
+
+hb_GetPID( <cExeFile> ) -> integer
+      Returned value will be: greater than 0 (the process ID (PID) of cExeFile)
+                              0 (if cExeFile is NOT running)
+
+hb_KillProcess( <cExeFile> ) -> Bool
+      Attempts to Kill cExeFile (if it's running)
+      Returns: .T. on success, .F. otherwise
+
+hb_IsProcess( <cExeFile> ) -> Bool
+      Returns: .T. if cExeFile is running
+      * Compatibility Function using hb_GetProcess()
+
+
+win_GetProcessList( <aProcess>, [cExeFile] ) -> 0 on success, >0 on fail.
+      Params: - <aProcess>, an empty initialized array in which process list wil be stored
+              - [<cExeFile>] (optional) the executable for which needed to obtain process's Info.
+                If no <cExeFile> specified, a list of all running processes will be returned.
+      If func succeed (and cExeFile not passed),
+      the aProcess will contain subarrays for all processes that are running.
+      Each subarray has the following structure:
+      { cProcessName, nProcessID, nParentID, cUserName, cDomain (computername) }
+      If optional param cExeFile is passed and cExeFile is running
+      the aProcess will contain subarrays for all cExeFile appearances (or at least one)
+      If func fail or cExeFile is passed and cExeFile is NOT running
+      aProcess will be empty.
+
+win_KillProcess( nProcessID )  -> .T. on success, .F. otherwise
+      Attempts to Kill the process with PID = nProcessID
+      Returns: .T. on success, .F. otherwise
+
+
+mgm_WaitWindow( cMessage, lNoWait, aBackColor, aForeColor ) -> NIL
+      displays a wait waindow with more than 1 line if cMessage contains EOLs
+      TODO: add icon & sound (optional)
+
+mgm_CenterWin2Win( <FormHandle>, <ParentHandle> ) -> lSuccess
+Centers window with handle <FormHandle> into window <ParentHandle>.
+
+      
+mgmIsArrayRGB ( <aColor> ) -> lIs
+      Checks if passed <aColor> is a valid RGB color array.
+   
+mgmInvertRGB( anRGB )
+      Inverts values (which means inverts color) of a *valid* RGB color array.
+      Useful to avoid invisible/indiscernible color combinations.
+
+mgm_LockDesktop() -> lSuccess
+      This function has the same result as pressing Ctrl+Alt+Del 
+      and clicking Lock Workstation. To unlock the workstation, the user have to log in. 
+
+mgm_SuspendMonitor( [<nSeconds>] ) -> lSuccess
+      Turns off monitor for <nSeconds>, or until a mouse movement, if no nSeconds specified.
+
+mgm_SuspendSystem( [<lHibernate>] ) -> lSuccess
+      Suspends the system.
+      NOTE: requires PowrProf.lib (included in MinGW) to be linked! 
+            add -lpowerprof into your build script.
+
+
+mgm_ErrorDescription( <nWinErrorCode> ) -> cErrorDescription
+      <nWinErrorCode> any decimal or hex value 
+      e.g. mgm_ErrorDescription( 5 ) or mgm_ErrorDescription( 0x00000010 )
+      returns: description of error occured, in locale language.
+      example use: cError := mgm_ErrorDescription( wapi_GetLastError() )
+      
+mgm_BrowseForFolder( [<hWnd>], [<cInitFolder>], [<cTitle>], ;
+                     [<lAllowCreateFolder>], [<nFlags>] ) --> cSelectedFolder | NULL string
+                     
+mgm_DirParent( <cDir>, [<nUpLevel> def: 1] ) --> cParentDir | NULL string if no cDir passed
+    mgm_DirParent( hb_cwd(), 0 ) --> hb_cwd()
+    mgm_DirParent( hb_cwd(), 1 ) --> one level up of hb_cwd()
+    
+mgm_KeybrdSelect( <cLanguage_identifier> ) --> nHandler
+      <cLanguage_identifier> format: "0000" + Language Identifier Constant 
+      (e.g.: "00000409" for US-english, "0000080c" for French, 
+             "00000408" for Greek,      "00000419" for Russian et.c.)
+      for Language Identifier Constants see: 
+      https://msdn.microsoft.com/en-us/library/windows/desktop/dd318693%28v=vs.85%29.aspx
+      NOTE: to work correctly in Harbour .prg level, a valid codepage, for the selected
+            keyboard, must be loaded using REQUEST HB_CODEPAGE_XXXX and  hb_CdpSelect("XXXX")
+      RETURNS: a Handler to keyboard layout, which can be used to unload this layout
+               using the relevant mgm_KeybrdUnload( nHandler ) function.    
+ 
+mgm_KeybrdUnload( nHandler ) --> NIL
+      Unloads a previously loaded (selected) keyboard layout (see above).
+ 
+mgm_GetDefaultUILanguage() --> nLangID
+      Retrieves the language identifier for the system default UI language of the operating system, 
+      also known as the "install language" on Windows Vista and later. For more information, 
+      see `User Interface Language Management` at https://msdn.microsoft.com/en-us/library/windows/desktop/dd374098(v=vs.85).aspx
+ 
+mgm_GetKeyboardLayoutName() --> cLayoutName
+      Retrieves the name of the active input locale identifier (formerly called the keyboard layout) for the system. 
+
+
+mgm_IsArrayRGB( anArray ) -> .T. | .F.
+      Checks if the passed anArray is a valid RGB (color) array.
+      
+mgm_InvertRGB( anArray ) -> anInvertedArrayRGB
+      Inverts (color) an RGB array.
+
+/*      
+   Below functions are temporary, for testing purposes, not for real use. 
+   (may be altered/deleted in the future).
+*/
+EnumWindows() -> aArray filled with handles of all top-level windows
+
+EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows
+
+GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
+
+GetProcessFullName ( [ nProcessID ] ) --> return cProcessFullName
+

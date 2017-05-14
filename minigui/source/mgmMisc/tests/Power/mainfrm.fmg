@@ -1,0 +1,226 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2016 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 TITLE "Power Buttons" ICON "AAMAIN" MAIN NOSIZE NOSYSMENU NOCAPTION ON MOUSECLICK MoveActiveWindow(,this.name) BACKCOLOR aFormColor
+
+     DEFINE LABEL lblAppBar
+            ROW    0
+            COL    0
+            WIDTH  200
+            HEIGHT 40
+            VALUE "  Power"+hb_eol()+"  buttons!"
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTBOLD .T.
+            BACKCOLOR HeaderBackColor
+            FONTCOLOR HeaderFontColor
+            CENTERALIGN .T.
+     END LABEL  
+
+    DEFINE BUTTONEX BtnAbout
+            ROW    5
+            COL    5
+            WIDTH  32
+            HEIGHT 32
+            PICTURE "QUESTION"
+            ICON NIL
+            ACTION MsgAbout() 
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            BACKCOLOR HeaderBackColor
+            TOOLTIP 'About...'
+            FLAT .T.
+            NOTRANSPARENT .T.
+            NOXPSTYLE .T.            
+            ONGOTFOCUS this.picture := "QUESTIONH"
+            ONLOSTFOCUS this.picture := "QUESTION"
+            TABSTOP .F.
+            HANDCURSOR .T.
+     END BUTTONEX  
+     
+     DEFINE BUTTONEX BtnExit
+            ROW    5
+            COL    165
+            WIDTH  32
+            HEIGHT 32
+            PICTURE "EXIT"
+            ICON NIL
+            ACTION ThisWindow.Release
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            TOOLTIP 'Close applet'
+            FLAT .T.
+            NOTRANSPARENT .T.
+            NOXPSTYLE .T.
+            ONGOTFOCUS this.picture := "ExitH"
+            ONLOSTFOCUS this.picture := "Exit"
+            TABSTOP .F.
+            HANDCURSOR .T.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX btxLockDesk
+            ROW    70
+            COL    40
+            WIDTH  48
+            HEIGHT 48
+            PICTURE NIL
+            ICON "LOGOUT"
+            ACTION Iif( MsgYesNo( e"Lock desktop! \n\r are you sure?" ), mgm_LockDeskTop(), NIL )
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            BACKCOLOR HeaderBackColor
+            FLAT .T.
+            NOXPSTYLE .T.
+            TABSTOP .F.
+            HANDCURSOR .T.            
+     END BUTTONEX  
+
+     DEFINE LABEL lblLogout
+            ROW    70
+            COL    90
+            WIDTH  80
+            HEIGHT 30
+            VALUE "Lock desktop"
+            FONTNAME mainFont
+            FONTSIZE smallFontSize
+            TRANSPARENT .T.
+            BACKCOLOR {  62,  70,  79 }
+            FONTCOLOR {0,232,116}
+     END LABEL  
+
+     DEFINE BUTTONEX btxSuspend
+            ROW    150
+            COL    40
+            WIDTH  48
+            HEIGHT 48
+            PICTURE NIL
+            ICON "SUSPEND"
+            ACTION Iif( MsgYesNo( e"Suspend System (sleep) \n\r are you sure?" ), mgm_SuspendSystem( .F. ), NIL )
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            BACKCOLOR HeaderBackColor
+            FLAT .T.
+            NOTRANSPARENT .T.
+            NOXPSTYLE .T.
+            TABSTOP .F.
+            HANDCURSOR .T.
+     END BUTTONEX  
+
+     DEFINE LABEL lblSuspend
+            ROW    150
+            COL    90
+            WIDTH  80
+            HEIGHT 48
+            VALUE "Suspend System (sleep)"
+            FONTNAME mainFont
+            FONTSIZE smallFontSize
+            TRANSPARENT .T.
+            BACKCOLOR {  62,  70,  79 }
+            FONTCOLOR {130,200,255}
+     END LABEL  
+
+     DEFINE BUTTONEX btxHiber
+            ROW    230
+            COL    40
+            WIDTH  48
+            HEIGHT 48
+            PICTURE NIL
+            ICON "HIBER"
+            ACTION Iif( MsgYesNo( e"Suspend System (hibernate) \n\r are you sure?" ), mgm_SuspendSystem( .T. ), NIL )
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            BACKCOLOR HeaderBackColor
+            FLAT .T.
+            NOTRANSPARENT .T.
+            NOXPSTYLE .T.
+            TABSTOP .F.
+            HANDCURSOR .T.
+     END BUTTONEX  
+
+     DEFINE LABEL lblHiber
+            ROW    230
+            COL    90
+            WIDTH  80
+            HEIGHT 48
+            VALUE "Suspend System (hibernate)"
+            FONTNAME mainFont
+            FONTSIZE smallFontSize
+            TRANSPARENT .T.
+            BACKCOLOR {  62,  70,  79 }
+            FONTCOLOR {255,164,119}
+     END LABEL  
+
+     DEFINE BUTTONEX btxShutdown
+            ROW    310
+            COL    40
+            WIDTH  48
+            HEIGHT 48
+            PICTURE NIL
+            ICON "SHUTDOWN"
+            ACTION NIL
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            BACKCOLOR HeaderBackColor
+            FLAT .T.
+            NOTRANSPARENT .T.
+            NOXPSTYLE .T.
+            TABSTOP .F.
+            HANDCURSOR .T.
+     END BUTTONEX  
+
+     DEFINE LABEL lblShutdown
+            ROW    310
+            COL    90
+            WIDTH  80
+            HEIGHT 48
+            VALUE "Shut Down System"
+            FONTNAME mainFont
+            FONTSIZE smallFontSize
+            TRANSPARENT .T.
+            BACKCOLOR {  62,  70,  79 }
+            FONTCOLOR {234,0,0}
+     END LABEL  
+
+     DEFINE BUTTONEX btxSuspendMonitor
+            ROW    390
+            COL    40
+            WIDTH  48
+            HEIGHT 48
+            PICTURE NIL
+            ICON "MONITOR"
+            ACTION mgm_SuspendMonitor()
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            BACKCOLOR HeaderBackColor
+            FLAT .T.
+            NOTRANSPARENT .T.
+            NOXPSTYLE .T.
+            TABSTOP .F.
+            HANDCURSOR .T.
+     END BUTTONEX  
+
+     DEFINE LABEL lblSuspendMonitor
+            ROW    390
+            COL    90
+            WIDTH  80
+            HEIGHT 48
+            VALUE "Suspend Monitor (power of)"
+            FONTNAME mainFont
+            FONTSIZE smallFontSize
+            TRANSPARENT .T.
+            BACKCOLOR {  62,  70,  79 }
+            FONTCOLOR {0,232,116}
+     END LABEL  
+     
+     
+     
+END WINDOW
+
+

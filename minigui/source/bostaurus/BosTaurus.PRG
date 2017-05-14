@@ -42,10 +42,6 @@
 *******************************************************************************
 
 
-#ifdef __XHARBOUR__
-  #define __MINIPRINT__
-#endif
-
 #include "hmg.ch"
 #include "BosTaurus.ch"   
 

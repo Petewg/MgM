@@ -64,6 +64,7 @@ char * itoa( int __value, char * __string, int __radix );
 #if defined( __XHARBOUR__ )
 extern HB_EXPORT void   hb_evalBlock0( PHB_ITEM pCodeBlock );
 #endif
+extern HB_EXPORT BOOL Array2Rect( PHB_ITEM aRect, RECT * rc );
 
 typedef HMODULE ( __stdcall * SHGETFOLDERPATH )( HWND, int, HANDLE, DWORD, LPTSTR );
 
@@ -458,11 +459,6 @@ HB_FUNC( DEFWINDOWPROC )
 HB_FUNC( GETSTOCKOBJECT )
 {
    HB_RETNL( ( LONG_PTR ) GetStockObject( hb_parni( 1 ) ) );
-}
-
-HB_FUNC( SETBKMODE )
-{
-   hb_retni( SetBkMode( ( HDC ) HB_PARNL( 1 ), hb_parni( 2 ) ) );
 }
 
 HB_FUNC( GETNEXTDLGTABITEM )
@@ -913,45 +909,43 @@ HB_FUNC( ISEXE64 ) // Check if our app is 64 bits
    hb_retl( ( sizeof( void * ) == 8 ) );
 }
 
-static DLLGETVERSIONPROC pDLLGETVERSION = NULL;
-
 HB_FUNC( GETDLLVERSION )
 {
-   typedef HRESULT ( CALLBACK * DLLGETVERSIONPROC )( DLLVERSIONINFO * );
+   HMODULE hModule;
+   DWORD   dwMajorVersion = 0;
+   DWORD   dwMinorVersion = 0;
+   DWORD   dwBuildNumber  = 0;
 
-   HMODULE        hModComCtl;
-   char           cLibName[ MAX_PATH ];
-   DLLVERSIONINFO dvi;
-   DWORD          dwMajorVersion = 0;
-   DWORD          dwMinorVersion = 0;
-   DWORD          dwBuildNumber  = 0;
-
-   memset( &dvi, 0, sizeof( dvi ) );
-
-   hb_strncpy( cLibName, hb_parc( 1 ), MAX_PATH - 1 );
-
-   hModComCtl = LoadLibrary( cLibName );
-   if( hModComCtl )
+   hModule = LoadLibrary( hb_parcx( 1 ) );
+   if( hModule )
    {
-      pDLLGETVERSION = ( DLLGETVERSIONPROC ) GetProcAddress( hModComCtl, "DllGetVersion" );
-      if( pDLLGETVERSION )
+      DLLGETVERSIONPROC fnDllGetVersion;
+
+      fnDllGetVersion = ( DLLGETVERSIONPROC ) GetProcAddress( hModule, "DllGetVersion" );
+
+      if( fnDllGetVersion )
       {
-         dvi.cbSize = sizeof( dvi );  // set size for Windows
-         if( pDLLGETVERSION( &dvi ) == NOERROR )
+         DLLVERSIONINFO dvi = { 0 };
+
+         dvi.cbSize = sizeof( dvi );
+
+         if( fnDllGetVersion( &dvi ) == S_OK )
          {
             dwMajorVersion = dvi.dwMajorVersion;
             dwMinorVersion = dvi.dwMinorVersion;
             dwBuildNumber  = dvi.dwBuildNumber;
          }
       }
+      else
+         MessageBox( NULL, "Cannot get DllGetVersion function.", "DllGetVersion", MB_OK | MB_ICONERROR );
 
-      FreeLibrary( hModComCtl );
+      FreeLibrary( hModule );
    }
 
    hb_reta( 3 );
-   HB_STORVNL( dwMajorVersion, -1, 1 ); // Major version
-   HB_STORVNL( dwMinorVersion, -1, 2 ); // Minor version
-   HB_STORVNL( dwBuildNumber, -1, 3 );  // Build number
+   HB_STORVNL( dwMajorVersion, -1, 1 );
+   HB_STORVNL( dwMinorVersion, -1, 2 );
+   HB_STORVNL( dwBuildNumber, -1, 3 );
 }
 
 // Jacek Kubica <kubica@wssk.wroc.pl> HMG 1.0 Experimental Build 9a
@@ -962,39 +956,42 @@ HB_FUNC( SELECTOBJECT )
                                         ) );
 }
 
-HB_FUNC( INVALIDATERECT )
-{
-   RECT rc;
-
-   if( hb_pcount() > 2 )
-   {
-      rc.left   = hb_parni( 3 );
-      rc.top    = hb_parni( 4 );
-      rc.right  = hb_parni( 5 );
-      rc.bottom = hb_parni( 6 );
-   }
-
-   InvalidateRect
-   (
-      ( HWND ) HB_PARNL( 1 ),             // handle of window with changed update region
-      ( hb_pcount() > 2 ) ? &rc : NULL,   // address of rectangle coordinates
-      hb_parni( 2 )                       // erase-background flag
-   );
-}
-
 HB_FUNC( FILLRECT )
 {
-   RECT rc;
+   HWND hWnd = ( HWND ) ( LONG_PTR ) HB_PARNL( 1 );
+   HDC  hDC;
+   BOOL bDC = FALSE;
 
-   rc.left   = hb_parni( 2 );
-   rc.top    = hb_parni( 3 );
-   rc.right  = hb_parni( 4 );
-   rc.bottom = hb_parni( 5 );
+   if( IsWindow( hWnd ) )
+   {
+      hDC = GetDC( hWnd );
+      bDC = TRUE;
+   }
+   else
+      hDC = ( HDC ) ( LONG_PTR ) HB_PARNL( 1 );
 
-   FillRect( ( HDC ) HB_PARNL( 1 ),    // handle to device context
-             &rc,                      // pointer to structure with rectangle
-             ( HBRUSH ) HB_PARNL( 6 )  // handle to brush
-             );
+   if( GetObjectType( ( HGDIOBJ ) hDC ) == OBJ_DC )
+   {
+      RECT rc;
+      int  iParam = 6;
+
+      if( Array2Rect( hb_param( 2, HB_IT_ANY ), &rc ) )
+         iParam = 3;
+      else
+      {
+         rc.left   = hb_parni( 2 );
+         rc.top    = hb_parni( 3 );
+         rc.right  = hb_parni( 4 );
+         rc.bottom = hb_parni( 5 );
+      }
+
+      hb_retni( FillRect( hDC, &rc, ( HBRUSH ) HB_PARNL( iParam ) ) );
+
+      if( bDC )
+         ReleaseDC( hWnd, hDC );
+   }
+   else
+      hb_retni( 0 );
 }
 
 #ifndef PROCESS_QUERY_LIMITED_INFORMATION
@@ -1189,18 +1186,6 @@ HB_FUNC( ISOEMTEXT )
 HB_FUNC( GETOBJECTTYPE )
 {
    HB_RETNL( ( LONG_PTR ) GetObjectType( ( HGDIOBJ ) HB_PARNL( 1 ) ) );
-}
-
-/*
-   Harbour MiniGUI 1.3 Extended (Build 33)
-   added by P.Chornyj
-
-   The WindowFromDC function returns a handle to the window
-   associated with the specified display device context (DC).
- */
-HB_FUNC( GETWINDOWFROMDC )
-{
-   HB_RETNL( ( LONG_PTR ) WindowFromDC( ( HDC ) HB_PARNL( 1 ) ) );
 }
 
 /*

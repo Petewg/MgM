@@ -46,6 +46,7 @@ c_cursor.c
 c_datepicker.c
 c_dialog.c
 c_dialogs.c
+c_draw.c
 c_editbox.c
 c_error.c
 c_folder.c
@@ -167,7 +168,5 @@ h_windows.prg
 h_windowsMDI.prg
 h_winprop.prg
 
-mgmFunctions.c
-mgmFunctions.prg
-
 hbwin.hbc
+

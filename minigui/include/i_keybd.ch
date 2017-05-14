@@ -1103,6 +1103,19 @@ _DefineHotKey ( <"parent"> , MOD_CONTROL , VK_NEXT , <{action}> )
 
 // Plain Keys
 
+#xcommand RELEASE KEY ADD OF <parent> ;
+=> ;
+_ReleaseHotKey ( <"parent"> , 0 , ADD )
+
+#xcommand RELEASE KEY SUBTRACT OF <parent> ;
+=> ;
+_ReleaseHotKey ( <"parent"> , 0 , SUBTRACT )
+
+#xcommand RELEASE KEY MULTIPLY OF <parent> ;
+=> ;
+_ReleaseHotKey ( <"parent"> , 0 , MULTIPLY )
+
+
 #xcommand RELEASE KEY F1 OF <parent> ;
 => ;
 _ReleaseHotKey ( <"parent"> , 0 , VK_F1   )

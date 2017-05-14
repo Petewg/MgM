@@ -401,7 +401,7 @@ HB_FUNC( C_HASALPHA ) // hBitmap --> lYesNo
 
    ReleaseDC( GetDesktopWindow(), hDC );
 
-   hDib = DibFromBitmap( ( HBITMAP ) HB_PARNL( 1 ), 0 );
+   hDib = DibFromBitmap( ( HBITMAP ) HB_PARNL( 1 ), ( HPALETTE ) NULL );
 
    if( hDib )
    {
@@ -418,114 +418,6 @@ HB_FUNC( C_HASALPHA ) // hBitmap --> lYesNo
    }
 
    hb_retl( bAlphaChannel );
-}
-
-// HMG 1.0 Experimental Build 9a
-// Author: J.Kubica <kubica@wssk.wroc.pl>
-
-/*
- * Function GetBitmapSize() - modified by P.Chornyj
- * for Harbour MiniGUI 1.3 Extended (Build 33)
- */
-HB_FUNC( GETBITMAPSIZE )
-{
-   PHB_ITEM aResult = hb_itemArrayNew( 3 );
-   HBITMAP  hBitmap;
-   BITMAP   bm;
-
-   if( GetObjectType( ( HGDIOBJ ) HB_PARNL( 1 ) ) == OBJ_BITMAP )
-   {
-      hBitmap = ( HBITMAP ) HB_PARNL( 1 );
-      GetObject( hBitmap, sizeof( bm ), &bm );
-
-      HB_arraySetNL( aResult, 1, bm.bmWidth );
-      HB_arraySetNL( aResult, 2, bm.bmHeight );
-      HB_arraySetNL( aResult, 3, bm.bmBitsPixel );
-   }
-   else
-   {
-      HB_arraySetNL( aResult, 1, 0 );
-      HB_arraySetNL( aResult, 2, 0 );
-      HB_arraySetNL( aResult, 3, 4 );
-   }
-
-   hb_itemReturnRelease( aResult );
-}
-
-/*
-   Harbour MiniGUI 1.3 Extended (Build 33)
-   Author P.Chornyj
-
-   Function BitmapSize()
-   ---------------------
-   Syntax
-     BitmapSize( cBitmap ) --> aTarget
-
-   Arguments
-     <cBitmap> is the name of the bitmap file or resource
-
-   Returns
-     BitmapSize() returns an array has the following structure:
-     ----------------------------------------------------------
-     Position     Metasymbol     i_bitmap.ch
-     ----------------------------------------------------------
-     1            nWidth         BM_WIDTH
-     2            nHeight        BM_HEIGHT
-     3            nBitsPerPixel  BM_BITSPIXEL
-     ----------------------------------------------------------
-     If file or resource are not found or corrupt,
-     BitmapSize returns an array {0, 0, 4} for compatibility
- */
-HB_FUNC( BITMAPSIZE )
-{
-   PHB_ITEM aResult = hb_itemArrayNew( 3 );
-   HBITMAP  hBitmap;
-   BITMAP   bm;
-
-   hBitmap = ( HBITMAP ) LoadImage( 0, hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
-
-   if( hBitmap == NULL )
-      hBitmap = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
-
-   if( hBitmap != NULL )
-   {
-      GetObject( hBitmap, sizeof( BITMAP ), &bm );
-
-      HB_arraySetNL( aResult, 1, bm.bmWidth );
-      HB_arraySetNL( aResult, 2, bm.bmHeight );
-      HB_arraySetNL( aResult, 3, bm.bmBitsPixel );
-
-      DeleteObject( hBitmap );
-   }
-   else
-   {
-      HB_arraySetNL( aResult, 1, 0 );
-      HB_arraySetNL( aResult, 2, 0 );
-      HB_arraySetNL( aResult, 3, 4 );
-   }
-
-   hb_itemReturnRelease( aResult );
-}
-
-HB_FUNC( GETICONSIZE )
-{
-   PHB_ITEM aArray = hb_itemArrayNew( 2 );
-   BITMAP   bm;
-   HICON    hIcon = ( HICON ) HB_PARNL( 1 );
-   ICONINFO sIconInfo;
-
-   if( hIcon )
-      if( GetIconInfo( hIcon, &sIconInfo ) )
-      {
-         GetObject( sIconInfo.hbmColor, sizeof( BITMAP ), &bm );
-         HB_arraySetNL( aArray, 1, bm.bmWidth );
-         HB_arraySetNL( aArray, 2, bm.bmHeight );
-
-         DeleteObject( sIconInfo.hbmMask );
-         DeleteObject( sIconInfo.hbmColor );
-
-         hb_itemReturnRelease( aArray );
-      }
 }
 
 HBITMAP Icon2Bmp( HICON hIcon )
@@ -1059,29 +951,104 @@ HB_FUNC( HB_GETIMAGESIZE )
    HB_STORNI( y, -1, 2 );
 }
 
-HB_FUNC( LOADICONBYNAME )
+/*
+   Harbour MiniGUI 1.3 Extended (Build 33)
+   Author P.Chornyj
+
+   Function BitmapSize()
+   ---------------------
+   Syntax
+     BitmapSize( xBitmap ) --> aTarget
+
+   Arguments
+     <xBitmap> is the NAME of the bitmap file or resource
+     or 
+     <xBitmap> is the handle to OBJ_BITMAP
+
+   Returns
+     BitmapSize() returns an array has the following structure:
+     ----------------------------------------------------------
+     Position     Metasymbol     i_bitmap.ch
+     ----------------------------------------------------------
+     1            nWidth         BM_WIDTH
+     2            nHeight        BM_HEIGHT
+     3            nBitsPerPixel  BM_BITSPIXEL
+     ----------------------------------------------------------
+     If file or resource are not found or corrupt, or is not OBJ_BITMAP,
+     BitmapSize returns an array {0, 0, 4} for compatibility
+ */
+
+HB_FUNC_TRANSLATE( BITMAPSIZE, GETBITMAPSIZE )
+
+static void _arraySet( PHB_ITEM pArray, int Width, int Height, int BitsPixel )
 {
-   HICON hIcon;
-
-   hIcon = ( HICON ) LoadImage( g_hInstance, hb_parc( 1 ), IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR );
-
-   if( hIcon == NULL )
-      hIcon = ( HICON ) LoadImage( 0, hb_parc( 1 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
-
-   HB_RETNL( ( LONG_PTR ) hIcon );
+   HB_arraySetNL( pArray, 1, Width );
+   HB_arraySetNL( pArray, 2, Height );
+   HB_arraySetNL( pArray, 3, BitsPixel );
 }
 
-HB_FUNC( DRAWICONEX )
+HB_FUNC( GETBITMAPSIZE )
 {
-   HWND   hwnd  = ( HWND ) HB_PARNL( 1 );
-   HICON  hIcon = ( HICON ) HB_PARNL( 4 );
-   HDC    hdc   = GetDC( hwnd );
-   HBRUSH hbrFlickerFreeDraw = CreateSolidBrush( hb_parni( 7 ) );
+   PHB_ITEM pResult = hb_itemArrayNew( 3 );
+   HBITMAP  hBitmap = NULL;
+   BOOL     bDelete = TRUE;
 
-   hb_retl( DrawIconEx( hdc, hb_parni( 2 ), hb_parni( 3 ), hIcon, hb_parni( 5 ), hb_parni( 6 ), 0, hbrFlickerFreeDraw, DI_NORMAL ) );
+   if( hb_parclen( 1 ) > 0 )
+   { 
+      const char * pszName = hb_parc( 1 );
 
-   DeleteObject( hbrFlickerFreeDraw );
-   DestroyIcon( hIcon );
+      hBitmap = ( HBITMAP ) LoadImage( g_hInstance, pszName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
-   ReleaseDC( hwnd, hdc );
+      if( hBitmap == NULL )
+         hBitmap = ( HBITMAP ) LoadImage( 0, pszName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
+   }
+   else
+   {
+      if( GetObjectType( ( HGDIOBJ ) HB_PARNL( 1 ) ) == OBJ_BITMAP )
+      {
+         hBitmap = ( HBITMAP ) HB_PARNL( 1 );
+         bDelete = FALSE;
+      }
+   }
+
+   _arraySet( pResult, 0, 0, 4 );
+
+   if( hBitmap != NULL )
+   {
+      BITMAP bm;
+
+      if( GetObject( hBitmap, sizeof( BITMAP ), &bm ) )
+         _arraySet( pResult, bm.bmWidth, bm.bmHeight, bm.bmBitsPixel );
+
+      if( bDelete )
+         DeleteObject( hBitmap );
+   }
+
+   hb_itemReturnRelease( pResult );
+}
+
+HB_FUNC( GETICONSIZE )
+{
+   PHB_ITEM pResult = hb_itemArrayNew( 3 );
+   HICON    hIcon = ( HICON ) HB_PARNL( 1 );
+
+   _arraySet( pResult, 0, 0, 4 );
+
+   if( hIcon )
+   {
+      ICONINFO sIconInfo;
+
+      if( GetIconInfo( hIcon, &sIconInfo ) )
+      {
+         BITMAP bm;
+
+         if( GetObject( sIconInfo.hbmColor, sizeof( BITMAP ), &bm ) )
+            _arraySet( pResult, bm.bmWidth, bm.bmHeight, bm.bmBitsPixel );
+
+         DeleteObject( sIconInfo.hbmMask );
+         DeleteObject( sIconInfo.hbmColor );
+      }
+   }
+
+   hb_itemReturnRelease( pResult );
 }

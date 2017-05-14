@@ -262,7 +262,7 @@ PROCEDURE _EndMenuPopup()
 RETURN
 
 *-----------------------------------------------------------------------------*
-PROCEDURE _DefineMenuItem ( caption, action, name, Image, checked, disabled, cMessage, font, check_image, lBreakMenu, lSeparator )
+PROCEDURE _DefineMenuItem ( caption, action, name, Image, checked, disabled, cMessage, font, check_image, lBreakMenu, lSeparator, icon )
 *-----------------------------------------------------------------------------*
    LOCAL Controlhandle , mVar , k , id , hBitmap := 0 , ContextMenuHandle , nBreakCode := 6
 
@@ -288,6 +288,8 @@ PROCEDURE _DefineMenuItem ( caption, action, name, Image, checked, disabled, cMe
 
       IF ValType ( image ) != 'U'
          hBitmap := MenuItem_SetBitMaps ( _HMG_xMenuPopuphandle [_HMG_xMenuPopupLevel ] , id , image , '' )
+      ELSEIF ValType ( icon ) != 'U'
+         hBitmap := MenuItem_SetIcon ( _HMG_xMenuPopuphandle [_HMG_xMenuPopupLevel ] , id , icon )
       ENDIF
 
       IF ValType ( check_image ) != 'U'

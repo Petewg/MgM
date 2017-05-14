@@ -434,10 +434,11 @@ DEFINE FONT <font> FONTNAME <name> ... [ANGLE <angle>] [CHARSET <charset>] [DEFA
 RELEASE FONT <font>
    The defined fonts will be released automatically at program release (similar to Hotkeys).
 
-DRAW TEXT IN WINDOW <form> - label which updated ON PAINT event
+DRAW ICON IN WINDOW <form> - output of icon which updated ON PAINT event
+DRAW TEXT IN WINDOW <form> - output of label which updated ON PAINT event
 DRAW PANEL IN WINDOW <form> - draw box raised (panel)
 DRAW BOX IN WINDOW <form> - draw box in
-DRAW GRADIENT IN WINDOW <form> - draw gradient with using MsImg32.dll and Gdi32.dll
+DRAW GRADIENT IN WINDOW <form> - draw gradient with using gdi32.dll or msimg32.dll
 
 Individual context menu for controls (excluding Frame):
 DEFINE CONTEXT MENU CONTROL <control> [ OF <parent> ]

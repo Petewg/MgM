@@ -60,9 +60,7 @@
 # include "ocidl.h"
 #endif
 
-#define _HMG_STUB_
-# include "hbgdiplus.h"
-#undef _HMG_STUB_
+#include "hbgdiplus.h"
 
 #include "hbapiitm.h"
 #include "hbvm.h"
@@ -176,7 +174,7 @@ static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type 
 {
    HBITMAP   hBitmap = ( HBITMAP ) NULL;
    GpStatus  status  = 1;
-   GpBitmap  GpBitmap;
+   GpBitmap  * gpBitmap;
    wchar_t * res_nameW;
 
    if( NULL == res_name )
@@ -184,8 +182,8 @@ static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type 
 
    res_nameW = hb_mbtowc( res_name );
 
-   if( NULL != g_GdipCreateBitmapFromResource )
-      status = g_GdipCreateBitmapFromResource( g_hInstance, res_nameW, &GpBitmap );
+   if( NULL != fn_GdipCreateBitmapFromResource )
+      status = fn_GdipCreateBitmapFromResource( g_hInstance, res_nameW, &gpBitmap );
 
    if( Ok != status && NULL != res_type )
    {
@@ -195,18 +193,18 @@ static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type 
 
       if( NULL != stream )
       {
-         if( NULL != g_GdipCreateBitmapFromStream )
-            status = g_GdipCreateBitmapFromStream( stream, &GpBitmap );
+         if( NULL != fn_GdipCreateBitmapFromStream )
+            status = fn_GdipCreateBitmapFromStream( stream, &gpBitmap );
 
          stream->lpVtbl->Release( stream );
       }
    }
 
-   if( Ok != status && NULL != g_GdipCreateBitmapFromFile )
+   if( Ok != status && NULL != fn_GdipCreateBitmapFromFile )
    {
       UINT uOldErrorMode = SetErrorMode( SEM_NOOPENFILEERRORBOX );
 
-      status = g_GdipCreateBitmapFromFile( res_nameW, &GpBitmap );
+      status = fn_GdipCreateBitmapFromFile( res_nameW, &gpBitmap );
 
       SetErrorMode( uOldErrorMode );
    }
@@ -215,11 +213,11 @@ static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type 
    {
       ARGB BkColor = 0xFF000000UL;  // TODO
 
-      if( NULL != g_GdipCreateHBITMAPFromBitmap )
-         g_GdipCreateHBITMAPFromBitmap( GpBitmap, &hBitmap, BkColor );
+      if( NULL != fn_GdipCreateHBITMAPFromBitmap )
+         fn_GdipCreateHBITMAPFromBitmap( gpBitmap, &hBitmap, BkColor );
 
-      if( NULL != g_GdipDisposeImage )
-         g_GdipDisposeImage( GpBitmap );
+      if( NULL != fn_GdipDisposeImage )
+         fn_GdipDisposeImage( gpBitmap );
    }
 
    hb_xfree( res_nameW );
@@ -445,7 +443,7 @@ HB_EXPORT HBITMAP HMG_LoadPicture( const char * pszName, int width, int height, 
    old_hBitmap = ( HBITMAP ) SelectObject( memDC2, new_hBitmap );
 
    if( BackgroundColor == -1 )
-      FillRect( memDC2, &rect2, GetSysColorBrush( COLOR_BTNFACE ) );
+      FillRect( memDC2, &rect2, ( HBRUSH ) ( COLOR_BTNFACE + 1 ) );
    else
    {
       HBRUSH hBrush = CreateSolidBrush( BackgroundColor );

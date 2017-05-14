@@ -1,0 +1,9 @@
+
+-w3
+-es2
+
+
+mgmTest.prg
+-lDwmapi
+../mgmMisc.hbc
+

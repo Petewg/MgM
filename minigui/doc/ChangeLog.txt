@@ -1,3 +1,113 @@
+2017/04/26: HMG Extended Edition version 17.04.
+  * New: Added the new C-function DrawState().
+           Syntax:
+             DrawState( <hWnd>|<hDC>, [<aColor>], [<uReserved>],
+               <hIcon>|<hBitmap>|<cText>, [<nLenText>], <nX>, <nY>,
+               [<nWidth>], [<nHeight>], <nFlags>, [<lDelete>] ) => lSuccess
+           Also the following C-functions were modified:
+             SetBkMode( <hWnd>|<hDC>, <nMode> ) => nOldMode
+             SetBkColor( <hWnd>|<hDC>, <aColor>|<nColor>|<nRed>[, <nGreen>]
+               [, <nBlue>] ) => nOldColor
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo3.prg in folder \samples\Basic\Icons)
+  * Modified: Revised GdiPlus.dll system library handling:
+           - using of the 'Flat GDI+ API's for C' (author: Frankie) at
+             http://www.johnfindlay.plus.com/pellesc/GdiPlus/GdiPlus.html.
+           - added hbgdip library (see source in folder \Source\hbgdip).
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Advanced\GdiPlus)
+  * Modified: Revised the C-function GetBitmapSize():
+           - the internal C-function BitmapSize() is marked as obsolete now.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Basic\BmpSize)
+  * Modified: Revised the C-function LoadIconByName(<icon>,<w>,<h> [,<hLib>]):
+           - added possibility to load the icons with a different size from
+             a multipage icon image which is used at Win XP or later.
+           - added possibility to load the icons from an external DLL.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demos in folder \samples\Basic\Icons)
+  * Modified: Revised the C-function RCDataToFile(). A new syntax is below:
+             RCDataToFile( <cResName>|<nResID>, <cFileName>,
+               [<cResType>|<nResType>], [<hModule>] ) => nResult
+           (see demo2.prg in folder \samples\Advanced\RCDataToFile)
+  * Enhanced: The command DRAW ICON IN WINDOW supports an optional clause
+           HICON <hIcon> for input of icon handle as parameter.
+           Note that above handle should be destroyed ON RELEASE of a form.
+           Syntax:
+             DRAW ICON IN WINDOW <windowname> AT <row>,<col> ;
+               PICTURE | IMAGE | HICON <icon> ;
+               [ WIDTH <w> ] [ HEIGHT <h> ] [ COLOR <nRGB> ] ; 
+               [ TRANSPARENT ]
+           Based upon a contribution of Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Basic\Icons)
+  * Enhanced: The MENUITEM command supports the optional clause ICON <icon>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\MenuEx)
+  * Modified: Adaptation of MiniGUI core for compatibility with Visual C 2015
+           compiler (there is a portable version at http://whosaway.com).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Modified: Restored protection of a programmatic change of 'On Change'
+           event for a ComboBox control (introduced in the build 17.02).
+           It uses SET PROGRAMMATICCHANGE OFF command for backward
+           compatibility with an old code (f.e., it needed for HMGS-IDE).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Changed: The automatical refreshing of client area of a form at startup
+           may be blocked by using of the command SET AUTOSCROLL OFF.
+           Note: This is an INCOMPATIBLE change.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.18.0 (from 3.18.0dev).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2017-04-25 17:45).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * Updated: HMGS-IDE v.1.4.2 Project Manager and Two-Way Visual Form Designer.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look for what's new at changelog.txt in folder \Ide)
+  * New: 'Colored Label Class' sample. Contributed by SergKis
+           (see in folder \samples\Basic\COLORED_LABEL)
+  * New: 'Reading PNG image from a file' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\IMAGE_3)
+  * New: 'Sumatra PDF Viewer' sample.
+           Warning: You should place of SumatraPDF.exe binary into a project
+           folder for a proper work of this sample.
+           Based upon a contribution of HMG user KDJ.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\PdfView)
+  * Updated: 'Print Pie Graph' sample: updated the data for March 2017.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\GraphPrint)
+  * Updated: 'WAIT WINDOW with an expectation' samples.
+           Based upon a contribution of Verchenko Andrey <verchenkoag@gmail.com>
+           (see in folder \samples\Basic\WAIT_WINDOW_2)
+  * Updated: 'Zip Component' sample: added the admin privileges claiming.
+           Based upon a freeware Zip Component by Belus Technology.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\Zip_2)
+  * Updated: 'Draw Curves' sample. Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\Curves)
+  * Updated: 'Gradient Background' sample.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\Fill_Blue)
+  * Updated: 'HMGTALK NetIO Client/Server' sample:
+           - added using of defined IP address into a server;
+           - fixed using of a valid PORT number into a client.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\HMGTALK)
+  * Updated: 'Multi RichEditEx' sample:
+           - fixed a 'Justify Text' tool button's action.
+           It was a postponed user's request.
+           Contributed by Marcelo Brigatti <sistemasies/at/gmail.com>
+           (see in folder \samples\Advanced\RicheditEx_2)
+  * Updated: 'Horizontal and Vertical Splitter' samples.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see in folder \samples\Advanced\Splitter)
+  * Updated: 'TsBrowse Add New Record with Index Order' sample:
+           - added a 'delete of record' action.
+           Contributed by SergKis
+           (see in folder \samples\Advanced\Tsb_addrecord_3)
+
 2017/03/21: HMG Extended Edition version 17.03.
   * Fixed: The problem with a repaint into a GRID without the colored cells
            (introduced in the build 16.05).
@@ -47,7 +157,7 @@
   * Updated: HbSQLite3 library:
            - update for using SQLITE3 version 3.18.0dev (from 3.17.0).
            Contributed by Grigory Filatov <gfilatov@inbox.ru>
-  * Updated: Harbour Compiler 3.2.0dev (SVN 2017-03-15 14:39).
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2017-03-20 12:28).
            Contributed by Grigory Filatov <gfilatov@inbox.ru>
            (look at ReadMe.txt in folder \harbour)
   * Updated: HMGS-IDE v.1.4.2 Project Manager and Two-Way Visual Form Designer.

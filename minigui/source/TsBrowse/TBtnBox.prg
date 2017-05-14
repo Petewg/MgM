@@ -57,7 +57,7 @@ METHOD New( nRow, nCol, bSetGet, oWnd, nWidth, nHeight, cPict, ;
            nClrBack  := GetSysColor( COLOR_WINDOW ),;
            nHeight   := 12,;
            bMin      := {|| 0 },;
-           bMax      := {|| 100000000 }
+           bMax      := {|| 32000 }
 
    ::nTop         := nRow
    ::nLeft        := nCol
@@ -94,11 +94,11 @@ METHOD New( nRow, nCol, bSetGet, oWnd, nWidth, nHeight, cPict, ;
    ::SetColor( nClrFore, nClrBack )
 
    if ! Empty( ParentHandle )
-      IF lSpinner
+      if lSpinner
          ::Create( "EDIT" )
          nMin := If( ValType( bMin ) == "B", Eval( bMin ), bMin )
          nMax := If( ValType( bMax ) == "B", Eval( bMax ), bMax )
-         ::hWndChild := InitedSpinner( ::hWndParent, ::hWnd , nCol, nRow, nWidth, nHeight, nMin, nMax )
+         ::hWndChild := InitedSpinner( ::hWndParent, ::hWnd , nCol, nRow, 0, nHeight, nMin, nMax, Eval( ::bSetGet ) )
          SetIncrementSpinner( ::hWndChild, bUp )
       else
          ::hWnd := InitBtnTextBox( ParentHandle, 0, nCol, nRow, nWidth, nHeight, '', 0, nMaxLenght, ;

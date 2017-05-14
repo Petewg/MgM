@@ -8508,6 +8508,7 @@ METHOD PageDown( nLines ) CLASS TSBrowse
          Case nSkipped == 0
             ::lHitBottom := .T.
             Return Nil
+
          Case nSkipped < nLines .and. ! lPageMode
 
             nI := If( ::lIsDbf, ( ::cAlias )->( RecNo() ), ::nAt )
@@ -8543,6 +8544,7 @@ METHOD PageDown( nLines ) CLASS TSBrowse
 
          Case nSkipped < nLines .and. lPageMode
             ::Refresh( .T. )
+
          Otherwise
 
             For nI = nLines To 1 Step -1
@@ -8551,18 +8553,28 @@ METHOD PageDown( nLines ) CLASS TSBrowse
 
             ::Skip( ::nRowPos )
             ::lRepaint := .T.       // JP 1.31
-      Endcase
+      EndCase
 
       If nKeyPressed == Nil
+
          ::Refresh( ::nLen < nTotLines )
+
          If ::bChange != Nil
             Eval( ::bChange, Self, VK_NEXT )
          EndIf
+
       ElseIf nSkipped >= nLines
          ::DrawSelect()
+
       Else
+
          nKeyPressed := Nil
          ::DrawSelect()
+
+         If ::bChange != Nil
+            Eval( ::bChange, Self, VK_NEXT )   // Haz 13/04/2017
+         EndIf
+
       EndIf
 
       If ::oVScroll != Nil

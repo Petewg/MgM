@@ -468,7 +468,9 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
          ComboSetCursel ( c , value )
       ENDIF
 
-      _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
+      IF _HMG_ProgrammaticChange
+         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
+      ENDIF
 
    CASE T == "LIST" .OR. T == "CHKLIST"
       Value := IFNUMERIC( Value, Value, 0 )
@@ -4365,11 +4367,9 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
          ix := GetControlIndex ( Arg2 , Arg1 )
 
          IF _HMG_aControltype [ix] == "GETBOX"
-
             RetVal := GetWindowText ( GetControlHandle ( Arg2 , Arg1 ) )
 
          ELSEIF _HMG_aControltype [ix] == "COMBO" .AND. _HMG_aControlMiscData1 [ix][1] == 1
-
             IF Empty ( _hmg_acontrolrangemin [ix] )
                RetVal := _GetComboItemValue ( Arg2 , Arg1 , ComboGetCursel ( _HMG_aControlHandles [ix] ) )
             ELSE

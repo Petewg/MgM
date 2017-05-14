@@ -1249,24 +1249,25 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
    //**********************************************************************
 
       FOR EACH r IN _HMG_aFormHandles
+
          z := hb_enumindex( r )
+
          IF _HMG_aFormDeleted [z] == .F. .AND. _HMG_aFormType [z] == 'X'
+
             a := _HMG_aFormGraphTasks [z]
             IF ISARRAY ( a ) .AND. Len ( a ) > 0
                AEval ( a, { |x| Eval ( x ) } )
             ENDIF
+
          ENDIF
+
       NEXT
 
       i := AScan ( _HMG_aFormHandles , hWnd )
 
       IF i > 0
 
-         IF _HMG_ProgrammaticChange
-
-            _DoWindowEventProcedure ( _HMG_aFormPaintProcedure [i] , i )
-
-         ENDIF
+         _DoWindowEventProcedure ( _HMG_aFormPaintProcedure [i] , i )
 
          FOR x := 1 TO Len ( _HMG_aFormGraphTasks [i] )
 
@@ -1274,36 +1275,28 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          NEXT x
 
-         ts := 0
+         k := 0
          FOR EACH r IN _HMG_aControlHandles
+
             z := hb_enumindex( r )
+
             IF _HMG_aControlParentHandles [z] == hWnd
+
                IF _HMG_aControlType [z] == "TOOLBAR" .AND. And( GetWindowLong ( r , GWL_STYLE ), CCS_BOTTOM ) == CCS_BOTTOM
-                  ts := r
+                  k := r
                   EXIT
                ENDIF
-            ENDIF
-         NEXT
 
-         IF ts > 0 .AND. _IsControlDefined ( "StatusBar" , _HMG_aFormNames [i] ) .AND. _HMG_SplitLastControl != "TOOLBAR"
+            ENDIF
+
+         NEXT
+         IF k > 0 .AND. _IsControlDefined ( "StatusBar" , _HMG_aFormNames [i] ) .AND. _HMG_SplitLastControl != "TOOLBAR"
             aPos := { 0, 0, 0, 0 }
             GetClientRect ( _HMG_aFormHandles [i], /*@*/ aPos )
-            SetWindowPos ( ts, 0, 0, aPos [4] - LoWord( GetSizeToolBar( ts ) ) - GetBorderHeight() - GetProperty( _HMG_aFormNames [i], "StatusBar", "Height" ), 0, 0, SWP_NOSIZE + SWP_NOZORDER )
+            SetWindowPos ( k, 0, 0, aPos [4] - LoWord( GetSizeToolBar( k ) ) - GetBorderHeight() - GetProperty( _HMG_aFormNames [i], "StatusBar", "Height" ), 0, 0, SWP_NOSIZE + SWP_NOZORDER )
          ENDIF
 
-         IF _HMG_ProgrammaticChange
-
-            RETURN 0
-
-         ELSE
-
-            DefWindowProc ( hWnd, nMsg, wParam, lParam )
-
-            _DoWindowEventProcedure ( _HMG_aFormPaintProcedure [i] , i )
-
-            RETURN 1
-
-         ENDIF
+         RETURN 0
 
       ENDIF
       EXIT

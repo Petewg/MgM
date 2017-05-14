@@ -1,0 +1,8 @@
+
+-w3
+-es2
+#-ospwr
+
+main.prg
+-lDwmapi
+\MiniguiM\minigui\source\mgmMisc\mgmMisc.hbc

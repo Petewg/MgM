@@ -1,0 +1,18 @@
+
+-hblib
+-warn=max
+-inc-
+-o../../lib/hbgdip
+
+-I../../include
+-hbx=../../include/${hb_name}.hbx
+
+-w2 -es2 -ko
+
+core.c 
+pen.c 
+brush.c 
+image.c 
+imageattr.c 
+graphics.c 
+bitmap.c

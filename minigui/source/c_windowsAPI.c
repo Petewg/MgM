@@ -355,11 +355,6 @@ HB_FUNC( SENDMESSAGESTRING )
    HB_RETNL( ( LONG_PTR ) SendMessage( ( HWND ) HB_PARNL( 1 ), ( UINT ) hb_parni( 2 ), ( WPARAM ) hb_parnl( 3 ), ( LPARAM ) ( LPSTR ) hb_parc( 4 ) ) );
 }
 
-HB_FUNC( UPDATEWINDOW )
-{
-   hb_retl( ( BOOL ) UpdateWindow( ( HWND ) HB_PARNL( 1 ) ) );
-}
-
 HB_FUNC( GETNOTIFYCODE )
 {
    LPARAM  lParam = ( LPARAM ) HB_PARNL( 1 );
@@ -566,11 +561,6 @@ HB_FUNC( GETWINDOWSTATE )
    GetWindowPlacement( ( HWND ) HB_PARNL( 1 ), &wp );
 
    hb_retni( wp.showCmd );
-}
-
-HB_FUNC( REDRAWWINDOW )
-{
-   RedrawWindow( ( HWND ) HB_PARNL( 1 ), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASENOW | RDW_UPDATENOW );
 }
 
 HB_FUNC( REDRAWWINDOWCONTROLRECT )
