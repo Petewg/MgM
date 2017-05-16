@@ -6,7 +6,7 @@ Harbour Minigui (MinGW Package)
 Harbour MiniGUI (Mingw Package) includes these main components:
 
 - Harbour 3.4.0dev
-  https://github.com/harbour/core
+  https://github.com/vszakats/harbour-core
 
 - Harbour MiniGUI extended (http://hmgextended.com/home.html)
 
