@@ -2,7 +2,7 @@ ChangeLog.txt ident
 
 # Default
 *         text=auto
-
+tabwidth=3
 # These files are text and should be normalized (convert CRLF => LF)
 *.1       text
 *.api     text
