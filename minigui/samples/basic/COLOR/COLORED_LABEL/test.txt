@@ -1,0 +1,7 @@
+This exception applies only to the code released by the Harbour
+Project under the name Harbour.  If you copy code from other
+Harbour Project or Free Software Foundation releases into a copy of
+Harbour, as the General Public License permits, the exception does
+not apply to the code that you add in this way.  To avoid misleading
+anyone as to the status of such modified files, you must delete
+this exception notice from them.

@@ -81,16 +81,16 @@ RETU //  MsgMulty()
 FUNC Any2Strg( xAny )
 
    LOCA cRVal  := '???',;
-        nType  :=  0,;
-        aCases := { { "A", { | x | "{...}" } },;                
-                    { "B", { | x | "{||}" } },;                
+        nType  ,;
+        aCases := { { "A", { | | "{...}" } },;                
+                    { "B", { | | "{||}" } },;                
                     { "C", { | x | x }},;
                     { "M", { | x | x   } },;                   
                     { "D", { | x | DTOC( x ) } },;             
                     { "L", { | x | IF( x,"On","Off") } },;    
                     { "N", { | x | NTrim( x )  } },;
-                    { "O", { | x | ":Object:" } },;
-                    { "U", { | x | "<NIL>" } } }
+                    { "O", { | | ":Object:" } },;
+                    { "U", { | | "<NIL>" } } }
                     
    IF (nType := ASCAN( aCases, { | a1 | VALTYPE( xAny ) == a1[ 1 ] } ) ) > 0
       cRVal := EVAL( aCases[ nType, 2 ], xAny )
