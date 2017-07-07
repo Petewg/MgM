@@ -1,6 +1,7 @@
 #include <mgdefs.h>
 
 #include <windows.h>
+
 #include <shlobj.h>
 
 #include "hbapi.h"
@@ -165,4 +166,13 @@ HB_FUNC ( GETPROCESSFULLNAME )
    }
 
    return;
+}
+
+/* 
+   IsWindowUnicode( <hWnd> ) --> .T. | .F. 
+     - Determines whether the specified <hWnd> window is a native Unicode window.
+*/
+HB_FUNC( ISWINDOWUNICODE )
+{
+   hb_retl( IsWindowUnicode( (HWND) hb_parnl( 1 ) ) );
 }

@@ -3,23 +3,27 @@
  * Copyright 2016-2017 Pete D.
  *
  * EnumWindows() -> aArray filled with handles of all top-level windows
- * EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows
+ * EnumChildWindows( hWnd ) --> aArray filled with handles of all child windows
  *
  * GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
  * GetProcessFullName ( [ nProcessID ] ) --> return cProcessFullName
  *
- * win_ErrorDescription( <nWinErrorCode> ) -> cErrorDescription
- 
+ * win_ErrorDescription( <nWinErrorCode> ) --> cErrorDescription
+ *
+ * GetCpuSpeed( [<nMode>] ) --> CPU speed in GHz (e.g.: 2.138)
+ *    optional <nMode> can be 1 or 2 (if omitted, default = 1 )
+ *    Measure the CPU speed as reported when the machine is idle (nMode=1) or busy (nMode=2).
+ * (based on code found here: https://randomascii.wordpress.com/2011/07/29/rdtsc-in-the-age-of-sandybridge/)
+ *
  * Interesting notes & links
  * Windows Data Types -> https://msdn.microsoft.com/en-us/library/aa383751(VS.85).aspx
 */
 
 #include <mgdefs.h>
 
-#include "hbwin.h"
+#include "hbwin.h" // includes <windows.h> and <hbapi.h>
 #include "hbwapi.h"
 #include "hbapiitm.h"
-
  
 /*
  * mgm_ErrorDescription( <nWinErrorCode> ) -> cErrorDescription
@@ -78,3 +82,73 @@ HB_FUNC( WIN_P2N )
    hb_retnint( HB_ISNUM( 1 ) ? hb_parnint( 1 ) : ( HB_PTRDIFF ) hb_parptr( 1 ) );
 }
 #endif
+
+/* 
+ * GETCPUSPEED() implementation 
+ *    __int64 GetQPCTime()
+ *    __int64 GetQPCRate()
+ *    GetCpuSpeed( short nMode, DWORD msDuration )
+*/
+
+#include <intrin.h>
+/* Use Query Performance Counter to get an accurate time-stamp. */
+__int64 GetQPCTime()
+{
+   LARGE_INTEGER qpcTime;
+   QueryPerformanceCounter(&qpcTime);
+   return qpcTime.QuadPart;
+}
+
+/* Use QueryPerformanceCounter to interpret the results of GetQPCTime() */
+__int64 GetQPCRate()
+{
+   LARGE_INTEGER qpcRate;
+   QueryPerformanceFrequency(&qpcRate);
+   return qpcRate.QuadPart;
+}
+
+/* returns CPU speed in GHz */ 
+double GetCpuSpeed( short nMode, DWORD msDuration )
+{
+   const double qpcRate = (double) GetQPCRate();
+   msDuration = (msDuration == 0 ? 1000 : msDuration);
+   
+   if( nMode == 1 )   /* Measure the CPU speed reported by __rdtsc() when the machine is mostly idle. */
+   {
+      __int64 rdtscStart = __rdtsc();
+      __int64 qpcStart = GetQPCTime();
+      
+      Sleep( (DWORD) msDuration );
+      
+      __int64 rdtscElapsed = __rdtsc() - rdtscStart;
+      __int64 qpcElapsed = GetQPCTime() - qpcStart;
+      
+      return( 1e-9 * rdtscElapsed / (qpcElapsed / qpcRate) );
+   }
+   
+   if( nMode == 2 ) /* Measure the CPU speed reported by __rdtsc() when the machine is busy. */
+   {
+      __int64 rdtscStart = __rdtsc();
+      __int64 qpcStart = GetQPCTime();
+      DWORD startTick = GetTickCount();
+      for (;;)
+      {
+         DWORD tickDuration = GetTickCount() - startTick;
+         if (tickDuration >= msDuration)
+            break;
+      }
+      __int64 rdtscElapsed = __rdtsc() - rdtscStart;
+      __int64 qpcElapsed = GetQPCTime() - qpcStart;
+      
+      return( 1e-9 * rdtscElapsed / (qpcElapsed / qpcRate) );
+         
+   }
+   return 0;
+}
+/* Harbour wrapper function */
+HB_FUNC( GETCPUSPEED )
+{
+   short nMode = hb_parnidef(1, 1);
+   hb_retnd( GetCpuSpeed( nMode, 100 ) );
+}
+/* End GETCPUSPEED() implementation */
