@@ -1,12 +1,11 @@
   
--------------------------------------------------------------- 
-           MiniguiM Package (build date: 27/06/2017)               
+ 
+###           MiniguiM Package (build date: 27/06/2017)               
          GitHub project: https://github.com/Petewg/MgM
 -------------------------------------------------------------- 
   
-                -------------------- 
-                Components versions:   
-                -------------------- 
+###                Components versions:   
+
    
 * Harbour MiniGUI Extended (MinGW) release 17.06u2  
    
