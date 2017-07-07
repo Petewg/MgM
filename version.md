@@ -1,8 +1,7 @@
   
  
-###           MiniguiM Package (build date: 27/06/2017)               
+###           MiniguiM Package 17.06-u2 (build date: 27/06/2017)               
          GitHub project: https://github.com/Petewg/MgM
--------------------------------------------------------------- 
   
 ###                Components versions:   
 
