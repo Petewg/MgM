@@ -1351,13 +1351,14 @@ LRESULT CALLBACK OwnPropGridProc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 
             iCheck = tvi.state >> 12;
 
-            if( (iCheck > 0) && (!ppgrd->fDisable) )
+            if( (iCheck > 0) && !(ppgrd->fDisable) )
             {
                iCheck = iCheck == 2 ? 1 : 2;
                tvi.state = INDEXTOSTATEIMAGEMASK( iCheck );
                TreeView_SetItem( hWnd, &tvi );
                PostMessage( hWnd, WM_COMMAND, MAKEWPARAM(iCheck, BN_CLICKED), (LPARAM) ppgrd->hItemActive );
             }
+            break;
          }
 
       case WM_LBUTTONUP:
@@ -1368,6 +1369,7 @@ LRESULT CALLBACK OwnPropGridProc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
             PostMessage( ppgrd->hPropEdit, WM_CLOSE, 0, 0 );
             ppgrd->hItemEdit = 0;
          }
+         break;
 
       case NM_SETFOCUS:
          if( !((HWND) wParam == ppgrd->hPropEdit) )
@@ -1375,6 +1377,7 @@ LRESULT CALLBACK OwnPropGridProc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
             PostMessage( ppgrd->hPropEdit, WM_CLOSE, 0, 0 );
             ppgrd->hItemEdit = 0;
          }
+         break;
 
       case WM_COMMAND:
       case WM_CHAR:
@@ -1852,6 +1855,44 @@ HB_FUNC( PG_GETROOT )
    ItemHandle = TreeView_GetRoot( TreeHandle );
 
    hb_retnl( (LONG) ItemHandle );
+}
+
+HB_FUNC( PG_ENSUREVISIBLE )
+{
+   HWND        TreeHandle;
+   HTREEITEM   ItemHandle;
+   BOOL        lVisible;
+
+   TreeHandle = ( HWND ) hb_parnl( 1 );
+   ItemHandle = ( HTREEITEM ) hb_parnl( 2 );
+
+   lVisible = TreeView_EnsureVisible( TreeHandle, ItemHandle );
+
+   hb_retl( (BOOL) lVisible );
+
+}
+
+HB_FUNC( PG_ISVISIBLE )
+{
+   HWND        TreeHandle;
+   HTREEITEM   ItemHandle;
+   HTREEITEM   ItemHdl;
+   BOOL        lVisible = FALSE;
+
+   TreeHandle = ( HWND ) hb_parnl( 1 );
+   ItemHandle = ( HTREEITEM ) hb_parnl( 2 );
+
+   ItemHdl = TreeView_GetFirstVisible ( TreeHandle );
+   while( ItemHdl )
+   {
+      if( ItemHdl == ItemHandle )
+      {
+         lVisible = TRUE;
+         break;
+      }
+      ItemHdl = TreeView_GetNextVisible( TreeHandle, ItemHdl );
+   }
+   hb_retl( (BOOL) lVisible );
 }
 
 HB_FUNC( PG_SEARCHID )        //PG_SearchID(hWndPG,nID)
@@ -2458,11 +2499,8 @@ LRESULT CALLBACK PGEditProc( HWND hEdit, UINT Msg, WPARAM wParam, LPARAM lParam 
             {
                return HTBORDER;
             }
-            else
-            {
-               break;
-            }
          }
+         break;
 
       case WM_NCLBUTTONDBLCLK:
       case WM_NCLBUTTONDOWN:
@@ -2541,6 +2579,7 @@ LRESULT CALLBACK PGEditProc( HWND hEdit, UINT Msg, WPARAM wParam, LPARAM lParam 
             PostMessage( GetParent(hEdit), WM_KEYDOWN, VK_UP, MAKEWPARAM(0, 0) );
             SetFocus( GetParent(hEdit) );
          }
+         break;
 
       case WM_LBUTTONUP:
          if( pbtn->nButton )
@@ -2583,6 +2622,7 @@ LRESULT CALLBACK PGEditProc( HWND hEdit, UINT Msg, WPARAM wParam, LPARAM lParam 
             PostMessage( GetParent(hEdit), WM_KEYDOWN, VK_DOWN, MAKEWPARAM(0, 0) );
             SetFocus( GetParent(hEdit) );
          }
+         break;
 
       case WM_CREATE:
       case WM_NCCREATE:

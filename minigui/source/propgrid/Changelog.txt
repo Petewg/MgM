@@ -164,3 +164,20 @@ New: Key ESC restores previous data before writes to internal structure
             [ ID <id> ] ;
             [ INFO <cInfo> ] ;
             [ VARNAME <cVarName>  ]
+
+2016/10/18:
+  - New: Added an optional WHEN clause to PROPERTYITEM command.
+	Syntax:
+	PROPERTYITEM <cName>  ;
+            [ <dummy1: OF, PARENT> <category> ] ;
+            ITEMTYPE <ctype> ;
+            VALUE <cValue> ;
+            [ ITEMDATA <caData> ];
+            WHEN <lEnabled> ;
+            [ ID <id> ] ;
+            [ INFO <cInfo> ] ;
+            [ VARNAME <cVarName> ] ;
+            [ <disableedit : DISABLEEDIT> ];
+
+2017.06.20:
+	- New: Changed item value is only refreshes it if it is visible or if you want it to be visible.

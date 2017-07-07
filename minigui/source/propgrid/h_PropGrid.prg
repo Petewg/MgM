@@ -1805,11 +1805,11 @@ FUNCTION aVal2Str( aData, sep )
 RETURN cData
 
 *------------------------------------------------------------------------------*
-FUNCTION SetPropGridValue ( ParentForm, ControlName, nID, cValue, cData )
+FUNCTION SetPropGridValue ( ParentForm, ControlName, nID, cValue, cData, lExp )
 *------------------------------------------------------------------------------*
    LOCAL hItem, RetVal := "", ItemType, i, lData := .T.
-   LOCAL hWndPG , hEdit := 0
-   DEFAULT nID := 0
+   LOCAL hWndPG, hEdit := 0
+   DEFAULT nID := 0, lExp := FALSE
    IF ValType( ParentForm ) == 'U'
       IF _HMG_BeginWindowActive
          ParentForm := _HMG_ActiveFormName
@@ -1841,7 +1841,11 @@ FUNCTION SetPropGridValue ( ParentForm, ControlName, nID, cValue, cData )
                SetWindowText ( hEdit, cValue )
             ENDIF
             PG_SETDATAITEM( hWndPG, hItem, cValue, cData, lData )
-            PG_REDRAWITEM( hWndPG, hItem )
+            IF  PG_ISVISIBLE( hWndPG, hItem )
+               PG_REDRAWITEM( hWndPG, hItem )
+            ELSEIF lExp
+               PG_ENSUREVISIBLE( hWndPG, hItem )
+            ENDIF
             PostMessage( hWndPG, WM_KEYDOWN, VK_ESCAPE, 0 )
          ENDIF
       ENDIF
