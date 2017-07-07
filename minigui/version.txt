@@ -1,1 +1,1 @@
-Harbour MiniGUI Extended (MinGW) release 17.04
+Harbour MiniGUI Extended (MinGW) release 17.06u2

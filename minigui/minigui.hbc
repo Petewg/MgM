@@ -29,6 +29,9 @@
 #{win}libs=miniprint adordd bostaurus hbxml qhtm propsheet calldll tmsagent propgrid winreport
  {win}libs=miniprint adordd bostaurus hbxml qhtm propsheet calldll tsbrowse
 
+# mgmMisc library 
+  {win}libs=I:\MiniguiM\minigui\source\mgmMisc\mgmMisc.hbc
+
 # MingW Libs (system)
 {win}libs=msvfw32 vfw32
 
