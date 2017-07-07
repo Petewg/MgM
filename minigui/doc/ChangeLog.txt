@@ -1,3 +1,175 @@
+2017/06/22: HMG Extended Edition version 17.06.
+  * New: Added the read/write user-defined property 'Cargo' for the Forms.
+           You can set/get this property at runtime:
+           - function syntax:
+             SetProperty ( Form, 'Cargo', xUserData )
+             GetProperty ( Form, 'Cargo' ) --> xUserData
+           - pseudo-OOP syntax:
+             Form.Cargo := xUserData
+             Form.Cargo --> xUserData
+           Sample code:
+             ThisWindow.Cargo := InputBox( 'Enter a form's title', 'New Title' )
+             ThisWindow.Title := ( ThisWindow.Cargo )
+           It was a postponed user's request.
+           Suggested and contributed by SergKis.
+  * New: Added a possibility to load a menu from an application resource with the
+           accelerators:
+           - added a new function hMenu := LoadMenu( [<hInstance>], cMenuName );
+           - added the new functions
+             hAccel := LoadAccelerators( [<hInstance>], cTableName ) and
+             SetAcceleratorTable( hWnd, hAccel ).
+           It was a postponed user's request.
+           Note that hMenu handle should be destroyed ON RELEASE of a form via
+           calling of the function DestroyMenu( hMenu ).
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Basic\MenuRES)
+  * New: Added the following new commands for managing of the application events:
+           - ON APPEVENT [ID] <nId> ACTION <bAction> OF <window> ;
+             [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>.
+           - EMIT [EVENT] [ID] <nId> OF <window>.
+           - REMOVE APPEVENT [[ID] [<nId>] | ALL] OF <window> ;
+             [ONCE>] [RESULT] TO <lResult>.
+           - UPDATE APPEVENT [ID] <nId> [ACTION <bAction>] OF <window> ;
+             [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>.
+           - added useful function aStatus := GetAppEventsInfo( hWnd, lOnce ).
+           Warning: This feature is available for Harbour only.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Advanced\AppEvents)
+  * New: Added a new command for managing of the Message-Only Windows:
+           [DEFINE] [WINDOW] MESSAGEONLY <w> [EVENTS [FUNC] <e>] ;
+           [RESULT] TO <lResult>
+           It is a hidden window which will dispatches messages only.
+           The additional information is available at
+           https://msdn.microsoft.com/en-us/library/windows/desktop/
+           ms632599(v=vs.85).aspx#message_only
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Advanced\MESSAGEONLY_WINDOW)
+  * Enhanced: The window's properties which were defined via SET WINDOWPROPERTY
+           command will be removed automatically at form's closing with using of
+           a new C-function EnumPropEx( hWnd, bCodeBlock ) if they have prefix
+           beginning with 'HMG_'.
+           Suggested and contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\basic\mdi_2)
+  * Modified: Added a thread safe lock/unlock to the Global Listener C-code.
+           This behavior is available for Harbour-based build only.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+  * Modified: GetBox control - improved caret shape in the insert/overwrite modes.
+           A readonly GetBox will not show a caret now.
+           Based upon a contribution of SergKis
+           (see demo in folder \samples\Basic\GetBox)
+  * Modified: The following obsolete C-functions were guarded with HMG_LEGACY_ON
+           constant in the Minigui core:
+           - BitmapSize();
+           - C_DrawFocusRect();
+           - GetWindowFromDC().
+           The actual function's names are GetBitmapSize(), DrawFocusRect() and
+           WindowFromDC().
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\SetThemes)
+  * Updated: 'MiniGUI Extended Edition Common Commands' list.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at commands.txt in folder \Doc)
+  * Updated: PropGrid library v.2.0 (see source in folder \source\PropGrid):
+           - New: Changed item value is only refreshes it if it is visible or
+             if you want it to be visible.
+           Contributed by Janusz Pora <januszpora@onet.eu>
+           (see demo2.prg in folder \samples\Advanced\PropGrid)
+  * Updated: PropSheet library source code (see in folder \Source\PropSheet):
+           - updated for compatibility with the last Minigui changes.
+           Suggested and contributed by SergKis.
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added a new method UserKeys( nKey, bKey, lCtrl, lShift ).
+             Sample code:
+           :UserKeys(VK_F2, {|oBr,nKy,cKy| Add_Rec(oBr, nKy, cKy) })
+           :UserKeys(VK_F3, {|oBr,nKy,cKy| Del_Rec(oBr, nKy, cKy) })
+           :UserKeys(VK_F3, {|oBr,nKy,cKy| MsgBox(cKy, 'Ctrl  + F3') }, .T.)
+           :UserKeys(VK_F3, {|oBr,nKy,cKy| MsgBox(cKy, 'Shift + F3') },    , .T.)
+           :UserKeys(VK_F3, {|oBr,nKy,cKy| MsgBox(cKy, 'C + S + F3') }, .T., .T.)
+           :UserKeys(NIL  , {|oBr,nKy,cKy| _LogFile(.T.,cKy, 'other', nKy ) })
+           If an above codeblock returns Nil or .F., then method KeyDown will be
+           finished, else if return is .T. then method KeyDown will work further.
+           Contributed by SergKis
+           (see demo in folder \samples\Advanced\Tsb_addrecord_3)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.19.3 (from 3.19.0).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2017-05-20 02:25).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * Updated: 'Sumatra PDF Viewer' utility:
+           - added ability to translate the interface,
+           - added ability to open url links from pdf documents,
+           - added view documents in tabs,
+           - added saving of last session and recent files in PdfView.recent,
+           - added processing of command line with pdf files as parameters,
+           - added auto refresh the file list when main window got focus,
+           - minor bugs fixed.
+           Based upon a contribution of HMG user KDJ.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\PdfView)
+  * Updated: 'TsBrowse Add New Record with Index Order' sample:
+           - fixed the warnings in a C-code;
+           - modified for using of a method UserKeys.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\Tsb_addrecord_3)
+  * Updated: 'DOS-like menu with using of TsBrowse' sample.
+           Based upon a contribution of Krzysztof Stankiewicz <ks@nsm.pl>
+           (see in folder \samples\Advanced\Tsb_menu)
+
+2017/05/24: HMG Extended Edition version 17.05.
+  * Fixed: A standard ComboBox control with the DISPLAYEDIT clause returns
+           a wrong value of the DisplayValue property at 'On Change' event.
+           It exists in the official version too.
+           Above bug was reported by Dusko Radojcin.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Modified: The automatical switching to INSERT mode in the EDIT family
+           controls at startup may be blocked by using of the command
+           SET AUTOSCROLL OFF. Requested by Dusko Radojcin.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           Warning: Note that the following modification from the build 17.04
+           [quote]
+           "The automatical refreshing of client area of a form at startup
+           may be blocked by using of the command SET AUTOSCROLL OFF."
+           [/quote] was reverted back in a current build.
+           It may be blocked by command SET PROGRAMMATICCHANGE OFF again.
+  * Modified: The C-function MemoryStatus() uses MEMORYSTATUSEX structure
+           to accept a memory status.
+           Added the new C-function GetPhysicallyInstalledSystemMemory().
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Basic\MAINDEMO_(SYNTAX_I))
+  * Updated: The internal C-functions DrawButton() and DrawFocusRect() were
+           simplified with using of the C-function InflateRect().
+           Contributed by Petr Chornyj <myorg63@mail.ru>.
+  * Updated: Function InkeyGUI([<nMilliSec>])-->VKey will detect also left
+           (and right) mouse click. Suggested by SergKis.
+           Contributed by Petr Chornyj <myorg63@mail.ru>
+           (see demo in folder \samples\Advanced\Tsb_addrecord_3)
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added handling of bLDblClick block for an editing cell in the
+             method LDblClick. Contributed by SergKis
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.19.0 (from 3.18.0).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2017-05-15 14:34).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * New: 'Emulation of a colored ChackBox and colored RadioGroup controls at
+           the themed Windows' sample.
+           Requested by Vianei Moreira de Lemos <vianeimoreira/at/gmail.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\CheckLabel_2)
+  * New: 'Writing Binary Value into Registry' sample.
+           Based upon a contribution of HMG user Edward.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\REGISTRY_3)
+  * New: 'Mapping of a Network Drive routinely' sample.
+           Based upon a contribution of HMG user KDJ.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\MapNetDrive)
+  * Updated: 'Print Pie Graph' sample: updated the data for April 2017.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\GraphPrint)
+
 2017/04/26: HMG Extended Edition version 17.04.
   * New: Added the new C-function DrawState().
            Syntax:

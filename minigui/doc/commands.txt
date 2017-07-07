@@ -6,7 +6,9 @@
 
 CLEAN MEMORY | RELEASE MEMORY
 
-SET WINDOW MAIN [ON | OFF]
+///////////////////////////////
+// Application related commands
+///////////////////////////////
 
 SET MULTIPLE [ON | OFF]
 
@@ -14,58 +16,39 @@ SET EVENTS FUNCTION TO <funcname>
 
 SET DEFAULT ICON TO <iconname>
 
-SET CENTERWINDOW RELATIVE [DESKTOP | PARENT]
-
 SET INTERACTIVECLOSE [ON | OFF | QUERY | QUERY MAIN]
-
-SET PROGRAMMATICCHANGE [ON | OFF]
 
 SET LANGUAGE TO <lang>
 
 SET CODEPAGE TO <lang>
 
-SET AUTOADJUST [ON | OFF]
-
-SET AUTOZOOMING [ON | OFF]
-
 SET HELPFILE TO <file>
-
-SET ERRORLOG TO [<file>]
-
-SET LOGERROR [ON | OFF]
-
-SET SHOWDETAILERROR [ON | OFF]
 
 SET LOGFILE TO <name>
 
 SET GLOBAL HOTKEYS [ON | OFF]
 
-SET FONT TO <name> , <size>
+///////////////////////////////
+// Windows related commands
+///////////////////////////////
 
-SET NAVIGATION [EXTENDED | STANDARD]
+SET WINDOW MAIN [ON | OFF]
 
-SET MENUSTYLE [EXTENDED | STANDARD]
+SET CENTERWINDOW RELATIVE [DESKTOP | PARENT]
 
-SET CONTEXT MENU [ON | OFF]
-
-SET CONTEXT MENU CONTROL <control> OF <parent> [ON | OFF]
+RESET MINMAXINFO [OF | WINDOW] <name> TO DEFAULT
 
 SET AUTOSCROLL [ON | OFF]
 
 SET SCROLLSTEP TO <step>
 SET SCROLLPAGE TO <step>
 
-SET TOOLTIP [ACTIVATE] [ON | OFF] [OF <form>]
+ON APPEVENT [ID] <nId> ACTION <bAction> OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
+EMIT [EVENT] [ID] <nId> OF <window>
+REMOVE APPEVENT [[ID] [<nId>] | ALL] OF <window> [ONCE>] [RESULT] TO <lResult>
+UPDATE APPEVENT [ID] <nId> [ACTION <bAction>] OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
 
-SET TOOLTIPSTYLE [BALLOON | STANDARD] | SET TOOLTIP BALLOON [ON | OFF]
-
-SET TOOLTIP MAXWIDTH TO <w> [OF <form>]
-
-SET TOOLTIP VISIBLETIME TO <millisec> OF <form>
-
-RESET MINMAXINFO [OF | WINDOW] <name> TO DEFAULT
-
-// This command replaces the traditional := assignment
+// This command replaces the traditional := assignment for strongly typed behavior
 
 ASSIGN <cVar> := <cExp>
 
@@ -83,7 +66,51 @@ PUBLIC <cVar> AS <xtype:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY> ;
 PRIVATE <cVar> AS <xtype:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY> ;
        [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
 
+///////////////////////////////
+// ErrorLog related commands
+///////////////////////////////
+
+SET ERRORLOG TO [<file>]
+
+SET LOGERROR [ON | OFF]
+
+SET SHOWDETAILERROR [ON | OFF]
+
+///////////////////////////////
+// Menu related commands
+///////////////////////////////
+
+SET MENUSTYLE [EXTENDED | STANDARD]
+
+SET CONTEXT MENU [ON | OFF]
+
+SET CONTEXT MENU CONTROL <control> OF <parent> [ON | OFF]
+
+///////////////////////////////
+// ToolTip related commands
+///////////////////////////////
+
+SET TOOLTIP [ACTIVATE] [ON | OFF] [OF <form>]
+
+SET TOOLTIPSTYLE [BALLOON | STANDARD] | SET TOOLTIP BALLOON [ON | OFF]
+
+SET TOOLTIP MAXWIDTH TO <w> [OF <form>]
+
+SET TOOLTIP VISIBLETIME TO <millisec> OF <form>
+
+///////////////////////////////
 // Controls related commands
+///////////////////////////////
+
+SET AUTOADJUST [ON | OFF]
+
+SET AUTOZOOMING [ON | OFF]
+
+SET FONT TO <name> , <size>
+
+SET NAVIGATION [EXTENDED | STANDARD]
+
+SET PROGRAMMATICCHANGE [ON | OFF]
 
 SET BROWSESYNC [ON | OFF]
 
