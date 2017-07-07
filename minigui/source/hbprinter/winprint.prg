@@ -1,18 +1,19 @@
-// -----------------------------------------------------------------------------
-// HBPRINTER - Harbour Win32 Printing library source code
-//
-// Copyright 2002-2005 Richard Rylko <rrylko@poczta.onet.pl>
-// -----------------------------------------------------------------------------
+/*
+ * HBPRINTER - Harbour Win32 Printing library source code
+ *
+ * Copyright 2002-2005 Richard Rylko <rrylko@poczta.onet.pl>
+ */
+
 #define __HBPRN__
 
-#include "HBClass.ch"
 #include "minigui.ch"
 #include "winprint.ch"
 
-// #define _DEBUG_
+#ifdef _DEBUG_
+#undef _DEBUG_
+#endif
 
 /* Background Modes */
-
 #define TRANSPARENT 1
 #define OPAQUE  2
 #define BKMODE_LAST 2
@@ -21,6 +22,7 @@ MEMVAR page, scale, azoom, ahs, npages
 MEMVAR dx, dy, ngroup, ath, Iloscstron
 MEMVAR aopisy
 
+#include "hbclass.ch"
 
 CLASS HBPrinter
 
@@ -223,6 +225,7 @@ RETURN NIL
 
 
 METHOD SetDevMode( what, newvalue ) CLASS HBPrinter
+
    ::hDCRef := rr_setdevmode( what, newvalue )
    rr_getdevicecaps( ::DEVCAPS, ::Fonts[ 3 ] )
    ::setunits( ::units )
@@ -231,6 +234,7 @@ RETURN Self
 
 
 METHOD SetUserMode( what, value, value2 ) CLASS HBPrinter
+
    ::hDCRef := rr_setusermode( what, value, value2 )
    rr_getdevicecaps( ::DEVCAPS, ::Fonts[ 3 ] )
    ::setunits( ::units )
@@ -239,6 +243,7 @@ RETURN Self
 
 
 METHOD StartDoc( ldocname ) CLASS HBPrinter
+
    ::Printing := .T.
    IF ldocname <> NIL
       ::DOCNAME := ldocname
@@ -269,7 +274,8 @@ RETURN Self
 
 
 METHOD Startpage() CLASS HBPrinter
-   if ::PreviewMode
+
+   IF ::PreviewMode
       ::hDC := rr_createmfile( ::BasePageName + StrZero( Len( ::metafiles ) + 1, 4 ) + '.emf' )
    ELSE
       rr_Startpage()
@@ -289,7 +295,8 @@ RETURN self
 
 
 METHOD Endpage() CLASS HBPrinter
-   if ::PreviewMode
+
+   IF ::PreviewMode
       rr_closemfile()
       AAdd( ::MetaFiles, { ::BasePageName + StrZero( Len( ::metafiles ) + 1, 4 ) + '.emf', ::DEVCAPS[ 1 ], ::DEVCAPS[ 2 ], ::DEVCAPS[ 3 ], ::DEVCAPS[ 4 ], ::DEVCAPS[ 15 ], ::DEVCAPS[ 17 ] } )
    ELSE
@@ -300,7 +307,8 @@ RETURN self
 
 
 METHOD SaveMetaFiles( number, filename ) CLASS HBPrinter
-   if ::PreviewMode
+
+   IF ::PreviewMode
       DEFAULT filename := ::DOCNAME + "_"
       IF number == NIL
          AEval( ::metafiles, {| x, xi | __CopyFile( x[ 1 ], filename + StrZero( xi, 4 ) + ".emf" ) } )
@@ -314,7 +322,7 @@ RETURN self
 
 METHOD EndDoc() CLASS HBPrinter
 
-   if ::PreviewMode
+   IF ::PreviewMode
       ::preview()
    ELSE
       rr_enddoc()
@@ -992,6 +1000,7 @@ RETURN self
 
 
 METHOD DeleteClipRgn() CLASS HBPrinter
+
    ::Regions[ 1, 1 ] := 0
    rr_deletecliprgn()
 
@@ -999,6 +1008,7 @@ RETURN self
 
 
 METHOD SetViewPortOrg( row, col ) CLASS HBPrinter
+
    row := if( row <> NIL, row, 0 )
    col := if( col <> NIL, col, 0 )
    ::ViewPortOrg := ::convert( { row, col } )
@@ -1008,17 +1018,19 @@ RETURN self
 
 
 METHOD GetViewPortOrg() CLASS HBPrinter
+
    rr_getviewportorg( ::ViewPortOrg )
 
 RETURN self
 
 
 METHOD End() CLASS HBPrinter
-   if ::PreviewMode
+
+   IF ::PreviewMode
       AEval( ::metafiles, {| x | FErase( x[ 1 ] ) } )
       ::MetaFiles := {}
    ENDIF
-   if ::HDCRef != 0
+   IF ::HDCRef != 0
       ef_resetprinter()
       rr_deletedc( ::HDCRef )
    ENDIF
@@ -1188,6 +1200,7 @@ RETURN ltemp
 
 
 METHOD SetRGB( red, green, blue ) CLASS HBPrinter
+
 RETURN rr_setrgb( red, green, blue )
 
 
@@ -1199,6 +1212,7 @@ RETURN rr_SetTextCharExtra( p2[ 2 ] -p1[ 2 ] )
 
 
 METHOD GetTextCharExtra() CLASS HBPrinter
+
 RETURN rr_GetTextCharExtra()
 
 
@@ -1210,14 +1224,17 @@ RETURN rr_SetTextJustification( p2[ 2 ] -p1[ 2 ] )
 
 
 METHOD GetTextJustification() CLASS HBPrinter
+
 RETURN rr_GetTextJustification()
 
 
 METHOD SetTextAlign( style ) CLASS HBPrinter
+
 RETURN rr_settextalign( style )
 
 
 METHOD GetTextAlign() CLASS HBPrinter
+
 RETURN rr_gettextalign()
 
 
@@ -1291,7 +1308,6 @@ STATIC FUNCTION NumAt( cSearch, cString )
 RETURN n
 #endif
 
-
 METHOD PrevThumb( nclick ) CLASS HBPrinter
 
    LOCAL i, spage
@@ -1333,7 +1349,6 @@ RETURN self
 METHOD PrevShow() CLASS HBPrinter
 
    LOCAL spos := { 0, 0 }
-
    if ::Thumbnails
       ::Prevthumb()
    ENDIF
@@ -2111,6 +2126,7 @@ STATIC FUNCTION LangInit
 
 RETURN aLang
 
+
 METHOD Preview() CLASS HBPrinter
    
    LOCAL i, pi := 1
@@ -2119,7 +2135,6 @@ METHOD Preview() CLASS HBPrinter
    PRIVATE page := 1, scale := ::PREVIEWSCALE, azoom := { 0, 0, 0, 0 }, ahs := {}, npages := {}
    PRIVATE dx, dy, ngroup := -1, ath := {}, iloscstron := Len( ::metafiles )
    PRIVATE aOpisy := LangInit()
-
    ::nFromPage := Min( ::nFromPage, iloscstron )
    if ::nwhattoprint < 2
       ::nTopage := iloscstron
@@ -2310,7 +2325,6 @@ RETURN NIL
 FUNCTION rr_GetFontNames()
 
    LOCAL aFontList := {}
-
    GetFontList( , , ANSI_CHARSET, , , , @aFontList )
 
 RETURN ( aFontList )
@@ -2327,7 +2341,6 @@ RETURN self
 METHOD PrintOption() CLASS HBPrinter
 
    LOCAL OKprint := .F.
-
    IF IsWindowDefined( PrOpt ) == .F.
 
       SET GETBOX FOCUS BACKCOLOR
