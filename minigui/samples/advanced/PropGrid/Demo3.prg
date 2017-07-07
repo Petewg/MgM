@@ -7,7 +7,7 @@ ANNOUNCE RDDSYS
 
 MEMVAR mPg_SysCol, mPg_Color, mPg_Font, mPg_Label, mPg_Image, mPg_Enum
 MEMVAR mPg_Check1, mPg_Check2, mPg_Check3, mPg_Date, mPg_Flag, mPg_Float
-MEMVAR mPg_Int, mPg_Float2
+MEMVAR mPg_Int, mPg_Float2, mPg_LabelM
 
 
 Function main()
@@ -16,6 +16,7 @@ Function main()
    Public mPg_Color := '(208,205,188)'
    Public mPg_Font := 'Arial, 8, Italic'
    Public mPg_Label := "CustomProperty"
+   Public mPg_LabelM := "Masked text"
    Public mPg_Image :='Image.bmp'
    Public mPg_Enum := 'Windows 98'
    Public mPg_Check1 := 'Option 1'
@@ -85,6 +86,7 @@ Function main()
       END CATEGORY
       DEFINE CATEGORY 'Custom User Property'
          PROPERTYITEM STRING "Label" VALUE mPg_Label INFO "Example - text for test"
+//         PROPERTYITEM STRING "Masked Label" VALUE mPg_LabelM ITEMDATA '!NN.!N' INFO "Example - Masked text for test"
          PROPERTYITEM IMAGE 'Image' VALUE mPg_Image ITEMDATA  '*.bmp;*.ico' DISABLEEDIT
          PROPERTYITEM ENUM 'Enum Item' VALUE mPg_Enum  ITEMDATA  'Windows 98;Windows 2000;Windows XP;Windows Vista' INFO "Application be tested under system"
          PROPERTYITEM CHECK 'Check Item 1' VALUE mPg_Check1  ITEMDATA 'true' INFO "Example 1 - Check with default option"

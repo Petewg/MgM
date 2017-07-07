@@ -65,6 +65,8 @@ Function main()
             SEPARATOR
             ITEM 'Get Value selected Item' ACTION DisplPGValue("PropertyGrid_1","Form_1",0)
             ITEM 'Get Property Info selected Item' ACTION DisplPGInfo("PropertyGrid_1","Form_1",0)
+            ITEM 'Set Property Value (Visible or not)' ACTION  SetPropGridValue ( "Form_1", "PropertyGrid_1", 1000, "Test 1" )
+            ITEM 'Set Property Value and make it Visible ' ACTION  SetPropGridValue ( "Form_1", "PropertyGrid_1", 1000, "Test 2",,TRUE )
          END POPUP
 
       END MENU
@@ -83,7 +85,7 @@ Function main()
          PROPERTYITEM FONT 'Font' VALUE mPg_Font  ITEMDATA 'Arial; 8; false; true; false; false' INFO "Basic font for application"
       END CATEGORY
       DEFINE CATEGORY 'Custom User Property'
-         PROPERTYITEM STRING "Label" VALUE mPg_Label INFO "Example - text for test"
+         PROPERTYITEM STRING "Label" VALUE mPg_Label  ID 1000  INFO "Example - text for test"
          PROPERTYITEM IMAGE 'Image' VALUE mPg_Image  ITEMDATA  '*.bmp;*.ico'
          PROPERTYITEM ENUM 'Enum Item' VALUE mPg_Enum  ITEMDATA  'Windows 98;Windows 2000;Windows XP;Windows Vista' INFO "Application be tested under system"
          PROPERTYITEM CHECK 'Check Item 1' VALUE mPg_Check1  ITEMDATA 'true' INFO "Example 1 - Check with default option"

@@ -56,8 +56,7 @@ PROCEDURE main()
 		MAIN ;
 		MINWIDTH 320 ;
 		MINHEIGHT 220 ;
-		ON INIT SetColorMenu( aColors, IF( IsWinNT(), FALSE, TRUE ) ) ;
-		ON RELEASE ExitGradientFunc()
+		ON INIT SetColorMenu( aColors, IF( IsWinNT(), FALSE, TRUE ) )
 
 		DEFINE MAIN MENU
 			DEFINE POPUP "&File" 
@@ -158,7 +157,7 @@ PROCEDURE OnDraw( param )	// modified
   IF ( GetObjectType( param ) <> OBJ_DC )
     GetClientRect( param, @aRect )
   ELSE
-    GetClientRect( GetWindowFromDC( param ), @aRect )
+    GetClientRect( WindowFromDC( param ), @aRect )
   ENDIF
 
   dx := aRect[3] - aRect[1]
@@ -683,7 +682,7 @@ Return ( 1 )
 */
 Static Function CountIt(cText)
 ******************************
-  Local nPoz := 1, nCount := 0
+  Local nPoz, nCount := 0
 
   IF At(CRLF, cText) > 0
     DO WHILE .T.
@@ -715,7 +714,7 @@ Return nCount
 // Syntax:
 // Local cPS
 // BeginPaint( hWnd, @cPS) -> hDC
-
+/*
 HB_FUNC( BEGINPAINT )
 {
    PAINTSTRUCT pps ;
@@ -732,7 +731,7 @@ HB_FUNC( ENDPAINT )
 {
    hb_retl( EndPaint( (HWND) hb_parnl( 1 ), (PAINTSTRUCT*) hb_parcx( 2 ) ) );
 }
-
+*/
 #ifdef __XHARBOUR__
 #define HB_PARNI( n, x ) hb_parni( n, x )
 #else
