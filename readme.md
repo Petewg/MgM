@@ -9,7 +9,7 @@ This Harbour MiniGUI package includes these main components:
        (https://github.com/vszakats/harbour-core)   
        (binaries built with MinGW32 7.1.0) 
        
-   - Harbour MiniGUI Extended version 17.04 (compiled with MinGW 7.1.0)   
+   - Harbour MiniGUI Extended version 17.06 - (update2) (compiled with MinGW 7.1.0)   
      ( http://hmgextended.com/home.html/ )
    
    - MinGW32 v. 7.1.0 (Built by MinGW-W64 project)   
