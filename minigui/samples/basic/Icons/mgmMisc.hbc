@@ -1,0 +1,8 @@
+description=mgmMisc library
+
+incpaths=.
+
+libs=${hb_dynprefix}${hb_name}${hb_dynsuffix}
+
+# This needed by mgmMisc lib.
+libs=powrprof
