@@ -18,6 +18,9 @@ Function MAIN()
    SET ShowDetailError ON
    SET DELETED ON
    SET BROWSESYNC ON
+   
+   SET AUTOADJUST ON NOBUTTONS
+   // SET AUTOZOOMING ON
 
    OPEN_TABLE()
 
@@ -30,7 +33,7 @@ Function MAIN()
       AT 0,0 ;
       WIDTH 480 HEIGHT 410 ;
       TITLE 'HMG GetBox Demo by Jacek Kubica <kubica@wssk.wroc.pl>' ;
-      MAIN
+      MAIN ON INIT _AutoAdjust( This.Handle, {640, 480} )
 
          DEFINE GETBOX Text_1 // Alternate Syntax
            ROW 10
@@ -378,7 +381,6 @@ Local aDbf := {}
   AADD (aDbf,{"Character"  , "C",  20,0})
   AADD (aDbf,{"Logical"    , "L",  1,0})
   dbcreate( ufile, aDbf, 'DBFNTX' )
-  aDbf := {}
 
 Return NIL
 
@@ -393,7 +395,7 @@ return .t.
 *-----------------------------
 Function _Trans(xval)
 *-----------------------------
-   Local RetVal:=""
+   Local RetVal
 
    if VALTYPE(xVAL)=="C"
       RetVal := xval
