@@ -1,1 +1,1 @@
-#define HMGRPATH I:\MiniguiM\minigui\resources 
+#define HMGRPATH C:\MiniguiM\minigui\resources 
