@@ -2,5 +2,5 @@
 
 SET MGROOT=%~d0\MiniguiM
 
-SET PATH=%MGROOT%\comp\mingw32\bin;%MGROOT%\comp\harbour\bin;%windir%\system32
+SET PATH=%MGROOT%\comp\mingw32\bin;%MGROOT%\comp\harbour\bin;%windir%\system32;%MGROOT%\batch
 
