@@ -124,3 +124,9 @@ GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
 
 GetProcessFullName ( [ nProcessID ] ) --> return cProcessFullName
 
+IsWindowUnicode( <hWnd> ) --> .T. | .F. 
+      Determines whether the specified <hWnd> window is a native Unicode window.
+      Currently barely useful, since hmg extended does not support unicode builds.
+      May be in future...
+      
+      
