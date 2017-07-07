@@ -56,15 +56,18 @@
 
 #include "hbapiitm.h"
 #include "hbapifs.h"
+#include "inkey.ch"
 
 #ifdef __XCC__
 char * itoa( int __value, char * __string, int __radix );
 #endif
 
 #if defined( __XHARBOUR__ )
+#define HB_LONGLONG  LONGLONG
 extern HB_EXPORT void   hb_evalBlock0( PHB_ITEM pCodeBlock );
 #endif
 extern HB_EXPORT BOOL Array2Rect( PHB_ITEM aRect, RECT * rc );
+extern void hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
 
 typedef HMODULE ( __stdcall * SHGETFOLDERPATH )( HWND, int, HANDLE, DWORD, LPTSTR );
 
@@ -272,42 +275,65 @@ HB_FUNC( GETKEYSTATE )
    hb_retni( GetKeyState( hb_parni( 1 ) ) );
 }
 
+#ifndef USER_TIMER_MINIMUM
+  #define USER_TIMER_MINIMUM  0x0000000A
+  #define USER_TIMER_MAXIMUM  0x7FFFFFFF
+#endif
+
 HB_FUNC( INKEYGUI )
 {
-   MSG  Msg;
-   BOOL lNoLoop = FALSE;
-   UINT dwTimer, nRet = 0, uTimeout = 10;
+   UINT     uElapse = hb_parnidef( 1, USER_TIMER_MINIMUM );
+   UINT_PTR uTimer;
+   MSG      Msg;
+   BOOL     bRet, bBreak = FALSE;
+   UINT     uRet = 0;
 
-   if( HB_ISNUM( 1 ) )
-      uTimeout = hb_parni( 1 );
+   if( uElapse == 0 )
+      uElapse = USER_TIMER_MAXIMUM;
 
-   if( uTimeout == 0 )
-      uTimeout = 0x0FFFFFFF;
+   uTimer = SetTimer( NULL, 0, uElapse, NULL );
 
-   dwTimer = SetTimer( NULL, 0, uTimeout, NULL );
-
-   while( GetMessage( &Msg, NULL, 0, 0 ) )
+   while( ( bRet = GetMessage( &Msg, NULL, 0, 0 ) ) != 0 )
    {
-
-      switch( Msg.message )
+      if( bRet == -1 )
       {
-         case WM_KEYDOWN:
-         case WM_SYSKEYDOWN:   nRet = Msg.wParam; lNoLoop = TRUE; break;
-         case WM_TIMER:   lNoLoop   = Msg.wParam == dwTimer;      break;
-      }
-
-      if( lNoLoop )
-      {
-         KillTimer( NULL, dwTimer );
-         hb_retni( nRet );
-         return;
+         // handle the error and possibly exit
+         hmg_ErrorExit( TEXT( "INKEYGUI" ), 0, TRUE );
       }
       else
       {
-         TranslateMessage( &Msg );   // Translates virtual key codes
-         DispatchMessage( &Msg );    // Dispatches message to window
+         switch( Msg.message )
+         {
+            case WM_KEYDOWN:
+            case WM_SYSKEYDOWN:
+               bBreak = TRUE;
+               uRet   = Msg.wParam;
+               break;
+            case WM_TIMER:
+               bBreak = ( Msg.wParam == uTimer );
+               break;
+            case WM_LBUTTONDOWN:
+            case WM_RBUTTONDOWN:
+               bBreak = TRUE;
+               uRet   = ( Msg.message == WM_LBUTTONDOWN ) ? K_LBUTTONDOWN : K_RBUTTONDOWN;
+               PostMessage( Msg.hwnd, Msg.message, Msg.wParam, Msg.lParam );
+               break;
+         }
+      }
+
+      if( bBreak )
+      {
+         KillTimer( NULL, uTimer );
+         break;
+      }
+      else
+      {
+         TranslateMessage( &Msg );  // Translates virtual key codes
+         DispatchMessage( &Msg );   // Dispatches message to window
       }
    }
+
+   hb_retns( uRet );
 }
 
 HB_FUNC( GETDC )
@@ -350,7 +376,7 @@ HB_FUNC( C_GETSPECIALFOLDER ) // Contributed By Ryszard Ryüko
 HB_FUNC( C_GETDLLSPECIALFOLDER )
 {
    TCHAR   szPath[ MAX_PATH ];
-   HMODULE hModule = LoadLibrary( "SHFolder.dll" );
+   HMODULE hModule = LoadLibrary( TEXT( "SHFolder.dll" ) );
 
    if( hModule )
    {
@@ -358,7 +384,7 @@ HB_FUNC( C_GETDLLSPECIALFOLDER )
 
       if( fnShGetFolderPath )
       {
-         if( fnShGetFolderPath( NULL, hb_parni( 1 ), NULL, 0, szPath ) == S_OK )
+         if( fnShGetFolderPath( NULL, hb_parni( 1 ), NULL, 0, szPath ) == ( HMODULE ) S_OK )
             hb_retc( szPath );
          else
             hb_retc( "" );
@@ -368,23 +394,80 @@ HB_FUNC( C_GETDLLSPECIALFOLDER )
 }
 #endif
 
+// Memory Management Functions
+typedef BOOL ( WINAPI * GetPhysicallyInstalledSystemMemory_ptr )( ULONGLONG * );
+
+HB_FUNC( GETPHYSICALLYINSTALLEDSYSTEMMEMORY )
+{
+   HMODULE hDll = GetModuleHandle( TEXT( "kernel32.dll" ) );
+
+   hb_retnll( 0 );
+
+   if( NULL != hDll )
+   {
+      GetPhysicallyInstalledSystemMemory_ptr fn_GetPhysicallyInstalledSystemMemory =
+         ( GetPhysicallyInstalledSystemMemory_ptr ) GetProcAddress( hDll, "GetPhysicallyInstalledSystemMemory" );
+
+      if( NULL != fn_GetPhysicallyInstalledSystemMemory )
+      {
+         ULONGLONG ullTotalMemoryInKilobytes;
+
+         if( fn_GetPhysicallyInstalledSystemMemory( &ullTotalMemoryInKilobytes ) )
+            hb_retnll( ( HB_LONGLONG ) ullTotalMemoryInKilobytes );
+      }
+   }
+}
+
+typedef BOOL ( WINAPI * GlobalMemoryStatusEx_ptr )( MEMORYSTATUSEX * );
+#define DIV  ( 1024 * 1024 )
+
 HB_FUNC( MEMORYSTATUS )
 {
-   MEMORYSTATUS mst;
-   int          n = hb_parni( 1 );
+   HMODULE hDll = GetModuleHandle( TEXT( "kernel32.dll" ) );
 
-   mst.dwLength = sizeof( MEMORYSTATUS );
-   GlobalMemoryStatus( &mst );
+   HB_RETNL( 0 );
 
-   switch( n )
+   if( NULL != hDll )
    {
-      case 1:  hb_retnl( mst.dwTotalPhys / ( 1024 * 1024 ) ); break;
-      case 2:  hb_retnl( mst.dwAvailPhys / ( 1024 * 1024 ) ); break;
-      case 3:  hb_retnl( mst.dwTotalPageFile / ( 1024 * 1024 ) ); break;
-      case 4:  hb_retnl( mst.dwAvailPageFile / ( 1024 * 1024 ) ); break;
-      case 5:  hb_retnl( mst.dwTotalVirtual / ( 1024 * 1024 ) ); break;
-      case 6:  hb_retnl( mst.dwAvailVirtual / ( 1024 * 1024 ) ); break;
-      default: hb_retnl( 0 );
+      GlobalMemoryStatusEx_ptr fn_GlobalMemoryStatusEx =
+         ( GlobalMemoryStatusEx_ptr ) GetProcAddress( hDll, "GlobalMemoryStatusEx" );
+
+      if( NULL != fn_GlobalMemoryStatusEx )
+      {
+         MEMORYSTATUSEX mstex;
+
+         mstex.dwLength = sizeof( mstex );
+
+         if( fn_GlobalMemoryStatusEx( &mstex ) )
+         {
+            switch( hb_parni( 1 ) )
+            {
+               case 1:  hb_retnll( mstex.ullTotalPhys / DIV ); break;
+               case 2:  hb_retnll( mstex.ullAvailPhys / DIV ); break;
+               case 3:  hb_retnll( mstex.ullTotalPageFile / DIV ); break;
+               case 4:  hb_retnll( mstex.ullAvailPageFile / DIV ); break;
+               case 5:  hb_retnll( mstex.ullTotalVirtual / DIV ); break;
+               case 6:  hb_retnll( mstex.ullAvailVirtual / DIV ); break;
+            }
+         }
+      }
+      else
+      {
+         MEMORYSTATUS mst;
+
+         mst.dwLength = sizeof( MEMORYSTATUS );
+         GlobalMemoryStatus( &mst );
+
+         switch( hb_parni( 1 ) )
+         {
+            case 1:  HB_RETNL( mst.dwTotalPhys / DIV ); break;
+            case 2:  HB_RETNL( mst.dwAvailPhys / DIV ); break;
+            case 3:  HB_RETNL( mst.dwTotalPageFile / DIV ); break;
+            case 4:  HB_RETNL( mst.dwAvailPageFile / DIV ); break;
+            case 5:  HB_RETNL( mst.dwTotalVirtual / DIV ); break;
+            case 6:  HB_RETNL( mst.dwAvailVirtual / DIV ); break;
+         }
+      }
    }
 }
 
@@ -574,7 +657,7 @@ HB_FUNC( WAITRUNTERM )
       WaitForSingleObject( prInfo.hProcess, INFINITE );
 
    if( bTerm )
-      dwExitCode = -1;
+      dwExitCode = ( DWORD ) -1;
    else
       GetExitCodeProcess( prInfo.hProcess, &dwExitCode );
 
@@ -1042,7 +1125,7 @@ HB_FUNC( EMPTYWORKINGSET )
 // Grigory Filatov <gfilatov@inbox.ru> HMG 1.1 Experimental Build 10d
 HB_FUNC( CLEANPROGRAMMEMORY )
 {
-   hb_retl( SetProcessWorkingSetSize( GetCurrentProcess(), -1, -1 ) );
+   hb_retl( SetProcessWorkingSetSize( GetCurrentProcess(), ( SIZE_T ) -1, ( SIZE_T ) -1 ) );
 }
 
 // Grigory Filatov <gfilatov@inbox.ru> HMG 1.1 Experimental Build 11a
@@ -1200,8 +1283,8 @@ HB_FUNC( DRAGACCEPTFILES )
 HB_FUNC( DRAGQUERYFILES )
 {
    HDROP hDrop  = ( HDROP ) HB_PARNL( 1 );
-   UINT  iFiles = DragQueryFile( hDrop, -1, 0, 0 );
-   UINT  i;
+   int   iFiles = DragQueryFile( hDrop, ( UINT ) -1, 0, 0 );
+   int   i;
    char  bBuffer[ 250 ];
 
    hb_reta( iFiles );

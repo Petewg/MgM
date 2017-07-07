@@ -273,9 +273,9 @@ HB_FUNC( _ONDRAWLISTBOXITEM )
             }
             FillRect( pdis->hDC, &pdis->rcItem, hBackBrush );
             DeleteObject( hBackBrush );
+            rcCheck = pdis->rcItem;
             if( iCheck )
             {
-               rcCheck         = pdis->rcItem;
                rcCheck.left   += 4;
                rcCheck.top    += 2;
                rcCheck.right   = rcCheck.left + ( pdis->rcItem.bottom - pdis->rcItem.top );

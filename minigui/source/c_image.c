@@ -172,10 +172,10 @@ HB_EXPORT HBITMAP HMG_GdiCreateHBITMAP( HDC hDC_mem, int width, int height, WORD
 
 static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type )
 {
-   HBITMAP   hBitmap = ( HBITMAP ) NULL;
-   GpStatus  status  = 1;
-   GpBitmap  * gpBitmap;
-   wchar_t * res_nameW;
+   HBITMAP    hBitmap  = ( HBITMAP ) NULL;
+   GpStatus   status   = 1;
+   GpBitmap * gpBitmap = NULL;
+   wchar_t *  res_nameW;
 
    if( NULL == res_name )
       return hBitmap;  // NULL

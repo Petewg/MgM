@@ -48,12 +48,7 @@
    author: Copyright 2017 (C) P.Chornyj <myorg63@mail.ru>
  */
 
-/*
-   Painting and Drawing Functions
- */
-
 #include <mgdefs.h>
-
 #include "hbapiitm.h"
 
 #if defined( __BORLANDC__ )
@@ -91,6 +86,22 @@ HB_FUNC( ENDPAINT )
    else
       hb_retl( HB_FALSE );
 }
+
+HB_FUNC( DRAWFOCUSRECT )
+{
+   DRAWITEMSTRUCT * pps = ( DRAWITEMSTRUCT * ) HB_PARNL( 1 );
+
+   if( pps )
+   {
+      InflateRect( &pps->rcItem, -3, -3 );
+      DrawFocusRect( pps->hDC, &pps->rcItem );
+      InflateRect( &pps->rcItem, +3, +3 );
+   }
+}
+
+#ifdef HMG_LEGACY_ON
+HB_FUNC_TRANSLATE( C_DRAWFOCUSRECT, DRAWFOCUSRECT )
+#endif // HMG_LEGACY_ON
 
 HB_FUNC( DRAWSTATE )
 {
@@ -292,7 +303,6 @@ HB_FUNC( SETBACKCOLOR )
       hb_retns( ( HB_ISIZ ) CLR_INVALID );
 }
 
-
 HB_FUNC( SETBKMODE )
 {
    HWND hWnd = ( HWND ) ( LONG_PTR ) HB_PARNL( 1 );
@@ -317,13 +327,6 @@ HB_FUNC( SETBKMODE )
    else
       hb_retni( 0 );
 }
-
-/*
-HB_FUNC( SETBKMODE )
-{
-   hb_retni( SetBkMode( ( HDC ) HB_PARNL( 1 ), hb_parni( 2 ) ) );
-}
-*/
 
 HB_FUNC( UPDATEWINDOW )
 {
@@ -372,4 +375,6 @@ HB_FUNC( WINDOWFROMDC )
    HB_RETNL( ( LONG_PTR ) WindowFromDC( hDC ) );
 }
 
+#ifdef HMG_LEGACY_ON
 HB_FUNC_TRANSLATE( GETWINDOWFROMDC, WINDOWFROMDC )
+#endif // HMG_LEGACY_ON

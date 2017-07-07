@@ -146,7 +146,7 @@ DWORD CALLBACK EditStreamCallbackR( DWORD_PTR dwCookie, LPBYTE lpbBuff, LONG cb,
    HANDLE hFile = ( HANDLE ) dwCookie;
 
    if( ! ReadFile( hFile, ( LPVOID ) lpbBuff, cb, ( LPDWORD ) pcb, NULL ) )
-      return -1;
+      return ( DWORD ) -1;
 
    return 0;
 }
@@ -156,7 +156,7 @@ DWORD CALLBACK EditStreamCallbackW( DWORD_PTR dwCookie, LPBYTE lpbBuff, LONG cb,
    HANDLE hFile = ( HANDLE ) dwCookie;
 
    if( ! WriteFile( hFile, ( LPVOID ) lpbBuff, cb, ( LPDWORD ) pcb, NULL ) )
-      return -1;
+      return ( DWORD ) -1;
 
    return 0;
 }

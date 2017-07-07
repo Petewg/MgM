@@ -48,23 +48,23 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 ---------------------------------------------------------------------------*/
 
-#define WM_MDICREATE                    0x0220
-#define WM_MDIDESTROY                   0x0221
-#define WM_MDIACTIVATE                  0x0222
-#define WM_MDIRESTORE                   0x0223
-#define WM_MDINEXT                      0x0224
-#define WM_MDIMAXIMIZE                  0x0225
-#define WM_MDITILE                      0x0226
-#define WM_MDICASCADE                   0x0227
-#define WM_MDIICONARRANGE               0x0228
-#define WM_MDIGETACTIVE                 0x0229
+#define WM_MDICREATE           0x0220
+#define WM_MDIDESTROY          0x0221
+#define WM_MDIACTIVATE         0x0222
+#define WM_MDIRESTORE          0x0223
+#define WM_MDINEXT             0x0224
+#define WM_MDIMAXIMIZE         0x0225
+#define WM_MDITILE             0x0226
+#define WM_MDICASCADE          0x0227
+#define WM_MDIICONARRANGE      0x0228
+#define WM_MDIGETACTIVE        0x0229
 
 #define MDITILE_VERTICAL       0x0000
 #define MDITILE_HORIZONTAL     0x0001
 #define MDITILE_SKIPDISABLED   0x0002
 
-#define CW_USEDEFAULT       0x80000000
-#define DLGC_WANTALLKEYS   4
+#define CW_USEDEFAULT          0x80000000
+#define DLGC_WANTALLKEYS       4
 
 #include "minigui.ch"
 #include "i_winuser.ch"
@@ -201,7 +201,11 @@ FUNCTION MdiEvents ( hWnd, nMsg, wParam, lParam )
       i := AScan ( _HMG_aFormhandles , hWnd )
 
       IF i > 0
+
          // Remove Child Window Properties
+
+         EnumPropsEx( hWnd, {|hWnd, cPropName, hHandle| HB_SYMBOL_UNUSED( hHandle ), ;
+            iif( hb_LeftEqI( cPropName, "HMG_" ), RemoveProp( hWnd, cPropName ), Nil ), .T. } )
 
          _RemoveProperty( hWnd, "PROP_CFILE" )
          _RemoveProperty( hWnd, "PROP_FORMNAME" )
@@ -274,6 +278,8 @@ FUNCTION MdiEvents ( hWnd, nMsg, wParam, lParam )
          _HMG_aFormInteractiveCloseProcedure [i] := ""
          _HMG_aFormMinMaxInfo [i] := {}
          _HMG_aFormActivateId [i] := 0
+         _HMG_aFormMiscData1  [i] := {}
+         _HMG_aFormMiscData2  [i] := ''
 
          _HMG_InteractiveCloseStarted := .F.
 
@@ -371,6 +377,7 @@ FUNCTION _DefineChildMDIWindow ( FormName, x, y, w, h, nominimize, nomaximize, ;
    _HMG_ActiveMDIChildIndex := ChildIndex
 
    k := AScan ( _HMG_aFormDeleted , .T. )
+
    IF k > 0
 
       Public &mVar. := k
@@ -423,6 +430,8 @@ FUNCTION _DefineChildMDIWindow ( FormName, x, y, w, h, nominimize, nomaximize, ;
       _HMG_aFormInteractiveCloseProcedure [k] :=  InteractiveCloseProcedure
       _HMG_aFormMinMaxInfo [k] := {}
       _HMG_aFormActivateId [k] := 0
+      _HMG_aFormMiscData1  [k] := {}
+      _HMG_aFormMiscData2  [k] := ''
 #ifdef _HMG_COMPAT_
       _HMG_StopWindowEventProcedure [k] := .F.
 #endif
@@ -430,6 +439,7 @@ FUNCTION _DefineChildMDIWindow ( FormName, x, y, w, h, nominimize, nomaximize, ;
    ELSE
 
       k := Len( _HMG_aFormNames ) + 1
+
       Public &mVar. := k
 
       AAdd ( _HMG_aFormNames , FormName )
@@ -480,8 +490,10 @@ FUNCTION _DefineChildMDIWindow ( FormName, x, y, w, h, nominimize, nomaximize, ;
       AAdd ( _HMG_aFormInteractiveCloseProcedure , InteractiveCloseProcedure )
       AAdd ( _HMG_aFormMinMaxInfo , {} )
       AAdd ( _HMG_aFormActivateId , 0 )
+      AAdd ( _HMG_aFormMiscData1  , {} )
+      AAdd ( _HMG_aFormMiscData2  , '' )
 #ifdef _HMG_COMPAT_
-      aAdd ( _HMG_StopWindowEventProcedure, .F. )
+      AAdd ( _HMG_StopWindowEventProcedure, .F. )
 #endif
 
    ENDIF
@@ -562,7 +574,7 @@ FUNCTION _MdiChildClose ( hWnd )
 
       // Process Interactive Close Event / Setting
 
-      IF ValType ( _HMG_aFormInteractiveCloseProcedure [i] ) == 'B'
+      IF ISBLOCK ( _HMG_aFormInteractiveCloseProcedure [i] )
          xRetVal := _DoWindowEventProcedure ( _HMG_aFormInteractiveCloseProcedure [i] , i , 'WINDOW_ONINTERACTIVECLOSE' )
          IF ValType ( xRetVal ) == 'L'
             IF !xRetVal
@@ -572,6 +584,7 @@ FUNCTION _MdiChildClose ( hWnd )
       ENDIF
 
       SWITCH _HMG_InteractiveClose
+
       CASE 0
          MsgStop ( _HMG_MESSAGE [3] )
          RETURN 1
@@ -586,9 +599,10 @@ FUNCTION _MdiChildClose ( hWnd )
                RETURN 1
             ENDIF
          ENDIF
+
       ENDSWITCH
 
-      IF ValType ( _HMG_aFormReleaseProcedure [i] ) == 'B'
+      IF ISBLOCK ( _HMG_aFormReleaseProcedure [i] )
          _HMG_InteractiveCloseStarted := .T.
          _DoWindowEventProcedure ( _HMG_aFormReleaseProcedure [i] , i , 'WINDOW_RELEASE' )
       ENDIF

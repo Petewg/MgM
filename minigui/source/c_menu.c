@@ -46,7 +46,7 @@
 
    Parts of this code  is contributed and used here under permission of his
    author:
-   Copyright 2007 - 2016 (C) P.Chornyj <myorg63@mail.ru>
+   Copyright 2007 - 2017 (C) P.Chornyj <myorg63@mail.ru>
    ----------------------------------------------------------------------*/
 
 #if ! defined( __WINNT__ )
@@ -57,11 +57,215 @@
 #include "hbapierr.h"
 #include "hbapiitm.h"
 
+#ifndef __XHARBOUR__
+#include "hbwinuni.h"
+#endif
+
 #include "c_menu.h"
 
-extern HBITMAP Icon2Bmp( HICON hIcon );
-
+// extern functions
+extern HBITMAP   Icon2Bmp( HICON hIcon );
+extern BOOL      SetAcceleratorTable( HWND, HACCEL );
+// extern variables
 extern HINSTANCE g_hInstance;
+
+HB_FUNC( SETACCELERATORTABLE )
+{
+   HWND   hWndMain = ( HWND ) ( LONG_PTR ) HB_PARNL( 1 );
+   HACCEL hAccel   = ( HACCEL ) ( LONG_PTR ) HB_PARNL( 2 );
+
+   if( hWndMain && hAccel )
+      SetAcceleratorTable( hWndMain, hAccel );
+}
+
+HB_FUNC( ACCELERATORTABLE2ARRAY )
+{
+   HACCEL   hAccel  = ( HACCEL ) ( LONG_PTR ) HB_PARNL( 1 );
+   PHB_ITEM aAccels = hb_itemArrayNew( 0 );
+
+   if( hAccel )
+   {
+      int cAccelEntries = CopyAcceleratorTable( hAccel, NULL, 0 );
+
+      if( cAccelEntries > 0 )
+      {
+         LPACCEL lpAccel = ( LPACCEL ) hb_xalloc(  cAccelEntries * sizeof( ACCEL ) );
+
+         if( NULL != lpAccel )
+         {
+            if( CopyAcceleratorTable( hAccel, lpAccel, cAccelEntries ) )
+            {
+               int i;
+
+               for( i = 0; i < cAccelEntries; i++ )
+               {
+                  PHB_ITEM aAccel = hb_itemArrayNew( 3 );
+
+                  hb_arraySetNI( aAccel, 1, lpAccel[ i ].fVirt );
+                  hb_arraySetNL( aAccel, 2, lpAccel[ i ].key );
+                  hb_arraySetNL( aAccel, 3, lpAccel[ i ].cmd );
+
+                  hb_arrayAddForward( aAccels, aAccel );
+
+                  hb_itemRelease( aAccel );
+               }
+
+               hb_xfree( lpAccel );
+            }
+         }
+      }
+   }
+
+   hb_itemReturnRelease( aAccels );
+}
+
+HB_FUNC( ARRAY2ACCELERATORTABLE )
+{
+   PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
+   HB_SIZE  nLen;
+   HACCEL   hAccel = NULL;
+
+   if( pArray && ( ( nLen = hb_arrayLen( pArray ) ) > 0 ) )
+   {
+      LPACCEL lpAccel = ( LPACCEL ) hb_xalloc(  nLen * sizeof( ACCEL ) );
+
+      if( NULL != lpAccel )
+      {
+         HB_SIZE i;
+
+         for( i = 0; i < nLen; i++ )
+         {
+            if( hb_arrayGetType( pArray, i + 1 ) & HB_IT_ARRAY )
+            {
+               PHB_ITEM pAccel = hb_arrayGetItemPtr( pArray, i + 1 );
+
+               if( hb_arrayLen( pAccel ) == 3 )
+               {
+                  lpAccel[ i ].fVirt = ( BYTE ) hb_arrayGetNI( pAccel, 1 );
+                  lpAccel[ i ].key   = ( WORD ) hb_arrayGetNL( pAccel, 2 );
+                  lpAccel[ i ].cmd   = ( WORD ) hb_arrayGetNL( pAccel, 3 );
+               }
+            }
+         }
+
+         hAccel = CreateAcceleratorTable( lpAccel, nLen );
+         hb_xfree( lpAccel );
+      }
+   }
+
+   HB_RETNL( ( LONG_PTR ) hAccel );
+}
+
+
+// int WINAPI CopyAcceleratorTable( HACCEL hAccelSrc, LPACCEL lpAccelDst, int cAccelEntries )
+HB_FUNC( COPYACCELERATORTABLE )
+{
+   HACCEL hAccelSrc = ( HACCEL ) ( LONG_PTR ) HB_PARNL( 1 );
+
+   hb_retni( 0 );
+
+   if( NULL != hAccelSrc )
+   {
+      int cAccelEntries = CopyAcceleratorTable( hAccelSrc, NULL, 0 );
+
+      if( cAccelEntries > 0 )
+      {
+         LPACCEL lpAccelDst = ( LPACCEL ) hb_xalloc(  cAccelEntries * sizeof( ACCEL ) );
+
+         if( NULL != lpAccelDst )
+         {
+            hb_retni( CopyAcceleratorTable( hAccelSrc, lpAccelDst, cAccelEntries ) );
+
+            hb_storptr( lpAccelDst, 2 );
+         }
+      }
+   }
+}
+
+// HACCEL WINAPI CreateAcceleratorTable( LPACCEL lpAccel, int cAccelEntries )
+HB_FUNC( CREATEACCELERATORTABLE )
+{
+   LPACCEL lpAccels      = ( LPACCEL ) hb_parptr( 1 );
+   HACCEL  hAccel        = NULL;
+   int     cAccelEntries = hb_parni( 2 );
+
+   if( lpAccels && ( cAccelEntries > 0 ) )
+   {
+      hAccel = CreateAcceleratorTable( lpAccels, cAccelEntries );
+
+      hb_xfree( lpAccels );
+   }
+
+   HB_RETNL( ( LONG_PTR ) hAccel );
+}
+
+// BOOL WINAPI DestroyAcceleratorTable( HACCEL hAccel )
+HB_FUNC( DESTROYACCELERATORTABLE )
+{
+   HACCEL hAccel = ( HACCEL ) ( LONG_PTR ) HB_PARNL( 1 );
+
+   hb_retl( DestroyAcceleratorTable( hAccel ) ? HB_TRUE : HB_FALSE );
+}
+
+// HACCEL WINAPI LoadAccelerators( HINSTANCE hInstance, LPCTSTR lpTableName )
+HB_FUNC( LOADACCELERATORS )
+{
+   HACCEL    hAccel    = ( HACCEL ) NULL;
+   HINSTANCE hInstance = HB_ISNUM( 1 ) ? ( HINSTANCE ) HB_PARNL( 1 ) : g_hInstance;
+   LPCTSTR   lpTableName;
+
+   if( HB_ISNUM( 2 ) )
+   {
+      lpTableName = MAKEINTRESOURCE( ( WORD ) hb_parnl( 2 ) );
+
+      hAccel = LoadAccelerators( hInstance, lpTableName );
+   }
+   else if( hb_parclen( 2 ) > 0 )
+   {
+#ifndef __XHARBOUR__
+      void * hTableName;
+      lpTableName = HB_PARSTR( 2, &hTableName, NULL );
+#else
+      LPCTSTR lpTableName = ( LPCTSTR ) hb_parc( 2 );
+#endif
+      hAccel = LoadAccelerators( hInstance, lpTableName );
+#ifndef __XHARBOUR__
+      hb_strfree( hTableName );
+#endif
+   }
+
+   HB_RETNL( ( LONG_PTR ) hAccel );
+}
+
+// HMENU WINAPI LoadMenu( HINSTANCE hInstance, LPCTSTR lpMenuName )
+HB_FUNC( LOADMENU )
+{
+   HMENU     hMenu     = ( HMENU ) NULL;
+   HINSTANCE hInstance = HB_ISNUM( 1 ) ? ( HINSTANCE ) HB_PARNL( 1 ) : g_hInstance;
+   LPCTSTR   lpMenuName;
+
+   if( HB_ISNUM( 2 ) )
+   {
+      lpMenuName = MAKEINTRESOURCE( ( WORD ) hb_parnl( 2 ) );
+
+      hMenu = LoadMenu( hInstance, lpMenuName );
+   }
+   else if( HB_ISCHAR( 2 ) )
+   {
+#ifndef __XHARBOUR__
+      void * hMenuName;
+      lpMenuName = HB_PARSTR( 2, &hMenuName, NULL );
+#else
+      LPCTSTR lpMenuName = ( LPCTSTR ) hb_parc( 2 );
+#endif
+      hMenu = LoadMenu( hInstance, lpMenuName );
+#ifndef __XHARBOUR__
+      hb_strfree( hMenuName );
+#endif
+   }
+
+   HB_RETNL( ( LONG_PTR ) hMenu );
+}
 
 HB_FUNC( _NEWMENUSTYLE )
 {
@@ -80,7 +284,7 @@ HB_FUNC( TRACKPOPUPMENU )
 {
    HWND hwnd = ( HWND ) HB_PARNL( 4 );
 
-   SetForegroundWindow( hwnd );             /* hack for Microsoft "feature" */
+   SetForegroundWindow( hwnd );            /* hack for Microsoft "feature" */
 
    TrackPopupMenu( ( HMENU ) HB_PARNL( 1 ), 0, hb_parni( 2 ), hb_parni( 3 ), 0, hwnd, NULL );
 
@@ -562,7 +766,7 @@ HB_FUNC( _ONDRAWMENUITEM )
       DrawSelectedItemBorder
       (
          lpdis->hDC,
-         lpdis->rcItem,       /* fSelected, fGrayed,*/
+         lpdis->rcItem,
          lpMenuItem->uiItemType,
          ( ( lpMenuItem->hBitmap == NULL ) && ( ! fChecked ) )
       );
@@ -795,8 +999,7 @@ VOID DrawItemBk( HDC hDC, RECT r, BOOL Selected, BOOL Grayed, UINT itemType, BOO
    }
 }
 
-VOID DrawSelectedItemBorder( HDC hDC, RECT r,
-/*BOOL fSelected, BOOL fGrayed,*/ UINT itemType, BOOL clear )
+VOID DrawSelectedItemBorder( HDC hDC, RECT r, UINT itemType, BOOL clear )
 {
    HPEN pen, pen1, oldPen;
    RECT rect;
@@ -1146,8 +1349,8 @@ HB_FUNC( _ONMEASUREMENUITEM )
       HDC hdc = GetDC( hwnd );
       LPMEASUREITEMSTRUCT lpmis      = ( LPMEASUREITEMSTRUCT ) HB_PARNL( 4 );
       MENUITEM *          lpMenuItem = ( MENUITEM * ) lpmis->itemData;
+      SIZE  size = { 0, 0 };
       HFONT oldfont;
-      SIZE  size;
 
       if( GetObjectType( ( HGDIOBJ ) lpMenuItem->hFont ) == OBJ_FONT )
       {

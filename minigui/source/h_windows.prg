@@ -353,6 +353,8 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
       _HMG_aFormInteractiveCloseProcedure [ k ] :=  InteractiveCloseProcedure
       _HMG_aFormMinMaxInfo [ k ] := InitMinMaxInfo ( FormHandle )
       _HMG_aFormActivateId [ k ] := 0
+      _HMG_aFormMiscData1  [ k ] := {}
+      _HMG_aFormMiscData2  [ k ] := ''
 #ifdef _HMG_COMPAT_
       _HMG_StopWindowEventProcedure [ k ] := .F.
 #endif
@@ -411,6 +413,8 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
       AAdd ( _HMG_aFormInteractiveCloseProcedure, InteractiveCloseProcedure )
       AAdd ( _HMG_aFormMinMaxInfo, InitMinMaxInfo ( FormHandle ) )
       AAdd ( _HMG_aFormActivateId, 0 )
+      AAdd ( _HMG_aFormMiscData1, {} )
+      AAdd ( _HMG_aFormMiscData2, '' )
 #ifdef _HMG_COMPAT_
       AAdd ( _HMG_StopWindowEventProcedure, .F. )
 #endif
@@ -521,7 +525,7 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
    ENDIF
 
    IF MSC_VER() > 0
-      IF nosize .AND. IsThemed()
+      IF nosize .AND. !nocaption .AND. IsThemed()
          w += 10
          h += 10
       ENDIF
@@ -618,6 +622,8 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
       _HMG_aFormInteractiveCloseProcedure [ k ] :=  InteractiveCloseProcedure
       _HMG_aFormMinMaxInfo [ k ] := InitMinMaxInfo ( FormHandle )
       _HMG_aFormActivateId [ k ] := 0
+      _HMG_aFormMiscData1  [ k ] := {}
+      _HMG_aFormMiscData2  [ k ] := ''
 #ifdef _HMG_COMPAT_
       _HMG_StopWindowEventProcedure [ k ] := .F.
 #endif
@@ -625,6 +631,7 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
    ELSE
 
       k := Len( _HMG_aFormNames ) + 1
+
       Public &mVar. := k
 
       AAdd ( _HMG_aFormNames, FormName )
@@ -675,6 +682,8 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
       AAdd ( _HMG_aFormInteractiveCloseProcedure, InteractiveCloseProcedure )
       AAdd ( _HMG_aFormMinMaxInfo, InitMinMaxInfo ( FormHandle ) )
       AAdd ( _HMG_aFormActivateId, 0 )
+      AAdd ( _HMG_aFormMiscData1, {} )
+      AAdd ( _HMG_aFormMiscData2, '' )
 #ifdef _HMG_COMPAT_
       AAdd ( _HMG_StopWindowEventProcedure, .F. )
 #endif
@@ -854,6 +863,8 @@ FUNCTION _DefineSplitChildWindow ( FormName, w, h, break, grippertext, nocaption
       _HMG_aFormInteractiveCloseProcedure [ k ] :=  iif( nocaption, {|| .F.}, "" )
       _HMG_aFormMinMaxInfo [ k ] := InitMinMaxInfo ( FormHandle )
       _HMG_aFormActivateId [ k ] := 0
+      _HMG_aFormMiscData1  [ k ] := {}
+      _HMG_aFormMiscData2  [ k ] := ''
 #ifdef _HMG_COMPAT_
       _HMG_StopWindowEventProcedure [ k ] := .F.
 #endif
@@ -861,6 +872,7 @@ FUNCTION _DefineSplitChildWindow ( FormName, w, h, break, grippertext, nocaption
    ELSE
 
       k := Len( _HMG_aFormNames ) + 1
+
       Public &mVar. := k
 
       AAdd ( _HMG_aFormNames, FormName )
@@ -911,6 +923,8 @@ FUNCTION _DefineSplitChildWindow ( FormName, w, h, break, grippertext, nocaption
       AAdd ( _HMG_aFormInteractiveCloseProcedure, iif( nocaption, {|| .F.}, "" ) )
       AAdd ( _HMG_aFormMinMaxInfo, {} )
       AAdd ( _HMG_aFormActivateId, 0 )
+      AAdd ( _HMG_aFormMiscData1, {} )
+      AAdd ( _HMG_aFormMiscData2, '' )
 #ifdef _HMG_COMPAT_
       AAdd ( _HMG_StopWindowEventProcedure, .F. )
 #endif
@@ -1188,7 +1202,7 @@ STATIC PROCEDURE _InputBoxAdjust ( nTitleH, nBordW )
 RETURN
 
 *-----------------------------------------------------------------------------*
-FUNCTION _SetWindowRgn( name, col, row, w, h, lx )
+FUNCTION _SetWindowRgn ( name, col, row, w, h, lx )
 *-----------------------------------------------------------------------------*
 
    c_SetWindowRgn( GetFormHandle( name ), col, row, w, h, lx )
@@ -1196,11 +1210,11 @@ FUNCTION _SetWindowRgn( name, col, row, w, h, lx )
 RETURN NIL
 
 *-----------------------------------------------------------------------------*
-FUNCTION _SetPolyWindowRgn( name, apoints, lx )
+FUNCTION _SetPolyWindowRgn ( name, apoints, lx )
 *-----------------------------------------------------------------------------*
    LOCAL apx := {}, apy := {}
 
-   AEval( apoints, {| x| AAdd( apx, x[ 1 ] ), AAdd( apy, x[ 2 ] ) } )
+   AEval( apoints, {| x | AAdd( apx, x [ 1 ] ), AAdd( apy, x [ 2 ] ) } )
 
    c_SetPolyWindowRgn( GetFormHandle( name ), apx, apy, lx )
 
@@ -1431,7 +1445,7 @@ FUNCTION _ActivateWindow ( aForm, lNoWait, lDebugger )
 RETURN NIL
 
 *-----------------------------------------------------------------------------*
-FUNCTION _ActivateAllWindows
+FUNCTION _ActivateAllWindows ()
 *-----------------------------------------------------------------------------*
    LOCAL i
    LOCAL FormName
@@ -1484,32 +1498,40 @@ FUNCTION _ActivateAllWindows
 RETURN NIL
 
 *-----------------------------------------------------------------------------*
-PROCEDURE _RefreshDataControls( i )
+PROCEDURE _RefreshDataControls ( i )
 *-----------------------------------------------------------------------------*
    LOCAL v, ControlIndex, SplitIndex
 
-   IF ( Len ( _HMG_aFormGraphTasks [ i ] ) > 0 .OR. ISBLOCK( _HMG_aFormPaintProcedure [ i ] ) ) .AND. _HMG_AutoScroll
+   IF ( Len ( _HMG_aFormGraphTasks [ i ] ) > 0 .OR. ISBLOCK( _HMG_aFormPaintProcedure [ i ] ) ) .AND. _HMG_ProgrammaticChange
       InvalidateRect( _HMG_aFormHandles [ i ], 0 ) // GF 07/11/2012
    ENDIF
 
    FOR EACH ControlIndex IN _HMG_aFormBrowseList [ i ]
+
       v := _HMG_aControlValue[ControlIndex ]
       _Refresh ( ControlIndex )
+
       IF _HMG_aControlType[ControlIndex ] $ 'COMBO,BROWSE'
          _SetValue ( , , v, ControlIndex )
       ENDIF
+
    NEXT
 
    IF Len ( _HMG_aFormSplitChildList [ i ] ) > 0
 
       FOR EACH SplitIndex IN _HMG_aFormSplitChildList [ i ]
-         FOR EACH ControlIndex IN _HMG_aFormBrowseList[ SplitIndex ]
-            v := _HMG_aControlValue[ ControlIndex ]
+
+         FOR EACH ControlIndex IN _HMG_aFormBrowseList [ SplitIndex ]
+
+            v := _HMG_aControlValue [ ControlIndex ]
             _Refresh ( ControlIndex )
+
             IF _HMG_aControlType[ ControlIndex ] $ 'COMBO,BROWSE'
                _SetValue ( , , v, ControlIndex )
             ENDIF
+
          NEXT
+
       NEXT
 
    ENDIF
@@ -1517,39 +1539,43 @@ PROCEDURE _RefreshDataControls( i )
 RETURN
 
 *-----------------------------------------------------------------------------*
-PROCEDURE _SetActivationFlag( i )
+PROCEDURE _SetActivationFlag ( i )
 *-----------------------------------------------------------------------------*
    LOCAL FormName
    LOCAL NoAutoReleaseFound := .F.
 
-   _HMG_aFormActive [ i ] := .T.
+   _HMG_aFormActive [i] := .T.
 
-   IF Len ( _HMG_aFormSplitChildList [ i ] ) > 0
-      AEval( _HMG_aFormSplitChildList [ i ], {|x| _HMG_aFormActive [ x ] := .T. } )
+   IF Len ( _HMG_aFormSplitChildList [i] ) > 0
+      AEval ( _HMG_aFormSplitChildList [i], {|x| _HMG_aFormActive [x] := .T. } )
    ENDIF
 
-   IF ValType ( _HMG_aFormDropProcedure [ i ] ) == 'B'
-      DragAcceptFiles( _HMG_aFormHandles [ i ], .T. )
+   IF ISBLOCK ( _HMG_aFormDropProcedure [i] )
+      DragAcceptFiles ( _HMG_aFormHandles [i], .T. )
    ENDIF
 
-   IF _HMG_aFormType [ i ] == 'A' .AND. ! _HMG_aFormNoShow [ i ] .AND. ! IsInsertActive ()
+   IF _HMG_aFormType [i] == 'A' .AND. ! _HMG_aFormNoShow [i] .AND. ! IsInsertActive ()
 
       FOR EACH FormName IN _HMG_aFormNames
 
          i := hb_enumindex( FormName )
 
-         IF _HMG_aFormDeleted [ i ] == .F.
-            IF ! _HMG_aFormType [ i ] $ 'AXP'
-               IF _HMG_aFormAutoRelease [ i ] == .F.
+         IF _HMG_aFormDeleted [i] == .F.
+
+            IF ! _HMG_aFormType [i] $ 'AXP'
+
+               IF _HMG_aFormAutoRelease [i] == .F.
                   NoAutoReleaseFound := .T.
                   EXIT
                ENDIF
+
             ENDIF
+
          ENDIF
 
       NEXT
 
-      IF NoAutoReleaseFound == .F. .AND. _HMG_ProgrammaticChange
+      IF NoAutoReleaseFound == .F. .AND. _HMG_AutoScroll
          iif( _HMG_IsXPorLater, KeyToggleNT( VK_INSERT ), KeyToggle( VK_INSERT ) )  
       ENDIF
 
@@ -1558,30 +1584,37 @@ PROCEDURE _SetActivationFlag( i )
 RETURN
 
 *-----------------------------------------------------------------------------*
-PROCEDURE _ProcessInitProcedure( i )
+PROCEDURE _ProcessInitProcedure ( i )
 *-----------------------------------------------------------------------------*
-   IF ValType( _HMG_aFormInitProcedure [ i ] ) == 'B'
+   IF ISBLOCK( _HMG_aFormInitProcedure [ i ] )
       DO EVENTS
+
       _PushEventInfo()
+
       _HMG_ThisEventType := 'WINDOW_INIT'
       _HMG_ThisFormIndex := i
       _HMG_ThisType := 'W'
       _HMG_ThisIndex := i
       _HMG_ThisFormName := _HMG_aFormNames[ _HMG_ThisFormIndex ]
       _HMG_ThisControlName := ""
-      Eval( _HMG_aFormInitProcedure [ i ] )
+
+      Eval ( _HMG_aFormInitProcedure [ i ] )
+
       _PopEventInfo()
    ENDIF
+
    IF _HMG_AutoAdjust .AND. _HMG_MainClientMDIHandle == 0
+
       IF _HMG_aFormActive [ i ] .AND. IsWindowSized( _HMG_aFormHandles [ i ] )
          _Autoadjust( _HMG_aFormHandles [ i ] )
       ENDIF
+
    ENDIF
 
 RETURN
 
 *-----------------------------------------------------------------------------*
-FUNCTION _SetFocusedSplitChild( i )
+FUNCTION _SetFocusedSplitChild ( i )
 *-----------------------------------------------------------------------------*
    LOCAL SplitFocusFlag := .F.
    LOCAL nIndex
@@ -1589,10 +1622,12 @@ FUNCTION _SetFocusedSplitChild( i )
    IF Len ( _HMG_aFormSplitChildList [ i ] ) > 0
 
       FOR EACH nIndex IN _HMG_aFormSplitChildList [ i ]
+
          IF _HMG_aFormFocused [ nIndex ] == .T.
             SetFocus ( _HMG_aFormHandles [ nIndex ] )
             SplitFocusFlag := .T.
          ENDIF
+
       NEXT
 
    ENDIF
@@ -1600,7 +1635,7 @@ FUNCTION _SetFocusedSplitChild( i )
 RETURN SplitFocusFlag
 
 *-----------------------------------------------------------------------------*
-PROCEDURE _SetActivationFocus( i )
+PROCEDURE _SetActivationFocus ( i )
 *-----------------------------------------------------------------------------*
    LOCAL Sp := GetFocus()
    LOCAL hParent := _HMG_aFormHandles [ i ]
@@ -1610,6 +1645,7 @@ PROCEDURE _SetActivationFocus( i )
    FOR EACH hControl IN _HMG_aControlHandles
 
       x := hb_enumindex( hControl )
+
       IF _HMG_aControlParentHandles [ x ] == hParent .AND. _HMG_aControlType [ x ] != "HOTKEY"  // BK 25-Apr-2012
 
          IF ValType ( hControl ) == 'N'
@@ -1633,7 +1669,7 @@ PROCEDURE _SetActivationFocus( i )
    IF FocusDefined == .F.
 
       SetFocus ( GetNextDlgTabItem ( hParent, 0, .F. ) )
-      IF _HMG_BeginWindowMDIActive                            // BK 25-Apr-2012
+      IF _HMG_BeginWindowMDIActive  // BK 25-Apr-2012
          _HMG_aFormFocusedControl [ i ] := GetFocus()
       ENDIF
 
@@ -1642,7 +1678,7 @@ PROCEDURE _SetActivationFocus( i )
 RETURN
 
 *-----------------------------------------------------------------------------*
-STATIC FUNCTION _GenActivateId( nForm )
+STATIC FUNCTION _GenActivateId ( nForm )
 *-----------------------------------------------------------------------------*
    LOCAL TmpStr
    LOCAL TmpId
@@ -1660,7 +1696,7 @@ STATIC FUNCTION _GenActivateId( nForm )
 RETURN( TmpId )
 
 *-----------------------------------------------------------------------------*
-PROCEDURE _hmg_OnHideFocusManagement( i )
+PROCEDURE _hmg_OnHideFocusManagement ( i )
 *-----------------------------------------------------------------------------*
    LOCAL x
    LOCAL bEnableWindow := {|y, z| iif( _HMG_aFormDeleted [ z ] == .F., EnableWindow ( _HMG_aFormhandles [ z ] ), ), HB_SYMBOL_UNUSED( y ) }
@@ -1723,19 +1759,23 @@ PROCEDURE _hmg_OnHideFocusManagement( i )
 RETURN
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam )
+#ifndef __XHARBOUR__
+FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam, ... )
+#else
+FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam, xParam1, xParam2 )
+#endif
 *-----------------------------------------------------------------------------*
    LOCAL lRetVal
 
 #ifdef _HMG_COMPAT_
-   IF _HMG_aControlType [ i ] != "HOTKEY"  // ( Claudio Soto, November 2016 )
+   IF _HMG_aControlType [ i ] != "HOTKEY"  // Claudio Soto, November 2016
       _HMG_LastActiveControlIndex := i
    ENDIF
-   IF Len( _HMG_StopControlEventProcedure ) >= i .AND. _HMG_StopControlEventProcedure [ i ] == .T.  // ( Claudio Soto, April 2013 )
+   IF Len( _HMG_StopControlEventProcedure ) >= i .AND. _HMG_StopControlEventProcedure [ i ] == .T.  // Claudio Soto, April 2013
       RETURN .F.
    ENDIF
 #endif
-   IF ValType( bBlock ) == 'B'
+   IF ISBLOCK ( bBlock ) .AND. i > 0
       _PushEventInfo()
       _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles, _HMG_aControlParentHandles [ i ] )
       _HMG_ThisType := 'C'
@@ -1743,10 +1783,18 @@ FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam )
       _HMG_ThisFormName := _HMG_aFormNames[ _HMG_ThisFormIndex ]
       _HMG_ThisControlName := _HMG_aControlNames[ _HMG_ThisIndex ]
       IF _HMG_BeginWindowActive == .F. .OR. !( hb_defaultValue( cEventType, '' ) == 'CONTROL_ONCHANGE' ) .OR. _HMG_MainClientMDIHandle != 0
-         lRetVal := Eval( bBlock, hb_defaultValue( nParam, 0) )
+         IF PCount() > 4
+#ifndef __XHARBOUR__
+            lRetVal := Eval ( bBlock, ... )
+#else
+            lRetVal := Eval ( bBlock, xParam1, xParam2 )
+#endif
+         ELSE
+            lRetVal := Eval ( bBlock, hb_defaultValue( nParam, 0 ) )
+         ENDIF
       ENDIF
       _PopEventInfo()
-      lRetVal := IFLOGICAL( lRetVal, lRetVal, .T. )
+      lRetVal := IFLOGICAL ( lRetVal, lRetVal, .T. )
    ELSE
       lRetVal := .F.
    ENDIF
@@ -1754,19 +1802,23 @@ FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam )
 RETURN lRetVal
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType )
+#ifndef __XHARBOUR__
+FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType, ... )
+#else
+FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType, xParam1, xParam2 )
+#endif
 *-----------------------------------------------------------------------------*
    LOCAL lRetVal := .F.
 
 #ifdef _HMG_COMPAT_
-   IF cEventType != "TASKBAR"  // ( Claudio Soto, November 2016 )
+   IF cEventType != "TASKBAR"  // Claudio Soto, November 2016
       _HMG_LastActiveFormIndex := i
    ENDIF
    IF Len( _HMG_StopWindowEventProcedure ) >= i .AND. _HMG_StopWindowEventProcedure [ i ] == .T.  // Claudio Soto, April 2013
       RETURN .F.
    ENDIF
 #endif
-   IF ValType( bBlock ) == 'B'
+   IF ISBLOCK( bBlock ) .AND. i > 0
       _PushEventInfo()
       _HMG_ThisFormIndex := i
       _HMG_ThisEventType := hb_defaultValue( cEventType, '' )
@@ -1774,7 +1826,15 @@ FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType )
       _HMG_ThisIndex := i
       _HMG_ThisFormName := _HMG_aFormNames[ _HMG_ThisFormIndex ]
       _HMG_ThisControlName :=  ""
-      lRetVal := Eval( bBlock )
+      IF PCount() > 3
+#ifndef __XHARBOUR__
+         lRetVal := Eval ( bBlock, ... )
+#else
+         lRetVal := Eval ( bBlock, xParam1, xParam2 )
+#endif
+      ELSE
+         lRetVal := Eval ( bBlock )
+      ENDIF
       _PopEventInfo()
    ENDIF
 
@@ -1879,7 +1939,7 @@ FUNCTION IsXPThemeActive()
 RETURN uResult
 
 *-----------------------------------------------------------------------------*
-PROCEDURE VirtualChildControlFocusProcess( nControlHandle, nWindowHandle )
+PROCEDURE VirtualChildControlFocusProcess ( nControlHandle, nWindowHandle )
 *-----------------------------------------------------------------------------*
    LOCAL x
    LOCAL nWindowVirtualWidth
@@ -2048,7 +2108,7 @@ RETURN
 STATIC FUNCTION NoQuote ( cStr )
 *-----------------------------------------------------------------------------*
 
-RETURN CharRem ( Chr(34) + Chr(39), cStr )
+RETURN CharRem ( Chr( 34 ) + Chr( 39 ), cStr )
 
 *-----------------------------------------------------------------------------*
 FUNCTION _IsWindowActive ( FormName )
@@ -2057,6 +2117,7 @@ FUNCTION _IsWindowActive ( FormName )
 
    IF ISCHARACTER( FormName )
       mVar := '_' + NoQuote( FormName )
+
       IF __mvExist ( mVar )
          i := __mvGet ( mVar )
          IF i == 0
@@ -2064,6 +2125,7 @@ FUNCTION _IsWindowActive ( FormName )
          ENDIF
          RETURN ( _HMG_aFormActive [ i ] )
       ENDIF
+
    ENDIF
 
 RETURN .F.
@@ -2075,13 +2137,15 @@ FUNCTION _IsWindowDefined ( FormName )
 
    IF ISCHARACTER( FormName )
       mVar := '_' + NoQuote( FormName )
+
       IF __mvExist ( mVar )
          i := __mvGet ( mVar )
          IF i == 0
             RETURN .F.
          ENDIF
-         RETURN ( ! ( _HMG_aFormDeleted [ i ] ) )
+         RETURN ( .NOT. ( _HMG_aFormDeleted [ i ] ) )
       ENDIF
+
    ENDIF
 
 RETURN .F.
@@ -2103,11 +2167,13 @@ FUNCTION GetFormName ( FormName )
    LOCAL i
 
    IF _HMG_BeginWindowMDIActive
+
       IF GetActiveMdiHandle() == 0
          RETURN _HMG_MainClientMDIName
       ELSE
          RETURN _GetWindowProperty ( GetActiveMdiHandle(), "PROP_FORMNAME" )
       ENDIF
+
    ENDIF
 
    IF ( i := GetFormIndex ( FormName ) ) == 0
@@ -2261,7 +2327,7 @@ FUNCTION _ReleaseWindow ( FormName )
    IF _HMG_aFormType [ i ] == 'M' .AND. _HMG_ActiveModalHandle <> FormHandle
 
       EnableWindow ( FormHandle )
-      PostMessage( FormHandle, WM_CLOSE, 0, 1 )
+      PostMessage ( FormHandle, WM_CLOSE, 0, 1 )
 
    ELSE
 
@@ -2269,7 +2335,7 @@ FUNCTION _ReleaseWindow ( FormName )
          HB_SYMBOL_UNUSED( x ) } )
 
       EnableWindow ( FormHandle )
-      PostMessage( FormHandle, WM_CLOSE, 0, 1 )
+      PostMessage ( FormHandle, WM_CLOSE, 0, 1 )
 
    ENDIF
 
@@ -2322,8 +2388,8 @@ FUNCTION _ShowWindow ( FormName, lProcessMessages )
 
       EnableWindow ( _HMG_aFormHandles [ i ] )
 
-      IF _SetFocusedSplitChild( i ) == .F.
-         _SetActivationFocus( i )
+      IF _SetFocusedSplitChild ( i ) == .F.
+         _SetActivationFocus ( i )
       ENDIF
 
    ENDIF
@@ -2347,12 +2413,15 @@ FUNCTION _HideWindow ( FormName )
    IF ( i := GetFormIndex ( FormName ) ) > 0
 
       FormHandle := _HMG_aFormHandles [ i ]
+
       IF IsWindowVisible ( FormHandle )
 
          IF _HMG_aFormType [ i ] == 'M'
+
             IF _HMG_ActiveModalHandle <> FormHandle
                MsgMiniGuiError( "Non top modal windows can't be hide." )
             ENDIF
+
          ENDIF
 
          HideWindow ( FormHandle )
@@ -2387,36 +2456,43 @@ RETURN lOldStyle
 
 // (JK) HMG Experimental 1.1. Build 14
 *-----------------------------------------------------------------------------*
-FUNCTION _IsChildOfActiveWindow( hWnd )
+FUNCTION _IsChildOfActiveWindow ( hWnd )
 *-----------------------------------------------------------------------------*
    LOCAL hActiveWnd := GetActiveWindow()
    LOCAL lRet := ( _GetParent( hWnd ) == hActiveWnd )
    LOCAL hParent
 
    DO WHILE lRet
+
       hParent := _GetParent( hWnd )
+
       IF hActiveWnd <> hParent
+
          IF AND( GetWindowLong( hParent, GWL_STYLE ), WS_CHILD ) > 0
             hWnd := hParent
          ELSE
             lRet := .F.
          ENDIF
+
       ELSE
+
          EXIT
+
       ENDIF
+
    ENDDO
 
 RETURN lRet
 
 *-----------------------------------------------------------------------------*
-STATIC FUNCTION _GetParent( hWnd )
+STATIC FUNCTION _GetParent ( hWnd )
 *-----------------------------------------------------------------------------*
    LOCAL i := AScan( _HMG_aControlHandles, hWnd )
 
 RETURN iif( i > 0, _HMG_aControlParentHandles [ i ], 0 )
 
 *-----------------------------------------------------------------------------*
-FUNCTION GetParentFormName( nControlIndex )
+FUNCTION GetParentFormName ( nControlIndex )
 *-----------------------------------------------------------------------------*
    LOCAL i := AScan( _HMG_aFormHandles, _HMG_aControlParentHandles [ nControlIndex ] )
 
@@ -2424,7 +2500,7 @@ RETURN iif( i > 0, _HMG_aFormNames [ i ], "" )
 
 #ifdef _HMG_COMPAT_  // Dr. Claudio Soto, April 2013
 *-----------------------------------------------------------------------------*
-FUNCTION StopWindowEventProcedure( cFormName, lStop )
+FUNCTION StopWindowEventProcedure ( cFormName, lStop )
 *-----------------------------------------------------------------------------*
    LOCAL i := GetFormIndex( cFormName )
 
@@ -2433,7 +2509,7 @@ FUNCTION StopWindowEventProcedure( cFormName, lStop )
 RETURN NIL
 
 *-----------------------------------------------------------------------------*
-FUNCTION StopControlEventProcedure( cControlName, cFormName, lStop )
+FUNCTION StopControlEventProcedure ( cControlName, cFormName, lStop )
 *-----------------------------------------------------------------------------*
    LOCAL i := GetControlIndex( cControlName, cFormName )
 
@@ -2442,7 +2518,7 @@ FUNCTION StopControlEventProcedure( cControlName, cFormName, lStop )
 RETURN NIL
 
 *-----------------------------------------------------------------------------*
-FUNCTION GetLastActiveFormIndex()
+FUNCTION GetLastActiveFormIndex ()
 *-----------------------------------------------------------------------------*
    IF _HMG_LastActiveFormIndex > 0 .AND. _HMG_aFormDeleted[ _HMG_LastActiveFormIndex ] == .T.
       _HMG_LastActiveFormIndex := 0
@@ -2451,7 +2527,7 @@ FUNCTION GetLastActiveFormIndex()
 RETURN _HMG_LastActiveFormIndex
 
 *-----------------------------------------------------------------------------*
-FUNCTION GetLastActiveControlIndex()
+FUNCTION GetLastActiveControlIndex ()
 *-----------------------------------------------------------------------------*
    IF _HMG_LastActiveControlIndex > 0 .AND. _HMG_aControlDeleted[ _HMG_LastActiveControlIndex ] == .T.
       _HMG_LastActiveControlIndex := 0
@@ -2463,7 +2539,7 @@ RETURN _HMG_LastActiveControlIndex
    #xtranslate hb_ValToExp( [<x,...>] ) => ValToPrgExp( <x> )
 #endif
 *-----------------------------------------------------------------------------*
-FUNCTION MsgDebug( ... )
+FUNCTION MsgDebug ( ... )
 *-----------------------------------------------------------------------------*
    LOCAL i, cMsg, nCnt := PCount()
 
@@ -2478,7 +2554,7 @@ FUNCTION MsgDebug( ... )
 RETURN cMsg
 
 *-----------------------------------------------------------------------------*
-PROCEDURE WaitWindow( cMessage, lNoWait )
+PROCEDURE WaitWindow ( cMessage, lNoWait )
 *-----------------------------------------------------------------------------*
    LOCAL cFormName := "_HMG_CHILDWAITWINDOW"
    LOCAL lDefined := _IsWindowDefined( cFormName )
@@ -2555,7 +2631,7 @@ PROCEDURE WaitWindow( cMessage, lNoWait )
 RETURN
 
 *-----------------------------------------------------------------------------*
-STATIC PROCEDURE EfeitoLabel( cTxt )
+STATIC PROCEDURE EfeitoLabel ( cTxt )
 *-----------------------------------------------------------------------------*
    LOCAL cFormName := ThisWindow.Name
    LOCAL nDescLen := GetTextWidth( , cDescEfeito, _HMG_aControlFontHandle[ GetControlIndex( "Message", cFormName ) ] )
@@ -2585,7 +2661,7 @@ STATIC PROCEDURE EfeitoLabel( cTxt )
 RETURN
 
 *-----------------------------------------------------------------------------*
-FUNCTION PRINTWINDOW ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeight )
+FUNCTION PrintWindow ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeight )
 *-----------------------------------------------------------------------------*
    LOCAL lSuccess, nOrientation
    LOCAL TempName, W, H, HO, VO

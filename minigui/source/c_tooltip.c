@@ -249,7 +249,7 @@ HB_FUNC( INITTOOLTIPEX )
 
       if( HB_ISNUM( 7 ) )
       {
-         uFlags =  ( UINT ) hb_parni( 7 ); 
+         uFlags = ( UINT ) hb_parni( 7 );
       }
 
       InitCommonControlsEx( &icex );
@@ -535,7 +535,7 @@ HB_FUNC( TTM_SETDELAYTIME )
    {
       int nMilliSec = hb_parnidef( 3, -1 );
 
-      if ( nMilliSec < 0 )
+      if( nMilliSec < 0 )
       {
          SendMessage( hwndToolTip, TTM_SETDELAYTIME, hb_parnidef( 2, TTDT_AUTOPOP ), -1 );
       }
@@ -605,7 +605,7 @@ HB_FUNC( TTM_SETTIPBKCOLOR )
 
    if( _isValidCtrlClass( hwndToolTip, TOOLTIPS_CLASS ) )
    {
-      COLORREF cr;
+      COLORREF cr = ( COLORREF ) 0;
 
       if( HB_ISNUM( 2 ) || Array2ColorRef( hb_param( 2, HB_IT_ARRAY ), &cr ) )
       {
@@ -636,7 +636,7 @@ HB_FUNC( TTM_SETTIPTEXTCOLOR )
 
    if( _isValidCtrlClass( hwndToolTip, TOOLTIPS_CLASS ) )
    {
-      COLORREF cr;
+      COLORREF cr = ( COLORREF ) 0;
 
       if( HB_ISNUM( 2 ) || Array2ColorRef( hb_param( 2, HB_IT_ANY ), &cr ) )
       {

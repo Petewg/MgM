@@ -234,13 +234,17 @@ FUNCTION _DefineFolder ( FormName, ParentForm, lRes , x , y , w , h , caption , 
       _HMG_aFormInteractiveCloseProcedure [k] := CancelProcedure
       _HMG_aFormMinMaxInfo [k] := {}
       _HMG_aFormActivateId [k] := 0
+      _HMG_aFormMiscData1  [k] := {}
+      _HMG_aFormMiscData2  [k] := ''
 #ifdef _HMG_COMPAT_
       _HMG_StopWindowEventProcedure [k] := .F.
 #endif
 
    ELSE
 
-      Public &mVar. := Len( _HMG_aFormNames ) + 1
+      k := Len( _HMG_aFormNames ) + 1
+
+      Public &mVar. := k
 
       AAdd ( _HMG_aFormNames , FormName )
       AAdd ( _HMG_aFormHandles , 0 )
@@ -289,11 +293,15 @@ FUNCTION _DefineFolder ( FormName, ParentForm, lRes , x , y , w , h , caption , 
       AAdd ( _HMG_aFormAutoRelease      , .F. )
       AAdd ( _HMG_aFormInteractiveCloseProcedure , CancelProcedure )
       AAdd ( _HMG_aFormMinMaxInfo , {} )
-      AAdd ( _HMG_aFormActivateId          , 0 )
+      AAdd ( _HMG_aFormActivateId , 0 )
+      AAdd ( _HMG_aFormMiscData1  , {} )
+      AAdd ( _HMG_aFormMiscData2  , '' )
 #ifdef _HMG_COMPAT_
-      aAdd ( _HMG_StopWindowEventProcedure, .F. )
+      AAdd ( _HMG_StopWindowEventProcedure, .F. )
 #endif
    ENDIF
+
+   _SetThisFormInfo( k )
 
    IF Len( _HMG_aFolderInfo[_HMG_FldID,FLD_FLT ] ) > 0
       _HMG_aFolderInfo[_HMG_FldID,FLD_FLT ,1] := &mVar.
@@ -389,6 +397,8 @@ FUNCTION _EndFolder()
 *------------------------------------------------------------------------------*
    LOCAL Formhandle, k, ModalFolderReturn
 
+   _PopEventInfo()
+
    _HMG_aFolderInfo[_HMG_FldID,FLD_AFH] := 0
 
    IF _HMG_aFolderInfo[_HMG_FldID, FLD_FLT, 3]
@@ -480,13 +490,17 @@ FUNCTION _DefineFolderDialog ( FormName, FormHandle, hWndParent  )
       _HMG_aFormInteractiveCloseProcedure [k] :=  ""
       _HMG_aFormMinMaxInfo [k] := {}
       _HMG_aFormActivateId [k] := 0
+      _HMG_aFormMiscData1  [k] := {}
+      _HMG_aFormMiscData2  [k] := ''
 #ifdef _HMG_COMPAT_
       _HMG_StopWindowEventProcedure [k] := .F.
 #endif
 
    ELSE
 
-      Public &mVar. := Len( _HMG_aFormNames ) + 1
+      k := Len( _HMG_aFormNames ) + 1
+
+      Public &mVar. := k
 
       AAdd ( _HMG_aFormNames , FormName )
       AAdd ( _HMG_aFormHandles , FormHandle )
@@ -535,11 +549,15 @@ FUNCTION _DefineFolderDialog ( FormName, FormHandle, hWndParent  )
       AAdd ( _HMG_aFormAutoRelease      , .F. )
       AAdd ( _HMG_aFormInteractiveCloseProcedure , "" )
       AAdd ( _HMG_aFormMinMaxInfo , {} )
-      AAdd ( _HMG_aFormActivateId          , 0 )
+      AAdd ( _HMG_aFormActivateId , 0 )
+      AAdd ( _HMG_aFormMiscData1   , {} )
+      AAdd ( _HMG_aFormMiscData2   , '' )
 #ifdef _HMG_COMPAT_
-      aAdd ( _HMG_StopWindowEventProcedure, .F. )
+      AAdd ( _HMG_StopWindowEventProcedure, .F. )
 #endif
    ENDIF
+
+   _SetThisFormInfo( k )
 
 RETURN Nil
 
@@ -856,8 +874,8 @@ FUNCTION EraseFolder( hwndDlg, lModal )
       ENDIF
       _HMG_aFormDeleted      [i]   := .T.
       _HMG_aFormhandles      [i]   := 0
-      _HMG_aFormNames         [i]   := ""
-      _HMG_aFormActive      [i]   := .F.
+      _HMG_aFormNames        [i]   := ""
+      _HMG_aFormActive       [i]   := .F.
       _HMG_aFormType         [i]   := ""
       _HMG_aFormParenthandle      [i]   := 0
       _HMG_aFormInitProcedure      [i]   := ""
@@ -900,8 +918,10 @@ FUNCTION EraseFolder( hwndDlg, lModal )
       _HMG_aFormRestoreProcedure   [i]   := ""
       _HMG_aFormAutoRelease      [i]   := .F.
       _HMG_aFormInteractiveCloseProcedure [i] := ""
-      _HMG_aFormMinMaxInfo      [i]   := {}
-      _HMG_aFormActivateId      [i]   := 0
+      _HMG_aFormMinMaxInfo [i] := {}
+      _HMG_aFormActivateId [i] := 0
+      _HMG_aFormMiscData1  [i] := {}
+      _HMG_aFormMiscData2  [i] := ''
 
       IF lModal
          EndDialog( hwndDlg, 0 )

@@ -214,13 +214,17 @@ FUNCTION _DefineDialog ( FormName, ParentForm, Id_resource , x , y , w , h , cap
       _HMG_aFormInteractiveCloseProcedure [k] :=  ""
       _HMG_aFormMinMaxInfo [k] := {}
       _HMG_aFormActivateId [k] := 0
+      _HMG_aFormMiscData1  [k] := {}
+      _HMG_aFormMiscData2  [k] := ''
 #ifdef _HMG_COMPAT_
       _HMG_StopWindowEventProcedure [k] := .F.
 #endif
 
    ELSE
 
-      Public &mVar. := Len( _HMG_aFormNames ) + 1
+      k := Len( _HMG_aFormNames ) + 1
+
+      Public &mVar. := k
 
       AAdd ( _HMG_aFormNames , FormName )
       AAdd ( _HMG_aFormHandles , FormHandle )
@@ -269,12 +273,17 @@ FUNCTION _DefineDialog ( FormName, ParentForm, Id_resource , x , y , w , h , cap
       AAdd ( _HMG_aFormAutoRelease      , .F. )
       AAdd ( _HMG_aFormInteractiveCloseProcedure , "" )
       AAdd ( _HMG_aFormMinMaxInfo , {} )
-      AAdd ( _HMG_aFormActivateId          , 0 )
+      AAdd ( _HMG_aFormActivateId , 0 )
+      AAdd ( _HMG_aFormMiscData1, {} )
+      AAdd ( _HMG_aFormMiscData2, '' )
 #ifdef _HMG_COMPAT_
-      aAdd ( _HMG_StopWindowEventProcedure, .F. )
+      AAdd ( _HMG_StopWindowEventProcedure, .F. )
 #endif
 
    ENDIF
+
+   _SetThisFormInfo( k )
+
    IF Len( _HMG_aDialogTemplate ) > 0
       _HMG_aDialogTemplate[1] := &mVar.
    ENDIF
@@ -392,6 +401,8 @@ FUNCTION _EndDialog()
    _HMG_BeginDialogActive   := .F.
    _HMG_InitDialogProcedure := ""
    _HMG_aDialogTemplate     := {}
+
+   _PopEventInfo()
 
 RETURN Nil
 
@@ -593,8 +604,10 @@ FUNCTION EraseDialog( hwndDlg )
       _HMG_aFormRestoreProcedure   [i]   := Nil
       _HMG_aFormAutoRelease      [i]   := .F.
       _HMG_aFormInteractiveCloseProcedure [i] := ""
-      _HMG_aFormMinMaxInfo      [i]   := {}
-      _HMG_aFormActivateId      [i]   := 0
+      _HMG_aFormMinMaxInfo [i]   := {}
+      _HMG_aFormActivateId [i]   := 0
+      _HMG_aFormMiscData1  [i]   := {}
+      _HMG_aFormMiscData2  [i]   := ''
 
       DestroyWindow( hwndDlg )
    ENDIF

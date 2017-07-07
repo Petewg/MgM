@@ -9,14 +9,14 @@
 #if ! ( defined( __XHARBOUR__ ) )
 
 #undef _WIN32_WINNT
-#define _WIN32_WINNT     0x0600  //VISTA
+#define _WIN32_WINNT     0x0600
 
 #undef NTDDI_VERSION
 #define NTDDI_VERSION    0x06000000
 
 #define UNICODE
 
-#if ( defined( __MINGW32__ ) )
+#if defined( __MINGW32__ )
 #define MAKEINTRESOURCEA( i )  ( ( LPSTR ) ( ( ULONG_PTR ) ( ( WORD ) ( i ) ) ) )
 #define MAKEINTRESOURCEW( i )  ( ( LPWSTR ) ( ( ULONG_PTR ) ( ( WORD ) ( i ) ) ) )
 #ifdef UNICODE
@@ -27,6 +27,7 @@
 #endif  /* __MINGW32__ */
 
 #include <hbwinuni.h>
+
 #include <mgdefs.h>
 #include <commctrl.h>
 
@@ -42,6 +43,7 @@
   #undef MAKELONG
 #endif
 #define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
+
 
 HRESULT TaskDialog( HWND hwndParent, HINSTANCE hInstance, PCWSTR pszWindowTitle, PCWSTR pszMainInstruction, PCWSTR pszContent, TASKDIALOG_COMMON_BUTTON_FLAGS dwCommonButtons, PCWSTR pszIcon, int * pnButton )
 {
@@ -723,15 +725,12 @@ static BOOL TD_objSendMsg( PHB_ITEM pObject, const char * sMsgName, HRESULT * hR
 
 HB_FUNC( _SETWINDOWTITLE )
 {
-   void * hText;
+   void * hText = NULL;
    PCWSTR pszText;
 
    if( HB_ISCHAR( 2 ) || HB_ISNUM( 2 ) )
    {
-      if( HB_ISCHAR( 2 ) )
-         pszText = HB_PARSTRDEF( 2, &hText, NULL );
-      else
-         pszText = MAKEINTRESOURCE( hb_parni( 2 ) );
+      pszText = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) : MAKEINTRESOURCE( hb_parni( 2 ) );
 
       SetWindowText( ( HWND ) HB_PARNL( 1 ), pszText );
 
@@ -781,7 +780,7 @@ HB_FUNC( _SETBUTTONELEVATIONREQUIRED )
 // TDM_SET_ELEMENT_TEXT - Updates a text element in a task dialog
 HB_FUNC( _SETMAININSTRUCTION )
 {
-   void * hText;
+   void * hText = NULL;
    PCWSTR pszMainInstruction = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                                ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -793,7 +792,7 @@ HB_FUNC( _SETMAININSTRUCTION )
 
 HB_FUNC( _SETCONTENT )
 {
-   void * hText;
+   void * hText      = NULL;
    PCWSTR pszContent = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                        ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -805,7 +804,7 @@ HB_FUNC( _SETCONTENT )
 
 HB_FUNC( _SETFOOTER )
 {
-   void * hText;
+   void * hText     = NULL;
    PCWSTR pszFooter = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                       ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -817,7 +816,7 @@ HB_FUNC( _SETFOOTER )
 
 HB_FUNC( _SETEXPANDEDINFORMATION )
 {
-   void * hText;
+   void * hText = NULL;
    PCWSTR pszExpandedInformation = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                                    ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -863,7 +862,7 @@ HB_FUNC( _SETMARQUEEPROGRESSBAR )
 // TDM_UPDATE_ELEMENT_TEXT - Updates a text element in a task dialog
 HB_FUNC( _UPDATEMAININSTRUCTION )
 {
-   void * hText;
+   void * hText = NULL;
    PCWSTR pszMainInstruction = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                                ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -875,7 +874,7 @@ HB_FUNC( _UPDATEMAININSTRUCTION )
 
 HB_FUNC( _UPDATECONTENT )
 {
-   void * hText;
+   void * hText      = NULL;
    PCWSTR pszContent = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                        ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -887,7 +886,7 @@ HB_FUNC( _UPDATECONTENT )
 
 HB_FUNC( _UPDATEFOOTER )
 {
-   void * hText;
+   void * hText     = NULL;
    PCWSTR pszFooter = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                       ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -899,7 +898,7 @@ HB_FUNC( _UPDATEFOOTER )
 
 HB_FUNC( _UPDATEEXPANDEDINFORMATION )
 {
-   void * hText;
+   void * hText = NULL;
    PCWSTR pszExpandedInformation = HB_ISCHAR( 2 ) ? HB_PARSTRDEF( 2, &hText, NULL ) :
                                    ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
 
@@ -910,7 +909,6 @@ HB_FUNC( _UPDATEEXPANDEDINFORMATION )
 }
 
 /* TODO */
-// TDM_UPDATE_ICON
 HB_FUNC( _UPDATEMAINICON )
 {
    if( HB_ISNUM( 2 ) )
@@ -920,13 +918,13 @@ HB_FUNC( _UPDATEMAINICON )
       void * hText;
       PCWSTR pszIcon = HB_PARSTRDEF( 2, &hText, NULL );
 
-      SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_MAIN, ( LPARAM ) MAKEINTRESOURCE( pszIcon ) );
+      SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_MAIN, ( LPARAM ) pszIcon );
       hb_strfree( hText );
    }
    else if( HB_ISPOINTER( 2 ) )
       SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_MAIN, ( LPARAM ) ( HICON ) hb_parptr( 2 ) );
    else
-      SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_MAIN, ( LPARAM ) ( PCWSTR ) 0 );
+      SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_MAIN, ( LPARAM ) NULL );
 }
 
 /* TODO */
@@ -939,7 +937,7 @@ HB_FUNC( _UPDATEFOOTERICON )
       void * hText;
       PCWSTR pszIcon = HB_PARSTRDEF( 2, &hText, NULL );
 
-      SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_FOOTER, ( LPARAM ) MAKEINTRESOURCE( pszIcon ) );
+      SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_FOOTER, ( LPARAM ) pszIcon );
       hb_strfree( hText );
    }
    else if( HB_ISPOINTER( 2 ) )
@@ -947,4 +945,5 @@ HB_FUNC( _UPDATEFOOTERICON )
    else
       SendMessage( ( HWND ) HB_PARNL( 1 ), TDM_UPDATE_ICON, ( WPARAM ) TDIE_ICON_FOOTER, ( LPARAM ) NULL );
 }
+
 #endif /* __XHARBOUR__ */

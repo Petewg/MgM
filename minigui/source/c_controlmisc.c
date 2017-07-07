@@ -252,8 +252,26 @@ HB_FUNC( MOVEBTNTEXTBOX )   //MoveBtnTextBox(hEdit, hBtn1, hBtn2, fBtn2, BtnWidt
 }
 
 #ifdef __XHARBOUR__
+
+#include "hbapiitm.h"
+#include "hbapicdp.h"
+#include "hbapierr.h"
+
 HB_FUNC( HB_DATE )
 {
    hb_retd( hb_parni( 1 ), hb_parni( 2 ), hb_parni( 3 ) );
 }
+
+HB_FUNC( HB_LEFTEQI )
+{
+   PHB_ITEM pItem1 = hb_param( 1, HB_IT_STRING );
+   PHB_ITEM pItem2 = hb_param( 2, HB_IT_STRING );
+
+   if( pItem1 && pItem2 )
+      hb_retl( hb_cdpicmp( hb_itemGetCPtr( pItem1 ), hb_itemGetCLen( pItem1 ),
+                           hb_itemGetCPtr( pItem2 ), hb_itemGetCLen( pItem2 ), hb_cdppage(), HB_FALSE ) == 0 );
+   else
+      hb_errRT_BASE_SubstR( EG_ARG, 1071, NULL, HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+}
+
 #endif

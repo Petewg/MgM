@@ -404,7 +404,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
    LOCAL cText, cPicMask, cPicFunc, lCleanZero, MinDec
    LOCAL aHandle, HwndBtn
    LOCAL lAllowEdit := .T.
-   LOCAL i := AScan ( _HMG_aControlHandles , hWnd )
+   LOCAL i := AScan ( _HMG_aControlHandles, hWnd )
 
    STATIC lInValid := .F.
    STATIC readonly := .F.
@@ -419,9 +419,9 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
       RETURN( 0 )
    ENDIF
 
-   cPicFunc   := _HMG_aControlInputMask[i,1]
-   cPicMask   := _HMG_aControlInputMask[i,2]
-   lCleanZero := _HMG_aControlInputMask[i,3]
+   cPicFunc   := _HMG_aControlInputMask [i,1]
+   cPicMask   := _HMG_aControlInputMask [i,2]
+   lCleanZero := _HMG_aControlInputMask [i,3]
 
    oGet       := _HMG_aControlHeadClick [i]
    readonly   := _HMG_aControlMiscData1 [i,2]
@@ -1322,10 +1322,17 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE _SetGetBoxCaret( hWnd )
 *-----------------------------------------------------------------------------*
+   LOCAL hDC := GetDC( hWnd )
+   LOCAL aTM := GetTextMetric( hDC )
+
+   ReleaseDC( hWnd, hDC )
    HideCaret( hWnd )
    DestroyCaret()
-   CreateCaret( hWnd, 0, iif( lInsert, 1, 6 ), GetWindowHeight( hWnd ) - 1 )
-   ShowCaret( hWnd )
+
+   IF ! IsWindowHasStyle ( hWnd, ES_READONLY )
+      CreateCaret( hWnd, 0, iif( lInsert, 2, 4 ), Max( aTM[ 1 ], GetWindowHeight( hWnd ) - 10 ) )
+      ShowCaret( hWnd )
+   ENDIF
 
 RETURN
 

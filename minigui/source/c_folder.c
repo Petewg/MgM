@@ -48,7 +48,7 @@
 
    ---------------------------------------------------------------------------*/
 
-#define _WIN32_IE  0x0501
+#define _WIN32_IE        0x0501
 
 #include <mgdefs.h>
 #include <commctrl.h>
@@ -222,7 +222,7 @@ LRESULT CALLBACK HMG_FldProc( HWND hWndDlg, UINT message, WPARAM wParam, LPARAM 
          if( lParam != 0 && HIWORD( wParam ) == BN_CLICKED )
             if( ! FLD_DoCommand( hWndDlg, LOWORD( wParam ) ) )
             {
-               FLDHDRINFO * pFhi = ( FLDHDRINFO * ) GetWindowLongPtr( hWndDlg, GWLP_USERDATA );
+               pFhi = ( FLDHDRINFO * ) GetWindowLongPtr( hWndDlg, GWLP_USERDATA );
                if( ! pFhi )
                   return FALSE;
 
@@ -1445,12 +1445,12 @@ static void FLD_AddBitmap( HWND hWndFolder )
    HBITMAP       hbmp;
    FLDPAGEINFO * pfpi = NULL;
    TC_ITEM       tie;
+   HDC hDC;
    int l;
    int s;
-   int cx;
-   int cy;
-   HDC hDC;
-   int i = 0;
+   int cx = 0;
+   int cy = 0;
+   int i  = 0;
 
    FLDHDRINFO * pFhi = ( FLDHDRINFO * ) GetWindowLongPtr( hWndFolder, GWLP_USERDATA );
 

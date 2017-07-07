@@ -56,7 +56,9 @@
 extern HINSTANCE g_hInstance;
 
 /* Modified by P.Ch. 16.12. */
+#ifdef HMG_LEGACY_ON
 HB_FUNC_TRANSLATE( INITGROUPBOX, INITFRAME )
+#endif // HMG_LEGACY_ON
 
 HB_FUNC( INITFRAME )
 {

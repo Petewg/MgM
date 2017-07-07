@@ -51,8 +51,9 @@
  + GetProp()
  + RemoveProp()
 
-   Copyright 2016 (C) Petr Chornyj  <myorg63@mail.ru>
+   Copyright 2016-2017 (C) Petr Chornyj  <myorg63@mail.ru>
  + EnumProps()
+ + EnumPropsEx()
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
@@ -265,7 +266,6 @@ static BOOL CALLBACK PropsEnumProc( HWND hWnd, LPCTSTR pszPropName, HANDLE handl
    return TRUE;
 }
 
-#if 0
 /*
    aProps := {}
         bCodeBlock := {|hWnd,cPropName,hHandle| HB_SYMBOL_UNUSED( hWnd ), ;
@@ -322,19 +322,19 @@ BOOL CALLBACK PropsEnumProcEx( HWND hWnd, LPCTSTR pszPropName, HANDLE handle, UL
       LPTSTR   pszName = ( LPTSTR ) hb_xgrabz( ( iLen + 1 ) * sizeof( TCHAR ) );
 
       lstrcpy( pszName, pszPropName );
-
+#if ! ( defined( __XHARBOUR__ ) )
       pPropName = hb_itemPutCPtr( NULL, pszName );
-
+#else
+      pPropName = hb_itemPutCPtr( NULL, pszName, iLen );
+#endif
       hb_evalBlock( pCodeBlock, pHWnd, pPropName, pHandle, NULL );
 
       hb_itemRelease( pHWnd );
       hb_itemRelease( pPropName );
-      hb_itemRelease( phandle );
+      hb_itemRelease( pHandle );
 
       return ( BOOL ) hb_parl( -1 );
    }
 
    return TRUE;
 }
-
-#endif

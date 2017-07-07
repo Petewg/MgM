@@ -370,6 +370,8 @@ PROCEDURE Init
    _HMG_aFormInteractiveCloseProcedure := {}
    _HMG_aFormMinMaxInfo  := {}
    _HMG_aFormActivateId  := {}
+   _HMG_aFormMiscData1   := {}   
+   _HMG_aFormMiscData2   := {} 
 
    _HMG_aControlDeleted  := {}
    _HMG_aControlType  := {}

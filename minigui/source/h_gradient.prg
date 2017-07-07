@@ -153,10 +153,10 @@ RETURN NIL
 #include <mgdefs.h>
 
 #if defined ( __MINGW32__ ) && ( _WIN32_WINNT < 0x0500 )
-# define GRADIENT_FILL_RECT_H    0x00000000
-# define GRADIENT_FILL_RECT_V    0x00000001
-# define GRADIENT_FILL_TRIANGLE  0x00000002
-# define GRADIENT_FILL_OP_FLAG   0x000000ff
+#define GRADIENT_FILL_RECT_H    0x00000000
+#define GRADIENT_FILL_RECT_V    0x00000001
+#define GRADIENT_FILL_TRIANGLE  0x00000002
+#define GRADIENT_FILL_OP_FLAG   0x000000ff
 #endif
 
 BOOL    EnabledGradient( void );
@@ -270,17 +270,18 @@ HB_FUNC( TRANSPARENTBLT )
    {
       if( ( s_hDLL != NULL ) && ( f_TransparentBlt != NULL ) )
       {
-         int iStretchMode =  hb_parnidef( 12, COLORONCOLOR );
-         POINT pt;
+         int   iStretchMode = hb_parnidef( 12, COLORONCOLOR );
+         BOOL  bHiRes       = ( iStretchMode == HALFTONE );
+         POINT pt = { 0, 0 };
 
-         if( iStretchMode == HALFTONE )
-            GetBrushOrgEx( hdc1, &pt);
+         if( bHiRes )
+            GetBrushOrgEx( hdc1, &pt );
 
-         SetStretchBltMode( hdc1, iStretchMode);
+         SetStretchBltMode( hdc1, iStretchMode );
 
-         if( iStretchMode == HALFTONE )
+         if( bHiRes )
             SetBrushOrgEx( hdc1, pt.x, pt.y, NULL );
- 
+
          bRes = f_TransparentBlt( hdc1,
                                   hb_parnl( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ),
                                   hdc2,

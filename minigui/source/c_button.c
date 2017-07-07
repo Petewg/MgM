@@ -492,102 +492,29 @@ HB_FUNC( _SETMIXEDBTNICON )
 
 HB_FUNC( DRAWBUTTON )
 {
-   RECT rc;
    DRAWITEMSTRUCT * pps = ( DRAWITEMSTRUCT * ) HB_PARNL( 4 );
-   HDC    hDC;
-   HPEN   OldPen;
-   HBRUSH OldBrush;
 
    UINT iFocus     = hb_parni( 2 );
    UINT iState     = hb_parni( 3 );
    UINT iMouseOver = hb_parni( 5 );
    UINT iFlat      = hb_parni( 6 );
 
-   rc  = pps->rcItem;
-   hDC = pps->hDC;
-
    if( iFocus == 1 || iMouseOver == 1 )
-   {
-      // deflate rectangle
-      rc.left   = rc.left + 1;
-      rc.top    = rc.top + 1;
-      rc.right  = rc.right - 1;
-      rc.bottom = rc.bottom - 1;
-   }
+      InflateRect( &pps->rcItem, -1, -1 );
 
-   if( ! iFlat )
-      DrawFrameControl( hDC, &rc, DFC_BUTTON, iState );
-   else
-   {
-      FillRect( hDC, &rc, ( HBRUSH ) ( COLOR_3DDKSHADOW + 1 ) );
-      rc.left++;
-      rc.top++;
-      rc.right--;
-      rc.bottom--;
-      FillRect( hDC, &rc, ( HBRUSH ) ( COLOR_3DHILIGHT + 1 ) );
-      rc.left++;
-      rc.top++;
-      rc.right--;
-      rc.bottom--;
-      FillRect( hDC, &rc, ( HBRUSH ) ( COLOR_3DFACE + 1 ) );
-      rc.left--;
-      rc.top--;
-      rc.right++;
-      rc.bottom++;
-      rc.left--;
-      rc.top--;
-      rc.right++;
-      rc.bottom++;
-   }
+   DrawFrameControl( pps->hDC, &pps->rcItem, DFC_BUTTON, ( ! iFlat ) ? iState : ( iState | DFCS_FLAT ) );
 
    if( iFocus == 1 )
    {
-      // inflate rectangle
-      rc.left   = rc.left - 1;
-      rc.top    = rc.top - 1;
-      rc.right  = rc.right + 1;
-      rc.bottom = rc.bottom + 1;
+      HPEN   OldPen   = ( HPEN ) SelectObject( pps->hDC, GetStockObject( BLACK_PEN ) );
+      HBRUSH OldBrush = ( HBRUSH ) SelectObject( pps->hDC, GetStockObject( NULL_BRUSH ) );
 
-      OldBrush = ( HBRUSH ) SelectObject( hDC, GetStockObject( NULL_BRUSH ) );
-      OldPen   = ( HPEN ) SelectObject( hDC, GetStockObject( BLACK_PEN ) );
-      Rectangle( hDC, rc.left, rc.top, rc.right, rc.bottom );
-      SelectObject( hDC, OldBrush );
-      SelectObject( hDC, OldPen );
+      InflateRect( &pps->rcItem, 1, 1 );
+      Rectangle( pps->hDC, pps->rcItem.left, pps->rcItem.top, pps->rcItem.right, pps->rcItem.bottom );
+
+      SelectObject( pps->hDC, OldBrush );
+      SelectObject( pps->hDC, OldPen );
    }
-
-   if( iFocus == 1 || iMouseOver == 1 )
-   {
-      rc.left   = rc.left + 1;
-      rc.top    = rc.top + 1;
-      rc.right  = rc.right - 1;
-      rc.bottom = rc.bottom - 1;
-   }
-}
-
-HB_FUNC( C_DRAWFOCUSRECT )
-{
-   RECT   rc;
-   HDC    hDC;
-   HPEN   OldPen;
-   HBRUSH OldBrush;
-   DRAWITEMSTRUCT * pps = ( DRAWITEMSTRUCT * ) HB_PARNL( 1 );
-
-   rc        = pps->rcItem;
-   hDC       = pps->hDC;
-   rc.left   = rc.left + 3;
-   rc.top    = rc.top + 3;
-   rc.right  = rc.right - 3;
-   rc.bottom = rc.bottom - 3;
-   OldBrush  = ( HBRUSH ) SelectObject( hDC, GetStockObject( NULL_BRUSH ) );
-   OldPen    = ( HPEN ) SelectObject( hDC, GetStockObject( BLACK_PEN ) );
-   DrawFocusRect( hDC, &rc );
-   rc.left     = rc.left - 3;
-   rc.top      = rc.top - 3;
-   rc.right    = rc.right + 3;
-   rc.bottom   = rc.bottom + 3;
-   pps->rcItem = rc;
-   SelectObject( hDC, OldBrush );
-   SelectObject( hDC, OldPen );
 }
 
 /*
@@ -772,7 +699,7 @@ static HBRUSH CreateGradientBrush( HDC hDC, INT nWidth, INT nHeight, COLORREF Co
    rcF.top    = 0;
    rcF.right  = nWidth;
    rcF.bottom = nHeight;
-   nCount     = ceil( ( ( nWidth > nHeight ) ? nHeight : nWidth ) / 2 );
+   nCount     = ( int ) ceil( ( ( nWidth > nHeight ) ? nHeight : nWidth ) / 2 );
 
    for( i = 0; i < nCount; i++ )
    {
@@ -782,10 +709,7 @@ static HBRUSH CreateGradientBrush( HDC hDC, INT nWidth, INT nHeight, COLORREF Co
       SelectObject( hDCComp, hBrushOld );
       DeleteObject( hBrush );
 
-      ++rcF.left;
-      ++rcF.top;
-      --rcF.right;
-      --rcF.bottom;
+      InflateRect( &rcF, -1, -1 );
    }
 
    hBrushPat = CreatePatternBrush( hBitmap );

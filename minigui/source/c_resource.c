@@ -122,8 +122,8 @@ HB_FUNC( RCDATATOFILE )
    /* lpType is RT_RCDATA by default */
    LPTSTR  lpType = ( hb_parclen( 3 ) > 0 ) ? ( LPTSTR ) hb_parc( 3 ) : MAKEINTRESOURCE( hb_parnldef( 3, 10 ) );
    HRSRC   hResInfo;
-   HGLOBAL hResData;
-   DWORD   dwResult = 0;
+   HGLOBAL hResData = NULL;
+   HB_SIZE dwResult = 0;
 
    if( hb_parclen( 1 ) > 0 )
       hResInfo = FindResourceA( hModule, hb_parc( 1 ), lpType );
@@ -135,10 +135,10 @@ HB_FUNC( RCDATATOFILE )
       hResData = LoadResource( hModule, hResInfo );
 
       if( NULL == hResData )
-         dwResult = -2;  // can't load
+         dwResult = ( HB_SIZE ) -2;  // can't load
    }
    else
-      dwResult = -1;  // can't find
+      dwResult = ( HB_SIZE ) -1;  // can't find
 
    if( 0 == dwResult )
    {
@@ -153,18 +153,18 @@ HB_FUNC( RCDATATOFILE )
 
          if( NULL != pFile )
          {
-            dwResult = ( DWORD ) hb_fileWrite( pFile, ( const void * ) lpData, ( HB_SIZE ) dwSize, -1 );
+            dwResult = hb_fileWrite( pFile, ( const void * ) lpData, ( HB_SIZE ) dwSize, -1 );
 
             if( dwResult != dwSize )
-               dwResult = -5;  // can't write
+               dwResult = ( HB_SIZE ) -5;  // can't write
 
             hb_fileClose( pFile );
          }
          else
-            dwResult = -4;  // can't open
+            dwResult = ( HB_SIZE ) -4;  // can't open
       }
       else
-         dwResult = -3;  // can't lock
+         dwResult = ( HB_SIZE ) -3;  // can't lock
 
       FreeResource( hResData );
    }

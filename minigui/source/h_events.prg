@@ -52,10 +52,12 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #ifdef _TSBROWSE_
    MEMVAR _TSB_aControlhWnd, _TSB_aControlObjects
 #endif
+
 #ifndef __XHARBOUR__
    /* FOR EACH hb_enumIndex() */
    #xtranslate hb_enumIndex( <!v!> ) => <v>:__enumIndex()
 #endif
+
 *-----------------------------------------------------------------------------*
 FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 *-----------------------------------------------------------------------------*
@@ -72,6 +74,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 #endif
    STATIC lOpaque := .F., IsInitMenuPopup := .F., lCellGridRowChanged := .F.
    STATIC IsXPThemed, nOldPage, SpaceKeyIsPressedInGrid := 0
+
 #ifdef _TSBROWSE_
    oGet := GetObjectByHandle( hWnd )
    IF ISOBJECT( oGet )
@@ -83,8 +86,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             RETURN r
          ENDIF
       ENDIF
+
    ENDIF
 #endif
+
 #ifdef _USERINIT_
    FOR EACH cProc IN _HMG_aCustomEventProcedure
 
@@ -117,6 +122,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
    //**********************************************************************
 
       i := AScan ( _HMG_aFormHandles, hWnd )
+
       ts := ( i > 0 .AND. _IsControlDefined( "StatusBar", _HMG_aFormNames [i] ) )
 
       SWITCH GETOWNBTNCTLTYPE( lParam )
@@ -129,11 +135,14 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             _OnDrawMenuItem( lParam )
             RETURN 0
          ENDIF
+
       CASE ODT_LISTBOX
          _OnDrawListBoxItem( lParam )
          RETURN 0
+
       CASE ODT_BUTTON
          RETURN ( OwnButtonPaint( lParam ) )
+
       CASE ODT_TAB
          RETURN ( OwnTabPaint( lParam ) )
 
@@ -163,8 +172,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
                      IF ValType( _HMG_aControlFontColor [ i, 2 ] ) == "A" .AND. Len( _HMG_aControlFontColor [ i, 2 ] ) == 3
                         SetTextColor( wParam, _HMG_aControlFontColor [ i, 2, 1 ], _HMG_aControlFontColor [ i, 2, 2 ], _HMG_aControlFontColor [ i, 2, 3 ] )
+
                      ELSEIF ValType( _HMG_aControlFontColor [ i, 2 ] ) == "N" .AND. Len( _HMG_aControlFontColor [ i ] ) == 3
                         SetTextColor( wParam, _HMG_aControlFontColor [ i, 1 ], _HMG_aControlFontColor [ i, 2 ], _HMG_aControlFontColor [ i ,3 ] )
+
                      ENDIF
 
                   ENDIF
@@ -181,10 +192,12 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      ELSE
 
                         IF ValType( _HMG_aControlBkColor [ i, 2] ) == "N" .AND. Len( _HMG_aControlBkColor [ i ] ) == 3
+
                            SetBkColor( wParam , _HMG_aControlBkColor [ i, 1 ] , _HMG_aControlBkColor [ i, 2 ] , _HMG_aControlBkColor [ i, 3 ] )
                            DeleteObject ( _HMG_aControlBrushHandle [ i ] )
                            _HMG_aControlBrushHandle [i] := CreateSolidBrush( _HMG_aControlBkColor [ i, 1 ] , _HMG_aControlBkColor [ i, 2 ] , _HMG_aControlBkColor [ i, 3 ] )
                            RETURN _HMG_aControlBrushHandle [i]
+
                         ENDIF
 
                      ENDIF
@@ -295,16 +308,20 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                ENDIF
 
                IF _HMG_aControlBkColor [i] != Nil
+
                   SetBkColor( wParam , _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                   DeleteObject ( _HMG_aControlBrushHandle [i] )
                   _HMG_aControlBrushHandle [i] := CreateSolidBrush( _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                   RETURN _HMG_aControlBrushHandle [i]
+
                ELSE
+
                   a := nRGB2Arr ( GetSysColor ( COLOR_3DFACE ) )
                   SetBkColor( wParam , a [1] , a [2] , a [3] )
                   DeleteObject ( _HMG_aControlBrushHandle [i] )
                   _HMG_aControlBrushHandle [i] := CreateSolidBrush( a [1] , a [2] , a [3] )
                   RETURN _HMG_aControlBrushHandle [i]
+
                ENDIF
 
             ENDIF
@@ -336,46 +353,60 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                         IF IsXPThemed .AND. _HMG_aControlContainerRow [i] <> -1 .AND. _HMG_aControlContainerCol [i] <> -1
 
                            IF ( a := _GetBackColor ( _HMG_aControlRangeMin [i], _HMG_aControlRangeMax [i] ) ) != Nil
+
                               IF ISLOGICAL ( _HMG_aControlInputMask [i] ) .AND. _HMG_aControlInputMask [i] == .T.
                                  _HMG_aControlBkColor [i] := a
                               ENDIF
+
                            ELSE
+
                               IF _HMG_aControlDblClick [i] == .F. .AND. !lOpaque .AND. _HMG_aControlBkColor [i] == Nil
+
                                  r := GetControlIndex( _HMG_aControlRangeMin [i], _HMG_aControlRangeMax [i] )
                                  DeleteObject ( _HMG_aControlBrushHandle [r] )
                                  z := GetControlHandle( _HMG_aControlRangeMin [i], _HMG_aControlRangeMax [i] )
                                  _HMG_aControlBrushHandle [r] := GetTabBrush( z )
                                  RETURN GetTabbedControlBrush ( wParam , lParam , z , _HMG_aControlBrushHandle [r] )
+
                               ENDIF
+
                            ENDIF
 
                         ENDIF
 
                         IF ISLOGICAL ( _HMG_aControlInputMask [i] )
+
                            IF _HMG_aControlInputMask [i] == .T. .AND. _HMG_aControlBkColor [i] == Nil
+
                               IF IsXPThemed .AND. ( a := _HMG_aFormBkColor [ AScan ( _HMG_aFormHandles, _HMG_aControlParentHandles [i] ) ] ) != Nil
                                  _HMG_aControlBkColor [i] := a
                               ELSE
                                  SetBkMode( wParam , TRANSPARENT )
                                  RETURN GetStockObject( NULL_BRUSH )
                               ENDIF
+
                            ENDIF
+
                         ENDIF
 
                         IF _HMG_aControlBkColor [i] != Nil
+
                            SetBkColor( wParam , _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                            IF x == 1
                               DeleteObject ( _HMG_aControlBrushHandle [i] )
                               _HMG_aControlBrushHandle [i] := CreateSolidBrush( _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                            ENDIF
                            RETURN _HMG_aControlBrushHandle [i]
+
                         ELSE
+
                            IF x == 1
                               DeleteObject ( _HMG_aControlBrushHandle [i] )
                               _HMG_aControlBrushHandle [i] := CreateSolidBrush( GetRed ( GetSysColor ( COLOR_3DFACE ) ) , GetGreen ( GetSysColor ( COLOR_3DFACE ) ) , GetBlue ( GetSysColor ( COLOR_3DFACE ) ) )
                            ENDIF
                            SetBkColor( wParam , GetRed ( GetSysColor ( COLOR_3DFACE ) ) , GetGreen ( GetSysColor ( COLOR_3DFACE ) ) , GetBlue ( GetSysColor ( COLOR_3DFACE ) ) )
                            RETURN _HMG_aControlBrushHandle [i]
+
                         ENDIF
 
                      ENDIF
@@ -419,11 +450,13 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                ENDIF
 
                IF _HMG_aControlBkColor [i] == Nil
+
                   a := nRGB2Arr ( GetSysColor ( COLOR_WINDOW ) )
                   SetBkColor( wParam , a [1] , a [2] , a [3] )
                   DeleteObject ( _HMG_aControlBrushHandle [i] )
                   _HMG_aControlBrushHandle [i] := CreateSolidBrush( a [1] , a [2] , a [3] )
                   RETURN _HMG_aControlBrushHandle [i]
+
                ENDIF
 
             ENDIF
@@ -442,15 +475,19 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   IF ValType( _HMG_aControlBkColor [i,1] ) == "A"
 
                      IF Len( _HMG_aControlBkColor[i] ) == 3 .AND. GetFocus() == _HMG_aControlHandles [i]
+
                         SetBkColor( wParam, _HMG_aControlBkColor [i, 3, 1], _HMG_aControlBkColor [i, 3, 2], _HMG_aControlBkColor [i, 3, 3] )
                         DeleteObject ( _HMG_aControlBrushHandle [i] )
                         _HMG_aControlBrushHandle [i] := CreateSolidBrush( _HMG_aControlBkColor [i, 3, 1], _HMG_aControlBkColor [i, 3, 2], _HMG_aControlBkColor [i, 3, 3] )
                         RETURN ( _HMG_aControlBrushHandle [i] )
+
                      ELSE
+
                         SetBkColor( wParam, _HMG_aControlBkColor [i, 1, 1], _HMG_aControlBkColor [i, 1, 2], _HMG_aControlBkColor [i, 1, 3] )
                         DeleteObject ( _HMG_aControlBrushHandle [i] )
                         _HMG_aControlBrushHandle [i] := CreateSolidBrush( _HMG_aControlBkColor [i, 1, 1], _HMG_aControlBkColor [i, 1, 2], _HMG_aControlBkColor [i, 1, 3] )
                         RETURN _HMG_aControlBrushHandle [i]
+
                      ENDIF
 
                   ENDIF
@@ -473,6 +510,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   IF _HMG_aControlHandles [i] [1] == lParam
 
                      IF _HMG_aControlFontColor [i] != Nil
+
                         SetTextColor( wParam , _HMG_aControlFontColor [i] [1] , _HMG_aControlFontColor [i] [2] , _HMG_aControlFontColor [i] [3] )
                         IF _HMG_aControlBkColor [i] == Nil
                            a := nRGB2Arr ( GetSysColor ( COLOR_WINDOW ) )
@@ -481,13 +519,16 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                            _HMG_aControlBrushHandle [ i ] := CreateSolidBrush( a [1] , a [2] , a [3] )
                            RETURN _HMG_aControlBrushHandle [i]
                         ENDIF
+
                      ENDIF
 
                      IF _HMG_aControlBkColor [i] != Nil
+
                         SetBkColor( wParam , _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                         DeleteObject ( _HMG_aControlBrushHandle [i] )
                         _HMG_aControlBrushHandle [i] := CreateSolidBrush( _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                         RETURN _HMG_aControlBrushHandle [i]
+
                      ENDIF
 
                   ENDIF
@@ -502,17 +543,22 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   GetFocus() == _HMG_aControlHandles [i] .AND. ( _HMG_aControlHandles [i] == lParam .OR. _HMG_aControlMiscData1 [i] [2] == .F. )
 
                   IF _HMG_aControlFontColor [i] != Nil
+
                      SetTextColor( wParam , _HMG_aControlFontColor [i] [1] , _HMG_aControlFontColor [i] [2] , _HMG_aControlFontColor [i] [3] )
                      IF _HMG_aControlBkColor [i] == Nil
+
                         a := nRGB2Arr ( GetSysColor ( COLOR_WINDOW ) )
                         SetBkColor( wParam , a [1] , a [2] , a [3] )
                         DeleteObject ( _HMG_aControlBrushHandle [i] )
                         _HMG_aControlBrushHandle [ i ] := CreateSolidBrush( a [1] , a [2] , a [3] )
                         RETURN _HMG_aControlBrushHandle [i]
+
                      ENDIF
+
                   ENDIF
 
                   IF _HMG_aControlBkColor [i] != Nil
+
                      IF _HMG_aControlRangeMin [i] == lParam
                         SetBkColor( lParam , _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                      ENDIF
@@ -520,6 +566,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      DeleteObject ( _HMG_aControlBrushHandle [i] )
                      _HMG_aControlBrushHandle [i] := CreateSolidBrush( _HMG_aControlBkColor [i] [1] , _HMG_aControlBkColor [i] [2] , _HMG_aControlBkColor [i] [3] )
                      RETURN _HMG_aControlBrushHandle [i]
+
                   ENDIF
 
                ENDIF
@@ -534,27 +581,35 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
    CASE WM_MENUSELECT
    //**********************************************************************
 
-      IF AND( HIWORD( wParam ), MF_HILITE ) <> 0
+      IF AND( HiWord ( wParam ), MF_HILITE ) <> 0
 
-         i := AScan ( _HMG_aControlIds, LOWORD( wParam ) )  // LOWORD(wParam) = menu id
+         i := AScan ( _HMG_aControlIds, LoWord ( wParam ) )  // LoWord(wParam) => menu id
 
          IF i > 0
 
             IF ( x := AScan ( _HMG_aFormHandles, _HMG_aControlParentHandles [i] ) ) > 0
+
                IF _IsControlDefined ( "StatusBar", _HMG_aFormNames [x] )
+
                   IF _HMG_aControlValue [i] # Nil
                      SetProperty( _HMG_aFormNames [x], "StatusBar", "Item", 1, _HMG_aControlValue [i] )
+
                   ELSEIF ISCHARACTER ( _HMG_DefaultStatusBarMessage )
                      SetProperty( _HMG_aFormNames [x], "StatusBar", "Item", 1, _HMG_DefaultStatusBarMessage )
                   ENDIF
+
                ENDIF
+
             ENDIF
 
          ELSEIF ( x := AScan ( _HMG_aFormHandles, hWnd ) ) > 0
+
             IF _IsControlDefined ( "StatusBar", _HMG_aFormNames [x] )
+
                IF ISCHARACTER ( _HMG_DefaultStatusBarMessage )
                   SetProperty ( _HMG_aFormNames [x], "StatusBar", "Item", 1, _HMG_DefaultStatusBarMessage )
                ENDIF
+
             ENDIF
 
          ENDIF
@@ -567,8 +622,8 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       IF IsExtendedMenuStyleActive()
 
-         x := Chr( LOWORD( wParam ) )  // LOWORD(wParam) = pressed char code
-         IF ( i := AScan( GetMenuItems ( ( HIWORD( wParam ) == MF_POPUP ), lParam ), {|r| "&" + Upper( x ) $ Upper( r ) } ) ) > 0
+         x := Chr ( LoWord ( wParam ) )  // LoWord(wParam) => pressed char code
+         IF ( i := AScan ( GetMenuItems ( ( HiWord ( wParam ) == MF_POPUP ), lParam ), {| r | "&" + Upper( x ) $ Upper( r ) } ) ) > 0
             RETURN MAKELRESULT( i - 1, MNC_EXECUTE )
          ENDIF
 
@@ -593,17 +648,22 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
       i := AScan ( _HMG_aControlIds , wParam )
 
       IF i > 0
+
          IF _HMG_aControlType [i] == "HOTKEY"
+
             IF _HMG_aControlValue [i] == VK_ESCAPE .AND. IsInitMenuPopup == .T.
                _CloseMenu()
                RETURN 0
             ENDIF
+
             //JP MDI HotKey
             IF _HMG_BeginWindowMDIActive
+
                IF _HMG_aControlParentHandles [i] == GetActiveMdiHandle() .OR. _HMG_InplaceParentHandle <> 0
                   IF _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
                      RETURN 0
                   ENDIF
+
                ELSEIF _HMG_aControlParentHandles [i] == GetActiveWindow() .OR. _HMG_GlobalHotkeys
                   IF _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
                      RETURN 0
@@ -611,13 +671,17 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                ENDIF
             //End JP
             ELSE
+
                IF _HMG_aControlParentHandles [i] == GetForegroundWindow() .OR. _HMG_GlobalHotkeys
                   IF _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
                      RETURN 0
                   ENDIF
                ENDIF
+
             ENDIF
+
          ENDIF
+
       ENDIF
       EXIT
    //**********************************************************************
@@ -640,12 +704,12 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             IF ( i := AScan ( _HMG_aControlHandles , GetFocus() ) ) > 0
 
-               x := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] )
+               IF ( x := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] ) ) > 0
 
-               IF x > 0
                   IF _HMG_aFormVirtualHeight [x] > 0
                      hwnd := _HMG_aFormHandles [x]
                   ENDIF
+
                ENDIF
 
             ELSE
@@ -657,12 +721,13 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
                      IF AScan ( _HMG_aControlHandles [i] , GetFocus() ) > 0
 
-                        z := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] )
-                        IF z > 0
+                        IF ( z := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] ) ) > 0
+
                            IF _HMG_aFormVirtualHeight [z] > 0
                               hwnd := _HMG_aFormHandles [z]
                               EXIT
                            ENDIF
+
                         ENDIF
 
                      ENDIF
@@ -679,18 +744,22 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       IF hwnd != 0
 
-         IF HIWORD( wParam ) == WHEEL_DELTA
+         IF HiWord( wParam ) == WHEEL_DELTA
+
             IF GetScrollPos( hwnd , SB_VERT ) < 25
                SendMessage ( hwnd , WM_VSCROLL , SB_TOP , 0 )
             ELSE
                SendMessage ( hwnd , WM_VSCROLL , SB_PAGEUP , 0 )
             ENDIF
+
          ELSE
+
             IF GetScrollPos( hwnd , SB_VERT ) >= GetScrollRangeMax ( hwnd , SB_VERT ) - 10
                SendMessage ( hwnd , WM_VSCROLL , SB_BOTTOM , 0 )
             ELSE
                SendMessage ( hwnd , WM_VSCROLL , SB_PAGEDOWN , 0 )
             ENDIF
+
          ENDIF
 
       ENDIF
@@ -711,15 +780,17 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       IF i > 0
 
-         IF LoWord( wparam ) == 0
+         IF LoWord ( wParam ) == 0
 
             IF ! _HMG_GlobalHotkeys
 
                FOR EACH r IN _HMG_aControlType
+
                   IF r == 'HOTKEY'
                      x := hb_enumindex( r )
                      ReleaseHotKey ( _HMG_aControlParentHandles [x] , _HMG_aControlIds [x] )
                   ENDIF
+
                NEXT
 
             ENDIF
@@ -753,21 +824,29 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
          FOR x := 1 TO ControlCount
             //JP MDI HotKey
             IF _HMG_aControlType [x] == 'HOTKEY'
+
                IF .NOT. _HMG_BeginWindowMDIActive
                   ReleaseHotKey ( _HMG_aControlParentHandles [x] , _HMG_aControlIds [x] )
+
                ELSEIF _HMG_aControlParentHandles [x] != GetFormHandle( _HMG_MainClientMDIName ) .OR. _HMG_InplaceParentHandle <> 0
                   ReleaseHotKey ( _HMG_aControlParentHandles [x] , _HMG_aControlIds [x] )
+
                ENDIF
+
             ENDIF
             //End
          NEXT x
 
          FOR x := 1 TO ControlCount
+
             IF _HMG_aControlType [x] == 'HOTKEY'
+
                IF _HMG_aControlParentHandles [x] == hWnd
                   InitHotKey ( hWnd , _HMG_aControlPageMap [x] , _HMG_aControlValue [x] , _HMG_aControlIds [x] )
                ENDIF
+
             ENDIF
+
          NEXT x
 
          _DoWindowEventProcedure ( _HMG_aFormGotFocusProcedure [i] , i , 'WINDOW_GOTFOCUS' )
@@ -775,13 +854,16 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
          IF _HMG_IsModalActive .AND. Empty ( _HMG_InplaceParentHandle ) .AND. ;
             ( _HMG_aFormVirtualWidth [i] == 0 .OR. _HMG_aFormVirtualHeight [i] == 0 ) .AND. ;
             _HMG_SplitLastControl != "TOOLBAR"
+
             IF iswinnt() .OR. _HMG_aFormType [i] != 'M'
                BringWindowToTop ( _HMG_ActiveModalHandle )
             ENDIF
+
             IF iswinnt() .AND. _HMG_aFormType [i] != 'M'
                // Form's caption blinking if a top window is not Modal window
                FlashWindowEx ( _HMG_ActiveModalHandle , 1 , 5 , 60 )
             ENDIF
+
          ENDIF
 
          IF _HMG_aFormFocusedControl [i] != 0
@@ -840,9 +922,9 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             IF LoWord( wParam ) == SB_LINEDOWN
 
-               NewPos := GetScrollPos( hwnd, SB_VERT ) + z
-               IF NewPos >= GetScrollRangeMax( hwnd, SB_VERT ) - 10
-                  NewPos := GetScrollRangeMax( hwnd, SB_VERT )
+               NewPos := GetScrollPos ( hwnd, SB_VERT ) + z
+               IF NewPos >= GetScrollRangeMax ( hwnd, SB_VERT ) - 10
+                  NewPos := GetScrollRangeMax ( hwnd, SB_VERT )
                ENDIF
                SetScrollPos ( hwnd , SB_VERT , NewPos , .T. )
 
@@ -861,22 +943,22 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             ELSEIF LoWord( wParam ) == SB_BOTTOM
 
-               NewPos := GetScrollRangeMax( hwnd, SB_VERT )
+               NewPos := GetScrollRangeMax ( hwnd, SB_VERT )
                SetScrollPos ( hwnd , SB_VERT , NewPos , .T. )
 
             ELSEIF LoWord( wParam ) == SB_PAGEUP
 
-               NewPos := GetScrollPos( hwnd, SB_VERT ) - _HMG_aScrollStep [2]
+               NewPos := GetScrollPos ( hwnd, SB_VERT ) - _HMG_aScrollStep [2]
                SetScrollPos ( hwnd , SB_VERT , NewPos , .T. )
 
             ELSEIF LoWord( wParam ) == SB_PAGEDOWN
 
-               NewPos := GetScrollPos( hwnd, SB_VERT ) + _HMG_aScrollStep [2]
+               NewPos := GetScrollPos ( hwnd, SB_VERT ) + _HMG_aScrollStep [2]
                SetScrollPos ( hwnd , SB_VERT , NewPos , .T. )
 
             ELSEIF LoWord( wParam ) == SB_THUMBPOSITION
 
-               NewPos := HIWORD( wParam )
+               NewPos := HiWord( wParam )
                SetScrollPos ( hwnd , SB_VERT , NewPos , .T. )
 
             ENDIF
@@ -891,7 +973,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             IF LoWord( wParam ) == SB_THUMBPOSITION .OR. LoWord( wParam ) == SB_LINEDOWN .OR. LoWord( wParam ) == SB_LINEUP .OR. LoWord( wParam ) == SB_PAGEUP .OR. LoWord( wParam ) == SB_PAGEDOWN .OR. LoWord( wParam ) == SB_BOTTOM .OR. LoWord( wParam ) == SB_TOP .AND. ! _HMG_AutoAdjust
 
-               FOR x := 1 TO Len ( _HMG_aControlhandles )
+               FOR x := 1 TO Len ( _HMG_aControlHandles )
 
                   IF _HMG_aControlParentHandles [x] == hwnd
 
@@ -913,11 +995,13 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      ELSEIF _HMG_aControlType [x] == 'RADIOGROUP'
 
                         FOR z := 1 TO Len ( _HMG_aControlhandles [x] )
+
                            IF _HMG_aControlMiscData1 [x] == .F.
                               MoveWindow ( _HMG_aControlhandles [x] [z] , _HMG_aControlCol [x] - NewHPos , _HMG_aControlRow [x] - NewPos + ( (z - 1 ) * _HMG_aControlSpacing[x] ), _HMG_aControlWidth [x] , _HMG_aControlHeight [x] / Len ( _HMG_aControlhandles [x] ) , .T. )
                            ELSE // horizontal
                               MoveWindow ( _HMG_aControlhandles [x] [z] , _HMG_aControlCol [x] - NewHPos + ( z - 1 ) * ( _HMG_aControlWidth [x] + _HMG_aControlSpacing[x] ), _HMG_aControlRow [x] - NewPos , _HMG_aControlWidth [x] , _HMG_aControlHeight [x] , .T. )
                            ENDIF
+
                         NEXT z
 
                      ELSEIF _HMG_aControlType [x] == 'TOOLBAR'
@@ -931,6 +1015,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      ENDIF
 
                   ENDIF
+
                NEXT x
 
                ReDrawWindow ( hwnd )
@@ -944,9 +1029,11 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
          CASE SB_LINEDOWN
             _DoWindowEventProcedure ( _HMG_aFormScrollDown [i] , i )
             EXIT
+
          CASE SB_LINEUP
             _DoWindowEventProcedure ( _HMG_aFormScrollUp [i] , i )
             EXIT
+
          CASE SB_THUMBPOSITION
          CASE SB_PAGEUP
          CASE SB_PAGEDOWN
@@ -1005,7 +1092,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
                   IF SkipCount > ( RecordCount / 2 )
                      GO BOTTOM
-                     Skip - ( RecordCount - SkipCount )
+                     SKIP - ( RecordCount - SkipCount )
                   ELSE
                      GO TOP
                      IF SkipCount > 1
@@ -1014,7 +1101,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   ENDIF
 
                   IF EOF()
-                     Skip -1
+                     SKIP -1
                   ENDIF
 
                   nr := RecNo()
@@ -1026,7 +1113,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   IF Select ( BackArea ) != 0
                      Select &BackArea
                   ELSE
-                     SELECT 0
+                     Select 0
                   ENDIF
 
                   _BrowseSetValue ( '' , '' , nr , i )
@@ -1051,38 +1138,34 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          CASE WM_LBUTTONDOWN
 
-            i := AScan ( _HMG_aFormHandles , hWnd )
-            IF i > 0
+            IF ( i := AScan ( _HMG_aFormHandles , hWnd ) ) > 0
                _DoWindowEventProcedure ( _HMG_aFormNotifyIconLeftClick [i] , i , "TASKBAR" )
             ENDIF
             EXIT
-
          CASE TTM_DELTOOLA
 
             IF IsToolTipBalloonActive .AND. hWnd == _HMG_MainHandle
                _DoWindowEventProcedure ( _HMG_NotifyBalloonClick , AScan ( _HMG_aFormHandles , hWnd ) , "TASKBAR" )
             ENDIF
             EXIT
-
          CASE WM_LBUTTONDBLCLK
 
-            i := AScan ( _HMG_aFormHandles , hWnd )
-            IF i > 0
+            IF ( i := AScan ( _HMG_aFormHandles , hWnd ) ) > 0
                _DoWindowEventProcedure ( _HMG_aFormNotifyIconDblClick [i] , i , "TASKBAR" )
             ENDIF
             EXIT
-
          CASE WM_RBUTTONDOWN
 
             IF _HMG_ShowContextMenus
 
                aPos := GetCursorPos()
 
-               i := AScan ( _HMG_aFormHandles , hWnd )
-               IF i > 0
+               IF ( i := AScan ( _HMG_aFormHandles , hWnd ) ) > 0
+
                   IF _HMG_aFormNotifyMenuHandle [i] != 0
                      TrackPopupMenu ( _HMG_aFormNotifyMenuHandle [i] , aPos [2] , aPos [1] , hWnd , .T. )
                   ENDIF
+
                ENDIF
 
             ENDIF
@@ -1539,17 +1622,17 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       ControlCount := Len ( _HMG_aControlHandles )
 
-      //...............................................
-      // Search Control From Received Id LoWord(wParam)
-      //...............................................
+      //................................................
+      // Search Control From Received Id LoWord (wParam)
+      //................................................
 
       i := AScan ( _HMG_aControlIds , LoWord( wParam ) )
 
       IF i > 0
 
-      // Process Menus .......................................
+         // Process Menus .......................................
 
-         IF HiWord( wParam ) == 0 .AND. _HMG_aControlType [i] == "MENU"
+         IF HiWord ( wParam ) == 0 .AND. _HMG_aControlType [i] == "MENU"
             IF _HMG_aControlMiscData1 [i] == 1
                _CloseMenu()
             ENDIF
@@ -1557,7 +1640,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             RETURN 0
          ENDIF
 
-      // Process ToolBar Buttons ............................
+         // Process ToolBar Buttons ............................
 
          IF _HMG_aControlType [i] == "TOOLBUTTON"
             _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
@@ -1567,7 +1650,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
       ENDIF
 
       //..............................................
-      // Search Control From Received Handle (lparam)
+      // Search Control From Received Handle (lParam)
       //..............................................
 
 #ifdef _TSBROWSE_
@@ -1581,6 +1664,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                RETURN r
             ENDIF
          ENDIF
+
       ENDIF
 #endif
 
@@ -1591,12 +1675,16 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
       IF i == 0
 
          FOR x := 1 TO ControlCount
+
             IF ValType ( _HMG_aControlHandles [x] ) == 'A'
+
                IF _HMG_aControlHandles [x] [1] == lParam .AND. _HMG_aControlType [x] == 'SPINNER'
                   i := x
                   EXIT
                ENDIF
+
             ENDIF
+
          NEXT x
 
       ENDIF
@@ -1607,45 +1695,50 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       IF i > 0
 
-      // Button Click ........................................
+         // Button Click ........................................
 
-         IF HIWORD( wParam ) == BN_CLICKED .AND. _HMG_aControlType [i] $ "OBUTTON"
+         IF HiWord ( wParam ) == BN_CLICKED .AND. _HMG_aControlType [i] $ "OBUTTON"
+
             IF _HMG_aControlType [i] == "BUTTON"
                SetFocus( _HMG_aControlHandles [i] )
-               SendMessage ( _HMG_aControlHandles [i] , BM_SETSTYLE , LOWORD ( BS_DEFPUSHBUTTON ) , 1 )
+               SendMessage ( _HMG_aControlHandles [i] , BM_SETSTYLE , LoWord ( BS_DEFPUSHBUTTON ) , 1 )
+
             ELSEIF _HMG_aControlRangeMax [i] == 1  // GF 08/27/2010
                a := GetCursorPos()
                IF ( x := GetWindowCol( lParam ) ) + GetWindowWidth( lParam ) < a[2] .OR. ;
                      ( r := GetWindowRow( lParam ) ) + GetWindowHeight( lParam ) < a[1] .OR. x > a[2] .OR. r > a[1]
                   RETURN 0
                ENDIF
+
             ENDIF
+
             _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
             RETURN 0
+
          ENDIF
 
-      // CheckBox Click ......................................
+         // CheckBox Click ......................................
 
-         IF HIWORD( wParam ) == BN_CLICKED .AND. _HMG_aControlType [i] == "CHECKBOX"
+         IF HiWord ( wParam ) == BN_CLICKED .AND. _HMG_aControlType [i] == "CHECKBOX"
             _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
             RETURN 0
          ENDIF
 
-      // Label / HyperLink / Image Click .....................
+         // Label / HyperLink / Image Click .....................
 
          IF HiWord ( wParam ) == STN_CLICKED .AND. ( "LABEL" $ _HMG_aControlType [i] .OR. _HMG_aControlType [i] == "HYPERLINK" .OR. _HMG_aControlType [i] == "IMAGE" )
             _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
             RETURN 0
          ENDIF
 
-      // Process Richedit Area Change ........................
+         // Process Richedit Area Change ........................
 
-         IF HIWORD( wParam ) == EN_VSCROLL .AND. ( _HMG_aControlType [i] == "RICHEDIT" )
+         IF HiWord ( wParam ) == EN_VSCROLL .AND. ( _HMG_aControlType [i] == "RICHEDIT" )
             _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
             RETURN 0
          ENDIF
 
-      // TextBox and GetBox Change ...........................
+         // TextBox and GetBox Change ...........................
 
          IF HiWord ( wParam ) == EN_CHANGE
 
@@ -1701,7 +1794,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          // TextBox LostFocus ...................................
 
-         IF HiWord( wParam ) == EN_KILLFOCUS
+         IF HiWord ( wParam ) == EN_KILLFOCUS
 
             IF _HMG_aControlType [i] == 'MASKEDTEXT'
 
@@ -1713,21 +1806,29 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   Ts := GetWindowText ( _HMG_aControlHandles [i] )
 
                   IF "." $ _HMG_aControlPageMap [i]
+
                      DO CASE
+
                      CASE At ( '.' , Ts ) > At ( ',' , Ts )
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromText ( GetWindowText ( _HMG_aControlHandles[i] ) , i ) , _HMG_aControlPageMap[i] ) )
                      CASE At ( ',' , Ts ) > At ( '.' , Ts )
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromTextSp ( GetWindowText ( _HMG_aControlHandles[i] ) , i ) , _HMG_aControlPageMap[i] ) )
+
                      ENDCASE
+
                   ELSE
+
                      DO CASE
+
                      CASE At ( '.' , Ts ) != 0
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromTextSp ( GetWindowText ( _HMG_aControlHandles[i] ) , i ) , _HMG_aControlPageMap[i] ) )
                      CASE At ( ',' , Ts ) != 0
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromText ( GetWindowText ( _HMG_aControlHandles[i] ) , i ) , _HMG_aControlPageMap[i] ) )
                      OTHERWISE
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromText ( GetWindowText ( _HMG_aControlHandles[i] ) , i ) , _HMG_aControlPageMap[i] ) )
+
                      ENDCASE
+
                   ENDIF
 
                ELSE
@@ -1741,10 +1842,12 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             IF _HMG_aControlType [i] == 'CHARMASKTEXT'
 
                IF ValType ( _HMG_aControlHeadCLick [i] ) == 'L'
+
                   IF _HMG_aControlHeadCLick [i] == .T.
                      _HMG_DateTextBoxActive := .T.
                      SetWindowText ( _HMG_aControlHandles [i] , DToC ( CToD ( GetWindowText ( _HMG_aControlHandles [i] ) ) ) )
                   ENDIF
+
                ENDIF
 
             ENDIF
@@ -1756,16 +1859,20 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                // Spinner Checking ..............................
 
                IF _HMG_aControlType [i] == "SPINNER"
+
                   Ts := GetWindowText ( _HMG_aControlHandles [i] [1] )
 
                   IF ! _HMG_aControlMiscData1 [i] [2] .AND. ! Empty ( Ts )
+
                      z := Val( Ts )
                      IF z < _HMG_aControlRangeMin [i]
                         SetSpinnerValue ( _HMG_aControlHandles [i] [2] , _HMG_aControlRangeMin [i] )
                      ELSEIF z > _HMG_aControlRangeMax [i]
                         SetSpinnerValue ( _HMG_aControlHandles [i] [2] , _HMG_aControlRangeMax [i] )
                      ENDIF
+
                   ENDIF
+
                ENDIF
 
             ENDIF
@@ -1776,7 +1883,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          // TextBox GotFocus ....................................
 
-         IF HIWORD( wParam ) == EN_SETFOCUS
+         IF HiWord( wParam ) == EN_SETFOCUS
 
             VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
 
@@ -1789,7 +1896,9 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   Ts := GetWindowText ( _HMG_aControlHandles[i] )
 
                   IF "." $ _HMG_aControlPageMap [i]
+
                      DO CASE
+
                      CASE At ( '.' , Ts ) >  At ( ',' , Ts )
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromText ( GetWindowText ( _HMG_aControlhandles [i] ) , i ) , _HMG_aControlInputMask [i] ) )
                      CASE At ( ',' , Ts ) > At ( '.' , Ts )
@@ -1798,16 +1907,22 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                            TmpStr := StrTran ( TmpStr , '0.' , ' .' )
                         ENDIF
                         SetWindowText ( _HMG_aControlhandles [i] , TmpStr )
+
                      ENDCASE
+
                   ELSE
+
                      DO CASE
+
                      CASE At ( '.' , Ts ) !=  0
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromTextSP ( GetWindowText ( _HMG_aControlhandles [i] ) , i ) , _HMG_aControlInputMask [i] ) )
                      CASE At ( ',' , Ts )  != 0
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromText ( GetWindowText ( _HMG_aControlhandles [i] ) , i ) , _HMG_aControlInputMask [i] ) )
                      OTHERWISE
                         SetWindowText ( _HMG_aControlhandles [i] , Transform ( GetNumFromText ( GetWindowText ( _HMG_aControlhandles [i] ) , i ) , _HMG_aControlInputMask [i] ) )
+
                      ENDCASE
+
                   ENDIF
 
                ELSE
@@ -1850,27 +1965,27 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          ENDIF
 
-      // ListBox Processing ..................................
+         // ListBox Processing ..................................
 
          IF 'LIST' $ _HMG_aControlType[i]
 
             // ListBox OnChange ....................................
 
-            IF HIWORD( wParam ) == LBN_SELCHANGE
+            IF HiWord( wParam ) == LBN_SELCHANGE
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
                RETURN 0
             ENDIF
 
             // ListBox LostFocus ...................................
 
-            IF HIWORD( wParam ) == LBN_KILLFOCUS
+            IF HiWord( wParam ) == LBN_KILLFOCUS
                _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
             // ListBox GotFocus ....................................
 
-            IF HIWORD( wParam ) == LBN_SETFOCUS
+            IF HiWord( wParam ) == LBN_SETFOCUS
                VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
                _DoControlEventProcedure ( _HMG_aControlGotFocusProcedure [i] , i )
                RETURN 0
@@ -1878,27 +1993,27 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             // ListBox Double Click ................................
 
-            IF HIWORD( wParam ) == LBN_DBLCLK
+            IF HiWord( wParam ) == LBN_DBLCLK
                _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
                RETURN 0
             ENDIF
 
          ENDIF
 
-      // ComboBox Processing .................................
+         // ComboBox Processing .................................
 
          IF _HMG_aControlType [i] == 'COMBO'
 
             // ComboBox Change .....................................
 
-            IF HIWORD( wParam ) == CBN_SELCHANGE
+            IF HiWord( wParam ) == CBN_SELCHANGE
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
                RETURN 0
             ENDIF
 
             // ComboBox OnCancel ...................................
 
-            IF HIWORD( wParam ) == CBN_SELENDCANCEL .AND. _HMG_aControlMiscData1 [i][1] <> 1
+            IF HiWord( wParam ) == CBN_SELENDCANCEL .AND. _HMG_aControlMiscData1 [i][1] <> 1
                IF CheckBit ( GetKeyState( VK_ESCAPE ), 32768 )
                   _DoControlEventProcedure ( _HMG_aControlMiscData1 [i][10] , i )
                ENDIF
@@ -1907,28 +2022,28 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             // ComboBox DropDownList visible .......................
 
-            IF HIWORD( wParam ) == CBN_DROPDOWN
+            IF HiWord( wParam ) == CBN_DROPDOWN
                _DoControlEventProcedure ( _HMG_aControlInputMask [i] , i )
                RETURN 0
             ENDIF
 
             // ComboBox DropDownList closed ........................
 
-            IF HIWORD( wParam ) == CBN_CLOSEUP
+            IF HiWord( wParam ) == CBN_CLOSEUP
                _DoControlEventProcedure ( _HMG_aControlPicture [i] , i )
                RETURN 0
             ENDIF
 
             // ComboBox LostFocus ..................................
 
-            IF HIWORD( wParam ) == CBN_KILLFOCUS
+            IF HiWord( wParam ) == CBN_KILLFOCUS
                _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
             // ComboBox GotFocus ...................................
 
-            IF HIWORD( wParam ) == CBN_SETFOCUS
+            IF HiWord( wParam ) == CBN_SETFOCUS
                VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
                _DoControlEventProcedure ( _HMG_aControlGotFocusProcedure [i] , i )
                RETURN 0
@@ -1936,7 +2051,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             // Process Combo Display Area Change ...................
 
-            IF HIWORD( wParam ) == CBN_EDITCHANGE
+            IF HiWord( wParam ) == CBN_EDITCHANGE
                _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
                IF _HMG_aControlMiscData1 [i][1] == 0 .AND. _HMG_aControlMiscData1 [i][2] == .T. .AND. _HMG_aControlMiscData1 [i][7] == .T.
                   DoComboAutoComplete ( i )
@@ -1946,16 +2061,16 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          ENDIF
 
-      // Button LostFocus ....................................
+         // Button LostFocus ....................................
 
-         IF HIWORD( wParam ) == BN_KILLFOCUS .AND. _HMG_aControlType [i] != 'COMBO'
+         IF HiWord( wParam ) == BN_KILLFOCUS .AND. _HMG_aControlType [i] != 'COMBO'
             _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
             RETURN 0
          ENDIF
 
-      // Button GotFocus .....................................
+         // Button GotFocus .....................................
 
-         IF HIWORD( wParam ) == BN_SETFOCUS
+         IF HiWord( wParam ) == BN_SETFOCUS
             VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
             _DoControlEventProcedure ( _HMG_aControlGotFocusProcedure [i] , i )
             RETURN 0
@@ -1963,45 +2078,63 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       ELSE
 
-      // Process RadioGrop ...................................
+         // Process RadioGrop ...................................
 
-         IF HIWORD( wParam ) == BN_CLICKED
+         IF HiWord( wParam ) == BN_CLICKED
 
             FOR i := 1 TO ControlCount
+
                IF ValType ( _HMG_aControlHandles [i] ) == "A" .AND. _HMG_aControlParentHandles [i] == hWnd
+
                   FOR x := 1 TO Len ( _HMG_aControlHandles [i] )
+
                      IF _HMG_aControlHandles [i] [x] == lParam
+
                         IF _HMG_aControlValue [i] != ( z := _GetValue( , , i ) ) .OR. ! _HMG_ProgrammaticChange
                            _HMG_aControlValue [i] := z
                            _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
                         ENDIF
+
                         IF _HMG_aControlPicture [i] == .F. // No TabStop
                            IF IsTabStop( _HMG_aControlHandles [i] [x] )
                               SetTabStop( _HMG_aControlHandles [i] [x] , .F. )
                            ENDIF
                         ENDIF
                         RETURN 0
+
                      ENDIF
+
                   NEXT x
+
                ENDIF
+
             NEXT i
 
-         ELSEIF HIWORD( wParam ) == BN_SETFOCUS
+         ELSEIF HiWord( wParam ) == BN_SETFOCUS
 
             FOR i := 1 TO ControlCount
+
                IF ValType ( _HMG_aControlHandles [i] ) == "A" .AND. _HMG_aControlParentHandles [i] == hWnd
+
                   FOR x := 1 TO Len ( _HMG_aControlHandles [i] )
+
                      IF _HMG_aControlHandles [i] [x] == lParam
+
                         VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] [x] , _HMG_aControlParentHandles [i] )
+
                         IF _HMG_aControlPicture [i] == .F. // No TabStop
                            IF IsTabStop( _HMG_aControlHandles [i] [x] )
                               SetTabStop( _HMG_aControlHandles [i] [x] , .F. )
                            ENDIF
                         ENDIF
                         RETURN 0
+
                      ENDIF
+
                   NEXT x
+
                ENDIF
+
             NEXT i
 
          ENDIF
@@ -2028,7 +2161,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       IF i > 0
 
-      // CheckBox or CheckButton Enter ......................................
+         // CheckBox or CheckButton Enter ......................................
 
          IF _HMG_aControlType [i] == "CHECKBOX" .AND. HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1
             IF Empty( _HMG_aControlMiscData1 [i] )
@@ -2040,16 +2173,17 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             RETURN 0
          ENDIF
 
-      // ButtonEx Enter ......................................
+         // ButtonEx Enter ......................................
 
          IF _HMG_aControlType [i] == "OBUTTON" .AND. HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1
             _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
             RETURN 0
          ENDIF
 
-      // DatePicker or TimePicker Enter ......................
+         // DatePicker or TimePicker Enter ......................
 
-         IF ( _HMG_aControlType [i] == "DATEPICK" .OR. _HMG_aControlType [i] == "TIMEPICK" ) .AND. ( HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1 )
+         IF ( _HMG_aControlType [i] == "DATEPICK" .OR. _HMG_aControlType [i] == "TIMEPICK" ) .AND. ;
+            ( HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1 )
             _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
             IF _HMG_ExtendedNavigation == .T.
                _SetNextFocus()
@@ -2058,15 +2192,16 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
          ENDIF
 
 #ifdef _DBFBROWSE_
-      // Browse Escape .......................................
+         // Browse Escape .......................................
 
-         IF _HMG_aControlType [i] == "BROWSE" .AND. lparam == 0 .AND. wparam == 2
+         IF _HMG_aControlType [i] == "BROWSE" .AND. lParam == 0 .AND. wParam == 2
             RETURN 1
          ENDIF
 
-      // Browse Enter ........................................
+         // Browse Enter ........................................
 
-         IF _HMG_aControlType [i] == "BROWSE" .AND. lparam == 0 .AND. wparam == 1
+         IF _HMG_aControlType [i] == "BROWSE" .AND. lParam == 0 .AND. wParam == 1
+
             IF _hmg_acontrolmiscdata1 [i] [6] == .T.
                IF _HMG_aControlFontColor [i] == .T.
                   ProcessInPlaceKbdEdit( i )
@@ -2077,9 +2212,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
             ENDIF
             RETURN 1 // JP12
+
          ENDIF
 #endif
-      // Grid Enter ..........................................
+         // Grid Enter ..........................................
 
          IF ( _HMG_aControlType [i] == "GRID" .OR. _HMG_aControlType [i] == "MULTIGRID" ) .AND. lParam == 0 .AND. wParam == 1
             IF _hmg_acontrolspacing [i] == .T.
@@ -2098,34 +2234,40 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             RETURN 0
          ENDIF
 
-      // ComboBox Enter ......................................
+         // ComboBox Enter ......................................
 
          IF _HMG_aControlType [i] == "COMBO" .AND. HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1
+
             _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
             IF _HMG_ExtendedNavigation == .T.
                _SetNextFocus()
             ENDIF
             RETURN 0
+
          ENDIF
 
-      // ListBox Enter .......................................
+         // ListBox Enter .......................................
 
-         IF ( _HMG_aControlType [i] == "LIST" .OR. _HMG_aControlType [i] == "MULTILIST" ) .AND. ( HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1 )
+         IF ( _HMG_aControlType [i] == "LIST" .OR. _HMG_aControlType [i] == "MULTILIST" ) .AND. ;
+            ( HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1 )
             _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
             RETURN 0
          ENDIF
 
-      // TextBox Enter .......................................
+         // TextBox Enter .......................................
 
          IF "TEXT" $ _HMG_aControlType [i] .AND. HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1
+
             IF _HMG_aControlType [i] == "BTNTEXT" .OR. _HMG_aControlType [i] == "BTNNUMTEXT"
                IF _HMG_aControlMiscData1 [i][4]
                   _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
                   RETURN 0
                ENDIF
             ENDIF
+
             _HMG_SetFocusExecuted := .F.
             _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
+
             IF _HMG_SetFocusExecuted == .F.
                IF _HMG_ExtendedNavigation == .T.
                   _SetNextFocus()
@@ -2134,9 +2276,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                _HMG_SetFocusExecuted := .F.
             ENDIF
             RETURN 0
+
          ENDIF
 
-      // Tree Enter ..........................................
+         // Tree Enter ..........................................
 
          IF _HMG_aControlType [i] == "TREE" .AND. HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1
             _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
@@ -2145,10 +2288,12 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       ELSE
 
-      // ComboBox (DisplayEdit) ..............................
+         // ComboBox (DisplayEdit) ..............................
 
          FOR i := 1 TO ControlCount
+
             IF _HMG_aControlType [i] == "COMBO" .AND. HiWord( wParam ) == 0 .AND. LoWord( wParam ) == 1
+
                IF _hmg_acontrolrangemin [i] == GetFocus() .OR. _hmg_acontrolrangemax [i] == GetFocus()
                   _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
                   IF _HMG_ExtendedNavigation == .T.
@@ -2156,7 +2301,9 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   ENDIF
                   EXIT
                ENDIF
+
             ENDIF
+
          NEXT i
 
       ENDIF
@@ -2165,33 +2312,43 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
    CASE WM_NOTIFY
    //**********************************************************************
 
-   // Process ToolBar ToolTip .....................................
+      // Process ToolBar ToolTip .....................................
 
       IF GetNotifyCode ( lParam ) == TTN_NEEDTEXT          // for tooltip TOOLBUTTON
+
          x := AScan ( _HMG_aControlIds , GetNotifyId( lParam ) )
+
          IF x > 0 .AND. _HMG_aControlType [x] == "TOOLBUTTON"
+
             SetButtonTip ( lParam , _HMG_aControlToolTip [x] )
+
          ELSE  // JR
+
             a := GetMessagePos()
             k := WindowFromPoint ( { LoWord( a ), HiWord( a ) } )  // control handle
             x := AScan( _HMG_aControlHandles, k )
+
             IF x > 0 .AND. _HMG_aControlType [x] == 'TAB'
+
                IF ValType( _HMG_aControlTooltip [x] ) == 'A'
                   i := GetNotifyId ( lParam )  // page number
                   SetButtonTip ( lParam , _HMG_aControlTooltip [x, i + 1] )
                ELSE
                   SetButtonTip ( lParam , _HMG_aControlTooltip [x] )
                ENDIF
+
             ENDIF
+
          ENDIF
+
       ENDIF
 
-      IF GetNotifyCode ( lParam ) == RBN_CHEVRONPUSHED     // Notify for chevron button
+      IF GetNotifyCode ( lParam ) == RBN_CHEVRONPUSHED  // Notify for chevron button
          _CreatePopUpChevron ( hWnd, wParam, lParam )
       ENDIF
 
 #ifdef _TSBROWSE_
-   // Process TSBrowse .....................................
+      // Process TSBrowse .....................................
 
       oGet := GetObjectByHandle( GetHwndFrom ( lParam ) )
       IF ISOBJECT( oGet )
@@ -2203,6 +2360,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                RETURN r
             ENDIF
          ENDIF
+
       ENDIF
 #endif
 
@@ -2211,23 +2369,29 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
       IF i > 0
 
 #ifdef _PAGER_
-      // Process Pager .....................................
+         // Process Pager .....................................
 
          IF _HMG_aControlType [i] == "PAGER"
+
             IF GetNotifyCode ( lParam ) == PGN_CALCSIZE
+
                IF _HMG_aControlMiscData1 [i] == .T.
                   PagerCalcSize( lParam , _HMG_aControlHeight [i] )
                ELSE
                   PagerCalcSize( lParam , _HMG_aControlWidth [i] )
                ENDIF
+
             ENDIF
+
             IF GetNotifyCode ( lParam ) == PGN_SCROLL
                PagerScroll( lParam ,  _HMG_aControlSpacing [i] )
             ENDIF
+
          ENDIF
 #endif
+
 #ifdef _DBFBROWSE_
-      // Process Browse ....................................
+         // Process Browse ....................................
 
          IF _HMG_aControlType [i] == "BROWSE"
 
@@ -2246,7 +2410,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   ENDIF
                NEXT x
 
-            // Browse ReDraw Vertical ScrollBar If Needed ...
+               // Browse ReDraw Vertical ScrollBar If Needed ...
 
                IF _HMG_aControlIds [i] != 0 .AND. hwm == .T.
                   IF hws > _HMG_aControlWidth[i] - GETVSCROLLBARWIDTH() - 4
@@ -2266,65 +2430,86 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             dFc := _HMG_aControlMiscData1 [i] [ 9]
 
             IF GetNotifyCode ( lParam ) == NM_CUSTOMDRAW .AND. ( ValType ( dBc ) == 'A' .OR. ValType ( dFc ) == 'A' )
+
                IF ( r := GetDs ( lParam ) ) <> -1
+
                   RETURN r
+
                ELSE
+
                   a := GetRc ( lParam )
 
                   IF a[1] >= 1 .AND. a[1] <= Len ( _HMG_aControlRangeMax [i] ) .AND. ;  // MaxBrowseRows
                      a[2] >= 1 .AND. a[2] <= Len ( _HMG_aControlRangeMin [i] )       // MaxBrowseCols
+
                      aTemp  := _HMG_aControlMiscData1 [i] [18]
                      aTemp2 := _HMG_aControlMiscData1 [i] [17]
+
                      IF ValType ( aTemp ) == 'A' .AND. ValType ( aTemp2 ) <> 'A'
                         IF Len ( aTemp ) >= a[1]
+
                            IF aTemp [a[1]] [a[2]] <> -1
                               RETURN SetBcFc ( lParam , aTemp [a[1]] [a[2]] , RGB( 0, 0, 0 ) )
                            ELSE
                               RETURN SETBRCCD( lParam )
                            ENDIF
+
                         ENDIF
+
                      ELSEIF ValType ( aTemp ) <> 'A' .AND. ValType ( aTemp2 ) == 'A'
                         IF Len ( aTemp2 ) >= a[1]
+
                            IF aTemp2 [a[1]] [a[2]] <> -1
                               RETURN SetBcFc ( lParam , RGB( 255, 255, 255 ) , aTemp2 [a[1]] [a[2]] )
                            ELSE
                               RETURN SETBRCCD( lParam )
                            ENDIF
+
                         ENDIF
+
                      ELSEIF ValType ( aTemp ) == 'A' .AND. ValType ( aTemp2 ) == 'A'
                         IF Len ( aTemp ) >= a[1] .AND. Len ( aTemp2 ) >= a[1]
+
                            IF aTemp [a[1]] [a[2]] <> -1
                               RETURN SetBcFc ( lParam , aTemp [a[1]] [a[2]] , aTemp2 [a[1]] [a[2]] )
                            ELSE
                               RETURN SETBRCCD( lParam )
                            ENDIF
+
                         ENDIF
+
                      ENDIF
+
                   ELSE
+
                      RETURN SETBRCCD( lParam )
+
                   ENDIF
 
                ENDIF
 
             ENDIF
 
-         // Browse Click ................................
+            // Browse Click ................................
 
             IF GetNotifyCode ( lParam ) == NM_CLICK .OR. GetNotifyCode ( lParam ) == LVN_BEGINDRAG .OR. ;
                   GetNotifyCode ( lParam ) == NM_RCLICK
 
                IF LISTVIEW_GETFIRSTITEM ( _HMG_aControlHandles [i] ) > 0
+
                   DeltaSelect := LISTVIEW_GETFIRSTITEM ( _HMG_aControlHandles [i] ) - AScan ( _HMG_aControlRangeMax [i] , _HMG_aControlValue [i] )
                   _HMG_aControlValue [i] :=  _HMG_aControlRangeMax [i] [ LISTVIEW_GETFIRSTITEM ( _HMG_aControlHandles [i] ) ]
+
                   _BrowseVscrollFastUpdate ( i , DeltaSelect )
                   _BrowseOnChange ( i )
+
                ENDIF
 
                RETURN 0
 
             ENDIF
 
-         // Browse Key Handling .........................
+            // Browse Key Handling .........................
 
             IF GetNotifyCode ( lParam ) == LVN_KEYDOWN
 
@@ -2381,12 +2566,12 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             ENDIF
 
-         // Browse Double Click .........................
+            // Browse Double Click .........................
 
             IF GetNotifyCode ( lParam ) == NM_DBLCLK
 
                _PushEventInfo()
-               _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles[i] )
+               _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] )
                _HMG_ThisType := 'C'
                _HMG_ThisIndex := i
                _HMG_ThisFormName :=  _HMG_aFormNames [ _HMG_ThisFormIndex ]
@@ -2426,8 +2611,8 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   _BrowseEdit ( _hmg_acontrolhandles [i] , _HMG_acontrolmiscdata1 [i] [4] , _HMG_acontrolmiscdata1 [i] [5] , ;
                      _HMG_acontrolmiscdata1 [i] [3] , _HMG_aControlInputMask [i] , .F. , _HMG_aControlFontColor [i] , _HMG_acontrolmiscdata1 [i] [13] )
                ELSE
-                  IF ValType( _HMG_aControlDblClick [i] ) == 'B'
-                     Eval( _HMG_aControlDblClick [i]  )
+                  IF ISBLOCK( _HMG_aControlDblClick [i] )
+                     Eval ( _HMG_aControlDblClick [i] )
                   ENDIF
                ENDIF
 
@@ -2441,14 +2626,14 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             ENDIF
 
-         // Browse LostFocus ............................
+            // Browse LostFocus ............................
 
             IF GetNotifyCode ( lParam ) == NM_KILLFOCUS
                _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
-         // Browse GotFocus .............................
+            // Browse GotFocus .............................
 
             IF GetNotifyCode ( lParam ) == NM_SETFOCUS
                VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
@@ -2456,9 +2641,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                RETURN 0
             ENDIF
 
-         // Browse Header Click .........................
+            // Browse Header Click .........................
 
             IF GetNotifyCode ( lParam ) == LVN_COLUMNCLICK
+
                IF ValType ( _HMG_aControlHeadClick [i] ) == 'A'
                   lvc := GetGridColumn( lParam ) + 1
                   IF Len ( _HMG_aControlHeadClick [i] ) >= lvc
@@ -2466,34 +2652,40 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   ENDIF
                ENDIF
                RETURN 0
+
             ENDIF
 
          ENDIF
 #endif
-      // ToolBar DropDown Button Click .......................
+         // ToolBar DropDown Button Click .......................
 
          IF GetNotifyCode ( lParam ) == TBN_DROPDOWN
 
             DefWindowProc( hWnd, TBN_DROPDOWN, wParam, lParam )
+
             x := AScan ( _HMG_aControlIds , GetButtonPos( lParam ) )
             k := _HMG_aControlValue [x]
+
             IF x > 0 .AND. _HMG_aControlType [x] == "TOOLBUTTON"
+
                aPos := { 0, 0, 0, 0 }
                GetWindowRect( _HMG_aControlHandles [i], /*@*/aPos )
                r := GetButtonBarRect( _HMG_aControlHandles [i], k - 1 )
+
                TrackPopupMenu ( _HMG_aControlRangeMax [x] , aPos [1] + LoWord( r ) , aPos [2] + HiWord( r ) + ( aPos [4] - aPos [2] - HiWord( r ) ) / 2 , hWnd )
+
             ENDIF
 
             RETURN 0
 
          ENDIF
 
-      // RichEdit Selection Change ........................
+         // RichEdit Selection Change ........................
 
          IF _HMG_aControlType [i] == "RICHEDIT"
 
             IF GetNotifyCode ( lParam ) == EN_MSGFILTER // for typing text
-               IF ValType( _HMG_aControlChangeProcedure [i] ) == 'B'
+               IF ISBLOCK( _HMG_aControlChangeProcedure [i] )
                   _HMG_ThisType := 'C'
                   _HMG_ThisIndex := i
                   Eval( _HMG_aControlChangeProcedure [i] )
@@ -2501,8 +2693,9 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   _HMG_ThisType := ''
                ENDIF
             ENDIF
+
             IF GetNotifyCode ( lParam ) == EN_DRAGDROPDONE // for change text by drag
-               IF ValType( _HMG_aControlChangeProcedure [i] ) == 'B'
+               IF ISBLOCK( _HMG_aControlChangeProcedure [i] )
                   _HMG_ThisType := 'C'
                   _HMG_ThisIndex := i
                   Eval( _HMG_aControlChangeProcedure [i] )
@@ -2510,8 +2703,9 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   _HMG_ThisType := ''
                ENDIF
             ENDIF
+
             IF GetNotifyCode ( lParam ) == EN_SELCHANGE // for change text
-               IF ValType( _HMG_aControlDblClick [i] ) == 'B'
+               IF ISBLOCK( _HMG_aControlDblClick [i] )
                   _HMG_ThisType := 'C'
                   _HMG_ThisIndex := i
                   Eval( _HMG_aControlDblClick [i] )
@@ -2519,28 +2713,32 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   _HMG_ThisType := ''
                ENDIF
             ENDIF
+
          ENDIF
 
-      // MonthCalendar Selection Change ......................
+         // MonthCalendar Selection Change ......................
 
          IF _HMG_aControlType [i] == "MONTHCAL"
+
             IF GetNotifyCode ( lParam ) == MCN_SELECT
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
                RETURN 0
             ENDIF
+
             IF GetNotifyCode ( lParam ) == MCN_SELCHANGE
                _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i , 'CONTROL_ONCHANGE' )
                RETURN 0
             ENDIF
+
          ENDIF
 
-      // Grid Processing .....................................
+         // Grid Processing .....................................
 
          IF _HMG_aControlType [i] $ "MULTIGRID"
 
             IF _HMG_aControlFontColor [i] == .T.
 
-            // Grid Key Handling .........................
+               // Grid Key Handling .........................
 
                IF GetNotifyCode ( lParam ) == LVN_KEYDOWN
 
@@ -2667,6 +2865,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   DEFAULT
 #endif
                      RETURN 1
+
                   END SWITCH
 
                ENDIF
@@ -2678,20 +2877,31 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                IF ( r := iif( _HMG_aControlFontColor [i] == .T. , ;
                      GetDs ( lParam , _HMG_aControlHandles [i] , _HMG_aControlMiscData1 [i] [ 1 ] - 1 ), ;
                      GetDs ( lParam ) ) ) <> -1
+
                   RETURN r
+
                ELSE
+
                   a := GetRc ( lParam )
                   IF _HMG_aControlFontColor [i] == .T.
+
                      IF a [1] == _HMG_aControlMiscData1 [i] [ 1 ] .AND. a [2] == _HMG_aControlMiscData1 [i] [ 17 ]
                         RETURN SetBcFc ( lParam , RGB( _HMG_GridSelectedCellBackColor[1] , _HMG_GridSelectedCellBackColor[2] , _HMG_GridSelectedCellBackColor[3] ) , RGB( _HMG_GridSelectedCellForeColor[1] , _HMG_GridSelectedCellForeColor[2] , _HMG_GridSelectedCellForeColor[3] ) )
+
                      ELSEIF a [1] == _HMG_aControlMiscData1 [i] [ 1 ] .AND. a [2] <> _HMG_aControlMiscData1 [i] [ 17 ]
                         RETURN SetBcFc ( lParam , RGB( _HMG_GridSelectedRowBackColor[1] , _HMG_GridSelectedRowBackColor[2] , _HMG_GridSelectedRowBackColor[3] ) , RGB( _HMG_GridSelectedRowForeColor[1] , _HMG_GridSelectedRowForeColor[2] , _HMG_GridSelectedRowForeColor[3] ) )
+
                      ELSE
                         RETURN _DoGridCustomDraw ( i , a , lParam )
+
                      ENDIF
+
                   ELSE
+
                      RETURN _DoGridCustomDraw ( i , a , lParam )
+
                   ENDIF
+
                ENDIF
 
             ENDIF
@@ -2700,11 +2910,11 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                ReDrawWindow ( _hmg_acontrolhandles [i] )
             ENDIF
 
-         // Grid OnQueryData ............................
+            // Grid OnQueryData ............................
 
             IF GetNotifyCode ( lParam ) == LVN_GETDISPINFO
 
-               IF ValType( _HMG_aControlProcedures [i] ) == 'B'
+               IF ISBLOCK ( _HMG_aControlProcedures [i] )
 
                   _PushEventInfo()
                   _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] )
@@ -2716,7 +2926,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   _HMG_ThisQueryRowIndex := aPos [1]
                   _HMG_ThisQueryColIndex := aPos [2]
 
-                  Eval( _HMG_aControlProcedures [i] )
+                  Eval ( _HMG_aControlProcedures [i] )
 
                   IF Len ( _HMG_aControlBkColor [i] ) > 0 .AND. _HMG_ThisQueryColIndex == 1
                      SetGridQueryImage ( lParam , _HMG_ThisQueryData )
@@ -2732,14 +2942,14 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
             ENDIF
 
-         // Grid LostFocus ..............................
+            // Grid LostFocus ..............................
 
             IF GetNotifyCode ( lParam ) == NM_KILLFOCUS
                _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
-         // Grid GotFocus ...............................
+            // Grid GotFocus ...............................
 
             IF GetNotifyCode ( lParam ) == NM_SETFOCUS
                VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
@@ -2747,9 +2957,9 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                RETURN 0
             ENDIF
 
-         // Grid Change .................................
+            // Grid Change .................................
 
-            IF GetNotifyCode ( lParam ) == LVN_KEYDOWN .AND. GetGridvKey( lParam ) == 32
+            IF GetNotifyCode ( lParam ) == LVN_KEYDOWN .AND. GetGridvKey ( lParam ) == 32
                SpaceKeyIsPressedInGrid := _HMG_aControlHandles [i]
             ENDIF
             IF GetNotifyCode ( lParam ) == LVN_ITEMCHANGED
@@ -2775,9 +2985,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                ENDIF
             ENDIF
 
-         // Grid Header Click ..........................
+            // Grid Header Click ..........................
 
             IF GetNotifyCode ( lParam ) == LVN_COLUMNCLICK
+
                IF ValType ( _HMG_aControlHeadClick [i] ) == 'A'
                   lvc := GetGridColumn( lParam ) + 1
                   IF Len ( _HMG_aControlHeadClick [i] ) >= lvc
@@ -2785,15 +2996,18 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      RETURN 0
                   ENDIF
                ENDIF
+
             ENDIF
 
-         // Grid Click ...........................
+            // Grid Click ...........................
 
             IF GetNotifyCode ( lParam ) == NM_CLICK
 
                IF _HMG_aControlFontColor [i] == .T.
+
                   aCellData := _GetGridCellData ( i )
                   IF ( NewPos := aCellData [2] ) > 0
+
                      x := _HMG_aControlMiscData1 [i] [ 17 ]
                      _HMG_aControlMiscData1 [i] [ 17 ] := NewPos
                      IF ( nGridRowValue := _HMG_aControlMiscData1 [i] [ 1 ] ) == 0
@@ -2805,26 +3019,28 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                         LISTVIEW_REDRAWITEMS ( _HMG_aControlHandles [i] , nGridRowValue - 1 , nGridRowValue - 1 )
                         _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i )
                      ENDIF
+
                   ENDIF
+
                ENDIF
 
             ENDIF
 
-         // Grid Double Click ...........................
+            // Grid Double Click ...........................
 
             IF GetNotifyCode ( lParam ) == NM_DBLCLK
 
-               IF _hmg_aControlSpacing [i] == .T.
+               IF _HMG_aControlSpacing [i] == .T.
 
                   IF _HMG_aControlMiscData1 [i] [20] == .T. .OR. _HMG_aControlFontColor [i] == .T.
 
                      _PushEventInfo()
-                     _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles[i] )
+                     _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] )
                      _HMG_ThisType := 'C'
                      _HMG_ThisIndex := i
-                     _HMG_ThisFormName :=  _HMG_aFormNames [ _HMG_ThisFormIndex ]
-                     _HMG_ThisControlName :=  _HMG_aControlNames [_HMG_ThisIndex]
-                     aCellData := _GetGridCellData( i )
+                     _HMG_ThisFormName := _HMG_aFormNames [ _HMG_ThisFormIndex ]
+                     _HMG_ThisControlName := _HMG_aControlNames [ _HMG_ThisIndex ]
+                     aCellData := _GetGridCellData ( i )
 
                      _HMG_ThisItemRowIndex := aCellData [1]
                      _HMG_ThisItemColIndex := aCellData [2]
@@ -2833,7 +3049,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      _HMG_ThisItemCellWidth := aCellData [5]
                      _HMG_ThisItemCellHeight := aCellData [6]
 
-                     _GridInplaceEdit( i )
+                     _GridInplaceEdit ( i )
 
                      _PopEventInfo()
                      _HMG_ThisItemRowIndex := 0
@@ -2849,15 +3065,15 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
                ELSE
 
-                  IF ValType( _HMG_aControlDblClick [i]  ) == 'B'
+                  IF ISBLOCK( _HMG_aControlDblClick [i]  )
 
                      _PushEventInfo()
-                     _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles[i] )
+                     _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] )
                      _HMG_ThisType := 'C'
                      _HMG_ThisIndex := i
-                     _HMG_ThisFormName :=  _HMG_aFormNames [ _HMG_ThisFormIndex ]
-                     _HMG_ThisControlName :=  _HMG_aControlNames [_HMG_ThisIndex]
-                     aCellData := _GetGridCellData( i )
+                     _HMG_ThisFormName := _HMG_aFormNames [ _HMG_ThisFormIndex ]
+                     _HMG_ThisControlName := _HMG_aControlNames [ _HMG_ThisIndex ]
+                     aCellData := _GetGridCellData ( i )
 
                      _HMG_ThisItemRowIndex := aCellData [1]
                      _HMG_ThisItemColIndex := aCellData [2]
@@ -2866,7 +3082,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      _HMG_ThisItemCellWidth := aCellData [5]
                      _HMG_ThisItemCellHeight := aCellData [6]
 
-                     Eval( _HMG_aControlDblClick [i]  )
+                     Eval ( _HMG_aControlDblClick [i] )
 
                      _PopEventInfo()
                      _HMG_ThisItemRowIndex := 0
@@ -2885,25 +3101,26 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          ENDIF
 
-      // DatePicker Process ..................................
+         // DatePicker Process ..................................
 
          IF _HMG_aControlType [i] == "DATEPICK" .OR. _HMG_aControlType [i] == "TIMEPICK"
 
-         // DatePicker Change ............................
+            // DatePicker Change ............................
 
-            IF GetNotifyCode ( lParam ) == DTN_DATETIMECHANGE .AND. SendMessage( _HMG_aControlHandles [i] , DTM_GETMONTHCAL , 0 , 0 ) == 0 .OR. GetNotifyCode ( lParam ) == DTN_CLOSEUP
+            IF GetNotifyCode ( lParam ) == DTN_DATETIMECHANGE .AND. ;
+               SendMessage( _HMG_aControlHandles [i] , DTM_GETMONTHCAL , 0 , 0 ) == 0 .OR. GetNotifyCode ( lParam ) == DTN_CLOSEUP
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
                RETURN 0
             ENDIF
 
-         // DatePicker LostFocus ........................
+            // DatePicker LostFocus ........................
 
             IF GetNotifyCode ( lParam ) == NM_KILLFOCUS
                _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
-         // DatePicker GotFocus .........................
+            // DatePicker GotFocus .........................
 
             IF GetNotifyCode ( lParam ) == NM_SETFOCUS
                VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
@@ -2913,11 +3130,11 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          ENDIF
 
-      // Tab Processing ......................................
+         // Tab Processing ......................................
 
          IF _HMG_aControlType [i] == "TAB"
 
-         // Tab Change ..................................
+            // Tab Change ..................................
 
             IF GetNotifyCode ( lParam ) == TCN_SELCHANGING
                nOldPage := _GetValue( , , i )
@@ -2939,18 +3156,18 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          ENDIF
 
-      // Tree Processing .....................................
+         // Tree Processing .....................................
 
          IF _HMG_aControlType [i] == "TREE"
 
-         // Tree LostFocus .............................
+            // Tree LostFocus .............................
 
             IF GetNotifyCode ( lParam ) == NM_KILLFOCUS
                _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
-         // Tree GotFocus ..............................
+            // Tree GotFocus ..............................
 
             IF GetNotifyCode ( lParam ) == NM_SETFOCUS
                VirtualChildControlFocusProcess ( _HMG_aControlHandles [i] , _HMG_aControlParentHandles [i] )
@@ -2958,14 +3175,14 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                RETURN 0
             ENDIF
 
-         // Tree Change ................................
+            // Tree Change ................................
 
             IF GetNotifyCode ( lParam ) == TVN_SELCHANGED
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
                RETURN 0
             ENDIF
 
-         // Tree Double Click .........................
+            // Tree Double Click .........................
 
             IF GetNotifyCode ( lParam ) == NM_DBLCLK
                _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
@@ -2994,32 +3211,32 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 #endif
 
 #ifdef _PROPGRID_
-      // PropGrid Processing ...............................
+         // PropGrid Processing ...............................
 
          IF _HMG_aControlType [i] == "PROPGRID"
 
-         // PropGrid LostFocus .............................
+            // PropGrid LostFocus .............................
 
             IF GetNotifyCode ( lParam ) == NM_KILLFOCUS
                _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
-         // PropGrid GotFocus ..............................
+            // PropGrid GotFocus ..............................
 
             IF GetNotifyCode ( lParam ) == NM_SETFOCUS
                _DoControlEventProcedure ( _HMG_aControlGotFocusProcedure [i] , i )
                RETURN 0
             ENDIF
 
-         // PropGrid Double Click ..........................
+            // PropGrid Double Click ..........................
 
             IF GetNotifyCode ( lParam ) == NM_DBLCLK
                _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
                RETURN 0
             ENDIF
 
-         // PropGrid Change ................................
+            // PropGrid Change ................................
 
             IF GetNotifyCode ( lParam ) == TVN_SELCHANGED
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
@@ -3032,7 +3249,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          ENDIF
 #endif
-      // StatusBar Processing ..............................
+         // StatusBar Processing ..............................
 
          IF _HMG_aControlType [i] == "MESSAGEBAR"
 
@@ -3049,9 +3266,11 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   IF _HMG_aControlType [i] == "ITEMMESSAGE" .AND. _HMG_aControlParentHandles [i] == hWnd
 
                      IF r == x
+
                         IF _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
                            RETURN 0
                         ENDIF
+
                      ENDIF
 
                   ENDIF
@@ -3069,9 +3288,11 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
    //**********************************************************************
 
       IF _HMG_IsXPorLater .AND. wParam == 0 .AND. lParam == 0
+
          IF _HMG_InplaceParentHandle <> 0
             InsertReturn ()
          ENDIF
+
       ENDIF
       EXIT
    //**********************************************************************
@@ -3093,20 +3314,21 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
          RETURN ( 1 )
       ENDIF
 
-      i := AScan ( _HMG_aFormHandles , hWnd )
+      IF ( i := AScan ( _HMG_aFormHandles , hWnd ) ) > 0
 
-      IF i > 0
+         // Process Interactive Close Event / Setting
+         IF ISBLOCK ( _HMG_aFormInteractiveCloseProcedure [i] )
 
-      // Process Interactive Close Event / Setting
-         IF ValType ( _HMG_aFormInteractiveCloseProcedure [i] ) == 'B'
             r := _DoWindowEventProcedure ( _HMG_aFormInteractiveCloseProcedure [i] , i , 'WINDOW_ONINTERACTIVECLOSE' )
             IF ValType ( r ) == 'L' .AND. r == .F.
                RETURN ( 1 )
             ENDIF
+
          ENDIF
 
          IF lParam <> 1
             SWITCH _HMG_InteractiveClose
+
             CASE 0
                MsgStop ( _HMG_MESSAGE [3] )
                RETURN ( 1 )
@@ -3121,24 +3343,34 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                      RETURN ( 1 )
                   ENDIF
                ENDIF
+
             END SWITCH
          ENDIF
 
-      // Process AutoRelease Property
+         // Process AutoRelease Property
          IF _HMG_aFormAutoRelease [i] == .F.
+
             _HideWindow ( _HMG_aFormNames [i] )
             RETURN ( 1 )
+
          ENDIF
 
-      // If Not AutoRelease Destroy Window
+         // If Not AutoRelease Then Destroy Window
          IF _HMG_aFormType [i] == 'A'
+
             ReleaseAllWindows()
+
          ELSE
-            IF ValType( _HMG_aFormReleaseProcedure [i] ) == 'B'
+
+            IF ISBLOCK( _HMG_aFormReleaseProcedure [i] )
+
                _HMG_InteractiveCloseStarted := .T.
                _DoWindowEventProcedure ( _HMG_aFormReleaseProcedure [i] , i , 'WINDOW_RELEASE' )
+
             ENDIF
+
             _hmg_OnHideFocusManagement ( i )
+
          ENDIF
 
       ENDIF
@@ -3151,7 +3383,12 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       IF i > 0
 
-      // Remove Child Controls
+         // Remove All HMG_ Properties
+
+         EnumPropsEx( hWnd, {|hWnd, cPropName, hHandle| HB_SYMBOL_UNUSED( hHandle ), ;
+            iif( hb_LeftEqI( cPropName, "HMG_" ), RemoveProp( hWnd, cPropName ), Nil ), .T. } )
+
+         // Remove Child Controls
 
          FOR EACH r IN _HMG_aControlParentHandles
 
@@ -3169,15 +3406,15 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          NEXT
 
-      // Delete Brush
+         // Delete Brush
 
          DeleteObject ( _HMG_aFormBrushHandle [i] )
 
-      // Delete ToolTip
+         // Delete ToolTip
 
          ReleaseControl ( _HMG_aFormToolTipHandle [i] )
 
-      // Update/Release Form Index Variable
+         // Update/Release Form Index Variable
 
          mVar := '_' + _HMG_aFormNames [i]
          IF __mvExist ( mVar )
@@ -3188,10 +3425,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 #endif
          ENDIF
 
-      // If Window was Multi-activated, determine If it is a Last one.
-      // If Yes, then post Quit message to finish the Message Loop.
+         // If Window was Multi-activated, determine If it is a Last one.
+         // If Yes, then post Quit message to finish the Message Loop.
 
-      // Quit Message, will be posted always for single activated windows.
+         // Quit Message, will be posted always for single activated windows.
 
          IF _HMG_aFormActivateId [i] > 0
 
@@ -3206,8 +3443,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                   __mvPut ( TmpStr , --Tmp )
 
                   IF Tmp == 0
+
                      PostQuitMessage ( 0 )
                      __mvXRelease ( TmpStr )
+
                   ENDIF
 
                ENDIF
@@ -3268,6 +3507,8 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
          _HMG_aFormInteractiveCloseProcedure [i] := ""
          _HMG_aFormMinMaxInfo          [i] := {}
          _HMG_aFormActivateId          [i] := 0
+         _HMG_aFormMiscData1           [i] := {}
+         _HMG_aFormMiscData2           [i] := ''
 
          _HMG_InteractiveCloseStarted := .F.
 
@@ -3288,7 +3529,6 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             // Original Item
             _HMG_ListBoxDragItem := GET_DRAG_LIST_DRAGITEM( lParam )
             RETURN 1
-
          CASE DL_DRAGGING
             // Current Item
             _HMG_ListBoxDragListId := GET_DRAG_LIST_DRAGITEM( lParam )
@@ -3300,32 +3540,24 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             ENDIF
 
             IF _HMG_ListBoxDragListId <> -1
-
                IF _HMG_ListBoxDragListId > _HMG_ListBoxDragItem
                   SetResCursor( LoadCursor( GetInstance(), "MINIGUI_DRAGDOWN" ) )
                ELSE
                   SetResCursor( LoadCursor( GetInstance(), "MINIGUI_DRAGUP" ) )
                ENDIF
-
                RETURN 0
-
             ENDIF
-
             RETURN DL_STOPCURSOR
-
          CASE DL_CANCELDRAG
             _HMG_ListBoxDragItem := -1
             EXIT
-
          CASE DL_DROPPED
             _HMG_ListBoxDragListId := GET_DRAG_LIST_DRAGITEM( lParam )
 
             IF _HMG_ListBoxDragListId <> -1
                DRAG_LIST_MOVE_ITEMS( lParam, _HMG_ListBoxDragItem, _HMG_ListBoxDragListId )
             ENDIF
-
             DRAG_LIST_DRAWINSERT( hWnd, lParam, -1 )
-
             _HMG_ListBoxDragItem := -1
 
          END SWITCH
@@ -3343,11 +3575,12 @@ PROCEDURE _SetNextFocus( lSkip )
    LOCAL lMdiChildActive := ( _HMG_BeginWindowMDIActive .AND. !_HMG_IsModalActive )
 
    hWnd := iif( lMdiChildActive , GetActiveMdiHandle() , GetActiveWindow() )
+
    NextControlHandle := GetNextDlgTabITem ( hWnd , GetFocus() , hb_defaultValue( lSkip, .F. ) )
+
    lShift := CheckBit ( GetKeyState( VK_SHIFT ), 32768 )  // Is Shift key pressed ?
 
-   i := AScan ( _HMG_aControlHandles , NextControlHandle )
-   IF i > 0
+   IF ( i := AScan ( _HMG_aControlHandles , NextControlHandle ) ) > 0
       IF _HMG_aControlType [i] == 'BUTTON' .OR. lMdiChildActive
          SetFocus( NextControlHandle )
          IF lMdiChildActive .AND. ( i := AScan ( _HMG_aFormHandles , hWnd ) ) > 0
@@ -3374,9 +3607,9 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _PopEventInfo
 *-----------------------------------------------------------------------------*
-   LOCAL l := Len ( _HMG_aEventInfo )
+   LOCAL l
 
-   IF l > 0
+   IF ( l := Len ( _HMG_aEventInfo ) ) > 0
 
       _HMG_ThisFormIndex   := _HMG_aEventInfo [l] [1]
       _HMG_ThisEventType   := _HMG_aEventInfo [l] [2]
@@ -3402,14 +3635,16 @@ RETURN
 
 #ifdef _TSBROWSE_
 *-----------------------------------------------------------------------------*
-FUNCTION GetObjectByHandle( hWnd )
+FUNCTION GetObjectByHandle ( hWnd )
 *-----------------------------------------------------------------------------*
    LOCAL oWnd, nPos
 
    IF Type( '_TSB_aControlhWnd' ) == 'A' .AND. Len( _TSB_aControlhWnd ) > 0
+
       IF ( nPos := AScan( _TSB_aControlhWnd, hWnd ) ) > 0
          oWnd := _TSB_aControlObjects [nPos]
       ENDIF
+
    ENDIF
 
 RETURN oWnd
@@ -3484,15 +3719,19 @@ STATIC PROCEDURE _OnDrawStatusItem ( hWnd, lParam )
 
          IF nIndex++ == nItem
             oldBkMode := SetBkMode( hDC, TRANSPARENT )
-            IF _HMG_aControlBkColor [i] != Nil
+
+            IF _HMG_aControlBkColor [i] != NIL
                hBrush := CreateSolidBrush( _HMG_aControlBkColor [i] [1], _HMG_aControlBkColor [i] [2], _HMG_aControlBkColor [i] [3] )
                FillRect( hDC, aRect [1], aRect [2], aRect [3], aRect [4], hBrush )
                DeleteObject( hBrush )
             ENDIF
-            IF _HMG_aControlFontColor [i] != Nil
+
+            IF _HMG_aControlFontColor [i] != NIL
                SetTextColor( hDC, _HMG_aControlFontColor [i] [1], _HMG_aControlFontColor [i] [2], _HMG_aControlFontColor [i] [3] )
             ENDIF
+
             DrawText( hDC, _HMG_aControlCaption [i], aRect [1] + 1, aRect [2], aRect [3] - 1, aRect [4], hb_BitOr( _HMG_aControlSpacing [i], DT_SINGLELINE, DT_VCENTER ) )
+
             SetBkMode( hDC, oldBkMode )
             EXIT
          ENDIF
@@ -3506,12 +3745,14 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC FUNCTION _OnGetMinMaxInfo ( hWnd, pMinMaxInfo )
 *-----------------------------------------------------------------------------*
-   LOCAL i := AScan ( _HMG_aFormhandles, hWnd ), nRet := 0
+   LOCAL i, nRet := 0
 
-   IF i > 0
+   IF ( i := AScan ( _HMG_aFormHandles, hWnd ) ) > 0
+
       IF Len ( _HMG_aFormMinMaxInfo [i] ) > 0
          nRet := SetMinMaxInfo ( pMinMaxInfo, _HMG_aFormMinMaxInfo [i] )
       ENDIF
+
    ENDIF
 
 RETURN nRet
@@ -3535,9 +3776,7 @@ STATIC PROCEDURE _ProcessSliderEvents ( lParam, wParam )
    LOCAL i
    STATIC lOnChangeEvent := .F., lOnScrollEvent := .F.
 
-   i := AScan ( _HMG_aControlHandles , lParam )
-
-   IF i > 0
+   IF ( i := AScan ( _HMG_aControlHandles , lParam ) ) > 0
 
       IF _HMG_aControlType [i] == 'SLIDER'
 
@@ -3551,6 +3790,7 @@ STATIC PROCEDURE _ProcessSliderEvents ( lParam, wParam )
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i )
             ENDIF
             EXIT
+
          CASE TB_THUMBPOSITION
             IF lOnChangeEvent
                lOnChangeEvent := .F.
@@ -3559,6 +3799,7 @@ STATIC PROCEDURE _ProcessSliderEvents ( lParam, wParam )
                _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i )
             ENDIF
             EXIT
+
          CASE TB_THUMBTRACK
          CASE TB_LINEUP
          CASE TB_LINEDOWN

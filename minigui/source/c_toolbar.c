@@ -936,8 +936,7 @@ HB_FUNC( TOOLBAREXCUSTFUNC )     // ToolBarExCustFunc( hWnd, Msg, wParam, lParam
 
             case TBN_RESET:
             {
-               LPTBNOTIFY lpTB = ( LPTBNOTIFY ) lParam;
-               int        nCount, i;
+               int nCount;
 
                nCount = SendMessage( lpTB->hdr.hwndFrom, TB_BUTTONCOUNT, 0, 0 );
                for( i = nCount - 1; i >= 0; i-- )

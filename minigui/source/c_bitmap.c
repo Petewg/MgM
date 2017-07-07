@@ -978,7 +978,9 @@ HB_FUNC( HB_GETIMAGESIZE )
      BitmapSize returns an array {0, 0, 4} for compatibility
  */
 
+#ifdef HMG_LEGACY_ON
 HB_FUNC_TRANSLATE( BITMAPSIZE, GETBITMAPSIZE )
+#endif // HMG_LEGACY_ON
 
 static void _arraySet( PHB_ITEM pArray, int Width, int Height, int BitsPixel )
 {

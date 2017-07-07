@@ -484,8 +484,8 @@ HB_FUNC( ENABLETHEMEDIALOGTEXTURE )
 
 HB_FUNC( PTINRECT )
 {
-   POINT point;
-   RECT  rect;
+   POINT   point;
+   RECT    rect;
    HB_BOOL bIn = HB_FALSE;
 
    if( ( Array2Point( hb_param( 1, HB_IT_ANY ), &point ) && Array2Rect( hb_param( 2, HB_IT_ANY ), &rect ) ) )
@@ -528,13 +528,13 @@ BOOL Array2ColorRef( PHB_ITEM aCRef, COLORREF * cr )
 {
    if( HB_IS_ARRAY( aCRef ) && hb_arrayLen( aCRef ) == 3 )
    {
-      BYTE r, g, b;
-   
+      USHORT r, g, b;
+
       r = ( USHORT ) HB_arrayGetNL( aCRef, 1 );
       g = ( USHORT ) HB_arrayGetNL( aCRef, 2 );
       b = ( USHORT ) HB_arrayGetNL( aCRef, 3 );
 
-      * cr = RGB( r, g, b );
+      *cr = RGB( r, g, b );
 
       return TRUE;
    }

@@ -11,10 +11,10 @@
 # -prgflag=/l
 # -cflag=-Ofast
 # -cflag=-mtune=native
-# -cflag=-O3
+
 
 # -warn=<level> set C compiler warning level. <level> can be: max, yes, low, no, def (default: yes)
--warn=max 
+-warn=yes 
 
 -hbx=../include/hmg.hbx
 

@@ -159,7 +159,7 @@ FUNCTION _DefineLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      Controlhandle := InitLabel ( ParentFormHandle, Caption, 0, x, y, w, h, '', ( ValType(ProcedureName) == "B" .OR. ISSTRING( tooltip ) ), ( ValType(mouseover) == "B" .OR. ValType(mouseleave) == "B" ) , border , clientedge , HSCROLL , VSCROLL , TRANSPARENT , invisible , rightalign , centeralign , VCenterAlign )
+      Controlhandle := InitLabel ( ParentFormHandle, Caption, 0, x, y, w, h, '', ( ISBLOCK( ProcedureName ) .OR. ISSTRING( tooltip ) ), ( ISBLOCK( mouseover ) .OR. ISBLOCK( mouseleave ) ) , border , clientedge , HSCROLL , VSCROLL , TRANSPARENT , invisible , rightalign , centeralign , VCenterAlign )
 
    ENDIF
 

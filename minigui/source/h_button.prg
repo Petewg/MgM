@@ -976,7 +976,7 @@ FUNCTION OwnButtonPaint( pdis )
 
    IF ( lSelected .OR. lFocus ) .AND. ! lDisabled .AND. ! lXPThemeActive
       SetTextColor( hDC, GetRed ( GetSysColor ( COLOR_BTNTEXT ) ) , GetGreen ( GetSysColor ( COLOR_BTNTEXT ) ) , GetBlue ( GetSysColor ( COLOR_BTNTEXT ) ) )
-      C_DrawFocusRect( pdis )
+      DrawFocusRect( pdis )
    ENDIF
 
    SelectObject( hDC, hOldFont )

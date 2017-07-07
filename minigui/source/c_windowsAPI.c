@@ -67,25 +67,51 @@
 #endif
 #define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 
+// extern function
+extern void       hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
 extern HBITMAP    HMG_LoadImage( const char * FileName );
-HRGN              BitmapToRegion( HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cTolerance );
-
+// extern variables
 extern HINSTANCE g_hInstance;
-static HWND      hDlgModeless = NULL;
+// local variables
+HRGN              BitmapToRegion( HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cTolerance );
+// global variables
+HWND   g_hWndMain = NULL;
+HACCEL g_hAccel   = NULL;
+// static variables
+static HWND hDlgModeless = NULL;
 
+BOOL SetAcceleratorTable( HWND hWnd, HACCEL hHaccel )
+{
+   g_hWndMain = hWnd;
+   g_hAccel   = hHaccel;
+
+   return TRUE;
+}
 
 HB_FUNC( DOMESSAGELOOP )
 {
    MSG Msg;
+   int status;
 
-   while( GetMessage( &Msg, NULL, 0, 0 ) )
+   while( ( status = GetMessage( &Msg, NULL, 0, 0 ) ) != 0 )
    {
-      hDlgModeless = GetActiveWindow();
-
-      if( hDlgModeless == NULL || ! IsDialogMessage( hDlgModeless, &Msg ) )
+      if( status == -1 )   // Exception
       {
-         TranslateMessage( &Msg );
-         DispatchMessage( &Msg );
+         // handle the error and possibly exit
+         hmg_ErrorExit( TEXT( "DOMESSAGELOOP" ), 0, TRUE );
+      }
+      else
+      {
+         hDlgModeless = GetActiveWindow();
+
+         if( hDlgModeless == ( HWND ) NULL || ! TranslateAccelerator( g_hWndMain, g_hAccel, &Msg ) )
+         {
+            if( ! IsDialogMessage( hDlgModeless, &Msg ) )
+            {
+               TranslateMessage( &Msg );
+               DispatchMessage( &Msg );
+            }
+         }
       }
    }
 }
@@ -230,41 +256,36 @@ HB_FUNC( FLASHWINDOWEX )
 
 HB_FUNC( SETLAYEREDWINDOWATTRIBUTES )
 {
-#if defined ( __MINGW32__ ) && ! defined ( __MINGW32_VERSION )
-   HWND     hWnd    = ( HWND ) HB_PARNL( 1 );
-   COLORREF crKey   = ( COLORREF ) hb_parnl( 2 );
-   BYTE     bAlpha  = ( BYTE ) hb_parni( 3 );
-   DWORD    dwFlags = ( DWORD ) hb_parnl( 4 );
+   HWND hWnd = ( HWND ) HB_PARNL( 1 );
 
-   if( ! ( GetWindowLongPtr( hWnd, GWL_EXSTYLE ) & WS_EX_LAYERED ) )
-      SetWindowLongPtr( hWnd, GWL_EXSTYLE, ( GetWindowLongPtr( hWnd, GWL_EXSTYLE ) | WS_EX_LAYERED ) );
-
-   hb_retl( ( BOOL ) SetLayeredWindowAttributes( hWnd, crKey, bAlpha, dwFlags ) );
-#else
-   typedef BOOL ( __stdcall * PFN_SETLAYEREDWINDOWATTRIBUTES )( HWND, COLORREF, BYTE, DWORD );
-
-   PFN_SETLAYEREDWINDOWATTRIBUTES pfnSetLayeredWindowAttributes = NULL;
-
-   HINSTANCE hLib = LoadLibrary( "user32.dll" );
-
-   if( hLib != NULL )
+   if( IsWindow( hWnd ) )
    {
-      pfnSetLayeredWindowAttributes = ( PFN_SETLAYEREDWINDOWATTRIBUTES ) GetProcAddress( hLib, "SetLayeredWindowAttributes" );
-   }
+      HMODULE hDll = GetModuleHandle( TEXT( "user32.dll" ) );
 
-   if( pfnSetLayeredWindowAttributes )
-   {
-      SetWindowLong( ( HWND ) hb_parnl( 1 ), GWL_EXSTYLE, GetWindowLong( ( HWND ) hb_parnl( 1 ), GWL_EXSTYLE ) | WS_EX_LAYERED );
-      pfnSetLayeredWindowAttributes( ( HWND ) hb_parnl( 1 ), ( COLORREF ) hb_parnl( 2 ), ( BYTE ) hb_parni( 3 ), ( DWORD ) hb_parnl( 4 ) );
-   }
+      hb_retl( HB_FALSE );
 
-   hb_retl( ( BOOL ) pfnSetLayeredWindowAttributes );
+      if( NULL != hDll )
+      {
+         typedef BOOL ( __stdcall * SetLayeredWindowAttributes_ptr )( HWND, COLORREF, BYTE, DWORD );
 
-   if( ! hLib )
-   {
-      FreeLibrary( hLib );
+         SetLayeredWindowAttributes_ptr fn_SetLayeredWindowAttributes =
+            ( SetLayeredWindowAttributes_ptr ) GetProcAddress( hDll, "SetLayeredWindowAttributes" );
+
+         if( NULL != fn_SetLayeredWindowAttributes )
+         {
+            COLORREF crKey   = ( COLORREF ) hb_parnl( 2 );
+            BYTE     bAlpha  = ( BYTE ) hb_parni( 3 );
+            DWORD    dwFlags = ( DWORD ) hb_parnl( 4 );
+
+            if( ! ( GetWindowLongPtr( hWnd, GWL_EXSTYLE ) & WS_EX_LAYERED ) )
+               SetWindowLongPtr( hWnd, GWL_EXSTYLE, GetWindowLongPtr( hWnd, GWL_EXSTYLE ) | WS_EX_LAYERED );
+
+            hb_retl( fn_SetLayeredWindowAttributes( hWnd, crKey, bAlpha, dwFlags ) ? HB_TRUE : HB_FALSE );
+         }
+      }
    }
-#endif
+   else
+      hb_errRT_BASE_SubstR( EG_ARG, 3012, "MiniGUI Error", HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 }
 
 static BOOL CenterIntoParent( HWND hwnd )
@@ -1025,7 +1046,6 @@ HRGN BitmapToRegion( HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cToleran
             {
                // Get how many bytes per row we have for the bitmap bits (rounded up to 32 bits)
                BITMAP    bm32;
-               HBITMAP   holdBmp;
                HANDLE    hData;
                RGNDATA * pData;
                BYTE *    p32;
@@ -1118,7 +1138,7 @@ HRGN BitmapToRegion( HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cToleran
                         // Therefore, we have to create the region by multiple steps.
                         if( pData->rdh.nCount == 2000 )
                         {
-                           HRGN h = ExtCreateRegion( NULL, sizeof( RGNDATAHEADER ) + ( sizeof( RECT ) * maxRects ), pData );
+                           h = ExtCreateRegion( NULL, sizeof( RGNDATAHEADER ) + ( sizeof( RECT ) * maxRects ), pData );
                            if( hRgn )
                            {
                               CombineRgn( hRgn, hRgn, h, RGN_OR );

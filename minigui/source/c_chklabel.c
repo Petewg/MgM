@@ -125,10 +125,10 @@ BOOL InsertCheck( HWND hWnd, HBITMAP himage, HBITMAP himage2, int BtnWidth, BOOL
 
    pbtn->lCheck     = lCheck;
    pbtn->lLeftCheck = lLeftCheck;
-   pbtn->cxButton   = ( BtnWidth >= GetSystemMetrics( SM_CXVSCROLL ) ? BtnWidth : GetSystemMetrics( SM_CXVSCROLL ) );
+   pbtn->cxButton   = HB_MAX( BtnWidth, GetSystemMetrics( SM_CXVSCROLL ) );
    pbtn->himage     = himage;
    pbtn->himage2    = himage2;
-   pbtn->cxSpace    = 10;
+   pbtn->cxSpace    = GetSystemMetrics( SM_CXSIZEFRAME ) / 4;
 
    if( himage != NULL )
       pbtn->himagemask = CreateBitmapMask( himage, RGB( 0, 0, 0 ) );

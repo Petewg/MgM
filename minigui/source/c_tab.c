@@ -220,8 +220,8 @@ HB_FUNC( ADDTABBITMAP )
    char *     caption;
    int        l;
    int        s;
-   int        cx;
-   int        cy;
+   int        cx = 0;
+   int        cy = 0;
    TC_ITEM    tie;
 
    // JD 11/05/2006 Significant re-write from original ( logic and additions )
