@@ -54,7 +54,6 @@
 #endif
 
 #ifndef __HMG_COMPAT__
-
 #define __HMG_COMPAT__
 
 #xtranslate PICTALIGNMENT TOP => _HMG_ActiveControlUpText := .F. ; _HMG_ActiveControlVertical := .T.
@@ -177,6 +176,7 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 #xtranslate ANIMATE WINDOW <FormName> MODE <nFlags> =>;
    AnimateWindow( GetFormHandle( <"FormName"> ), 200, <nFlags> )
 
+#xtranslate SET CODEPAGE TO UNICODE => Set (_SET_CODEPAGE, "UTF8")
 
 #xtranslate RELEASE MEMORY => iif( IsVistaOrLater(), ( hb_gcAll(), EmptyWorkingSet() ), )
 
@@ -274,7 +274,6 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
                    <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
                    <.border.>, <.wrap.>, <.custom.> )
 
-
 #xcommand  DEFINE TOOLBAR  <name> ;
       [ PARENT <parent> ] ;
       [ BUTTONWIDTH <buttonwidth> ] [ BUTTONHEIGHT <buttonheight> ] ;
@@ -301,7 +300,6 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
                    <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
                    <.border.>, <.wrap.>, <.custom.> )
 
-
 #xcommand DEFINE TAB <name> ;
       [ PARENT> <parent> ] ;
       ROW <row> ;
@@ -325,8 +323,7 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
       [ MULTILINE <multiline> ] ;
       [ TRANSPARENT <Trans> ] ;
    =>;
-   _BeginTab( <"name"> , <"parent"> , <row> , <col> , <w> , <h> , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.>, .f., !<.tabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <.multiline.> , , ) 
-
+   _BeginTab( <"name"> , <"parent"> , <row> , <col> , <w> , <h> , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.>, .f., !<.tabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <.multiline.> , {,,}, ) 
 
 #xcommand @ <row>,<col> BUTTON <name> ;
 	[ <dummy1: OF, PARENT> <parent> ] ;

@@ -46,8 +46,13 @@
 ---------------------------------------------------------------------------*/
 
 #ifndef __HMG__
-#define __HMG__ 0x020702 /* Three bytes: Major + Minor + Build. */
+#define __HMG__ 0x020704 /* Three bytes: Major + Minor + Build. */
 
+/* ***********************************************************************
+ * Enable support for legacy functions
+ *
+ * By default this is turned OFF.
+ */
 #ifndef HMG_LEGACY_ON
   #define HMG_LEGACY_OFF
 #endif
@@ -57,21 +62,21 @@
  *
  * Note that if you turn this off, the English will be set as the default language.
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _MULTILINGUAL_
 
 /* ***********************************************************************
  * Enable support for TSBrowse library in HMG
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _TSBROWSE_
 
 /* ***********************************************************************
  * Enable support for PropGrid library in HMG
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _PROPGRID_
 
@@ -79,49 +84,43 @@
  * Disable this option if you want that the internal Public variables to be
  * equate to zero at windows and controls destroying (similar to Official HMG).
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _PUBLIC_RELEASE_
 
 /* ***********************************************************************
- * Enable support for optional semi-oop syntax for containers in HMG
- *
- * By default this is turned on.
- */
-#define _SOOP_CONTAINERS_
-
-/* ***********************************************************************
  * Enable support for standard Browse control in HMG
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _DBFBROWSE_
 
 /* ***********************************************************************
  * Enable support for Panel windows in HMG
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _PANEL_
 
 /* ***********************************************************************
  * Enable support for Pager toolbar in HMG
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _PAGER_
 
 /* ***********************************************************************
  * Enable support for compatibility with Official HMG code
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _HMG_COMPAT_
 
 /* ***********************************************************************
  * Enable support for simple debug logging
  *
- * By default this is turned off to preserve the proper Harbour functionality.
+ * By default this is turned OFF to preserve the proper Harbour functionality.
+
 #ifndef _HMG_OUTLOG
   #define _HMG_OUTLOG
 #endif
@@ -204,6 +203,7 @@
 #include "i_dialog.ch"
 #include "i_font.ch"
 #include "i_winprop.ch"
+#include "i_appevents.ch"
 #include "i_getbox.ch"
 #include "i_btntextbox.ch"
 #include "i_hotkeybox.ch"

@@ -46,7 +46,7 @@
 ---------------------------------------------------------------------------*/
 
 /*
- * Public Variables Used By MiniGui Modules
+ * Public Variables Used By MiniGUI Modules
 */
 
 #ifndef __SYSDATA__
@@ -54,7 +54,7 @@
   MEMVAR _HMG_SYSDATA
 #endif
 
-#define _HMG_SYSDATA_SIZE			445
+#define _HMG_SYSDATA_SIZE			447
 
 #xtranslate _HMG_ErrorLogFile			=> _HMG_SYSDATA\[1\]
 #xtranslate _HMG_CreateErrorlog			=> _HMG_SYSDATA\[2\]
@@ -579,3 +579,6 @@ Memvariables
 #xtranslate _HMG_StopControlEventProcedure		=> _HMG_SYSDATA\[443\]
 #xtranslate _HMG_MainWindowFirst			=> _HMG_SYSDATA\[444\]
 #xtranslate _HMG_aScrollStep				=> _HMG_SYSDATA\[445\]
+
+#xtranslate _HMG_aFormMiscData1                         => _HMG_SYSDATA\[446\]
+#xtranslate _HMG_aFormMiscData2                         => _HMG_SYSDATA\[447\]

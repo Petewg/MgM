@@ -282,7 +282,9 @@ _HMG_lMultiple := ( Upper(<(x)>) == "ON" ) ; iif ( _HMG_lMultiple == .F. .AND. _
 
 #command CLEAN MEMORY => iif( _HMG_IsXP, CleanProgramMemory(), iif( IsVistaOrLater(), EmptyWorkingSet(), ) )
 
-#command SET EVENTS FUNCTION TO <name> => SetGlobalListener( <"name"> )
+#command SET EVENTS FUNCTION TO <fname> [ RESULT TO <lSuccess> ] ;
+=> ;
+[ <lSuccess> := ] SetGlobalListener( <"fname"> )
 
 #xcommand @ <row>,<col> ANIGIF <ControlName> ;
       [ OBJ <oGif> ] ;

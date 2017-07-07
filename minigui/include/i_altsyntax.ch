@@ -1621,6 +1621,10 @@ ButtonEx
         =>;
         _HMG_ActiveControlJustify := <adjust>
 
+#xcommand ADJUST <adjust> ;
+        =>;
+        _HMG_ActiveControlJustify := <adjust>
+
 #xcommand IMAGEWIDTH  <imagewidth>  ;
    => ;
    _HMG_ActiveControlShowNone     := <imagewidth>
