@@ -7,11 +7,22 @@
 #include "hbclass.ch"
 #include "TSBrowse.ch"
 
-// 3.10.2012
+// 03.10.2012
 // If it's uncommented:
 // - select a row by Shift+DblClick
 // - evaluate the block bPreSelect before selection (check of condition for selection)
 // #define __EXT_SELECTION__
+
+// 26.05.2017
+#ifdef __XHARBOUR__
+  /* Hash item functions */
+  #xtranslate hb_Hash( [<x,...>] ) => Hash( <x> )
+  #xtranslate hb_HSet( [<x,...>] ) => HSet( <x> )
+#endif
+// If it's uncommented:
+// - extended user keys handling
+// - evaluate the code block by a key from a hash
+#define __EXT_USERKEYS__
 
 EXTERN OrdKeyNo, OrdKeyCount, OrdKeyGoto
 
@@ -51,22 +62,13 @@ EXTERN OrdKeyNo, OrdKeyCount, OrdKeyGoto
    #xcommand TRY                            => BEGIN SEQUENCE WITH {|__o| break(__o) }
    #xcommand CATCH [<!oErr!>]               => RECOVER [USING <oErr>] <-oErr->
    #xcommand FINALLY                        => ALWAYS
-#endif
-
-#ifdef __XHARBOUR__
+#else
    #xtranslate hb_Hour( [<x>] )             => Hour( <x> )
    #xtranslate hb_Minute( [<x>] )           => Minute( <x> )
    #xtranslate hb_Sec( [<x>] )              => Secs( <x> )
 #endif
 
 #xtranslate _DbSkipper => DbSkipper
-
-// 27.09.2012
-#ifndef __XHARBOUR__
-   #xtranslate ARRDEL_( <aArray>, <uTemp> ) => hb_ADel( <aArray>, <uTemp>, .T. )
-#else
-   #xtranslate ARRDEL_( <aArray>, <uTemp> ) => ADel( <aArray>, <uTemp>, .T. )
-#endif
 
 MEMVAR _TSB_aControlhWnd
 MEMVAR _TSB_aControlObjects
@@ -244,7 +246,7 @@ Local i, nColums, nLen
              lAutoSearch, uUserSearch, lAutoFilter, uUserFilter, aPicture, ;
              lTransparent, uSelector, lEditable, lAutoCol, aColSel, tooltip )
 
-        IF ( nColums := Len(oBrw:aColumns) ) > 0                           /* BK    18.05.2015 */
+        IF ( nColums := Len(oBrw:aColumns) ) > 0                           /* BK  18.05.2015 */
            IF Valtype(readonly) == 'A'                                     // sets oCol:bWhen 
               nLen := Min(Len(readonly), nColums)
               FOR i := 1 TO nLen
@@ -483,8 +485,12 @@ CLASS TSBrowse FROM TControl
    DATA   aSuperHead                                 // array with SuperHeads properties
    DATA   aTags                                      // array with dbf index tags
    DATA   aFormatPic                                 // array of picture clause
-   DATA   aPopupCol      AS ARRAY INIT {}            // User PopUp menu in Columns ({0} -> all)
+   DATA   aPopupCol     AS ARRAY INIT {}             // User PopUp menu in Columns ({0} -> all)
    DATA   aEditCellAdjust AS ARRAY INIT { 0,0,0,0 }  // array for correction of edit cell position
+#ifdef __EXT_USERKEYS__
+   DATA   aUserKeys     INIT hb_Hash()                
+   DATA   lUserKeys     INIT .F.                      
+#endif
 
    DATA   bBof                                       // codeblock to check if we are before the first record
    DATA   bEof                                       // codeblock to check if we are beyond the last record
@@ -997,6 +1003,10 @@ CLASS TSBrowse FROM TControl
    METHOD UserPopup( bUserPopupItem, aColumn )  //JP 1.92
 
    METHOD GetCellInfo( nRowPos, nCell, lColSpecHd )  //BK
+
+#ifdef __EXT_USERKEYS__
+   METHOD UserKeys( nKey, bKey, lCtrl, lShift )  
+#endif
 
 ENDCLASS
 
@@ -2029,7 +2039,7 @@ METHOD Del( nItem ) CLASS TSBrowse
       Return Self
    EndIf
 
-   ARRDEL_( ::aArray, nItem  )
+   hb_ADel( ::aArray, nItem, .T. )
 
    ::nLen := Eval( ::bLogicLen )
    ::Refresh( .T., .T. )
@@ -2062,8 +2072,8 @@ METHOD DelColumn( nPos ) CLASS TSBrowse
    EndIf
 
    oCol := ::aColumns[ nPos ]
-   ARRDEL_( ::aColumns, nPos  )
-   ARRDEL_( ::aColSizes, nPos )
+   hb_ADel( ::aColumns, nPos, .T. )
+   hb_ADel( ::aColSizes, nPos, .T. )
 
    If ::lSelector .and. nPos == 1
       Return Nil
@@ -2242,10 +2252,10 @@ METHOD DeleteRow(lAll) CLASS TSBrowse
                   ::nColOrder := 0
                endif
             Else
-               ARRDEL_( ::aArray, nAt )
+               hb_ADel( ::aArray, nAt, .T. )
                If ::lCanSelect .and. Len( ::aSelected ) > 0
                   If ( uTemp := AScan( ::aSelected, nAt ) ) > 0
-                     ARRDEL_( ::aSelected, uTemp )
+                     hb_ADel( ::aSelected, uTemp, .T. )
                   EndIf
                   AEval( ::aSelected, {|x,nEle| ::aSelected[nEle] := If(x > nAt, x-1, x)} )
                EndIf
@@ -2255,7 +2265,7 @@ METHOD DeleteRow(lAll) CLASS TSBrowse
                ::aArray := { AClone( ::aDefValue ) }
                ::lPhantArrRow := .T.
                If ::aArray[ 1, 1 ] == Nil
-                  ARRDEL_( ::aArray[ 1 ], 1 )
+                  hb_ADel( ::aArray[ 1 ], 1, .T. )
                EndIf
             EndIf
 
@@ -6431,6 +6441,31 @@ METHOD KeyDown( nKey, nFlags ) CLASS TSBrowse
    ::lNoPaint := .F.
    ::oWnd:nLastKey := ::nLastKey := ::nUserKey := nKey
 
+#ifdef __EXT_USERKEYS__
+   If ::lUserKeys
+      uTemp := hb_ntos( nKey )
+      uTemp += iif( _GetKeyState( VK_CONTROL ), "#", "" )
+      uTemp += iif( _GetKeyState( VK_SHIFT   ), "^", "" )
+      uVal := hb_HGetDef( ::aUserKeys, uTemp, NIL )
+      If ! HB_ISBLOCK( uVal )
+         uTemp := 'other'
+         uVal  := hb_HGetDef( ::aUserKeys, uTemp, NIL )
+      Endif
+      If HB_ISBLOCK( uVal )
+         uReturn := Eval( uVal, Self, nKey, uTemp )
+         If uTemp == 'other' .and. ! HB_ISLOGICAL( uReturn )
+            uReturn := .T.
+         EndIf
+         If uReturn == Nil .or. HB_ISLOGICAL( uReturn ) .and. ! uReturn
+            ::nLastKey := 255
+            Return 0
+         EndIf
+         uReturn := Nil
+      EndIf
+      uTemp := uVal := Nil
+   EndIf
+#endif
+
    If ::bUserKeys != Nil
 
       uReturn := Eval( ::bUserKeys, nKey, nFlags, Self )
@@ -6638,6 +6673,43 @@ METHOD KeyDown( nKey, nFlags ) CLASS TSBrowse
 
 Return 0
 
+#ifdef __EXT_USERKEYS__
+* ============================================================================
+* METHOD TSBrowse:UserKeys()  by SergKis
+* ============================================================================
+
+METHOD UserKeys( nKey, bKey, lCtrl, lShift ) CLASS TSBrowse   
+   Local cKey := 'other', uVal 
+
+   If HB_ISBLOCK( bKey )                             // set a codeblock on key in a hash
+      If ! Empty( nKey )
+         If HB_ISNUMERIC( nKey )
+            cKey := hb_ntos( nKey )
+            cKey += iif( Empty( lCtrl ), '', '#' )
+            cKey += iif( Empty( lShift), '', '^' )
+         ElseIf HB_ISCHAR( nKey )
+            cKey := nKey
+         EndIf
+      EndIf
+      hb_HSet( ::aUserKeys, cKey, bKey )
+      ::lUserKeys := ( Len( ::aUserKeys ) > 0 )
+   Else                                              // execute a codeblock by key from a hash 
+      If HB_ISNUMERIC( nKey )
+         cKey := hb_ntos( nKey )
+      ElseIf HB_ISCHAR( nKey )
+         cKey := nKey
+      EndIf
+      If ::lUserKeys                                 // allowed of setting of the codeblocks
+         uVal := hb_HGetDef( ::aUserKeys, cKey, NIL )
+         If HB_ISBLOCK( uVal )
+            cKey := Eval( uVal, Self, nKey, cKey, bKey, lCtrl, lShift )
+         EndIf
+      EndIf
+   EndIf
+  
+RETURN cKey 
+#endif
+
 * ============================================================================
 * METHOD TSBrowse:Selection()  Version 9.0 Nov/30/2009
 * ============================================================================
@@ -6660,7 +6732,7 @@ METHOD Selection() CLASS TSBrowse
    uVal := If( ::lIsDbf, ( ::cAlias )->( RecNo() ), ::nAt )
 
    If ( uTemp := AScan( ::aSelected, uVal ) ) > 0
-      ARRDEL_( ::aSelected, uTemp )
+      hb_ADel( ::aSelected, uTemp, .T. )
       ::DrawSelect()
 
       If ::bSelected != Nil
@@ -7069,6 +7141,10 @@ METHOD LDblClick( nRowPix, nColPix, nKeyFlags ) CLASS TSBrowse
          If ValType( Eval( ::aColumns[ nCol ]:bData ) ) == "L" .and. ;
             ::aColumns[ nCol ]:lCheckBox  // virtual checkbox
             ::PostMsg( WM_CHAR, VK_SPACE, 0 )
+         ElseIf ::aColumns[ nCol ]:oEdit != Nil 
+            ::PostMsg( WM_KEYDOWN, VK_RETURN, 0 ) 
+         ElseIf ::bLDblClick != Nil 
+            Eval( ::bLDblClick, uPar1, uPar2, nKeyFlags, Self )  
          Else
             ::PostMsg( WM_KEYDOWN, VK_RETURN, 0 )
          EndIf
@@ -7355,38 +7431,30 @@ METHOD HandleEvent( nMsg, nWParam, nLParam ) CLASS TSBrowse
    EndIf
    If nMsg == WM_SETFOCUS .and. ! ::lPainted
       Return 0
-   #ifdef __HARBOUR__
+   ElseIf nMsg == WM_GETDLGCODE
+      Return ::GetDlgCode( nWParam )
+   ElseIf nMsg == WM_CHAR .and. ::lEditing
+      Return 0
+   ElseIf nMsg == WM_CHAR
+      Return ::KeyChar( nWParam, nLParam )
+   ElseIf nMsg == WM_KEYDOWN .and. ::lDontChange
+      Return 0
+   ElseIf nMsg == WM_KEYDOWN
+      Return ::KeyDown( nWParam, nLParam )
    ElseIf nMsg == WM_KEYUP
       Return ::KeyUp( nWParam, nLParam )
    ElseIf nMsg == WM_VSCROLL
       If ::lDontchange
          Return Nil
       EndIf
-      Return ::VScroll( Loword( nWParam ), HiWord( nWParam ) )
-   #EndIf
-   ElseIf nMsg == WM_GETDLGCODE
-      return ::GetDlgCode( nWParam )
-   ElseIf nMsg == WM_CHAR .and. ::lEditing
-      Return 0
-   ElseIf nMsg == WM_CHAR
-      return ::KeyChar( nWParam, nLParam )
-   ElseIf nMsg == WM_KEYDOWN .and. ::lDontChange
-      Return 0
-   ElseIf nMsg == WM_KEYDOWN
-      return ::KeyDown( nWParam, nLParam )
-   ElseIf nMsg == WM_KEYUP
-      Return ::KeyUp( nWParam, nLParam )
+      if nLParam == 0
+         Return ::VScroll( Loword( nWParam ), HiWord( nWParam ) )
+      endif
    Elseif nMsg == WM_HSCROLL
       If ::lDontchange
          Return Nil
       EndIf
       Return ::HScroll( Loword( nWParam ), HiWord( nWParam ) )
-   #ifdef __XHARBOUR__
-   ElseIf nMsg == WM_VSCROLL
-      if nLParam == 0
-         Return ::VScroll( Loword( nWParam ), HiWord( nWParam ) )
-      endif
-   #EndIf
    ElseIf nMsg == WM_ERASEBKGND .and. ! ::lEditing
       ::lNoPaint := .F.
    ElseIf nMsg == WM_DESTROY .and. ! Empty( ::aColumns ) .and. ::aColumns[ ::nCell ]:oEdit != Nil
@@ -7798,7 +7866,7 @@ METHOD Insert( cItem, nAt ) CLASS TSBrowse
    EndIf
 
    If ValType( cItem ) == "A" .and. cItem[ 1 ] == Nil
-      ARRDEL_( cItem, 1  )
+      hb_ADel( cItem, 1, .T. )
    EndIf
 
    ASize( ::aArray, Len( ::aArray ) + 1 )
@@ -7839,7 +7907,7 @@ METHOD AddItem( cItem ) CLASS TSBrowse    // delete in V90
    EndIf
 
    If ValType( cItem ) == "A" .and. cItem[ 1 ] == Nil
-      ARRDEL_( cItem, 1 )
+      hb_ADel( cItem, 1, .T. )
    EndIf
 
    cItem := If( Valtype( cItem ) == "A", cItem, {cItem} )
@@ -14093,6 +14161,7 @@ Static Function RecordBrowse( oBrw )
 Return Nil
 
 #ifdef __XHARBOUR__
+
 Static Function aHash2Array( uAlias ) // a fivetechsoft sample routine
 
    Local nEle, ;
@@ -14103,4 +14172,11 @@ Static Function aHash2Array( uAlias ) // a fivetechsoft sample routine
    Next
 
 Return aArr
+
+Function hb_HGetDef( hHash, xKey, xDef ) 
+
+   Local nPos := HGetPos( hHash, xKey ) 
+
+Return iif( nPos > 0, HGetValueAt( hHash, nPos ), xDef ) 
+
 #endif

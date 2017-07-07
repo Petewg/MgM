@@ -292,6 +292,8 @@ HB_FUNC( TSDRAWCELL )
    SIZE   size;
    int    iTxtW = 0;
 
+   memset( &bm, 0, sizeof( BITMAP ) );
+
    if( GetTextExtentPoint32( hDC, cData, nLen, &size ) )
       iTxtW = size.cx;
 
@@ -760,6 +762,7 @@ static void DrawCheck( HDC hDC, LPRECT rct, HPEN hWhitePen, int nAlign, BOOL bCh
       case 0:  lrct.left = rct->left; break;
       case 1:  lrct.left = rct->left + ( ( rct->right - rct->left + 1 ) / 2 ) - 8; break;
       case 2:  lrct.left = rct->right - 16; break;
+      default: lrct.left = rct->left;
    }
 
    lrct.bottom = lrct.top + 16;
@@ -851,7 +854,7 @@ static void DegradColor( HDC hDC, RECT * rori, COLORREF cFrom, signed long cTo )
    float  clr1r, clr1g, clr1b, clr2r, clr2g, clr2b;
    float  iEle, iRed, iGreen, iBlue;
    BOOL   bDir, bHoriz = cTo < 0;
-   float  iTot = ( ! bHoriz ? ( rori->bottom + 2 - rori->top ) : ( rori->right + 2 - rori->left ) );
+   long   iTot = ( ! bHoriz ? ( rori->bottom + 2 - rori->top ) : ( rori->right + 2 - rori->left ) );
    RECT   rct;
    HBRUSH hOldBrush, hBrush;
 
