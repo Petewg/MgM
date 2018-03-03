@@ -29,7 +29,7 @@
 #{win}libs=miniprint adordd bostaurus hbxml qhtm propsheet calldll tmsagent propgrid winreport
  {win}libs=miniprint adordd bostaurus hbxml qhtm propsheet calldll tsbrowse
 
-# mgmMisc library // please adapt properly your isntallation hard-disk letter
+# mgmMisc library // please adapt isntallation hard-disk letter if needed
   {win}libs=C:\MiniguiM\minigui\source\mgmMisc\mgmMisc.hbc
 
 # MingW Libs (system)
