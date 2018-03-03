@@ -1,13 +1,13 @@
 ### Complete Harbour package (compiler and runtime libraries)
   
-  **Harbour Build Info**   
-   Version: Harbour 3.4.0dev () (2017-05-12 20:17)   
-   Compiler: MinGW GNU C 7.1 (32-bit)  
-   Platform: Windows 7 6.1.7601 Service Pack 1   
+   Harbour Build Info   
+   \---------------------------   
+   Version: Harbour 3.4.0dev () (2017-12-20 13:40)   
+   Compiler: MinGW GNU C 7.2 (32-bit)   
+   Platform: Windows 7 6.1 SP1   
    PCode version: 0.3   
-   Built on: May 12 2017
+   Commit info: 2017-12-20 13:40 UTC Viktor Szakats (vszakats users.noreply.github.com)   
+   Built on: Feb 27 2018   
 
-  **Self-extracting archive.**  
+  **Self-extracting archive.**   
      Just run it to unzip.
-     
-     
