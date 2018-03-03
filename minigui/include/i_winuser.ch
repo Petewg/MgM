@@ -124,17 +124,22 @@
 #define WM_EXITSIZEMOVE	 562
 #define WM_DROPFILES     563 // 0x0233
 
-#define WM_PASTE	 770
-#define WM_CLEAR	 771
+#define WM_CUT           768
+#define WM_COPY          769
+#define WM_PASTE         770
+#define WM_CLEAR         771
 #define WM_UNDO          772
-#define WM_HOTKEY	 786
+#define WM_HOTKEY        786
 
 // User-defined WM_*
 #ifndef WM_USER
 #define WM_USER		1024 // 0x0400
 #endif /* WM_USER */
 #define CBEM_SETIMAGELIST  (WM_USER + 2)
-#define WM_TASKBAR      WM_USER+1043
+
+#define WM_TASKBAR      (WM_USER+1043)
+#define WM_WND_LAUNCH   (WM_USER+1044)
+#define WM_CTL_LAUNCH   (WM_USER+1045)
 
 #if(WINVER >= 0x0400)
 /* Value for rolling one detent */

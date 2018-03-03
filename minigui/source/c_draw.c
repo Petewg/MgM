@@ -49,6 +49,7 @@
  */
 
 #include <mgdefs.h>
+
 #include "hbapiitm.h"
 
 #if defined( __BORLANDC__ )
@@ -98,10 +99,6 @@ HB_FUNC( DRAWFOCUSRECT )
       InflateRect( &pps->rcItem, +3, +3 );
    }
 }
-
-#ifdef HMG_LEGACY_ON
-HB_FUNC_TRANSLATE( C_DRAWFOCUSRECT, DRAWFOCUSRECT )
-#endif // HMG_LEGACY_ON
 
 HB_FUNC( DRAWSTATE )
 {
@@ -374,7 +371,3 @@ HB_FUNC( WINDOWFROMDC )
 
    HB_RETNL( ( LONG_PTR ) WindowFromDC( hDC ) );
 }
-
-#ifdef HMG_LEGACY_ON
-HB_FUNC_TRANSLATE( GETWINDOWFROMDC, WINDOWFROMDC )
-#endif // HMG_LEGACY_ON

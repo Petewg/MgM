@@ -58,7 +58,7 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
       backcolor, fontcolor, nId, columnvalid, columnwhen, validmessages, showheaders, aImageHeader, ;
       NoTabStop, celled, lCheckboxes, lockcolumns, OnCheckBoxClicked, doublebuffer, nosortheaders, columnsort )
 *-----------------------------------------------------------------------------*
-   LOCAL i , ParentFormHandle , blInit , mVar, wBitmap , k , Style , inplace , lsort
+   LOCAL i , ParentFormHandle , blInit , mVar, k , Style , inplace , lsort
    LOCAL ControlHandle , FontHandle , nHeaderImageListHandle := 0
    LOCAL lDialogInMemory
 
@@ -250,9 +250,6 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
          ListView_SetTextColor ( ControlHandle , fontcolor[1] , fontcolor[2] , fontcolor[3] )
       ENDIF
 
-      wBitmap := iif( Len( aImage ) > 0, AddListViewBitmap( ControlHandle, aImage ), 0 )
-      aWidths[ 1 ] := Max ( aWidths[ 1 ], wBitmap + 2 ) // Set Column 1 width to Bitmap width
-
       IF lsort
          aImageHeader := { 'MINIGUI_GRID_ASC', 'MINIGUI_GRID_DSC' }
          aHeadClick := Array( Len( aHeaders ) )
@@ -327,6 +324,10 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
       OnCheckBoxClicked, doublebuffer }
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF Len( _HMG_aDialogTemplate ) == 0    //Dialog Template
       IF lsort
          AFill( _HMG_aControlRangeMax [k], 1 )
@@ -383,7 +384,7 @@ FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
    ENDIF
 
    wBitmap := iif ( Len( _HMG_aControlBkColor [k] ) > 0, AddListViewBitmap( ControlHandle, _HMG_aControlBkColor [k] ), 0 ) // Add Bitmap Column
-   aWidths[ 1 ] := Max ( aWidths[ 1 ], wBitmap + 2 ) // Set Column 1 width to Bitmap width
+   aWidths[ 1 ] := Max ( aWidths[ 1 ], wBitmap + GetBorderWidth() / 2 )  // Set Column 1 width to Bitmap width
 
    InitListViewColumns ( ControlHandle , _HMG_aControlCaption [k] , aWidths , aJust )
 
@@ -397,7 +398,7 @@ FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
 
    ELSE
 
-      row := iif ( ISARRAY ( value ), value [1], value )
+      row := iif( ISARRAY ( value ), value [1], value )
       IF row <> 0
          _SetValue ( , , Value , k )
       ENDIF
@@ -415,7 +416,7 @@ RETURN Nil
 *-----------------------------------------------------------------------------*
 FUNCTION _AddGridRow ( ControlName, ParentForm, aRow )
 *-----------------------------------------------------------------------------*
-   LOCAL i, h, iIm := 0, aGridRow := AClone ( aRow )
+   LOCAL i, iIm := 0, aGridRow := AClone ( aRow )
 
    i := GetControlIndex ( ControlName , ParentForm )
 
@@ -423,17 +424,15 @@ FUNCTION _AddGridRow ( ControlName, ParentForm, aRow )
       MsgMiniGuiError ( "Grid.AddItem: Item size mismatch." )
    ENDIF
 
-   IF Len( _HMG_aControlBkColor [i] ) > 0
+   IF Len ( _HMG_aControlBkColor [i] ) > 0
       iIm := aGridRow [1]
       aGridRow [1] := NIL
    ENDIF
 
-   h := GetControlHandle ( ControlName , ParentForm )
-
-   AddListViewItems ( h , aGridRow , iIm )
+   AddListViewItems ( _HMG_aControlHandles [i] , aGridRow , iIm )
 
    IF ValType ( _HMG_aControlMiscData1 [i] [13] ) == 'A'
-      _SetItem ( ControlName , ParentForm , ListViewGetItemCount ( h ) , aGridRow )
+      _SetItem ( ControlName , ParentForm , ListViewGetItemCount ( _HMG_aControlHandles [i] ) , aGridRow )
    ENDIF
 
 RETURN Nil
@@ -449,10 +448,11 @@ PROCEDURE HMG_SortColumn( nColumnNo )
    nOrder := _HMG_aControlRangeMax [ix] [nColumnNo]
 
    IF nOrder > 0
+
       _EnableListViewUpdate( cControlName , cFormName , .F. )
 
       aImages := Array( Len( _HMG_aControlRangeMax [ix] ) )
-      nCount := GetProperty( cFormName , cControlName , 'ItemCount' )
+      nCount := ListViewGetItemCount ( _HMG_aControlHandles [ix] )
 
       FOR i := 1 TO nCount
          AAdd( aItems , GetProperty( cFormName , cControlName , 'Item' , i ) )
@@ -460,24 +460,25 @@ PROCEDURE HMG_SortColumn( nColumnNo )
 
       lAscend := ( nOrder < 2 )
       IF lAscend
-         ASort( aItems, , , { | x, y | x[ nColumnNo ] < y[ nColumnNo ] })
+         ASort( aItems, , , { |x, y| x[nColumnNo] < y[nColumnNo] } )
       ELSE
-         ASort( aItems, , , { | x, y | x[ nColumnNo ] > y[ nColumnNo ] })
+         ASort( aItems, , , { |x, y| x[nColumnNo] > y[nColumnNo] } )
       ENDIF
 
       DoMethod( cFormName , cControlName , 'DeleteAllItems' )
 
       AEval( aItems, { | x | DoMethod( cFormName , cControlName , 'AddItem' , x ) } )
 
-      AEval( aImages, { | x, i | aImages[ i ] := HDR_IMAGE_NONE, HB_SYMBOL_UNUSED( x ) } )
+      AEval( aImages, { |x, i| aImages[ i ] := HDR_IMAGE_NONE, HB_SYMBOL_UNUSED( x ) } )
 
       aImages[ nColumnNo ] := iif( lAscend, HDR_IMAGE_ASCENDING, HDR_IMAGE_DESCENDING )
 
-      AEval( aImages, { | n, i | _SetMultiImage( cControlName, cFormName, i, n, ( _HMG_aControlMiscData1 [ix][3][i] == 1 ) ) } )
+      AEval( aImages, { |n, i| _SetMultiImage( cControlName, cFormName, i, n, ( _HMG_aControlMiscData1 [ix][3][i] == 1 ) ) } )
 
-      _HMG_aControlRangeMax [ix] [nColumnNo] := iif( lAscend, nOrder + 1, 1 )
+      _HMG_aControlRangeMax [ix] [nColumnNo] := iif( lAscend, ++nOrder, 1 )
 
       _EnableListViewUpdate( cControlName , cFormName , .T. )
+
    ENDIF
 
 RETURN
@@ -698,12 +699,12 @@ STATIC PROCEDURE ProcessDynamicArray ( i , Rows , Cols , Arr , item )
 RETURN
 
 *-----------------------------------------------------------------------------*
-STATIC FUNCTION _tEval ( bBlock , Par1 , Par2 )
+FUNCTION _tEval ( bBlock , Par1 , Par2 )
 *-----------------------------------------------------------------------------*
    LOCAL tEval := Eval ( bBlock , Par1 , Par2 )
 
-   IF ValType ( TEVAL ) == 'A' .AND. Len ( TEVAL ) == 3
-      TEVAL := RGB ( TEVAL [1] , TEVAL [2] , TEVAL [3] )
+   IF IsArrayRGB ( tEval )
+      tEval := RGB ( tEval [1] , tEval [2] , tEval [3] )
    ENDIF
 
 RETURN IFNUMERIC( tEval, tEval, 0 )

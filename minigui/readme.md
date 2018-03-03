@@ -8,9 +8,9 @@ Harbour MiniGUI (Mingw Package) includes these main components:
 - Harbour 3.4.0dev
   https://github.com/vszakats/harbour-core
 
-- Harbour MiniGUI extended 17.04 (http://hmgextended.com/home.html)
+- Harbour MiniGUI extended 108.01 (http://hmgextended.com/home.html)
 
-- Mingw 7.1.0 (MinGW-w64 - for 32 and 64 bit Windows Compiler Suite for Windows)
+- Mingw 7.2.0 (MinGW-w64 - for 32 and 64 bit Windows Compiler Suite for Windows)
   http://sourceforge.net/projects/mingw-w64/
 
 For details about the above products, please visit their respective sites.

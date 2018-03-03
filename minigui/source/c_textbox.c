@@ -57,7 +57,7 @@
 
 LRESULT CALLBACK  OwnEditProc( HWND hbutton, UINT msg, WPARAM wParam, LPARAM lParam );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITMASKEDTEXTBOX )
 {
@@ -103,7 +103,7 @@ HB_FUNC( INITMASKEDTEXTBOX )
       hb_parni( 11 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -164,7 +164,7 @@ HB_FUNC( INITTEXTBOX )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
            );
 
@@ -220,7 +220,7 @@ HB_FUNC( INITCHARMASKTEXTBOX )
       hb_parni( 11 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 

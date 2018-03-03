@@ -134,7 +134,7 @@ FUNCTION _BeginTab( ControlName , ParentFormName , row , col , w , h , value , f
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineTab ( ControlName, ParentFormName, x, y, w, h, aCaptions, aPageMap, value, fontname, fontsize, tooltip, change, Buttons, Flat, HotTrack, Vertical, Bottom, notabstop, aMnemonic, bold, italic, underline, strikeout, Images, multiline, backcolor, nId )
+STATIC FUNCTION _DefineTab ( ControlName, ParentFormName, x, y, w, h, aCaptions, aPageMap, value, fontname, fontsize, tooltip, change, Buttons, Flat, HotTrack, Vertical, Bottom, notabstop, aMnemonic, bold, italic, underline, strikeout, Images, multiline, backcolor, nId )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle, mVar, ImageFlag := .F., k, Style
    LOCAL ControlHandle, FontHandle, blInit, hBrush := 0
@@ -166,7 +166,7 @@ FUNCTION _DefineTab ( ControlName, ParentFormName, x, y, w, h, aCaptions, aPageM
       ENDIF
    NEXT
 
-   IF IsXpThemeActive() .AND. buttons == .F.
+   IF _HMG_IsThemed .AND. buttons == .F.
       vertical := .F.
    ENDIF
 
@@ -287,6 +287,10 @@ FUNCTION _DefineTab ( ControlName, ParentFormName, x, y, w, h, aCaptions, aPageM
    _HMG_aControlEnabled   [k] :=  .T.
    _HMG_aControlMiscData1 [k] :=  { 0, ImageFlag, aMnemonic, Bottom, HotTrack, backcolor [2], backcolor [3] }
    _HMG_aControlMiscData2 [k] :=  ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF Len( _HMG_aDialogTemplate ) == 0   //Dialog Template
       InitDialogTab( ParentFormName, ControlHandle, k )

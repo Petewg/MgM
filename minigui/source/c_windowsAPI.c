@@ -45,11 +45,11 @@
 
    ---------------------------------------------------------------------------*/
 
-#define _WIN32_IE     0x0501
+#define _WIN32_IE      0x0501
 
 #include <mgdefs.h>
 #if ( defined ( __MINGW32__ ) || defined ( __XCC__ ) ) && ( _WIN32_WINNT < 0x0500 )
-#define _WIN32_WINNT  0x0500
+# define _WIN32_WINNT  0x0500
 #endif
 
 #include <commctrl.h>
@@ -62,18 +62,12 @@
 
 #define WM_TASKBAR  WM_USER + 1043
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
-// extern function
-extern void       hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
-extern HBITMAP    HMG_LoadImage( const char * FileName );
-// extern variables
-extern HINSTANCE g_hInstance;
+// extern functions
+HINSTANCE      GetResources( void );
+extern void    hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
+extern HBITMAP HMG_LoadImage( const char * FileName );
 // local variables
-HRGN              BitmapToRegion( HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cTolerance );
+HRGN           BitmapToRegion( HBITMAP hBmp, COLORREF cTransparentColor, COLORREF cTolerance );
 // global variables
 HWND   g_hWndMain = NULL;
 HACCEL g_hAccel   = NULL;
@@ -95,7 +89,7 @@ HB_FUNC( DOMESSAGELOOP )
 
    while( ( status = GetMessage( &Msg, NULL, 0, 0 ) ) != 0 )
    {
-      if( status == -1 )   // Exception
+      if( status == -1 )  // Exception
       {
          // handle the error and possibly exit
          hmg_ErrorExit( TEXT( "DOMESSAGELOOP" ), 0, TRUE );
@@ -140,7 +134,7 @@ HB_FUNC( DOEVENTS )
 
 HB_FUNC( EXITPROCESS )
 {
-   ExitProcess( 0 );
+   ExitProcess( HB_ISNUM( 1 ) ? hb_parni( 1 ) : 0 );
 }
 
 HB_FUNC( SHOWWINDOW )
@@ -426,6 +420,11 @@ HB_FUNC( MOVEWINDOW )
    hb_retl( MoveWindow( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ), ( HB_ISNIL( 6 ) ? TRUE : hb_parl( 6 ) ) ) );
 }
 
+HB_FUNC( GETSYSTEMMETRICS )
+{
+   hb_retni( GetSystemMetrics( hb_parni( 1 ) ) );
+}
+
 HB_FUNC( GETWINDOWRECT )
 {
    RECT rect;
@@ -451,9 +450,28 @@ HB_FUNC( GETWINDOWRECT )
    }
 }
 
-HB_FUNC( GETSYSTEMMETRICS )
+HB_FUNC( GETCLIENTRECT )
 {
-   hb_retni( GetSystemMetrics( hb_parni( 1 ) ) );
+   RECT rect;
+
+   hb_retl( GetClientRect( ( HWND ) HB_PARNL( 1 ), &rect ) );
+   HB_STORVNL( rect.left, 2, 1 );
+   HB_STORVNL( rect.top, 2, 2 );
+   HB_STORVNL( rect.right, 2, 3 );
+   HB_STORVNL( rect.bottom, 2, 4 );
+}
+
+HB_FUNC ( GETDESKTOPAREA ) 
+{
+   RECT rect;
+
+   SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
+
+   hb_reta( 4 );
+   HB_STORNI( ( INT ) rect.left, -1, 1 );
+   HB_STORNI( ( INT ) rect.top, -1, 2 );
+   HB_STORNI( ( INT ) rect.right, -1, 3 );
+   HB_STORNI( ( INT ) rect.bottom, -1, 4 );
 }
 
 HB_FUNC( GETTASKBARHEIGHT )
@@ -528,11 +546,13 @@ HB_FUNC( LOADTRAYICON )
    HICON     himage;
    HINSTANCE hInstance  = ( HINSTANCE ) HB_PARNL( 1 );                                      // handle to application instance
    LPCTSTR   lpIconName = HB_ISCHAR( 2 ) ? hb_parc( 2 ) : MAKEINTRESOURCE( hb_parni( 2 ) ); // name string or resource identifier
+   int       cxDesired  = HB_ISNUM( 3 ) ? hb_parni( 3 ) : GetSystemMetrics( SM_CXSMICON );
+   int       cyDesired  = HB_ISNUM( 4 ) ? hb_parni( 4 ) : GetSystemMetrics( SM_CYSMICON );
 
-   himage = LoadIcon( hInstance, lpIconName );
+   himage = ( HICON ) LoadImage( hInstance, lpIconName, IMAGE_ICON, cxDesired, cyDesired, LR_DEFAULTCOLOR );
 
    if( himage == NULL )
-      himage = ( HICON ) LoadImage( hInstance, lpIconName, IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE );
+      himage = ( HICON ) LoadImage( hInstance, lpIconName, IMAGE_ICON, cxDesired, cyDesired, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
 
    HB_RETNL( ( LONG_PTR ) himage );
 }
@@ -684,9 +704,9 @@ HB_FUNC( C_SETWINDOWRGN )
             break;
 
          case 4:
-            hbmp = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+            hbmp = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
             if( hbmp == NULL )
-               hbmp = ( HBITMAP ) LoadImage( 0, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
+               hbmp = ( HBITMAP ) LoadImage( NULL, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
 
             hrgn = BitmapToRegion( hbmp, ( COLORREF ) RGB( ( int ) HB_PARNI( 3, 1 ), ( int ) HB_PARNI( 3, 2 ), ( int ) HB_PARNI( 3, 3 ) ), 0x101010 );
             DeleteObject( hbmp );
@@ -972,7 +992,7 @@ HB_FUNC( CREATEPATTERNBRUSH )
    HBITMAP hImage;
    LPCTSTR lpImageName = HB_ISCHAR( 1 ) ? hb_parc( 1 ) : ( HB_ISNUM( 1 ) ? MAKEINTRESOURCE( hb_parni( 1 ) ) : NULL );
 
-   hImage = ( HBITMAP ) LoadImage( g_hInstance, lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+   hImage = ( HBITMAP ) LoadImage( GetResources(), lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
    if( hImage == NULL && HB_ISCHAR( 1 ) )
    {

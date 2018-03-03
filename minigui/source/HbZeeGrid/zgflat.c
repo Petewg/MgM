@@ -23,11 +23,6 @@
 #include "hbapiitm.h"
 #include "zeegrid.h"
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 #define _GET_HWND( hwnd, i )     HWND hwnd = ( HWND ) ( LONG_PTR ) HB_PARNL( i )
 
 HB_FUNC( ZGM_ADJUSTHEADERS ) 

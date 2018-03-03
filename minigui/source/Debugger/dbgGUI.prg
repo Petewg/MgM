@@ -463,6 +463,9 @@ LOCAL aFiles, lOldMainFirst
          HMG_Debugger():cSettingsFileName := ""
       ENDIF
 
+      _HMG_FormDebugger.REDRAW
+      DoEvents()
+
    ENDIF
 
 RETURN

@@ -2,18 +2,22 @@
  * MgM C-functions
  * Copyright 2016-2017 Pete D.
  *
- * EnumWindows() -> aArray filled with handles of all top-level windows
- * EnumChildWindows( hWnd ) --> aArray filled with handles of all child windows
+ *    EnumWindows() -> aArray filled with handles of all top-level windows
+ *    EnumChildWindows( hWnd ) --> aArray filled with handles of all child windows
  *
- * GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
- * GetProcessFullName ( [ nProcessID ] ) --> return cProcessFullName
+ *    GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
+ *    GetProcessFullName ( [ nProcessID ] ) --> return cProcessFullName
  *
- * win_ErrorDescription( <nWinErrorCode> ) --> cErrorDescription
+ *    win_ErrorDescription( <nWinErrorCode> ) --> cErrorDescription
  *
- * GetCpuSpeed( [<nMode>] ) --> CPU speed in GHz (e.g.: 2.138)
- *    optional <nMode> can be 1 or 2 (if omitted, default = 1 )
- *    Measure the CPU speed as reported when the machine is idle (nMode=1) or busy (nMode=2).
- * (based on code found here: https://randomascii.wordpress.com/2011/07/29/rdtsc-in-the-age-of-sandybridge/)
+ *    GetCpuSpeed( [<nMode>] ) --> CPU speed in GHz (e.g.: 2.138)
+ *       optional <nMode> can be 1 or 2 (if omitted, default = 1 )
+ *       Measure the CPU speed as reported when the machine is idle (nMode=1) or busy (nMode=2).
+ *       (based on code found here: https://randomascii.wordpress.com/2011/07/29/rdtsc-in-the-age-of-sandybridge/)
+ *
+ * 
+ *    mgm_Seconds2TimeString( <nSeconds> ) --> TimeString "hh:mm:ss"
+ *
  *
  * Interesting notes & links
  * Windows Data Types -> https://msdn.microsoft.com/en-us/library/aa383751(VS.85).aspx
@@ -21,9 +25,9 @@
 
 #include <mgdefs.h>
 
-#include "hbwin.h" // includes <windows.h> and <hbapi.h>
-#include "hbwapi.h"
-#include "hbapiitm.h"
+#include <hbwin.h> // includes <windows.h> and <hbapi.h>
+#include <hbwapi.h>
+#include <hbapiitm.h>
  
 /*
  * mgm_ErrorDescription( <nWinErrorCode> ) -> cErrorDescription
@@ -84,7 +88,7 @@ HB_FUNC( WIN_P2N )
 #endif
 
 /* 
- * GETCPUSPEED() implementation 
+ * GetCpuSpeed() implementation 
  *    __int64 GetQPCTime()
  *    __int64 GetQPCRate()
  *    GetCpuSpeed( short nMode, DWORD msDuration )
@@ -149,6 +153,34 @@ double GetCpuSpeed( short nMode, DWORD msDuration )
 HB_FUNC( GETCPUSPEED )
 {
    short nMode = hb_parnidef(1, 1);
-   hb_retnd( GetCpuSpeed( nMode, 100 ) );
+   hb_retnd( GetCpuSpeed( nMode, 100 ) ); // `100` is the cpu-stress in milliseconds;
+                                          // maybe it should increased to return more accurate result,
+                                          // but it'd suspend (freeze) system for quite a perceptible time.
 }
 /* End GETCPUSPEED() implementation */
+
+/*
+   mgm_Seconds2TimeString( <nSeconds> ) --> TimeString "hh:mm:ss"
+*/
+#include <math.h>
+HB_FUNC( MGM_SECONDS2TIMESTRING )
+{
+   double dSeconds = hb_parnd( 1 );
+   int iSeconds, h, m, s;
+   char t[12];
+
+   while(dSeconds > 86400)
+      dSeconds = fmod( dSeconds, 86400.0 );
+   while(dSeconds < -86400)
+      dSeconds = fmod( dSeconds, -86400.0 );
+
+   iSeconds = (int)round(dSeconds); // modulus operator % works with intS. 
+   h = ( iSeconds / 3600 ) % 24;
+   m = ( iSeconds / 60 ) % 60;
+   s = iSeconds % 60;
+
+   // sprintf(t, "%02d:%02d:%02d", h, m, s);
+   hb_snprintf( t, sizeof( t ), "%02d:%02d:%02d", h, m, s );
+
+   hb_retc( t );
+}

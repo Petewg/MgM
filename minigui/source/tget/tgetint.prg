@@ -7,7 +7,7 @@
  * Get Class
  *
  * Copyright 1999 Ignacio Ortiz de Zuniga <ignacio@fivetech.com>
- * www - http://harbour-project.org
+ * www - https://harbour.github.io/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@
  * If you do not wish that, delete this exception notice.
  *
  * The following parts are Copyright of the individual authors.
- * www - http://harbour-project.org
+ * www - https://harbour.github.io/
  *
  * Copyright 2000 RonPinkas <Ron@Profit-Master.com>
  *    __GET()

@@ -47,11 +47,12 @@
  */
 
 #include <mgdefs.h>
+
 #include "hbapiitm.h"
 #include "hbapierr.h"
 
 #ifdef __XCC__
-#define HB_ISBLOCK      ISBLOCK
+# define HB_ISBLOCK  ISBLOCK
 #endif
 
 HFONT PrepareFont( const char * FontName, int FontSize, int Weight, DWORD Italic, DWORD Underline, DWORD StrikeOut, DWORD Angle, DWORD charset )
@@ -141,14 +142,14 @@ HB_FUNC( GETSYSTEMFONT )
 }
 
 /*
-        Added by P.Ch. for 16.12.
-        Parts of this code based on original work by Dr. Claudio Soto (January 2014)
+   Added by P.Ch. for 16.12.
+   Parts of this code based on an original work by Dr. Claudio Soto (January 2014)
 
-        EnumFonts ( [ hDC ] , [ cFontFamilyName ] , [ nCharSet ] , [ nPitch ] , [ nFontType ] , [ SortCodeBlock ] , [ @aFontName ] )
-                --> return array { { cFontName, nCharSet, nPitchAndFamily, nFontType } , ... }
+   EnumFontsEx ( [ hDC ], [ cFontFamilyName ], [ nCharSet ], [ nPitch ], [ nFontType ], [ SortCodeBlock ], [ @aFontName ] )
+             --> return array { { cFontName, nCharSet, nPitchAndFamily, nFontType }, ... }
  */
 
-int CALLBACK _EnumFontFamExProc( const LOGFONT * lpelfe, const TEXTMETRIC * lpntme, DWORD FontType, LPARAM lParam );
+static int CALLBACK _EnumFontFamExProc( const LOGFONT * lpelfe, const TEXTMETRIC * lpntme, DWORD dwFontType, LPARAM pArray );
 
 HB_FUNC( ENUMFONTSEX )
 {
@@ -198,20 +199,18 @@ HB_FUNC( ENUMFONTSEX )
    hb_itemReturnRelease( pArray );
 }
 
-int CALLBACK _EnumFontFamExProc( const LOGFONT * lpelfe, const TEXTMETRIC * lpntme, DWORD FontType, LPARAM lParam )
+static int CALLBACK _EnumFontFamExProc( const LOGFONT * lpelfe, const TEXTMETRIC * lpntme, DWORD dwFontType, LPARAM pArray )
 {
-   HB_SYMBOL_UNUSED( lpntme );
-
    if( lpelfe->lfFaceName[ 0 ] != '@' )
    {
       PHB_ITEM pSubArray = hb_itemArrayNew( 4 );
 
       hb_arraySetC( pSubArray, 1, lpelfe->lfFaceName );
-      hb_arraySetNI( pSubArray, 2, lpelfe->lfCharSet );
-      hb_arraySetNI( pSubArray, 3, lpelfe->lfPitchAndFamily & 0x03 );
-      hb_arraySetNI( pSubArray, 4, FontType );
+      hb_arraySetNL( pSubArray, 2, lpntme->tmCharSet );
+      hb_arraySetNI( pSubArray, 3, lpelfe->lfPitchAndFamily & FIXED_PITCH );
+      hb_arraySetNI( pSubArray, 4, dwFontType & TRUETYPE_FONTTYPE );
 
-      hb_arrayAddForward( ( PHB_ITEM ) lParam, pSubArray );
+      hb_arrayAddForward( ( PHB_ITEM ) pArray, pSubArray );
       hb_itemRelease( pSubArray );
    }
 

@@ -1,6 +1,7 @@
-////////////////////////////////////////////
+
+/////////////////////////////////////////////
 // Application pseudo-properties
-////////////////////////////////////////////
+/////////////////////////////////////////////
 
 #translate <p:Application,App>.ExeName => GetExeFileName()
 #translate <p:Application,App>.Handle => _HMG_MainHandle
@@ -19,6 +20,7 @@
 #translate <p:Application,App>.Title => GetWindowText ( <p>.Handle )
 #translate <p:Application,App>.Title := <arg> => SetWindowText ( <p>.Handle, <arg> )
 #translate <p:Application,App>.Icon => _HMG_DefaultIconName
+#translate <p:Application,App>.Icon.Handle => LoadTrayIcon( GetResources(), _HMG_DefaultIconName, 32, 32 )
 #translate <p:Application,App>.Cursor := <arg> => SetWindowCursor ( <p>.Handle, <arg> )
 #translate <p:Application,App>.BackColor => _HMG_aFormBkColor \[ Ascan ( _HMG_aFormHandles, <p>.Handle ) \]
 #translate <p:Application,App>.BackColor := <arg> => _SetWindowBackColor ( <p>.Handle, <arg> )
@@ -26,16 +28,18 @@
 #translate <p:Application,App>.Topmost := <arg> => _ChangeWindowTopmostStyle ( <p>.Handle, <arg> )
 #translate <p:Application,App>.HelpButton => GetProperty ( <p>.FormName, 'HelpButton' )
 #translate <p:Application,App>.HelpButton := <arg> => _ChangeWindowHelpButtonStyle ( <p>.FormName, <arg> )
+#translate <p:Application,App>.WindowStyle => GetWindowStyle ( <p>.Handle )
+#translate <p:Application,App>.WindowStyle := <arg> => SetWindowStyle ( <p>.Handle, <arg>, .T. )
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////
 // Application Cargo support
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////
 
 #xtranslate _GetAppCargo () => _HMG_MainCargo
 
-////////////////////////////////////////////
+/////////////////////////////////////////////
 // System pseudo-properties
-////////////////////////////////////////////
+/////////////////////////////////////////////
 
 #translate System.Clipboard          => RetrieveTextFromClipboard()
 #translate System.Clipboard := <arg> => CopyToClipboard ( <arg> )
@@ -48,4 +52,12 @@
 #translate System.ProgramFilesFolder => GetProgramFilesFolder()
 #translate System.SystemFolder       => GetSystemFolder()
 #translate System.TempFolder         => GetTempFolder()
+#translate System.UserTempFolder     => GetUserTempFolder()
 #translate System.WindowsFolder      => GetWindowsFolder()
+
+#translate System.OkSound            => PlayOk()
+#translate System.HandSound          => PlayHand()
+#translate System.QuestionSound      => PlayQuestion()
+#translate System.ExclamationSound   => PlayExclamation()
+#translate System.AsteriskSound      => PlayAsterisk()
+#translate System.BeepSound          => PlayBeep()

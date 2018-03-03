@@ -57,6 +57,7 @@
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
+
 #include "hbapiitm.h"
 
 //------------------------------------------------------------------------------
@@ -66,7 +67,7 @@
 // [lHandle] is optional and indicates that no memory management is required
 //           if lHandle = .T., xValue must be numerical (integer)
 
-// Revised by P.Chornyj for 16.11.
+/* Revised by P.Chornyj 16.11 */
 HB_FUNC( SETPROP )
 {
    HWND    hwnd = ( HWND ) HB_PARNL( 1 );
@@ -223,9 +224,7 @@ HB_FUNC( REMOVEPROP )
 
 static BOOL CALLBACK PropsEnumProc( HWND hWnd, LPCTSTR pszPropName, HANDLE handle, ULONG_PTR lParam );
 
-/*
-        Usage: aProps := EnumProps( nHandle )
- */
+/* Usage: aProps := EnumProps( nHandle ) */
 HB_FUNC( ENUMPROPS )
 {
    HWND hWnd = ( HWND ) HB_PARNL( 1 );

@@ -934,7 +934,7 @@ static function ABM2Editar( lNuevo )
         next
         nAltoSplit  := 10 + nAltoControl + 25
         nAnchoSplit := 10 + nAnchoEtiqueta + 10 + nAnchoControl + 25
-        nAlto       := 80 + nAltoSplit + 15 + iif( IsXPThemeActive(), 10, 0 )
+        nAlto       := 80 + nAltoSplit + 15 + iif( _HMG_IsThemed, 10, 0 )
         nAltoTope   := _nAltoPantalla - 130
         nAncho      := 15 + nAnchoSplit + 15
         nAncho      := iif( nAncho < 300, 300, nAncho )

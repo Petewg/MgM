@@ -122,6 +122,10 @@ GetSpecialFolder( CSIDL_APPDATA )
 => ;
 GetSpecialFolder( CSIDL_PROFILE )
 
+#xtranslate GetUserTempFolder () ;
+=> ;
+iif( IsVistaOrLater() , GetUserProfileFolder() + "\AppData\Local\Temp" , cFilePath( GetTempDir() ) )
+
 //#define __WIN98__
 
 #ifdef __WIN98__
@@ -166,6 +170,10 @@ SetWindowStyle ( <hWnd> , 0x00010000 , <ltab> )
 IsWindowHasStyle ( <hWnd> , 0x00040000 )
 
 // ============================================================================
+
+#xtranslate _GetKeyState( <VKey> ) ;
+=> ;
+CheckBit( GetKeyState( <VKey> ) , 32768 )
 
 #xtranslate GetEscapeState () ;
 => ;
@@ -499,9 +507,12 @@ GetCursorPos() \[2\]
 => ;
 hb_ATokens( <cData>, iif( hb_IsString( <Sep> ) , <Sep> , Chr(9) ) )
 
+// ============================================================================
+
 #xtranslate _DestroyImageList ( <ControlName> , <ParentFormName> ) ;
 => ;
-ImageList_Destroy ( GetControlHandle( <ControlName> , <ParentFormName> ) )
+ImageList_Destroy ( GetControlHandle( <ControlName> , <ParentFormName> ) ) ;;
+_ReleaseControl ( <ControlName> , <ParentFormName> )
 
 #xtranslate IL_DESTROY ( <h> ) ;
 => ;

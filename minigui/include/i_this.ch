@@ -47,15 +47,15 @@
 
 // WINDOWS (THIS)
 
-#xtranslate This . <p:Title,NotifyIcon,NotifyTooltip,FocusedControl,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Topmost,HelpButton> => GetProperty ( _HMG_THISFORMNAME , <"p"> )
+#xtranslate This . <p:Title,NotifyIcon,NotifyTooltip,FocusedControl,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Topmost,HelpButton,Object> => GetProperty ( _HMG_THISFORMNAME , <"p"> )
 #xtranslate This . <p:Title,NotifyIcon,NotifyTooltip,Cursor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Topmost,HelpButton> := <arg> => SetProperty ( _HMG_THISFORMNAME , <"p"> , <arg> )
-#xtranslate This . <p:Activate,Center,Release,Maximize,Minimize,Restore> [ () ] => DoMethod ( _HMG_THISFORMNAME , <"p"> )
+#xtranslate This . <p:Activate,Center,Redraw,Release,Maximize,Minimize,Restore> [ () ] => DoMethod ( _HMG_THISFORMNAME , <"p"> )
 
 #xtranslate This . <c> . <p:ClientWidth>  => _GetClientRect ( GetControlHandle ( <"c"> , _HMG_THISFORMNAME ) ) \[3]
 #xtranslate This . <c> . <p:ClientHeight> => _GetClientRect ( GetControlHandle ( <"c"> , _HMG_THISFORMNAME ) ) \[4]
-#xtranslate This . <c> . <p:Value,Name,Handle,Type,Index,Address,BackColor,FontColor,Picture,Icon,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop> => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> )
-#xtranslate This . <c> . <p:Value,Name,Address,BackColor,FontColor,Picture,Icon,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <n> )
-#xtranslate This . <c> . <p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner> => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> )
+#xtranslate This . <c> . <p:Value,Name,Handle,Type,Index,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop> => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> )
+#xtranslate This . <c> . <p:Value,Name,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <n> )
+#xtranslate This . <c> . <p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner,Object> => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> )
 #xtranslate This . <c> . <p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,Blink,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <n> )
 #xtranslate This . <c> . <p:Caption,Header,Image,Item,Icon,ToolTip,Width,ColumnWidth,Enabled,RichValue,HeaderImage,CheckboxItem> (<arg>) => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <arg> )
 #xtranslate This . <c> . <p:Velocity> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , "Velocity" , <n> )
@@ -64,7 +64,7 @@
 #xtranslate This . <c> . <p:Cell> (<arg1> , <arg2>) := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <arg1> , <arg2> , <n> )
 #xtranslate This . <c> . <p:HeaderImage> (<arg1>) := <arg2> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <arg1> , <arg2> )
 #xtranslate This . <c> . <p:HeaderImage> (<arg1>) := {<arg2> , <arg3>} => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <arg1> , <arg2> , <arg3> )
-#xtranslate This . <c> . <p:EnableUpdate,DisableUpdate,Refresh,SetFocus,DeleteAllItems,Release,Show,Save,Hide,Play,Stop,Close,Pause,Eject,OpenDialog,Resume,Action,OnClick,OnGotFocus,OnLostFocus,OnChange,OnDblClick,ColumnsAutoFit,ColumnsAutoFitH> \[()\] => Domethod ( _HMG_THISFORMNAME, <"c"> , <"p"> )
+#xtranslate This . <c> . <p:EnableUpdate,DisableUpdate,Redraw,Refresh,SetFocus,DeleteAllItems,Release,Show,Save,Hide,Play,Stop,Close,Pause,Eject,OpenDialog,Resume,Action,OnClick,OnGotFocus,OnLostFocus,OnChange,OnDblClick,ColumnsAutoFit,ColumnsAutoFitH> \[()\] => Domethod ( _HMG_THISFORMNAME, <"c"> , <"p"> )
 #xtranslate This . <c> . <p:AddItem,DeleteItem,Open,DeletePage,DeleteColumn,Expand,Collapse,Seek,ColumnAutoFit,ColumnAutoFitH> (<a>) => Domethod ( _HMG_THISFORMNAME, <"c"> , <"p"> , <a> )
 #xtranslate This . <c> . <p:AddItem,AddPage> (<a1> , <a2>) => Domethod ( _HMG_THISFORMNAME, <"c"> , <"p"> , <a1> , <a2> )
 #xtranslate This . <c> . <p:AddItem,AddPage> (<a1> , <a2> , <a3> ) => Domethod ( _HMG_THISFORMNAME, <"c"> , <"p"> , <a1> , <a2> , <a3> )
@@ -108,9 +108,9 @@
 
 // WINDOWS (THISWINDOW)
 
-#xtranslate ThisWindow . <p:Title,NotifyIcon,NotifyTooltip,FocusedControl,BackColor,Name,Handle,Type,Index,Row,Col,Width,Height,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Topmost,HelpButton,Cargo> => GetProperty ( _HMG_THISFORMNAME , <"p"> )
+#xtranslate ThisWindow . <p:Title,NotifyIcon,NotifyTooltip,FocusedControl,BackColor,Name,Handle,Type,Index,Row,Col,Width,Height,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Topmost,HelpButton,Cargo,Object> => GetProperty ( _HMG_THISFORMNAME , <"p"> )
 #xtranslate ThisWindow . <p:Title,NotifyIcon,NotifyTooltip,Cursor,BackColor,Row,Col,Width,Height,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Topmost,HelpButton,Cargo> := <arg> => SetProperty ( _HMG_THISFORMNAME , <"p"> , <arg> )
-#xtranslate ThisWindow . <p:Activate,Center,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus> [ () ] => DoMethod ( _HMG_THISFORMNAME , <"p"> )
+#xtranslate ThisWindow . <p:Activate,Center,Redraw,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus> [ () ] => DoMethod ( _HMG_THISFORMNAME , <"p"> )
 #xtranslate ThisWindow . <p:ClientWidth>  => _GetClientRect ( GetFormHandle ( _HMG_THISFORMNAME ) ) \[3]
 #xtranslate ThisWindow . <p:ClientHeight> => _GetClientRect ( GetFormHandle ( _HMG_THISFORMNAME ) ) \[4]
 
@@ -118,8 +118,8 @@
 
 * Property without arguments
 
-#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,Displayvalue,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Length,Position,CaretPos,CueBanner> => GetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> )
-#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,DisplayValue,Visible,Enabled,Checked,RangeMin,RangeMax,Cargo,Repeat,Speed,Volume,Zoom,Position,CaretPos,Action,Blink,CueBanner> := <arg> => SetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> , <arg> )
+#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,HBitmap,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,Displayvalue,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Length,Position,CaretPos,CueBanner> => GetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> )
+#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,HBitmap,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,DisplayValue,Visible,Enabled,Checked,RangeMin,RangeMax,Repeat,Speed,Volume,Zoom,Position,CaretPos,Action,Blink,CueBanner> := <arg> => SetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> , <arg> )
 
 * Property with 1 argument
 
@@ -133,7 +133,7 @@
 
 * Method without arguments
 
-#xtranslate This . <p:Refresh,DeleteAllItems,Release,Play,Stop,Close,PlayReverse,Pause,Eject,OpenDialog,Resume,Save,Action,OnClick,OnGotFocus,OnLostFocus,OnChange,OnDblClick,EnableUpdate,DisableUpdate,ColumnAutoFit,ColumnAutoFitH> [ () ] => DoMethod ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> )
+#xtranslate This . <p:Redraw,Refresh,DeleteAllItems,Release,Play,Stop,Close,PlayReverse,Pause,Eject,OpenDialog,Resume,Save,Action,OnClick,OnGotFocus,OnLostFocus,OnChange,OnDblClick,EnableUpdate,DisableUpdate,ColumnAutoFit,ColumnAutoFitH> [ () ] => DoMethod ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> )
 
 * Method with 1 argument
 
@@ -154,7 +154,7 @@
 
 // COMMON ( REQUIRES TYPE CHECK )
 
-#xtranslate This . <p:Name,Handle,Type,Index,Row,Col,Width,Height,BackColor,Cargo> => iif ( _HMG_THISType == 'C' , GetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> ) , GetProperty ( _HMG_THISFORMNAME , <"p"> ) )
+#xtranslate This . <p:Name,Handle,Type,Index,Row,Col,Width,Height,BackColor,Cargo,Object> => iif ( _HMG_THISType == 'C' , GetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> ) , GetProperty ( _HMG_THISFORMNAME , <"p"> ) )
 #xtranslate This . <p:Row,Col,Width,Height,BackColor,Cargo> := <arg> => iif ( _HMG_THISType == 'C' , SetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> , <arg> ) , SetProperty ( _HMG_THISFORMNAME , <"p"> , <arg> ) )
 #xtranslate This . <p:Show,Hide,SetFocus> [ () ] => iif ( _HMG_THISType == 'C' , DoMethod ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> ) , DoMethod ( _HMG_THISFORMNAME , <"p"> ) )
 #xtranslate This . <p:ClientWidth>  => _GetClientRect ( iif ( _HMG_THISType == 'C' , GetControlHandle ( _HMG_THISCONTROLNAME , _HMG_THISFORMNAME ) , GetFormHandle ( _HMG_THISFORMNAME ) ) ) \[3]

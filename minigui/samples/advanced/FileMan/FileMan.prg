@@ -18,7 +18,7 @@ ANNOUNCE RDDSYS
 
 #define MsgAlert( c )   MsgExclamation( c, PROGRAM, , .f. )
 
-#define WM_SYSCOMMAND 274       // &H112
+//#define WM_SYSCOMMAND 274       // &H112
 #define SC_SCREENSAVE 61760     // &HF140
 
 #ifdef __XHARBOUR__
@@ -46,6 +46,8 @@ LOCAL aDriveBmps := { "FLOPPY", "REMOVE", "HARD", "REMOTE", "CDROM", "RAMDISK" }
 
    SET CENTURY ON
    SET DATE GERMAN
+   
+   set autoadjust on nobuttons
 
    SET PROGRAMMATICCHANGE OFF
 
@@ -1539,7 +1541,7 @@ for n := 1 To 26
 	if nDrv > 1
 
 		if nDrv == 2 .and. Upper(cDrv) == "A"
-			cVolume := [3 1/2"]
+			cVolume := [3 1/2´´]
 		else
 			cVolume := ""
 			GetVolumeInformation( cDrv + ":\", @cVolume )

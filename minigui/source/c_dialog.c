@@ -51,10 +51,12 @@
 #define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
+
 #include "hbvm.h"
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetResources( void );
 
 LRESULT CALLBACK HMG_DlgProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -106,7 +108,7 @@ HB_FUNC( INITMODALDIALOG )
 {
    LRESULT lResult;
 
-   lResult = DialogBox( g_hInstance, MAKEINTRESOURCE( hb_parni( 2 ) ), ( HWND ) HB_PARNL( 1 ), ( DLGPROC ) HMG_ModalDlgProc );
+   lResult = DialogBox( GetResources(), MAKEINTRESOURCE( hb_parni( 2 ) ), ( HWND ) HB_PARNL( 1 ), ( DLGPROC ) HMG_ModalDlgProc );
 
    HB_RETNL( ( LONG_PTR ) lResult );
 }
@@ -115,7 +117,7 @@ HB_FUNC( INITDIALOG )
 {
    HWND hwndDlg;
 
-   hwndDlg = CreateDialog( g_hInstance, MAKEINTRESOURCE( hb_parni( 2 ) ), ( HWND ) HB_PARNL( 1 ), ( DLGPROC ) HMG_DlgProc );
+   hwndDlg = CreateDialog( GetResources(), MAKEINTRESOURCE( hb_parni( 2 ) ), ( HWND ) HB_PARNL( 1 ), ( DLGPROC ) HMG_DlgProc );
 
    HB_RETNL( ( LONG_PTR ) hwndDlg );
 }
@@ -431,13 +433,13 @@ HB_FUNC( CREATEDLGTEMPLATE )
 
    if( modal )
    {
-      lResult = DialogBoxIndirect( g_hInstance, ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_ModalDlgProc );
+      lResult = DialogBoxIndirect( GetResources(), ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_ModalDlgProc );
       LocalFree( pdlgtemplate );
       HB_RETNL( ( LONG_PTR ) lResult );
    }
    else
    {
-      hwndDlg = CreateDialogIndirect( g_hInstance, ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_DlgProc );
+      hwndDlg = CreateDialogIndirect( GetResources(), ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_DlgProc );
       LocalFree( pdlgtemplate );
       HB_RETNL( ( LONG_PTR ) hwndDlg );
    }

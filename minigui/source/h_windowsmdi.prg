@@ -500,6 +500,10 @@ FUNCTION _DefineChildMDIWindow ( FormName, x, y, w, h, nominimize, nomaximize, ;
 
    _SetThisFormInfo( k )
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnFormInit, k, mVar )
+   ENDIF
+
 RETURN ( FormHandle )
 
 *-----------------------------------------------------------------------------*

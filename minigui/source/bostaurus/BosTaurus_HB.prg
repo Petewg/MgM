@@ -711,7 +711,7 @@ LOCAL k, hBitmap := 0
    MEMVAR _HMG_SYSDATA
 #endif
    k := GetControlIndex (cControlName, cFormName)
-   IF k > 0   
+   IF k > 0 .AND. GetControlType (cControlName, cFormName) == "IMAGE"
       #ifdef __HMG__    // HMG Extended
          hBitmap := _HMG_aControlContainerHandle [k]
       #else             // HMG Official
@@ -736,13 +736,13 @@ LOCAL hWnd, k
    ENDIF
 
    k := GetControlIndex (cControlName, cFormName)
-   IF k > 0
+   IF k > 0 .AND. GetControlType (cControlName, cFormName) == "IMAGE"
    
       #ifdef __HMG__    // HMG Extended
          IF _HMG_aControlContainerHandle [k] <> 0 .AND. lReleasePreviousBitmap == .T.
-            BT_BitmapRelease (_HMG_aControlBrushHandle [k])
+            BT_BitmapRelease (_HMG_aControlContainerHandle [k])
          ENDIF
-         _HMG_aControlBrushHandle [k] := hBitmap
+         _HMG_aControlContainerHandle [k] := hBitmap
          _HMG_aControlWidth  [k] := BT_BitmapWidth  (hBitmap)
          _HMG_aControlHeight [k] := BT_BitmapHeight (hBitmap)
       #else             // HMG Official

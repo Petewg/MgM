@@ -69,7 +69,7 @@ CLASS HBPrinter
    DATA    PREVIEWSCALE INIT 1
    DATA    Printers INIT {}
    DATA    Ports INIT {}
-   PROTECT Version INIT 2.40
+   PROTECT Version INIT 2.42
 
    METHOD New()
    METHOD SelectPrinter( cPrinter, lPrev )
@@ -2391,6 +2391,7 @@ METHOD PrintOption() CLASS HBPrinter
 RETURN OKPrint
 
 #ifdef _DEBUG_
+
 METHOD ReportData( l_x1, l_x2, l_x3, l_x4, l_x5, l_x6 ) CLASS HBPrinter
    SET PRINTER TO "hbprinter.rep" ADDITIVE
    SET DEVICE TO PRINT
@@ -2425,25 +2426,31 @@ METHOD ReportData( l_x1, l_x2, l_x3, l_x4, l_x5, l_x6 ) CLASS HBPrinter
 RETURN self
 #endif
 
+/*
+ * C-level
+ */
 
 #pragma BEGINDUMP
 
+#define NO_LEAN_AND_MEAN
+
 #include <mgdefs.h>
+
 #include "hbapiitm.h"
 
 #include <olectl.h>
 #include <commctrl.h>
 
 #ifdef __XHARBOUR__
-#define HB_PARC         hb_parc
-#define HB_PARNL3       hb_parnl
+  #define HB_PARC          hb_parc
+  #define HB_PARNL3        hb_parnl
 #else
-#define HB_PARC         hb_parvc
-#if defined( _WIN64 )
-#define HB_PARNL3       hb_parvnll
-#else
-#define HB_PARNL3       hb_parvnl
-#endif
+  #define HB_PARC          hb_parvc
+  #if defined( _WIN64 )
+    #define HB_PARNL3      hb_parvnll
+  #else
+    #define HB_PARNL3      hb_parvnl
+  #endif
 #endif
 
 static HDC              hDC    = NULL;
@@ -2475,8 +2482,8 @@ static HBITMAP          himgbmp;
 static HBITMAP          hbmp[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static OSVERSIONINFO    osvi;
 
-extern HINSTANCE g_hInstance;
-void   rr_getdevmode( void );
+HINSTANCE GetResources( void );
+void      rr_getdevmode( void );
 
 HB_FUNC( RR_FINISH )
 {
@@ -2735,13 +2742,14 @@ HB_FUNC( RR_SETUSERMODE )
 }
 
 #ifdef UNICODE
-typedef BOOL ( WINAPI * _GETDEFAULTPRINTER )( LPWSTR, LPDWORD );
+  typedef BOOL ( WINAPI * _GETDEFAULTPRINTER )( LPWSTR, LPDWORD );
   #define GETDEFAULTPRINTER  "GetDefaultPrinterW"
 #else
-typedef BOOL ( WINAPI * _GETDEFAULTPRINTER )( LPSTR, LPDWORD );
+  typedef BOOL ( WINAPI * _GETDEFAULTPRINTER )( LPSTR, LPDWORD );
   #define GETDEFAULTPRINTER  "GetDefaultPrinterA"
 #endif
 #define MAX_BUFFER_SIZE      254
+
 HB_FUNC( RR_GETDEFAULTPRINTER )
 {
    DWORD Needed, Returned;
@@ -3622,7 +3630,7 @@ LPVOID rr_loadpicturefromresource( char * resname, LONG * lwidth, LONG * lheight
    LPVOID     lpVoid;
    int        nSize;
 
-   hbmpx = ( HBITMAP ) LoadImage( g_hInstance, resname, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+   hbmpx = ( HBITMAP ) LoadImage( GetResources(), resname, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
    if( hbmpx != NULL )
    {
       picd.cbSizeofstruct = sizeof( PICTDESC );
@@ -3632,11 +3640,11 @@ LPVOID rr_loadpicturefromresource( char * resname, LONG * lwidth, LONG * lheight
    }
    else
    {
-      hSource = FindResource( g_hInstance, resname, "HMGPICTURE" );
+      hSource = FindResource( GetResources(), resname, "HMGPICTURE" );
       if( hSource == NULL )
          return NULL;
 
-      hGlobalres = LoadResource( g_hInstance, hSource );
+      hGlobalres = LoadResource( GetResources(), hSource );
       if( hGlobalres == NULL )
          return NULL;
 
@@ -3644,7 +3652,7 @@ LPVOID rr_loadpicturefromresource( char * resname, LONG * lwidth, LONG * lheight
       if( lpVoid == NULL )
          return NULL;
 
-      nSize   = SizeofResource( g_hInstance, hSource );
+      nSize   = SizeofResource( GetResources(), hSource );
       hGlobal = GlobalAlloc( GPTR, nSize );
       if( hGlobal == NULL )
          return NULL;

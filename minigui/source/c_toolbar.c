@@ -57,17 +57,13 @@
 
 #define NUM_TOOLBAR_BUTTONS  10
 
-#ifdef MAKELONG
-  #undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
                                 HB_BOOL bAlphaFormat, int iAlpfaConstant );
 
 LRESULT APIENTRY  ToolBarExFunc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 static LPTBBUTTON lpSaveButtons;
 static int        nResetCount, buttonCount;
@@ -105,7 +101,7 @@ HB_FUNC( INITTOOLBAR )
    if( hb_parl( 16 ) )
       Style = Style | CCS_ADJUSTABLE;
 
-   hwndTB = CreateWindowEx( ExStyle, TOOLBARCLASSNAME, ( LPSTR ) NULL, Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 3 ), g_hInstance, NULL );
+   hwndTB = CreateWindowEx( ExStyle, TOOLBARCLASSNAME, ( LPSTR ) NULL, Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 3 ), GetInstance(), NULL );
 
    if( hb_parni( 6 ) && hb_parni( 7 ) )
    {
@@ -122,7 +118,7 @@ HB_FUNC( INITTOOLBAR )
 HB_FUNC( INITTOOLBUTTON )
 {
    HWND        hwndTB = ( HWND ) HB_PARNL( 1 );
-   HWND        himage;
+   HWND        himage = NULL;
    TBADDBITMAP tbab;
    TBBUTTON    tbb[ NUM_TOOLBAR_BUTTONS ];
    int         index;
@@ -132,7 +128,8 @@ HB_FUNC( INITTOOLBUTTON )
 
    memset( tbb, 0, sizeof tbb );
 
-   himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwndTB, 1, 1, -1, 0, HB_FALSE, 255 );
+   if( hb_parclen( 8 ) > 0 )
+      himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwndTB, 1, 1, -1, 0, HB_FALSE, 255 );
 
    // Add the bitmap containing button images to the toolbar.
 
@@ -254,7 +251,7 @@ HB_FUNC( INITTOOLBAREX )
       Style = Style | CCS_ADJUSTABLE;
 
 
-   hwndTB = CreateWindowEx( ExStyle, TOOLBARCLASSNAME, ( LPSTR ) NULL, Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 3 ), g_hInstance, NULL );
+   hwndTB = CreateWindowEx( ExStyle, TOOLBARCLASSNAME, ( LPSTR ) NULL, Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 3 ), GetInstance(), NULL );
 
    if( hb_parni( 6 ) && hb_parni( 7 ) )
    {
@@ -334,9 +331,9 @@ HB_FUNC( INITTOOLBUTTONEX )
       iy = hb_parni( 7 ) - py;
    }
 
-   himage = ( HWND ) LoadImage( g_hInstance, hb_parc( 8 ), IMAGE_BITMAP, ix, iy, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+   himage = ( HWND ) LoadImage( GetResources(), hb_parc( 8 ), IMAGE_BITMAP, ix, iy, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage == NULL )
-      himage = ( HWND ) LoadImage( 0, hb_parc( 8 ), IMAGE_BITMAP, ix, iy, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage = ( HWND ) LoadImage( NULL, hb_parc( 8 ), IMAGE_BITMAP, ix, iy, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage == NULL )
       himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwndTB, 1, 1, -1, 0, HB_FALSE, 255 );
 

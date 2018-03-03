@@ -98,6 +98,10 @@ FUNCTION _DefineAnimateRes ( ControlName, ParentForm, x, y, w, h, cFile, nRes, ;
    AAdd ( _HMG_aControlMiscData1, hAvi )
    AAdd ( _HMG_aControlMiscData2, '' )
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, Len( _HMG_aControlNames ), mVar )
+   ENDIF
+
 RETURN NIL
 
 *------------------------------------------------------------------------------*

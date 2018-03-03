@@ -146,6 +146,10 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    _HMG_StatusItemCount := 0
 
    IF kbd
@@ -269,7 +273,11 @@ FUNCTION _DefineItemMessage ( ControlName, ParentControl, x, y, Caption, Procedu
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
 
-   IF ValType( backcolor ) == "A" .OR. ValType( fontcolor ) == "A"
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
+   IF IsArrayRGB( backcolor ) .OR. IsArrayRGB( fontcolor )
       SendMessage( ParentForm, SB_SETTEXT, hb_BitOr( _HMG_StatusItemCount - 1, SBT_OWNERDRAW ), 0 )
    ENDIF
 
@@ -378,7 +386,7 @@ FUNCTION _SetStatusBarKbd ( BarName, FormName )
 
    _DefineItemMessage ( ITEMNAME, BarName, 0, 0, GetProperty ( FormName, "Title" ), , , 0, , "RAISED" )
 
-   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, iif( IsCapsLockActive(), "CAP", "" ), , iif( IsXPThemeActive(), 38, 36 ), 0 )
+   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, iif( IsCapsLockActive(), "CAP", "" ), , iif( _HMG_IsThemed, 38, 36 ), 0 )
 
    _DefineItemMessage ( ITEMNAME, BarName, 0, 0, iif( IsNumLockActive(), "NUM", "" ), , 42, 0 )
 

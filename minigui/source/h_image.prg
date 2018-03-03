@@ -53,8 +53,9 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
       ProcedureName, tooltip, HelpId, invisible, stretch, aBKColor, transparent, adjustimage, ;
       mouseover, mouseleave, nAlphaLevel, nId )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , blInit , mVar , action := .F. , k , Style , aSize
-   LOCAL ControlHandle , lDialogInMemory , BackgroundColor , lCheckAlpha := ISNUMBER( nAlphaLevel )
+   LOCAL ParentFormHandle , blInit , mVar , action := .F. , k , Style
+   LOCAL ControlHandle , lDialogInMemory , BackgroundColor
+   LOCAL lCheckAlpha := ISNUMBER( nAlphaLevel )
 
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
       ParentFormName := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
@@ -74,18 +75,15 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
       MsgMiniGuiError ( "Control: " + ControlName + " Of " + ParentFormName + " Already defined." )
    ENDIF
 
+   hb_default( @w, 0 )
+   hb_default( @h, 0 )
    w := IFEMPTY( w, -1, w )
    h := IFEMPTY( h, -1, h )
 
-   IF ! ISNUMBER( w ) .OR. ! ISNUMBER( h )
-      IF Upper( Right( FileName, 4 ) ) == ".BMP" .OR. At( ".", cFileNoPath( FileName ) ) == 0
-         aSize := BmpSize( FileName )
-      ELSE
-         aSize := hb_GetImageSize( FileName )
-      ENDIF
-      w := aSize [1]
-      h := aSize [2]
-   ENDIF
+   hb_default( @stretch, .F. )
+   __defaultNIL( @BackgroundColor, -1 )
+   hb_default( @transparent, .F. )
+   hb_default( @adjustimage, .F. )
 
    IF ValType( ProcedureName ) == "U"
       ProcedureName := ""
@@ -93,13 +91,11 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
       action := .T.
    ENDIF
 
-   IF ValType( aBKColor ) == "A"
-      BackgroundColor := RGB (aBKColor[1], aBKColor[2], aBKColor[3])
+   IF IsArrayRGB( aBKColor )
+      BackgroundColor := RGB ( aBKColor [1], aBKColor [2], aBKColor [3] )
    ENDIF
 
-   DEFAULT stretch TO FALSE, BackgroundColor TO -1, transparent TO FALSE, adjustimage TO FALSE
-
-   IF ValType( nAlphaLevel ) == "N" .AND. ( nAlphaLevel < 0 .OR. nAlphaLevel > 255 )
+   IF ISNUMERIC ( nAlphaLevel ) .AND. ( nAlphaLevel < 0 .OR. nAlphaLevel > 255 )
       nAlphaLevel := 255
    ENDIF
 
@@ -142,7 +138,7 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      ControlHandle := InitImage ( ParentFormHandle, 0, x, y, invisible, ( action .OR. ISSTRING( tooltip ) ), ( ValType( mouseover ) == "B" .OR. ValType( mouseleave ) == "B" ) )
+      ControlHandle := InitImage ( ParentFormHandle, 0, x, y, invisible, ( action .OR. ISSTRING( tooltip ) ), ( ISBLOCK( mouseover ) .OR. ISBLOCK( mouseleave ) ) )
 
    ENDIF
 
@@ -201,6 +197,10 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
    _HMG_aControlMiscData1 [k] := nAlphaLevel
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF .NOT. lDialogInMemory
       InitDialogImage( ParentFormName, ControlHandle, k )
    ENDIF
@@ -212,13 +212,16 @@ FUNCTION InitDialogImage( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
 
    IF ValType( ParentName ) <> 'U'
+
       _HMG_aControlBrushHandle [k] := C_SetPicture ( ControlHandle , _HMG_aControlPicture [k] , _HMG_aControlWidth [k] , ;
          _HMG_aControlHeight [k] , _HMG_aControlValue [k] , _HMG_aControlInputMask [k] , _HMG_aControlSpacing [k] , ;
          _HMG_aControlCaption [k] , _HMG_aControlDblClick [k] .AND. HasAlpha( _HMG_aControlPicture [k] ) , _HMG_aControlMiscData1 [k] )
+
       IF Empty( _HMG_aControlValue [k] )
          _HMG_aControlWidth [k] := GetWindowWidth  ( ControlHandle )
          _HMG_aControlHeight [k] := GetWindowHeight ( ControlHandle )
       ENDIF
+
    ENDIF
 // JP 62
    IF Len( _HMG_aDialogTemplate ) != 0 .AND. _HMG_aDialogTemplate[3]  // Modal
@@ -233,14 +236,23 @@ FUNCTION BmpSize( xBitmap )
    LOCAL aRet := { 0, 0, 4 }
 
    IF ISSTRING ( xBitmap )
+
       aRet := GetBitmapSize( xBitmap )
+
       IF Empty( aRet [1] ) .AND. Empty( aRet [2] )
+
          xBitmap := C_GetResPicture( xBitmap )
+
          aRet := GetBitmapSize( xBitmap )
+
          DeleteObject( xBitmap )
+
       ENDIF
+
    ELSEIF ISNUMERIC ( xBitmap )
+
       aRet := GetBitmapSize( xBitmap )
+
    ENDIF
 
 RETURN aRet
@@ -251,9 +263,11 @@ FUNCTION HasAlpha( FileName )
    LOCAL hBitmap, lRet := .F.
 
    hBitmap := C_GetResPicture( FileName )
+
    IF GetObjectType( hBitmap ) == OBJ_BITMAP .AND. BmpSize( FileName ) [3] == 32
       lRet := C_HasAlpha( hBitmap )
    ENDIF
+
    DeleteObject( hBitmap )
 
 RETURN lRet

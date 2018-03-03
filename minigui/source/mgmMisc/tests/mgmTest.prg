@@ -8,38 +8,42 @@ PROCEDURE Main()
 
    DEFINE WINDOW MainForm AT 0,0 WIDTH 1024 HEIGHT 768 TITLE "MgmMisc library testing " ICON "MGM" MAIN ON INIT NIL ON RELEASE NIL // ON MINIMIZE msginfo( iif( IsWindow( MainForm.Handle, "ICONIC" ), "Minimized!", "No Minimized!" ) )
 
-      @ 10, 010 BUTTON bt_1 Caption "LockDeskTop()" Width 120 ;
+      @ 10, 010 BUTTON bt_1 Caption "LockDeskTop()" Width 100 ;
             ACTION Iif( MsgYesNo( e"Lock desktop! \n\r are you sure?" ), mgm_LockDeskTop(), NIL )
 
-      @ 10, 140 BUTTON bt_2 Caption "SuspendMonitor()" Width 120 ;
+      @ 10, 110 BUTTON bt_2 Caption "SuspendMonitor()" Width 100 ;
             ACTION Iif( MsgYesNo( e"Suspend Monitor for 13 secs! \n\r are you sure?" ), mgm_SuspendMonitor(), NIL )
 
-      @ 10, 270 BUTTON bt_3 Caption "SuspendSystem()" Width 120 ;
+      @ 10, 210 BUTTON bt_3 Caption "SuspendSystem()" Width 100 ;
             ACTION Iif( MsgYesNo( e"Suspend System (hibernate) \n\r are you sure?" ), mgm_SuspendSystem( .T. ), NIL )
 
-      @ 10, 400 BUTTON bt_4 Caption "Enumerate Wins" Width 120 ;
+      @ 10, 310 BUTTON bt_4 Caption "Enumerate Wins" Width 100 ;
             ACTION GetAllWindows()
 
-      @ 10, 530 BUTTON bt_5 Caption e"Error Description" Width 120 ;
+      @ 10, 410 BUTTON bt_5 Caption e"Error Description" Width 100 ;
             ACTION (wapi_SetLastError( val(inputbox("enter error code:",,"123"))), MsgInfo( mgm_ErrorDescription(), "Error Description" ) )
 
-      @ 10, 660 BUTTON bt_6 Caption e"Process List" Width 120 ;
+      @ 10, 510 BUTTON bt_6 Caption e"Process List" Width 100 ;
             ACTION GetAllProcesses()
 
-      @ 10, 790 BUTTON bt_7 Caption e"Blur window?" Width 120 ;
+      @ 10, 610 BUTTON bt_7 Caption e"Blur window?" Width 100 ;
             ACTION BLURWINDOW( MainForm.Handle, lBlur := !lBlur )
             
-      @ 10, 920 BUTTON bt_8 Caption e"WW" Width 30 ;
+      @ 10, 710 BUTTON bt_8 Caption e"WW" Width 40 ;
             ACTION mgm_WaitWindow( {"Hello there!","(mgm_WaitWindow)","","press esc to close..."}, .F., {80,130,200}, {255,255,250} )
             //ACTION mgm_WaitWindow( hb_eol()+"Hello there!"+hb_eol()+hb_eol()+"(mgm_WaitWindow)"+hb_eol()+hb_eol()+"press esc to close...", .f., {80,130,200}, {255,255,250} )
 
-      @ 10, 955 BUTTON bt_9 Caption e"WW2" Width 30 ;
+      @ 10, 750 BUTTON bt_9 Caption e"WW2" Width 40 ;
             ACTION mgm_WaitWindow( "Hello there!"+hb_eol()+"(mgm_WaitWindow)"+hb_eol()+hb_eol()+"press esc to close...", .f., {80,130,200}, {255,255,250} )
       
-      @ 10, 985 BUTTON bt_10 Caption e"BF" Width 30 ; //      ACTION win_GetOpenFileName( )*/
+      @ 10, 790 BUTTON bt_10 Caption e"BF" Width 40 ; //      ACTION win_GetOpenFileName( )*/
       ACTION mgm_WaitWindow( {"You selected: ", mgm_BrowseForFolder(_HMG_MainHandle, hb_CWD(), "Please choose a folder",;
                                           .f.,0x00004000+0x00000004      ), "", "press Esc... " } )
-      
+
+      @ 10, 830 BUTTON bt_11 Caption e"CPU" Width 40 ; //      ACTION win_GetOpenFileName( )*/
+      ACTION  ( msgInfo( "CPU Speed (when idle): " + hb_ntoc( GetCpuSpeed(1), 3 ) + " GHz" + hb_eol() + ; 
+                         "CPU Speed (when busy): " + hb_ntoc( GetCpuSpeed(2), 3 ) + " GHz", "GetCpuSpeed()" ) )
+                                          
       //mgm_BrowseForFolder( [<hWnd>], [<cInitFolder>], [<cTitle>], [<lAllowCreateFolder>], [<nFlags>] )
             
    END WINDOW
@@ -203,6 +207,26 @@ HB_FUNC( GETPARENT )
    
    hb_retnl( (HB_LONG) GetAncestor( hwnd, gaFlags ) );
 }
+
+/*
+HRESULT FindExecutableAssociatedWithFileExtension( PCWSTR extension, PWSTR resultBuffer, DWORD bufferLength)
+{
+ return AssocQueryString(ASSOCF_INIT_INGORENUNKNOWN,
+                         ASSOCSTR_EXECUTABLE,
+                         fullPath,
+                         nullptr,
+                         resultBuffer,
+                         &bufferLength);
+}
+*/
+
+
+
+
+
+
+
+
 
 #pragma enddump
 

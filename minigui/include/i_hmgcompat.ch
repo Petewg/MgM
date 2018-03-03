@@ -65,6 +65,7 @@
 
 #xtranslate DISABLEDBACKCOLOR <a> => //
 #xtranslate DISABLEDFONTCOLOR <a> => //
+#xtranslate TRANSPARENTHEADER <a> => // 
 
 #xtranslate ROWSOURCE Nil => //
 #xtranslate COLUMNFIELDS Nil => //
@@ -79,7 +80,8 @@
 
 #xtranslate HMG_ChangeWindowStyle( <hWnd>, <nAddStyle>, <nRemoveStyle>, <lExStyle> [, <lRedrawWindow> ] ) ;
    => ;
-   ChangeStyle( <hWnd>, [ <nAddStyle> ], [ <nRemoveStyle> ], [ <lExStyle> ] )
+   ChangeStyle( <hWnd>, [ <nAddStyle> ], [ <nRemoveStyle> ], [ <lExStyle> ] );;
+   iif( <.lRedrawWindow.>, RedrawWindow ( <hWnd> ), NIL )
 
 #ifndef WS_EX_WINDOWEDGE
 #define WS_EX_WINDOWEDGE         256
@@ -196,7 +198,7 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 
 #xtranslate IsMainMenuDefined( <FormName> ) => ( Empty( GetMenu( GetFormHandle( <FormName> ) ) ) == .F. )
 
-#xcommand RELEASE MAIN MENU OF <form> => DEFINE MAIN MENU OF <form> ; END MENU ; DestroyMenu( GetMenu( GetFormHandle( <"form"> ) ) )
+#xcommand RELEASE MAIN MENU OF <form> => DestroyMenu( GetMenu( GetFormHandle( <"form"> ) ) ) ; SetMenu( GetFormHandle( <"form"> ), 0 )
 
 #xcommand RELEASE CONTEXT MENU OF <form> => DEFINE CONTEXT MENU OF <form> ; END MENU ; DestroyMenu( _HMG_aFormContextMenuHandle \[ GetFormIndex ( <"form"> ) ] )
 
@@ -217,10 +219,12 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 #translate DISABLE [ CONTROL ] EVENT <control> OF <form> => StopControlEventProcedure (<"control">, <"form">, .T.)
 #translate ENABLE  [ CONTROL ] EVENT <control> OF <form> => StopControlEventProcedure (<"control">, <"form">, .F.)
 
-#xtranslate CREATE EVENT PROCNAME <cProcName>[()] [HWND <hWnd>] [MSG <nMsg>] [STOREINDEX <nIndex>] => InstallEventHandler ( <"cProcName"> )
+#xtranslate CREATE EVENT PROCNAME <cProcName>[()] [HWND <hWnd>] [MSG <nMsg>] [STOREINDEX <nIndex>] =>;
+   InstallEventHandler ( <"cProcName"> )
+
 #xtranslate EventCount () => Len (_HMG_aCustomEventProcedure)
-#xtranslate EventRemoveAll () => iif ( EventCount() > 0, _HMG_aCustomEventProcedure := {}, )
-#xtranslate EventRemove ([<x>]) => iif ( EventCount() > 0, hb_ADel (_HMG_aCustomEventProcedure, EventCount(), .T.), )
+#xtranslate EventRemoveAll () => iif ( EventCount() > 0, _HMG_aCustomEventProcedure := {}, NIL )
+#xtranslate EventRemove ([<x>]) => iif ( EventCount() > 0, hb_ADel (_HMG_aCustomEventProcedure, EventCount(), .T.), NIL )
 
 
 #xtranslate GetFormNameByIndex ( <nFormIndex> ) => _HMG_aFormNames \[<nFormIndex>]
@@ -489,6 +493,7 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
       [ ON SAVE <onsave> ] ;
       [ <fixedcols: FIXEDCOLS> ] ;
    => ;
+      _HMG_BrowseSyncStatus := .T. ;;
       @ <row>, <col> BROWSE <name> ;
             [ PARENT <parent> ] ;
             [ WIDTH <w> ] ;

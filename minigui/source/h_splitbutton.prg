@@ -22,7 +22,7 @@ RETURN
 PROCEDURE _DefineSplitButton ( cName, nRow, nCol, cCaption, bAction, cParent, ;
    lDefault, w, h, tooltip, fontname, fontsize, bold, italic, underline, strikeout )
 *------------------------------------------------------------------------------*
-   LOCAL hControlHandle, nId, hParentFormHandle, k, cMacroVar
+   LOCAL hControlHandle, nId, hParentFormHandle, k, mVar
    LOCAL FontHandle
 
    IF _HMG_BeginWindowActive
@@ -44,7 +44,7 @@ PROCEDURE _DefineSplitButton ( cName, nRow, nCol, cCaption, bAction, cParent, ;
       GetFontParamByRef( FontHandle, @FontName, @FontSize, @bold, @italic, @underline, @strikeout )
    ENDIF
 
-   cMacroVar := '_' + cParent + '_' + cName
+   mVar := '_' + cParent + '_' + cName
 
    k := _GetControlFree()
    nId := _GetId()
@@ -69,13 +69,13 @@ PROCEDURE _DefineSplitButton ( cName, nRow, nCol, cCaption, bAction, cParent, ;
       FontHandle := _SetFont ( hControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
    ENDIF
 
-   Public &cMacroVar. := k
+   Public &mVar. := k
 
    _HMG_aControlType[k] := 'SPBUTTON'
    _HMG_aControlNames[k] :=  cName
    _HMG_aControlHandles[k] := hControlHandle
    _HMG_aControlParenthandles[k] := hParentFormHandle
-   _HMG_aControlIds[k] :=  0
+   _HMG_aControlIds[k] :=  nId
    _HMG_aControlProcedures[k] := bAction
    _HMG_aControlPageMap[k] :=  {}
    _HMG_aControlValue[k] :=  Nil
@@ -111,6 +111,10 @@ PROCEDURE _DefineSplitButton ( cName, nRow, nCol, cCaption, bAction, cParent, ;
    _HMG_aControlEnabled[k] :=   .T.
    _HMG_aControlMiscData1[k] := 0
    _HMG_aControlMiscData2[k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF ValType( tooltip ) != "U"
       SetToolTip ( hControlHandle , tooltip , GetFormToolTipHandle ( cParent ) )

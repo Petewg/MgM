@@ -61,7 +61,7 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
    DEFAULT w             TO 120
    DEFAULT h             TO 24
-   DEFAULT ProcedureName TO ""
+   DEFAULT ProcedureName TO {|| _SetValue( ControlName, ParentFormName, NIL ) }
    DEFAULT invisible     TO FALSE
    DEFAULT bold          TO FALSE
    DEFAULT italic        TO FALSE
@@ -82,7 +82,7 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
       x    := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
       y    := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
       ParentFormName := _HMG_ActiveFrameParentFormName [_HMG_FrameLevel]
-      IF IsXpThemeActive() .AND. aRGB_bk == NIL
+      IF _HMG_IsThemed .AND. aRGB_bk == NIL
          Transparent := .T.
       ENDIF
    ENDIF
@@ -99,9 +99,8 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
    IF ValType ( aBitmap ) != 'A'
       cBmp := aBitmap
       aBitmap := Array( 2 )
-      aBitmap[1] := iif( Empty( cBmp ), GetCheckBmp(), cBmp )
+      aBitmap[ 1 ] := iif( Empty( cBmp ), GetCheckBmp(), cBmp )
    ENDIF
-
 
    mVar := '_' + ParentFormName + '_' + ControlName
    k := _GetControlFree()
@@ -179,7 +178,7 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
       Controlhandle := InitChkLabel ( ParentFormHandle, Caption, 0, x, y, w, h, '', 0, ;
          ( ValType( mouseover ) == "B" .OR. ValType( mouseleave ) == "B" ) , border , clientedge , ;
          HSCROLL , VSCROLL , TRANSPARENT , invisible , rightalign , centeralign, ;
-         abitmap[1], abitmap[2], leftcheck, lChecked )
+         abitmap[ 1 ], abitmap[ 2 ], leftcheck, lChecked )
 
    ENDIF
 
@@ -246,6 +245,10 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
    _HMG_aControlMiscData1 [k] :=  { 0, blink, .T. }
    _HMG_aControlMiscData2 [k] :=  ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF blink == .T. .AND. .NOT. lDialogInMemory
       _DefineTimer ( 'BlinkTimer' + hb_ntos( k ) , ParentFormName , 500 , {|| _HMG_aControlMiscData1 [k] [3] := ! _HMG_aControlMiscData1 [k] [3], ;
          iif( _HMG_aControlMiscData1 [k] [3] == .T. , _ShowControl ( ControlName , ParentFormName ), _HideControl ( ControlName , ParentFormName ) ) } )
@@ -253,7 +256,7 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
    IF autosize == .T. .AND. .NOT. lDialogInMemory
       _SetControlWidth ( ControlName , ParentFormName , GetTextWidth( NIL, Caption, FontHandle ) + ;
-         iif( bold == .T. .AND. IsXPThemeActive(), GetTextWidth( NIL, " ", FontHandle ), 0 ) ) // Fixed for problem with display bold label at themed WinXP
+         iif( bold == .T. .AND. _HMG_IsThemed, GetTextWidth( NIL, " ", FontHandle ), 0 ) ) // Fixed for problem with display bold label at themed WinXP
       _SetControlHeight ( ControlName , ParentFormName , FontSize + iif( FontSize < 12, 12, 16 ) )
       RedrawWindow ( ControlHandle )
    ENDIF
@@ -265,7 +268,8 @@ STATIC FUNCTION GetCheckBmp()
 *-----------------------------------------------------------------------------*
    LOCAL uAnsi, cBmp, nHandle, nWrite, cBmpFile
 
-   LOCAL cStock := "42 4D F6 00 00 00 00 00 00 00 76 00 00 00 28 00" + ; // check bmp
+   LOCAL cStock := ; // check bmp
+      "42 4D F6 00 00 00 00 00 00 00 76 00 00 00 28 00" + ;
       "00 00 10 00 00 00 10 00 00 00 01 00 04 00 00 00" + ;
       "00 00 80 00 00 00 C4 0E 00 00 C4 0E 00 00 00 00" + ;
       "00 00 00 00 00 00 00 00 00 00 00 00 80 00 00 80" + ;
@@ -284,7 +288,7 @@ STATIC FUNCTION GetCheckBmp()
 
    uAnsi := StrTran( cStock, " " )
    cBmp := cAnsi2Bmp( uAnsi )
-   cBmpFile := GetTempFolder() + "\LCheck.bmp"
+   cBmpFile := TempFile( GetTempFolder(), "BMP" )
 
    IF File( cBmpFile )
       FErase( cBmpFile )

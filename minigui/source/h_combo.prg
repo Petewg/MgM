@@ -63,7 +63,7 @@ FUNCTION _DefineCombo ( ControlName, ParentFormName, x, y, w, rows, value, ;
    HelpId, invisible, notabstop, sort, bold, italic, underline, strikeout , ;
    itemsource , valuesource , displaychange , ondisplaychangeprocedure , break , ;
    GripperText , ListWidth , nId, OnListDisplayProcedure, OnListCloseProcedure, ;
-   backcolor, fontcolor, lUpper, lLower, cuetext, OnCancel, AutoComplete, lShowDropDown )
+   backcolor, fontcolor, lUpper, lLower, cuetext, OnCancel, AutoComplete, lShowDropDown, nItemHeight )
 *-----------------------------------------------------------------------------*
    LOCAL i , ParentFormHandle , mVar , ControlHandle , FontHandle , WorkArea , cField , ContainerHandle := 0 , k
    LOCAL Style, blInit
@@ -292,8 +292,12 @@ FUNCTION _DefineCombo ( ControlName, ParentFormName, x, y, w, rows, value, ;
    _HMG_aControlFontHandle  [k] :=   FontHandle
    _HMG_aControlBrushHandle  [k] :=   0
    _HMG_aControlEnabled  [k] :=   .T.
-   _HMG_aControlMiscData1 [k] := { 0, DisplayChange, ItemSource, rows, ListWidth, cuetext, AutoComplete, lShowDropDown, 0, OnCancel }
+   _HMG_aControlMiscData1 [k] := { 0, DisplayChange, ItemSource, rows, ListWidth, cuetext, AutoComplete, lShowDropDown, 0, OnCancel, nItemHeight }
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF Len( _HMG_aDialogTemplate ) == 0
       InitDialogComboBox( ParentFormName, ControlHandle, k )
@@ -304,16 +308,18 @@ RETURN Nil
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogComboBox( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
-   LOCAL WorkArea , BackRec , rcount := 0 , cset := 0 , Value , rows , DisplayChange , ItemSource , cField , ListWidth , cuetext
+   LOCAL WorkArea , BackRec , rcount := 0 , cset := 0 , ItemHeight , ;
+      Value , rows , DisplayChange , ItemSource , cField , ListWidth , cuetext
 
    WorkArea      := _HMG_aControlSpacing [k]
    cField        := _HMG_aControlPageMap [k]
-   Value         := _HMG_aControlValue  [k]
+   Value         := _HMG_aControlValue [k]
    rows          := _HMG_aControlMiscData1 [k,4]
    DisplayChange := _HMG_aControlMiscData1 [k,2]
    ItemSource    := _HMG_aControlMiscData1 [k,3]
    ListWidth     := _HMG_aControlMiscData1 [k,5]
    cuetext       := _HMG_aControlMiscData1 [k,6]
+   ItemHeight    := _HMG_aControlMiscData1 [k,11]
 
    IF DisplayChange == .T.
 
@@ -372,6 +378,10 @@ FUNCTION InitDialogComboBox( ParentName, ControlHandle, k )
 
    ENDIF
 
+   IF ValType( ItemHeight ) != "U"
+      ComboSetItemHeight ( ControlHandle , ItemHeight )
+   ENDIF
+
    IF ValType ( ItemSource ) != 'U'
       AAdd ( _HMG_aFormBrowseList [ GetFormIndex ( ParentName ) ] , k )
    ENDIF
@@ -419,7 +429,7 @@ FUNCTION _DefineComboEx ( ;
       ListWidth, ;         // 31
       OnListDisplayProcedure, ; // 32
       OnListCloseProcedure, ;   // 33
-      backcolor, fontcolor, ImageList )
+      backcolor, fontcolor, ImageList, nItemHeight )
 *-----------------------------------------------------------------------------*
    LOCAL i , cParentForm , mVar , ControlHandle , FontHandle , rcount := 0
    LOCAL BackRec , cset := 0 , WorkArea , cField , ContainerHandle := 0 , k
@@ -548,7 +558,11 @@ FUNCTION _DefineComboEx ( ;
    ENDIF
 
    IF _HMG_BeginTabActive
-      AAdd ( _HMG_ActiveTabCurrentPageMap , Controlhandle )
+      AAdd ( _HMG_ActiveTabCurrentPageMap , ControlHandle )
+   ENDIF
+
+   IF ValType( nItemHeight ) != "U"
+      ComboSetItemHeight ( ControlHandle , nItemHeight )
    ENDIF
 
    IF ValType( tooltip ) != "U"
@@ -603,6 +617,10 @@ FUNCTION _DefineComboEx ( ;
    _HMG_aControlEnabled  [k] :=  .T.
    _HMG_aControlMiscData1 [k] := { 1, displaychange }  // value used for recognition between extend and standard COMBO
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF DisplayChange == .T.
       // handle for ComboBoxEx edit window

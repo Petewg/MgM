@@ -46,7 +46,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 ---------------------------------------------------------------------------*/
 
 #include "minigui.ch"
-#include "miniprint.ch"
 #include "i_winuser.ch"
 
 #ifdef _HMG_COMPAT_
@@ -101,6 +100,7 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
    FormName := AllTrim( FormName )
 
    IF Main
+
       i := AScan ( _HMG_aFormType, 'A' )
 
       IF i > 0
@@ -114,7 +114,9 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
       IF NoAutoRelease == .T.
          MsgMiniGuiError( "NOAUTORELEASE and MAIN clauses cannot be used simultaneously." )
       ENDIF
+
    ELSE
+
       i := AScan ( _HMG_aFormType, 'A' )
 #ifdef _HMG_COMPAT_
       IF _HMG_MainWindowFirst == .T.
@@ -136,6 +138,7 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
       IF _HMG_BeginWindowMDIActive == .T.
          MsgMiniGuiError( "Only MdiChild windows can be defined inside MdiWindow." )
       ENDIF
+
    ENDIF
 #ifdef _PANEL_
    IF ValType( cPanelParent ) == 'C' .AND. panel == .F.
@@ -149,6 +152,7 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
    HB_SYMBOL_UNUSED( cPanelParent )
 #endif
    IF ! ISNUMBER( w ) .AND. ! ISNUMBER( h )
+
       IF ! ISNUMBER( clientwidth ) .AND. ! ISNUMBER( clientheight )
          w := GetDesktopWidth()
          h := GetDesktopHeight() - GetTaskBarHeight()
@@ -158,9 +162,10 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
          ENDIF
       ELSE
          mVar := ( nocaption .AND. nosize )
-         w := ClientWidth + iif( mVar, 0, GetBorderWidth() ) + iif( mVar .OR. IsThemed() .AND. nosize, 0, GetBorderWidth() ) - iif( mVar .OR. (!IsThemed() .AND. !nosize) .OR. (IsThemed() .AND. !nocaption .AND. !nosize), 0, 2 )
-         h := ClientHeight + iif( nocaption, 0, GetTitleHeight() ) + iif( mVar .OR. IsThemed() .AND. nosize, 0, GetBorderWidth() ) + iif( mVar, 0, GetBorderWidth() ) - iif( mVar .OR. (!IsThemed() .AND. !nosize) .OR. (IsThemed() .AND. !nocaption .AND. !nosize), 0, 2 )
+         w := ClientWidth + iif( mVar, 0, GetBorderWidth() ) + iif( mVar .OR. _HMG_IsThemed .AND. nosize, 0, GetBorderWidth() ) - iif( mVar .OR. (!_HMG_IsThemed .AND. !nosize) .OR. (_HMG_IsThemed .AND. !nocaption .AND. !nosize), 0, 2 )
+         h := ClientHeight + iif( nocaption, 0, GetTitleHeight() ) + iif( mVar .OR. _HMG_IsThemed .AND. nosize, 0, GetBorderWidth() ) + iif( mVar, 0, GetBorderWidth() ) - iif( mVar .OR. (!_HMG_IsThemed .AND. !nosize) .OR. (_HMG_IsThemed .AND. !nocaption .AND. !nosize), 0, 2 )
       ENDIF
+
    ENDIF
 
    mVar := '_' + FormName
@@ -169,6 +174,7 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
 
 #ifdef _PANEL_
    IF panel == .T.
+
       IF ValType( cPanelParent ) == 'C'
          IF GetWindowType ( cPanelParent ) == 'X'
             MsgMiniGuiError( "Panel Windows Can't Have SplitChild Parent." )
@@ -176,6 +182,7 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
 
          ParentHandle := GetFormHandle( cPanelParent )
          _HMG_ParentWindowActive := .F.
+
       ELSEIF ! Empty( _HMG_ActiveFormName )
          IF GetWindowType ( _HMG_ActiveFormName ) == 'X'
             MsgMiniGuiError( "Panel Windows Can't Have SplitChild Parent." )
@@ -184,9 +191,11 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
          ParentHandle := GetFormHandle( _HMG_ActiveFormName )
          _HMG_ParentWindowActive := .T.
          _HMG_ActiveFormNameBak  := _HMG_ActiveFormName
+
       ELSE
          MsgMiniGuiError( "Panel Windows Must Have a Parent." )
       ENDIF
+
    ENDIF
 #endif
    _HMG_ActiveFontName := hb_defaultValue( FontName, _HMG_DefaultFontName )
@@ -231,7 +240,7 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
    ENDIF
 
    IF MSC_VER() > 0
-      IF nosize .AND. IsThemed()
+      IF nosize .AND. _HMG_IsThemed
          w += 10
          h += 10
       ENDIF
@@ -288,7 +297,7 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
    IF ValType ( NotifyIconName ) == "U"
       NotifyIconName := ""
    ELSE
-      ShowNotifyIcon ( FormHandle, .T., LoadTrayIcon( GetInstance(), NotifyIconName ), NotifyIconTooltip )
+      ShowNotifyIcon ( FormHandle, .T., LoadTrayIcon( GetResources(), NotifyIconName ), NotifyIconTooltip )
    ENDIF
 
    htooltip := InitToolTip ( FormHandle, SetToolTipBalloon() )
@@ -423,6 +432,10 @@ FUNCTION _DefineWindow ( FormName, Caption, x, y, w, h, nominimize, nomaximize, 
 
    _SetThisFormInfo( k )
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnFormInit, k, mVar )
+   ENDIF
+
    IF !mdi  // JP MDI
       InitDummy( FormHandle )
    ENDIF
@@ -471,14 +484,16 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
    ENDIF
 
    IF ! ISNUMBER( w ) .AND. ! ISNUMBER( h )
+
       IF ! ISNUMBER( clientwidth ) .AND. ! ISNUMBER( clientheight )
          w := GetDesktopWidth() * 0.614
          h := ( GetDesktopHeight() - GetTaskBarHeight() ) * 0.614
       ELSE
          mVar := ( nocaption .AND. nosize )
-         w := ClientWidth + iif( mVar, 0, GetBorderWidth() ) + iif( mVar .OR. IsThemed() .AND. nosize, 0, GetBorderWidth() ) - iif( mVar .OR. (!IsThemed() .AND. !nosize) .OR. (IsThemed() .AND. !nocaption .AND. !nosize), 0, 2 )
-         h := ClientHeight + iif( nocaption, 0, GetTitleHeight() ) + iif( mVar .OR. IsThemed() .AND. nosize, 0, GetBorderWidth() ) + iif( mVar, 0, GetBorderWidth() ) - iif( mVar .OR. (!IsThemed() .AND. !nosize) .OR. (IsThemed() .AND. !nocaption .AND. !nosize), 0, 2 )
+         w := ClientWidth + iif( mVar, 0, GetBorderWidth() ) + iif( mVar .OR. _HMG_IsThemed .AND. nosize, 0, GetBorderWidth() ) - iif( mVar .OR. (!_HMG_IsThemed .AND. !nosize) .OR. (_HMG_IsThemed .AND. !nocaption .AND. !nosize), 0, 2 )
+         h := ClientHeight + iif( nocaption, 0, GetTitleHeight() ) + iif( mVar .OR. _HMG_IsThemed .AND. nosize, 0, GetBorderWidth() ) + iif( mVar, 0, GetBorderWidth() ) - iif( mVar .OR. (!_HMG_IsThemed .AND. !nosize) .OR. (_HMG_IsThemed .AND. !nocaption .AND. !nosize), 0, 2 )
       ENDIF
+
    ENDIF
 
    mVar := '_' + FormName
@@ -525,7 +540,7 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
    ENDIF
 
    IF MSC_VER() > 0
-      IF nosize .AND. !nocaption .AND. IsThemed()
+      IF nosize .AND. !nocaption .AND. _HMG_IsThemed
          w += 10
          h += 10
       ENDIF
@@ -554,7 +569,7 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
    BrushHandle := RegisterWindow( icon, ClassName, aRGB )
    Formhandle := InitModalWindow ( Caption, x, y, w, h, Parent, nosize, nosysmenu, nocaption, ClassName, vscroll, hscroll, helpbutton )
 
-   IF Empty( _HMG_InteractiveClose ) .AND. !nosysmenu .AND. !nocaption
+   IF Empty ( _HMG_InteractiveClose ) .AND. !nosysmenu .AND. !nocaption
       xDisableCloseButton( FormHandle, .F. )
    ENDIF
 
@@ -691,6 +706,10 @@ FUNCTION _DefineModalWindow ( FormName, Caption, x, y, w, h, Parent, nosize, nos
    ENDIF
 
    _SetThisFormInfo( k )
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnFormInit, k, mVar )
+   ENDIF
 
    InitDummy( FormHandle )
 
@@ -934,6 +953,10 @@ FUNCTION _DefineSplitChildWindow ( FormName, w, h, break, grippertext, nocaption
    _HMG_ActiveSplitChildIndex := k
    _SetThisFormInfo( k )
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnFormInit, k, mVar )
+   ENDIF
+
    InitDummy( FormHandle )
 
    AAdd ( _HMG_aFormSplitChildList[ i ], _HMG_ActiveSplitChildIndex )
@@ -1013,7 +1036,7 @@ FUNCTION _SetNotifyIconName ( FormName, IconName )
 
    _HMG_aFormNotifyIconName [ i ] := IconName
 
-RETURN ChangeNotifyIcon( _HMG_aFormHandles [ i ], LoadTrayIcon( GetInstance(), IconName ), _HMG_aFormNotifyIconTooltip [ i ] )
+RETURN ChangeNotifyIcon( _HMG_aFormHandles [ i ], LoadTrayIcon( GetResources(), IconName ), _HMG_aFormNotifyIconTooltip [ i ] )
 
 *-----------------------------------------------------------------------------*
 FUNCTION _SetNotifyIconTooltip ( FormName, TooltipText )
@@ -1022,7 +1045,7 @@ FUNCTION _SetNotifyIconTooltip ( FormName, TooltipText )
 
    _HMG_aFormNotifyIconTooltip [ i ] := TooltipText
 
-RETURN ChangeNotifyIcon( _HMG_aFormHandles [ i ], LoadTrayIcon( GetInstance(), _HMG_aFormNotifyIconName [ i ] ), TooltipText )
+RETURN ChangeNotifyIcon( _HMG_aFormHandles [ i ], LoadTrayIcon( GetResources(), _HMG_aFormNotifyIconName [ i ] ), TooltipText )
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineSplitBox ( ParentForm, bottom, inverted )
@@ -1138,7 +1161,7 @@ FUNCTION InputBox ( cInputPrompt, cDialogCaption, cDefaultValue, nTimeout, cTime
       TITLE cDialogCaption;
       MODAL;
       ON SIZE _InputBoxAdjust( nTitleH, nBordW ) ;
-      ON INTERACTIVECLOSE iif( lOk, NIL, Eval( bCancel ) )
+      ON INTERACTIVECLOSE iif( lOk, NIL, _HMG_DialogCancelled := lCanceled := .T. )
 
       ON KEY ESCAPE ACTION Eval( bCancel )
 
@@ -1759,11 +1782,7 @@ PROCEDURE _hmg_OnHideFocusManagement ( i )
 RETURN
 
 *-----------------------------------------------------------------------------*
-#ifndef __XHARBOUR__
-FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam, ... )
-#else
-FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam, xParam1, xParam2 )
-#endif
+FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam )
 *-----------------------------------------------------------------------------*
    LOCAL lRetVal
 
@@ -1775,24 +1794,18 @@ FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam, xParam1, xPar
       RETURN .F.
    ENDIF
 #endif
-   IF ISBLOCK ( bBlock ) .AND. i > 0
+   IF ISBLOCK ( bBlock )
       _PushEventInfo()
       _HMG_ThisFormIndex := AScan ( _HMG_aFormHandles, _HMG_aControlParentHandles [ i ] )
       _HMG_ThisType := 'C'
       _HMG_ThisIndex := i
       _HMG_ThisFormName := _HMG_aFormNames[ _HMG_ThisFormIndex ]
       _HMG_ThisControlName := _HMG_aControlNames[ _HMG_ThisIndex ]
+
       IF _HMG_BeginWindowActive == .F. .OR. !( hb_defaultValue( cEventType, '' ) == 'CONTROL_ONCHANGE' ) .OR. _HMG_MainClientMDIHandle != 0
-         IF PCount() > 4
-#ifndef __XHARBOUR__
-            lRetVal := Eval ( bBlock, ... )
-#else
-            lRetVal := Eval ( bBlock, xParam1, xParam2 )
-#endif
-         ELSE
-            lRetVal := Eval ( bBlock, hb_defaultValue( nParam, 0 ) )
-         ENDIF
+         lRetVal := Eval ( bBlock, hb_defaultValue( nParam, 0 ) )
       ENDIF
+
       _PopEventInfo()
       lRetVal := IFLOGICAL ( lRetVal, lRetVal, .T. )
    ELSE
@@ -1802,11 +1815,7 @@ FUNCTION _DoControlEventProcedure ( bBlock, i, cEventType, nParam, xParam1, xPar
 RETURN lRetVal
 
 *-----------------------------------------------------------------------------*
-#ifndef __XHARBOUR__
-FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType, ... )
-#else
-FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType, xParam1, xParam2 )
-#endif
+FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType )
 *-----------------------------------------------------------------------------*
    LOCAL lRetVal := .F.
 
@@ -1818,7 +1827,7 @@ FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType, xParam1, xParam2 )
       RETURN .F.
    ENDIF
 #endif
-   IF ISBLOCK( bBlock ) .AND. i > 0
+   IF ISBLOCK( bBlock )
       _PushEventInfo()
       _HMG_ThisFormIndex := i
       _HMG_ThisEventType := hb_defaultValue( cEventType, '' )
@@ -1826,15 +1835,9 @@ FUNCTION _DoWindowEventProcedure ( bBlock, i, cEventType, xParam1, xParam2 )
       _HMG_ThisIndex := i
       _HMG_ThisFormName := _HMG_aFormNames[ _HMG_ThisFormIndex ]
       _HMG_ThisControlName :=  ""
-      IF PCount() > 3
-#ifndef __XHARBOUR__
-         lRetVal := Eval ( bBlock, ... )
-#else
-         lRetVal := Eval ( bBlock, xParam1, xParam2 )
-#endif
-      ELSE
-         lRetVal := Eval ( bBlock )
-      ENDIF
+
+      lRetVal := Eval ( bBlock )
+
       _PopEventInfo()
    ENDIF
 
@@ -1901,19 +1904,19 @@ FUNCTION _GetGridCellData ( i )
 RETURN aCellData
 
 *-----------------------------------------------------------------------------*
-FUNCTION IsThemed()
+FUNCTION IsThemed ()
 *-----------------------------------------------------------------------------*
    LOCAL aRetVal := GetDllVersion( "comctl32.dll" )
 
-   IF IsXPThemeActive() .AND. ;
-      ( IsAppXPThemed() .AND. aRetVal[ 1 ] >= 6 .OR. aRetVal[ 1 ] == 6 .AND. aRetVal[ 2 ] >= 10 )
+   IF IsXPThemeActive () .AND. ;
+      ( IsAppXPThemed () .AND. aRetVal[ 1 ] >= 6 .OR. aRetVal[ 1 ] == 6 .AND. aRetVal[ 2 ] >= 10 )
       RETURN .T.
    ENDIF
 
 RETURN .F.
 
 *-----------------------------------------------------------------------------*
-FUNCTION IsAppXPThemed()
+FUNCTION IsAppXPThemed ()
 *-----------------------------------------------------------------------------*
    LOCAL uResult := .F.
 
@@ -1926,7 +1929,7 @@ FUNCTION IsAppXPThemed()
 RETURN uResult
 
 *-----------------------------------------------------------------------------*
-FUNCTION IsXPThemeActive()
+FUNCTION IsXPThemeActive ()
 *-----------------------------------------------------------------------------*
    LOCAL uResult := .F.
 
@@ -2211,26 +2214,34 @@ RETURN ( _HMG_aFormHandles [ i ] )
 *-----------------------------------------------------------------------------*
 FUNCTION ReleaseAllWindows ()
 *-----------------------------------------------------------------------------*
-   LOCAL i, FormHandle, ControlType
-   LOCAL hMenu, oGif
+   LOCAL i, FormHandle, ControlType, hMenu, oGif
 
    IF _HMG_ThisEventType == 'WINDOW_RELEASE'
-      MsgMiniGuiError( "Release a window in its own ON RELEASE procedure or release the Main Window in any ON RELEASE procedure is not allowed." )
+      MsgMiniGuiError ( "Release a window in its own ON RELEASE procedure or release the Main Window in any ON RELEASE procedure is not allowed." )
    ENDIF
 
    FOR EACH FormHandle IN _HMG_aFormHandles
 
-      i := hb_enumindex( FormHandle )
+      i := hb_enumindex ( FormHandle )
 
       IF _HMG_aFormActive [ i ] == .T.
 
          IF ErrorLevel() == 0
+
             _DoWindowEventProcedure ( _HMG_aFormReleaseProcedure [ i ], i, 'WINDOW_RELEASE' )
+
+            IF _HMG_lOOPEnabled
+               Eval ( _HMG_bOnFormDestroy, i )
+            ENDIF
+
          ENDIF
 
          IF ! Empty ( _HMG_aFormNotifyIconName [ i ] )
+
             _HMG_aFormNotifyIconName [ i ] := ''
+
             ShowNotifyIcon ( FormHandle, .F., NIL, NIL )
+
          ENDIF
 
       ENDIF
@@ -2243,30 +2254,43 @@ FUNCTION ReleaseAllWindows ()
 
    FOR EACH ControlType IN _HMG_aControlType
 
-      i := hb_enumindex( ControlType )
+      i := hb_enumindex ( ControlType )
 
       IF ControlType == 'HOTKEY'
+
          ReleaseHotKey ( _HMG_aControlParentHandles [ i ], _HMG_aControlIds [ i ] )
 
       ELSEIF ControlType == 'FONT'
+
          IF _HMG_aControlDeleted [ i ] == .F.
             _EraseFontDef ( i )
          ENDIF
 
       ELSEIF ControlType == 'ANIGIF'
+
          IF _HMG_aControlDeleted [ i ] == .F.
             oGif := _HMG_aControlIds [ i ]
             oGif:End()  // Release Animated GIF
          ENDIF
+
+      ELSEIF ControlType == 'CHECKLABEL'
+
+         _EraseControl ( i , AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [ i ] ) )
 
       ENDIF
 
    NEXT
 
    OleDataRelease()
+
    UnloadRichEditLib()
 
+   GdiplusShutdown()
+
+   FreeResources()
+
    dbCloseAll()
+
 #ifndef __XHARBOUR__
    IF ErrorLevel() == 0 .AND. ! hb_mtvm()
 #else
@@ -2419,7 +2443,7 @@ FUNCTION _HideWindow ( FormName )
          IF _HMG_aFormType [ i ] == 'M'
 
             IF _HMG_ActiveModalHandle <> FormHandle
-               MsgMiniGuiError( "Non top modal windows can't be hide." )
+               MsgMiniGuiError ( "Non top modal windows can't be hide." )
             ENDIF
 
          ENDIF
@@ -2659,117 +2683,5 @@ STATIC PROCEDURE EfeitoLabel ( cTxt )
    SetProperty( cFormName, "Message", "Value", cDescEfeito )
 
 RETURN
-
-*-----------------------------------------------------------------------------*
-FUNCTION PrintWindow ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeight )
-*-----------------------------------------------------------------------------*
-   LOCAL lSuccess, nOrientation
-   LOCAL TempName, W, H, HO, VO
-   LOCAL bw, bh, r, tw := 0, th
-   LOCAL ntop, nleft, nbottom, nright
-
-   IF ValType ( nRow ) == 'U' .OR. ;
-      ValType ( nCol ) == 'U' .OR. ;
-      ValType ( nWidth ) == 'U' .OR. ;
-      ValType ( nHeight ) == 'U'
-
-      ntop := -1
-      nleft := -1
-      nbottom := -1
-      nright := -1
-
-   ELSE
-
-      ntop := nRow
-      nleft := nCol
-      nbottom := nHeight + nRow
-      nright := nWidth + nCol
-
-   ENDIF
-
-   IF ValType ( lDialog ) == 'U'
-      lDialog := .F.
-   ENDIF
-
-   IF ValType ( lPreview ) == 'U'
-      lPreview := .F.
-   ENDIF
-
-   IF ! _IsWIndowDefined ( cWindowName )
-      MsgMiniGuiError ( _HMG_BRWLangError[ 1 ] + cWindowName + _HMG_BRWLangError[ 2 ], .F. )
-   ENDIF
-
-   IF ntop == -1
-
-      bw := GetProperty ( cWindowName, 'Width' )
-      bh := GetProperty ( cWindowName, 'Height' ) - GetTitleHeight ()
-
-   ELSE
-
-      bw := nright - nleft
-      bh := nbottom - ntop
-
-   ENDIF
-
-   IF lDialog
-
-      IF lPreview
-         SELECT PRINTER DIALOG TO lSuccess PREVIEW
-      ELSE
-         SELECT PRINTER DIALOG TO lSuccess
-      ENDIF
-
-      IF ! lSuccess
-         RETURN NIL
-      ENDIF
-
-   ELSE
-
-      nOrientation := iif( bw > bh, PRINTER_ORIENT_LANDSCAPE, PRINTER_ORIENT_PORTRAIT )
-
-      IF lPreview
-         SELECT PRINTER DEFAULT TO lSuccess ORIENTATION nOrientation PREVIEW
-      ELSE
-         SELECT PRINTER DEFAULT TO lSuccess ORIENTATION nOrientation
-      ENDIF
-
-      IF ! lSuccess
-         MsgMiniGuiError ( _HMG_aLangUser[ 25 ] )
-      ENDIF
-
-   ENDIF
-
-   TempName := GetTempFolder() + '\_hmg_printwindow_' + hb_ntos( Int( Seconds() * 100 ) ) + '.bmp'
-
-   SaveWindowByHandle ( GetFormHandle ( cWindowName ), TempName, ntop, nleft, nbottom, nright )
-
-   HO := GetPrintableAreaHorizontalOffset()
-   VO := GetPrintableAreaVerticalOffset()
-
-   W := GetPrintableAreaWidth() - 10 - HO * 2
-   H := GetPrintableAreaHeight() - 10 - VO * 2
-
-   r := bw / bh
-
-   REPEAT
-
-      th := ++tw / r
-
-   UNTIL ( tw < w .OR. th < h )
-
-   START PRINTDOC
-
-      START PRINTPAGE
-
-         @ VO + 10 + ( h - th ) / 2, HO + 10 + ( w - tw ) / 2 PRINT IMAGE TempName WIDTH tW HEIGHT tH
-
-      END PRINTPAGE
-
-   END PRINTDOC
-
-   DO EVENTS
-   FErase( TempName )
-
-RETURN NIL
 
 #endif

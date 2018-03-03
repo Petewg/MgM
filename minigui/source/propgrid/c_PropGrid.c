@@ -1620,7 +1620,7 @@ HB_FUNC( ADDPGITEM )
    tvi.state = INDEXTOSTATEIMAGEMASK( hb_parni(6) );
    tvi.lParam = ( LPARAM ) pData;
 
-   #ifdef __BORLANDC__
+   #if ( defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 )
    is.DUMMYUNIONNAME.item = tvi;
    #else
    is.item = tvi;

@@ -49,14 +49,10 @@
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 void InterpretHotKey( UINT setting, TCHAR * szKeyName )
 {
@@ -126,7 +122,7 @@ HB_FUNC( INITHOTKEYBOX )
       hb_parni( 5 ),
       hWnd,
       NULL,
-      g_hInstance,
+      GetInstance(),
       NULL
                 );
 

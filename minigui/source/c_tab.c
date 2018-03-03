@@ -54,7 +54,8 @@
 
 extern BOOL Array2Point( PHB_ITEM aPoint, POINT * pt );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 // JD 11/05/2006
 
@@ -135,7 +136,7 @@ HB_FUNC( INITTABCONTROL )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -254,7 +255,7 @@ HB_FUNC( ADDTABBITMAP )
 
       himl = ImageList_LoadImage
              (
-         g_hInstance,
+         GetResources(),
          caption,
          0,
          l,
@@ -266,7 +267,7 @@ HB_FUNC( ADDTABBITMAP )
       if( himl == NULL )
          himl = ImageList_LoadImage
                 (
-            0,
+            GetResources(),
             caption,
             0,
             l,
@@ -298,7 +299,7 @@ HB_FUNC( ADDTABBITMAP )
                {
                   hbmp = ( HBITMAP ) LoadImage
                          (
-                     g_hInstance,
+                     GetInstance(),
                      caption,
                      IMAGE_BITMAP,
                      cx,

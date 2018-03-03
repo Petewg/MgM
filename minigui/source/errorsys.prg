@@ -111,7 +111,8 @@ STATIC FUNCTION DefError( oError )
 
    n := 1
    WHILE ! Empty( ProcName( ++n ) )
-      HtmText := "Called from " + ProcName( n ) + "(" + hb_ntos( ProcLine( n ) ) + ")"  + CRLF
+      HtmText := "Called from " + ProcName( n ) + "(" + hb_ntos( ProcLine( n ) ) + ")" + ;
+         iif( ProcLine( n ) > 0, " in module: " + ProcFile( n ), "" ) + CRLF
       cText += HtmText
       Html_LineText( HtmArch, HtmText )
    ENDDO

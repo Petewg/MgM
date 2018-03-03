@@ -269,6 +269,10 @@ FUNCTION _DefineListbox ( ControlName, ParentFormName, x, y, w, h, arows, value,
    _HMG_aControlMiscData1 [k] := { multicolumn, multitabs }
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF Len( _HMG_aDialogTemplate ) == 0        //Dialog Template
 
       AEval ( Rows , { | r | ListboxAddString ( ControlHandle , r ) } )

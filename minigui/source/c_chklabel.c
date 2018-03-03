@@ -46,6 +46,7 @@
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 #include "hbapiitm.h"
 #include "hbvm.h"
@@ -57,7 +58,8 @@
 LRESULT APIENTRY ChkLabelFunc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 static WNDPROC LabelOldWndProc;
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 typedef struct
 {
@@ -255,16 +257,16 @@ HB_FUNC( INITCHKLABEL )
       hb_parni( 7 ),
       hwnd,
       ( HMENU ) HB_PARNL( 3 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
    if( hb_parc( 19 ) != NULL )
    {
-      himage = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 19 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS );
+      himage = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 19 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS );
 
       if( himage == NULL )
-         himage = ( HBITMAP ) LoadImage( 0, hb_parc( 19 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS );
+         himage = ( HBITMAP ) LoadImage( NULL, hb_parc( 19 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS );
 
    }
    else
@@ -272,10 +274,10 @@ HB_FUNC( INITCHKLABEL )
 
    if( hb_parc( 20 ) != NULL )
    {
-      himage2 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 20 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS );
+      himage2 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 20 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS );
 
       if( himage2 == NULL )
-         himage2 = ( HBITMAP ) LoadImage( 0, hb_parc( 20 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS );
+         himage2 = ( HBITMAP ) LoadImage( NULL, hb_parc( 20 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS );
 
    }
    else
@@ -302,11 +304,9 @@ HB_FUNC( SETCHKLABEL )
    ShowWindow( hWnd, SW_HIDE );
    InvalidateRect( hWnd, &rect, TRUE );
 
-
    GetCheck( pbtn, &rect );
    DrawCheck( hWnd, pbtn, &rect );
    ShowWindow( hWnd, SW_SHOW );
-
 }
 
 HB_FUNC( GETCHKLABEL )
@@ -314,9 +314,8 @@ HB_FUNC( GETCHKLABEL )
    HWND     hWnd = ( HWND ) HB_PARNL( 1 );
    INSCHK * pbtn = ( INSCHK * ) GetWindowLongPtr( hWnd, GWLP_USERDATA );
 
-   hb_retl( ( BOOL ) pbtn->lCheck  );
+   hb_retl( ( BOOL ) pbtn->lCheck );
 }
-
 
 LRESULT APIENTRY ChkLabelFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
 {

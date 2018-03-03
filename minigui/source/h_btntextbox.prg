@@ -278,6 +278,10 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
    _HMG_aControlMiscData1 [k] := { 0, lBtn2, disableedit, lDefault, keepfocus }
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF .NOT. lDialogInMemory
       // With NUMERIC clause, transform numeric value into a string.
       IF lNumeric

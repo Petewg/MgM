@@ -55,7 +55,8 @@
 
 #include <mgdefs.h>
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 HB_FUNC( LOADCURSOR )
 {
@@ -83,9 +84,9 @@ HB_FUNC( FILECURSOR )
 HB_FUNC( CURSORHAND )
 {
 #if ( WINVER >= 0x0500 )
-   HB_RETNL( ( LONG_PTR ) SetCursor( LoadCursor( 0, IDC_HAND ) ) );
+   HB_RETNL( ( LONG_PTR ) SetCursor( LoadCursor( NULL, IDC_HAND ) ) );
 #else
-   HB_RETNL( ( LONG_PTR ) SetCursor( LoadCursor( g_hInstance, "MINIGUI_FINGER" ) ) );
+   HB_RETNL( ( LONG_PTR ) SetCursor( LoadCursor( GetInstance(), "MINIGUI_FINGER" ) ) );
 #endif
 }
 
@@ -94,7 +95,7 @@ HB_FUNC( SETWINDOWCURSOR )
    HCURSOR ch;
    LPCSTR  lpCursorName = ( hb_parinfo( 2 ) & HB_IT_STRING ) ? hb_parc( 2 ) : MAKEINTRESOURCE( hb_parni( 2 ) );
 
-   ch = LoadCursor( ( HB_ISCHAR( 2 ) ) ? g_hInstance : NULL, lpCursorName );
+   ch = LoadCursor( ( HB_ISCHAR( 2 ) ) ? GetResources() : NULL, lpCursorName );
 
    if( ( ch == NULL ) && HB_ISCHAR( 2 ) )
       ch = LoadCursorFromFile( lpCursorName );
@@ -111,6 +112,6 @@ HB_FUNC( SETHANDCURSOR )
 #if ( WINVER >= 0x0500 )
                  ( LONG_PTR ) LoadCursor( NULL, IDC_HAND ) );
 #else
-                 ( LONG_PTR ) LoadCursor( g_hInstance, "MINIGUI_FINGER" ) );
+                 ( LONG_PTR ) LoadCursor( GetInstance(), "MINIGUI_FINGER" ) );
 #endif
 }

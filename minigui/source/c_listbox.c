@@ -56,7 +56,7 @@
 
 #define TOTAL_TABS  10
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITLISTBOX )
 {
@@ -93,7 +93,7 @@ HB_FUNC( INITLISTBOX )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -158,7 +158,7 @@ HB_FUNC( INITMULTILISTBOX )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 

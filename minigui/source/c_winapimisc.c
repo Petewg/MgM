@@ -54,6 +54,7 @@
 #include <shlobj.h>
 #include <shlwapi.h>
 
+#include "hbapierr.h"
 #include "hbapiitm.h"
 #include "hbapifs.h"
 #include "inkey.ch"
@@ -62,11 +63,16 @@
 char * itoa( int __value, char * __string, int __radix );
 #endif
 
+#if defined( _MSC_VER ) && ! defined( __POCC__ )
+# define itoa( __value, __string, __radix )  _itoa( __value, __string, __radix )
+#endif
+
 #if defined( __XHARBOUR__ )
-#define HB_LONGLONG  LONGLONG
+# define HB_LONGLONG  LONGLONG
 extern HB_EXPORT void   hb_evalBlock0( PHB_ITEM pCodeBlock );
 #endif
 extern HB_EXPORT BOOL Array2Rect( PHB_ITEM aRect, RECT * rc );
+extern HB_EXPORT PHB_ITEM Rect2Array( RECT * rc );
 extern void hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
 
 typedef HMODULE ( __stdcall * SHGETFOLDERPATH )( HWND, int, HANDLE, DWORD, LPTSTR );
@@ -241,7 +247,7 @@ HB_FUNC( RETRIEVETEXTFROMCLIPBOARD )
    else
       hb_retc( NULL );
 }
-#endif
+#endif /* defined( __WIN98__ ) || defined( __XHARBOUR__ ) */
 
 HB_FUNC( CLEARCLIPBOARD )
 {
@@ -276,8 +282,10 @@ HB_FUNC( GETKEYSTATE )
 }
 
 #ifndef USER_TIMER_MINIMUM
-  #define USER_TIMER_MINIMUM  0x0000000A
-  #define USER_TIMER_MAXIMUM  0x7FFFFFFF
+# define USER_TIMER_MINIMUM  0x0000000A
+#endif
+#ifndef USER_TIMER_MAXIMUM
+# define USER_TIMER_MAXIMUM  0x7FFFFFFF
 #endif
 
 HB_FUNC( INKEYGUI )
@@ -392,7 +400,7 @@ HB_FUNC( C_GETDLLSPECIALFOLDER )
       FreeLibrary( hModule );
    }
 }
-#endif
+#endif /* __WIN98__ */
 
 // Memory Management Functions
 typedef BOOL ( WINAPI * GetPhysicallyInstalledSystemMemory_ptr )( ULONGLONG * );
@@ -1077,8 +1085,81 @@ HB_FUNC( FILLRECT )
       hb_retni( 0 );
 }
 
+#if defined( __MINGW32__ )
+# pragma GCC diagnostic push
+# pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif  /* __MINGW32__ */
+
+BOOL IsAppHung( IN HWND hWnd, OUT PBOOL pbHung )
+{
+   OSVERSIONINFO osvi;
+   HINSTANCE     hUser;
+
+   if( ! IsWindow( hWnd ) )
+      return SetLastError( ERROR_INVALID_PARAMETER ), FALSE;
+
+   osvi.dwOSVersionInfoSize = sizeof( osvi );
+
+   // detect OS version
+   GetVersionEx( &osvi );
+
+   // get handle of USER32.DLL
+   hUser = GetModuleHandle( TEXT( "user32.dll" ) );
+
+   if( osvi.dwPlatformId == VER_PLATFORM_WIN32_NT )
+   {
+      BOOL ( WINAPI * _IsHungAppWindow )( HWND );
+
+      // found the function IsHungAppWindow
+      *( FARPROC * )&_IsHungAppWindow =
+         GetProcAddress( hUser, "IsHungAppWindow" );
+      if( _IsHungAppWindow == NULL )
+         return SetLastError( ERROR_PROC_NOT_FOUND ), FALSE;
+
+      // call the function IsHungAppWindow
+      *pbHung = _IsHungAppWindow( hWnd );
+   }
+   else
+   {
+      DWORD dwThreadId = GetWindowThreadProcessId( hWnd, NULL );
+
+      BOOL ( WINAPI * _IsHungThread )( DWORD );
+
+      // found the function IsHungThread
+      *( FARPROC * )&_IsHungThread =
+         GetProcAddress( hUser, "IsHungThread" );
+      if( _IsHungThread == NULL )
+         return SetLastError( ERROR_PROC_NOT_FOUND ), FALSE;
+
+      // call the function IsHungThread
+      *pbHung = _IsHungThread( dwThreadId );
+   }
+
+   return TRUE;
+}
+
+#if defined( __MINGW32__ )
+# pragma GCC diagnostic pop
+#endif  /* __MINGW32__ */
+
+HB_FUNC( ISAPPHUNG )
+{
+   BOOL bIsHung;
+
+   if( IsAppHung( ( HWND ) HB_PARNL( 1 ), &bIsHung ) )
+      hb_retl( bIsHung );
+   else
+   {
+      if( GetLastError() != ERROR_INVALID_PARAMETER )
+      {
+         MessageBox( NULL, "Process not found", "Warning", MB_OK | MB_ICONWARNING );
+      }
+      hb_retl( HB_FALSE );
+   }
+}
+
 #ifndef PROCESS_QUERY_LIMITED_INFORMATION
-#define PROCESS_QUERY_LIMITED_INFORMATION  ( 0x1000 )
+  #define PROCESS_QUERY_LIMITED_INFORMATION  ( 0x1000 )
 #endif
 
 // EmptyWorkingSet( [ ProcessID ] ) ---> lBoolean
@@ -1218,6 +1299,23 @@ HB_FUNC( GETTEXTMETRIC )
    hb_itemReturnRelease( aMetr );
 }
 
+HB_FUNC( _GETCLIENTRECT )
+{
+   RECT rc;
+   HWND hWnd = ( HWND ) HB_PARNL( 1 );
+
+   if( IsWindow( hWnd ) )
+   {
+      GetClientRect( hWnd, &rc );
+
+      hb_itemReturnRelease( Rect2Array( &rc ) );
+   }
+   else
+   {
+      hb_errRT_BASE_SubstR( EG_ARG, 0, "MiniGUI Err.", HB_ERR_FUNCNAME, 1, hb_paramError( 1 ) );
+   }
+}
+
 // Grigory Filatov <gfilatov@inbox.ru> HMG 1.1 Experimental Build 17d
 HB_FUNC( ISOEMTEXT )
 {
@@ -1302,6 +1400,7 @@ HB_FUNC( DRAGFINISH )
 }
 
 #ifdef __XCC__
+
 char * itoa( int n, char s[], int base )
 {
    int d = n % base;
@@ -1322,4 +1421,5 @@ char * itoa( int n, char s[], int base )
 
    return s;
 }
-#endif
+
+#endif /* __XCC__ */

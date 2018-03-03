@@ -211,23 +211,27 @@ _DefineMenuPopup( <caption> , <"name"> , <image> , <font> )
 
 #xcommand ITEM <caption> [ ACTION <action> ] [ NAME <name> ] [ IMAGE <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
+   [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> )
+_DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.>, , <.default.> )
 
 #xcommand MENUITEM <caption> [ <dummy1: ACTION, ONCLICK> <action> ] [ NAME <name> ] [ IMAGE <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
+   [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> )
+_DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.>, , <.default.> )
 
 #xcommand ITEM <caption> [ ACTION <action> ] [ NAME <name> ] [ ICON <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
+   [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image> )
+_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image>, <.default.> )
 
 #xcommand MENUITEM <caption> [ <dummy1: ACTION, ONCLICK> <action> ] [ NAME <name> ] [ ICON <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
+   [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image> )
+_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image>, <.default.> )
 
 #xcommand SEPARATOR ;
 => ;
@@ -264,6 +268,10 @@ _CheckMenuItem ( <"control"> , <"form"> )
 #command UNCHECK MENUITEM <control> OF <form>;
 => ;
 _UnCheckMenuItem ( <"control"> , <"form"> )
+
+#command SET DEFAULT MENUITEM <control> OF <form>;
+=> ;
+_DefaultMenuItem ( <"control"> , <"form"> )
 
 #xcommand MRU [ <caption> ] ;
 	[ <Ini: INI, FILENAME, FILE, DISK> <cIniFile> ] ;

@@ -138,23 +138,26 @@
 		<.ownerdata.> , ;
 		<{dispinfo}> ,  ;
 		<itemcount> , 	;
-		<.edit.> ,  ;
+		<.edit.> ,	;
 		<dynamicforecolor> , ;
 		<dynamicbackcolor> , ;
 		<.multiselect.> , ;
 		<editcontrols> , ;
-		<backcolor> , ;
-		<fontcolor> ,;
-		<nId>,;
-		<columnvalid> ,;
-		<columnwhen> ,;
+		<backcolor> ,	;
+		<fontcolor> ,	;
+		<nId>,		;
+		<columnvalid> ,	;
+		<columnwhen> ,	;
 		<aValidMessages> ,;
 		!<.noshowheaders.> ,;
 		<aImageHeader> ,;
-		<.notabstop.> ,;
-		<.cell.> ,;
+		<.notabstop.> ,	;
+		<.cell.> ,	;
 		<.checkboxes.> ,;
-		<lockcolumns> , <{OnCheckBoxClicked}> , <.doublebuffer.> , <.nosortheaders.> , <columnsort> )
+		<lockcolumns> , ;
+		<{OnCheckBoxClicked}> , ;
+		<.doublebuffer.> , ;
+		<.nosortheaders.> , <columnsort> )
 
 #command REDEFINE GRID <name> 		;
 		[ ID <nId> ]		;

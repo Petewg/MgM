@@ -120,7 +120,7 @@ HB_FUNC( GETCLASSINFO )
       hb_retclen( ( char * ) &WndClass, sizeof( WNDCLASS ) );
    }
 }
-
+/*
 HB_FUNC( _GETCLIENTRECT )
 {
    RECT     rc;
@@ -133,7 +133,7 @@ HB_FUNC( _GETCLIENTRECT )
    _itemReturn( aMetr );
    _itemRelease( aMetr );
 }
-
+*/
 HB_FUNC( ISICONIC )
 {
    hb_retl( IsIconic( ( HWND ) HB_PARNL( 1 ) ) );

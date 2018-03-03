@@ -75,6 +75,7 @@
 	[ <blink: BLINK> ]  ;
 	[ HELPID <helpid> ] ;
 	[ <invisible: INVISIBLE> ] ;
+	[ <noprefix: NOPREFIX> ] ;
 => ;
 	_DefineLabel (    ;
 	<"name">,         ;
@@ -108,6 +109,7 @@
 	<{overproc}>,	  ;
 	<{leaveproc}>,	  ;
 	<.vcenteralign.>, ;
+	<.noprefix.>, ;
         <nId> )
 
 #command REDEFINE LABEL <name>  ;
@@ -136,6 +138,7 @@
 	[ <blink: BLINK> ]  ;
 	[ HELPID <helpid> ] ;
 	[ <invisible: INVISIBLE> ] ;
+	[ <noprefix: NOPREFIX> ] ;
     => ;
 	_DefineLabel ( <"name">, <"parent">, 0, 0, <value>, ;
 		0, 0, <fontname>, <fontsize>, <.bold.>, ;
@@ -143,4 +146,4 @@
 		<.transparent.> , [ <backcolor> ], [ <fontcolor> ], ;
 		<{action}>, <tooltip>, <helpid>, <.invisible.>, <.italic.>, ;
 		<.underline.> , <.strikeout.> , <.autosize.> , <.rightalign.> , ;
-		<.centeralign.> , <.blink.> , , , <.vcenteralign.> , <nId> )
+		<.centeralign.> , <.blink.> , , , <.vcenteralign.> , <.noprefix.> , <nId> )

@@ -139,6 +139,10 @@ FUNCTION _DefinePlayer ( ControlName, ParentFormName, file, x, y, w, h, noasw, n
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
 RETURN Nil
 *-----------------------------------------------------------------------------*
 FUNCTION PlayWave( wave, r, s, ns, l, nd )
@@ -150,7 +154,7 @@ FUNCTION PlayWave( wave, r, s, ns, l, nd )
 RETURN C_PlayWave( wave, r, s, ns, l, nd )
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, center, transparent, file, HelpId, border, nId )
+FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, center, transparent, file, HelpId, border, backcolor, nId )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle , blInit , ControlHandle , mVar , k , tooltip := '' , Style
    LOCAL lDialogInMemory
@@ -235,7 +239,7 @@ FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, c
    _HMG_aControlGotFocusProcedure  [k] :=  ""
    _HMG_aControlChangeProcedure  [k] :=  ""
    _HMG_aControlDeleted  [k] :=  .F.
-   _HMG_aControlBkColor  [k] :=  Nil
+   _HMG_aControlBkColor  [k] :=  backcolor
    _HMG_aControlFontColor  [k] :=  Nil
    _HMG_aControlDblClick  [k] :=  ""
    _HMG_aControlHeadClick  [k] :=  {}
@@ -263,6 +267,10 @@ FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, c
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF .NOT. lDialogInMemory
       IF ValType( file ) <> 'U'
          _OpenAnimateBox ( ControlName , ParentFormName , File )
@@ -275,8 +283,9 @@ RETURN Nil
 FUNCTION InitDialogAnimateBox( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
    LOCAL File
+
    File := _HMG_aControlCaption [k]
-   IF ValType( file ) <> 'U' .AND. ValType( ControlHandle ) <> 'U'
+   IF ValType( File ) <> 'U' .AND. ValType( ControlHandle ) <> 'U'
       _OpenAnimateBox ( _HMG_aControlNames [k] , ParentName , File )
    ENDIF
 // JP 62

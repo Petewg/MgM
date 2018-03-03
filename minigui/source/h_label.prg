@@ -53,7 +53,7 @@ FUNCTION _DefineLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
       fontname, fontsize, bold, BORDER, CLIENTEDGE, HSCROLL, VSCROLL, ;
       TRANSPARENT, aRGB_bk, aRGB_font, ProcedureName, tooltip, HelpId, invisible, ;
       italic, underline, strikeout, autosize, rightalign, centeralign, ;
-      blink, mouseover, mouseleave, VCenterAlign, nId )
+      blink, mouseover, mouseleave, VCenterAlign, NoPrefix, nId )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle, mVar, k := 0, Style, blInit
    LOCAL ControlHandle, FontHandle
@@ -159,7 +159,7 @@ FUNCTION _DefineLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      Controlhandle := InitLabel ( ParentFormHandle, Caption, 0, x, y, w, h, '', ( ISBLOCK( ProcedureName ) .OR. ISSTRING( tooltip ) ), ( ISBLOCK( mouseover ) .OR. ISBLOCK( mouseleave ) ) , border , clientedge , HSCROLL , VSCROLL , TRANSPARENT , invisible , rightalign , centeralign , VCenterAlign )
+      Controlhandle := InitLabel ( ParentFormHandle, Caption, 0, x, y, w, h, '', ( ISBLOCK( ProcedureName ) .OR. ISSTRING( tooltip ) ), ( ISBLOCK( mouseover ) .OR. ISBLOCK( mouseleave ) ) , border , clientedge , HSCROLL , VSCROLL , TRANSPARENT , invisible , rightalign , centeralign , VCenterAlign , NoPrefix )
 
    ENDIF
 
@@ -226,6 +226,10 @@ FUNCTION _DefineLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
    _HMG_aControlMiscData1 [k] :=  { 0, blink, .T. }
    _HMG_aControlMiscData2 [k] :=  ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF blink == .T. .AND. .NOT. lDialogInMemory
       _DefineTimer ( 'BlinkTimer' + hb_ntos( k ) , ParentFormName , 500 , {|| _HMG_aControlMiscData1 [k] [3] := ! _HMG_aControlMiscData1 [k] [3], ;
          iif( _HMG_aControlMiscData1 [k] [3] == .T. , _ShowControl ( ControlName , ParentFormName ), _HideControl ( ControlName , ParentFormName ) ) } )
@@ -233,7 +237,7 @@ FUNCTION _DefineLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
    IF autosize == .T. .AND. .NOT. lDialogInMemory
       _SetControlWidth ( ControlName , ParentFormName , GetTextWidth( NIL, Caption, FontHandle ) + ;
-         iif( bold == .T. .AND. IsXPThemeActive(), GetTextWidth( NIL, " ", FontHandle ), 0 ) ) // Fixed for problem with display bold label at themed WinXP
+         iif( bold == .T. .AND. _HMG_IsThemed, GetTextWidth( NIL, " ", FontHandle ), 0 ) ) // Fixed for problem with display bold label at themed WinXP
       _SetControlHeight ( ControlName , ParentFormName , FontSize + iif( FontSize < 12, 12, 16 ) )
    ENDIF
 
@@ -251,7 +255,7 @@ FUNCTION InitDialogLabel( ParentFormName, ControlHandle, k )
 
    IF _HMG_aControlSpacing [k] == 1
       _SetControlWidth ( ControlName , ParentFormName , GetTextWidth( NIL, _HMG_aControlCaption [k] , _HMG_aControlFontHandle [k] ) + ;
-         iif( _HMG_aControlFontAttributes [k] [1] == .T. .AND. IsXPThemeActive(), GetTextWidth( NIL, " ", _HMG_aControlFontHandle [k] ), 0 ) ) // Fixed for problem with display bold label at themed WinXP
+         iif( _HMG_aControlFontAttributes [k] [1] == .T. .AND. _HMG_IsThemed, GetTextWidth( NIL, " ", _HMG_aControlFontHandle [k] ), 0 ) ) // Fixed for problem with display bold label at themed WinXP
       _SetControlHeight ( ControlName , ParentFormName , _HMG_aControlFontSize [k] + iif( _HMG_aControlFontSize [k] < 12, 12, 16 ) )
       RedrawWindow ( ControlHandle )
    ENDIF

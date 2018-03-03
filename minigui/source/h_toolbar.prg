@@ -149,6 +149,10 @@ FUNCTION _DefineToolBar ( ControlName, ParentForm, x, y, caption, ProcedureName,
    _HMG_aControlMiscData1 [k] :=  0
    _HMG_aControlMiscData2 [k] :=  ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
 RETURN ControlHandle
 
 *-----------------------------------------------------------------------------*
@@ -289,6 +293,10 @@ FUNCTION _DefineToolButton ( ControlName, ParentControl, x, y, Caption, Procedur
    _HMG_aControlEnabled  [k] :=  .T.
    _HMG_aControlMiscData1 [k] :=  iif( _HMG_ActiveToolBarExtend, 1, 0 )
    _HMG_aControlMiscData2 [k] :=  ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    Caption := Upper ( Caption )
 

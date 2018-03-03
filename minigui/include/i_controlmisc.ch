@@ -261,6 +261,9 @@ _HMG_lMultiple := ( Upper(<(x)>) == "ON" ) ; iif ( _HMG_lMultiple == .F. .AND. _
   #define hb_OsNewLine()   hb_eol()
 #endif
 
+#translate SET OOP [SUPPORT] <x:ON,OFF> => _HMG_lOOPEnabled := ( Upper(<(x)>) == "ON" )
+#translate SET OOP [SUPPORT] TO <x>     => _HMG_lOOPEnabled := IFLOGICAL( <x>, <x>, .F. )
+
 #xtranslate SET SCROLLSTEP TO <step> => _HMG_aScrollStep \[1\] := <step>
 #xtranslate SET SCROLLPAGE TO <step> => _HMG_aScrollStep \[2\] := <step>
 

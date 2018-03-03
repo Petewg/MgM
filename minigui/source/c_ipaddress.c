@@ -51,7 +51,7 @@
 
 #include <commctrl.h>
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITIPADDRESS )
 {
@@ -85,7 +85,7 @@ HB_FUNC( INITIPADDRESS )
       hb_parni( 6 ),
       hWnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
                 );
 

@@ -63,7 +63,7 @@ extern HFONT PrepareFont( char *, int, int, int, int, int, int, int );
 #endif
 LRESULT CALLBACK  OwnMCProc( HWND hmonthcal, UINT Msg, WPARAM wParam, LPARAM lParam );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITMONTHCAL )
 {
@@ -102,7 +102,7 @@ HB_FUNC( INITMONTHCAL )
    if( ! hb_parl( 13 ) )
       Style = Style | WS_TABSTOP;
 
-   hmonthcal = CreateWindowEx( 0, MONTHCAL_CLASS, "", Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 2 ), g_hInstance, NULL );
+   hmonthcal = CreateWindowEx( 0, MONTHCAL_CLASS, "", Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 2 ), GetInstance(), NULL );
 
    SetProp( ( HWND ) hmonthcal, "oldmcproc", ( HWND ) GetWindowLongPtr( ( HWND ) hmonthcal, GWLP_WNDPROC ) );
    SetWindowLongPtr( hmonthcal, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnMCProc );

@@ -8,7 +8,7 @@
 
 -w2 -es2 -ko 
 
--cflag=-DWIN32_LEAN_AND_MEAN
+#-cflag=-DWIN32_LEAN_AND_MEAN
 
 SBMSG.PRG
 SCRLLBAR.PRG

@@ -970,18 +970,6 @@ HB_FUNC ( DRAWPICTURE )
     hb_retl (TRUE);
 }
 
-HB_FUNC ( GETDESKTOPAREA )
-{
- RECT rect;
- SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-
- hb_reta(4);
- HB_STORNI((INT) rect.top, -1, 1);
- HB_STORNI((INT) rect.left, -1, 2);
- HB_STORNI((INT) rect.right - rect.left, -1, 3);
- HB_STORNI((INT) rect.bottom - rect.top, -1, 4);
-}
-
 HB_FUNC ( C_PUTFILE2 )
 {
     OPENFILENAME ofn;

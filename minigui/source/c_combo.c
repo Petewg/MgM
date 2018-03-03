@@ -55,12 +55,8 @@
 #define WC_COMBOBOX  "ComboBox"
 #endif
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 HB_FUNC( INITCOMBOBOX )
 {
@@ -103,7 +99,7 @@ HB_FUNC( INITCOMBOBOX )
       hb_parni( 8 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -159,7 +155,7 @@ HB_FUNC( INITCOMBOBOXEX )
       hb_parni( 8 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
             );
 
@@ -175,7 +171,7 @@ HB_FUNC( INITCOMBOBOXEX )
 
       himl = ImageList_LoadImage
              (
-         g_hInstance,
+         GetResources(),
          caption,
          0,
          l,
@@ -185,7 +181,7 @@ HB_FUNC( INITCOMBOBOXEX )
              );
 
       if( himl == NULL )
-         himl = ImageList_LoadImage( 0, caption, 0, l, CLR_NONE, IMAGE_BITMAP, LR_LOADFROMFILE | LR_LOADTRANSPARENT );
+         himl = ImageList_LoadImage( GetResources(), caption, 0, l, CLR_NONE, IMAGE_BITMAP, LR_LOADFROMFILE | LR_LOADTRANSPARENT );
 
       ImageList_GetIconSize( himl, &cx, &cy );
 
@@ -193,9 +189,9 @@ HB_FUNC( INITCOMBOBOXEX )
       {
          caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
 
-         hbmp = ( HBITMAP ) LoadImage( g_hInstance, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
+         hbmp = ( HBITMAP ) LoadImage( GetResources(), caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
          if( hbmp == NULL )
-            hbmp = ( HBITMAP ) LoadImage( 0, caption, IMAGE_BITMAP, cx, cy, LR_LOADFROMFILE | LR_LOADTRANSPARENT );
+            hbmp = ( HBITMAP ) LoadImage( NULL, caption, IMAGE_BITMAP, cx, cy, LR_LOADFROMFILE | LR_LOADTRANSPARENT );
 
          ImageList_Add( himl, hbmp, NULL );
 
@@ -221,6 +217,14 @@ HB_FUNC( INITCOMBOBOXEX )
          );
 
    HB_RETNL( ( LONG_PTR ) hCombo );
+}
+
+HB_FUNC( COMBOSETITEMHEIGHT )
+{
+   HWND hWnd = ( HWND ) HB_PARNL( 1 );
+   int  iDesiredHeight = hb_parni( 2 );
+
+   SendMessage( hWnd, CB_SETITEMHEIGHT, ( WPARAM ) -1, ( LPARAM ) iDesiredHeight );
 }
 
 HB_FUNC( COMBOSHOWDROPDOWN )

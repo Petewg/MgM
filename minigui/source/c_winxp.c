@@ -60,13 +60,13 @@
 #include <commctrl.h>
 
 #ifdef __XCC__
-#ifndef _NO_W32_PSEUDO_MODIFIERS
-  #define IN
-  #define OUT
-#ifndef OPTIONAL
-  #define OPTIONAL
-#endif
-#endif
+# ifndef _NO_W32_PSEUDO_MODIFIERS
+#  define IN
+#  define OUT
+#  ifndef OPTIONAL
+#   define OPTIONAL
+#  endif
+# endif
 #endif
 
 typedef HANDLE HTHEME;
@@ -196,7 +196,7 @@ BOOL WINAPI IsThemePartDefined( HTHEME, int, int );
 HTHEME WINAPI OpenThemeData( HWND, LPCWSTR );
 void WINAPI SetThemeAppProperties( DWORD );
 HRESULT WINAPI SetWindowTheme( HWND, LPCWSTR, LPCWSTR );
-#endif
+#endif /* __WINE_UXTHEME_H */
 
 BOOL Array2Rect( PHB_ITEM aRect, RECT * rc );
 BOOL Array2Point( PHB_ITEM aPoint, POINT * pt );

@@ -46,18 +46,20 @@
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 
 #ifndef WC_BUTTON
-#define WC_BUTTON         "Button"
+# define WC_BUTTON         "Button"
 #endif
 
 #ifndef BCM_FIRST
-#define BCM_FIRST         0x1600
-#define BCM_SETIMAGELIST  ( BCM_FIRST + 0x0002 )
+# define BCM_FIRST         0x1600
+# define BCM_SETIMAGELIST  ( BCM_FIRST + 0x0002 )
 #endif
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 #if ( defined( __BORLANDC__ ) && __BORLANDC__ < 1410 ) || ( defined ( __MINGW32__ ) && defined ( __MINGW32_VERSION ) ) || defined ( __XCC__ )
 typedef struct
@@ -105,7 +107,7 @@ HB_FUNC( INITCHECKBOX )
          hb_parni( 9 ),
          hwnd,
          ( HMENU ) HB_PARNL( 3 ),
-         g_hInstance,
+         GetInstance(),
          NULL
                 );
    else
@@ -120,7 +122,7 @@ HB_FUNC( INITCHECKBOX )
          hb_parni( 9 ),
          hwnd,
          ( HMENU ) HB_PARNL( 3 ),
-         g_hInstance,
+         GetInstance(),
          NULL
                 );
 
@@ -154,7 +156,7 @@ HB_FUNC( INITCHECKBUTTON )
       hb_parni( 9 ),
       hwnd,
       ( HMENU ) HB_PARNL( 3 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -192,15 +194,15 @@ HB_FUNC( INITIMAGECHECKBUTTON )
       hb_parni( 10 ),
       hwnd,
       ( HMENU ) HB_PARNL( 3 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
    if( ! hb_parl( 13 ) )
    {
-      himage = ( HWND ) LoadImage( g_hInstance, hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage = ( HWND ) LoadImage( GetResources(), hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
       if( himage == NULL )
-         himage = ( HWND ) LoadImage( 0, hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+         himage = ( HWND ) LoadImage( NULL, hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       SendMessage( hbutton, ( UINT ) BM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) himage );
 
@@ -212,7 +214,7 @@ HB_FUNC( INITIMAGECHECKBUTTON )
    {
       himl = ImageList_LoadImage
              (
-         g_hInstance,
+         GetResources(),
          hb_parc( 8 ),
          0,
          6,
@@ -223,7 +225,7 @@ HB_FUNC( INITIMAGECHECKBUTTON )
       if( himl == NULL )
          himl = ImageList_LoadImage
                 (
-            g_hInstance,
+            GetResources(),
             hb_parc( 8 ),
             0,
             6,

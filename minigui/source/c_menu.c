@@ -50,7 +50,7 @@
    ----------------------------------------------------------------------*/
 
 #if ! defined( __WINNT__ )
-  #define __WINNT__
+# define __WINNT__
 #endif
 
 #include <mgdefs.h>
@@ -58,16 +58,15 @@
 #include "hbapiitm.h"
 
 #ifndef __XHARBOUR__
-#include "hbwinuni.h"
+# include "hbwinuni.h"
 #endif
 
 #include "c_menu.h"
 
 // extern functions
+HINSTANCE        GetResources( void );
 extern HBITMAP   Icon2Bmp( HICON hIcon );
 extern BOOL      SetAcceleratorTable( HWND, HACCEL );
-// extern variables
-extern HINSTANCE g_hInstance;
 
 HB_FUNC( SETACCELERATORTABLE )
 {
@@ -211,7 +210,7 @@ HB_FUNC( DESTROYACCELERATORTABLE )
 HB_FUNC( LOADACCELERATORS )
 {
    HACCEL    hAccel    = ( HACCEL ) NULL;
-   HINSTANCE hInstance = HB_ISNUM( 1 ) ? ( HINSTANCE ) HB_PARNL( 1 ) : g_hInstance;
+   HINSTANCE hInstance = HB_ISNUM( 1 ) ? ( HINSTANCE ) HB_PARNL( 1 ) : GetResources();
    LPCTSTR   lpTableName;
 
    if( HB_ISNUM( 2 ) )
@@ -241,7 +240,7 @@ HB_FUNC( LOADACCELERATORS )
 HB_FUNC( LOADMENU )
 {
    HMENU     hMenu     = ( HMENU ) NULL;
-   HINSTANCE hInstance = HB_ISNUM( 1 ) ? ( HINSTANCE ) HB_PARNL( 1 ) : g_hInstance;
+   HINSTANCE hInstance = HB_ISNUM( 1 ) ? ( HINSTANCE ) HB_PARNL( 1 ) : GetResources();
    LPCTSTR   lpMenuName;
 
    if( HB_ISNUM( 2 ) )
@@ -297,6 +296,11 @@ HB_FUNC( TRACKPOPUPMENU )
 HB_FUNC( SETMENU )
 {
    SetMenu( ( HWND ) HB_PARNL( 1 ), ( HMENU ) HB_PARNL( 2 ) );
+}
+
+HB_FUNC( SETMENUDEFAULTITEM )
+{
+   SetMenuDefaultItem( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), FALSE );
 }
 
 HB_FUNC( XCHECKMENUITEM )
@@ -448,9 +452,9 @@ HB_FUNC( MENUITEM_SETBITMAPS )
 {
    HBITMAP himage1;
 
-   himage1 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+   himage1 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
    if( himage1 == NULL )
-      himage1 = ( HBITMAP ) LoadImage( 0, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+      himage1 = ( HBITMAP ) LoadImage( NULL, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
 
    if( s_bCustomDraw )
    {
@@ -472,9 +476,9 @@ HB_FUNC( MENUITEM_SETBITMAPS )
    else
    {
       HBITMAP himage2;
-      himage2 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+      himage2 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
       if( himage2 == NULL )
-         himage2 = ( HBITMAP ) LoadImage( 0, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+         himage2 = ( HBITMAP ) LoadImage( NULL, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
 
       SetMenuItemBitmaps( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND, himage1, himage2 );
    }
@@ -489,13 +493,13 @@ HB_FUNC( MENUITEM_SETCHECKMARKS )
       HBITMAP      himage1;
       HBITMAP      himage2;
 
-      himage1 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+      himage1 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
       if( himage1 == NULL )
-         himage1 = ( HBITMAP ) LoadImage( 0, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+         himage1 = ( HBITMAP ) LoadImage( NULL, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
       {
-         himage2 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+         himage2 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
          if( himage2 == NULL )
-            himage2 = ( HBITMAP ) LoadImage( 0, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+            himage2 = ( HBITMAP ) LoadImage( NULL, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
       }
 
       MenuItemInfo.cbSize = sizeof( MENUITEMINFO );
@@ -523,9 +527,9 @@ HB_FUNC( MENUITEM_SETICON )
    HBITMAP himage1;
    HICON   hIcon;
 
-   hIcon = ( HICON ) LoadImage( g_hInstance, hb_parc( 3 ), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR );
+   hIcon = ( HICON ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR );
    if( hIcon == NULL )
-      hIcon = ( HICON ) LoadImage( 0, hb_parc( 3 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+      hIcon = ( HICON ) LoadImage( NULL, hb_parc( 3 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
 
    // convert icon to bitmap
    himage1 = Icon2Bmp( hIcon );

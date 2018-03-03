@@ -50,8 +50,10 @@
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 #include "richedit.h"
+
 #include "hbapiitm.h"
 #include "hbstack.h"
 #include "hbvm.h"
@@ -61,17 +63,13 @@
 #define WC_BUTTON  "Button"
 #endif
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 #define GBB1       2
 #define GBB2       3
 
 LRESULT CALLBACK  OwnGetProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 HB_FUNC( INITGETBOX )
 {
@@ -142,7 +140,7 @@ HB_FUNC( INITGETBOX )
       hb_parni( 6 ),
       ( HWND ) hwnd,
       ( HMENU ) NULL,
-      g_hInstance,
+      GetInstance(),
       NULL
            );
 
@@ -153,10 +151,10 @@ HB_FUNC( INITGETBOX )
 
    if( hb_parc( 18 ) != NULL )
    {
-      himage = ( HWND ) LoadImage( g_hInstance, hb_parc( 18 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage = ( HWND ) LoadImage( GetResources(), hb_parc( 18 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage == NULL )
-         himage = ( HWND ) LoadImage( 0, hb_parc( 18 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+         himage = ( HWND ) LoadImage( NULL, hb_parc( 18 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage != NULL )
       {
@@ -165,10 +163,10 @@ HB_FUNC( INITGETBOX )
          if( bm.bmWidth > BtnWidth - 4 || bm.bmHeight > hb_parni( 6 ) - 5 )
          {
             DeleteObject( himage );
-            himage = ( HWND ) LoadImage( g_hInstance, hb_parc( 18 ), IMAGE_BITMAP, BtnWidth - 4, hb_parni(
+            himage = ( HWND ) LoadImage( GetResources(), hb_parc( 18 ), IMAGE_BITMAP, BtnWidth - 4, hb_parni(
                                             6 ) - 6, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
             if( himage == NULL )
-               himage = ( HWND ) LoadImage( 0, hb_parc( 18 ), IMAGE_BITMAP, BtnWidth - 4, hb_parni(
+               himage = ( HWND ) LoadImage( NULL, hb_parc( 18 ), IMAGE_BITMAP, BtnWidth - 4, hb_parni(
                                                6 ) - 6, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
          }
       }
@@ -178,10 +176,10 @@ HB_FUNC( INITGETBOX )
 
    if( hb_parc( 21 ) != NULL )
    {
-      himage2 = ( HWND ) LoadImage( g_hInstance, hb_parc( 21 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage2 = ( HWND ) LoadImage( GetResources(), hb_parc( 21 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage2 == NULL )
-         himage2 = ( HWND ) LoadImage( 0, hb_parc( 21 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+         himage2 = ( HWND ) LoadImage( NULL, hb_parc( 21 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage2 != NULL )
       {
@@ -190,11 +188,11 @@ HB_FUNC( INITGETBOX )
          if( bm.bmWidth > BtnWidth2 - 4 || bm.bmHeight > hb_parni( 6 ) - 5 )
          {
             DeleteObject( himage2 );
-            himage2 = ( HWND ) LoadImage( g_hInstance, hb_parc( 21 ), IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
+            himage2 = ( HWND ) LoadImage( GetResources(), hb_parc( 21 ), IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
                                              6 ) - 6, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
             if( himage2 == NULL )
-               himage2 = ( HWND ) LoadImage( 0, hb_parc( 21 ), IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
+               himage2 = ( HWND ) LoadImage( NULL, hb_parc( 21 ), IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
                                                 6 ) - 6, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
          }
       }
@@ -223,7 +221,7 @@ HB_FUNC( INITGETBOX )
                  hb_parni( 6 ) - 2,
                  ( HWND ) hedit,
                  ( HMENU ) GBB1,
-                 g_hInstance,
+                 GetInstance(),
                  NULL
                  );
    else
@@ -240,7 +238,7 @@ HB_FUNC( INITGETBOX )
                  hb_parni( 6 ) - 2,
                  ( HWND ) hedit,
                  ( HMENU ) GBB2,
-                 g_hInstance,
+                 GetInstance(),
                  NULL
                  );
    else
@@ -421,6 +419,7 @@ LRESULT CALLBACK OwnGetProc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam )
          else
             return CallWindowProc( OldWndProc, hwnd, Msg, wParam, lParam );
 
+      case WM_LBUTTONDBLCLK:
       case WM_KEYDOWN:
       case WM_KEYUP:
          if( ! pSymbol )

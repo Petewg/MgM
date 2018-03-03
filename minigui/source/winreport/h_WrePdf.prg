@@ -538,15 +538,14 @@ Function RPdfPar(ArryPar,cmdline,section) // The core of Pff interpreter
                         _arg1 := eval(chblk,arrypar,[TO])
                         _arg2 := eval(chblk,arrypar,[TIME])
                         if ascan(arrypar,[DATE] ) > 0
-                           if "DATE()" $ _arg1
+                           if "DATE()" $ upper(_arg1)
                               _arg1 := date()
-                              _arg2 := ''
                            else
                               _arg1 := ctod(_arg1)
                            Endif
                         Endif
                         if ascan(arrypar,[TIME] ) > 0
-                           if "TIME()" $ _arg2
+                           if "TIME()" $ upper(_arg2)
                               _arg2 := time()
                            Endif
                         Endif
@@ -661,6 +660,15 @@ Function RPdfPar(ArryPar,cmdline,section) // The core of Pff interpreter
 
                    case ascan(arryPar,[TOTALSTRING])=2
                         m->TTS := eval( chblk,arrypar,[TOTALSTRING] )
+
+                   case ascan(arryPar,[GROUPBOLD])=2
+                       Owr:aStat['GroupBold'] := (eval(blse,arrypar[3]))
+
+                   case ascan(arryPar,[HGROUPCOLOR])=2
+                       oWr:aStat['HGroupColor'] := oWr:UsaColor(eval(chblk,arrypar,[HGROUPCOLOR]))
+
+                   case ascan(arryPar,[GTGROUPCOLOR])=2
+                       oWr:aStat['GTGroupColor'] := oWr:UsaColor(eval(chblk,arrypar,[GTGROUPCOLOR]))
 
                    case ascan(arryPar,[MONEY])=2
                         _money:=eval(blse,arrypar[3])

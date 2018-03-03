@@ -273,6 +273,10 @@ FUNCTION _DefineEditbox ( ControlName, ParentFormName, x, y, w, h, value, ;
    _HMG_aControlMiscData1 [k] := { 0 , maxlength , readonly }
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF Len( _HMG_aDialogTemplate ) == 0        //Dialog Template
       InitDialogEdit( ParentFormName, ControlHandle, k )
    ENDIF

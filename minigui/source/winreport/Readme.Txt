@@ -28,6 +28,18 @@ USE AT YOUR OWN RISK.
 Whats News:
 ~~~~~~~~~~~
 
+January 2018
+    Mitigated annoying debugger messages by printing incorrect barcodes
+	
+December 2017
+    Fixed wrong interpretation of command SET HPDFINFO DATECREATED ....
+
+November 2017
+    Added new commands to support font attibute in group section.
+    New: SET GROUPBOLD    // Default .T.
+    New: SET HGROUPCOLOR  // Default BLUE
+    New: SET GTGROUPCOLOR // Default BLUE
+
 May 2015
     Added more support to compatibility between hbprinter, miniprint and pdfprint
     in particular, added support for the "strikeout" font in pdfprint but without

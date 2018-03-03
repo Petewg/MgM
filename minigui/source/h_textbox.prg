@@ -244,6 +244,10 @@ FUNCTION _DefineTextBox ( ControlName, ParentFormName, x, y, w, h, ;
    _HMG_aControlMiscData1 [k] := { 0, readonly }
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF .NOT. lDialogInMemory
       // With NUMERIC clause, transform numeric value into a string.
       IF lNumeric
@@ -492,6 +496,10 @@ FUNCTION _DefineMaskedTextbox ( ControlName, ParentFormName, x, y, inputmask, w,
    _HMG_aControlEnabled  [k] :=  .T.
    _HMG_aControlMiscData1 [k] := { 0, readonly }
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF .NOT. lDialogInMemory
       IF !Empty( cuetext ) .AND. IsVistaOrLater() 
@@ -773,6 +781,10 @@ FUNCTION _DefineCharMaskTextbox ( ControlName, ParentFormName, x, y, inputmask ,
    _HMG_aControlEnabled [k] :=  .T.
    _HMG_aControlMiscData1 [k] := { 0, readonly }
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF .NOT. lDialogInMemory
 

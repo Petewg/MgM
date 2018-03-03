@@ -106,6 +106,7 @@
 /* for using with GetFontList() */
 // nCharSet
 #define DEFAULT_CHARSET       1
+#ifndef ANSI_CHARSET
 #define ANSI_CHARSET          0
 #define SYMBOL_CHARSET        2
 #define SHIFTJIS_CHARSET      128
@@ -122,6 +123,8 @@
 #define THAI_CHARSET          222
 #define EASTEUROPE_CHARSET    238
 #define OEM_CHARSET           255
+#endif /* ANSI_CHARSET */
+
 #define JOHAB_CHARSET         130
 #define VIETNAMESE_CHARSET    163
 #define MAC_CHARSET           77

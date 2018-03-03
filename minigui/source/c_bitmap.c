@@ -61,19 +61,19 @@
 HANDLE   DibFromBitmap( HBITMAP, HPALETTE );
 WORD     GetDIBColors( LPSTR );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetResources( void );
 
 HB_FUNC( SAVEWINDOWBYHANDLE )
 {
-   const char *       File = hb_parc( 2 );
-   HWND               hWnd = ( HWND ) HB_PARNL( 1 );
-   HDC                hDC  = GetDC( hWnd );
-   HDC                hMemDC;
-   RECT               rc;
-   HBITMAP            hBitmap;
-   HBITMAP            hOldBmp;
-   HPALETTE           hPal = 0;
-   HANDLE             hDIB;
+   HWND     hWnd = ( HWND ) HB_PARNL( 1 );
+   HDC      hDC  = GetDC( hWnd );
+   HDC      hMemDC;
+   RECT     rc;
+   HBITMAP  hBitmap;
+   HBITMAP  hOldBmp;
+   HPALETTE hPal = 0;
+   HANDLE   hDIB;
+   const char *       File   = hb_parc( 2 );
    int                top    = hb_parni( 3 );
    int                left   = hb_parni( 4 );
    int                bottom = hb_parni( 5 );
@@ -107,36 +107,26 @@ HB_FUNC( SAVEWINDOWBYHANDLE )
    filehandle = CreateFile( File, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
 
    lpBI = ( LPBITMAPINFOHEADER ) GlobalLock( hDIB );
-   if( ! lpBI )
+   if( lpBI && lpBI->biSize == sizeof( BITMAPINFOHEADER ) )
    {
-      CloseHandle( filehandle );
-      return;
+      bmfHdr.bfType = ( ( WORD ) ( 'M' << 8 ) | 'B' );
+
+      dwDIBSize = *( LPDWORD ) lpBI + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
+
+      dwBmBitsSize      = ( ( ( ( lpBI->biWidth ) * ( ( DWORD ) lpBI->biBitCount ) ) + 31 ) / 32 * 4 ) * lpBI->biHeight;
+      dwDIBSize        += dwBmBitsSize;
+      lpBI->biSizeImage = dwBmBitsSize;
+
+      bmfHdr.bfSize      = dwDIBSize + sizeof( BITMAPFILEHEADER );
+      bmfHdr.bfReserved1 = 0;
+      bmfHdr.bfReserved2 = 0;
+
+      bmfHdr.bfOffBits = ( DWORD ) sizeof( BITMAPFILEHEADER ) + lpBI->biSize + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
+
+      WriteFile( filehandle, ( LPSTR ) &bmfHdr, sizeof( BITMAPFILEHEADER ), &dwWritten, NULL );
+
+      WriteFile( filehandle, ( LPSTR ) lpBI, dwDIBSize, &dwWritten, NULL );
    }
-
-   if( lpBI->biSize != sizeof( BITMAPINFOHEADER ) )
-   {
-      GlobalUnlock( hDIB );
-      CloseHandle( filehandle );
-      return;
-   }
-
-   bmfHdr.bfType = ( ( WORD ) ( 'M' << 8 ) | 'B' );
-
-   dwDIBSize = *( LPDWORD ) lpBI + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
-
-   dwBmBitsSize      = ( ( ( ( lpBI->biWidth ) * ( ( DWORD ) lpBI->biBitCount ) ) + 31 ) / 32 * 4 ) * lpBI->biHeight;
-   dwDIBSize        += dwBmBitsSize;
-   lpBI->biSizeImage = dwBmBitsSize;
-
-   bmfHdr.bfSize      = dwDIBSize + sizeof( BITMAPFILEHEADER );
-   bmfHdr.bfReserved1 = 0;
-   bmfHdr.bfReserved2 = 0;
-
-   bmfHdr.bfOffBits = ( DWORD ) sizeof( BITMAPFILEHEADER ) + lpBI->biSize + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
-
-   WriteFile( filehandle, ( LPSTR ) &bmfHdr, sizeof( BITMAPFILEHEADER ), &dwWritten, NULL );
-
-   WriteFile( filehandle, ( LPSTR ) lpBI, dwDIBSize, &dwWritten, NULL );
 
    GlobalUnlock( hDIB );
    CloseHandle( filehandle );
@@ -181,36 +171,26 @@ HB_FUNC( WNDCOPY )
    filehandle = CreateFile( File, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
 
    lpBI = ( LPBITMAPINFOHEADER ) GlobalLock( hDIB );
-   if( ! lpBI )
+   if( lpBI && lpBI->biSize == sizeof( BITMAPINFOHEADER ) )
    {
-      CloseHandle( filehandle );
-      return;
+      bmfHdr.bfType = ( ( WORD ) ( 'M' << 8 ) | 'B' );
+
+      dwDIBSize = *( LPDWORD ) lpBI + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
+
+      dwBmBitsSize      = ( ( ( ( lpBI->biWidth ) * ( ( DWORD ) lpBI->biBitCount ) ) + 31 ) / 32 * 4 ) * lpBI->biHeight;
+      dwDIBSize        += dwBmBitsSize;
+      lpBI->biSizeImage = dwBmBitsSize;
+
+      bmfHdr.bfSize      = dwDIBSize + sizeof( BITMAPFILEHEADER );
+      bmfHdr.bfReserved1 = 0;
+      bmfHdr.bfReserved2 = 0;
+
+      bmfHdr.bfOffBits = ( DWORD ) sizeof( BITMAPFILEHEADER ) + lpBI->biSize + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
+
+      WriteFile( filehandle, ( LPSTR ) &bmfHdr, sizeof( BITMAPFILEHEADER ), &dwWritten, NULL );
+
+      WriteFile( filehandle, ( LPSTR ) lpBI, dwDIBSize, &dwWritten, NULL );
    }
-
-   if( lpBI->biSize != sizeof( BITMAPINFOHEADER ) )
-   {
-      GlobalUnlock( hDIB );
-      CloseHandle( filehandle );
-      return;
-   }
-
-   bmfHdr.bfType = ( ( WORD ) ( 'M' << 8 ) | 'B' );
-
-   dwDIBSize = *( LPDWORD ) lpBI + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
-
-   dwBmBitsSize      = ( ( ( ( lpBI->biWidth ) * ( ( DWORD ) lpBI->biBitCount ) ) + 31 ) / 32 * 4 ) * lpBI->biHeight;
-   dwDIBSize        += dwBmBitsSize;
-   lpBI->biSizeImage = dwBmBitsSize;
-
-   bmfHdr.bfSize      = dwDIBSize + sizeof( BITMAPFILEHEADER );
-   bmfHdr.bfReserved1 = 0;
-   bmfHdr.bfReserved2 = 0;
-
-   bmfHdr.bfOffBits = ( DWORD ) sizeof( BITMAPFILEHEADER ) + lpBI->biSize + ( GetDIBColors( ( LPSTR ) lpBI ) * sizeof( RGBTRIPLE ) );
-
-   WriteFile( filehandle, ( LPSTR ) &bmfHdr, sizeof( BITMAPFILEHEADER ), &dwWritten, NULL );
-
-   WriteFile( filehandle, ( LPSTR ) lpBI, dwDIBSize, &dwWritten, NULL );
 
    GlobalUnlock( hDIB );
    CloseHandle( filehandle );
@@ -470,6 +450,7 @@ HBITMAP IconMask2Bmp( HICON hIcon )
    DeleteObject( icon.hbmMask );
    DeleteObject( icon.hbmColor );
    ReleaseDC( 0, hDC );
+
    return hBmp;
 }
 
@@ -699,7 +680,7 @@ HB_FUNC( LOADBITMAP )
 {
    HBITMAP hBitmap;
 
-   hBitmap = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+   hBitmap = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
 
    if( hBitmap == NULL )
       hBitmap = ( HBITMAP ) LoadImage( 0, hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
@@ -935,12 +916,13 @@ BOOL GetImageSize( const char * fn, int * x, int * y )
    return FALSE;
 }
 
+HB_FUNC_TRANSLATE( HB_GETIMAGESIZE, HMG_GETIMAGESIZE )
 /*
- * Syntax: hb_GetImageSize( cPicFile )
+ * Syntax: hmg_GetImageSize( cPicFile )
  * Parameter: cPicFile = graphic file (JPG, GIF, PNG)
  * Return: 2 dim array -> array[1] = width, array[2] = height
  */
-HB_FUNC( HB_GETIMAGESIZE )
+HB_FUNC( HMG_GETIMAGESIZE )
 {
    int x = 0, y = 0;
 
@@ -962,7 +944,7 @@ HB_FUNC( HB_GETIMAGESIZE )
 
    Arguments
      <xBitmap> is the NAME of the bitmap file or resource
-     or 
+     or
      <xBitmap> is the handle to OBJ_BITMAP
 
    Returns
@@ -978,10 +960,6 @@ HB_FUNC( HB_GETIMAGESIZE )
      BitmapSize returns an array {0, 0, 4} for compatibility
  */
 
-#ifdef HMG_LEGACY_ON
-HB_FUNC_TRANSLATE( BITMAPSIZE, GETBITMAPSIZE )
-#endif // HMG_LEGACY_ON
-
 static void _arraySet( PHB_ITEM pArray, int Width, int Height, int BitsPixel )
 {
    HB_arraySetNL( pArray, 1, Width );
@@ -996,10 +974,10 @@ HB_FUNC( GETBITMAPSIZE )
    BOOL     bDelete = TRUE;
 
    if( hb_parclen( 1 ) > 0 )
-   { 
+   {
       const char * pszName = hb_parc( 1 );
 
-      hBitmap = ( HBITMAP ) LoadImage( g_hInstance, pszName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+      hBitmap = ( HBITMAP ) LoadImage( GetResources(), pszName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
       if( hBitmap == NULL )
          hBitmap = ( HBITMAP ) LoadImage( 0, pszName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
@@ -1032,7 +1010,7 @@ HB_FUNC( GETBITMAPSIZE )
 HB_FUNC( GETICONSIZE )
 {
    PHB_ITEM pResult = hb_itemArrayNew( 3 );
-   HICON    hIcon = ( HICON ) HB_PARNL( 1 );
+   HICON    hIcon   = ( HICON ) HB_PARNL( 1 );
 
    _arraySet( pResult, 0, 0, 4 );
 

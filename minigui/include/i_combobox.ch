@@ -50,6 +50,7 @@
       [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
       [ WIDTH <w> ] ;
       [ HEIGHT <h> ] ;
+      [ ITEMHEIGHT <nItemHeight> ] ;
       [ ITEMS <aRows> ] ;
       [ ITEMSOURCE <itemsource> ] ;
       [ VALUE <value> ] ;
@@ -90,12 +91,13 @@
       <"valuesource"> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> ,  .f. , "" , <nValue>, <nId>, ;
       <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
-      <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] )
+      <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , <nItemHeight> )
 
 
 #xcommand REDEFINE COMBOBOX <name> ;
       ID <nId> ;
       [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
+      [ ITEMHEIGHT <nItemHeight> ] ;
       [ ITEMS <aRows> ] ;
       [ ITEMSOURCE <itemsource> ] ;
       [ VALUE <value> ] ;
@@ -136,7 +138,7 @@
       <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> ,  .f. , "", <nValue>, <nId>, ;
       <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
-      <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] )
+      <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , <nItemHeight> )
 
 
 // SPLITBOX VERSION
@@ -145,6 +147,7 @@
       [ <dummy1: OF, PARENT> <parent> ] ;
       [ WIDTH <w> ] ;
       [ HEIGHT <h> ] ;
+      [ ITEMHEIGHT <nItemHeight> ] ;
       [ ITEMS <aRows> ] ;
       [ ITEMSOURCE <itemsource> ] ;
       [ VALUE <value> ] ;
@@ -186,7 +189,7 @@
                   <.strikeout.> , <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
                   <{ondisplaychangeprocedure}> , <.break.> , <grippertext> , <nValue>, 0, ;
                   <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
-                  <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] )
+                  <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , <nItemHeight> )
 
 
 /*----------------------------------------------------------------------------
@@ -196,6 +199,7 @@ ComboBox Extend Style
       [ <dummy1: OF, PARENT> <parent> ] ;
       [ WIDTH <w> ] ;
       [ HEIGHT <h> ] ;
+      [ ITEMHEIGHT <nItemHeight> ] ;
       [ ITEMS <aRows> ] ;
       [ ITEMSOURCE <itemsource> ] ;
       [ VALUE <value> ] ;
@@ -230,7 +234,7 @@ ComboBox Extend Style
       <.invisible.>, <.notabstop.>, .f. , <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
       <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> ,  .f. , "", <aImage>, <nValue>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist> )
+      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight> )
 
 
 // SPLITBOX VERSION
@@ -239,6 +243,7 @@ ComboBox Extend Style
       [ <dummy1: OF, PARENT> <parent> ] ;
       [ WIDTH <w> ] ;
       [ HEIGHT <h> ] ;
+      [ ITEMHEIGHT <nItemHeight> ] ;
       [ ITEMS <aRows> ] ;
       [ ITEMSOURCE <itemsource> ] ;
       [ VALUE <value> ] ;
@@ -275,7 +280,7 @@ ComboBox Extend Style
       <.invisible.>, <.notabstop.>, .f. ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
       <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> , <.break.> , <grippertext> , <aImage> , <nValue>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist> )
+      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight> )
 
 
 /*

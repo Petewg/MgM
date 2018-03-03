@@ -58,11 +58,11 @@ FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value,
    LOCAL aHandles[ 0 ], ControlHandle, FontHandle, n, lDialogInMemory
 
    hb_default( @Width, 120 )
-   hb_default( @Spacing, 25 )
    __defaultNIL( @change, "" )
    hb_default( @invisible, .F. )
    hb_default( @notabstop, .F. )
    hb_default( @horizontal, .F. )
+   hb_default( @Spacing, iif( horizontal, 0, 25 ) )
    hb_default( @leftjustify, .F. )
 
    IF ( FontHandle := GetFontHandle( FontName ) ) != 0
@@ -249,7 +249,7 @@ FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value,
    _HMG_aControlRow  [k] :=  BackRow
    _HMG_aControlCol  [k] :=  BackCol
    _HMG_aControlWidth  [k] :=  Width
-   _HMG_aControlHeight  [k] :=  iif( horizontal, 28, Spacing * Len ( aOptions ) )
+   _HMG_aControlHeight  [k] :=  iif( horizontal, 28, Spacing * Len ( aOptions ) + GetBorderHeight() )
    _HMG_aControlSpacing  [k] :=  Spacing
    _HMG_aControlContainerRow  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameRow [_HMG_FrameLevel] , -1 )
    _HMG_aControlContainerCol  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameCol [_HMG_FrameLevel] , -1 )
@@ -269,6 +269,10 @@ FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value,
    _HMG_aControlEnabled  [k] :=  .T.
    _HMG_aControlMiscData1 [k] := horizontal
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF .NOT. lDialogInMemory
       IF ValType ( Value ) == 'N' .AND. Value > 0  // EF 93

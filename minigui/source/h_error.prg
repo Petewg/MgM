@@ -46,7 +46,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 ---------------------------------------------------------------------------*/
 
 #ifdef __XHARBOUR__
-#define __SYSDATA__
+# define __SYSDATA__
 #endif
 #include "minigui.ch"
 #include "error.ch"
@@ -54,11 +54,14 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 INIT PROCEDURE ClipInit()
 *-----------------------------------------------------------------------------*
+
    IF "95" $ WindowsVersion()[1]
       MsgExclamation( "The " + hb_ArgV( 0 ) + " file" + CRLF + ;
          "expects a newer version of Windows." + CRLF + ;
          "Upgrade your Windows version.", "Error Starting Program", , .F., .T. )
-      ExitProcess()
+
+      ExitProcess( 1 )
+
    ENDIF
 
    Init()
@@ -68,7 +71,7 @@ RETURN
 *-----------------------------------------------------------------------------*
 EXIT PROCEDURE ClipExit()
 *-----------------------------------------------------------------------------*
-   GdiplusShutdown()
+
    ExitProcess()
 
 RETURN
@@ -110,4 +113,4 @@ RETURN oError
 FUNCTION MiniGuiVersion
 *-----------------------------------------------------------------------------*
 
-RETURN( "Harbour MiniGUI Extended Edition 17.06u2" )
+RETURN( "Harbour MiniGUI Extended Edition 18.01 (" + iif( IsExe64(), "64", "32" ) + "-bit)" )

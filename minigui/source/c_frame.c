@@ -47,18 +47,16 @@
  */
 
 #include <mgdefs.h>
+
 #include "hbapierr.h"
 
 #ifndef WC_BUTTON
 #define WC_BUTTON  "Button"
 #endif
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 /* Modified by P.Ch. 16.12. */
-#ifdef HMG_LEGACY_ON
-HB_FUNC_TRANSLATE( INITGROUPBOX, INITFRAME )
-#endif // HMG_LEGACY_ON
 
 HB_FUNC( INITFRAME )
 {
@@ -82,7 +80,7 @@ HB_FUNC( INITFRAME )
          hb_parni( 6 ),
          hwnd,
          ( IsMenu( hmenu ) ? hmenu : NULL ),
-         g_hInstance,
+         GetInstance(),
          NULL
                 );
    }

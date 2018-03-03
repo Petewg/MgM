@@ -222,6 +222,10 @@ FUNCTION _DefineMonthCal ( ControlName, ParentFormName, x, y, w, h, value, ;
    _HMG_aControlMiscData1 [k] :=  0
    _HMG_aControlMiscData2 [k] :=  ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF IsArrayRGB( BackColor )
       SetMonthCalMonthBkColor( aControlHandle[1], BackColor[1], BackColor[2], BackColor[3] )
    ENDIF

@@ -48,10 +48,12 @@
 
    ---------------------------------------------------------------------------*/
 
-#define _WIN32_IE        0x0501
+#define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
+
 #include "hbapiitm.h"
 #include "hbvm.h"
 
@@ -75,7 +77,9 @@ extern char * strtrim( char * str );
 
 typedef BOOL ( WINAPI * fnIsAppThemed )( void );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
+
 static HINSTANCE hUxTheme;
 
 struct _FPI;
@@ -274,7 +278,6 @@ LRESULT CALLBACK HMG_PageFldProc( HWND hWndDlg, UINT message, WPARAM wParam, LPA
    long int        r;
    int  iSel;
    HWND hWndParent;
-   //RECT              ParentRect;
    FLDPAGEINFO *  fpi;
    HFLDPAGEINFO * hfpi;
    FLDHDRINFO *   pFhi;
@@ -322,10 +325,8 @@ LRESULT CALLBACK HMG_PageFldProc( HWND hWndDlg, UINT message, WPARAM wParam, LPA
 HB_FUNC( CREATEFOLDERPAGEINDIRECT )
 {
    DLGTEMPLATE * pdlgtemplate;
-
    FLDPAGEINFO * pfpi = ( FLDPAGEINFO * ) LocalAlloc( LPTR, sizeof( FLDPAGEINFO ) );
 
-   //DLGPROC     PageProc;
    char * strTitle;
    int    idRC, PageStyle;
    char * ImageName;
@@ -359,6 +360,7 @@ HB_FUNC( CREATEFOLDERPAGEINDIRECT )
       pfpi->hasIcon     = TRUE;
       pfpi->pszTemplate = ImageName;
    }
+
    HB_RETNL( ( LONG_PTR ) ( HFLDPAGEINFO ) pfpi );
 }
 
@@ -370,10 +372,9 @@ HB_FUNC( CREATEFOLDERPAGE )
    FLDPAGEINFO * pfpi = ( FLDPAGEINFO * ) LocalAlloc( LPTR, sizeof( FLDPAGEINFO ) );
 
    PHB_ITEM sArray;
-   //DLGPROC     PageProc;
-   char * strTitle;
-   int    idRC, PageStyle;
-   char * caption;
+   char *   strTitle;
+   int      idRC, PageStyle;
+   char *   caption;
 
    sArray = hb_param( 1, HB_IT_ARRAY );
 
@@ -406,27 +407,22 @@ HB_FUNC( CREATEFOLDERPAGE )
 HB_FUNC( CREATEDLGFOLDER )
 {
    HFLDPAGEINFO * hfpi;
-   //FLDPAGEINFO    *fpi;
-   FLDHDRINFO *  pFhi      = ( FLDHDRINFO * ) LocalAlloc( LPTR, sizeof( FLDHDRINFO ) );
-   DWORD         dwDlgBase = GetDialogBaseUnits();
-   int           baseunitX = LOWORD( dwDlgBase ), baseunitY = HIWORD( dwDlgBase );
+   FLDHDRINFO *   pFhi      = ( FLDHDRINFO * ) LocalAlloc( LPTR, sizeof( FLDHDRINFO ) );
+   DWORD          dwDlgBase = GetDialogBaseUnits();
+   int baseunitX = LOWORD( dwDlgBase ), baseunitY = HIWORD( dwDlgBase );
    LPDLGTEMPLATE pdlgtemplate;
-   //RECT           rcTab;
-   HWND hwnd;
-   HWND hWndDlg;
+   HWND          hwnd;
+   HWND          hWndDlg;
 
    PHB_ITEM sArray;
    PHB_ITEM pArray;
    PHB_ITEM cArray;
 
-   BOOL modal;
-   //BOOL           InMemory;
+   BOOL    modal;
    LRESULT lResult;
    long    lTemplateSize;
-   int     s, /*idRC,*/ nPages, Style, nIdFld;
+   int     s, nPages, Style, nIdFld;
    int     x, y, cx, cy;
-
-   //char           *strFolder;
 
    nIdFld  = ( int ) hb_parni( 1 );
    hWndDlg = ( HWND ) HB_PARNL( 2 );
@@ -493,13 +489,13 @@ HB_FUNC( CREATEDLGFOLDER )
 
    if( modal )
    {
-      lResult = DialogBoxIndirectParam( g_hInstance, ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_FldProc, ( LPARAM ) pFhi );
+      lResult = DialogBoxIndirectParam( GetResources(), ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_FldProc, ( LPARAM ) pFhi );
       LocalFree( pdlgtemplate );
       HB_RETNL( ( LONG_PTR ) lResult );
    }
    else
    {
-      hWndDlg = CreateDialogIndirectParam( g_hInstance, ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_FldProc, ( LPARAM ) pFhi );
+      hWndDlg = CreateDialogIndirectParam( GetResources(), ( LPDLGTEMPLATE ) pdlgtemplate, hwnd, ( DLGPROC ) HMG_FldProc, ( LPARAM ) pFhi );
       LocalFree( pdlgtemplate );
    }
 
@@ -672,7 +668,7 @@ VOID WINAPI FLD_FolderInit( HWND hWndDlg, FLDHDRINFO * pFhi )
 
    // Create the tab control.
    InitCommonControls();
-   pFhi->hwndTab = CreateWindow( WC_TABCONTROL, "", Style, 0, 0, 100, 100, hWndDlg, NULL, g_hInstance, NULL );
+   pFhi->hwndTab = CreateWindow( WC_TABCONTROL, "", Style, 0, 0, 100, 100, hWndDlg, NULL, GetInstance(), NULL );
 
    if( pFhi->hwndTab == NULL )
       MessageBox
@@ -705,7 +701,6 @@ VOID WINAPI FLD_FolderInit( HWND hWndDlg, FLDHDRINFO * pFhi )
          pTemplate = ( DLGTEMPLATE * ) fpi->apRes;
          FLD_PageInfo( pTemplate, pFhi, i, TRUE );
       }
-
    }
 
    if( pFhi->cx > rcTab.right )
@@ -898,11 +893,11 @@ DLGTEMPLATE * WINAPI FLD_LockDlgRes( LPCSTR lpszResName )
    DWORD         resSize;
    HGLOBAL       hglb;
 
-   HRSRC hrsrc = FindResource( g_hInstance, lpszResName, RT_DIALOG );
+   HRSRC hrsrc = FindResource( GetResources(), lpszResName, RT_DIALOG );
 
-   resSize = SizeofResource( g_hInstance, hrsrc );
+   resSize = SizeofResource( GetResources(), hrsrc );
 
-   hglb = LoadResource( g_hInstance, hrsrc );
+   hglb = LoadResource( GetResources(), hrsrc );
 
    pTemplate = ( DLGTEMPLATE * ) LockResource( hglb );
    pTemplate = FLD_SetStyleDlgRes( pTemplate, resSize );
@@ -916,8 +911,6 @@ DLGTEMPLATE * WINAPI FLD_LockDlgRes( LPCSTR lpszResName )
 VOID WINAPI FLD_SelChanged( HWND hWndDlg )
 {
    FLDHDRINFO * pFhi = ( FLDHDRINFO * ) GetWindowLongPtr( hWndDlg, GWLP_USERDATA );
-   //FLDPAGEINFO    *fpi;
-   //HFLDPAGEINFO   *hfpi;
 
    int iSel = TabCtrl_GetCurSel( pFhi->hwndTab );
 
@@ -930,7 +923,6 @@ VOID WINAPI FLD_SelChanged( HWND hWndDlg )
 VOID WINAPI FLD_ChildDialogInit( HWND hWndDlg, HWND hWndParent, int idrc )
 {
    RECT rcTab;
-   //RECT              rc;
 
    static PHB_SYMB pSymbol = NULL;
 
@@ -992,9 +984,8 @@ VOID WINAPI FLD_DialogAlign( HWND hWndDlg )
    -----------------------------------------------------------------*/
 static BOOL FLD_PageInfo( DLGTEMPLATE * pTemplate, FLDHDRINFO * pFhi, int index, BOOL resize )
 {
-   const WORD * p;
-   //DWORD       dwFlags;
-   int width, height;
+   const WORD *  p;
+   int           width, height;
    FLDPAGEINFO * fpi;
 
    if( ! pTemplate )
@@ -1339,7 +1330,6 @@ static void FLD_Help( HWND hWndDlg )
    -----------------------------------------------------------------*/
 static BOOL FLD_ShowPage( HWND hWndDlg, int index, FLDHDRINFO * pFhi )
 {
-   //HWND           hwndTabCtrl;
    FLDPAGEINFO *  fpi;
    HFLDPAGEINFO * hfpi = pFhi->fhpage;
 
@@ -1357,7 +1347,7 @@ static BOOL FLD_ShowPage( HWND hWndDlg, int index, FLDHDRINFO * pFhi )
    {
       pFhi->hwndDisplay = CreateDialogIndirectParam
                           (
-         g_hInstance,
+         GetResources(),
          ( DLGTEMPLATE * ) fpi->apRes,
          hWndDlg,
          ( DLGPROC ) HMG_PageFldProc,
@@ -1471,7 +1461,7 @@ static void FLD_AddBitmap( HWND hWndFolder )
 
       himl = ImageList_LoadImage
              (
-         g_hInstance,
+         GetResources(),
          pfpi->pszTemplate,
          0,
          l,
@@ -1483,7 +1473,7 @@ static void FLD_AddBitmap( HWND hWndFolder )
       if( himl == NULL )
          himl = ImageList_LoadImage
                 (
-            0,
+            GetResources(),
             pfpi->pszTemplate,
             0,
             l,
@@ -1515,7 +1505,7 @@ static void FLD_AddBitmap( HWND hWndFolder )
                {
                   hbmp = ( HBITMAP ) LoadImage
                          (
-                     g_hInstance,
+                     GetResources(),
                      pfpi->pszTemplate,
                      IMAGE_BITMAP,
                      cx,
@@ -1526,7 +1516,7 @@ static void FLD_AddBitmap( HWND hWndFolder )
                   if( hbmp == NULL )
                      hbmp = ( HBITMAP ) LoadImage
                             (
-                        0,
+                        NULL,
                         pfpi->pszTemplate,
                         IMAGE_BITMAP,
                         cx,

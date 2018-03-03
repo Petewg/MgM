@@ -49,22 +49,78 @@
  */
 
 #include <mgdefs.h>
+
 #include "hbapifs.h"
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+
+static HINSTANCE hResources = 0;
+static HINSTANCE HMG_DllStore[ 256 ];
+
+static HINSTANCE HMG_LoadDll( char * DllName )
+{
+   static int DllCnt;
+
+   DllCnt = ( DllCnt + 1 ) & 255;
+   FreeLibrary( HMG_DllStore[ DllCnt ] );
+
+   return HMG_DllStore[ DllCnt ] = LoadLibraryEx( DllName, NULL, 0 );
+}
+
+static void HMG_UnloadDll( void )
+{
+   register int i;
+
+   for( i = 255; i >= 0; i-- )
+   {
+      FreeLibrary( HMG_DllStore[ i ] );
+   }
+}
+
+HINSTANCE GetResources( void )
+{
+   return ( hResources ) ? ( hResources ) : ( GetInstance() );
+}
+
+HB_FUNC( GETRESOURCES )
+{
+   HB_RETNL( ( LONG_PTR ) GetResources() );
+}
+
+HB_FUNC( SETRESOURCES )
+{
+   if( HB_ISCHAR( 1 ) )
+      hResources = HMG_LoadDll( ( char * ) hb_parc( 1 ) );
+   else if( HB_ISNUM( 1 ) )
+      hResources = ( HINSTANCE ) HB_PARNL( 1 );
+
+   HB_RETNL( ( LONG_PTR ) hResources );
+}
+
+HB_FUNC( FREERESOURCES )
+{
+   HMG_UnloadDll();
+
+   if( hResources )
+      hResources = 0;
+}
 
 #if defined( __XHARBOUR__ )
 
 HB_FUNC( RCDATATOFILE )
 {
-   HMODULE hModule = g_hInstance;
+   HMODULE hModule = GetResources();
+   LPTSTR  lpType  = ( hb_parclen( 3 ) > 0 ? ( LPTSTR ) hb_parc( 3 ) : MAKEINTRESOURCE( RT_RCDATA ) );
    HRSRC   hResInfo;
    HGLOBAL hResData;
    LPVOID  lpData;
    DWORD   dwSize, dwRet;
    HANDLE  hFile;
 
-   hResInfo = FindResource( hModule, MAKEINTRESOURCE( hb_parnl( 1 ) ), RT_RCDATA );
+   if( hb_parclen( 1 ) > 0 )
+      hResInfo = FindResourceA( hModule, hb_parc( 1 ), lpType );
+   else
+      hResInfo = FindResource( hModule, MAKEINTRESOURCE( hb_parnl( 1 ) ), lpType );
 
    if( NULL == hResInfo )
    {
@@ -116,9 +172,13 @@ HB_FUNC( RCDATATOFILE )
 
 #else
 
+#if defined( __WATCOMC__ )
+extern HB_EXPORT HB_SIZE hb_fileWrite( PHB_FILE pFile, const void * buffer, HB_SIZE nSize, HB_MAXINT nTimeout );
+#endif
+
 HB_FUNC( RCDATATOFILE )
 {
-   HMODULE hModule = ( HMODULE ) ( 0 != HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : g_hInstance );
+   HMODULE hModule = ( HMODULE ) ( 0 != HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : GetResources() );
    /* lpType is RT_RCDATA by default */
    LPTSTR  lpType = ( hb_parclen( 3 ) > 0 ) ? ( LPTSTR ) hb_parc( 3 ) : MAKEINTRESOURCE( hb_parnldef( 3, 10 ) );
    HRSRC   hResInfo;

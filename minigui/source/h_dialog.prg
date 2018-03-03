@@ -216,9 +216,6 @@ FUNCTION _DefineDialog ( FormName, ParentForm, Id_resource , x , y , w , h , cap
       _HMG_aFormActivateId [k] := 0
       _HMG_aFormMiscData1  [k] := {}
       _HMG_aFormMiscData2  [k] := ''
-#ifdef _HMG_COMPAT_
-      _HMG_StopWindowEventProcedure [k] := .F.
-#endif
 
    ELSE
 
@@ -283,6 +280,10 @@ FUNCTION _DefineDialog ( FormName, ParentForm, Id_resource , x , y , w , h , cap
    ENDIF
 
    _SetThisFormInfo( k )
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnFormInit, k, mVar )
+   ENDIF
 
    IF Len( _HMG_aDialogTemplate ) > 0
       _HMG_aDialogTemplate[1] := &mVar.

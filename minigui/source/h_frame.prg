@@ -49,7 +49,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #include "i_winuser.ch"
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineFrame ( ControlName, ParentFormName, x, y, w, h , caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , backcolor , fontcolor , transparent , invisible , nId )
+STATIC FUNCTION _DefineFrame ( ControlName, ParentFormName, x, y, w, h , caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , backcolor , fontcolor , transparent , invisible , nId )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle , mVar , k , Style
    LOCAL ControlHandle , FontHandle
@@ -173,6 +173,10 @@ FUNCTION _DefineFrame ( ControlName, ParentFormName, x, y, w, h , caption , font
    _HMG_aControlEnabled  [k] :=   .T.
    _HMG_aControlMiscData1 [k] :=  0
    _HMG_aControlMiscData2 [k] :=  ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF invisible
       _HideControl ( ControlName , ParentFormName )

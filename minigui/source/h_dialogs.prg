@@ -55,7 +55,7 @@ FUNCTION GetColor( aInitColor )
 *-----------------------------------------------------------------------------*
    LOCAL aRetVal [3] , nColor , nInitColor
 
-   IF ISARRAY ( aInitColor )
+   IF IsArrayRGB ( aInitColor )
       nInitColor := RGB ( aInitColor [1] , aInitColor [2] , aInitColor [3] )
    ENDIF
 

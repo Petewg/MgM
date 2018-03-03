@@ -327,7 +327,7 @@ Look at folder Samples\Basic\ToolBarEx for samples.
 
 PAGERBOX control allows the user to define a scrolling area for the toolbar buttons
 
-Look at folder Samples\Basic\PagerBox for sample.
+Look at folder Samples\Basic\CONTAINERS\PagerBox for sample.
 
 --------------------------------------------------------------------------------
 
@@ -453,7 +453,7 @@ SET [STATUSBAR] PROGRESSITEM OF <form> RANGE TO <low>, <high> command.
 New methods and properties for standard controls:
 
 WINDOW - properties 'TitleBar', 'Closable', 'SysMenu', 'Sizable', 'MaxButton', 'MinButton', 'Backcolor',
-         'Topmost', 'MinWidth', 'MaxWidth', 'MinHeight', 'MaxHeight', 'HelpButton' and events 
+         'Topmost', 'MinWidth', 'MaxWidth', 'MinHeight', 'MaxHeight', 'HelpButton', 'Cargo' and events 
          ON RESTORE, ON MOVE, ON DROPFILES, 'On NotifyIconDblClick' and 'On NotifyBalloonClick' ;
          method SaveAs( cBmpFile ) for windows and controls.
 
@@ -461,7 +461,7 @@ Semi-oop 'Application' object. It will allow to read (and write when possible) v
 
 Read/write properties 'Cargo' and 'Tabstop' for all standard controls.
 
-ANIMATEBOX - NOBORDER clause.
+ANIMATEBOX - NOBORDER and BACKCOLOR clauses.
 
 BUTTON, LABEL, TIMER - read/write property 'Action'.
 
@@ -489,15 +489,17 @@ GRID, BROWSE - property 'ColumnWidth(n)' and methods:
   - ColumnsAutoFit()  - set widths of all columns to fit each column contents
   - ColumnsAutoFitH() - set widths of all columns to fit each columnheader text & column contents
 
+BROWSE - COLUMNSORT clause.
+
 GRID - read/write property 'CheckboxItem', NOSORTHEADERS and COLUMNSORT clauses.
 
 IMAGE - ALPHALEVEL clause, ON MOUSEHOVER and ON MOUSELEAVE events.
 
-LABEL - BLINK and VCENTERALIGN clauses, ON MOUSEHOVER and ON MOUSELEAVE events.
+LABEL - read/write property 'Alignment', BLINK and VCENTERALIGN clauses, ON MOUSEHOVER and ON MOUSELEAVE events.
 
 LISTBOX - MULTITAB [TABSWIDTH <aWidth>] and MULTICOLUMN clauses.
 
-MONTHCALENDAR - 'BackColor', 'FontColor' and others color clauses  (for Win 9x/2k/XP only).
+MONTHCALENDAR - 'BackColor', 'FontColor' and others color clauses (for Win 9x/2k/XP only).
 
 PROGRESSBAR - [ STYLE ] MARQUEE clause and VELOCITY property.
 
@@ -517,23 +519,24 @@ TEXTBOX - 'NoBorder' clause.
 
 TEXTBOX, COMBOBOX and SPINNER - read/write property 'CueBanner'.
 
-TIMER - change an interval via property 'Value'.
+TIMER - possibility to change an interval via property 'Value', 'Once' clause.
 
 TOOLBAR - 'Customize' and 'Wrap' clauses.
 
-TREE - properties 'LineColor', 'Indent', 'ItemHeight', 'FontColor' and 'Backcolor'.
+TREE - properties 'LineColor', 'Indent', 'ItemHeight', 'FontColor' and 'BackColor'.
 
 --------------------------------------------------------------------------------
 
 New functions:
 
 Functions _GetMenuItemCaption( ItemName , FormName ), _SetMenuItemCaption( ItemName , FormName , Caption ),
-          _SetMenuItemBitmap( ItemName , FormName , Bitmap ), _SetMenuItemFont( ItemName , FormName , Font )
+          _SetMenuItemBitmap( ItemName , FormName , Bitmap ), _SetMenuItemIcon( ItemName , FormName , Icon ),
+          _SetMenuItemFont( ItemName , FormName , Font )
 
 Functions AddMRUItem(<NewItem>, "OnClickFunc(Item)"), AddMenuElement(<NewItem>, "OnClickFunc(Item)"),
           SaveMRUFileList(), ClearMRUList()
 
-Function MsgYesNoCancel()
+Function MsgYesNoCancel() shows a Message Box with three buttons 'Yes', 'No' and 'Cancel'.
 
 Functions _ExtDisableControl ( ControlName, ParentForm ) and _ExtEnableControl ( ControlName , ParentForm )
    Using these functions we can disable/enable control without changing any other properties (i.e FontColor, Backcolor and so on)
@@ -548,6 +551,14 @@ where
    nMax  - required string size (characters count)
 
 Function IsThemed() - for accurately detecting if an application is theme-enabled.
+
+Function GetDllVersion( cDllName ) --> { MajorVersion, MinorVersion, BuildNumber }
+
+Function HMG_DbfToArray( cFieldList, bFor, bWhile, nNext, nRec, lRest )
+
+Function HMG_ArrayToDBF( aData, cFieldList, bProgress )
+
+Function HMG_DbfToExcel( cFieldList, aHeader, bFor, bWhile, nNext, nRec, lRest )
 
 --------------------------------------------------------------------------------
 
@@ -654,11 +665,13 @@ The EDIT EXTENDED command shows the deleted records.
 
 The Menu Items supports Messages in the first Statusbar item.
 
-The MENUITEM command supports a DISABLED clause.
+The MENUITEM command supports the DISABLED clause.
 
-The MENUITEM command supports a BREAKMENU [ SEPARATOR ] clause.
+The MENUITEM command supports the BREAKMENU [ SEPARATOR ] clause.
 
 The MENUITEM command supports the CHECKMARK <image> and FONT <font> clauses.
+
+The MENUITEM command supports the optional DEFAULT clause.
 
 The MENU POPUP command supports the IMAGE <image> and FONT <font> clauses.
 

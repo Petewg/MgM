@@ -47,30 +47,28 @@
 
 #include <mgdefs.h>
 
+/* undocumented Windows API */
 int WINAPI MessageBoxTimeout( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds );
 
-typedef int ( WINAPI * PMessageBoxTimeout )( HWND, LPCSTR, LPCSTR, UINT, WORD, DWORD );
-static PMessageBoxTimeout pMessageBoxTimeout = NULL;
-
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 // JK HMG 1.2 Experimental Build 16g
 // MessageBoxIndirect( [hWnd], [cText], [cCaption], [nStyle], [xIcon], [hInst], [nHelpId], [nProc], [nLang] )
 // Contributed by Andy Wos <andywos@unwired.com.au>
-/* Modified by P.Ch. 16.10. */
+
 HB_FUNC( MESSAGEBOXINDIRECT )
 {
    MSGBOXPARAMS mbp;
 
    mbp.cbSize             = sizeof( MSGBOXPARAMS );
    mbp.hwndOwner          = HB_ISNUM( 1 ) ? ( HWND ) HB_PARNL( 1 ) : GetActiveWindow();
-   mbp.hInstance          = HB_ISNUM( 6 ) ? ( HINSTANCE ) HB_PARNL( 6 ) : g_hInstance;
+   mbp.hInstance          = HB_ISNUM( 6 ) ? ( HINSTANCE ) HB_PARNL( 6 ) : GetInstance();
    mbp.lpszText           = HB_ISCHAR( 2 ) ? hb_parc( 2 ) : ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
    mbp.lpszCaption        = HB_ISCHAR( 3 ) ? hb_parc( 3 ) : ( HB_ISNUM( 3 ) ? MAKEINTRESOURCE( hb_parni( 3 ) ) : "" );
    mbp.dwStyle            = ( DWORD ) hb_parni( 4 );
    mbp.lpszIcon           = HB_ISCHAR( 5 ) ? hb_parc( 5 ) : ( HB_ISNUM( 5 ) ? MAKEINTRESOURCE( hb_parni( 5 ) ) : NULL );
    mbp.dwContextHelpId    = HB_ISNUM( 7 ) ? ( DWORD ) hb_parni( 7 ) : 0;
-   mbp.lpfnMsgBoxCallback = NULL;  // HB_ISNIL( 8 ) ? NULL : ( MSGBOXCALLBACK ) HB_PARNL( 8 );
+   mbp.lpfnMsgBoxCallback = NULL; /* Modified by P.Ch. 16.10. */
    mbp.dwLanguageId       = HB_ISNUM( 9 ) ? ( DWORD ) hb_parni( 9 ) : MAKELANGID( LANG_NEUTRAL, SUBLANG_NEUTRAL );
 
    hb_retni( MessageBoxIndirect( &mbp ) );
@@ -91,6 +89,9 @@ HB_FUNC( MESSAGEBOXTIMEOUT )
 
 int WINAPI MessageBoxTimeout( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds )
 {
+   typedef int ( WINAPI * PMessageBoxTimeout )( HWND, LPCSTR, LPCSTR, UINT, WORD, DWORD );
+   static PMessageBoxTimeout pMessageBoxTimeout = NULL;
+
    if( pMessageBoxTimeout == NULL )
    {
       HMODULE hLib = LoadLibrary( "User32.dll" );

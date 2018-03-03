@@ -27,16 +27,11 @@
 #define _DEFAULT_COLS  10
 #define _DEFAULT_ROWS  10
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 #define _GET_HWND( hwnd, i )     HWND hwnd = ( HWND ) ( LONG_PTR ) HB_PARNL( i )
 
 extern BOOL Array2Rect( PHB_ITEM aPoint, RECT * rect );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 /* ////////////////////////////////////////////////////// */
 HB_FUNC( ZG_SETCELLDATE )
 { 
@@ -62,12 +57,12 @@ HB_FUNC( ZG_LOADICON2 )
    {
       int ident = hb_parni( 3 );
 
-      hicon = LoadIcon( g_hInstance, MAKEINTRESOURCE( ident ) );
+      hicon = LoadIcon( GetInstance(), MAKEINTRESOURCE( ident ) );
       if( NULL == hicon )
          hicon = LoadIcon( NULL, MAKEINTRESOURCE( ident ) );
    }
    else if( HB_ISCHAR( 3 ) )
-      hicon = LoadIcon( g_hInstance, hb_parc( 3 ) );
+      hicon = LoadIcon( GetInstance(), hb_parc( 3 ) );
 
    if( NULL != hicon )
       SendMessage( hwnd, ZGM_LOADICON, ( WPARAM ) hb_parni( 2 ), ( LPARAM ) hicon );
@@ -105,7 +100,7 @@ HB_FUNC( ZG_INITGRID )
          hb_parnidef( 8, rect.bottom * 0.75 ),
          hwndP,                 // hwnd parent
          (HMENU) hb_parni( 3 ), // ID
-         g_hInstance,
+         GetInstance(),
          NULL );
 
       if( hGrid )

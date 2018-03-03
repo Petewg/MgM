@@ -28,7 +28,7 @@ RETURN
 *------------------------------------------------------------------------------*
 PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParent, lDefault, w, h, cBitmap )
 *------------------------------------------------------------------------------*
-   LOCAL hControlHandle, nId, hParentFormHandle, k, cMacroVar
+   LOCAL hControlHandle, nId, hParentFormHandle, k, mVar
 
    IF _HMG_BeginWindowActive
       cParent := _HMG_ActiveFormName
@@ -45,7 +45,7 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
    DEFAULT w TO 180
    DEFAULT h TO 60
 
-   cMacroVar := '_' + cParent + '_' + cName
+   mVar := '_' + cParent + '_' + cName
 
    k := _GetControlFree()
    nId := _GetId()
@@ -64,13 +64,13 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
 
    CLButton_SetNote( hControlHandle, cNotes )
 
-   Public &cMacroVar. := k
+   Public &mVar. := k
 
    _HMG_aControlType[k] := 'CLBUTTON'
    _HMG_aControlNames[k] :=  cName
    _HMG_aControlHandles[k] := hControlHandle
    _HMG_aControlParenthandles[k] := hParentFormHandle
-   _HMG_aControlIds[k] :=  0
+   _HMG_aControlIds[k] :=  nId
    _HMG_aControlProcedures[k] := bAction
    _HMG_aControlPageMap[k] :=  {}
    _HMG_aControlValue[k] :=  Nil
@@ -106,6 +106,10 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
    _HMG_aControlEnabled[k] :=   .T.
    _HMG_aControlMiscData1[k] := 0
    _HMG_aControlMiscData2[k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF ! Empty( cBitmap )
       _HMG_aControlPicture[k] := cBitmap

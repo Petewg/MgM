@@ -54,7 +54,7 @@
   MEMVAR _HMG_SYSDATA
 #endif
 
-#define _HMG_SYSDATA_SIZE			447
+#define _HMG_SYSDATA_SIZE			450
 
 #xtranslate _HMG_ErrorLogFile			=> _HMG_SYSDATA\[1\]
 #xtranslate _HMG_CreateErrorlog			=> _HMG_SYSDATA\[2\]
@@ -580,5 +580,17 @@ Memvariables
 #xtranslate _HMG_MainWindowFirst			=> _HMG_SYSDATA\[444\]
 #xtranslate _HMG_aScrollStep				=> _HMG_SYSDATA\[445\]
 
-#xtranslate _HMG_aFormMiscData1                         => _HMG_SYSDATA\[446\]
-#xtranslate _HMG_aFormMiscData2                         => _HMG_SYSDATA\[447\]
+#xtranslate _HMG_aFormMiscData1				=> _HMG_SYSDATA\[446\]
+#xtranslate _HMG_aFormMiscData2				=> _HMG_SYSDATA\[447\]
+
+#xtranslate _HMG_aUserBlocks				=> _HMG_SYSDATA\[448\]
+#xtranslate _HMG_bOnFormInit				=> _HMG_aUserBlocks\[1]
+#xtranslate _HMG_bOnFormDestroy				=> _HMG_aUserBlocks\[2]
+#xtranslate _HMG_bOnControlInit				=> _HMG_aUserBlocks\[3]
+#xtranslate _HMG_bOnControlDestroy			=> _HMG_aUserBlocks\[4]
+#xtranslate _HMG_bOnWndLaunch				=> _HMG_aUserBlocks\[5]
+#xtranslate _HMG_bOnCtlLaunch				=> _HMG_aUserBlocks\[6]
+#xtranslate _HMG_lOOPEnabled				=> _HMG_aUserBlocks\[7]
+
+#xtranslate _HMG_IsThemed				=> _HMG_SYSDATA\[449\]
+#xtranslate _HMG_Reserved				=> _HMG_SYSDATA\[450\]

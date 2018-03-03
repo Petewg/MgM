@@ -61,15 +61,15 @@
 
    #xcommand DECLARE WINDOW <w> ;
    =>;
-   #xtranslate <w> . \<p:Name,Handle,Type,Index,Title,Height,Width,ClientHeight,ClientWidth,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Topmost,HelpButton,Cargo\> => GetProperty ( <"w">, \<"p"\> ) ;;
+   #xtranslate <w> . \<p:Name,Handle,Type,Index,Title,Height,Width,ClientHeight,ClientWidth,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Topmost,HelpButton,Cargo,Object\> => GetProperty ( <"w">, \<"p"\> ) ;;
    #xtranslate <w> . \<p:Name,Title,Height,Width,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,Cursor,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Topmost,HelpButton,Cargo\> := \<n\> => SetProperty ( <"w">, \<"p"\> , \<n\> ) ;;
-   #xtranslate <w> . \<p:Activate,Center,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus,Print\> \[()\] => DoMethod ( <"w">, \<"p"\> ) ;;
+   #xtranslate <w> . \<p:Activate,Center,Redraw,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus,Print\> \[()\] => DoMethod ( <"w">, \<"p"\> ) ;;
    #xtranslate <w> . \<p:SaveAs\> (\<a\>) => DoMethod ( <"w"> , "SaveAs", \<a\> ) ;;
    #xtranslate <w> . \<c\> . \<p:SaveAs\> (\<a\>) => DoMethod ( <"w"> , \<"c"\> , "SaveAs", \<a\> ) ;;
-   #xtranslate <w> . \<c\> . \<p:Value,Name,Handle,Type,Index,ClientHeight,ClientWidth,Address,BackColor,FontColor,Picture,Icon,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop,Object\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
-   #xtranslate <w> . \<c\> . \<p:Value,Name,Address,BackColor,FontColor,Picture,Icon,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
-   #xtranslate <w> . \<c\> . \<p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
-   #xtranslate <w> . \<c\> . \<p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,Blink,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:Value,Name,Handle,Type,Index,ClientHeight,ClientWidth,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop,Object,XObject\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:Value,Name,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner,Alignment\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,Blink,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner,Alignment\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
    #xtranslate <w> . \<c\> . \<p:Caption,Header,Image,Item,Icon,ToolTip,Width,ColumnWidth,Enabled,RichValue,HeaderImage,CheckboxItem\> (\<arg\>) => GetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg\> ) ;;
    #xtranslate <w> . \<c\> . \<p:Velocity\> := \<n\> => SetProperty ( <"w">, \<"c"\> , "Velocity" , \<n\> ) ;;
    #xtranslate <w> . \<c\> . \<p:Caption,Header,Image,Item,Icon,ToolTip,Width,ColumnWidth,Enabled,RichValue,CheckboxItem\> (\<arg\>) := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg\> , \<n\> ) ;;
@@ -77,7 +77,7 @@
    #xtranslate <w> . \<c\> . \<p:Cell\> (\<arg1\> , \<arg2\>) := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\> , \<n\> ) ;;
    #xtranslate <w> . \<c\> . \<p:HeaderImage\> (\<arg1\>) := \<arg2\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\> ) ;;
    #xtranslate <w> . \<c\> . \<p:HeaderImage\> (\<arg1\>) := {\<arg2\> , \<arg3\>} => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\> , \<arg3\> ) ;;
-   #xtranslate <w> . \<c\> . \<p:EnableUpdate,DisableUpdate,Refresh,SetFocus,DeleteAllItems,Release,Show,Save,Hide,Play,Stop,Close,Pause,Eject,OpenDialog,Resume,Action,OnClick,OnGotFocus,OnLostFocus,OnChange,OnDblClick,ColumnsAutoFit,ColumnsAutoFitH\> \[()\] => Domethod ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:EnableUpdate,DisableUpdate,Redraw,Refresh,SetFocus,DeleteAllItems,Release,Show,Save,Hide,Play,Stop,Close,Pause,Eject,OpenDialog,Resume,Action,OnClick,OnGotFocus,OnLostFocus,OnChange,OnDblClick,ColumnsAutoFit,ColumnsAutoFitH\> \[()\] => Domethod ( <"w">, \<"c"\> , \<"p"\> ) ;;
    #xtranslate <w> . \<c\> . \<p:AddItem,DeleteItem,Open,DeletePage,DeleteColumn,Expand,Collapse,Seek,SetArray,ColumnAutoFit,ColumnAutoFitH\> (\<a\>) => Domethod ( <"w">, \<"c"\> , \<"p"\> , \<a\> ) ;;
    #xtranslate <w> . \<c\> . \<p:AddItem,AddPage\> (\<a1\> , \<a2\>) => Domethod ( <"w">, \<"c"\> , \<"p"\> , \<a1\> , \<a2\> ) ;;
    #xtranslate <w> . \<c\> . \<p:AddItem,AddPage\> (\<a1\> , \<a2\> , \<a3\> ) => Domethod ( <"w">, \<"c"\> , \<"p"\> , \<a1\> , \<a2\> , \<a3\> ) ;;
@@ -114,8 +114,8 @@
    #xtranslate <w> . SplitBox . \<c\> . \<p:AddItem,AddPage\> (\<a1\> , \<a2\>) => Domethod ( <"w">, "SplitBox", \<"c"\> , \<"p"\> , \<a1\> , \<a2\> ) ;;
    #xtranslate <w> . SplitBox . \<c\> . \<p:AddItem,AddPage\> (\<a1\> , \<a2\> , \<a3\> ) => Domethod ( <"w">, "SplitBox", \<"c"\> , \<"p"\> , \<a1\> , \<a2\> , \<a3\> ) ;;
    #xtranslate <w> . SplitBox . \<c\> . \<p:AddItem,AddColumn,AddControl,AddPage\> (\<a1\> , \<a2\> , \<a3\> , \<a4\> ) => Domethod ( <"w">, "SplitBox", \<"c"\> , \<"p"\> , \<a1\> , \<a2\> , \<a3\> , \<a4\> ) ;;
-   #xtranslate <w> . SplitBox . \<c\> . \<p:Name,Length,CueBanner\> => GetProperty ( <"w">, "SplitBox", \<"c"\> , \<"p"\> ) ;;
-   #xtranslate <w> . SplitBox . \<c\> . \<p:ReadOnly,DisableEdit,Speed,Volume,Zoom,CueBanner\> := \<n\> => SetProperty ( <"w">, "SplitBox", \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w> . SplitBox . \<c\> . \<p:Name,Length,CueBanner,Alignment\> => GetProperty ( <"w">, "SplitBox", \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w> . SplitBox . \<c\> . \<p:ReadOnly,DisableEdit,Speed,Volume,Zoom,CueBanner,Alignment\> := \<n\> => SetProperty ( <"w">, "SplitBox", \<"c"\> , \<"p"\> , \<n\> ) ;;
    #xtranslate <w> . SplitBox . \<x\> . \<c\> . \<p:Caption,Enabled,Value\> => GetProperty ( <"w"> , "SplitBox" , \<"x"\> , \<"c"\> , \<"p"\> ) ;;
    #xtranslate <w> . SplitBox . \<x\> . \<c\> . \<p:Caption,Enabled,Value\> := \<n\> => SetProperty ( <"w"> , "SplitBox", \<"x"\> , \<"c"\> , \<"p"\> , \<n\> ) 
 

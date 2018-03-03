@@ -48,7 +48,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #include "minigui.ch"
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineTimer ( ControlName , ParentForm , Interval , ProcedureName )
+FUNCTION _DefineTimer ( ControlName , ParentForm , Interval , ProcedureName , Once )
 *-----------------------------------------------------------------------------*
    LOCAL mVar , k
    LOCAL ParentFormHandle
@@ -105,7 +105,7 @@ FUNCTION _DefineTimer ( ControlName , ParentForm , Interval , ProcedureName )
    _HMG_aControlSpacing  [k] :=  0
    _HMG_aControlContainerRow  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameRow [_HMG_FrameLevel] , -1 )
    _HMG_aControlContainerCol  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameCol [_HMG_FrameLevel] , -1 )
-   _HMG_aControlPicture  [k] :=  ""
+   _HMG_aControlPicture  [k] :=  hb_defaultValue( Once, .F. )
    _HMG_aControlContainerHandle  [k] :=  0
    _HMG_aControlFontName  [k] :=  ''
    _HMG_aControlFontSize  [k] :=  0
@@ -121,5 +121,9 @@ FUNCTION _DefineTimer ( ControlName , ParentForm , Interval , ProcedureName )
    _HMG_aControlEnabled  [k] :=  .T.
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
 RETURN lSuccess

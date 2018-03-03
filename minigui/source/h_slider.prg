@@ -210,6 +210,10 @@ FUNCTION _DefineSlider ( ControlName, ParentFormName, x, y, w, h, lo, hi, value,
    _HMG_aControlMiscData1 [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameParentFormName [_HMG_FrameLevel] , '' )
    _HMG_aControlMiscData2 [k] :=  ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
 RETURN Nil
 
 *-----------------------------------------------------------------------------*

@@ -24,5 +24,5 @@
 #xtranslate <w> . \<c\> . Start \[()\] => Domethod ( <"w">, \<"c"\> , "Start" ) ;;
 #undef SOOP_WEBCAM ;;
 #define SOOP_ACTIVEX ;;
-#xtranslate <w> . \<c\> . Object  := \<v\> => SetProperty ( <"w">, \<"c"\> , "Object" , \<v\> ) ;;
+#xtranslate <w> . \<c\> . XObject  := \<v\> => SetProperty ( <"w">, \<"c"\> , "XObject" , \<v\> ) ;;
 #undef SOOP_ACTIVEX

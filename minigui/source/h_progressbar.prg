@@ -140,7 +140,7 @@ FUNCTION _DefineProgressBar ( ControlName, ParentFormName, x, y, w, h, lo, hi, ;
       SendMessage( ControlHandle , PBM_SETPOS , value , 0 )
 
       IF marquee
-         IF _HMG_IsXPorLater .AND. IsThemed()
+         IF _HMG_IsXPorLater .AND. _HMG_IsThemed
             ChangeStyle( ControlHandle , PBS_MARQUEE )
             SendMessage( ControlHandle , PBM_SETMARQUEE , iif( velocity > 0, 1, 0 ) , velocity )
          ENDIF
@@ -198,6 +198,10 @@ FUNCTION _DefineProgressBar ( ControlName, ParentFormName, x, y, w, h, lo, hi, ;
    _HMG_aControlEnabled  [k] :=   .T.
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF .NOT. lDialogInMemory
       IF IsArrayRGB( BackColor )

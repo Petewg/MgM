@@ -50,7 +50,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 #include "minigui.ch"
 
-#define MAXIMAGE 10
+#define MAX_IMAGE 10
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineImageList ( ControlName , ParentForm , w , h , aImage , aImageMask , aColor , ImageCount , mask )
 *-----------------------------------------------------------------------------*
@@ -81,7 +81,7 @@ FUNCTION _DefineImageList ( ControlName , ParentForm , w , h , aImage , aImageMa
 
    k := Len( aImage )
    IF ImageCount == 0
-      ImageCount := IFEMPTY( k, MAXIMAGE, k )
+      ImageCount := IFEMPTY( k, MAX_IMAGE, k )
    ENDIF
 
    Id := _GetId()
@@ -132,77 +132,66 @@ FUNCTION _DefineImageList ( ControlName , ParentForm , w , h , aImage , aImageMa
    _HMG_aControlMiscData1 [k] :=  0
    _HMG_aControlMiscData2 [k] :=  ''
 
-   FOR i := 1 TO Len ( aImage )
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
+   FOR i := 1 TO Len( aImage )
       IF mask
          IF Len( aImageMask ) > 0
-            maskimage := iif( i <= Len( aImageMask ), aImageMask[i], "" )
-            PosImage := IL_Add( ControlHandles , aImage[i] , maskimage , w , h , ImageCount )
+            maskimage := iif( i <= Len( aImageMask ), aImageMask [i], "" )
+            PosImage := IL_Add( ControlHandles , aImage [i] , maskimage , w , h , ImageCount )
          ELSE
-            IF ValType( aColor ) == 'A'
-               color := RGB ( aColor[1] , aColor[2] , aColor[3] )
+            IF IsArrayRGB( aColor )
+               color := RGB ( aColor [1] , aColor [2] , aColor [3] )
             ELSE
                color := aColor
             ENDIF
-            PosImage := IL_AddMasked( ControlHandles , aImage[i] , color , w , h , ImageCount )
+            PosImage := IL_AddMasked( ControlHandles , aImage [i] , color , w , h , ImageCount )
          ENDIF
       ELSE
-         PosImage := IL_Add( ControlHandles , aImage[i] , "" , w , h )
+         PosImage := IL_Add( ControlHandles , aImage [i] , "" , w , h , ImageCount )
       ENDIF
       IF PosImage == -1
-         MsgMiniGuiError( "Image: " + aImage[i] + " is not added. Check image size." )
+         MsgMiniGuiError( "Image: " + aImage [i] + " is not added. Check image size." )
       ENDIF
    NEXT
 
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
-FUNCTION _AddImageToImageList ( ControlName, ParentControl, Image , MaskImage )
+FUNCTION _AddImageToImageList ( ControlName, ParentControl, Image, MaskImage )
 *-----------------------------------------------------------------------------*
    LOCAL w , h , c
 
    w := _GetControlWidth ( ControlName, ParentControl )
    h := _GetControlHeight ( ControlName, ParentControl )
    c := GetControlHandle ( ControlName, ParentControl )
-   __defaultNIL( @maskimage, "" )
 
-RETURN IL_Add( c , image , maskimage , w , h )
+RETURN IL_Add( c , image , hb_defaultValue( maskimage, "" ) , w , h )
 
 *-----------------------------------------------------------------------------*
-FUNCTION _AddImageMaskedToImageList ( ControlName, ParentControl, Image , aColor )
+FUNCTION _AddImageMaskedToImageList ( ControlName, ParentControl, Image, aColor )
 *-----------------------------------------------------------------------------*
    LOCAL w, h, c, color := 0
 
    w := _GetControlWidth ( ControlName, ParentControl )
    h := _GetControlHeight ( ControlName, ParentControl )
    c := GetControlHandle ( ControlName, ParentControl )
-   IF ValType( aColor ) == 'A'
-      color := RGB ( aColor[1], aColor[2], aColor[3] )
+   IF IsArrayRGB ( aColor )
+      color := RGB ( aColor [1], aColor [2], aColor [3] )
    ENDIF
 
 RETURN IL_AddMasked( c , image , color , w , h )
 
-/*-----------------------------------------------------------------------------*
-FUNCTION _RemoveImageFromImageList ( ControlName, ParentControl, ImageIndex )
 *-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName , ParentControl )
-
-RETURN IL_Remove( c , ImageIndex )
-
-*-----------------------------------------------------------------------------*
-FUNCTION _DrawImageFromImageList ( ControlName, ParentControl, ImageIndex, cx, cy )
-*-----------------------------------------------------------------------------*
-   LOCAL c := GetControlHandle ( ControlName , ParentControl )
-
-RETURN IL_Draw( GetFormHandle ( ParentControl ), c, ImageIndex, cx, cy )
-*/
-*-----------------------------------------------------------------------------*
-FUNCTION _ImageListSetBkColor ( ControlName, ParentControl, acolor )
+FUNCTION _ImageListSetBkColor ( ControlName, ParentControl, aColor )
 *-----------------------------------------------------------------------------*
    LOCAL c, color := 0
 
    c := GetControlHandle ( ControlName, ParentControl )
-   IF ValType( aColor ) == 'A'
-      color := RGB ( aColor[1], aColor[2], aColor[3] )
+   IF IsArrayRGB ( aColor )
+      color := RGB ( aColor [1], aColor [2], aColor [3] )
    ENDIF
 
 RETURN IL_SetBkColor( c, color )

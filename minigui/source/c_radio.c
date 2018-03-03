@@ -51,7 +51,7 @@
 #define WC_BUTTON  "Button"
 #endif
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITRADIOGROUP )
 {
@@ -81,7 +81,7 @@ HB_FUNC( INITRADIOGROUP )
       28,
       hwnd,
       ( HMENU ) HB_PARNL( 3 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -113,7 +113,7 @@ HB_FUNC( INITRADIOBUTTON )
       28,
       hwnd,
       ( HMENU ) HB_PARNL( 3 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 

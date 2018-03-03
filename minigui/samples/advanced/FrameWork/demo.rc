@@ -7,7 +7,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 ID_MAIN                 ICON                    res\star.ico
 
 
-ID_TOOLBAR              BITMAP                  res\toolbar.bmp
+ID_TOOLBAR              PNG                  res\toolbar.png
 
 IDD_DIALOG1 DIALOG 0, 0, 186, 90
 STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU

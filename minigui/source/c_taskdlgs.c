@@ -9,21 +9,21 @@
 #if ! ( defined( __XHARBOUR__ ) )
 
 #undef _WIN32_WINNT
-#define _WIN32_WINNT     0x0600
+#define _WIN32_WINNT       0x0600
 
 #undef NTDDI_VERSION
-#define NTDDI_VERSION    0x06000000
+#define NTDDI_VERSION      0x06000000
 
 #define UNICODE
 
 #if defined( __MINGW32__ )
-#define MAKEINTRESOURCEA( i )  ( ( LPSTR ) ( ( ULONG_PTR ) ( ( WORD ) ( i ) ) ) )
-#define MAKEINTRESOURCEW( i )  ( ( LPWSTR ) ( ( ULONG_PTR ) ( ( WORD ) ( i ) ) ) )
-#ifdef UNICODE
-#define MAKEINTRESOURCE  MAKEINTRESOURCEW
-#else
-#define MAKEINTRESOURCE  MAKEINTRESOURCEA
-#endif  /* UNICODE */
+# define MAKEINTRESOURCEA( i )  ( ( LPSTR ) ( ( ULONG_PTR ) ( ( WORD ) ( i ) ) ) )
+# define MAKEINTRESOURCEW( i )  ( ( LPWSTR ) ( ( ULONG_PTR ) ( ( WORD ) ( i ) ) ) )
+# ifdef UNICODE
+#  define MAKEINTRESOURCE  MAKEINTRESOURCEW
+# else
+#  define MAKEINTRESOURCE  MAKEINTRESOURCEA
+# endif /* UNICODE */
 #endif  /* __MINGW32__ */
 
 #include <hbwinuni.h>
@@ -39,11 +39,6 @@
 #include "TaskDlgs.h"
 
 #if ( ( defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 ) )
-#ifdef MAKELONG
-  #undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 
 HRESULT TaskDialog( HWND hwndParent, HINSTANCE hInstance, PCWSTR pszWindowTitle, PCWSTR pszMainInstruction, PCWSTR pszContent, TASKDIALOG_COMMON_BUTTON_FLAGS dwCommonButtons, PCWSTR pszIcon, int * pnButton )
 {
@@ -83,7 +78,7 @@ HRESULT TaskDialogIndirect( const TASKDIALOGCONFIG * pTaskConfig, int * pnButton
    }
    return -1;
 }
-#endif
+#endif /* defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 */
 
 HB_FUNC( WIN_TASKDIALOG0 )
 {
@@ -441,11 +436,11 @@ HB_FUNC( WIN_TASKDIALOGINDIRECT0 )
       iType = hb_arrayGetType( pConfig, TDC_FOOTERICON );
       if( iType & HB_IT_NUMERIC )
       {
-         #if ( defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 )
+        #if ( defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 )
          config.DUMMYUNIONNAME2.pszFooterIcon = MAKEINTRESOURCE( hb_arrayGetNI( pConfig, TDC_FOOTERICON ) );
-         #else
+        #else
          config.pszFooterIcon = MAKEINTRESOURCE( hb_arrayGetNI( pConfig, TDC_FOOTERICON ) );
-         #endif
+        #endif
       }
       else if( iType & HB_IT_POINTER )
       {
@@ -457,13 +452,13 @@ HB_FUNC( WIN_TASKDIALOGINDIRECT0 )
       }
       else
       {
-         #if ( defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 )
+        #if ( defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 )
          config.DUMMYUNIONNAME2.hFooterIcon   = NULL;
          config.DUMMYUNIONNAME2.pszFooterIcon = NULL;
-         #else
+        #else
          config.hFooterIcon   = NULL;
          config.pszFooterIcon = NULL;
-         #endif
+        #endif
       }
 
       // 21 PCWSTR pszFooter;
@@ -664,7 +659,7 @@ static const char * TD_NotifyToMsg( UINT uiNotification, PHB_ITEM pObj )
       { TDN_CREATED,                "ONCREATED"              },
       { TDN_DIALOG_CONSTRUCTED,     "ONCONSTRUCTED"          },
       { TDN_DESTROYED,              "ONDESTROYED"            },
-/*      { TDN_NAVIGATED, "ONNAVIGATED" }, */
+      /* { TDN_NAVIGATED, "ONNAVIGATED" }, */
       { TDN_BUTTON_CLICKED,         "ONBUTTONCLICKED"        },
       { TDN_HYPERLINK_CLICKED,      "ONHYPERLINKCLICKED"     },
       { TDN_TIMER,                  "ONTIMER"                },

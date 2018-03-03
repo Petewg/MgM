@@ -51,17 +51,12 @@
 #include <mmsystem.h>
 
 #if defined( __BORLANDC__ )
-#pragma warn -use /* unused var */
+# pragma warn -use /* unused var */
 #endif
 
 #include <vfw.h>
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
-extern HINSTANCE g_hInstance;
+HINSTANCE GetResources( void );
 
 HB_FUNC( MESSAGEBEEP )
 {
@@ -76,7 +71,7 @@ HB_FUNC( C_PLAYWAVE )
    if( hb_parl( 2 ) )
    {
       Style = Style | SND_RESOURCE;
-      hmod  = g_hInstance;
+      hmod  = GetResources();
    }
    else
       Style = Style | SND_FILENAME;
@@ -98,7 +93,7 @@ HB_FUNC( C_PLAYWAVE )
 
 HB_FUNC( STOPWAVE )
 {
-   hb_retl( PlaySound( ( LPCSTR ) NULL, ( HMODULE ) g_hInstance, SND_PURGE ) );
+   hb_retl( PlaySound( ( LPCSTR ) NULL, ( HMODULE ) GetResources(), SND_PURGE ) );
 }
 
 HB_FUNC( INITPLAYER )
@@ -196,7 +191,7 @@ HB_FUNC( INITANIMATE )
    if( hb_parl( 8 ) )
       Style = Style | ACS_TRANSPARENT;
 
-   hwnd = Animate_Create( ( HWND ) HB_PARNL( 1 ), NULL, Style, g_hInstance );
+   hwnd = Animate_Create( ( HWND ) HB_PARNL( 1 ), NULL, Style, GetResources() );
 
    if( hwnd == NULL )
    {

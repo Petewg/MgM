@@ -59,7 +59,7 @@
 LRESULT APIENTRY  LabelSubClassFunc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 static WNDPROC LabelOldWndProc;
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITLABEL )
 {
@@ -93,6 +93,9 @@ HB_FUNC( INITLABEL )
    if( hb_parl( 19 ) )
       Style |= SS_CENTERIMAGE;
 
+   if( hb_parl( 20 ) )
+      Style |= SS_NOPREFIX;
+
    if( hb_parl( 12 ) )
       ExStyle |= WS_EX_CLIENTEDGE;
 
@@ -109,7 +112,7 @@ HB_FUNC( INITLABEL )
                           hb_parni( 7 ),
                           hWndParent,
                           ( HMENU ) HB_PARNL( 3 ),
-                          g_hInstance,
+                          GetInstance(),
                           NULL );
 
    if( hb_parl( 10 ) )

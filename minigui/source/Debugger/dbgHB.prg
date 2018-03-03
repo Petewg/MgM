@@ -2,7 +2,7 @@
 /*----------------------------------------------------------------------------
  HMG DEBUGGER - GUI Debugger for HMG
 
- Copyright 2015-2016 by Dr. Claudio Soto (from Uruguay). 
+ Copyright 2015-2016 by Dr. Claudio Soto (from Uruguay).
  mail: <srvet@adinet.com.uy>
  blog: http://srvet.blogspot.com
 
@@ -290,7 +290,7 @@ METHOD LoadCallStack() CLASS HMGDebugger
 
    IFFAIL( NIL )
    ::aProcStack := Array( ::nProcLevel )
-   nCurrLevel := __dbgProcLevel() - 1
+   nCurrLevel := __dbgProcLevel() -1
    nDebugLevel := nCurrLevel - ::nProcLevel + 1
 
    FOR i := nDebugLevel TO nCurrLevel
@@ -555,7 +555,7 @@ METHOD BreakPointToggle( cFileName, nLine ) CLASS HMGDebugger   // CMD_BADD  &  
    hb_default( @nLine, ::GetNextValidStopLine( 2 ) )
    nAt := ::IsBreakPoint( cFileName, nLine )
    IF nAt > 0
-      __dbgDelBreak( ::pInfo, nAt - 1 )
+      __dbgDelBreak( ::pInfo, nAt -1 )
       RETURN( - nAt )
    ELSEIF ::IsValidStopLine( cFileName, nLine )
       __dbgAddBreak( ::pInfo, cFileName, nLine )
@@ -572,7 +572,7 @@ RETURN 0
 METHOD BreakPointDelete( nPos ) CLASS HMGDebugger
    IFFAIL( .F. )
    IF nPos >= 1 .AND. nPos <= ::BreakPointCount()
-      __dbgDelBreak( ::pInfo, nPos - 1 )
+      __dbgDelBreak( ::pInfo, nPos -1 )
    ELSE
       ::GUIMessageBox( "BreakPointDelete: Invalid BreakPoint Number (", nPos, ")" )   // GUI: message box info
       RETURN .F.   // Invalid BreakPoint Number
@@ -586,7 +586,7 @@ METHOD BreakPointDeleteAll() CLASS HMGDebugger
    LOCAL i
    IFFAIL( NIL )
    FOR i := ::BreakPointCount() TO 1 STEP -1
-      __dbgDelBreak( ::pInfo, i - 1 )
+      __dbgDelBreak( ::pInfo, i -1 )
    NEXT
 
 RETURN NIL
@@ -640,7 +640,7 @@ METHOD WatchDelete( nWatch ) CLASS HMGDebugger   // CMD_WDEL
       ::GUIMessageBox( "WatchDelete: Invalid Watch number (", nWatch, ")" )   // GUI: message box info
       RETURN .F.   // Invalid Watch number
    ENDIF
-   __dbgDelWatch( ::pInfo, nWatch - 1 )
+   __dbgDelWatch( ::pInfo, nWatch -1 )
    hb_ADel( ::aWatch, nWatch, .T. )
 
 RETURN .T.
@@ -651,7 +651,7 @@ METHOD WatchDeleteAll() CLASS HMGDebugger
    LOCAL i
    IFFAIL( NIL )
    FOR i := ::WatchCount() TO 1 STEP -1
-      __dbgDelWatch( ::pInfo, i - 1 )
+      __dbgDelWatch( ::pInfo, i -1 )
       hb_ADel( ::aWatch, i, .T. )
    NEXT
 
@@ -696,7 +696,7 @@ METHOD WatchSetExpr( nWatch, cExpr ) CLASS HMGDebugger
    cExpr := AllTrim( cExpr )
    ::aWatch[ nWatch ][ WP_EXPR ] := cExpr
    lTracePoint := iif( ::aWatch[ nWatch ][ WP_TYPE ] == _TRACEPOINT_TEXT_, .T., .F. )
-   __dbgSetWatch( ::pInfo, nWatch - 1, cExpr, lTracePoint )
+   __dbgSetWatch( ::pInfo, nWatch -1, cExpr, lTracePoint )
    IF lTracePoint
       ::aWatch[ nWatch ][ WP_VALUE ] := ::GetExprValue( cExpr )
       ::aWatch[ nWatch ][ WP_FOUND ] := .F.
@@ -745,8 +745,8 @@ RETURN ::aPathForFiles := __dbgPathToArray( cPath )
 
 METHOD LoadSourceFile( cFileName ) CLASS HMGDebugger
 
-LOCAL cPrgCode, aLineCode := {}
-LOCAL i, cFileFullName := ""
+   LOCAL cPrgCode, aLineCode := {}
+   LOCAL i, cFileFullName := ""
    IF ! hb_FileExists( cFileName )
       FOR i := 1 TO Len( ::aPathForFiles )
          cFileFullName := ::aPathForFiles[ i ] + hb_ps() + cFileName
@@ -805,11 +805,11 @@ METHOD DoCommand( cCommand ) CLASS HMGDebugger
    n := At( " ", cCommand )
    IF n > 0
       cParam1 := AllTrim( SubStr( cCommand, n + 1 ) )
-      cCommand := Left( cCommand, n - 1 )
+      cCommand := Left( cCommand, n -1 )
       n := At( " ", cParam1 )
       IF n > 0
          cParam2 := AllTrim( SubStr( cParam1, n + 1 ) )
-         cParam1 := Left( cParam1, n - 1 )
+         cParam1 := Left( cParam1, n -1 )
       ENDIF
    ENDIF
    cCommand := Upper( cCommand )
@@ -1038,28 +1038,28 @@ METHOD GetAreas() CLASS HMGDebugger
 
    FOR n := 1 TO 512
       IF ( ( n )->( Used() ) )
-         arr1[ ++nAreas ] := n
+         arr1[++nAreas ] := n
       ENDIF
    NEXT
 
    nAlias := Select()
    FOR i := 1 TO nAreas
-      SELECT( arr1[ i ] )
+      Select( arr1[ i ] )
       AAdd ( aAreas, Array( WA_ITEMS ) )
-      aAreas[i ][ 1 ] := iif( arr1[ i ] == nAlias, "*", "" ) + Alias()
-      aAreas[i ][ 2 ] := hb_ntos( arr1[ i ] )
-      aAreas[i ][ 3 ] := rddName()
-      aAreas[i ][ 4 ] := hb_ntos( RecCount() )
-      aAreas[i ][ 5 ] := hb_ntos( RecNo() )
-      aAreas[i ][ 6 ] := iif( Bof(), "Yes", "No" )
-      aAreas[i ][ 7 ] := iif( Eof(), "Yes", "No" )
-      aAreas[i ][ 8 ] := iif( Found(), "Yes", "No" )
-      aAreas[i ][ 9 ] := iif( Deleted(), "Yes", "No" )
-      aAreas[i ][10 ] := dbFilter()
-      aAreas[i ][11 ] := ordName()
-      aAreas[i ][12 ] := ordKey()
+      aAreas[ i ][ 1 ] := iif( arr1[ i ] == nAlias, "*", "" ) + Alias()
+      aAreas[ i ][ 2 ] := hb_ntos( arr1[ i ] )
+      aAreas[ i ][ 3 ] := rddName()
+      aAreas[ i ][ 4 ] := hb_ntos( RecCount() )
+      aAreas[ i ][ 5 ] := hb_ntos( RecNo() )
+      aAreas[ i ][ 6 ] := iif( Bof(), "Yes", "No" )
+      aAreas[ i ][ 7 ] := iif( Eof(), "Yes", "No" )
+      aAreas[ i ][ 8 ] := iif( Found(), "Yes", "No" )
+      aAreas[ i ][ 9 ] := iif( Deleted(), "Yes", "No" )
+      aAreas[ i ][ 10 ] := dbFilter()
+      aAreas[ i ][ 11 ] := ordName()
+      aAreas[ i ][ 12 ] := ordKey()
    NEXT
-   SELECT( nAlias )
+   Select( nAlias )
 
 RETURN aAreas
 
@@ -1244,7 +1244,7 @@ STATIC FUNCTION __dbgPathToArray( cList )
    LOCAL nPos
    IF cList != NIL
       DO WHILE ( nPos := At( cSep, cList ) ) > 0
-         AAdd( aList, Left( cList, nPos - 1 ) )        // Add a new element
+         AAdd( aList, Left( cList, nPos -1 ) )        // Add a new element
          cList := SubStr( cList, nPos + 1 )
       ENDDO
       AAdd( aList, cList )              // Add final element
@@ -1409,17 +1409,17 @@ METHOD GetVars( aRawVars, nStackLevel, lShowPublics, lShowPrivates, lShowStatics
 
    aVars := {}
    FOR i := 1 TO Len( aBVars )
-      cType := Left( aBVars[i ][ VAR_TYPE ], 1 )
-      xValue := ::VarGetValue( aBVars[i ] )
+      cType := Left( aBVars[ i ][ VAR_TYPE ], 1 )
+      xValue := ::VarGetValue( aBVars[ i ] )
       DO CASE
       CASE cType == "G"
-         AAdd( aVars, { __dbgValToStr( aBVars[i ][ VAR_LEVEL ] ),     "Global", aBVars[i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
+         AAdd( aVars, { __dbgValToStr( aBVars[ i ][ VAR_LEVEL ] ),     "Global", aBVars[ i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
       CASE cType == "L"
-         AAdd( aVars, { __dbgValToStr( aBVars[i ][ VAR_LEVEL ] ),     "Local",  aBVars[i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
+         AAdd( aVars, { __dbgValToStr( aBVars[ i ][ VAR_LEVEL ] ),     "Local",  aBVars[ i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
       CASE cType == "S"
-         AAdd( aVars, { __dbgValToStr( aBVars[i ][ VAR_LEVEL + 1 ] ), "Static", aBVars[i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
+         AAdd( aVars, { __dbgValToStr( aBVars[ i ][ VAR_LEVEL + 1 ] ), "Static", aBVars[ i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
       OTHERWISE
-         AAdd( aVars, { __dbgValToStr( aBVars[i ][ VAR_LEVEL ] ), aBVars[i ][ VAR_TYPE ], aBVars[i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
+         AAdd( aVars, { __dbgValToStr( aBVars[ i ][ VAR_LEVEL ] ), aBVars[ i ][ VAR_TYPE ], aBVars[ i ][ VAR_NAME ], ValType( xValue ), __dbgValToStr( xValue ) } )
       ENDCASE
    NEXT
 
@@ -1430,8 +1430,8 @@ RETURN aVars
 
 
 #pragma BEGINDUMP
-#include "hbapi.h"
 
+#include "hbapi.h"
 
 typedef struct
 {
@@ -1514,14 +1514,15 @@ HB_FUNC ( __DBGRESETRUNFLAGS )
    HB_DEBUGINFO * info = ( HB_DEBUGINFO * ) hb_parptr( 1 );
 
    if( info )
-   {  if( info->bToCursor )
-          hb_xfree( info->szToCursorModule );
+   {
+      if( info->bToCursor )
+         hb_xfree( info->szToCursorModule );
+
       info->bGo          = HB_FALSE;
       info->bTraceOver   = HB_FALSE;
       info->bNextRoutine = HB_FALSE;
       info->bToCursor    = HB_FALSE;
    }
 }
-
 
 #pragma ENDDUMP

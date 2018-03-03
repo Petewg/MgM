@@ -109,7 +109,7 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
       MsgMiniGuiError ( "Control: " + ControlName + " Of " + ParentFormName + " Already defined." )
    ENDIF
 
-   IF transparent .AND. _HMG_FrameLevel == 0 .AND. IsXPThemeActive() // Fixed for transparent problem at themed WinXP and later
+   IF transparent .AND. _HMG_FrameLevel == 0 .AND. _HMG_IsThemed // Fixed for transparent problem at themed WinXP and later
       transparent := FALSE
       mVar := _HMG_aFormBkColor[ GetFormIndex ( ParentFormName ) ]
       IF backcolor == NIL .AND. mVar[1] < 0 .AND. mVar[2] < 0 .AND. mVar[3] < 0
@@ -233,6 +233,10 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
    _HMG_aControlMiscData1 [k] :=  0
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF .NOT. lDialogInMemory
       IF threestate .AND. value == NIL
          SendMessage( Controlhandle , BM_SETCHECK , BST_INDETERMINATE , 0 )
@@ -241,7 +245,7 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
       ENDIF
       IF autosize == .T.
          _SetControlWidth ( ControlName , ParentFormName , GetTextWidth( NIL, Caption, FontHandle ) + ;
-            iif( bold == .T. .AND. IsXPThemeActive(), GetTextWidth( NIL, " ", FontHandle ), 0 ) + 20 )
+            iif( bold == .T. .AND. _HMG_IsThemed, GetTextWidth( NIL, " ", FontHandle ), 0 ) + 20 )
          _SetControlHeight ( ControlName , ParentFormName , FontSize + iif( FontSize < 12, 12, 16 ) )
          RedrawWindow ( ControlHandle )
       ENDIF
@@ -403,6 +407,10 @@ FUNCTION _DefineCheckButton ( ControlName, ParentFormName, x, y, Caption, Value,
    _HMG_aControlMiscData1 [k] := 2
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF value == .T. .AND. .NOT. lDialogInMemory
       SendMessage( Controlhandle , BM_SETCHECK , BST_CHECKED , 0 )
    ENDIF
@@ -505,7 +513,7 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', 0, bitmap, w, h, invisible, notabstop, IsAppXPThemed() )
+      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', 0, bitmap, w, h, invisible, notabstop, _HMG_IsThemed )
 
       ControlHandle := aRet[1]
       nhImage := aRet[2]
@@ -565,6 +573,10 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
    _HMG_aControlEnabled  [k] :=  .T.
    _HMG_aControlMiscData1 [k] := 1
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF value == .T. .AND. .NOT. lDialogInMemory
       SendMessage( Controlhandle , BM_SETCHECK , BST_CHECKED , 0 )

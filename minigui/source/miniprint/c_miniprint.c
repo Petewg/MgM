@@ -32,10 +32,10 @@
         "Harbour GUI framework for Win32"
         Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
         Copyright 2001 Antonio Linares <alinares@fivetech.com>
-        www - http://harbour-project.org
+        www - https://harbour.github.io/
 
         "Harbour Project"
-        Copyright 1999-2017, http://harbour-project.org/
+        Copyright 1999-2018, https://harbour.github.io/
 
    Parts of this module are based upon:
 
@@ -52,30 +52,28 @@
 ///////////////////////////////////////////////////////////////////////////////
 // LOW LEVEL C PRINT ROUTINES
 ///////////////////////////////////////////////////////////////////////////////
+
 #ifndef CINTERFACE
   #define CINTERFACE
 #endif
 
 #define WINVER     0x0410
 
+#define NO_LEAN_AND_MEAN
+
 #include <mgdefs.h>
 #include "hbapiitm.h"
-#include "olectl.h"
+
+#include <olectl.h>
 
 #ifndef WC_STATIC
-#define WC_STATIC  "Static"
+#define WC_STATIC    "Static"
 #endif
 
 static DWORD charset = DEFAULT_CHARSET;
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 extern HBITMAP HMG_LoadImage( char * FileName );
-
-#if defined( __BORLANDC__ )
-#undef MAKELONG
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | \
-                                       ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-#endif
 
 HB_FUNC( _HMG_SETCHARSET )
 {
@@ -104,6 +102,7 @@ HB_FUNC( _HMG_PRINTER_STARTDOC )
 
       hb_retni( StartDoc( hdcPrint, &docInfo ) );
    }
+
 }
 
 HB_FUNC( _HMG_PRINTER_STARTPAGE )
@@ -434,6 +433,7 @@ HB_FUNC( _HMG_PRINTER_C_MULTILINE_PRINT )
 
 HB_FUNC( _HMG_PRINTER_ENDPAGE )
 {
+
    HDC hdcPrint = ( HDC ) HB_PARNL( 1 );
 
    if( hdcPrint != 0 )
@@ -443,6 +443,7 @@ HB_FUNC( _HMG_PRINTER_ENDPAGE )
 
 HB_FUNC( _HMG_PRINTER_ENDDOC )
 {
+
    HDC hdcPrint = ( HDC ) HB_PARNL( 1 );
 
    if( hdcPrint != 0 )
@@ -452,6 +453,7 @@ HB_FUNC( _HMG_PRINTER_ENDDOC )
 
 HB_FUNC( _HMG_PRINTER_DELETEDC )
 {
+
    HDC hdcPrint = ( HDC ) HB_PARNL( 1 );
 
    DeleteDC( hdcPrint );
@@ -1492,44 +1494,56 @@ HB_FUNC( _HMG_PRINTER_PREVIEW_DISABLEHSCROLLBAR )
 
 HB_FUNC( _HMG_PRINTER_GETPRINTERWIDTH )
 {
+
    HDC hdc = ( HDC ) HB_PARNL( 1 );
 
    hb_retnl( GetDeviceCaps( hdc, HORZSIZE ) );
+
 }
 
 HB_FUNC( _HMG_PRINTER_GETPRINTERHEIGHT )
 {
+
    HDC hdc = ( HDC ) HB_PARNL( 1 );
 
    hb_retnl( GetDeviceCaps( hdc, VERTSIZE ) );
+
 }
 
 HB_FUNC( _HMG_PRINTER_GETPRINTABLEAREAPHYSICALOFFSETX )
 {
+
    HDC hdc = ( HDC ) HB_PARNL( 1 );
 
    hb_retnl( GetDeviceCaps( hdc, PHYSICALOFFSETX ) );
+
 }
 
 HB_FUNC( _HMG_PRINTER_GETPRINTABLEAREALOGPIXELSX )
 {
+
    HDC hdc = ( HDC ) HB_PARNL( 1 );
 
    hb_retnl( GetDeviceCaps( hdc, LOGPIXELSX ) );
+
 }
 
 HB_FUNC( _HMG_PRINTER_GETPRINTABLEAREAPHYSICALOFFSETY )
 {
+
    HDC hdc = ( HDC ) HB_PARNL( 1 );
 
    hb_retnl( GetDeviceCaps( hdc, PHYSICALOFFSETY ) );
+
 }
 
 HB_FUNC( _HMG_PRINTER_GETPRINTABLEAREALOGPIXELSY )
 {
+
    HDC hdc = ( HDC ) HB_PARNL( 1 );
 
    hb_retnl( GetDeviceCaps( hdc, LOGPIXELSY ) );
+
 }
 
 HB_FUNC( _HMG_PRINTER_C_IMAGE )
@@ -1566,7 +1580,7 @@ HB_FUNC( _HMG_PRINTER_C_IMAGE )
       dc = ( odc * GetDeviceCaps( hdcPrint, LOGPIXELSX ) / 1000 );
       dr = ( odr * GetDeviceCaps( hdcPrint, LOGPIXELSY ) / 1000 );
 
-      hBitmap = ( HBITMAP ) LoadImage( g_hInstance, FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+      hBitmap = ( HBITMAP ) LoadImage( GetInstance(), FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
       if( hBitmap == NULL )
          hBitmap = ( HBITMAP ) LoadImage( NULL, FileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
@@ -1625,12 +1639,14 @@ HB_FUNC( _HMG_PRINTER_C_IMAGE )
       DeleteObject( hBitmap );
       DeleteDC( memDC );
    }
+
 }
 
 //  GetJobInfo ( cPrinterName, nJobID ) --> { nJobID, cPrinterName, cMachineName, cUserName, cDocument, cDataType, cStatus, nStatus
 //                                            nPriorityLevel, nPositionPrintQueue, nTotalPages, nPagesPrinted, cLocalDate, cLocalTime }
 HB_FUNC( _HMG_PRINTGETJOBINFO )
 {
+
    char *     cPrinterName = ( char * ) hb_parc( 1 );
    DWORD      nJobID       = ( DWORD ) hb_parni( 2 );
    HANDLE     hPrinter     = NULL;
@@ -1687,10 +1703,12 @@ HB_FUNC( _HMG_PRINTGETJOBINFO )
    }
    else
       hb_reta( 0 );
+
 }
 
 HB_FUNC( _HMG_PRINTERGETSTATUS )
 {
+
    char * cPrinterName = ( char * ) hb_parc( 1 );
    HANDLE hPrinter     = NULL;
    DWORD  nBytesNeeded = 0;
@@ -1720,22 +1738,28 @@ HB_FUNC( _HMG_PRINTERGETSTATUS )
    }
    else
       hb_retnl( PRINTER_STATUS_NOT_AVAILABLE );
+
 }
 
 HB_FUNC( GETTEXTALIGN )
 {
+
    hb_retni( GetTextAlign( ( HDC ) HB_PARNL( 1 ) ) );
+
 }
 
 HB_FUNC( SETTEXTALIGN )
 {
+
    hb_retni( SetTextAlign( ( HDC ) HB_PARNL( 1 ), ( UINT ) hb_parni( 2 ) ) );
+
 }
 
 static HBITMAP loademffile( char * filename, int width, int height, HWND handle, int scalestrech, int whitebackground );
 
 HB_FUNC( INITEMFFILE )
 {
+
    HWND hWnd;
    HWND hWndParent = ( HWND ) HB_PARNL( 1 );
    int  Style      = WS_CHILD | SS_BITMAP;
@@ -1746,13 +1770,15 @@ HB_FUNC( INITEMFFILE )
    if( hb_parl( 6 ) )
       Style |= SS_NOTIFY;
 
-   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), g_hInstance, NULL );
+   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), GetInstance(), NULL );
 
    HB_RETNL( ( LONG_PTR ) hWnd );
+
 }
 
 HB_FUNC( C_SETEMFFILE )
 {
+
    HBITMAP hBitmap;
 
    if( hb_parclen( 2 ) == 0 )
@@ -1764,10 +1790,12 @@ HB_FUNC( C_SETEMFFILE )
       SendMessage( ( HWND ) HB_PARNL( 1 ), ( UINT ) STM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) hBitmap );
 
    HB_RETNL( ( LONG_PTR ) hBitmap );
+
 }
 
 static BOOL read_image( char * filename, DWORD * nFileSize, HGLOBAL * hMem )
 {
+
    HANDLE hFile;
    LPVOID lpDest;
    DWORD  dwFileSize;
@@ -1786,15 +1814,19 @@ static BOOL read_image( char * filename, DWORD * nFileSize, HGLOBAL * hMem )
       CloseHandle( hFile );
       return FALSE;
    }
+
    *nFileSize = dwFileSize;
+
    // lock memory for image
    lpDest = GlobalLock( *hMem );
+
    if( lpDest == NULL )
    {
       GlobalFree( *hMem );
       CloseHandle( hFile );
       return FALSE;
    }
+
    // read file and store in global memory
    bRead = ReadFile( hFile, lpDest, dwFileSize, &dwBytesRead, NULL );
 
@@ -1806,11 +1838,14 @@ static BOOL read_image( char * filename, DWORD * nFileSize, HGLOBAL * hMem )
       GlobalFree( *hMem );
       return FALSE;
    }
+
    return TRUE;
+
 }
 
 static void calc_rect( HWND handle, int width, int height, int scalestrech, LONG lWidth, LONG lHeight, RECT * rect, RECT * rect2 )
 {
+
    if( width == 0 && height == 0 )
       GetClientRect( handle, rect );
    else
@@ -1828,10 +1863,12 @@ static void calc_rect( HWND handle, int width, int height, int scalestrech, LONG
 
    rect->left = ( int ) ( width - rect->right ) / 2;
    rect->top  = ( int ) ( height - rect->bottom ) / 2;
+
 }
 
 static HBITMAP loademffile( char * filename, int width, int height, HWND handle, int scalestrech, int whitebackground )
 {
+
    IStream *  iStream;
    IPicture * iPicture = NULL;
    HGLOBAL    hMem     = ( HGLOBAL ) NULL;
@@ -1893,4 +1930,5 @@ static HBITMAP loademffile( char * filename, int width, int height, HWND handle,
    ReleaseDC( handle, imgDC );
 
    return bitmap;
+
 }

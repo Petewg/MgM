@@ -52,22 +52,18 @@
 #define _WIN32_WINNT  0x0501
 
 #include <mgdefs.h>
+
 #include "hbapierr.h"
 #include "hbapiitm.h"
 
 #include <commctrl.h>
 
 #ifndef TTS_CLOSE
-   #define TTS_CLOSE  0x80
+# define TTS_CLOSE  0x80
 #endif
 #ifndef TTM_POPUP
-   #define TTM_POPUP  ( WM_USER + 34 )
+# define TTM_POPUP  ( WM_USER + 34 )
 #endif
-
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 
 extern BOOL _isValidCtrlClass( HWND, const char * );
 
@@ -76,7 +72,7 @@ extern BOOL Array2Rect( PHB_ITEM aPoint, RECT * rect );
 extern BOOL Array2ColorRef( PHB_ITEM aCRef, COLORREF * cr );
 extern HB_EXPORT PHB_ITEM Rect2Array( RECT * rc );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 static HB_BOOL g_bIsToolTipActive  = TRUE;
 static HB_BOOL g_bIsToolTipBalloon = FALSE;
@@ -158,7 +154,7 @@ HB_FUNC( INITTOOLTIP )
          CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
          hwndParent,
          ( HMENU ) NULL,
-         g_hInstance,
+         GetInstance(),
          NULL
                     );
 
@@ -263,7 +259,7 @@ HB_FUNC( INITTOOLTIPEX )
          CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
          hwndParent,
          ( HMENU ) NULL,
-         g_hInstance,
+         GetInstance(),
          NULL
                     );
 
@@ -275,7 +271,7 @@ HB_FUNC( INITTOOLTIPEX )
       ti.hwnd     = hwndParent;
       ti.uId      = ( UINT_PTR ) hwndParent;
       ti.rect     = rect;
-      ti.hinst    = g_hInstance;
+      ti.hinst    = GetInstance();
       ti.lpszText = lpszText;
 
       // Associate the tooltip with the "tool" window.

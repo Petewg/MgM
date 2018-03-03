@@ -46,7 +46,8 @@
 ---------------------------------------------------------------------------*/
 
 #ifndef __HMG__
-#define __HMG__ 0x020704 /* Three bytes: Major + Minor + Build. */
+
+#include "mgver.h"
 
 /* ***********************************************************************
  * Enable support for legacy functions
@@ -127,9 +128,16 @@
  */
 
 /* ***********************************************************************
+ * Enable support for the internal OOP classes
+ *
+ * By default this is turned ON.
+ */
+#define _OBJECT_
+
+/* ***********************************************************************
  * Enable support for User Components in HMG
  *
- * By default this is turned on.
+ * By default this is turned ON.
  */
 #define _USERINIT_
 
@@ -217,4 +225,4 @@
   REQUEST HB_GT_WIN_DEFAULT
 #endif
 
-#endif
+#endif /* __HMG__ */

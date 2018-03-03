@@ -54,8 +54,17 @@
 #endif
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
+
+#if defined( _MSC_VER )
+# pragma warning(push)
+# pragma warning(disable:4201)  /* warning C4201: nonstandard extension used: nameless struct/union */
+#endif
 #include <olectl.h>
+#if defined( _MSC_VER )
+# pragma warning(pop)
+#endif
 #ifdef __XCC__
 # include "ocidl.h"
 #endif
@@ -66,7 +75,7 @@
 #include "hbvm.h"
 
 #ifndef WC_STATIC
-# define WC_STATIC  "Static"
+#define WC_STATIC  "Static"
 #endif
 
 #define LOGHIMETRIC_TO_PIXEL( hm, ppli )  MulDiv( ( hm ), ( ppli ), 2540 ) // ppli = Point per Logic Inch
@@ -83,8 +92,8 @@ HB_EXPORT HBITMAP   HMG_LoadPicture( const char * pszName, int width, int height
                                      HB_BOOL bAlphaFormat, int iAlpfaConstant );
 HB_EXPORT HBITMAP   HMG_OleLoadPicturePath( const char * pszURLorPath );
 
-extern HINSTANCE g_hInstance;
-static WNDPROC   s_Image_WNDPROC;
+HINSTANCE GetResources( void );
+static WNDPROC s_Image_WNDPROC;
 
 // ================================================================================== //
 
@@ -183,13 +192,13 @@ static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type 
    res_nameW = hb_mbtowc( res_name );
 
    if( NULL != fn_GdipCreateBitmapFromResource )
-      status = fn_GdipCreateBitmapFromResource( g_hInstance, res_nameW, &gpBitmap );
+      status = fn_GdipCreateBitmapFromResource( GetResources(), res_nameW, &gpBitmap );
 
    if( Ok != status && NULL != res_type )
    {
       IStream * stream;
 
-      stream = HMG_CreateMemStreamFromResource( g_hInstance, res_name, res_type );
+      stream = HMG_CreateMemStreamFromResource( GetResources(), res_name, res_type );
 
       if( NULL != stream )
       {
@@ -200,14 +209,8 @@ static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type 
       }
    }
 
-   if( Ok != status && NULL != fn_GdipCreateBitmapFromFile )
-   {
-      UINT uOldErrorMode = SetErrorMode( SEM_NOOPENFILEERRORBOX );
-
+   if( Ok != status && NULL == res_type && NULL != fn_GdipCreateBitmapFromFile )
       status = fn_GdipCreateBitmapFromFile( res_nameW, &gpBitmap );
-
-      SetErrorMode( uOldErrorMode );
-   }
 
    if( Ok == status )
    {
@@ -287,7 +290,7 @@ HB_FUNC( INITIMAGE )
    if( hb_parl( 6 ) || hb_parl( 7 ) )
       Style |= SS_NOTIFY;
 
-   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), g_hInstance, NULL );
+   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), GetResources(), NULL );
 
    if( hb_parl( 7 ) )
       s_Image_WNDPROC = ( WNDPROC ) SetWindowLongPtr( hWnd, GWLP_WNDPROC, ( LONG_PTR ) ImageSubClassFunc );
@@ -383,7 +386,7 @@ HB_EXPORT HBITMAP HMG_LoadPicture( const char * pszName, int width, int height, 
 
    if( bAlphaFormat == HB_FALSE ) // Firstly find BMP image in resourses (.EXE file)
    {
-      hBitmap_new = ( HBITMAP ) LoadImage( g_hInstance, pszName, IMAGE_BITMAP, 0, 0, fuLoad );
+      hBitmap_new = ( HBITMAP ) LoadImage( GetResources(), pszName, IMAGE_BITMAP, 0, 0, fuLoad );
       // If fail: find BMP in disk
       if( hBitmap_new == NULL )
          hBitmap_new = ( HBITMAP ) LoadImage( NULL, pszName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | fuLoad );

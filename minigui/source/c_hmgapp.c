@@ -52,17 +52,15 @@
 #define WINVER  0x0410
 
 #include <mgdefs.h>
+
 #include "shlwapi.h"
+
 #include "hbinit.h"
 
 #define _HMG_STUB_
-# include "hbgdiplus.h"
+#include "hbgdiplus.h"
 #undef _HMG_STUB_
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )             ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
 #define PACKVERSION( major, minor )  MAKELONG( minor, major )
 
 extern void hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
@@ -70,7 +68,7 @@ extern GpStatus GdiplusInit( void );
 
 HINSTANCE GetInstance( void );
 HMODULE   hmg_LoadLibrarySystem( LPCTSTR pFileName );
-// util's
+// auxiliary functions
 TCHAR * hmg_tstrdup( const TCHAR * pszText );
 TCHAR * hmg_tstrncat( TCHAR * pDest, const TCHAR * pSource, HB_SIZE nLen );
 HB_SIZE hmg_tstrlen( const TCHAR * pText );
@@ -81,8 +79,8 @@ static TCHAR * hmg_FileNameAtSystemDir( const TCHAR * pFileName );
 
 typedef HRESULT ( CALLBACK * _DLLGETVERSIONPROC )( DLLVERSIONINFO2 * );
 
-HINSTANCE g_hInstance     = NULL;
-DWORD     g_dwComCtl32Ver = 0;
+static HINSTANCE g_hInstance     = NULL;
+static DWORD     g_dwComCtl32Ver = 0;
 
 static void hmg_init( void )
 {
@@ -139,7 +137,7 @@ static DWORD DllGetVersion( LPCTSTR lpszDllName )
 
          dvi.info1.cbSize = sizeof( dvi );
 
-         hr = ( *pDllGetVersion )( &dvi );
+         hr = ( * pDllGetVersion )(&dvi );
          if( S_OK == hr )
             dwVersion = PACKVERSION( dvi.info1.dwMajorVersion, dvi.info1.dwMinorVersion );
       }
@@ -166,7 +164,7 @@ HB_FUNC( OLEDATARELEASE )
 
 // borrowed from hbwapi.lib [vszakats]
 #ifndef LOAD_LIBRARY_SEARCH_SYSTEM32
-   #define LOAD_LIBRARY_SEARCH_SYSTEM32  0x00000800
+# define LOAD_LIBRARY_SEARCH_SYSTEM32  0x00000800
 #endif
 
 static HB_BOOL win_has_search_system32( void )
@@ -230,7 +228,6 @@ TCHAR * hmg_tstrdup( const TCHAR * pszText )
    return pszDup;
 }
 
-/* NOTE: Based on hb_strncat() */
 TCHAR * hmg_tstrncat( TCHAR * pDest, const TCHAR * pSource, HB_SIZE nLen )
 {
    TCHAR * pBuf = pDest;

@@ -60,7 +60,8 @@ extern HBITMAP HMG_LoadImage( const char * FileName );
 extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
                                 HB_BOOL bAlphaFormat, int iAlpfaConstant );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 HB_FUNC( INITIMAGELIST )   //InitImageList ( cx , cy, mask , nCount )
 {
@@ -88,18 +89,18 @@ HB_FUNC( IL_ADD )          //IL_Add( hwnd , image , maskimage , ix , iy , imagec
    if( hb_parni( 6 ) )
       ic = hb_parni( 6 );
 
-   himage1 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+   himage1 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage1 == NULL )
-      himage1 = ( HBITMAP ) LoadImage( 0, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage1 = ( HBITMAP ) LoadImage( NULL, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage1 == NULL )
       himage1 = ( HBITMAP ) HMG_LoadImage( hb_parc( 2 ) );
 
    himage2 = 0;
    if( hb_parclen( 3 ) )
    {
-      himage2 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage2 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
       if( himage2 == NULL )
-         himage2 = ( HBITMAP ) LoadImage( 0, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+         himage2 = ( HBITMAP ) LoadImage( NULL, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
       if( himage2 == NULL )
          himage2 = ( HBITMAP ) HMG_LoadImage( hb_parc( 3 ) );
    }
@@ -126,9 +127,9 @@ HB_FUNC( IL_ADDMASKED ) //IL_AddMasked( hwnd , image , color , ix , iy , imageco
    if( hb_parni( 6 ) )
       ic = hb_parni( 6 );
 
-   himage1 = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+   himage1 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage1 == NULL )
-      himage1 = ( HBITMAP ) LoadImage( 0, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage1 = ( HBITMAP ) LoadImage( NULL, hb_parc( 2 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
    if( himage1 == NULL )
       himage1 = ( HBITMAP ) HMG_LoadPicture( hb_parc( 2 ), -1, -1, hwnd, 0, 1, -1, 0, HB_FALSE, 255 );
 

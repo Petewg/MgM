@@ -51,22 +51,22 @@
 #include <richedit.h>
 
 #if defined ( __MINGW32__ ) && defined ( __MINGW32_VERSION )
-#define IMF_AUTOFONT      0x0002
+# define IMF_AUTOFONT      0x0002
 #endif
 
 #if defined ( __WATCOMC__ )
-#define ENM_DRAGDROPDONE  0x00000010
-#define SF_USECODEPAGE    0x0020          /* CodePage given by high word */
+# define ENM_DRAGDROPDONE  0x00000010
+# define SF_USECODEPAGE    0x0020          /* CodePage given by high word */
 #endif
 
 #if defined( MSFTEDIT_CLASS )
-#undef MSFTEDIT_CLASS
+# undef MSFTEDIT_CLASS
 #endif
-#define MSFTEDIT_CLASS    "RICHEDIT50W"
+#define MSFTEDIT_CLASS     "RICHEDIT50W"
 
 static BOOL IsWinxpSp1Min( void );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 static HINSTANCE hRELib = NULL;
 
@@ -121,7 +121,7 @@ HB_FUNC( INITRICHEDITBOX )
          hb_parni( 6 ),
          ( HWND ) HB_PARNL( 1 ),
          ( HMENU ) HB_PARNL( 2 ),
-         g_hInstance,
+         GetInstance(),
          NULL
             );
 

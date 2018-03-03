@@ -49,9 +49,11 @@
  */
 
 #include <mgdefs.h>
+
 #include <shellapi.h>
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 // HICON WINAPI CopyIcon( HICON hIcon )
 HB_FUNC( COPYICON )
@@ -82,7 +84,7 @@ HB_FUNC( LOADICON )
 // HICON ExtractIcon( HINSTANCE hInst, LPCTSTR lpszExeFileName, UINT nIconIndex )
 HB_FUNC( EXTRACTICON )
 {
-   HB_RETNL( ( LONG_PTR ) ExtractIcon( g_hInstance, hb_parc( 1 ), ( UINT ) hb_parni( 2 ) ) );
+   HB_RETNL( ( LONG_PTR ) ExtractIcon( GetInstance(), hb_parc( 1 ), ( UINT ) hb_parni( 2 ) ) );
 }
 
 // UINT ExtractIconEx( LPCTSTR lpszFile, int nIconIndex, HICON *phiconLarge, HICON *phiconSmall, UINT nIcons )
@@ -115,10 +117,10 @@ HB_FUNC( LOADICONBYNAME )
    if( hb_parclen( 1 ) > 0 )
    {
       const char * pszResOrFile = hb_parc( 1 );
-      int cxDesired = hb_parni( 2 );
-      int cyDesired = hb_parni( 3 );
-      HINSTANCE hInstance = HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : g_hInstance;
- 
+      int          cxDesired    = hb_parni( 2 );
+      int          cyDesired    = hb_parni( 3 );
+      HINSTANCE    hInstance    = HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : GetResources();
+
       hIcon = ( HICON ) LoadImage( hInstance, pszResOrFile, IMAGE_ICON, cxDesired, cyDesired, LR_DEFAULTCOLOR );
 
       if( hIcon == NULL )
@@ -130,8 +132,8 @@ HB_FUNC( LOADICONBYNAME )
 
 HB_FUNC( DRAWICONEX )
 {
-   HWND   hwnd  = ( HWND ) HB_PARNL( 1 );
-   
+   HWND hwnd = ( HWND ) HB_PARNL( 1 );
+
    if( IsWindow( hwnd ) )
    {
       HICON  hIcon = ( HICON ) HB_PARNL( 4 );
@@ -141,7 +143,7 @@ HB_FUNC( DRAWICONEX )
       hb_retl( DrawIconEx( hdc, hb_parni( 2 ), hb_parni( 3 ), hIcon, hb_parni( 5 ), hb_parni( 6 ), 0, hbrFlickerFreeDraw, DI_NORMAL ) );
 
       DeleteObject( hbrFlickerFreeDraw );
-   
+
       if( hb_parldef( 8, HB_TRUE ) )
          DestroyIcon( hIcon );
 

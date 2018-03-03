@@ -265,7 +265,7 @@ FUNCTION _DefineTree ( ControlName, ParentFormName, row, col, width, height, cha
    _HMG_aControlPageMap  [k] :=  {}
    _HMG_aControlValue  [k] :=  Nil
    _HMG_aControlInputMask  [k] :=  itemids
-   _HMG_aControllostFocusProcedure [k] :=   lostfocus
+   _HMG_aControllostFocusProcedure [k] :=  lostfocus
    _HMG_aControlGotFocusProcedure  [k] :=  gotfocus
    _HMG_aControlChangeProcedure  [k] :=  change
    _HMG_aControlDeleted  [k] :=  .F.
@@ -296,6 +296,10 @@ FUNCTION _DefineTree ( ControlName, ParentFormName, row, col, width, height, cha
    _HMG_aControlEnabled  [k] :=  .T.
    _HMG_aControlMiscData1 [k] := { 0, aImgNode, aImgItem }
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
 RETURN Nil
 

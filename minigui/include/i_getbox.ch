@@ -73,6 +73,7 @@
 
 #command @ <row>, <col> GETBOX <name>   ;
         [ID <nId>]                      ;
+        [ OBJ <oGet> ] ;
         [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
         [ HEIGHT <height> ]             ;
         [ WIDTH <width> ]               ;
@@ -108,7 +109,7 @@
         [ <noborder: NOBORDER> ]	;
         [ HELPID <helpid> ]             ;
    => ;
-        _DefineGetBox( <"name">, <"parent">, <col>, <row>, <width>, <height>, <value>, ;
+        [ <oGet> := ] _DefineGetBox( <"name">, <"parent">, <col>, <row>, <width>, <height>, <value>, ;
             <fontname>, <fontsize>, <tooltip>, <.password.>, <{lostfocus}>, <{gotfocus}>, <{uChange}>, ;
             <.RightAlign.>, <helpid>, <.readonly.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
             <"field">, <backcolor>, <fontcolor>, <.invisible.>, <.notabstop.>, <nId>, ;

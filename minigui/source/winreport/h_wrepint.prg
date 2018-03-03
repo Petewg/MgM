@@ -609,7 +609,9 @@ Local aka :={}, cword := ''
 default string to ""
       string := atrepl( "{",string,'')
       string := atrepl( "}",string,'')
-      aka := HB_ATOKENS( string, "," )
+      if !empty(string)
+         aka := HB_ATOKENS( string, "," )
+      Endif
 return aka
 /*
 */
@@ -903,6 +905,9 @@ DATA aStat            INIT { 'Define'     => .F. , ;    // Define Section
                              'Control'    => .F. , ;
                              'InlineSbt'  => .T. , ;
                              'InlineTot'  => .T. , ;
+                             'GroupBold'  => .T. , ;
+                             'HGroupColor' => {0,0, 255} , ;
+                             'GTGroupColor' => {0,0, 255} , ;
                              'aImages'    => {}  , ;
                              'Memofont'   => {}  , ;
                              'PdfFont'    => {{"",""}} , ;
@@ -1639,8 +1644,8 @@ METHOD Transpace(arg1,arg2,arg3) CLASS WREPORT // The core of parser
      if left (arges,1) = chr(42) .or. empty(arges) .or. xcl
         return ''
      Endif
-     if "SET SPLASH TO" $ arg1
-        ::aStat [ 'lblsplash' ] := substr(arg1,at("TO",arg1)+2)
+     if "SET SPLASH TO" $ upper(arg1)
+        ::aStat [ 'lblsplash' ] := substr(arg1,at("TO",upper(arg1))+2)
         // msgbox("|"+::aStat [ 'lblsplash' ]+"|" ,"Arges")
         return ''
      Endif
@@ -2260,6 +2265,15 @@ METHOD Leggipar(ArryPar,cmdline,section) CLASS WREPORT // The core of  interpret
                    case ascan(arryPar,[INLINESBT])=2
                        ::aStat['InlineSbt'] := (eval(blse,arrypar[3]))
 
+                   case ascan(arryPar,[GROUPBOLD])=2
+                       ::aStat['GroupBold'] := (eval(blse,arrypar[3]))
+
+                   case ascan(arryPar,[HGROUPCOLOR])=2
+                       ::aStat['HGroupColor'] := ::UsaColor(eval(chblk,arrypar,[HGROUPCOLOR]))
+
+                   case ascan(arryPar,[GTGROUPCOLOR])=2
+                       ::aStat['GTGroupColor'] := ::UsaColor(eval(chblk,arrypar,[GTGROUPCOLOR]))
+
                    case ascan(arryPar,[INLINETOT])=2
                        ::aStat['InlineTot'] := (eval(blse,arrypar[3]))
 
@@ -2467,7 +2481,7 @@ METHOD Leggipar(ArryPar,cmdline,section) CLASS WREPORT // The core of  interpret
                 endcase
 
            case ascan(ArryPar,[IMAGE])= 4
-                hbprn:picture(eval(epar,ArryPar[1]),eval(epar,ArryPar[2]),val(eval(chblk,arrypar,[WIDTH])),VAl(eval(chblk,arrypar,[HEIGHT])),::Gestimage(ArryPar[5]))
+                hbprn:picture(eval(epar,ArryPar[1]),eval(epar,ArryPar[2]),VAl(eval(chblk,arrypar,[HEIGHT])),val(eval(chblk,arrypar,[WIDTH])),::Gestimage(ArryPar[5]))
 
            case ascan(ArryPar,[ROUNDRECT])=5   //da rivedere
                 /*
@@ -2982,6 +2996,13 @@ Local db_arc:=dbf() , units , tgftotal , nk, EXV := {||NIL},EXT := {||NIL}
          Ghstring :=if (UNITS > 0 .and. units < 4 ,"(NLINE*LSTEP)","NLINE")+CHR(07)+zaps(M->S_COL)+CHR(07)
          Ghstring +="SAY"+CHR(07)+"(["+s_head+']+'+ghf+')'+CHR(07)+"FONT"+CHR(07)+"FNT01"
       Endif
+      IF LEFT(GHstring,1) == chr(07)
+         GHstring := Substr(GHstring,2)
+      Endif
+      if ::aStat['GroupBold']= .T.
+         GhString += CHR(07)+"BOLD"
+      Endif
+      // MSGBOX(ghSTRING,"2988")
 
       // Gestisce l'automatismo del posizionamento dei subtotali
       && make autoset for Counter(s) position
@@ -3015,7 +3036,7 @@ Local db_arc:=dbf() , units , tgftotal , nk, EXV := {||NIL},EXT := {||NIL}
                  Endif
                // msgbox(Rl+CRLF+Rm+CRLF+Rr,zaps(nk)+"-GFFFSTRING")
 */
-                 aadd(GFstring,Rl+Rm+Rr)
+                 aadd(GFstring,Rl+Rm+Rr+if(::aStat['GroupBold']= .T.,CHR(07)+"BOLD","") )
                  tgftotal[nk]:=''
                  cnt ++
               Endif
@@ -3037,6 +3058,11 @@ Local db_arc:=dbf() , units , tgftotal , nk, EXV := {||NIL},EXT := {||NIL}
             GTstring[1]:=left(GTstring[1],at(chr(07),GTstring[1]))+wheregt+chr(07)+substr(Gtstring[1],at("SAY",Gtstring[1]))
          Endif
       Endif
+      if ::aStat['GroupBold']= .T.
+          Aeval(GTstring,{|x,y|x:=nil, GTstring[y] += CHR(07)+"BOLD" })
+          // msgmulty(GTstring)
+      Endif
+
 return ritorno
 /*
 */
@@ -3412,14 +3438,20 @@ Local sstring := "NLINE"+if (::aStat [ 'Units' ] = "MM","*Lstep","")+chr(07) ;
             ::aStat [ 'GHline' ] := if (sbt =.F.,sbt ,::aStat [ 'GHline' ] )
 
             if nxtp .and. ::aStat [ 'GHline' ] .and. ::aStat ['r_paint'] .and. sgh // La seconda pagina
+               get textcolor to subcolor
+               set textcolor ::aStat['HGroupColor']
                ::traduci(Ghstring)
+               set textcolor subcolor
                // @nline,0 say "**"+if(m->insgh =.T.,[.T.],[.F.])  FONT "F1" to print
                nxtp := .F. ; nline ++
             Endif
 
             if ::GrHead() //.and. ::aStat [ 'GHline' ]    // La testata
                if ::aStat ['r_paint'] .and. (shd .or. sbt) .and. sgh .and. !insgh
+                  get textcolor to subcolor
+                  set textcolor ::aStat['HGroupColor']
                   ::traduci(Ghstring)
+                  set textcolor subcolor
                   // @nline,0 say "@@"+if(m->insgh =.T.,[.T.],[.F.])  FONT "F1" to print
                   nxtp := .F. ; nline ++
                Endif
@@ -3465,13 +3497,12 @@ Local sstring := "NLINE"+if (::aStat [ 'Units' ] = "MM","*Lstep","")+chr(07) ;
                    if ::GFeet()
                       if gfline .and. sbt
                          //Rivedere
+                         get textcolor to subcolor
+                         set textcolor ::aStat['GTGroupColor']
                          ::traduci(strtran(sstring,chr(05),"["+s_total+"]"))
                          if ::aStat['InlineSbt']= .F.
                             nline ++
                          Endif
-                         get textcolor to subcolor
-                         set textcolor BLUE
-                         // @nline,t_col say GFSTRING[1] to print    // ONLY FOR DEBUG!!!
                          Aeval(GFstring,{|x|::traduci(x)})
                          set textcolor subcolor
                          nline ++
@@ -3635,7 +3666,7 @@ Return SaveFile
 METHOD DrawBarcode( nRow,nCol,nHeight, nLineWidth, cType, cCode, nFlags, SubTitle, Under, CmdLine ,Vsh) CLASS WREPORT
 *-----------------------------------------------------------------------------*
    LOCAL hZebra, Ctxt, asize := {0,0}, nSh := 2, kj , KL := 0 , KH := 0
-   LOCAL ny := 10 ,uobj := .F. ,i, fh ,sF := 9, page
+   LOCAL ny := 10 ,uobj := .F. ,i, fh ,sF := 9, page, dbgstr, lvl := 0
    Local aError := {"INVALID CODE ","BAD CHECKSUM ","TOO LARGE ","ARGUMENT ERROR " }
 
    DEFAULT SubTitle to .F., UNDER TO .F. , vSh to 0
@@ -3760,19 +3791,30 @@ METHOD DrawBarcode( nRow,nCol,nHeight, nLineWidth, cType, cCode, nFlags, SubTitl
 
          Endcase
       ELSE
-         if ascan(::aStat [ 'ErrorLine' ] , "Error on script line :"+ZAPS( cmdline ) ) < 1
-            aadd(::aStat [ 'ErrorLine' ] , "Error on script line :"+ZAPS( cmdline ) )
+
+         dbgstr := "Error on script line :"+ZAPS( cmdline )
+         aeval(::aStat[ 'ErrorLine' ],{|x|if (dbgstr == x,  lvl:=1 ,'')} )
+         if lvl < 1 .and. cmdline > 0
+         dbgstr :=("Type "+ cType + " Code "+ cCode+CRLF+ "Error is: "+ aError[hb_zebra_geterror( hZebra )]+CRLF+"Barcode NOT generated!" )
+            if ascan( ::aStat [ 'ErrorLine' ] , dbgstr ) < 1
+               aadd(::aStat [ 'ErrorLine' ] , dbgstr )
+               MSGSTOP(dbgstr,"MiniGui Extended Report Interpreter Error")
+            Endif
+            ::aStat [ 'OneError' ]  := .T.
          Endif
-         ::aStat [ 'OneError' ]  := .T.
-         MsgStop("Type "+ cType + " Code "+ cCode+CRLF+ "Error is: "+ aError[hb_zebra_geterror( hZebra )]+CRLF+"Barcode NOT generated!" )
       ENDIF
       hb_zebra_destroy( hZebra )
    ELSE
-      if ascan(::aStat [ 'ErrorLine' ] , "Error on script line :"+ZAPS( cmdline ) ) < 1
-         aadd(::aStat [ 'ErrorLine' ] , "Error on script line :"+ZAPS( cmdline ) )
+      dbgstr := "Error on script line :"+ZAPS( cmdline )
+      aeval(::aStat[ 'ErrorLine' ],{|x|if (dbgstr == x,  lvl:=1 ,'')} )
+      if lvl < 1 .and. cmdline > 0
+         MSGSTOP(dbgstr,"MiniGui Extended Report Interpreter Error")
+         if ascan( ::aStat [ 'ErrorLine' ] , dbgstr ) < 1
+            aadd(::aStat [ 'ErrorLine' ] , dbgstr )
+            dbgstr :=("Type "+ cType + " Code "+ cCode+CRLF+ "Error is: "+ aError[hb_zebra_geterror( hZebra )]+CRLF+"Barcode NOT generated!" )
+         Endif
+         ::aStat [ 'OneError' ]  := .T.
       Endif
-      ::aStat [ 'OneError' ]  := .T.
-      MsgStop( "Type "+ cType , "Invalid barcode type")
    ENDIF
    RELEASE FONT _BCF_
 

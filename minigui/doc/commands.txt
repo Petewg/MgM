@@ -28,6 +28,8 @@ SET LOGFILE TO <name>
 
 SET GLOBAL HOTKEYS [ON | OFF]
 
+SET OOP [SUPPORT] ON
+
 ///////////////////////////////
 // Windows related commands
 ///////////////////////////////
@@ -43,10 +45,16 @@ SET AUTOSCROLL [ON | OFF]
 SET SCROLLSTEP TO <step>
 SET SCROLLPAGE TO <step>
 
+SET RESOURCES TO [<cDLL>]
+
 ON APPEVENT [ID] <nId> ACTION <bAction> OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
 EMIT [EVENT] [ID] <nId> OF <window>
 REMOVE APPEVENT [[ID] [<nId>] | ALL] OF <window> [ONCE>] [RESULT] TO <lResult>
 UPDATE APPEVENT [ID] <nId> [ACTION <bAction>] OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
+
+ON WINEVENT [ID] <nId> ACTION <bAction> OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
+REMOVE WINEVENT [[ID] [<nId>] | ALL] OF <window> [ONCE>] [RESULT] TO <lResult>
+UPDATE WINEVENT [ID] <nId> [ACTION <bAction>] OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
 
 // This command replaces the traditional := assignment for strongly typed behavior
 

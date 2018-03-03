@@ -5,32 +5,32 @@
  * http://harbourminigui.googlepages.com/
  *
  * Win32 Framework for SDI Applications
- * Copyright 2006-2014 Grigory Filatov <gfilatov@inbox.ru>
+ * Copyright 2006-2017 Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 #include "resource.h"
 
-#define IDOK            1
-#define CLR_DEFAULT     0xff000000
+#define IDOK             1
 
-#define IDX_FILE_NEW    0
-#define IDX_FILE_OPEN   1
-#define IDX_FILE_SAVE   2
-#define IDX_EDIT_CUT    3
-#define IDX_EDIT_COPY   4
-#define IDX_EDIT_PASTE  5
-#define IDX_FILE_PRINT  6
-#define IDX_HELP_ABOUT  7
+#define IDX_FILE_NEW    18
+#define IDX_FILE_OPEN    0
+#define IDX_FILE_SAVE    3
+#define IDX_EDIT_CUT     6
+#define IDX_EDIT_COPY    7
+#define IDX_EDIT_PASTE   8
+#define IDX_FILE_PRINT   4
+#define IDX_HELP_ABOUT  10
 
-#xtranslate GetResStr( <nID> )  =>  hb_LoadString( <nID> )
+#xtranslate GetResStr( <nID> ) => hb_LoadString( <nID> )
 
-//-------------------------------------------------------------
+*--------------------------------------------------------*
 PROCEDURE Main
-//-------------------------------------------------------------
+*--------------------------------------------------------*
    LOCAL aDesk := GetDesktopArea()
-   LOCAL nWidth  := aDesk[3] * 0.75
-   LOCAL nHeight := aDesk[4] * 0.72
+   LOCAL nScrWidth := aDesk[ 3 ] - aDesk[ 1 ], nScrHeight := aDesk[ 4 ] - aDesk[ 2 ]
+   LOCAL nWidth  := nScrWidth * 0.75
+   LOCAL nHeight := nScrHeight * 0.72
 
    DEFINE WINDOW Form_1 ;
       AT 0, 0 ;
@@ -97,24 +97,22 @@ PROCEDURE Main
 
    ACTIVATE WINDOW Form_1
 
-Return
+RETURN
 
-//-------------------------------------------------------------
-Procedure BuildToolBar( lShow )
-//-------------------------------------------------------------
+*--------------------------------------------------------*
+PROCEDURE BuildToolBar( lShow )
+*--------------------------------------------------------*
    LOCAL mVar
 
    IF lShow
 
       DEFINE IMAGELIST ImageList_1 ;
          OF Form_1 ;
-         BUTTONSIZE 16, 15 ;
+         BUTTONSIZE 32, 32 ;
          IMAGE { 'ID_TOOLBAR' } ;
-         COLORMASK CLR_DEFAULT ;
-         IMAGECOUNT 8 ;
-         MASK
+         IMAGECOUNT 19
 
-      DEFINE TOOLBAREX ToolBar_1 OF Form_1 BUTTONSIZE 20, 20 IMAGELIST 'ImageList_1' FLAT
+      DEFINE TOOLBAREX ToolBar_1 OF Form_1 BUTTONSIZE 40, 40 IMAGELIST 'ImageList_1' FLAT
 
       BUTTON Button_1 ;
          PICTUREINDEX IDX_FILE_NEW ;
@@ -161,22 +159,23 @@ Procedure BuildToolBar( lShow )
 
       END TOOLBAR
 
+      IF IsControlDefined( StatusBar, Form_1 )
+         Form_1.StatusBar.Item( 1 ) := "Ready"
+      ENDIF
+
    ELSE
 
       Form_1.ToolBar_1.Release
+
       RELEASE IMAGELIST ImageList_1 OF Form_1
-      mVar := '_FORM_1_IMAGELIST_1'
-      IF Type ( mVar ) != 'U'
-         __mvPut ( mVar, 0 )
-      ENDIF
 
    ENDIF
 
-Return
+RETURN
 
-//-------------------------------------------------------------
-Procedure BuildStatusBar( lShow )
-//-------------------------------------------------------------
+*--------------------------------------------------------*
+PROCEDURE BuildStatusBar( lShow )
+*--------------------------------------------------------*
 
    IF lShow
 
@@ -198,26 +197,26 @@ Procedure BuildStatusBar( lShow )
 
    ENDIF
 
-Return
+RETURN
 
-//-------------------------------------------------------------
-Procedure ResizeEdit
-//-------------------------------------------------------------
+*--------------------------------------------------------*
+PROCEDURE ResizeEdit
+*--------------------------------------------------------*
 
-   Form_1.Edit_1.Row := IF( IsControlDefined( ToolBar_1, Form_1 ), 28, 0 )
+   Form_1.Edit_1.Row := iif( IsControlDefined( ToolBar_1, Form_1 ), 44, 0 )
 
    Form_1.Edit_1.Width := Form_1.Width - 2 * GetBorderWidth()
 
    Form_1.Edit_1.Height := Form_1.Height - ( GetTitleHeight() + ;
       2 * GetBorderHeight() + GetMenuBarHeight() + ;
-      iif( Form_1.VIEW_TOOLBAR.Checked, 28, 0 ) + ;
+      iif( Form_1.VIEW_TOOLBAR.Checked, 44, 0 ) + ;
       iif( Form_1.VIEW_STATUSBAR.Checked, Form_1.StatusBar.Height, 0 ) )
 
-Return
+RETURN
 
-//-------------------------------------------------------------
-Procedure dlg_about
-//-------------------------------------------------------------
+*--------------------------------------------------------*
+PROCEDURE dlg_about
+*--------------------------------------------------------*
 
    DEFINE DIALOG f_dialog ;
       OF Form_1 ;
@@ -231,57 +230,36 @@ Procedure dlg_about
 
    END DIALOG
 
-Return
+RETURN
 
 
 #pragma BEGINDUMP
 
-#define _WIN32_WINNT   0x0400
-
-#include <windows.h>
-#include "hbapi.h"
-
-#ifdef __XHARBOUR__
-  #define HB_STORNI( n, x, y ) hb_storni( n, x, y )
-#else
-  #define HB_STORNI( n, x, y ) hb_storvni( n, x, y )
-#endif
+#include <mgdefs.h>
 
 HB_FUNC( HB_LOADSTRING )
 {
    LPBYTE cBuffer;
 
    cBuffer = GlobalAlloc( GPTR, 255 );
-   LoadString( GetModuleHandle(NULL), hb_parni(1), (LPSTR) cBuffer, 254 );
+   LoadString( GetModuleHandle( NULL ), hb_parni( 1 ), ( LPSTR ) cBuffer, 254 );
+
    hb_retc( cBuffer );
    GlobalFree( cBuffer );
 }
 
 HB_FUNC( PAINTCHILDWINDOW )
 {
-   HWND hwnd = (HWND) hb_parnl( 1 );
+   HWND hwnd = (HWND) HB_PARNL( 1 );
    RECT r;
    PAINTSTRUCT ps;
    HDC hDC = BeginPaint( hwnd, &ps );
 
    GetClientRect( hwnd, &r );
 
-   hb_retni( DrawText( hDC, (LPCTSTR) hb_parc(2), -1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE ) );
+   hb_retni( DrawText( hDC, ( LPCTSTR ) hb_parc( 2 ), -1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE ) );
 
    EndPaint( hwnd, &ps );
-   ReleaseDC( hwnd, hDC );
-}
-
-HB_FUNC( GETDESKTOPAREA )
-{
-   RECT rect;
-   SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-
-   hb_reta(4);
-   HB_STORNI( (INT) rect.top, -1, 1 );
-   HB_STORNI( (INT) rect.left, -1, 2 );
-   HB_STORNI( (INT) rect.right - rect.left, -1, 3 );
-   HB_STORNI( (INT) rect.bottom - rect.top, -1, 4 );
 }
 
 #pragma ENDDUMP

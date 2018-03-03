@@ -52,9 +52,7 @@ PROCEDURE _SetAddress ( ControlName , ParentForm , url )
 *-----------------------------------------------------------------------------*
    LOCAL i
 
-   i := GetControlIndex ( ControlName , ParentForm )
-
-   IF i > 0
+   IF ( i := GetControlIndex ( ControlName , ParentForm ) ) > 0
 
       _SetAddressControlProcedure ( ControlName , url , i )
       _HMG_aControlValue [i] := url

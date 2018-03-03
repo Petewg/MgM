@@ -59,71 +59,74 @@
 
 */
 
+#ifdef __XHARBOUR__
+#define __SYSDATA__
+#endif
 #include "minigui.ch"
-#Include "TMsAgent.ch"
+#include "TMsAgent.ch"
 #include "hbclass.ch"
-#Include "Directry.ch"
+#include "Directry.ch"
 
 CLASS TMsAgent
 
- DATA oAgent
- DATA oChars
- DATA oChar
- DATA lMenu
- DATA cName
- DATA cFile
- DATA lOK
+   DATA oAgent
+   DATA oChars
+   DATA oChar
+   DATA lMenu
+   DATA cName
+   DATA cFile
+   DATA lOK
 
- DATA lNeedClick
- DATA oBalloon
- DATA cFontName
- DATA nFontSize     INIT 0
- DATA cFontNameDEF
- DATA nFontSizeDEF
+   DATA lNeedClick
+   DATA oBalloon
+   DATA cFontName
+   DATA nFontSize     INIT 0
+   DATA cFontNameDEF
+   DATA nFontSizeDEF
 
- DATA oResp // gracias Daniel Andrade
- DATA lResp
+   DATA oResp // gracias Daniel Andrade
+   DATA lResp
 
- DATA lWait
+   DATA lWait
 
- METHOD New( cName, lMenu, cFile, lSound, lWait, cFontName, nFontSize  )
- METHOD End()
+   METHOD New( cName, lMenu, cFile, lSound, lWait, cFontName, nFontSize  )
+   METHOD End()
 
- METHOD Show()
- METHOD Hide()
- METHOD Say( cTxt )
- METHOD SayThink( cTxt )
+   METHOD Show()
+   METHOD Hide()
+   METHOD Say( cTxt )
+   METHOD SayThink( cTxt )
 
- METHOD Move( nX, nY )
- METHOD Animate( cAnimate )
- METHOD Stop()
- METHOD GetAttention()
- METHOD LookDown()
- METHOD LookLeft()
- METHOD LookRight()
- METHOD LookUp()
+   METHOD Move( nX, nY )
+   METHOD Animate( cAnimate )
+   METHOD Stop()
+   METHOD GetAttention()
+   METHOD LookDown()
+   METHOD LookLeft()
+   METHOD LookRight()
+   METHOD LookUp()
 
- METHOD GetName()
- METHOD GetVersion()
- METHOD GetIntro()
- METHOD GetExtraData()
- METHOD UsedByOtherApps()
+   METHOD GetName()
+   METHOD GetVersion()
+   METHOD GetIntro()
+   METHOD GetExtraData()
+   METHOD UsedByOtherApps()
 
- METHOD GetX()
- METHOD GetY()
- METHOD GetWidth()
- METHOD GetHeight()
- METHOD GetMoveCause()
- METHOD GetVisibilityCause()
- METHOD IsVisible()
+   METHOD GetX()
+   METHOD GetY()
+   METHOD GetWidth()
+   METHOD GetHeight()
+   METHOD GetMoveCause()
+   METHOD GetVisibilityCause()
+   METHOD IsVisible()
 
- METHOD lBusy()   //  - Gracias Daniel Andrade !!
- METHOD WaitEnd() //  /
+   METHOD lBusy()   //  - Gracias Daniel Andrade !!
+   METHOD WaitEnd() //  /
 
- METHOD SetBalloon( cFontName, nFontSize, lFlag )
- METHOD SetDefaultBalloon( )
+   METHOD SetBalloon( cFontName, nFontSize, lNeedClick )
+   METHOD SetDefaultBalloon()
 
- METHOD IsStaticLooping( cAnimate ) // Uso interno de la clase / Internal use
+   METHOD IsStaticLooping( cAnimate ) // Uso interno de la clase / Internal use
 
 ENDCLASS
 
@@ -148,70 +151,69 @@ ENDCLASS
    GetAgentsAvailables() function. Returns an array >
  -----------------------------------------------------------------
 */
+METHOD New( cName, lMenu, cFile, lSound, lWait, cFontName, nFontSize ) CLASS TMsAgent
 
-METHOD New( cName, lMenu, cFile, lSound, lWait, cFontName, nFontSize  ) CLASS TMsAgent
+   LOCAL nMenu
+   LOCAL nSound
 
- Local nMenu
- Local nSound
+   DEFAULT cName     := TMSAGENT
+   DEFAULT lMenu     := .T.
+   DEFAULT lSound    := .T.
+   DEFAULT lWait     := .F.
+   DEFAULT cFontName := ""
+   DEFAULT nFontSize := 0
 
- DEFAULT cName     := TMSAGENT
- DEFAULT lMenu     := .T.
- DEFAULT lSound    := .T.
- DEFAULT lWait     := .F.
- DEFAULT cFontName := ""
- DEFAULT nFontSize := 0
+   ::lWait := lWait
 
- ::lWait := lWait
+   IF lMenu
+      nMenu := 1
+   ELSE
+      nMenu := 0
+   ENDIF
 
- IF lMenu
-    nMenu := 1
- Else
-    nMenu := 0
- EndIF
+   IF lSound
+      nSound := 1
+   ELSE
+      nSound := 0
+   ENDIF
 
- IF lSound
-    nSound := 1
- Else
-    nSound := 0
- EndIF
+   ::oAgent := TOleAuto():New( "Agent.Control.2" )
+   ::oAgent:Connected := 1
 
- ::oAgent := TOleAuto():New( "Agent.Control.2" )
- ::oAgent:Connected := 1
+   ::oChars   := ::oAgent:Characters
 
- ::oChars   := ::oAgent:Characters
+   IF ::oChars # NIL
 
- IF ::oChars # NIL
-
-     IF File(cFile)
+      IF File( cFile )
          ::oChars:Load( cName, cFile )
-     Else
+      ELSE
          ::oChars:Load( cName )
-     EndIF
+      ENDIF
 
-     ::oChar := ::oChars:Character( cName )
+      ::oChar := ::oChars:Character( cName )
 
-     IF ::oChar # NIL
-        ::cName                := cName
-        ::lOK                  := .T.
-        ::oChar:AutoPopupMenu  := nMenu
-        ::oChar:SoundEffectsOn := nSound
-        ::oChar:Name           := cName
-        ::oBalloon             := ::oChar:Balloon
-        ::cFontNameDEF         := ::oBalloon:FontName
-        ::nFontSizeDEF         := ::oBalloon:FontSize
-        ::lNeedClick           := .F.
-        ::SetBalloon( cFontName, nFontSize, .F. )
-     Else
-        ::lOK := .F.
-     EndIF
+      IF ::oChar # NIL
+         ::cName                := cName
+         ::lOK                  := .T.
+         ::oChar:AutoPopupMenu  := nMenu
+         ::oChar:SoundEffectsOn := nSound
+         ::oChar:Name           := cName
+         ::oBalloon             := ::oChar:Balloon
+         ::cFontNameDEF         := ::oBalloon:FontName
+         ::nFontSizeDEF         := ::oBalloon:FontSize
+         ::lNeedClick           := .F.
+         ::SetBalloon( cFontName, nFontSize, .F. )
+      ELSE
+         ::lOK := .F.
+      ENDIF
 
- Else
+   ELSE
 
-     ::lOK := .F.
+      ::lOK := .F.
 
- EndIF
+   ENDIF
 
-Return Self
+RETURN Self
 
 /*
  =================================================================
@@ -224,8 +226,9 @@ Return Self
 METHOD End() CLASS TMsAgent
    IF ::lOk
       ::oChars:Unload( ::cName )
-   EndIF
-Return NIL
+   ENDIF
+
+RETURN NIL
 
 /*
  =================================================================
@@ -242,14 +245,15 @@ METHOD Show() CLASS TMsAgent
          IF !::IsVisible()
             ::oResp := ::oChar:Show()
             ::WaitEnd()
-         EndIF
-      Else
+         ENDIF
+      ELSE
          IF !::IsVisible()
             ::oChar:Show()
-         EndIF
-      EndIF
-   EndIF
-Return NIL
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  ================================================================
@@ -265,11 +269,12 @@ METHOD Hide() CLASS TMsAgent
       IF ::lWait
          ::oResp := ::oChar:Hide()
          ::WaitEnd()
-      Else
+      ELSE
          ::oChar:Hide()
-      EndIF
-   EndIF
-Return NIL
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =================================================================
@@ -279,16 +284,17 @@ Return NIL
  devuelve .T. si el agente está visible
  -----------------------------------------------------------------
 */
-
 METHOD IsVisible() CLASS TMsAgent
-  Local lFlag
-  Local nAux
-  IF ::lOk
-     lFlag := ::oChar:Visible
-  Else
-     lFlag := .F.
-  EndIF
-Return lFlag
+
+   LOCAL lFlag
+
+   IF ::lOk
+      lFlag := ::oChar:Visible
+   ELSE
+      lFlag := .F.
+   ENDIF
+
+RETURN lFlag
 
 /*
  =================================================================
@@ -306,20 +312,21 @@ METHOD Say( cTxt ) CLASS TMsAgent
          IF ::IsVisible()
             ::oResp := ::oChar:Speak( cTxt )
             ::WaitEnd()
-         Else
+         ELSE
             MsgInfo( cTxt, ::cName )
-         EndIF
-      Else
+         ENDIF
+      ELSE
          IF ::IsVisible()
             ::oChar:Speak( cTxt )
-         Else
+         ELSE
             MsgInfo( cTxt, ::cName )
-         EndIF
-      EndIF
-   Else
+         ENDIF
+      ENDIF
+   ELSE
       MsgInfo( cTxt, ::cName )
-   EndIF
-Return NIL
+   ENDIF
+
+RETURN NIL
 
 /*
  =================================================================
@@ -333,13 +340,14 @@ METHOD SayThink( cTxt ) CLASS TMsAgent
    IF ::lOk
       IF ::IsVisible()
          ::oChar:Think( cTxt )
-      Else
-         MsgInfo( cTxt , ::cName )
-      EndIF
-   Else
-      MsgInfo( cTxt , ::cName )
-   EndIF
-Return NIL
+      ELSE
+         MsgInfo( cTxt, ::cName )
+      ENDIF
+   ELSE
+      MsgInfo( cTxt, ::cName )
+   ENDIF
+
+RETURN NIL
 
 /*
  =================================================================
@@ -353,8 +361,8 @@ METHOD lBusy() CLASS TMsAgent
    IF ::lOk
       IF ::lResp
          RETURN ::oResp:Status # 0
-      EndIF
-   EndIF
+      ENDIF
+   ENDIF
 
 RETURN .F.
 
@@ -369,15 +377,14 @@ METHOD WaitEnd() CLASS TMsAgent
 
    IF ::lOk
       IF ::lResp
-         Do While ::oResp:Status # 0
-            Inkey(0.01)
-            Do Events
-         EndDo
-      EndIF
-   EndIf
+         DO While ::oResp:Status # 0
+            Inkey( 0.01 )
+            DO Events
+         ENDDO
+      ENDIF
+   ENDIF
 
 RETURN Self
-
 
 /*
  ==================================================================
@@ -388,17 +395,18 @@ RETURN Self
  Mueve el agente a la coordenada nX,nY
  Moves the agent to nX,nY
 */
-METHOD Move( nX,nY ) CLASS TMsAgent
+METHOD Move( nX, nY ) CLASS TMsAgent
    ::lResp := .T.
    IF ::lOk
       IF ::lWait
-         ::oResp := ::oChar:MoveTo( nX,nY )
+         ::oResp := ::oChar:MoveTo( nX, nY )
          ::WaitEnd()
-      Else
-         ::oChar:MoveTo( nX,nY )
-      EndIF
-   EndIF
-Return NIL
+      ELSE
+         ::oChar:MoveTo( nX, nY )
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  ==================================================================
@@ -417,19 +425,20 @@ METHOD Animate( cAnimate ) CLASS TMsAgent
             IF ::IsVisible()
                ::oResp := ::oChar:Play( cAnimate )
                ::WaitEnd()
-            EndIF
-         Else
+            ENDIF
+         ELSE
             IF ::IsVisible()
                ::oChar:Play( cAnimate )
-            EndIF
-         EndIF
-      Else
+            ENDIF
+         ENDIF
+      ELSE
          IF ::IsVisible()
             ::oChar:Play( cAnimate )
-         EndIF
-      EndIF
-   EndIF
-Return NIL
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =======================================================================
@@ -442,8 +451,9 @@ METHOD Stop() CLASS TMsAgent
    ::lResp := .F.
    IF ::lOk
       ::oChar:Stop()
-   EndIF
-Return NIL
+   ENDIF
+
+RETURN NIL
 
 /*
  =======================================================================
@@ -457,20 +467,21 @@ METHOD GetAttention() CLASS TMsAgent
    IF ::lOk
       IF ::lWait
          IF ::IsVisible()
-            ::oResp := ::oChar:Play( ANIMATE_GETATTENTION  )
-            ::oResp := ::oChar:Play( ANIMATE_GETATTENTIONCONTINUED  )
-            ::oResp := ::oChar:Play( ANIMATE_GETATTENTIONRETURN  )
+            ::oResp := ::oChar:Play( ANIMATE_GETATTENTION )
+            ::oResp := ::oChar:Play( ANIMATE_GETATTENTIONCONTINUED )
+            ::oResp := ::oChar:Play( ANIMATE_GETATTENTIONRETURN )
             ::WaitEnd()
-         EndIF
-      Else
+         ENDIF
+      ELSE
          IF ::IsVisible()
-            ::oChar:Play( ANIMATE_GETATTENTION  )
-            ::oChar:Play( ANIMATE_GETATTENTIONCONTINUED  )
-            ::oChar:Play( ANIMATE_GETATTENTIONRETURN  )
-         EndIF
-      EndIF
-   EndIF
-Return NIL
+            ::oChar:Play( ANIMATE_GETATTENTION )
+            ::oChar:Play( ANIMATE_GETATTENTIONCONTINUED )
+            ::oChar:Play( ANIMATE_GETATTENTIONRETURN )
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =======================================================================
@@ -483,19 +494,20 @@ METHOD LookDown() CLASS TMsAgent
    ::lResp := .T.
    IF ::lOk
       IF ::lWait
-          IF ::IsVisible()
-             ::oResp := ::oChar:Play( ANIMATE_LOOKDOWN  )
-             ::oResp := ::oChar:Play( ANIMATE_LOOKDOWNRETURN  )
-             ::WaitEnd()
-         EndIF
-      Else
-          IF ::IsVisible()
-             ::oChar:Play( ANIMATE_LOOKDOWN  )
-             ::oChar:Play( ANIMATE_LOOKDOWNRETURN  )
-         EndIF
-      EndIF
-   EndIF
-Return NIL
+         IF ::IsVisible()
+            ::oResp := ::oChar:Play( ANIMATE_LOOKDOWN )
+            ::oResp := ::oChar:Play( ANIMATE_LOOKDOWNRETURN )
+            ::WaitEnd()
+         ENDIF
+      ELSE
+         IF ::IsVisible()
+            ::oChar:Play( ANIMATE_LOOKDOWN )
+            ::oChar:Play( ANIMATE_LOOKDOWNRETURN )
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =======================================================================
@@ -509,18 +521,19 @@ METHOD LookLeft() CLASS TMsAgent
    IF ::lOk
       IF ::lWait
          IF ::IsVisible()
-            ::oResp := ::oChar:Play( ANIMATE_LOOKLEFT  )
-            ::oResp := ::oChar:Play( ANIMATE_LOOKLEFTRETURN  )
+            ::oResp := ::oChar:Play( ANIMATE_LOOKLEFT )
+            ::oResp := ::oChar:Play( ANIMATE_LOOKLEFTRETURN )
             ::WaitEnd()
-         EndIF
-      Else
+         ENDIF
+      ELSE
          IF ::IsVisible()
-            ::oChar:Play( ANIMATE_LOOKLEFT  )
-            ::oChar:Play( ANIMATE_LOOKLEFTRETURN  )
-         EndIF
-      EndIF
-   EndIF
-Return NIL
+            ::oChar:Play( ANIMATE_LOOKLEFT )
+            ::oChar:Play( ANIMATE_LOOKLEFTRETURN )
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =======================================================================
@@ -534,18 +547,19 @@ METHOD LookRight() CLASS TMsAgent
    IF ::lOk
       IF ::lWait
          IF ::IsVisible()
-            ::oResp := ::oChar:Play( ANIMATE_LOOKRIGHT  )
-            ::oResp := ::oChar:Play( ANIMATE_LOOKRIGHTRETURN  )
+            ::oResp := ::oChar:Play( ANIMATE_LOOKRIGHT )
+            ::oResp := ::oChar:Play( ANIMATE_LOOKRIGHTRETURN )
             ::WaitEnd()
-         EndIF
-      Else
+         ENDIF
+      ELSE
          IF ::IsVisible()
-            ::oChar:Play( ANIMATE_LOOKRIGHT  )
-            ::oChar:Play( ANIMATE_LOOKRIGHTRETURN  )
-         EndIF
-      EndIF
-   EndIF
-Return NIL
+            ::oChar:Play( ANIMATE_LOOKRIGHT )
+            ::oChar:Play( ANIMATE_LOOKRIGHTRETURN )
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =======================================================================
@@ -559,18 +573,19 @@ METHOD LookUp() CLASS TMsAgent
    IF ::lOk
       IF ::lWait
          IF ::IsVisible()
-            ::oResp := ::oChar:Play( ANIMATE_LOOKUP  )
-            ::oResp := ::oChar:Play( ANIMATE_LOOKUPRETURN  )
+            ::oResp := ::oChar:Play( ANIMATE_LOOKUP )
+            ::oResp := ::oChar:Play( ANIMATE_LOOKUPRETURN )
             ::WaitEnd()
-         EndIF
-      Else
+         ENDIF
+      ELSE
          IF ::IsVisible()
-            ::oChar:Play( ANIMATE_LOOKUP  )
-            ::oChar:Play( ANIMATE_LOOKUPRETURN  )
-         EndIF
-      EndIF
-   EndIF
-Return NIL
+            ::oChar:Play( ANIMATE_LOOKUP )
+            ::oChar:Play( ANIMATE_LOOKUPRETURN )
+         ENDIF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =======================================================================
@@ -580,11 +595,13 @@ Return NIL
  Gets the MsAgent's name
 */
 METHOD GetName() CLASS TMsAgent
-  Local cName := TMSAGENT
-  IF ::lOk
-     cName := ::oChar:Name
-  EndIF
-Return cName
+
+   LOCAL cName := TMSAGENT
+   IF ::lOk
+      cName := ::oChar:Name
+   ENDIF
+
+RETURN cName
 
 /*
  =======================================================================
@@ -594,7 +611,7 @@ Return cName
  Returns .T. if msagent is used by other apps.
 */
 METHOD UsedByOtherApps()CLASS TMsAgent
-Return IF( ::lOk, ::oChar:HasOtherClients, .F. )
+RETURN iif( ::lOk, ::oChar:HasOtherClients, .F. )
 
 /*
  =======================================================================
@@ -604,7 +621,7 @@ Return IF( ::lOk, ::oChar:HasOtherClients, .F. )
  returns the agents version
 */
 METHOD GetVersion()CLASS TMsAgent
-Return IF( ::lOk, ::oChar:Version, TMSAGENT )
+RETURN iif( ::lOk, ::oChar:Version, TMSAGENT )
 
 /*
  =======================================================================
@@ -614,7 +631,7 @@ Return IF( ::lOk, ::oChar:Version, TMSAGENT )
  returns the agents introduction
 */
 METHOD GetIntro()CLASS TMsAgent
-Return IF( ::lOk, ::oChar:Description, TMSAGENT )
+RETURN iif( ::lOk, ::oChar:Description, TMSAGENT )
 
 /*
  =======================================================================
@@ -624,7 +641,7 @@ Return IF( ::lOk, ::oChar:Description, TMSAGENT )
  returns the another agent description
 */
 METHOD GetExtraData()CLASS TMsAgent
-Return IF( ::lOk, ::oChar:ExtraData, TMSAGENT )
+RETURN iif( ::lOk, ::oChar:ExtraData, TMSAGENT )
 
 /*
  =======================================================================
@@ -634,7 +651,7 @@ Return IF( ::lOk, ::oChar:ExtraData, TMSAGENT )
  devuelve la coordenada X
 */
 METHOD GetX() CLASS TMsAgent
-Return IF( ::lOk, ::oChar:left, 0 )
+RETURN iif( ::lOk, ::oChar:left, 0 )
 
 /*
  =======================================================================
@@ -644,7 +661,7 @@ Return IF( ::lOk, ::oChar:left, 0 )
  devuelve la coordenada Y
 */
 METHOD GetY() CLASS TMsAgent
-Return IF( ::lOk, ::oChar:Top, 0 )
+RETURN iif( ::lOk, ::oChar:Top, 0 )
 
 /*
  =======================================================================
@@ -654,7 +671,7 @@ Return IF( ::lOk, ::oChar:Top, 0 )
  devuelve el ancho del agente
 */
 METHOD GetWidth() CLASS TMsAgent
-Return IF( ::lOk, ::oChar:Width, 0 )
+RETURN iif( ::lOk, ::oChar:Width, 0 )
 
 /*
  =======================================================================
@@ -664,7 +681,7 @@ Return IF( ::lOk, ::oChar:Width, 0 )
  devuelve lo alto del agente
 */
 METHOD GetHeight() CLASS TMsAgent
-Return IF( ::lOk, ::oChar:Height, 0 )
+RETURN iif( ::lOk, ::oChar:Height, 0 )
 
 /*
  =======================================================================
@@ -680,7 +697,7 @@ Return IF( ::lOk, ::oChar:Height, 0 )
 */
 
 METHOD GetMoveCause() CLASS TMsAgent
-Return IF( ::lOk, ::oChar:MoveCause, 0 )
+RETURN iif( ::lOk, ::oChar:MoveCause, 0 )
 
 /*
  =======================================================================
@@ -704,7 +721,7 @@ Return IF( ::lOk, ::oChar:MoveCause, 0 )
 */
 
 METHOD GetVisibilityCause() CLASS TMsAgent
-Return IF( ::lOk, ::oChar:VisibilityCause, 0 )
+RETURN iif( ::lOk, ::oChar:VisibilityCause, 0 )
 
 /*
  =================================================================
@@ -719,20 +736,23 @@ Return IF( ::lOk, ::oChar:VisibilityCause, 0 )
 */
 
 METHOD IsStaticLooping( cAnimate ) CLASS TMsAgent
-  Local lFlag := .F.
-  DO CASE
-     CASE cAnimate == ANIMATE_HEARING_1  ; lFlag := .T.
-     CASE cAnimate == ANIMATE_HEARING_2  ; lFlag := .T.
-     CASE cAnimate == ANIMATE_HEARING_3  ; lFlag := .T.
-     CASE cAnimate == ANIMATE_PROCESSING ; lFlag := .T.
-     CASE cAnimate == ANIMATE_READING    ; lFlag := .T.
-     CASE cAnimate == ANIMATE_SEARCHING  ; lFlag := .T.
-     CASE cAnimate == ANIMATE_THINKING   ; lFlag := .T.
-     CASE cAnimate == ANIMATE_WRITING    ; lFlag := .T.
-     OTHERWISE
-     lFlag := .F.
-  ENDCASE
-Return lFlag
+
+   LOCAL lFlag
+
+   DO CASE
+   CASE cAnimate == ANIMATE_HEARING_1  ; lFlag := .T.
+   CASE cAnimate == ANIMATE_HEARING_2  ; lFlag := .T.
+   CASE cAnimate == ANIMATE_HEARING_3  ; lFlag := .T.
+   CASE cAnimate == ANIMATE_PROCESSING ; lFlag := .T.
+   CASE cAnimate == ANIMATE_READING    ; lFlag := .T.
+   CASE cAnimate == ANIMATE_SEARCHING  ; lFlag := .T.
+   CASE cAnimate == ANIMATE_THINKING   ; lFlag := .T.
+   CASE cAnimate == ANIMATE_WRITING    ; lFlag := .T.
+   OTHERWISE
+      lFlag := .F.
+   ENDCASE
+
+RETURN lFlag
 
 /*
  =================================================================
@@ -749,25 +769,26 @@ Return lFlag
  -----------------------------------------------------------------
 */
 METHOD SetBalloon( cFontName, nFontSize, lNeedClick ) CLASS TMsAgent
- DEFAULT lNeedClick := ::lNeedClick , ;
-         cFontName  := ""           , ;
-         nFontSize  := 0
- IF ::lOk
-    IF !Empty(cFontName)
-       ::cFontName         := cFontName
-       ::oBalloon:FontName := cFontName
-    EndIF
-    IF nFontSize > 0
-       ::nFontSize         := nFontSize
-       ::oBalloon:FontSize := nFontSize
-    EndIF
-    IF lNeedClick
-       ::oBalloon:Style := 11
-    Else
-       ::oBalloon:Style := 15
-    EndIF
- EndIF
-Return NIL
+   DEFAULT lNeedClick := ::lNeedClick, ;
+      cFontName  := "", ;
+      nFontSize  := 0
+   IF ::lOk
+      IF !Empty( cFontName )
+         ::cFontName         := cFontName
+         ::oBalloon:FontName := cFontName
+      ENDIF
+      IF nFontSize > 0
+         ::nFontSize         := nFontSize
+         ::oBalloon:FontSize := nFontSize
+      ENDIF
+      IF lNeedClick
+         ::oBalloon:Style := 11
+      ELSE
+         ::oBalloon:Style := 15
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =================================================================
@@ -778,17 +799,19 @@ Return NIL
  -----------------------------------------------------------------
 */
 
-METHOD SetDefaultBalloon( ) CLASS TMsAgent
-  IF ::lOk
-     IF ::oBalloon # NIL
-        ::oBalloon:FontName := ::cFontNameDEF
-        ::oBalloon:FontSize := ::nFontSizeDEF
-     EndIF
-  EndIF
-Return NIL
+METHOD SetDefaultBalloon() CLASS TMsAgent
+   IF ::lOk
+      IF ::oBalloon # NIL
+         ::oBalloon:FontName := ::cFontNameDEF
+         ::oBalloon:FontSize := ::nFontSizeDEF
+      ENDIF
+   ENDIF
+
+RETURN NIL
 
 /*
  =================================================================
+ FUNC GetAgentsAvailables( cDir )
  -----------------------------------------------------------------
  cDir: El directorio donde se encuentran los agentes
        por default X:\WINDOWS\MSAGENT\CHARS
@@ -799,14 +822,11 @@ Return NIL
  Get all available agents
  -----------------------------------------------------------------
 */
-Function GetAgentsAvailables( cDir )
+FUNCTION GetAgentsAvailables( cDir )
 
- Local aAgents := {}
- Local aFiles  := {}
+   LOCAL aAgents := {}
 
- DEFAULT cDir := GetWindowsFolder() + "\msagent\chars"
+   DEFAULT cDir := GetWindowsFolder() + "\msagent\chars"
+   AEval( Directory( cDir + "\*.acs" ), {|aFile| AAdd( aAgents, cDir + "\" + aFile[ F_NAME ] ) } )
 
- aFiles := DIRECTORY( cDir + "\*.acs" )
- AEVAL( aFiles, { |aFile| aAdd( aAgents, cDir + "\" + aFile[F_NAME])} )
-
-Return  aAgents
+RETURN aAgents

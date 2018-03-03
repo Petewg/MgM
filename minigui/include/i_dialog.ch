@@ -90,3 +90,14 @@
 #command END DIALOG ;
     =>;
     _EndDialog()
+
+
+//////////////////////////////
+// Resources from external DLL
+//////////////////////////////
+
+#xcommand SET RESOURCES TO <cNameDll> ;
+    => ;
+    SetResources( <cNameDll> )
+
+#xcommand SET RESOURCES TO => FreeResources()

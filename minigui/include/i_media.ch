@@ -49,18 +49,19 @@
 // ANIMATEBOX COMMANDS
 ///////////////////////////////////////////////////////////////////////////////
 #command @ <row>,<col>  ANIMATEBOX <name> ;
-            [ID <nId>];
-			[ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
-			WIDTH <w> ;
-			HEIGHT <h> ;
-			[ FILE <file> ] ;
-			[ <autoplay: AUTOPLAY> ] ;
-			[ <center : CENTER> ] ;
-			[ <transparent: TRANSPARENT> ] ;
-			[ <noborder: NOBORDER> ] ;
-			[ HELPID <helpid> ] 		;
+	[ID <nId>];
+	[ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
+	WIDTH <w> ;
+	HEIGHT <h> ;
+	[ FILE <file> ] ;
+	[ <autoplay: AUTOPLAY> ] ;
+	[ <center : CENTER> ] ;
+	[ <transparent: TRANSPARENT> ] ;
+	[ BACKCOLOR <backcolor> ] ;
+	[ <noborder: NOBORDER> ] ;
+	[ HELPID <helpid> ] ;
 	=>;
-    _DefineAnimateBox( <"name">, <"parent">, <col>, <row>, <w>, <h>, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <nId> )
+	_DefineAnimateBox( <"name">, <"parent">, <col>, <row>, <w>, <h>, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <backcolor>, <nId> )
 
 #command REDEFINE ANIMATEBOX <name> ;
     ID <nId>;
@@ -69,10 +70,11 @@
     [ <autoplay: AUTOPLAY> ] ;
     [ <center : CENTER> ] ;
     [ <transparent: TRANSPARENT> ] ;
+    [ BACKCOLOR <backcolor> ] ;
     [ <noborder: NOBORDER> ] ;
     [ HELPID <helpid> ]         ;
     =>;
-    _DefineAnimateBox( <"name">, <"parent">, 0, 0, 0, 0, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <nId> )
+    _DefineAnimateBox( <"name">, <"parent">, 0, 0, 0, 0, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <backcolor>, <nId> )
 
 
 #command OPEN ANIMATEBOX <ControlName> OF <ParentForm> FILE <FileName> ;
@@ -123,7 +125,7 @@ _CloseAnimateBox ( <"ControlName"> , <"ParentForm"> )
 => ;
 _DestroyAnimateBox ( <"ControlName"> , <"ParentForm"> )
  
-//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 // PLAYER COMMANDS
 /////////////////////////////////////////////////////////////////////////////
 #command @ <row>,<col>  PLAYER <name> ;
@@ -213,11 +215,11 @@ _DestroyAnimateBox ( <"ControlName"> , <"ParentForm"> )
 	=> ;
 	_SetPlayerZoom ( <"name"> , <"parent"> , <zoom> )	
 
-///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 // WAVE COMMANDS
 //////////////////////////////////////////////////////////////////////////////
 #command PLAY WAVE  <wave>  [<r:  FROM RESOURCE>] ;
-                            [<s:  SYNC>];
+                            [<s:  SYNC>] ;
                             [<ns: NOSTOP>] ;
                             [<l:  LOOP>] ;
                             [<nd: NODEFAULT>] ;

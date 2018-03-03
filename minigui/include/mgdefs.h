@@ -25,12 +25,16 @@
 #ifndef MG_SETUP_H_
 #define MG_SETUP_H_
 
-#ifndef WINVER
-#if defined( __WIN98__ )
-  #define WINVER   0x0400        /* version 4.0 */
-#else
-  #define WINVER   0x0501        /* version 5.0 */
+#ifndef MGM_VERSION
+   #define MGM_VERSION   0x0709  /* 1801 */
 #endif
+
+#ifndef WINVER
+  #if defined( __WIN98__ )
+    #define WINVER   0x0400      /* version 4.0 */
+  #else
+    #define WINVER   0x0501      /* version 5.0 */
+  #endif
 #endif /* !WINVER */
 
 #ifndef _WIN32_WINNT
@@ -42,7 +46,16 @@
 #endif /* !_WIN32_IE */
 
 #include "hbapi.h"
+
+#ifndef NO_LEAN_AND_MEAN
+  #define WIN32_LEAN_AND_MEAN
+#endif /* !NO_LEAN_AND_MEAN */
+
 #include <windows.h>
+
+#ifndef NO_LEAN_AND_MEAN
+  #undef  WIN32_LEAN_AND_MEAN
+#endif /* !NO_LEAN_AND_MEAN */
 
 #ifndef HMG_LEGACY_ON
 //#define HMG_LEGACY_OFF

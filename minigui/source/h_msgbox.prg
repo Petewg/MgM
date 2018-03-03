@@ -137,7 +137,7 @@ FUNCTION MsgStop ( Message , Title , nIcon , lSysModal , lTopMost )
 RETURN _MsgBox( Message, hb_defaultValue( Title, 'Stop' ), nStyle, nIcon, lSysModal, lTopMost )
 
 *-----------------------------------------------------------------------------*
-FUNCTION MsgExclamation ( Message , Title , nIcon, lSysModal , lTopMost )
+FUNCTION MsgExclamation ( Message , Title , nIcon , lSysModal , lTopMost )
 *-----------------------------------------------------------------------------*
    LOCAL nStyle := MB_OK
 
@@ -152,15 +152,16 @@ FUNCTION MsgBox ( Message , Title , lSysModal , lTopMost )
 RETURN _MsgBox( Message, Title, MB_OK, NIL, lSysModal, lTopMost )
 
 *-----------------------------------------------------------------------------*
-FUNCTION _MsgBox( cMessage , cTitle , nStyle , nIcon , lSysModal , lTopMost )
+STATIC FUNCTION _MsgBox( cMessage , cTitle , nStyle , nIcon , lSysModal , lTopMost )
 *-----------------------------------------------------------------------------*
    LOCAL cText
 
-   DEFAULT cMessage TO '', cTitle TO ''
+   __defaultNIL( @cMessage, "" )
+   __defaultNIL( @cTitle, "" )
 
    IF ! ISCHARACTER( cMessage )
       IF ISARRAY( cMessage )
-         cText := ''
+         cText := ""
          AEval( cMessage, { |x| cText += hb_ValToStr( x ) } )
          cMessage := cText
       ELSE
@@ -174,4 +175,4 @@ FUNCTION _MsgBox( cMessage , cTitle , nStyle , nIcon , lSysModal , lTopMost )
       nStyle += MB_TOPMOST
    ENDIF
 
-RETURN MessageBoxIndirect( , cMessage, cTitle, nStyle, nIcon )
+RETURN MessageBoxIndirect( NIL, cMessage, cTitle, nStyle, nIcon )

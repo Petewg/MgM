@@ -49,37 +49,34 @@
    author: Copyright 2016-2017 (C) P.Chornyj <myorg63@mail.ru>
  */
 
-#define _WIN32_IE     0x0501
+#define _WIN32_IE      0x0501
 
 #if ( defined ( __MINGW32__ ) || defined ( __XCC__ ) ) && ( _WIN32_WINNT < 0x0500 )
-#define _WIN32_WINNT  0x0500
+# define _WIN32_WINNT  0x0500
 #endif
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 #include "hbapiitm.h"
 #include "hbvm.h"
+
 #ifdef __XHARBOUR__
-#include "thread.h"
-#else
-#include "hbwinuni.h"
-#include "hbthread.h"
-#endif
+# include "thread.h"
+# else
+# include "hbwinuni.h"
+# include "hbthread.h"
+#endif /* __XHARBOUR__ */
 #include "hbatomic.h"
 
 #ifndef WC_STATIC
 #define WC_STATIC         "Static"
 #endif
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 #define DEFAULT_LISTENER  "EVENTS"
 #define MAX_EVENTS        64
 
-// locals types
+// local types
 typedef struct tagAppEvent
 {
    UINT     message;
@@ -126,9 +123,11 @@ typedef struct tagWinEventsHolder
 } WINEVENTSHOLDER, * WINEVENTSHOLDER_PTR;
 
 // extern functions
-extern void       hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
-extern HBITMAP    HMG_LoadImage( const char * FileName );
-// locals functions
+HINSTANCE      GetInstance( void );
+HINSTANCE      GetResources( void );
+extern void    hmg_ErrorExit( LPCTSTR lpMessage, DWORD dwError, BOOL bExit );
+extern HBITMAP HMG_LoadImage( const char * FileName );
+// local functions
 static size_t  AppEventScan( EVENTSHOLDER * events, UINT message );
 static LRESULT AppEventDo( EVENTSHOLDER * events, HB_BOOL bOnce, HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 static LRESULT AppEventOn( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
@@ -140,20 +139,19 @@ static HB_BOOL WinEventRemove( HWND hWnd, const char * pszName, UINT message );
 LRESULT CALLBACK MsgOnlyWndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
 // extern variables
-extern HINSTANCE g_hInstance;
-extern HWND      g_hWndMain;
-extern HACCEL    g_hAccel;
+extern HWND   g_hWndMain;
+extern HACCEL g_hAccel;
 // static variables
 static PHB_DYNS g_ListenerDyns = NULL;
 #ifdef __XHARBOUR__
 static HB_CRITICAL_T s_lst_mtx;
-#define HMG_LISTENER_LOCK    HB_CRITICAL_LOCK( s_lst_mtx );
-#define HMG_LISTENER_UNLOCK  HB_CRITICAL_UNLOCK( s_lst_mtx );
-#else
+# define HMG_LISTENER_LOCK    HB_CRITICAL_LOCK( s_lst_mtx );
+# define HMG_LISTENER_UNLOCK  HB_CRITICAL_UNLOCK( s_lst_mtx );
+# else
 static HB_CRITICAL_NEW( s_lst_mtx );
-#define HMG_LISTENER_LOCK    hb_threadEnterCriticalSection( &s_lst_mtx )
-#define HMG_LISTENER_UNLOCK  hb_threadLeaveCriticalSection( &s_lst_mtx )
-#endif // __XHARBOUR__
+# define HMG_LISTENER_LOCK    hb_threadEnterCriticalSection( &s_lst_mtx )
+# define HMG_LISTENER_UNLOCK  hb_threadLeaveCriticalSection( &s_lst_mtx )
+#endif /* __XHARBOUR__ */
 
 HB_FUNC( GETGLOBALLISTENER )
 {
@@ -851,7 +849,7 @@ HB_FUNC( INITMESSAGEONLYWINDOW )
       wcx.lpfnWndProc   = MsgOnlyWndProc;
       wcx.cbClsExtra    = 0;               // no extra class memory
       wcx.cbWndExtra    = 0;               // no extra window memory
-      wcx.hInstance     = g_hInstance;
+      wcx.hInstance     = GetInstance();
       wcx.lpszClassName = lpClassName;
 
       if( RegisterClassEx( &wcx ) )
@@ -865,10 +863,10 @@ HB_FUNC( INITMESSAGEONLYWINDOW )
             pUserData->cbSize = sizeof( MYUSERDATA );
             pUserData->myParam.Listener = hb_dynsymGet( pszFuncName );
 
-            hwnd = CreateWindowEx( 0, lpClassName, 0, 0, 0, 0, 0, 0, HWND_MESSAGE, 0, g_hInstance, ( LPVOID ) pUserData );
+            hwnd = CreateWindowEx( 0, lpClassName, 0, 0, 0, 0, 0, 0, HWND_MESSAGE, 0, GetInstance(), ( LPVOID ) pUserData );
          }
          else
-            hwnd = CreateWindowEx( 0, lpClassName, 0, 0, 0, 0, 0, 0, HWND_MESSAGE, 0, g_hInstance, 0 );
+            hwnd = CreateWindowEx( 0, lpClassName, 0, 0, 0, 0, 0, 0, HWND_MESSAGE, 0, GetInstance(), 0 );
       }
       else
          hmg_ErrorExit( TEXT( "Window Registration Failed!" ), 0, TRUE );
@@ -883,7 +881,7 @@ HB_FUNC( INITMESSAGEONLYWINDOW )
 /* Modified by P.Ch. 17.06. */
 HB_FUNC( INITDUMMY )
 {
-   HB_RETNL( ( LONG_PTR ) CreateWindowEx( 0, WC_STATIC, "", WS_CHILD, 0, 0, 0, 0, ( HWND ) ( LONG_PTR ) HB_PARNL( 1 ), ( HMENU ) 0, g_hInstance, NULL ) );
+   HB_RETNL( ( LONG_PTR ) CreateWindowEx( 0, WC_STATIC, "", WS_CHILD, 0, 0, 0, 0, ( HWND ) ( LONG_PTR ) HB_PARNL( 1 ), ( HMENU ) 0, GetInstance(), NULL ) );
 }
 
 /* Modified by P.Ch. 17.06. */
@@ -986,7 +984,7 @@ HB_FUNC( INITWINDOW )
       hb_parni( 5 ),
       ( HWND ) ( LONG_PTR ) HB_PARNL( 13 ),
       ( HMENU ) NULL,
-      g_hInstance,
+      GetInstance(),
       NULL
           );
 
@@ -1037,7 +1035,7 @@ HB_FUNC( INITMODALWINDOW )
       hb_parni( 5 ),
       parent,
       ( HMENU ) NULL,
-      g_hInstance,
+      GetInstance(),
       NULL
           );
 
@@ -1075,7 +1073,7 @@ HB_FUNC( INITSPLITCHILDWINDOW )
       hb_parni( 2 ),
       0,
       ( HMENU ) NULL,
-      g_hInstance,
+      GetInstance(),
       NULL
           );
 
@@ -1116,7 +1114,7 @@ HB_FUNC( INITSPLITBOX )
       0,
       hwndOwner,
       NULL,
-      g_hInstance,
+      GetInstance(),
       NULL
             );
 
@@ -1150,23 +1148,23 @@ HB_FUNC( REGISTERWINDOW )
    WndClass.lpfnWndProc = WndProc;
    WndClass.cbClsExtra  = 0;
    WndClass.cbWndExtra  = 0;
-   WndClass.hInstance   = g_hInstance;
+   WndClass.hInstance   = GetInstance();
 
    // icon from resource
-   hIcon = LoadIcon( g_hInstance, lpIconName );
+   hIcon = LoadIcon( GetResources(), lpIconName );
    // from file
    if( NULL == hIcon && HB_ISCHAR( 1 ) )
       hIcon = ( HICON ) LoadImage( NULL, lpIconName, IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE );
    WndClass.hIcon = ( ( NULL != hIcon ) ? hIcon : LoadIcon( NULL, IDI_APPLICATION ) );
 
    // cursor from resource
-   hCursor = LoadCursor( g_hInstance, lpCursorName );
+   hCursor = LoadCursor( GetResources(), lpCursorName );
    // from file
    if( ( NULL == hCursor ) && HB_ISCHAR( 4 ) )
       hCursor = LoadCursorFromFile( lpCursorName );
    WndClass.hCursor = ( ( NULL != hCursor ) ? hCursor : LoadCursor( NULL, IDC_ARROW ) );
 
-   if( HB_ISARRAY( 3 ) )  // old behavior (before 16.10.)
+   if( HB_ISARRAY( 3 ) )  // old behavior (before 16.10)
    {
       if( HB_PARNI( 3, 1 ) == -1 )
          hBrush = ( HBRUSH ) ( COLOR_BTNFACE + 1 );
@@ -1178,7 +1176,7 @@ HB_FUNC( REGISTERWINDOW )
       HBITMAP hImage;
       LPCTSTR lpImageName = HB_ISCHAR( 3 ) ? hb_parc( 3 ) : ( HB_ISNUM( 3 ) ? MAKEINTRESOURCE( ( WORD ) hb_parnl( 3 ) ) : NULL );
 
-      hImage = ( HBITMAP ) LoadImage( g_hInstance, lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      hImage = ( HBITMAP ) LoadImage( GetResources(), lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( hImage == NULL && HB_ISCHAR( 3 ) )
          hImage = ( HBITMAP ) LoadImage( NULL, lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
@@ -1221,8 +1219,8 @@ HB_FUNC( REGISTERSPLITCHILDWINDOW )
    WndClass.lpfnWndProc = WndProc;
    WndClass.cbClsExtra  = 0;
    WndClass.cbWndExtra  = 0;
-   WndClass.hInstance   = g_hInstance;
-   WndClass.hIcon       = LoadIcon( g_hInstance, lpIcon );
+   WndClass.hInstance   = GetInstance();
+   WndClass.hIcon       = LoadIcon( GetInstance(), lpIcon );
    if( WndClass.hIcon == NULL )
       WndClass.hIcon = ( HICON ) LoadImage( 0, lpIcon, IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE );
 
@@ -1261,7 +1259,7 @@ HB_FUNC( UNREGISTERWINDOW )
    const char * lpClassName = hb_parc( 1 );
 #endif
 
-   UnregisterClass( lpClassName, g_hInstance );
+   UnregisterClass( lpClassName, GetInstance() );
 #ifndef __XHARBOUR__
    hb_strfree( hClassName );
 #endif

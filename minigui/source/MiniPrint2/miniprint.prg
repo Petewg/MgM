@@ -32,10 +32,10 @@
 	"Harbour GUI framework for Win32"
  	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-        Copyright 1999-2017, http://harbour-project.org/
+        Copyright 1999-2018, https://harbour.github.io/
 
  Parts of this module are based upon:
 
@@ -2161,41 +2161,39 @@ FUNCTION _DefineEmfFile ( ControlName, ParentFormName, x, y, FileName, w, h, ;
 
 RETURN Nil
 
-
-#pragma BEGINDUMP
 ///////////////////////////////////////////////////////////////////////////////
 // LOW LEVEL C PRINT ROUTINES
 ///////////////////////////////////////////////////////////////////////////////
+
+#pragma BEGINDUMP
+
 #ifndef CINTERFACE
   #define CINTERFACE
 #endif
 
+#define NO_LEAN_AND_MEAN
+
 #include <mgdefs.h>
 #include "hbapiitm.h"
 
-#include "olectl.h"
+#include <olectl.h>
 
 #ifndef WC_STATIC
-#define WC_STATIC  "Static"
+  #define WC_STATIC  "Static"
 #endif
 
 static DWORD charset = DEFAULT_CHARSET;
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 #ifdef __cplusplus
-extern "C" {
+  extern "C" {
 #endif
 extern HBITMAP HMG_LoadImage( char * FileName );
 #ifdef __cplusplus
-}
+  }
 #endif
 
-#if defined( __BORLANDC__ )
-#undef MAKELONG
-#define MAKELONG( a, b )      ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | \
-                                           ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-#endif
 
 HB_FUNC( _HMG_SETCHARSET )
 {
@@ -2558,7 +2556,6 @@ HB_FUNC( _HMG_PRINTER_ENDPAGE )
 
    if( hdcPrint != 0 )
       EndPage( hdcPrint );
-
 }
 
 HB_FUNC( _HMG_PRINTER_ENDDOC )
@@ -2567,7 +2564,6 @@ HB_FUNC( _HMG_PRINTER_ENDDOC )
 
    if( hdcPrint != 0 )
       EndDoc( hdcPrint );
-
 }
 
 HB_FUNC( _HMG_PRINTER_DELETEDC )
@@ -2575,7 +2571,6 @@ HB_FUNC( _HMG_PRINTER_DELETEDC )
    HDC hdcPrint = ( HDC ) HB_PARNL( 1 );
 
    DeleteDC( hdcPrint );
-
 }
 
 HB_FUNC( _HMG_PRINTER_PRINTDIALOG )
@@ -3691,7 +3686,7 @@ HB_FUNC( _HMG_PRINTER_C_IMAGE )
       dc = ( odc * GetDeviceCaps( hdcPrint, LOGPIXELSX ) / 1000 );
       dr = ( odr * GetDeviceCaps( hdcPrint, LOGPIXELSY ) / 1000 );
 
-      hBitmap = ( HBITMAP ) LoadImage( g_hInstance, FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+      hBitmap = ( HBITMAP ) LoadImage( GetInstance(), FileName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
       if( hBitmap == NULL )
          hBitmap = ( HBITMAP ) LoadImage( NULL, FileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
@@ -3871,7 +3866,7 @@ HB_FUNC( INITEMFFILE )
    if( hb_parl( 6 ) )
       Style |= SS_NOTIFY;
 
-   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), g_hInstance, NULL );
+   hWnd = CreateWindowEx( 0, WC_STATIC, NULL, Style, hb_parni( 3 ), hb_parni( 4 ), 0, 0, hWndParent, ( HMENU ) HB_PARNL( 2 ), GetInstance(), NULL );
 
    HB_RETNL( ( LONG_PTR ) hWnd );
 }

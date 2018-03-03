@@ -5,6 +5,8 @@
  * http://harbourminigui.googlepages.com/
  *
  * Copyright 2006 Grigory Filatov <gfilatov@inbox.ru>
+ * 
+ * 2018/01/25 Pete D. Added 'hovering' effect.
 */
 
 ANNOUNCE RDDSYS
@@ -15,85 +17,87 @@ ANNOUNCE RDDSYS
 
 #include "hmg.ch"
 
-#define PROGRAM 'Draw Curves'
+STATIC lBusy := .F.
 
-
-Static lBusy := .f.
-
-PROCEDURE Main
+//////////////////////////////////////////////////////////////////////////////
+PROCEDURE Main()
 
 	DEFINE WINDOW Form_1 ;
 		AT 0,0 ;
 		WIDTH 800 HEIGHT 600 ;
-		TITLE PROGRAM + " - Contributed by Grigory Filatov" ;
+      TITLE "Draw Curves - Contributed by Grigory Filatov" ;
 		MAIN ;
 		ICON "demo.ico" ;
 		NOMAXIMIZE NOMINIMIZE NOSIZE ;
 		ON INIT OnInit() ;
 		ON PAINT DrawCurves() ;
 		ON GOTFOCUS RefreshPaint() ;
+      ON MOUSECLICK RefreshPaint() ; //       ON MOUSEMOVE RefreshPaint() ;
 		BACKCOLOR WHITE ;
 		FONT "MS Sans Serif" SIZE 8
 
 		DEFINE MAIN MENU
 			DEFINE POPUP "Test"
-			MENUITEM "Do it!"  ACTION RefreshPaint()
+			MENUITEM "Re-Draw!"  ACTION RefreshPaint()
 			MENUITEM "Exit"    ACTION ThisWindow.Release()
 			END POPUP
 		END MENU
 
-		@ 10,Form_1.Width - 120 BUTTON Button_1 ;
-		CAPTION 'Close' ;
-		ACTION Form_1.Release
+		@ 10,Form_1.Width - 120 BUTTON Button_1 CAPTION 'Close' ACTION Form_1.Release
+      
+      @ 10, 10 LABEL LBL1 VALUE "Hover here or"+hb_eol()+"click window area"+hb_eol()+"to redraw Curves!" ;
+         ON MOUSEHOVER RefreshPaint() ; // [ ON MOUSELEAVE | ONMOUSELEAVE  <OnLeaveProcedure> | <bBlock> ] 
+         WIDTH 100 HEIGHT 45 ;
+         CLIENTEDGE CENTERALIGN
+         
+
 
 	END WINDOW
 
-	Form_1.Center
-
+   CENTER   WINDOW Form_1
 	ACTIVATE WINDOW Form_1
 
-Return
+RETURN
 
-*--------------------------------------------------------*
-PROCEDURE OnInit
-*--------------------------------------------------------*
+//////////////////////////////////////////////////////////////////////////////
+STATIC PROCEDURE OnInit
 
-	Form_1.Button_1.Setfocus
+   Form_1.Button_1.Setfocus()
 
 	CLEAN MEMORY
 
 RETURN
 
-#define WM_PAINT	15
-*--------------------------------------------------------*
-Static Procedure RefreshPaint()
-*--------------------------------------------------------*
+//////////////////////////////////////////////////////////////////////////////
+STATIC PROCEDURE RefreshPaint()
 
-	ERASE WINDOW Form_1
+   lBusy := .F.
 
-	lBusy := .F.
+   Form_1.ReDraw()
 
-	SendMessage( _HMG_MainHandle, WM_PAINT, 0, 0 )
+RETURN
 
-	DoEvents()
+#define PS_SOLID  0
+//////////////////////////////////////////////////////////////////////////////
+STATIC FUNCTION DrawCurves()
 
-Return
+   STATIC nHeight, nWidth
 
-#define PS_SOLID	0
-*--------------------------------------------------------*
-Function DrawCurves()
-*--------------------------------------------------------*
-local nHeight := Form_1.Height - 20, nWidth := Form_1.Width - 20
-local hWnd := GetActiveWindow()
-local hDC
-local n, hPen, hOldPen
-local cPoints
+   LOCAL hWnd := Form_1.Handle
+   LOCAL hDC, pPS
+   LOCAL nI, hPen, hOldPen
+   LOCAL cPoints
 
-IF .NOT. lBusy
+   IF HB_ISNIL( nHeight )
+      nHeight := Form_1.Height -20
+      nWidth  := Form_1.Width  -20
+   ENDIF
 
-   hDC := GetDC( hWnd )
+   IF ! lBusy .AND. GetUpdateRect(  hWnd, NIL ) /*Not INTERNALPAINT*/
 
-   for n := 1 to 20
+      hDC := BeginPaint( hWnd, @pPS )
+
+      FOR nI := 1 TO 20
       hPen    := CreatePen( PS_SOLID, 5, Random( 65535 ) )
       hOldPen := SelectObject( hDC, hPen )
 
@@ -110,16 +114,15 @@ IF .NOT. lBusy
       SelectObject( hDC, hOldPen )
 
       DeleteObject( hPen )
-   next
+      NEXT
 
-   ReleaseDC( hWnd, hDC )
+      EndPaint( hWnd, pPS )
 
    lBusy := .T.
 
 ENDIF
 
-return nil
-
+RETURN NIL
 
 #ifdef __XHARBOUR__
 /*
@@ -158,7 +161,6 @@ return nil
 // #include "hbdll32.ch"
 // DECLARE  PolyBezier(  hDC,  Points,  Amount ) IN GDI32.DLL
 
-#endif
 
 
 STATIC FUNCTION PolyBezier( hDC, Points, Amount )
@@ -186,3 +188,5 @@ HB_FUNC( CREATEPEN )
    HB_RETNL( ( LONG_PTR ) hpen );
 }
 #pragma enddump
+
+#endif

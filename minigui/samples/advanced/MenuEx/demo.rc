@@ -3,6 +3,8 @@
 //
 //	Resource name	Resource Type   Resource FileName
 //
+	SMILE          ICON             demo.ico
+
 	NEW            BITMAP           res\new.bmp
 	PRINTER        BITMAP           res\printer.bmp
 	SAVE           BITMAP           res\save.bmp

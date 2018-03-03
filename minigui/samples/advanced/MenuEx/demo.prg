@@ -6,8 +6,8 @@
 
 PROCEDURE Main
 
-LOCAL aColors
-LOCAL Font1, Font2, Font3, Font4 
+// LOCAL aColors
+LOCAL Font1, Font2, Font3, Font4, Font0 
 
 	DEFINE FONT font_0 FONTNAME GetDefaultFontName() SIZE 10
 	DEFINE FONT font_1 FONTNAME 'Times New Roman' SIZE 10 BOLD
@@ -31,7 +31,7 @@ LOCAL Font1, Font2, Font3, Font4
 
 	DEFINE WINDOW Form_1 ;
 	AT 0,0 WIDTH 640 HEIGHT 480 ;
-	TITLE "MenuEx Test" ICON "Demo.ico" NOTIFYICON "Demo.ico" ;
+	TITLE "MenuEx Test" ICON "SMILE" NOTIFYICON "SMILE" ;
 	MAIN
 
 	DEFINE MAIN MENU
@@ -120,7 +120,7 @@ LOCAL Font1, Font2, Font3, Font4
 			ITEM "Online forum" IMAGE "WORLD"
 			ITEM "Buy/register" IMAGE "CART_ADD"
 			SEPARATOR
-			ITEM "About" ACTION MsgInfo ( MiniGuiVersion() )
+			ITEM "About" ACTION MsgInfo ( MiniGuiVersion() ) ICON "SMILE"
 		END POPUP
 	END MENU
 

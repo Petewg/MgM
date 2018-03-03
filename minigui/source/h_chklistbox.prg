@@ -255,6 +255,10 @@ FUNCTION _DefineChkListbox ( ControlName, ParentFormName, x, y, w, h, arows, val
    _HMG_aControlMiscData1 [k] := ''
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF Len ( _HMG_aDialogTemplate ) == 0     //Dialog Template
       IF Len ( aRows ) > 0
          AEval ( Rows, { | r,n | ChkListboxAddItem ( ControlHandle, r, aChkItem[n], nItemHeight ) } )
@@ -319,18 +323,22 @@ FUNCTION _SetGetChkListItemState ( ControlName, ParentForm, Item, lState )
    LOCAL RetVal As Logical
    LOCAL i, t, uSel
 
-   i := GetControlIndex ( ControlName , ParentForm )
-   IF i > 0
+   IF ( i := GetControlIndex ( ControlName , ParentForm ) ) > 0
+
       T := _HMG_aControlType [i]
       IF "CHKLIST" $ T
+
          IF item > 0 .AND. item <= ListBoxGetItemCount ( _HMG_aControlHandles [i] )
+
             IF ISLOGICAL ( lState )
                IF T == "MULTICHKLIST"
                   uSel := ListBoxGetMultiSel ( _HMG_aControlHandles [i] )
                ELSE
                   uSel := ListBoxGetCursel ( _HMG_aControlHandles [i] )
                ENDIF
+
                ChkList_SetCheckBox ( _HMG_aControlHandles [i], Item, iif( lState, 2, 1 ) )
+
                IF T == "MULTICHKLIST"
                   ListBoxSetMultiSel ( _HMG_aControlHandles [i], uSel )
                ELSE
@@ -339,8 +347,11 @@ FUNCTION _SetGetChkListItemState ( ControlName, ParentForm, Item, lState )
             ELSE
                RetVal := ChkList_GetCheckBox ( _HMG_aControlHandles [i], Item )
             ENDIF
+
          ENDIF
+
       ENDIF
+
    ENDIF
 
 RETURN RetVal

@@ -51,12 +51,8 @@
 
 #include <commctrl.h>
 
-#ifdef MAKELONG
-  #undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 HB_FUNC( INITMESSAGEBAR )
 {
@@ -133,10 +129,10 @@ HB_FUNC( INITITEMBAR )
    cy = rect.bottom - rect.top - 4;
    cx = cy;
 
-   hIcon = ( HICON ) LoadImage( g_hInstance, hb_parc( 6 ), IMAGE_ICON, cx, cy, 0 );
+   hIcon = ( HICON ) LoadImage( GetResources(), hb_parc( 6 ), IMAGE_ICON, cx, cy, 0 );
 
    if( hIcon == NULL )
-      hIcon = ( HICON ) LoadImage( 0, hb_parc( 6 ), IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
+      hIcon = ( HICON ) LoadImage( NULL, hb_parc( 6 ), IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
 
    if( ! ( hIcon == NULL ) )
       SendMessage( hWndSB, SB_SETICON, ( WPARAM ) ( nrOfParts - 1 ), ( LPARAM ) hIcon );
@@ -264,10 +260,10 @@ HB_FUNC( SETSTATUSITEMICON )
    cy = rect.bottom - rect.top - 4;
    cx = cy;
 
-   hIcon = ( HICON ) LoadImage( g_hInstance, hb_parc( 3 ), IMAGE_ICON, cx, cy, 0 );
+   hIcon = ( HICON ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_ICON, cx, cy, 0 );
 
    if( hIcon == NULL )
-      hIcon = ( HICON ) LoadImage( 0, hb_parc( 3 ), IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
+      hIcon = ( HICON ) LoadImage( NULL, hb_parc( 3 ), IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
 
    SendMessage( hwnd, SB_SETICON, ( WPARAM ) hb_parni( 2 ) - 1, ( LPARAM ) hIcon );
 }
@@ -344,10 +340,10 @@ HB_FUNC( CREATEPROGRESSBARITEM )     // CreateProgressBarItem( HwndStatus, NrIte
             rc.top,
             rc.left,
             rc.right - rc.left,
-            rc.bottom - rc.top - 1,  // No size or position.
-            hwndStatus,              // Handle to the parent window.
-            ( HMENU ) NULL,          // ID for the progress window.
-            g_hInstance, // Current instance.
+            rc.bottom - rc.top - 1, // No size or position.
+            hwndStatus,             // Handle to the parent window.
+            ( HMENU ) NULL,         // ID for the progress window.
+            GetInstance(),          // Current instance.
             ( LPVOID ) NULL
                            )
       ) != NULL

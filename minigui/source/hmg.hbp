@@ -29,7 +29,7 @@
 
 -w3 -es2 -ko -l -ql
 
--cflag=-DWIN32_LEAN_AND_MEAN
+#-cflag=-DWIN32_LEAN_AND_MEAN
 
 c_bitmap.c
 c_browse.c
@@ -143,6 +143,8 @@ h_menu.prg
 h_monthcal.prg
 h_mru.prg
 h_msgbox.prg
+h_objects.prg
+h_objmisc.prg
 h_pager.prg
 h_progressbar.prg
 h_radio.prg

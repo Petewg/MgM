@@ -229,6 +229,10 @@ FUNCTION _DefineButton ( ControlName, ParentFormName, x, y, Caption, ;
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF .NOT. lDialogInMemory
 
       IF _HMG_BeginTabActive
@@ -334,7 +338,7 @@ FUNCTION _DefineImageButton ( ControlName, ParentFormName, x, y, Caption, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      aRet := InitImageButton ( ParentFormHandle, Caption, 0, x, y, w, h, image, flat, notrans, invisible, notabstop, default, icon, extract, nIdx, ( IsAppXPThemed() .AND. !noxpstyle ) )
+      aRet := InitImageButton ( ParentFormHandle, Caption, 0, x, y, w, h, image, flat, notrans, invisible, notabstop, default, icon, extract, nIdx, ( _HMG_IsThemed .AND. !noxpstyle ) )
 
       ControlHandle := aRet [1]
       nhImage := aRet [2]
@@ -383,6 +387,10 @@ FUNCTION _DefineImageButton ( ControlName, ParentFormName, x, y, Caption, ;
    _HMG_aControlEnabled [k] :=   .T.
    _HMG_aControlMiscData1 [k] := IFEMPTY( icon, 0, 1 )  // 0 - bitmap  1 - icon
    _HMG_aControlMiscData2 [k] := ''
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
 
    IF .NOT. lDialogInMemory
 
@@ -493,6 +501,11 @@ FUNCTION _DefineOwnerButton ( ControlName, ParentForm, x, y, Caption, ;
 
    ControlHandle := aRet [1]
 
+   IF !Empty( image ) .AND. Empty( aRet [2] )
+      aRet [2] := iif( _HMG_IsThemed .AND. At ( ".", image ) == 0 .AND. imagewidth < 0 .AND. imageheight < 0, ;
+         C_GetResPicture ( image ), _SetBtnPicture ( ControlHandle, image, imagewidth, imageheight ) )
+   ENDIF
+
    IF FontHandle != 0
       _SetFontHandle( ControlHandle, FontHandle )
    ELSE
@@ -554,6 +567,10 @@ FUNCTION _DefineOwnerButton ( ControlName, ParentForm, x, y, Caption, ;
    _HMG_aControlMiscData1 [k]   :=  IFEMPTY( icon, 0, 1 )  // 0 - bitmap  1 - icon
    _HMG_aControlMiscData2 [k]   :=  ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
 RETURN Nil
 
 // HMG 1.0 Experimental Build 9a (JK)
@@ -574,23 +591,30 @@ FUNCTION OBTNEVENTS( hWnd, nMsg, wParam, lParam )
          IF _HMG_aControlInputMask [i]
             RC_CURSOR( "MINIGUI_FINGER" )
          ENDIF
-         IF AND( _HMG_aControlSpacing [i], OBT_HOTLIGHT ) == OBT_HOTLIGHT .OR. IsXPThemeActive()
+
+         IF AND( _HMG_aControlSpacing [i], OBT_HOTLIGHT ) == OBT_HOTLIGHT .OR. _HMG_IsThemed
+
+            _DoControlEventProcedure ( _HMG_aControlGotFocusProcedure [i] , i )
+
             IF _HMG_aControlRangeMax [i] == 0
-               _DoControlEventProcedure ( _HMG_aControlGotFocusProcedure [i] , i )
                InvalidateRect( hWnd, 0 )
                _HMG_aControlRangeMax [i] := 1
             ENDIF
+
          ENDIF
          EXIT
 
       CASE WM_MOUSELEAVE
 
          _DoControlEventProcedure ( _HMG_aControlLostFocusProcedure [i] , i )
+
          IF AND( _HMG_aControlSpacing [i], OBT_HOTLIGHT ) == OBT_HOTLIGHT .OR. lXPThemeActive
+
             IF _HMG_aControlRangeMax [i] == 1
                _HMG_aControlRangeMax [i] := 0
                InvalidateRect( hWnd, 0 )
             ENDIF
+
          ENDIF
 
       ENDSWITCH
@@ -650,7 +674,7 @@ FUNCTION OwnButtonPaint( pdis )
       rgbTrans := NIL
    ELSE
 
-      IF ! Empty( _HMG_aControlBkColor [ i ] ) .AND. ! lXPThemeActive
+      IF IsArrayRGB( _HMG_aControlBkColor [ i ] ) .AND. ! lXPThemeActive
          rgbTrans := RGB( _HMG_aControlBkColor [ i, 1 ], _HMG_aControlBkColor [ i, 2 ], _HMG_aControlBkColor [ i, 3 ] )
       ELSE
          rgbTrans := GetSysColor ( COLOR_BTNFACE )
@@ -662,7 +686,7 @@ FUNCTION OwnButtonPaint( pdis )
    lGradient := ( ISARRAY( aGradient ) .AND. ! Empty( _HMG_aControlBkColor [i] ) )
    lvertical := ( _HMG_aControlRangeMin [i] == .F. )
 
-   IF ! lnoxpstyle .AND. IsXPThemeActive() .AND. ! lGradient
+   IF ! lnoxpstyle .AND. _HMG_IsThemed .AND. ! lGradient
 
       lXPThemeActive := .T.
 
@@ -722,36 +746,36 @@ FUNCTION OwnButtonPaint( pdis )
 
          IF lGradient
 
-            IF Len( aGradient [1] ) == 2
+            IF Len( aGradient [ 1 ] ) == 2
                ReplaceGradInfo( aGradient, 1, 1 )
                ReplaceGradInfo( aGradient, 1, 2 )
             ENDIF
 
             IF lSelected 
-               IF Len( aGradient [1] ) == 3
-                  IF IsArrayRGB( _HMG_aControlBkColor [i] ) .AND. ValType( _HMG_aControlBkColor [i, 1] ) == "N"
-                     _HMG_aControlBkColor [i] := { { 1, _HMG_aControlBkColor [i], Darker( _HMG_aControlBkColor [i], 82 ) } }
+               IF Len( aGradient [ 1 ] ) == 3
+                  IF IsArrayRGB( _HMG_aControlBkColor [ i ] ) .AND. ValType( _HMG_aControlBkColor [ i, 1 ] ) == "N"
+                     _HMG_aControlBkColor [ i ] := { { 1, _HMG_aControlBkColor [ i ], Darker( _HMG_aControlBkColor [ i ], 82 ) } }
                   ENDIF
-                  _GradientFill( hDC, xp2 + 2, xp1 + 2, yp2 - 2, yp1 - 2, _HMG_aControlBkColor [i], lvertical )
+                  _GradientFill( hDC, xp2 + 2, xp1 + 2, yp2 - 2, yp1 - 2, _HMG_aControlBkColor [ i ], lvertical )
                ELSE
-                  hBrush := CreateButtonBrush( hDC, yp1 - 2, yp2 - 2, aGradient [1][2], aGradient [1][1] )
+                  hBrush := CreateButtonBrush( hDC, yp1 - 2, yp2 - 2, aGradient [ 1 ][ 2 ], aGradient [ 1 ][ 1 ] )
                   FillRect( hDC, xp1 + 2, xp2 + 2, yp1 - 2, yp2 - 2, hBrush )
                   DeleteObject( hBrush )
                ENDIF
             ELSEIF ! ( _HMG_aControlRangeMax [ i ] == 1 )
-               IF Len( aGradient [1] ) == 3
+               IF Len( aGradient [ 1 ] ) == 3
                   _GradientFill( hDC, xp2 + 1, xp1 + 1, yp2 - 1, yp1 - 1, aGradient, lvertical )
                ELSE
-                  hBrush := CreateButtonBrush( hDC, yp1 - 1, yp2 - 1, aGradient [1][1], aGradient [1][2] )
+                  hBrush := CreateButtonBrush( hDC, yp1 - 1, yp2 - 1, aGradient [ 1 ][ 1 ], aGradient [ 1 ][ 2 ] )
                   FillRect( hDC, xp1 + 1, xp2 + 1, yp1 - 1, yp2 - 1, hBrush )
                   DeleteObject( hBrush )
                ENDIF
             ELSE
-               IF Len( aGradient [1] ) == 3
+               IF Len( aGradient [ 1 ] ) == 3
                   _GradientFill( hDC, xp2 + 1, xp1 + 1, yp2 - 1, yp1 - 1, iif( Len( aGradient ) == 1, ;
                      InvertGradInfo( aGradient ), ModifGradInfo( aGradient ) ), lvertical )
                ELSE
-                  hBrush := CreateButtonBrush( hDC, yp1 - 1, yp2 - 1, aGradient [1][2], aGradient [1][1] )
+                  hBrush := CreateButtonBrush( hDC, yp1 - 1, yp2 - 1, aGradient [ 1 ][ 2 ], aGradient [ 1 ][ 1 ] )
                   FillRect( hDC, xp1 + 1, xp2 + 1, yp1 - 1, yp2 - 1, hBrush )
                   DeleteObject( hBrush )
                ENDIF
@@ -767,7 +791,7 @@ FUNCTION OwnButtonPaint( pdis )
 
             hBrush := CreateSolidBrush( aDarkColor [1], aDarkColor [2], aDarkColor [3] )
             IF lflat
-               IF ! lfocus .AND. ! lSelected .AND. ! ( _HMG_aControlRangeMax [i] == 1 )
+               IF ! lfocus .AND. ! lSelected .AND. ! ( _HMG_aControlRangeMax [ i ] == 1 )
                   FillRect( hDC, xp1 + 1, xp2 + 1, yp1 - 1, yp2 - 1, hBrush )
                ELSE
                   FillRect( hDC, xp1 + 2, xp2 + 2, yp1 - 2, yp2 - 2, hBrush )
@@ -809,12 +833,12 @@ FUNCTION OwnButtonPaint( pdis )
          nFreeSpace := Round( ( aBtnRc[ 4 ] - 4 - ( y2 + yp2 ) ) / 3, 0 )
       ENDIF
 
-      IF !Empty( _HMG_aControlCaption[ i ] )  // button has caption
+      IF ! Empty( _HMG_aControlCaption[ i ] )  // button has caption
 
-         IF !Empty( _HMG_aControlBrushHandle [ i ] )
-            IF !( AND( _HMG_aControlSpacing [ i ], OBT_UPTEXT ) == OBT_UPTEXT )  // upper text aspect not set
+         IF ! Empty( _HMG_aControlBrushHandle [ i ] )
+            IF ! ( AND( _HMG_aControlSpacing [ i ], OBT_UPTEXT ) == OBT_UPTEXT )  // upper text aspect not set
                pozYpic := Max( aBtnRc[ 2 ] + nFreeSpace, 5 )
-               pozYtext := aBtnRc[ 2 ] + iif( !Empty( aBmp ), nFreeSpace, 0 ) + yp2 + iif( !Empty( aBmp ), nFreeSpace, 0 )
+               pozYtext := aBtnRc[ 2 ] + iif( ! Empty( aBmp ), nFreeSpace, 0 ) + yp2 + iif( ! Empty( aBmp ), nFreeSpace, 0 )
             ELSE
                pozYtext := Max( aBtnRc[ 2 ] + nFreeSpace, 5 )
                aBtnRc[ 4 ] := nFreeSpace + ( ( aMetr[ 1 ] ) * nCRLF ) + nFreeSpace

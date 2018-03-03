@@ -52,7 +52,6 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #ifdef _TSBROWSE_
    MEMVAR _TSB_aControlhWnd, _TSB_aControlObjects
 #endif
-
 #ifndef __XHARBOUR__
    /* FOR EACH hb_enumIndex() */
    #xtranslate hb_enumIndex( <!v!> ) => <v>:__enumIndex()
@@ -162,7 +161,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
          TmpStr := _HMG_aControlType [i]
 
-         IF TmpStr $ "GETBOX,LABEL,HYPERLINK,CHECKBOX,FRAME,SLIDER,NUMTEXT,MASKEDTEXT,CHARMASKTEXT,BTNTEXT,BTNNUMTEXT,EDIT,CHECKLABEL"
+         IF TmpStr $ "GETBOX,LABEL,HYPERLINK,CHECKBOX,FRAME,SLIDER,NUMTEXT,MASKEDTEXT,CHARMASKTEXT,BTNTEXT,BTNNUMTEXT,EDIT,ANIMATEBOX,CHECKLABEL"
 
             IF TmpStr $ "GETBOX,NUMTEXT,MASKEDTEXT,CHARMASKTEXT,BTNTEXT,BTNNUMTEXT,EDIT"
 
@@ -191,7 +190,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
                      ELSE
 
-                        IF ValType( _HMG_aControlBkColor [ i, 2] ) == "N" .AND. Len( _HMG_aControlBkColor [ i ] ) == 3
+                        IF ValType( _HMG_aControlBkColor [ i, 2 ] ) == "N" .AND. Len( _HMG_aControlBkColor [ i ] ) == 3
 
                            SetBkColor( wParam , _HMG_aControlBkColor [ i, 1 ] , _HMG_aControlBkColor [ i, 2 ] , _HMG_aControlBkColor [ i, 3 ] )
                            DeleteObject ( _HMG_aControlBrushHandle [ i ] )
@@ -217,7 +216,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             ELSE
 
                IF IsXPThemed == Nil
-                  IsXPThemed := IsThemed()
+                  IsXPThemed := _HMG_IsThemed
                ENDIF
 
                Tmp := _HMG_aControlContainerRow [i] <> -1 .AND. _HMG_aControlContainerCol [i] <> -1 .AND. _HMG_aControlBkColor [i] == Nil
@@ -331,7 +330,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
       ELSE
 
          IF IsXPThemed == Nil
-            IsXPThemed := IsThemed()
+            IsXPThemed := _HMG_IsThemed
          ENDIF
 
          ControlCount := Len ( _HMG_aControlHandles )
@@ -1174,6 +1173,22 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
       ENDIF
       EXIT
+#ifdef _OBJECT_
+   //**********************************************************************
+   CASE WM_WND_LAUNCH
+   //**********************************************************************
+      IF _HMG_lOOPEnabled
+         Eval ( _HMG_bOnWndLaunch, hWnd, nMsg, wParam, lParam )
+      ENDIF
+      EXIT
+   //**********************************************************************
+   CASE WM_CTL_LAUNCH
+   //**********************************************************************
+      IF _HMG_lOOPEnabled
+         Eval ( _HMG_bOnCtlLaunch, hWnd, nMsg, wParam, lParam )
+      ENDIF
+      EXIT
+#endif
    //**********************************************************************
    CASE WM_NEXTDLGCTL
    //**********************************************************************
@@ -1512,6 +1527,9 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
       i := AScan ( _HMG_aControlIds , wParam )
 
       IF i > 0
+         IF _HMG_aControlPicture [i] == .T. // Once
+            _DisableControl ( _HMG_aControlNames [i], GetParentFormName( i ) )
+         ENDIF
          _DoControlEventProcedure ( _HMG_aControlProcedures [i] , i )
       ENDIF
       EXIT
@@ -2090,7 +2108,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
 
                      IF _HMG_aControlHandles [i] [x] == lParam
 
-                        IF _HMG_aControlValue [i] != ( z := _GetValue( , , i ) ) .OR. ! _HMG_ProgrammaticChange
+                        IF _HMG_aControlValue [i] != ( z := _GetValue ( , , i ) ) .OR. ! _HMG_ProgrammaticChange
                            _HMG_aControlValue [i] := z
                            _DoControlEventProcedure ( _HMG_aControlChangeProcedure [i] , i , 'CONTROL_ONCHANGE' )
                         ENDIF
@@ -3137,7 +3155,7 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
             // Tab Change ..................................
 
             IF GetNotifyCode ( lParam ) == TCN_SELCHANGING
-               nOldPage := _GetValue( , , i )
+               nOldPage := _GetValue ( , , i )
                RETURN 0
             ELSEIF GetNotifyCode ( lParam ) == TCN_SELCHANGE
                IF Len ( _HMG_aControlPageMap [i] ) > 0
@@ -3367,6 +3385,10 @@ FUNCTION Events ( hWnd, nMsg, wParam, lParam )
                _HMG_InteractiveCloseStarted := .T.
                _DoWindowEventProcedure ( _HMG_aFormReleaseProcedure [i] , i , 'WINDOW_RELEASE' )
 
+            ENDIF
+
+            IF _HMG_lOOPEnabled
+               Eval ( _HMG_bOnFormDestroy, i )
             ENDIF
 
             _hmg_OnHideFocusManagement ( i )

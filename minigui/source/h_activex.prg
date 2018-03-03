@@ -7,7 +7,7 @@ INIT PROCEDURE _InitActiveX
 *------------------------------------------------------------------------------*
 
    InstallMethodHandler ( 'Release', 'ReleaseActiveX' )
-   InstallPropertyHandler ( 'Object', 'SetActiveXObject', 'GetActiveXObject' )
+   InstallPropertyHandler ( 'XObject', 'SetActiveXObject', 'GetActiveXObject' )
 
 RETURN
 
@@ -187,13 +187,20 @@ RETURN ( _HMG_aControlMiscData1[ i ] )
 
 #include <mgdefs.h>
 #include <commctrl.h>
+
+#if defined( _MSC_VER ) 
+# pragma warning(push) 
+# pragma warning(disable:4201)  /* warning C4201: nonstandard extension used: nameless struct/union */ 
+#endif 
 #include <olectl.h>
+#if defined( _MSC_VER ) 
+# pragma warning(pop) 
+#endif
 
 typedef HRESULT ( WINAPI * LPAtlAxGetControl )( HWND hwnd, IUnknown ** unk );
 typedef HRESULT ( WINAPI * LPAtlAxWinInit )( void );
 
 /*
-
    InitActivex() function.
    2008.07.15 - Roberto López <harbourminigui@gmail.com>
    http://harbourminigui.googlepages.com
@@ -201,7 +208,6 @@ typedef HRESULT ( WINAPI * LPAtlAxWinInit )( void );
    Inspired by the works of Oscar Joel Lira Lira <oskar78@users.sourceforge.net>
    for Freewin project
    http://www.sourceforge.net/projects/freewin
-
  */
 
 HB_FUNC( INITACTIVEX )
@@ -216,6 +222,7 @@ HB_FUNC( INITACTIVEX )
    hlibrary        = LoadLibrary( "Atl.Dll" );
    AtlAxWinInit    = ( LPAtlAxWinInit ) GetProcAddress( hlibrary, "AtlAxWinInit" );
    AtlAxGetControl = ( LPAtlAxGetControl ) GetProcAddress( hlibrary, "AtlAxGetControl" );
+
    AtlAxWinInit();
 
    hchild = CreateWindowEx( 0L, "AtlAxWin", hb_parc( 2 ), WS_CHILD | WS_VISIBLE, hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ), hb_parni( 6 ), ( HWND ) HB_PARNL( 1 ), 0, 0, 0 );

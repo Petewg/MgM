@@ -92,6 +92,7 @@ PROCEDURE Init
 
    _HMG_IsXP := ( 'XP' $ WindowsVersion () [1] )
    _HMG_IsXPorLater := IsWinXPorLater ()
+   _HMG_IsThemed := IsThemed ()
 
    _HMG_LANG_ID := ''
 
@@ -111,6 +112,16 @@ PROCEDURE Init
    _HMG_InteractiveCloseStarted := .F.
    _HMG_aEventInfo := {}
 
+   _HMG_aUserBlocks := Array ( 7 )
+   _HMG_lOOPEnabled := .F.
+#ifdef _OBJECT_
+   _HMG_bOnFormInit       := {|nIndex, cVar  | Do_OnWndInit   ( nIndex, cVar ) }
+   _HMG_bOnFormDestroy    := {|nIndex        | Do_OnWndRelease( nIndex ) }
+   _HMG_bOnControlInit    := {|nIndex, cVar  | Do_OnCtlInit   ( nIndex, cVar ) }
+   _HMG_bOnControlDestroy := {|nIndex        | Do_OnCtlRelease( nIndex ) }
+   _HMG_bOnWndLaunch      := {|hWnd, nMsg, wParam, lParam| Do_OnWndLaunch( hWnd, nMsg, wParam, lParam ) }
+   _HMG_bOnCtlLaunch      := {|hWnd, nMsg, wParam, lParam| Do_OnCtlLaunch( hWnd, nMsg, wParam, lParam ) }
+#endif
    _HMG_DateTextBoxActive := .F.
 
    _HMG_ThisFormName := Nil
@@ -422,7 +433,9 @@ PROCEDURE Init
    _HMG_aCustomMethodProcedure := {}
    _HMG_UserComponentProcess := .F.
 #endif
+
    _HMG_ParentWindowActive  := .F.
+
 #ifdef _PANEL_
    _HMG_LoadWindowRow  := -1
    _HMG_LoadWindowCol  := -1
@@ -439,8 +452,10 @@ PROCEDURE Init
 #if ! defined( __XHARBOUR__ ) && ( ( __HARBOUR__ - 0 ) > 0x030100 )
    InitCodePage()
 #endif
+
    InitMessages()
-   ResetGlobalListener()
+
+   ResetGlobalListener() // set default Events function
 
    _HMG_IsMultiple := IsExeRunning ( StrTran( GetExeFileName (), '\', '_' ) )
    _SetErrorLogFile( _GetErrorLogFile() )

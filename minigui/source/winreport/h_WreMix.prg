@@ -408,6 +408,15 @@ Function RMiniPar(ArryPar,cmdline,section)
       case ascan(arryPar,[TOTALSTRING])=2
            m->TTS := eval( chblk,arrypar,[TOTALSTRING] )
 
+      case ascan(arryPar,[GROUPBOLD])=2
+           oWr:aStat['GroupBold'] := (eval(blse,arrypar[3]))
+
+      case ascan(arryPar,[HGROUPCOLOR])=2
+           oWr:aStat['HGroupColor'] := oWr:UsaColor(eval(chblk,arrypar,[HGROUPCOLOR]))
+
+      case ascan(arryPar,[GTGROUPCOLOR])=2
+           oWr:aStat['GTGroupColor'] := oWr:UsaColor(eval(chblk,arrypar,[GTGROUPCOLOR]))
+
       case ascan(arryPar,"SET")=1
            do case
               case ascan(arryPar,[VRULER])= 2

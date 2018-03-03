@@ -57,7 +57,8 @@
 LRESULT CALLBACK  MdiWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 LRESULT CALLBACK  MdiChildWndProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetResources( void );
+HINSTANCE GetInstance( void );
 
 static HWND hwndMDIClient;
 
@@ -73,10 +74,10 @@ HB_FUNC( REGISTERMDIWINDOW )
    WndClass.lpfnWndProc = MdiWndProc;
    WndClass.cbClsExtra  = 0;
    WndClass.cbWndExtra  = 0;
-   WndClass.hInstance   = g_hInstance;
-   WndClass.hIcon       = LoadIcon( g_hInstance, hb_parc( 1 ) );
+   WndClass.hInstance   = GetInstance();
+   WndClass.hIcon       = LoadIcon( GetResources(), hb_parc( 1 ) );
    if( WndClass.hIcon == NULL )
-      WndClass.hIcon = ( HICON ) LoadImage( 0, hb_parc( 1 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE );
+      WndClass.hIcon = ( HICON ) LoadImage( NULL, hb_parc( 1 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE );
 
    if( WndClass.hIcon == NULL )
       WndClass.hIcon = LoadIcon( NULL, IDI_APPLICATION );
@@ -103,13 +104,13 @@ HB_FUNC( REGISTERMDIWINDOW )
    WndClass.lpfnWndProc = ( WNDPROC ) MdiChildWndProc;
    WndClass.cbClsExtra  = 0;
    WndClass.cbWndExtra  = 20;
-   WndClass.hInstance   = g_hInstance;
+   WndClass.hInstance   = GetInstance();
 
    // Owner of this class
 
-   WndClass.hIcon = LoadIcon( g_hInstance, hb_parc( 1 ) );
+   WndClass.hIcon = LoadIcon( GetResources(), hb_parc( 1 ) );
    if( WndClass.hIcon == NULL )
-      WndClass.hIcon = ( HICON ) LoadImage( 0, hb_parc( 1 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE );
+      WndClass.hIcon = ( HICON ) LoadImage( NULL, hb_parc( 1 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE );
 
    if( WndClass.hIcon == NULL )
       WndClass.hIcon = LoadIcon( NULL, IDI_APPLICATION );
@@ -234,7 +235,7 @@ HB_FUNC( INITMDIWINDOW )
       hb_parni( 5 ),
       ( HWND ) HB_PARNL( 13 ),
       ( HMENU ) NULL,
-      g_hInstance,
+      GetInstance(),
       NULL
           );
 
@@ -278,7 +279,7 @@ HB_FUNC( INITMDICLIENTWINDOW )
       0,
       hwndparent,
       ( HMENU ) 0xCAC,
-      g_hInstance,
+      GetInstance(),
       ( LPSTR ) &ccs
                    );
 
@@ -316,15 +317,15 @@ HB_FUNC( INITMDICHILDWINDOW )
 
    // Create the MDI child window
 
-   mcs.szClass = "MdiChildWndClass";      // window class name
-   mcs.szTitle = rgch;                    // window title
-   mcs.hOwner  = g_hInstance; // owner
-   mcs.x       = hb_parni( 3 );           // x position
-   mcs.y       = hb_parni( 4 );           // y position
-   mcs.cx      = hb_parni( 5 );           // width
-   mcs.cy      = hb_parni( 6 );           // height
-   mcs.style   = Style;                   // window style
-   mcs.lParam  = 0;                       // lparam
+   mcs.szClass = "MdiChildWndClass"; // window class name
+   mcs.szTitle = rgch;               // window title
+   mcs.hOwner  = GetInstance();      // owner
+   mcs.x       = hb_parni( 3 );      // x position
+   mcs.y       = hb_parni( 4 );      // y position
+   mcs.cx      = hb_parni( 5 );      // width
+   mcs.cy      = hb_parni( 6 );      // height
+   mcs.style   = Style;              // window style
+   mcs.lParam  = 0;                  // lparam
    hwndChild   = ( HWND ) SendMessage( ( HWND ) HB_PARNL( 1 ), WM_MDICREATE, 0, ( LPARAM ) ( LPMDICREATESTRUCT ) &mcs );
 
    if( hwndChild != NULL )
@@ -361,17 +362,6 @@ HB_FUNC( DEFMDICHILDPROC )
 HB_FUNC( DEFFRAMEPROC )
 {
    hb_retnl( DefFrameProc( ( HWND ) HB_PARNL( 1 ), ( HWND ) HB_PARNL( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ) ) );
-}
-
-HB_FUNC( GETCLIENTRECT )
-{
-   RECT rect;
-
-   hb_retl( GetClientRect( ( HWND ) HB_PARNL( 1 ), &rect ) );
-   HB_STORVNL( rect.left, 2, 1 );
-   HB_STORVNL( rect.top, 2, 2 );
-   HB_STORVNL( rect.right, 2, 3 );
-   HB_STORVNL( rect.bottom, 2, 4 );
 }
 
 HB_FUNC( SIZECLIENTWINDOW )

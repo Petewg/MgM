@@ -47,7 +47,7 @@
 
 #command DEFINE TIMER <name> ;
          [ <dummy1: OF, PARENT> <parent> ] ;
-         INTERVAL <interval> ; 
-         ACTION <action> ;
+         [ INTERVAL <interval> ] ;
+         [ ACTION <action> ] [ <lOnce: ONCE> ] ;
    => ;
-   _DefineTimer ( <"name">, <"parent">, <interval>, <{action}> )
+   _DefineTimer ( <"name">, <"parent">, <interval>, <{action}>, <.lOnce.> )

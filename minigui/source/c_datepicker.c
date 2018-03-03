@@ -50,9 +50,10 @@
 #define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITDATEPICK )
 {
@@ -95,7 +96,7 @@ HB_FUNC( INITDATEPICK )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -141,7 +142,7 @@ HB_FUNC( INITTIMEPICK )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 

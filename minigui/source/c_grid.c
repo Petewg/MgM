@@ -48,18 +48,16 @@
 #define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
+
 #include "hbapiitm.h"
 #include "hbapierr.h"
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 extern BOOL _isValidCtrlClass( HWND, LPCTSTR );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 HB_FUNC( INITLISTVIEW )
 {
@@ -103,7 +101,7 @@ HB_FUNC( INITLISTVIEW )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -139,10 +137,10 @@ HB_FUNC( ADDLISTVIEWBITMAP )        // Grid+
    {
       caption = ( char * ) hb_arrayGetCPtr( hArray, 1 );
 
-      himl = ImageList_LoadImage( g_hInstance, caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT );
+      himl = ImageList_LoadImage( GetResources(), caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT );
 
       if( himl == NULL )
-         himl = ImageList_LoadImage( 0, caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
+         himl = ImageList_LoadImage( GetResources(), caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
 
       ImageList_GetIconSize( himl, &cx, &cy );
 
@@ -150,9 +148,9 @@ HB_FUNC( ADDLISTVIEWBITMAP )        // Grid+
       {
          caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
 
-         hbmp = ( HBITMAP ) LoadImage( g_hInstance, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
+         hbmp = ( HBITMAP ) LoadImage( GetResources(), caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
          if( hbmp == NULL )
-            hbmp = ( HBITMAP ) LoadImage( 0, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
+            hbmp = ( HBITMAP ) LoadImage( NULL, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
 
          ImageList_Add( himl, hbmp, NULL );
          DeleteObject( hbmp );
@@ -191,7 +189,7 @@ HB_FUNC( ADDLISTVIEWBITMAPHEADER )  // Grid+
          // Determine Image Size Based Upon First Image
          himl = ImageList_LoadImage
                 (
-            g_hInstance,
+            GetInstance(),
             caption,
             0,
             l9,
@@ -203,7 +201,7 @@ HB_FUNC( ADDLISTVIEWBITMAPHEADER )  // Grid+
          if( himl == NULL )
             himl = ImageList_LoadImage
                    (
-               0,
+               GetResources(),
                caption,
                0,
                l9,
@@ -224,7 +222,7 @@ HB_FUNC( ADDLISTVIEWBITMAPHEADER )  // Grid+
 
             hbmp = ( HBITMAP ) LoadImage
                    (
-               g_hInstance,
+               GetInstance(),
                caption,
                IMAGE_BITMAP,
                cx,
@@ -734,5 +732,105 @@ HB_FUNC( LISTVIEW_GETCOLUMNCOUNT )  // Dr. Claudio Soto 2016/APR/07
    else
    {
       hb_errRT_BASE_SubstR( EG_ARG, 0, "MiniGUI Err.", HB_ERR_FUNCNAME, 1, hb_paramError( 1 ) );
+   }
+}
+
+//       ListView_ChangeExtendedStyle ( hWnd, [ nAddStyle ], [ nRemoveStyle ] )
+HB_FUNC( LISTVIEW_CHANGEEXTENDEDSTYLE )  // Dr. Claudio Soto
+{
+   HWND  hWnd   = ( HWND ) HB_PARNL( 1 );
+   DWORD Add    = ( DWORD ) hb_parnl( 2 );
+   DWORD Remove = ( DWORD ) hb_parnl( 3 );
+   DWORD OldStyle, NewStyle, Style;
+
+   OldStyle = ListView_GetExtendedListViewStyle( hWnd );
+   NewStyle = ( OldStyle | Add ) & ( ~Remove );
+   Style    = ListView_SetExtendedListViewStyle( hWnd, NewStyle );
+
+   hb_retnl( ( LONG ) Style );
+}
+
+//       ListView_GetExtendedStyle ( hWnd, [ nExStyle ] )
+HB_FUNC( LISTVIEW_GETEXTENDEDSTYLE )  // Dr. Claudio Soto
+{
+   HWND  hWnd     = ( HWND ) HB_PARNL( 1 );
+   DWORD ExStyle  = ( DWORD ) hb_parnl( 2 );
+   DWORD OldStyle = ListView_GetExtendedListViewStyle( hWnd );
+
+   if( HB_ISNUM( 2 ) )
+      hb_retl( ( BOOL ) ( ( OldStyle & ExStyle ) == ExStyle ) );
+   else
+      hb_retnl( ( LONG ) OldStyle );
+}
+
+#if ( ( defined( __BORLANDC__ ) && __BORLANDC__ < 1410 ) )
+#define HDF_SORTDOWN  0x0200
+#define HDF_SORTUP    0x0400
+#endif
+
+//       ListView_SetSortHeader ( nHWndLV, nColumn [, nType
+//                                /*0==none, positive==UP arrow or negative==DOWN arrow*/] ) -> nType (previous setting)
+HB_FUNC( LISTVIEW_SETSORTHEADER )
+{
+   HWND   hWndHD = ( HWND ) SendMessage( ( HWND ) HB_PARNL( 1 ), LVM_GETHEADER, 0, 0 );
+   INT    nItem  = hb_parni( 2 ) - 1;
+   INT    nType;
+   HDITEM hdItem;
+
+   if( hb_parl( 4 ) )
+   {
+      hdItem.mask = HDI_FORMAT;
+
+      SendMessage( hWndHD, HDM_GETITEM, nItem, ( LPARAM ) &hdItem );
+
+      if( hdItem.fmt & HDF_SORTUP )
+         hb_retni( 1 );
+      else if( hdItem.fmt & HDF_SORTDOWN )
+         hb_retni( -1 );
+      else
+         hb_retni( 0 );
+
+      if( ( hb_pcount() > 2 ) && HB_ISNUM( 3 ) )
+      {
+         nType = hb_parni( 3 );
+
+         if( nType == 0 )
+            hdItem.fmt &= ~( HDF_SORTDOWN | HDF_SORTUP );
+         else if( nType > 0 )
+            hdItem.fmt = ( hdItem.fmt & ~HDF_SORTDOWN ) | HDF_SORTUP;
+         else
+            hdItem.fmt = ( hdItem.fmt & ~HDF_SORTUP ) | HDF_SORTDOWN;
+
+         SendMessage( hWndHD, HDM_SETITEM, nItem, ( LPARAM ) &hdItem );
+      }
+   }
+   else
+   {
+      hdItem.mask = HDI_BITMAP | HDI_FORMAT;
+
+      SendMessage( hWndHD, HDM_GETITEM, nItem, ( LPARAM ) &hdItem );
+
+      nType = hb_parni( 3 );
+
+      if( nType == 0 )
+      {
+         hdItem.mask = HDI_FORMAT;
+         hdItem.fmt &= ~( HDF_BITMAP | HDF_BITMAP_ON_RIGHT );
+      }
+      else
+      {
+         if( nType > 0 )
+            hdItem.hbm = ( HBITMAP ) LoadImage( GetInstance(), TEXT( "MINIGUI_GRID_ASC" ), IMAGE_BITMAP, 0, 0, LR_LOADTRANSPARENT | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS );
+         else
+            hdItem.hbm = ( HBITMAP ) LoadImage( GetInstance(), TEXT( "MINIGUI_GRID_DSC" ), IMAGE_BITMAP, 0, 0, LR_LOADTRANSPARENT | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS );
+
+         hdItem.fmt |= HDF_BITMAP;
+         if( hdItem.fmt & HDF_RIGHT )
+            hdItem.fmt &= ~HDF_BITMAP_ON_RIGHT;
+         else
+            hdItem.fmt |= HDF_BITMAP_ON_RIGHT;
+      }
+
+      SendMessage( hWndHD, HDM_SETITEM, nItem, ( LPARAM ) &hdItem );
    }
 }

@@ -46,6 +46,7 @@
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 #include <windowsx.h>
 
@@ -53,14 +54,9 @@
 #define WC_LISTBOX  "ListBox"
 #endif
 
-#ifdef MAKELONG
-#undef MAKELONG
-#endif
-#define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-
 #define BUFFER      MAX_PATH
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 static int m_nHeightItem = 16;
 
@@ -97,7 +93,7 @@ HB_FUNC( INITCHKLISTBOX )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -137,7 +133,7 @@ HB_FUNC( INITMULTICHKLISTBOX )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 

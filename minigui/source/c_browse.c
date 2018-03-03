@@ -62,7 +62,7 @@
 LRESULT APIENTRY SubClassFunc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 static WNDPROC lpfnOldWndProc;
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITBROWSE )
 {
@@ -95,7 +95,7 @@ HB_FUNC( INITBROWSE )
       hb_parni( 6 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 
@@ -153,7 +153,7 @@ HB_FUNC( INITVSCROLLBAR )
       hb_parni( 5 ),
       hwnd,
       ( HMENU ) 0,
-      g_hInstance,
+      GetInstance(),
       NULL
                 );
 
@@ -188,7 +188,7 @@ HB_FUNC( INITVSCROLLBARBUTTON )
 
    Style = WS_CHILD | WS_VISIBLE | SS_SUNKEN;
 
-   hbutton = CreateWindow( WC_STATIC, "", Style, hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ), hwnd, ( HMENU ) NULL, g_hInstance, NULL );
+   hbutton = CreateWindow( WC_STATIC, "", Style, hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ), hwnd, ( HMENU ) NULL, GetInstance(), NULL );
 
    HB_RETNL( ( LONG_PTR ) hbutton );
 }

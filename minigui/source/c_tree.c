@@ -48,9 +48,11 @@
 #define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
+HINSTANCE GetResources( void );
 
 HB_FUNC( INITTREE )
 {
@@ -80,7 +82,7 @@ HB_FUNC( INITTREE )
       hb_parni( 5 ),
       ( HWND ) HB_PARNL( 1 ),
       ( HMENU ) HB_PARNL( 6 ),
-      g_hInstance,
+      GetInstance(),
       NULL
             );
 
@@ -108,10 +110,10 @@ HB_FUNC( INITTREEVIEWBITMAP ) // Tree+
    {
       caption = ( char * ) hb_arrayGetCPtr( hArray, 1 );
 
-      himl = ImageList_LoadImage( g_hInstance, caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT );
+      himl = ImageList_LoadImage( GetResources(), caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT );
 
       if( himl == NULL )
-         himl = ImageList_LoadImage( 0, caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
+         himl = ImageList_LoadImage( GetResources(), caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
 
       ImageList_GetIconSize( himl, &cx, &cy );
 
@@ -119,9 +121,9 @@ HB_FUNC( INITTREEVIEWBITMAP ) // Tree+
       {
          caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
 
-         hbmp = ( HBITMAP ) LoadImage( g_hInstance, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
+         hbmp = ( HBITMAP ) LoadImage( GetResources(), caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
          if( hbmp == NULL )
-            hbmp = ( HBITMAP ) LoadImage( 0, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
+            hbmp = ( HBITMAP ) LoadImage( NULL, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
 
          ImageList_Add( himl, hbmp, NULL );
          DeleteObject( hbmp );
@@ -152,9 +154,9 @@ HB_FUNC( ADDTREEVIEWBITMAP )  // Tree+
    {
       ImageList_GetIconSize( himl, &cx, &cy );
 
-      hbmp = ( HBITMAP ) LoadImage( g_hInstance, hb_parc( 2 ), IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
+      hbmp = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 2 ), IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
       if( hbmp == NULL )
-         hbmp = ( HBITMAP ) LoadImage( 0, hb_parc( 2 ), IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
+         hbmp = ( HBITMAP ) LoadImage( NULL, hb_parc( 2 ), IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
 
       ImageList_Add( himl, hbmp, NULL );
       DeleteObject( hbmp );

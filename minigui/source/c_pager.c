@@ -85,7 +85,7 @@
 #define PGF_CALCHEIGHT  2
 #endif
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( GETHANDLEREBAR )  // GetHandleRebar(hPager)
 {
@@ -161,7 +161,7 @@ HB_FUNC( INITPAGER )       // InitPager ( ParentForm, hRebar, nWidth, nHeight, v
    rbBand.cxMinChild = 0;
    rbBand.cyMinChild = 0;
 
-   hPager = CreateWindowEx( 0, WC_PAGESCROLLER, NULL, Style, 0, 0, 0, 0, hRebar, NULL, g_hInstance, NULL );
+   hPager = CreateWindowEx( 0, WC_PAGESCROLLER, NULL, Style, 0, 0, 0, 0, hRebar, NULL, GetInstance(), NULL );
 
    if( hb_parclen( 6 ) > 0 )
       rbBand.lpText = ( char * ) hb_parc( 6 );

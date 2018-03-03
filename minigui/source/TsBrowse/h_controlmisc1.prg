@@ -21,6 +21,8 @@ FUNCTION cValToChar( xValue )
       CASE cType $  "UE";  cValue := ""
       CASE cType == "B" ;  cValue := "{|| ... }"
       CASE cType == "O" ;  cValue := "{" + xValue:className + "}"
+      CASE cType == "H" ;  cValue := "{=>}"
+
    ENDCASE
 
 RETURN cValue
@@ -28,17 +30,9 @@ RETURN cValue
 
 FUNCTION _GetTextHeight( hwnd, hDC )
 
-   LOCAL aMetr
-
    HB_SYMBOL_UNUSED( hwnd )
-   aMetr := GetTextMetric( hDC )
 
-RETURN aMetr [1]
-
-
-FUNCTION _GetKeyState( vKey )
-
-RETURN CheckBit( GetKeyState( vKey ) , 32768 )
+RETURN GetTextMetric( hDC ) [1]
 
 
 FUNCTION _InvertRect( hDC, aRec )  //Temporary

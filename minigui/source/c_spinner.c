@@ -45,9 +45,10 @@
 
    ---------------------------------------------------------------------------*/
 
-#define _WIN32_IE             0x0501
+#define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
 
 #include "hbvm.h"
@@ -62,7 +63,7 @@
 
 LRESULT CALLBACK  OwnSpinProc( HWND hedit, UINT Msg, WPARAM wParam, LPARAM lParam );
 
-extern HINSTANCE g_hInstance;
+HINSTANCE GetInstance( void );
 
 HB_FUNC( INITSPINNER )
 {
@@ -108,7 +109,7 @@ HB_FUNC( INITSPINNER )
       hb_parni( 10 ),
       hwnd,
       ( HMENU ) HB_PARNL( 2 ),
-      g_hInstance,
+      GetInstance(),
       NULL
            );
 
@@ -127,7 +128,7 @@ HB_FUNC( INITSPINNER )
       hb_parni( 10 ),
       hwnd,
       ( HMENU ) 0,
-      g_hInstance,
+      GetInstance(),
       NULL
              );
 

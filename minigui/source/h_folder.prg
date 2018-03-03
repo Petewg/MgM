@@ -302,7 +302,11 @@ FUNCTION _DefineFolder ( FormName, ParentForm, lRes , x , y , w , h , caption , 
    ENDIF
 
    _SetThisFormInfo( k )
-
+/*
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnFormInit, k, mVar )
+   ENDIF
+*/
    IF Len( _HMG_aFolderInfo[_HMG_FldID,FLD_FLT ] ) > 0
       _HMG_aFolderInfo[_HMG_FldID,FLD_FLT ,1] := &mVar.
    ENDIF
@@ -558,7 +562,11 @@ FUNCTION _DefineFolderDialog ( FormName, FormHandle, hWndParent  )
    ENDIF
 
    _SetThisFormInfo( k )
-
+/*
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnFormInit, k, mVar )
+   ENDIF
+*/
 RETURN Nil
 
 *-----------------------------------------------------------------------------*

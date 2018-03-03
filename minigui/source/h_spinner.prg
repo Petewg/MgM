@@ -165,6 +165,10 @@ FUNCTION _DefineSpinner ( ControlName, ParentForm, x, y, w, value , fontname, ;
    _HMG_aControlMiscData1 [k] := { 0, readonly }
    _HMG_aControlMiscData2 [k] := ''
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+   ENDIF
+
    IF !Empty ( cuetext ) .AND. IsVistaOrLater() .AND. IsThemed()
       value := ""
       SendMessageWideString ( ControlHandle, EM_SETCUEBANNER, .T., cuetext )
