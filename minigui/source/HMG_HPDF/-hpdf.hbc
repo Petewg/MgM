@@ -1,5 +1,0 @@
-description=harupdf wrapper
-
-incpaths=..\..\..\hmg\harbour\contrib\hbhpdf
-
-headers=harupdf.ch
