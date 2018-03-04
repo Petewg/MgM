@@ -1,5 +1,5 @@
-![](https://github.com/Petewg/MgM/blob/master/minigui/resources/mgm32.png)   Harbour Minigui (MinGW Package)
--------------------------------
+![](https://github.com/Petewg/MgM/blob/master/minigui/resources/mgm32.png)   Harbour Minigui (MinGW Package) <sub><sup>[(Help wanted!)](https://github.com/Petewg/MgM/issues?q=is%3Aopen+label%3A%22help+wanted%22)</sup></sub>
+   -------------------------------
 
 #### Description   
 
