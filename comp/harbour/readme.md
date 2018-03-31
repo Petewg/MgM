@@ -10,4 +10,4 @@
    Built on: Mar 29 2018   
 
   **Self-extracting archive.**   
-     Just run it to unzip.
+     Just run harbour.exe to unzip and create the folder structure.
