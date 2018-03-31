@@ -65,7 +65,7 @@ local nHeight := Form_1.Image_1.Height + GetTitleHeight() + GetBorderHeight() - 
 
 	DrawNums( TIME(), .t. )
 
-	 DoEvents()
+	DO EVENTS
 
 	DrawNums( TIME(), .t. )
 
@@ -81,7 +81,7 @@ local lSwitch := Empty(nCount)
 	DRAW IMAGELIST ImageList_1 OF Form_1 AT 8, 20 + 2 * 32 IMAGEINDEX iif(lSwitch, 10, 11)
 	nCount := iif(lSwitch, 1, 0)
 
-	 DoEvents()
+	DO EVENTS
 
 Return
 

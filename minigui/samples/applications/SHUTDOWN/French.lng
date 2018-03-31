@@ -1,0 +1,33 @@
+; Language File for Shutdown Utility
+
+[Data]
+RadioButtonTime=Fermeture de Windows à l'heure suivante
+RadioButtonTimeLeft=Fermeture de Windows après le délai suivant
+CheckBoxWindow=ou fermeture si cette fenêtre se ferme
+LabelWindowTitle=Fenêtre:
+LabelClock=
+LabelProcess=Quelle action dois-je prendre?
+RadioButtonShutdown=Fermer Windows
+RadioButtonReboot=Redémarrer Windows
+RadioButtonLogOff=Déconnecter l'utilisateur
+CheckBoxPowerOff=Eteindre l'ordinateur après fermeture
+CheckBoxForceMode=Forcer si un programme ne répond plus
+CheckBoxStayOnTop=Fenêtre en premier plan
+LabelLanguage=Langue:
+
+WaitTitle="Shutdown Utility" est activé!
+LabelWindowInfo=ou fermeture si l'application suivante se termine:
+LabelTopShutdown=Temps restant avant fermeture:
+LabelTopReboot=Temps restant avant redémarrage:
+LabelTopLogOff=Temps restant avant déconnexion:
+
+TitleError=Erreur
+TitleWarning=Attention
+TitleInformation=Information
+TitleAbout=Au sujet de..
+
+ButtonStart=Démarrer!
+ButtonExit=Quitter
+ButtonAbout=Au sujet de..
+ButtonOk=OK
+ButtonCancel=Annuler

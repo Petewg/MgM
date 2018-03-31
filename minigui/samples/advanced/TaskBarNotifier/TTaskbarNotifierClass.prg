@@ -29,8 +29,6 @@ REQUEST CLASS_TTIMER
 
 #define WM_PAINT      15
 
-#define SW_SHOWNOACTIVATE   4
-
 #define SWP_NOZORDER     4
 #define SWP_NOACTIVATE   16
 
@@ -164,7 +162,7 @@ ENDCLASS
 METHOD Init( sBitmapFile /*, sCloseBitmapFile*/ ) CLASS TTaskbarNotifier //EXPORTED
 LOCAL nRegion
 LOCAL wcName := "TaskBarNotifier_" + AllTRim( Str( _GetId() ) )
-//LOCAL Brush, oldBrush
+LOCAL Brush, oldBrush
 
    ::Name := wcName
    ::BackgroundBitmapName := sBitmapFile
@@ -216,7 +214,7 @@ LOCAL wcName := "TaskBarNotifier_" + AllTRim( Str( _GetId() ) )
                                 ::BackgroundBitmapSize[2],;
                                 TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, wcName, 0, FALSE, FALSE, FALSE, FALSE, FALSE )
 
-   IF ! IsWindowHandler( ::WndHandle )
+   IF ! IsWindowHandle( ::WndHandle )
       MsgMiniGuiError ( "TaskbarNotifier: InitWindow error." )
    ENDIF
 
@@ -472,7 +470,7 @@ RETURN 0
 
 /*
 */
-METHOD OnMouseEnter( nKeys /*, nPos */ ) CLASS TTaskbarNotifier //EXPORTED
+METHOD OnMouseEnter( nKeys, nPos ) CLASS TTaskbarNotifier //EXPORTED
 
    ::lIsMouseOverPopup := TRUE
    ::lIsMouseOverClose := FALSE
@@ -483,7 +481,7 @@ RETURN 1
 
 /*
 */
-METHOD OnMouseMove( nKeys /*, nPos*/ ) CLASS TTaskbarNotifier //EXPORTED
+METHOD OnMouseMove( nKeys, nPos ) CLASS TTaskbarNotifier //EXPORTED
 LOCAL aYX := GetCursorPos()
 LOCAL x := aYX[2] - ::left 
 LOCAL y := aYX[1] - ::top  
@@ -522,7 +520,7 @@ RETURN 1
 
 /*
 */
-METHOD OnMouseLeave( nKeys /*, nPos*/ ) CLASS TTaskbarNotifier //EXPORTED
+METHOD OnMouseLeave( nKeys, nPos ) CLASS TTaskbarNotifier //EXPORTED
 
    ::lIsMouseOverPopup := FALSE
    ::lIsMouseOverClose := FALSE
@@ -798,7 +796,7 @@ HB_FUNC( _DRAWTEXT )
    RECT rect;
    COLORREF clrText;
    UINT bkMode;
-   HFONT /*hFont,*/ oldfont;
+   HFONT hFont, oldfont;
    BOOL bFlag = hb_parl( 6 );
 
    Array2Rect( hb_param( 3, HB_IT_ARRAY ), &rect );

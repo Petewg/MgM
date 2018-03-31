@@ -7,7 +7,7 @@
  * Copyright 2006 Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 #define APP_TITLE 'Main Window'
 #define MsgAlert( c ) MsgEXCLAMATION( c, "Warning", , .f. )
@@ -24,7 +24,7 @@ Local hWnd
 	IF hWnd > 0
 
 		IF IsIconic( hWnd )
-			Restore( hWnd )
+			_Restore( hWnd )
 		ELSE
 			SetForeGroundWindow( hWnd )
 		ENDIF

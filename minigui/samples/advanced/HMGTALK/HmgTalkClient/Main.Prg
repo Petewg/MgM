@@ -12,7 +12,7 @@
 * Blog   www.hmglights.wordpress.com
 ************************************************************************
 
-#include "hmg.ch"
+#include <minigui.ch>
 #define PROGRAM "HMG Talk"
 #define VERSION " Test version "
 #define COPYRIGHT " Paulo Sérgio Durço, 2010"
@@ -56,9 +56,9 @@ Return Nil
 * On server side, a unique table was create.
 ************************************************************************ 
 Function Start_Conexion()
-	Public c_Str_Con := "net:" + Alltrim(c_Ip_Server) + ":Messenger.DBF"
+	Public c_Str_Con := "net:" + Alltrim(c_Ip_Server) + ":2941:Messenger.DBF"
 	
-	if NETIO_CONNECT(Alltrim(c_Ip_Server),"2941")
+	if NETIO_CONNECT(Alltrim(c_Ip_Server),2941)
 		
 	    DBUseArea(.t.,,c_STR_Con,"Messenger",.t.)	
 
@@ -239,7 +239,7 @@ Function Read_Nicks()
 		else
 			n_NoLogged := aScan( a_Nicks, Alltrim( Messenger->NICK ) )
 			if n_NoLogged > 0
-				aDel( a_Nicks, n_NoLogged )
+				aDel( a_Nicks, n_NoLogged, .t. )
 			endif
 		endif
 		i ++
@@ -331,19 +331,17 @@ Return
 #pragma BEGINDUMP
 
 #define _WIN32_IE      0x0500
-#define HB_OS_WIN_32_USED
 #define _WIN32_WINNT   0x0500
 #include <shlobj.h>
 
-#include <windows.h>
+#include <mgdefs.h>
 #include <commctrl.h>
-#include "hbapi.h"
 
 static void ShowNotifyInfo(HWND hWnd, BOOL bAdd, HICON hIcon, LPSTR szText, LPSTR szInfo, LPSTR szInfoTitle);
 
 HB_FUNC ( SHOWNOTIFYINFO )
 {
-	ShowNotifyInfo( (HWND) hb_parnl(1), (BOOL) hb_parl(2), (HICON) hb_parnl(3), (LPSTR) hb_parc(4), 
+	ShowNotifyInfo( (HWND) HB_PARNL(1), (BOOL) hb_parl(2), (HICON) hb_parnl(3), (LPSTR) hb_parc(4), 
 			(LPSTR) hb_parc(5), (LPSTR) hb_parc(6) );
 }
 

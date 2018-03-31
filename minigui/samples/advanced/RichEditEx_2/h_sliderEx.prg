@@ -84,7 +84,6 @@ Local i , h
    SetSelEnd ( h , Value  )
 Return Nil
 
-
 *-----------------------------------------------------------------------------*
 Function _SetTic ( ControlName, ParentForm , Value  )
 *-----------------------------------------------------------------------------*
@@ -95,6 +94,7 @@ Local i , h
 
    SetTic ( h , Value  )
 Return Nil
+
 *-----------------------------------------------------------------------------*
 Function _ClearTics ( ControlName, ParentForm   )
 *-----------------------------------------------------------------------------*
@@ -128,8 +128,6 @@ Local i , h
    SetPos ( h , Value )
 Return Nil
 
-
-
 *-----------------------------------------------------------------------------*
 Function _GetPosSlider ( ControlName, ParentForm )
 *-----------------------------------------------------------------------------*
@@ -159,40 +157,17 @@ Return nPos
 
 
 #define _WIN32_IE      0x0500
-#define HB_OS_WIN_USED
 #define _WIN32_WINNT   0x0400
-#include <shlobj.h>
-
-#include <windows.h>
-#include <commctrl.h>
-#include <richedit.h>
-#include "hbapi.h"
-#include "hbvm.h"
-#include "hbstack.h"
-#include "hbapiitm.h"
-#include "winreg.h"
-#include "tchar.h"
-#include "Winuser.h"
-#include <wingdi.h>
-#include <setupapi.h>
-
-
-
-#define _WIN32_IE      0x0500
-#define HB_OS_WIN_USED
-#define _WIN32_WINNT   0x0400
-#include <shlobj.h>
 
 #include <windows.h>
 #include <commctrl.h>
 #include "hbapi.h"
-#include "hbvm.h"
-#include "hbstack.h"
-#include "hbapiitm.h"
-#include "winreg.h"
-#include "tchar.h"
 
-/*
+#ifdef MAKELONG
+#undef MAKELONG
+#endif
+#define MAKELONG( a, b )      ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
+
 HB_FUNC ( INITSLIDER )
 {
    HWND hwnd;
@@ -257,8 +232,6 @@ HB_FUNC ( INITSLIDER )
    hb_retnl ( (LONG) hbutton );
 }
 
-*/
-
 HB_FUNC ( SETTHUMBLENGTH )
 {
    SendMessage( (HWND) hb_parnl (1), TBM_SETTHUMBLENGTH, (WPARAM)(INT) hb_parni(2),0);
@@ -285,12 +258,11 @@ HB_FUNC ( SETPAGESIZE  )
 {
    SendMessage( (HWND) hb_parnl (1), TBM_SETPAGESIZE, 0 , (LPARAM) (LONG) hb_parnl(2));
 }
-/*
 HB_FUNC ( SETPOS  )
 {
    SendMessage( (HWND) hb_parnl (1), TBM_SETPOS,(WPARAM)(BOOL) TRUE , (LPARAM) (LONG) hb_parnl(2));
 }
-*/
+
 HB_FUNC ( GETPOS  )
 {
     WORD pos;
@@ -305,11 +277,4 @@ HB_FUNC ( GETTICPOS  )
     hb_retnl ( (LONG) pos);
 }
 
-
-
-
-
 #pragma ENDDUMP
-
-
-

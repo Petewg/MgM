@@ -1,0 +1,47 @@
+call ..\..\batch\compile.bat Fmg2Prg         /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_AnimateBox  /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Browse      /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Button      /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_CheckBox    /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_ComboBox    /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_DatePicker  /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_EditBox     /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Frame       /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Grid        /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_HyperLink   /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Image       /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_IPAddress   /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Label       /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_ListBox     /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Player      /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_ProgressBar /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_RadioGroup  /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_RichEditBox /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Slider      /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Spinner     /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_TextBox     /nl %1 %2 %3 %4 %5 %6 %7 %8 %9
+
+call ..\..\batch\compile.bat Fmg2Prg   /lo /b AST_AnimateBox /b AST_Browse /b AST_Button /b AST_CheckBox /b AST_ComboBox /b AST_DatePicker /b AST_EditBox /b AST_Frame /b AST_Grid /b AST_HyperLink /b AST_Image /b AST_IPAddress /b AST_Label /b AST_ListBox /b AST_Player /b AST_ProgressBar /b AST_RadioGroup /b AST_RichEditBox /b AST_Slider /b AST_Spinner /b AST_TextBox %1 %2 %3 %4 %5 %6 %7 %8 %9
+
+call ..\..\batch\compile.bat Fmg2Prg         /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_AnimateBox  /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Browse      /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Button      /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_CheckBox    /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_ComboBox    /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_DatePicker  /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_EditBox     /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Frame       /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Grid        /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_HyperLink   /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Image       /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_IPAddress   /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Label       /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_ListBox     /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Player      /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_ProgressBar /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_RadioGroup  /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_RichEditBox /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Slider      /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_Spinner     /do %1 %2 %3 %4 %5 %6 %7 %8 %9
+call ..\..\batch\compile.bat AST_TextBox     /do %1 %2 %3 %4 %5 %6 %7 %8 %9

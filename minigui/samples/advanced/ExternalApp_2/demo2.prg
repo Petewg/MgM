@@ -258,23 +258,25 @@ static PHB_ITEM pArray;
    #pragma argsused
 #endif
 
-BOOL CALLBACK EnumWindowsProc (HWND hWnd, LPARAM lParam)
+BOOL CALLBACK EnumWindowsProc( HWND hWnd, LPARAM lParam )
 {
+  PHB_ITEM pHWnd = hb_itemPutNL( NULL, ( LONG ) hWnd ); 
 #if defined( __MINGW32__ )
-   UNREFERENCED_PARAMETER (lParam);
+   UNREFERENCED_PARAMETER( lParam );
 #endif
-   hb_arrayAddForward (pArray, hb_itemPutNLL (NULL, (LONG) hWnd));
+   hb_arrayAddForward( pArray, pHWnd );
+   hb_itemRelease( pHWnd );
 
    return TRUE;
 }
 
 HB_FUNC ( ENUMWINDOWS )
 {
-   pArray = hb_itemArrayNew ( 0 );
+   pArray = hb_itemArrayNew( 0 );
 
-   EnumWindows ((WNDENUMPROC) EnumWindowsProc, (LPARAM) 0);
+   EnumWindows( ( WNDENUMPROC ) EnumWindowsProc, ( LPARAM ) 0 );
 
-   hb_itemReturnRelease ( pArray );
+   hb_itemReturnRelease( pArray );
    pArray = NULL;
 }
 

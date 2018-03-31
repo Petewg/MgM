@@ -1,10 +1,11 @@
 /*
  * MiniGUI Blinking Label Demo
-*/
+ *
+ */
 
 #include "minigui.ch"
 
-Procedure Main
+PROCEDURE Main
 
 	DEFINE WINDOW Form_1 ;
 		AT 0,0 ;
@@ -25,7 +26,7 @@ Procedure Main
 			ROW	40
 			COL	10
 			CAPTION 'Blink OFF'
-			ACTION ( Form_1.Label_1.Blink := .F., Form_1.Label_1.Show, Form_1.Label_2.Value := "OFF" )
+			ACTION ( Form_1.Label_1.Blink := .F., Form_1.Label_2.Value := "OFF" )
 		END BUTTON
 
 		DEFINE BUTTON Button_3
@@ -36,9 +37,13 @@ Procedure Main
 		END BUTTON
 
 		@ 15,150 LABEL Label_1 ;
-			VALUE 'Blink Test:' AUTOSIZE ACTION This.Blink := .T.
+			VALUE 'Blink Test:' AUTOSIZE ;
+			ACTION ( This.Blink := .T., Form_1.Label_2.Value := "ON" )
 
-		@ 15,220 LABEL Label_2 VALUE Space(6) AUTOSIZE TRANSPARENT ACTION Form_1.Button_2.OnClick
+		@ 15,220 LABEL Label_2 ;
+			VALUE Space(6) AUTOSIZE ;
+			TRANSPARENT ;
+			ACTION Form_1.Button_2.OnClick
 
 	END WINDOW
 
@@ -46,4 +51,4 @@ Procedure Main
 
 	ACTIVATE WINDOW Form_1
 
-Return
+RETURN

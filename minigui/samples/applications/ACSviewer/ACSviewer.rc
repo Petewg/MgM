@@ -1,0 +1,39 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//	Resource name	Resource Type    Resource FileName
+//
+        MAIN               ICON            res\main.ico
+
+	ABOUT              BITMAP          res\user.bmp
+	CHAT               BITMAP          res\chat.bmp
+	SOUND              BITMAP          res\sound.bmp
+	MOVE               BITMAP          res\move.bmp
+	EDIT               BITMAP          res\edit.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,1,1,2
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904B0"
+	{
+		VALUE "CompanyName", "Grigory Filatov\000"
+		VALUE "FileDescription", "ACS Viewer\000"
+		VALUE "LegalCopyright", "Copyright © 2005 Grigory Filatov\000"
+		VALUE "ProductName", "ACS Viewer\000"
+		VALUE "FileVersion", "1.1.1.2"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "InternalName", "ACS Viewer\000"
+		VALUE "OriginalFilename", "ACS Viewer.exe\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

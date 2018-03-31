@@ -1,14 +1,16 @@
+#
+# debugger.hbp
+#
 
 -hblib
--inc-
+-inc
 -o../../lib/debugger
 
 -I../../include
 
--hbx=../../include/${hb_name}.hbx
+-w -es2 -ko -q0
 
-# -w -es2 -ko -q0
--w1 -es2 -ko -l -ql
+-hbx=../../include/debugger.hbx
 
 dbgGUI.prg
 dbgHB.prg

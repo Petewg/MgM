@@ -231,3 +231,48 @@ Procedure DeleteMails
 	ENDIF
 Return
 
+
+#pragma BEGINDUMP
+
+#include <windows.h>
+#include "hbapi.h"
+#include "hbapiitm.h"
+
+HB_FUNC ( INITIMAGE )
+{
+	HWND  h;
+	HBITMAP hBitmap;
+	HWND hwnd;
+
+	hwnd = (HWND) hb_parnl(1);
+
+	h = CreateWindowEx(0,"static",NULL, WS_CHILD | WS_VISIBLE | SS_BITMAP | SS_NOTIFY,
+		hb_parni(3), hb_parni(4), 0, 0, hwnd, (HMENU)hb_parni(2), GetModuleHandle(NULL), NULL );
+
+	hBitmap = (HBITMAP) LoadImage(0,hb_parc(5),IMAGE_BITMAP,hb_parni(6),hb_parni(7),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
+	if (hBitmap==NULL)
+	{
+		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL), hb_parc(5), IMAGE_BITMAP, hb_parni(6), hb_parni(7), LR_CREATEDIBSECTION);
+	}
+
+	SendMessage( h, (UINT)STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap );
+
+	hb_retnl( (LONG) h );
+}
+
+HB_FUNC (C_SETPICTURE)
+{
+	HBITMAP hBitmap;
+
+	hBitmap = (HBITMAP) LoadImage(0,hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
+	if (hBitmap==NULL)
+	{
+		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL),hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_CREATEDIBSECTION);
+	}
+
+	SendMessage((HWND) hb_parnl (1),(UINT)STM_SETIMAGE,(WPARAM)IMAGE_BITMAP,(LPARAM)hBitmap);
+
+	hb_retnl ( (LONG) hBitmap );
+}
+
+#pragma ENDDUMP

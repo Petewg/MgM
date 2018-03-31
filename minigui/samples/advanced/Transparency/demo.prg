@@ -68,9 +68,9 @@ Function Slider_Change
 	Form_1.TextBox_1.Value := Str(nValue, 3) + " %"
 
 	If nValue < 100
-		If .NOT. SetLayeredWindowAttributes( Application.Handle, 0, (255 * nValue) / 100, LWA_ALPHA )
+		If .not. SetLayeredWindowAttributes( Application.Handle, 0, (255 * nValue) / 100, LWA_ALPHA )
 			MsgStop( "This Sample Runs In Win2000/XP Or Later Only!", "Error" )
-      Else
+                Else
 			SET WINDOW Form_1 TRANSPARENT TO (255 * nValue) / 100
 		EndIf
         Else
@@ -100,6 +100,8 @@ RETURN
 		0 = Invisible, 255 = Fully visible
    - dwFlags	Specifies an action to take. This parameter can be LWA_COLORKEY
 		(When making a certain color transparent...) or LWA_ALPHA.
+
+DECLARE DLL_TYPE_BOOL SetLayeredWindowAttributes( ;
+	DLL_TYPE_LONG hWnd, DLL_TYPE_INT crKey, DLL_TYPE_UINT bAlpha, DLL_TYPE_DWORD dwFlags ) ;
+	IN USER32.DLL
 */
-#include "hbdll32.ch"
-DECLARE SetLayeredWindowAttributes( hWnd, crKey, bAlpha, dwFlags ) IN USER32.DLL

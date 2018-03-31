@@ -1,11 +1,11 @@
 #define IDI_MAIN 1001
 
-MAIN      icon    IMG\farfalla.ico
-FARFALLA  icon    IMG\farfalla.ico
-TRASH     bitmap  IMG\trash.bmp
-book      bitmap  IMG\00.bmp
-proiector bitmap  IMG\project.bmp
-car       Bitmap  IMG\car.bmp
+MAIN      icon preload   IMG\farfalla.ico
+FARFALLA  png preload    IMG\farfalla.png
+TRASH     bitmap preload IMG\trash.bmp
+book      bitmap preload IMG\00.bmp
+proiector bitmap preload IMG\project.bmp
+car       Bitmap preload IMG\car.bmp
 
 1 VERSIONINFO
 FILEVERSION 0,1,1,0
@@ -32,6 +32,6 @@ BLOCK "StringFileInfo"
 
 BLOCK "VarFileInfo"
 {
-    VALUE "Translation" , 0x0409, 0x04B0
+    VALUE "Translation" , 0x0409 0x04B0
 }
 }

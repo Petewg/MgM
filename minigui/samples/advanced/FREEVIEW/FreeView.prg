@@ -44,8 +44,8 @@ MEMVAR nLen, nWidthOrig, nHeightOrig
 
 FUNCTION Main( fname )
 
-   LOCAL nLen := 0, aDesk := GetDesktopArea()
-   PRIVATE nScrWidth := aDesk[ 3 ], nScrHeight := aDesk[ 4 ]
+   LOCAL nLen := 0, aRect := GetDesktopArea()
+   PRIVATE nScrWidth := aRect[ 3 ] - aRect[ 1 ], nScrHeight := aRect[ 4 ] - aRect[ 2 ]
 
    DEFAULT fname := "FreeView.jpg"
 
@@ -789,7 +789,6 @@ STATIC FUNCTION PaintWindow()
    FI_WinDraw( handle, hDC, 36, 0, Round( nHeight * nKoef, 0 ) + 36, Round( nWidth * nKoef, 0 ) )
 
    EndPaint( Application.Handle, pps )
-   ReleaseDC( Application.Handle, hDC )
 
    InvalidateRect( Application.Handle, 0 )
 

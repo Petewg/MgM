@@ -2,5 +2,7 @@ PdfView.prg
 PdfView_C.prg
 SumatraPDF.prg
 
-#-inc
-#-workdir=obj
+-inc
+-workdir=obj
+
+-lcalldll

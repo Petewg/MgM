@@ -34,7 +34,6 @@
 
 #include "hmg.ch"
 #include "i_winuser.ch"
-#include "i_wincolor.ch"
 
 #xcommand ON KEY ALT+ADD [ OF <parent> ] ACTION <action> ;
 => ;

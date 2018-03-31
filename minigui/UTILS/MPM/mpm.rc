@@ -1,0 +1,24 @@
+//
+//  Resource name    Resource Type    Resource FileName
+//
+
+    MAIN             ICON             ".\..\..\RESOURCES\DEFAULT.ICO"
+
+    NEW              BITMAP           new.bmp
+    SAVE             BITMAP           save.bmp
+    OPEN             BITMAP           OPEN.BMP
+    RUN              BITMAP           run.bmp
+    BUILD            BITMAP           Build.bmp
+    STOP             BITMAP           Stop.bmp
+    HELP             BITMAP           HELP.BMP
+    ADD              BITMAP           ADD.BMP
+    ADDH             BITMAP           ADDH.BMP
+    ADDM             BITMAP           ADDM.BMP
+    ADDO             BITMAP           ADDO.BMP
+    REMOVE           BITMAP           REMOVE.BMP
+    EDIT             BITMAP           EDIT.BMP
+    SETTOP           BITMAP           SETTOP.BMP
+    UP               BITMAP           UP.BMP
+    DOWN             BITMAP           DOWN.BMP
+    REGISTRY         BITMAP           REGISTRY.BMP
+    FOLDERSELECT     BITMAP           FOLDERSELECT.BMP

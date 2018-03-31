@@ -1,0 +1,17 @@
+#
+# hbxlsxml.hbp
+#
+
+-hblib
+-inc
+-o../../harbour/lib/hbxlsxml
+
+-I../../include
+
+-w3 -es2 -ko -q0
+
+xlsxml.prg
+xlsxml_s.prg
+xlsxml_y.prg
+
+-hbx=../../include/hbxlsxml.hbx

@@ -234,8 +234,8 @@ Procedure PutMouse( obj, form, rect )
 
    DEFAULT form TO ThisWindow.name, rect TO {20,40}
 
-   ocol  := GetProperty( Form, "Col" ) + GetProperty( Form, obj, "Col" ) + rect [1]
-   orow  := GetProperty( Form, "Row" ) + GetProperty( Form, obj, "Row" ) + rect [2]
+   ocol  := GetProperty( Form, "col" ) + GetProperty( Form, obj, "Col" ) + rect [1]
+   orow  := GetProperty( Form, "row" ) + GetProperty( Form, obj, "row" ) + rect [2]
 
    _SETFOCUS( obj, FORM )
    SETCURSORPOS( ocol, orow )

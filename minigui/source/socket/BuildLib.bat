@@ -1,5 +1,7 @@
 @echo off
 
-@CALL %~d0\MiniguiM\batch\setpaths.bat
+SET HMGPATH=c:\minigui
 
-hbmk2 socket.hbp 2> err.log
+SET PATH=%HMGPATH%\harbour\bin;c:\borland\bcc55\bin;%PATH%
+
+hbmk2 socket.hbp

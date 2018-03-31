@@ -1,113 +1,115 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:v="urn:schemas-microsoft-com:vml">
-
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
-<title></title>
-<script src=" http://maps.google.com/?file=api&amp;v=2.x&amp;key=ABQIAAAAbHP7NUJD9ROTY94MMVCx-BSw25-GufAOHBkAXIxAhpSNaeLhDxRMPBmDLb2nBweYNJeGELTePhrniQ&hl=pt-BR" type="text/javascript"></script>
- 
-    <style type="text/css">
-      body {
-        font-family: Verdana, Arial, sans serif;
-        font-size: 10px;
-        margin: 2px;
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Google Directions  </title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
       }
-      table.directions th {
-        background-color:#EEEEEE;
-        font-family: Verdana, Arial, sans serif;
-        font-size: 9px;
-        margin: 2px;		
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
       }
-      img {
-        color: #000000;
-      }
-    
-
     </style>
-
-<script type="text/javascript">    
-     var map;
-    var gdir;
-    var geocoder = null;
-    var addressMarker;
-	var geoXml; 
-    var toggleState = 1;
-
-	
-    function initialize() {
-      if (GBrowserIsCompatible()) {      
-       
-	    map = new GMap2(document.getElementById("map_canvas"));
-        gdir = new GDirections(map, document.getElementById("directions"));
-        geoXml = new GGeoXml("http://mapgadgets.googlepages.com/cta.kml");
-       
-		GEvent.addListener(gdir, "load", onGDirectionsLoad);
-        GEvent.addListener(gdir, "error", handleErrors);
-		
-		map.setCenter(new GLatLng(-23.548943, -46.638818), 5);		
-        map.addControl(new GSmallMapControl());
-        map.addControl(new GMapTypeControl());
-		map.addOverlay(geoXml);
-		
+    <style>
+      #directions-panel {
+		padding: 5px;
+        font-size: 9px;
+        font-family: Verdana;
+        border: 1px solid #ccc;        
+		height: 100%;
+        float: right;
+        width: 250px;
+        overflow: auto;
       }
+
+      #map-canvas {
+        margin-right: 300px;
+      }
+
+      #control {
+        background: #fff;
+        padding: 5px;
+        font-size: 9px;
+        font-family: Verdana;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+        display: none;
+      }
+
+      @media print {
+        #map-canvas {
+		margin-right: 280px;	
+        height: 500px;
+          margin: 0;
+        }
+
+        #directions-panel {
+		padding: 5px;
+        font-size: 9px;
+        font-family: Verdana;
+        border: 1px solid #ccc;
+        width: 280px;
+        }
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    
+    <script>
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+
+function initialize() {
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  var mapOptions = {
+    zoom: 7,
+    center: new google.maps.LatLng(-23.548943, -46.638818)
+ 
+  };
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+  directionsDisplay.setMap(map);
+  directionsDisplay.setPanel(document.getElementById('directions-panel'));
+
+   var control = document.getElementById('control');
+//  control.style.display = 'block';
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+}
+
+function calcRoute() {
+  var start = '<<cfromAddress>>' // document.getElementById('Origem').value;
+  var end = '<<ctoAddress>>' //document.getElementById('Destino').value;
+  var request = {
+    origin: start,
+    destination: end,
+    travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
     }
-	
-    function toggleMyKml() {
-      if (toggleState == 1) {
-        map.removeOverlay(geoXml);
-        toggleState = 0;
-      } else {
-        map.addOverlay(geoXml);
-        toggleState = 1;
-      }
-	}
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+   <body onload="calcRoute('<<cfromAddress>>', '<<ctoAddress>>','pt-BR');">
+      
+    <div id="directions-panel"></div>
+    <div id="map-canvas" ></div>
    
-    function setDirections(fromAddress, toAddress, locale) {
-      gdir.load("from: " + fromAddress + " to: " + toAddress,
-                { "locale": locale });
-    }
-	
-    function handleErrors(){
-	   if (gdir.getStatus().code == G_GEO_UNKNOWN_ADDRESS)
-     	alert("Não foi possivel encontrar uma localização geográfica para um dos endereços especificados. Isto pode ser devido ao fato de que o 		endereço é relativamente novo, ou ele pode estar incorreta. \ Erro código: " + gdir.getStatus().code);
-	   		else if (gdir.getStatus().code == G_GEO_SERVER_ERROR)
-     	alert("As direções ou solicitação não pôde ser processado com sucesso, mas a razão exata para a falha não é conhecida. \ Código de erro: " + gdir.getStatus().code);
-   			else if (gdir.getStatus().code == G_GEO_MISSING_QUERY)
-     			alert("O parâmetro HTTP encontra-se ausente ou não tinha valor. Serviço de geocódigos de pedidos, isto significa que um endereço vazio foi especificado como entrada. Isso significa que nenhuma consulta foi especificado na entrada.\Código de Erro: " + gdir.getStatus().code);
-   			else if (gdir.getStatus().code == G_GEO_BAD_KEY)
-     			alert("O dado fundamental é inválido ou não corresponde ao domínio para o qual foi dado. \Código de Erro: " + gdir.getStatus().code);
-   			else if (gdir.getStatus().code == G_GEO_BAD_REQUEST)
-     			alert("Uma das coordenadas solicitadas não pôde ser analisado com êxito.\Código de Erro: " + gdir.getStatus().code);
-   else alert("Ocorreu um erro desconhecido.");
-    }
+  
 
-function onGDirectionsLoad(){ 
-   }
-     
-</script>
-</head>
-
-<body onload="initialize(); setDirections('<<cfromAddress>>', '<<ctoAddress>>','pt-BR');" onunload="GUnload()"
- 
-<h3>Traçar Rotas e Visualizar Mapas do Brasil e do Mundo</h3>
-<table>
-
-<table class="directions">
-    <tr>
-      <th>Rota</th>
-      <th>Mapa</th>
-    </tr>
-
-    <tr>
-    <td valign="top"><div id="directions" style="width: 275px"></div></td>
-    <td valign="top"><div id="map_canvas" style="width: 480px; height: 400px ;float:left; border: 1px solid black "></div></td>
-    </tr>
-    </table> 
-
- <br clear="all"/>
- 
-<input type="button" value="Toggle KML" onClick="toggleMyKml();"/>
-
-</html>
-
+ </html>

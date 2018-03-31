@@ -1,0 +1,7 @@
+ProgramICO      Icon    Images\WBT.ico
+BTNExit         Bitmap  Images\BigClose0.bmp
+BTNRefresh      Bitmap  Images\BigRefresh0.bmp
+BTNSave         Bitmap  Images\BigHardware16.bmp
+BTNUndo         Bitmap  Images\BigEducation0.bmp
+BTNDown         Bitmap  Images\Down0.bmp
+

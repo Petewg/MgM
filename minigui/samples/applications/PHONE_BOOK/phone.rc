@@ -1,0 +1,5 @@
+form_del                      BITMAP    frm_del.bmp                  
+form_edit                     BITMAP    frm_edit.bmp                 
+form_exit                     BITMAP    frm_exit.bmp                 
+form_new                      BITMAP    frm_new.bmp                  
+phone                         ICON      phone.ico

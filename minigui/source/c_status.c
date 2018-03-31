@@ -32,10 +32,10 @@
     "Harbour GUI framework for Win32"
     Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2018, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -60,7 +60,8 @@ HB_FUNC( INITMESSAGEBAR )
    int  ptArray[ 40 ];  // Array defining the number of parts/sections
    int  nrOfParts = 1;
 
-   hWndSB = CreateStatusWindow( WS_CHILD | WS_VISIBLE | WS_BORDER | SBT_TOOLTIPS, hb_parc( 2 ), ( HWND ) HB_PARNL( 1 ), hb_parni( 3 ) );
+   hWndSB = CreateStatusWindow( WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS, NULL, ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ) );
+
    if( hWndSB )
       SendMessage( hWndSB, SB_SETPARTS, nrOfParts, ( LPARAM ) ( LPINT ) ptArray );
 

@@ -24,24 +24,24 @@ PROCEDURE Main
 
 IF _HMG_IsXPorLater
 
-   DEFINE WINDOW Win_1 ;
-      AT 0,0 ;
-      WIDTH 450 ;
-      HEIGHT 250 ;
-      TITLE 'My System Shutdown' ;
-      MAIN ;
-      ON INIT MsgLbl( 4 )
+	DEFINE WINDOW Win_1 ;
+		AT 0,0 ;
+		WIDTH 450 ;
+		HEIGHT 250 ;
+		TITLE 'My System Shutdown' ;
+		MAIN ;
+		ON INIT MsgLbl( 4 )
 
-      DEFINE MAIN MENU
-         DEFINE POPUP 'Test'
-            Item "MySystemShutdown()"      Action {||MsgLbl( MySystemShutdown() ) }
-            Item "Shutdown with message"   Action {||MsgLbl( MySystemShutdown( 'System shutdown in 30" or cancel with PreventSystemShutdown()' ) )}
-            Item "Restart"                 Action {||MsgLbl( MySystemShutdown( 'System will restart after shutdown', 0, 1, 30 ) ) }
-            Item "Shutdown in 50 seconds"  Action {||MsgLbl( MySystemShutdown( 'ShutDown Message', 0, 0, 50 ) ) }
-            Item "Ask user to close apps"  Action {||MsgLbl( MySystemShutdown( 'ShutDown Message', 1 ) ) }
-            Item "Cancel System Shutdown"  Action {||PreventSystemShutdown(), MsgLbl( 4 ) }
-         END POPUP
-      END MENU
+		DEFINE MAIN MENU
+			DEFINE POPUP 'Test'
+				Item "MySystemShutdown()"      Action {||MsgLbl( MySystemShutdown() ) }
+				Item "Shutdown with message"   Action {||MsgLbl( MySystemShutdown( 'System shutdown in 30" or cancel with PreventSystemShutdown()' ) )}
+				Item "Restart"                 Action {||MsgLbl( MySystemShutdown( 'System will restart after shutdown', 0, 1, 30 ) ) }
+				Item "Shutdown in 50 seconds"  Action {||MsgLbl( MySystemShutdown( 'ShutDown Message', 0, 0, 50 ) ) }
+				Item "Ask user to close apps"  Action {||MsgLbl( MySystemShutdown( 'ShutDown Message', 1 ) ) }
+				Item "Cancel System Shutdown"  Action {||PreventSystemShutdown(), MsgLbl( 4 ) }
+			END POPUP
+		END MENU
 
       @ 20,20 LABEL Label_2 ;
          WIDTH 400 ;
@@ -55,11 +55,11 @@ IF _HMG_IsXPorLater
          HEIGHT 30 ;
          ACTION {||PreventSystemShutdown(), MsgLbl( 4 ) }
 
-   END WINDOW
+	END WINDOW
 
-   ACTIVATE WINDOW Win_1
+	ACTIVATE WINDOW Win_1
 ELSE
-   MsgStop( 'This Program Runs In WinXP Or Later Only!', 'Stop' )
+	MsgStop( 'This Program Runs In WinXP Or Later Only!', 'Stop' )
 ENDIF
 
 RETURN

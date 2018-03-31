@@ -51,7 +51,7 @@ typedef UINT ( CALLBACK *RGetApiDllVersion ) ( void );
 static void       OpenProcessFileError( int Error );
 static void       OutProcessFileError( int Error, const char *Filename );
 static void       ClearError( void );
-int CALLBACK      CallbackProc( UINT msg, LONG UserData, LONG P1, LONG P2 );
+static int        CALLBACK CallbackProc( UINT msg, LPARAM UserData, LPARAM P1, LPARAM P2 );
 static PHB_ITEM   RGetDate( UINT FileTime );
 static PHB_ITEM   RConvertFileTimeToString( UINT FileTime, BOOL includeTime, BOOL includeSeconds );
 
@@ -626,7 +626,7 @@ static void ClearError( void )
    s_msgOpenError[0] = '\0';
 
    s_iOutError = 0;
-   s_msgOutError[64] = '\0';
+   s_msgOutError[0] = '\0';
    s_FName[0] = '\0';
 
    s_bHeaderBroken = FALSE;
@@ -709,8 +709,7 @@ static PHB_ITEM RConvertFileTimeToString( UINT FileTime, BOOL includeTime, BOOL 
    CALLBACK
 */
 
-/*static int CALLBACK CallbackProc( UINT msg, LONG UserData, LONG P1, LONG P2 )*/
-int CALLBACK CallbackProc( UINT msg, LONG UserData, LONG P1, LONG P2 )
+static int CALLBACK CallbackProc( UINT msg, LPARAM UserData, LPARAM P1, LPARAM P2 )
 {
    if( !pSymbolCallback )
    {

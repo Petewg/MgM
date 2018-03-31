@@ -18,7 +18,7 @@ ANNOUNCE RDDSYS
 
 #define MsgAlert( c )   MsgExclamation( c, PROGRAM, , .f. )
 
-//#define WM_SYSCOMMAND 274       // &H112
+#define WM_SYSCOMMAND 274       // &H112
 #define SC_SCREENSAVE 61760     // &HF140
 
 #ifdef __XHARBOUR__
@@ -46,8 +46,6 @@ LOCAL aDriveBmps := { "FLOPPY", "REMOVE", "HARD", "REMOTE", "CDROM", "RAMDISK" }
 
    SET CENTURY ON
    SET DATE GERMAN
-   
-   set autoadjust on nobuttons
 
    SET PROGRAMMATICCHANGE OFF
 
@@ -99,7 +97,7 @@ LOCAL aDriveBmps := { "FLOPPY", "REMOVE", "HARD", "REMOTE", "CDROM", "RAMDISK" }
 		END POPUP
 
 		DEFINE POPUP "&Help"
-			MENUITEM "&Index"+Chr(9)+"   F1" ACTION _Execute( _HMG_MainHandle, "open", 'FileMan.hlp' )
+			MENUITEM "&Index"+Chr(9)+"   F1" ACTION _Execute( _HMG_MainHandle, "open", 'FileMan.chm' )
 			SEPARATOR
 			MENUITEM "&About FileMan..." ACTION MsgAbout()
 		END POPUP
@@ -279,7 +277,7 @@ LOCAL aDriveBmps := { "FLOPPY", "REMOVE", "HARD", "REMOTE", "CDROM", "RAMDISK" }
 
 			ON KEY TAB ACTION Domethod( "SplitChild_2", "Grid_2", "SetFocus" )
 
-			ON KEY DELETE ACTION Delete_File()
+			ON KEY DELETE ACTION DeleteFile()
 
 		END WINDOW 
 
@@ -306,7 +304,7 @@ LOCAL aDriveBmps := { "FLOPPY", "REMOVE", "HARD", "REMOTE", "CDROM", "RAMDISK" }
 
 			ON KEY TAB ACTION SplitChild_1.Grid_1.SetFocus
 
-			ON KEY DELETE ACTION Delete_File()
+			ON KEY DELETE ACTION DeleteFile()
 
 		END WINDOW 
 
@@ -373,7 +371,7 @@ LOCAL aDriveBmps := { "FLOPPY", "REMOVE", "HARD", "REMOTE", "CDROM", "RAMDISK" }
 
 		BUTTON TB4_Button_6 ;
 			CAPTION 'F&8 Delete' ;
-			ACTION Delete_File() SEPARATOR
+			ACTION DeleteFile() SEPARATOR
 
 		BUTTON TB4_Button_7 ;
 			CAPTION 'Alt+F4 E&xit' ;
@@ -430,7 +428,7 @@ Static Function SetHotKey()
 
 	ON KEY SHIFT+ESCAPE ACTION Form_Main.Minimize
 
-	ON KEY F1 ACTION _Execute( _HMG_MainHandle, "open", 'FileMan.hlp' )
+	ON KEY F1 ACTION _Execute( _HMG_MainHandle, "open", 'FileMan.chm' )
 
 	ON KEY F2 ACTION ReReadFolder()
 
@@ -448,7 +446,7 @@ Static Function SetHotKey()
 
 	ON KEY F7 ACTION NewFolder()
 
-	ON KEY F8 ACTION Delete_File()
+	ON KEY F8 ACTION DeleteFile()
 
 	ON KEY BACK ACTION StepBack()
 
@@ -1072,9 +1070,7 @@ LOCAL cPath := GetFull(), cName := ""
 RETURN NIL
 
 *--------------------------------------------------------*
-FUNCTION Delete_File()
-// renamed: DeleteFile() -> Delete_File() | DeleteFile() 
-// confilcts with same funcname in hbct.lib
+FUNCTION DeleteFile()
 *--------------------------------------------------------*
 LOCAL cPath := GetFull(), cName := GetName()
 LOCAL cDelete := cPath +'\'+ cName, cType, cMsgConfirm, aDir, i
@@ -1541,7 +1537,7 @@ for n := 1 To 26
 	if nDrv > 1
 
 		if nDrv == 2 .and. Upper(cDrv) == "A"
-			cVolume := [3 1/2´´]
+			cVolume := [3 1/2"]
 		else
 			cVolume := ""
 			GetVolumeInformation( cDrv + ":\", @cVolume )
@@ -1610,12 +1606,14 @@ Return lcheck
 *--------------------------------------------------------*
 Static Function CPUName()
 *--------------------------------------------------------*
-Local cName := "", n
+Local cName, n
 
 IF IsWinNT()
 	cName := GetRegVar( HKEY_LOCAL_MACHINE, "HARDWARE\DESCRIPTION\System\CentralProcessor\0", "ProcessorNameString" )
 	cName := IF(( n := At("processor", cName) ) > 0, Left(cName, n-1), cName)
 	cName := IF(( n := At("CPU", cName) ) > 0, Left(cName, n-1), cName)
+ELSE
+	cName := GetCPU()
 ENDIF
 
 return lTrim(cName)
@@ -1975,11 +1973,18 @@ HB_FUNC( GETDEFAULTPRINTER )
 
 	if (osvi.dwPlatformId == VER_PLATFORM_WIN32_NT)
 	{
+		if (osvi.dwMajorVersion >= 5) 
+		{
+			GetDefaultPrinter(PrinterDefault,&BuffSize);
+		}
+		else 
+		{
 			GetProfileString("windows","device","",PrinterDefault,BuffSize);
 			p = PrinterDefault;
 			while (*p != '0' && *p != ',')
 				++p;
 			*p = '0';
+		}
 	}
 
 	hb_retc(PrinterDefault);
@@ -2078,7 +2083,7 @@ HB_FUNC ( SHOWFILEPROPERTIES )
 
 	ShellExecuteEx(&ShExecInfo);
 }
-/*
+
 HB_FUNC( MEMORYSTATUS )
 {
       MEMORYSTATUS mst;
@@ -2097,5 +2102,5 @@ HB_FUNC( MEMORYSTATUS )
          default: hb_retnl( 0 ) ;
       }
 }
-*/
+
 #pragma ENDDUMP

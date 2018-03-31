@@ -1,0 +1,32 @@
+MAIN	ICON	"button.ico"
+PRESSED	ICON	"pressed.ico"
+SHUT	ICON	"shutdown.ico"
+
+1 VERSIONINFO
+FILEVERSION 1,3,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Close All Applications\000"
+		VALUE "FileVersion", "1.3.0.0"
+		VALUE "InternalName", "CloseAll\000"
+		VALUE "LegalCopyright", "Freeware 2002-2014"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "CloseAll.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

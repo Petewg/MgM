@@ -15,10 +15,10 @@ procedure main()
 
    local hLib
    local cIcon := 'ICONVISTA', hIconFromDll, hIcon
-   local aInfo, w, h, hLibptr
+   local aInfo, w, h
 
-   hLibPtr := wapi_LoadLibraryEx( 'myicons.dll', 0, LOAD_LIBRARY_AS_DATAFILE )
-   hLib := win_P2N( hLibPtr )
+   hLib := LoadLibraryEx( 'myicons.dll', 0, LOAD_LIBRARY_AS_DATAFILE )
+
    if ! Empty( hLib )
       if IsVistaOrLater()
          hIconFromDll := LoadIconByName( cIcon, 256, 256, hLib )
@@ -31,7 +31,7 @@ procedure main()
          DestroyIcon( hIconFromDll )
       endif
 
-      wapi_FreeLibrary( hLibPtr )
+      FreeLibrary( hLib )
    endif
 
    if Empty( hIcon )

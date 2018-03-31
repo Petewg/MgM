@@ -36,17 +36,24 @@ Procedure Main( lStartUp )
 		ON NOTIFYCLICK ( lAbout := !lAbout, IF(lAbout, MsgAbout(), lAbout := .F.) )
 
 		DEFINE NOTIFY MENU 
+
 			ITEM 'Auto&Run'		ACTION ( lWinRun := !lWinRun, ;
 				Form_1.Auto_Run.Checked := lWinRun, WinRun(lWinRun) ) ;
 				NAME Auto_Run
+
 			SEPARATOR	
+
 			ITEM 'Disable &Sound'	ACTION ( lSound := !lSound, ;
 				Form_1.Sound.Checked := !lSound ) ;
 				NAME Sound CHECKED
+
 			ITEM 'A&bout...'		ACTION ShellAbout( "", PROGRAM + VERSION + CRLF + ;
-				"Copyright " + Chr(169) + COPYRIGHT, LoadMainIcon(GetInstance(), "AMAIN") )
+				"Copyright " + Chr(169) + COPYRIGHT, LoadIconByName( "AMAIN", 32, 32 ) )
+
 			SEPARATOR	
+
 			ITEM 'E&xit'		ACTION Form_1.Release
+
 		END MENU
 
 		Form_1.Auto_Run.Checked := lWinRun
@@ -76,11 +83,6 @@ Static Procedure UpdateNotify()
 				cTip := "Russian"
 				if lSound ;	SoundBeep(4000) ;	endif
 
-			CASE nNewMode == 1032   // Greek
-				cFlag := "EL"
-				cTip := "Ελληνικά (HELLAS)"
-				if lSound ;	SoundBeep(6000) ;	endif
-
 			CASE nNewMode == 1033  // English
 				cFlag := "EN"
 				cTip := "English (USA)"
@@ -104,6 +106,11 @@ Static Procedure UpdateNotify()
 			CASE nNewMode == 1036  // French
 				cFlag := "FR"
 				cTip := "French (St)"
+				if lSound ;	SoundBeep(6500) ;	endif
+
+			CASE nNewMode == 1040  // Italian
+				cFlag := "IT"
+				cTip := "Italian (St)"
 				if lSound ;	SoundBeep(6500) ;	endif
 
 			CASE nNewMode == 1045  // Polish
@@ -196,61 +203,30 @@ STATIC FUNCTION DELREGVAR(nKey, cRegKey, cSubKey)
 
 RETURN nValue
 
+
 #pragma BEGINDUMP
 
-#include <windows.h>
-#include "hbapi.h"
-#include "hbapiitm.h"
+#include <mgdefs.h>
 
 HB_FUNC( SOUNDBEEP )
 {
-	Beep( hb_parnl(1), 50 );
+	Beep( hb_parni( 1 ), 50 );
 }
 
 HB_FUNC( GETKEYBOARDMODE )
 {
-	HKL kbl;
-	HWND CurApp;
+	HKL   kbl;
+	HWND  CurApp;
 	DWORD idthd;
-	int newmode;
+	int   newmode;
 
-	CurApp=GetForegroundWindow();
-	idthd=GetWindowThreadProcessId(CurApp,NULL);
-	kbl=GetKeyboardLayout(idthd);
-	newmode=(int)LOWORD(kbl);
-	hb_retnl(newmode);
-}
-/*
-HB_FUNC (LOADTRAYICON)
-{
-	HICON himage;
-	HINSTANCE hInstance  = (HINSTANCE) hb_parnl(1);  // handle to application instance
-	LPCTSTR   lpIconName = (LPCTSTR)   hb_parc(2);   // name string or resource identifier
+	CurApp  = GetForegroundWindow();
+	idthd   = GetWindowThreadProcessId( CurApp, NULL );
 
-	himage = (HICON) LoadImage( hInstance ,  lpIconName , IMAGE_ICON, 16, 16, LR_SHARED ) ;
+	kbl     = GetKeyboardLayout( idthd );
+	newmode = ( int ) LOWORD( kbl );
 
-	if (himage==NULL)
-	{
-		himage = (HICON) LoadImage( hInstance ,  lpIconName , IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE ) ;
-	}
-
-	hb_retnl ( (LONG) himage );
-}
-*/
-HB_FUNC (LOADMAINICON)
-{
-	HICON himage;
-	HINSTANCE hInstance  = (HINSTANCE) hb_parnl(1);  // handle to application instance
-	LPCTSTR   lpIconName = (LPCTSTR)   hb_parc(2);   // name string or resource identifier
-
-	himage = (HICON) LoadImage( hInstance ,  lpIconName , IMAGE_ICON, 0, 0, LR_DEFAULTSIZE ) ;
-
-	if (himage==NULL)
-	{
-		himage = (HICON) LoadImage( hInstance ,  lpIconName , IMAGE_ICON, 0, 0, LR_LOADFROMFILE + LR_DEFAULTSIZE ) ;
-	}
-
-	hb_retnl ( (LONG) himage );
+	hb_retnl( newmode );
 }
 
 #pragma ENDDUMP

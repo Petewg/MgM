@@ -35,10 +35,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -70,25 +70,28 @@ RETURN ( _MsgBox( Message, Title, nStyle, nIcon, lSysModal, lTopMost ) == IDYES 
 *-----------------------------------------------------------------------------*
 FUNCTION MsgYesNoCancel ( Message , Title , nIcon , lSysModal , nDefaultButton , lTopMost )
 *-----------------------------------------------------------------------------*
-   LOCAL RetVal, nStyle := MB_YESNOCANCEL
+   LOCAL nStyle := MB_YESNOCANCEL
 
    nStyle += iif( Empty( hb_defaultValue( nIcon, 0 ) ), MB_ICONQUESTION, MB_USERICON )
 
    SWITCH hb_defaultValue( nDefaultButton, 1 )
+
    CASE 2
       nStyle += MB_DEFBUTTON2
       EXIT
    CASE 3
       nStyle += MB_DEFBUTTON3
+
    END SWITCH
 
-   RetVal := _MsgBox( Message, Title, nStyle, nIcon, lSysModal, lTopMost )
+   SWITCH _MsgBox( Message, Title, nStyle, nIcon, lSysModal, lTopMost )
 
-   IF RetVal == IDYES
-      RETURN 1
-   ELSEIF RetVal == IDNO
-      RETURN 0
-   ENDIF
+   CASE IDYES
+      RETURN ( 1 )
+   CASE IDNO
+      RETURN ( 0 )
+
+   END SWITCH
 
 RETURN ( -1 )
 

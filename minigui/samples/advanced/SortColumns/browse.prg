@@ -13,6 +13,7 @@
 
 Function Main
 LOCAL aDbfStruct, i, nColumn := 0, aColumns := {}
+LOCAL aWidths := { 100 , 150 , 150 , 150 , 150 , 150 }
 
 	SET CENTURY ON
 	SET DELETED ON
@@ -20,6 +21,31 @@ LOCAL aDbfStruct, i, nColumn := 0, aColumns := {}
 	SET BROWSESYNC ON	
 
 	OpenTables()
+
+	aDbfStruct := test->( DbStruct() )
+
+	IF !FILE('test.ini')
+		BEGIN INI FILE 'test.ini'
+
+		FOR i = 1 TO Len(aDbfStruct)
+			SET SECTION "Columns" ENTRY hb_ntos ( i ) TO i
+		NEXT
+
+		SET SECTION "Columns" ENTRY "Widths" TO aWidths
+
+		END INI
+	ENDIF
+
+	BEGIN INI FILE 'test.ini'
+
+		FOR i = 1 TO Len(aDbfStruct)
+			GET nColumn SECTION "Columns" ENTRY hb_ntos ( i ) DEFAULT i
+			AAdd( aColumns, nColumn )
+		NEXT
+
+		GET aWidths SECTION "Columns" ENTRY "Widths"
+
+	END INI
 
 	DEFINE WINDOW Form_1 ;
 		AT 0,0 ;
@@ -30,14 +56,15 @@ LOCAL aDbfStruct, i, nColumn := 0, aColumns := {}
 
 		DEFINE MAIN MENU 
 			POPUP 'File'
-				ITEM 'Set Browse Value'	ACTION Form_1.Browse_1.Value := Val ( InputBox ('Set Browse Value','') )
-				ITEM 'Get Browse Value'	ACTION MsgInfo ( Str ( Form_1.Browse_1.Value ) )
-				ITEM 'Refresh Browse'	ACTION Form_1.Browse_1.Refresh
+				ITEM 'Set Browse Value'		ACTION Form_1.Browse_1.Value := Val ( InputBox ('Set Browse Value','') )
+				ITEM 'Get Browse Value'		ACTION MsgInfo ( Form_1.Browse_1.Value )
+				ITEM 'Get Columns Width'	ACTION MsgDebug ( GetColumnsWidth( "Browse_1", "Form_1", aColumns ) )
+				ITEM 'Refresh Browse'		ACTION Form_1.Browse_1.Refresh
 				SEPARATOR
-				ITEM 'Exit'		ACTION Form_1.Release
+				ITEM 'Exit'			ACTION Form_1.Release
 			END POPUP
 			POPUP 'Help'
-				ITEM 'About'		ACTION MsgInfo ("MiniGUI Browse Demo") 
+				ITEM 'About'			ACTION MsgInfo ("MiniGUI Browse Demo") 
 			END POPUP
 		END MENU
 
@@ -49,38 +76,17 @@ LOCAL aDbfStruct, i, nColumn := 0, aColumns := {}
 			WIDTH 610  										;
 			HEIGHT 390 										;	
 			HEADERS { 'Code' , 'First Name' , 'Last Name', 'Birth Date', 'Married' , 'Biography' } ;
-			WIDTHS { 150 , 150 , 150 , 150 , 150 , 150 } ;
+			WIDTHS aWidths ;
 			WORKAREA Test ;
 			FIELDS { 'Test->Code' , 'Test->First' , 'Test->Last' , 'Test->Birth' , 'Test->Married' , 'Test->Bio' } ;
 			TOOLTIP 'Browse Test' ;
 			ON CHANGE ChangeTest() ;
-			JUSTIFY { BROWSE_JTFY_LEFT,BROWSE_JTFY_CENTER, BROWSE_JTFY_CENTER, BROWSE_JTFY_CENTER,BROWSE_JTFY_CENTER,BROWSE_JTFY_CENTER} ;
+			JUSTIFY { BROWSE_JTFY_RIGHT, BROWSE_JTFY_CENTER, BROWSE_JTFY_CENTER, BROWSE_JTFY_CENTER, BROWSE_JTFY_CENTER, BROWSE_JTFY_CENTER } ;
 			DELETE ;
 			LOCK ;
 			EDIT APPEND
 
 	END WINDOW
-
-	aDbfStruct := test->( dbStruct() )
-
-	IF !FILE('test.ini')
-		BEGIN INI FILE 'test.ini'
-
-		for i = 1 to Len(aDbfStruct)
-			SET SECTION "Columns" ENTRY Alltrim ( Str ( i ) ) TO i
-		next
-
-		END INI
-	ENDIF
-
-	BEGIN INI FILE 'test.ini'
-
-		for i = 1 to Len(aDbfStruct)
-			GET nColumn SECTION "Columns" ENTRY Alltrim ( Str ( i ) ) DEFAULT i
-			AAdd( aColumns, nColumn )
-		next
-
-	END INI
 
 	_SetColumnOrderArray( "Browse_1", "Form_1", aColumns )
 
@@ -108,9 +114,13 @@ Procedure CloseTables()
 LOCAL aColumns :=_GetColumnOrderArray( "Browse_1", "Form_1" ), i
 
 	BEGIN INI FILE 'test.ini'
-		for i := 1 to Len(aColumns)
-			SET SECTION "Columns" ENTRY Alltrim ( Str ( i ) ) TO aColumns[i]
-		next
+
+		FOR i := 1 TO Len(aColumns)
+			SET SECTION "Columns" ENTRY hb_ntos ( i ) TO aColumns[i]
+		NEXT
+
+		SET SECTION "Columns" ENTRY "Widths" TO GetColumnsWidth( "Browse_1", "Form_1", aColumns )
+
 	END INI
 
 	Use
@@ -118,7 +128,7 @@ LOCAL aColumns :=_GetColumnOrderArray( "Browse_1", "Form_1" ), i
 Return
 
 Procedure ChangeTest()
-	Form_1.StatusBar.Item(1) := 'RecNo: ' + Alltrim ( Str ( RecNo ( ) ) )
+	Form_1.StatusBar.Item(1) := 'RecNo: ' + hb_ntos ( RecNo() )
 Return 
 
 Procedure CreateTable
@@ -155,7 +165,7 @@ LOCAL aDbf[6][4], i
         aDbf[6][ DBS_DEC ]  := 0
         //
 
-        dbCreate("Test", aDbf)
+        DBCREATE("Test", aDbf)
 
 	Use test
 
@@ -165,7 +175,7 @@ LOCAL aDbf[6][4], i
 		Replace First With 'First Name '+ Str(i)
 		Replace Last With 'Last Name '+ Str(i)
 		Replace Married With .t.
-		replace birth with Date()+i-10000
+		replace birth with date()+i-10000
 	Next i
 
 	Index On Field->Code To Code
@@ -174,66 +184,34 @@ LOCAL aDbf[6][4], i
 Return
 
 *--------------------------------------------------------------------
-Function _GetColumnOrderArray( ControlName , ParentForm )
+Function _GetColumnOrderArray( ControlName, ParentForm )
 *--------------------------------------------------------------------
-Local i, nColumn, aSort
-	i := GetControlIndex( ControlName , ParentForm )
-	nColumn := Len(_HMG_aControlCaption [i])
-	aSort := Array(nColumn)
-	ListView_GetColumnOrderArray( _HMG_aControlHandles [i], nColumn, @aSort )
+Local i, nColumns, aSort
+	i := GetControlIndex( ControlName, ParentForm )
+	nColumns := ListView_GetColumnCount( _HMG_aControlHandles [i] )
+	aSort := Array( nColumns )
+	ListView_GetColumnOrderArray( _HMG_aControlHandles [i], nColumns, @aSort )
 Return aSort
 
 *--------------------------------------------------------------------
-Function _SetColumnOrderArray( ControlName , ParentForm, aSort )
+Function _SetColumnOrderArray( ControlName, ParentForm, aSort )
 *--------------------------------------------------------------------
-Local i, nColumn
-	i := GetControlIndex( ControlName , ParentForm )
-	nColumn := Len(_HMG_aControlCaption [i])
-	ListView_SetColumnOrderArray( _HMG_aControlHandles [i], nColumn, aSort )
+Local i, nColumns
+	i := GetControlIndex( ControlName, ParentForm )
+	nColumns := ListView_GetColumnCount( _HMG_aControlHandles [i] )
+	ListView_SetColumnOrderArray( _HMG_aControlHandles [i], nColumns, aSort )
 Return Nil
 
+*--------------------------------------------------------------------
+Function GetColumnsWidth( ControlName , ParentForm, aColumns )
+*--------------------------------------------------------------------
+Local nColumn, aWidths := {}
+Local h := GetControlHandle( ControlName , ParentForm )
+	FOR nColumn := 1 TO Len( aColumns )
+		AAdd( aWidths, ListView_GetColumnWidth( h, nColumn - 1 ) )
+	NEXT
+Return aWidths
 
-#pragma BEGINDUMP
-#define _WIN32_IE      0x0500
-#include <windows.h>
-#include <commctrl.h>
-#include "hbapi.h"
-#include "hbvm.h"
-
-#ifdef __XHARBOUR__
-#define HB_PARNI( n, x ) hb_parni( n, x )
-#define HB_STORNI( n, x, y ) hb_storni( n, x, y )
-#else
-#define HB_PARNI( n, x ) hb_parvni( n, x )
-#define HB_STORNI( n, x, y ) hb_storvni( n, x, y )
-#endif
-
-HB_FUNC ( LISTVIEW_GETCOLUMNORDERARRAY )
-{
-	int nColumn = hb_parni(2);
-	LPINT pnOrder = (LPINT) malloc(nColumn*sizeof(int));
-	int i;
-
-	ListView_GetColumnOrderArray( (HWND) hb_parnl(1), nColumn, pnOrder );
-
-	for (i=0; i<nColumn; i++) 
-	{ 
-		HB_STORNI(pnOrder[i]+1, 3, i+1);
-	}
-}
-
-HB_FUNC ( LISTVIEW_SETCOLUMNORDERARRAY )
-{
-	int nColumn = hb_parni(2);
-	LPINT pnOrder = (LPINT) malloc(nColumn*sizeof(int));
-	int i;
-
-	for (i=0; i<nColumn; i++) 
-	{ 
-		pnOrder[i] = HB_PARNI(3, i+1) - 1;
-	}
-
-	ListView_SetColumnOrderArray( (HWND) hb_parnl(1), nColumn, pnOrder );
-}
-
-#pragma ENDDUMP
+*--------------------------------------------------------------------
+#include <sortcolumns.c>
+*--------------------------------------------------------------------

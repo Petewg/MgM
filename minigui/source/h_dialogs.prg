@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -88,27 +88,42 @@ FUNCTION GetFile( aFilter, title, cIniFolder, multiselect, lNoChangeCurDir, nFil
    hb_default( @nFilterIndex, 1 )
 
    IF ISARRAY( aFilter )
-      AEval( aFilter, { | x | cFilter += x[1] + Chr( 0 ) + x[2] + Chr( 0 ) } )
+      AEval( aFilter, { | x | cFilter += x [1] + Chr( 0 ) + x [2] + Chr( 0 ) } )
       cFilter += Chr( 0 )
    ENDIF
 
    files := C_GetFile ( cFilter, title, cIniFolder, multiselect, lNoChangeCurDir, nFilterIndex )
 
    IF multiselect
+
       IF Len( files ) > 0
+
          IF ValType( files ) == "A"
+
             FOR n := 1 TO Len( files )
-               IF At( "\\", files[n] ) > 0 .AND. Left( files[n], 2 ) != "\\"
-                  files[n] := StrTran( files[n] , "\\", "\" )
+
+               IF At( "\\", files [n] ) > 0 .AND. Left( files [n], 2 ) != "\\"
+
+                  files [n] := StrTran( files [n] , "\\", "\" )
+
                ENDIF
+
             NEXT
+
             fileslist := AClone( files )
+
          ELSE
+
             AAdd( fileslist, files )
+
          ENDIF
+
       ENDIF
+
    ELSE
+
       fileslist := files
+
    ENDIF
 
 RETURN ( fileslist )
@@ -123,7 +138,7 @@ FUNCTION Putfile( aFilter, title, cIniFolder, lNoChangeCurDir, cDefFileName, ;
    hb_default( @nFilterIndex, 1 )
 
    IF ISARRAY( aFilter )
-      AEval( aFilter, { | x | cFilter += x[1] + Chr( 0 ) + x[2] + Chr( 0 ) } )
+      AEval( aFilter, { | x | cFilter += x [1] + Chr( 0 ) + x [2] + Chr( 0 ) } )
       cFilter += Chr( 0 )
    ENDIF
 
@@ -132,7 +147,8 @@ RETURN C_PutFile ( cFilter, title, cIniFolder, lNoChangeCurDir, cDefFileName, @n
 *-----------------------------------------------------------------------------*
 FUNCTION GetFont( cInitFontName , nInitFontSize , lBold , lItalic , anInitColor , lUnderLine , lStrikeOut , nCharset )
 *-----------------------------------------------------------------------------*
-   LOCAL RetArray , rgbcolor := 0
+   LOCAL RetArray
+   LOCAL rgbcolor As Numeric
 
    hb_default( @cInitFontName, "" )
    hb_default( @nInitFontSize, 0 )
@@ -149,7 +165,7 @@ FUNCTION GetFont( cInitFontName , nInitFontSize , lBold , lItalic , anInitColor 
    RetArray := ChooseFont( cInitFontName , nInitFontSize , lBold , lItalic , rgbcolor , lUnderLine , lStrikeOut , nCharSet )
 
    IF Empty( RetArray [1] )
-      RetArray [5] := { Nil , Nil , Nil }
+      RetArray [5] := { Nil, Nil, Nil }
    ELSE
       rgbcolor := RetArray [5]
       RetArray [5] := nRGB2Arr( rgbcolor )

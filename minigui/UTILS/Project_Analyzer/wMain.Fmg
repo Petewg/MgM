@@ -1,0 +1,312 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2006 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 627 HEIGHT 462 TITLE "MiniGUI Project Analyzer" ICON "MAIN" MAIN NOMAXIMIZE CURSOR NIL ON INIT wInit() ON RELEASE wClose() ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE LABEL Label_1
+        ROW    12
+        COL    10
+        WIDTH  120
+        HEIGHT 24
+        VALUE "Project file"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE TEXTBOX txt_PrjFile
+        ROW    10
+        COL    140
+        WIDTH  400
+        HEIGHT 24
+        FONTNAME "Arial"
+        FONTSIZE 10
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+    END TEXTBOX
+
+    DEFINE BUTTON btn_GetPrjFile
+        ROW    10
+        COL    552
+        WIDTH  48
+        HEIGHT 24
+        CAPTION ". . ."
+        ACTION GetPrjFile()
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE TAB Tab_1 AT 80 , 10 WIDTH 600 HEIGHT 340 VALUE 1 FONT "Arial" SIZE 9 BOLD TOOLTIP "" ON CHANGE Nil
+
+        PAGE "Unused functions"
+
+            DEFINE LABEL Label_2
+                ROW    40
+                COL    20
+                WIDTH  120
+                HEIGHT 16
+                VALUE "Modules"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .T.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .F.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_3
+                ROW    40
+                COL    290
+                WIDTH  120
+                HEIGHT 16
+                VALUE "Functions"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .T.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .F.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+            END LABEL
+
+            DEFINE LISTBOX List_1
+                ROW    70
+                COL    10
+                WIDTH  214
+                HEIGHT 261
+                ITEMS {}
+                VALUE 0
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE List_1_Change()
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .T.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                ONDBLCLICK List_1_Enter()
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                SORT .F.
+                MULTISELECT .F.
+            END LISTBOX
+
+            DEFINE GRID Grid_1
+                ROW    70
+                COL    240
+                WIDTH  340
+                HEIGHT 260
+                ITEMS { {'', '', '', ''} }
+                VALUE 0
+                WIDTHS { 150,50,60,40 }
+                HEADERS {'Function', 'static', '# line', '+'}
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .T.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONDBLCLICK Nil
+                ONHEADCLICK Nil
+                ONQUERYDATA Nil
+                MULTISELECT .F.
+                ALLOWEDIT .F.
+                VIRTUAL .F.
+                DYNAMICBACKCOLOR {bColor, bColor, bColor, bColor}
+                DYNAMICFORECOLOR Nil
+                COLUMNWHEN Nil
+                COLUMNVALID Nil
+                COLUMNCONTROLS Nil
+                NOLINES .F.
+                HELPID Nil
+                IMAGE Nil
+                JUSTIFY Nil
+                ITEMCOUNT 1
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+            END GRID
+
+        END PAGE 
+
+        PAGE "Description"
+
+            DEFINE EDITBOX Edit_3
+                ROW    70
+                COL    10
+                WIDTH  580
+                HEIGHT 250
+                VALUE ""
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .T.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                READONLY .F.
+                HSCROLLBAR .T.
+                VSCROLLBAR .T.
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+            END EDITBOX
+
+            DEFINE LABEL Label_5
+                ROW    40
+                COL    20
+                WIDTH  240
+                HEIGHT 16
+                VALUE "The explanatories for current build"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .T.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .F.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+            END LABEL
+
+        END PAGE 
+
+    END TAB 
+
+    DEFINE BUTTON Button_2
+        ROW    50
+        COL    500
+        WIDTH  100
+        HEIGHT 28
+        CAPTION "Start"
+        ACTION Start()
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE PROGRESSBAR PrBar_1
+        ROW    50
+        COL    20
+        WIDTH  470
+        HEIGHT 10
+        RANGEMIN 0
+        RANGEMAX 10
+        VALUE 0
+        TOOLTIP ""
+        HELPID Nil
+        VISIBLE .T.
+        SMOOTH .F.
+        VERTICAL .F. 
+        BACKCOLOR NIL
+        FORECOLOR {255,0,0}
+    END PROGRESSBAR
+
+    DEFINE PROGRESSBAR PrBar_2
+        ROW    60
+        COL    20
+        WIDTH  470
+        HEIGHT 10
+        RANGEMIN 0
+        RANGEMAX 10
+        VALUE 0
+        TOOLTIP ""
+        HELPID Nil
+        VISIBLE .T.
+        SMOOTH .F.
+        VERTICAL .F. 
+        BACKCOLOR Nil
+        FORECOLOR Nil
+    END PROGRESSBAR
+
+    ON KEY ESCAPE ACTION ThisWindow.Release
+
+END WINDOW
+

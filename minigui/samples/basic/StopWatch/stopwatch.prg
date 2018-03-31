@@ -52,7 +52,7 @@ Stopper.Button_3.Enabled:=.f.
 Do while lStop == .f.
 
    Stopper.Label_1.Value := TIME()
-    DoEvents()
+   do EVENTS
    if lStop==.t.
       exit
    endif

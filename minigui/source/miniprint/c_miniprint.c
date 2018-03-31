@@ -1305,7 +1305,6 @@ HB_FUNC( _HMG_PRINTER_SETPRINTERPROPERTIES )
 
 }
 
-/* Already defined in xhb contrib library. p.d. 07/08/2016
 #if ! ( defined( __XHARBOUR__ ) && ( defined( __MINGW32__ ) || defined( __POCC__ ) ) )
 
 HB_FUNC( GETDEFAULTPRINTER )
@@ -1345,7 +1344,6 @@ HB_FUNC( GETDEFAULTPRINTER )
 }
 
 #endif
-*/
 
 HB_FUNC( _HMG_PRINTER_STARTPAGE_PREVIEW )
 {
@@ -1442,7 +1440,6 @@ HB_FUNC( _HMG_PRINTER_SHOWPAGE )
    DeleteEnhMetaFile( hemf );
 
    EndPaint( hWnd, &ps );
-   ReleaseDC( hWnd, hDC );
 
 }
 

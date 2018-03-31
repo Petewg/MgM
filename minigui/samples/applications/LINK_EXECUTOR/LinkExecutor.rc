@@ -1,0 +1,33 @@
+#define IDI_1 1001
+
+IDI_MAIN ICON "link.ico"
+IDI_1 ICON "link.ico"
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Link Executor\000"
+		VALUE "FileVersion", "1.1.0.0"
+		VALUE "InternalName", "LinkExecutor\000"
+		VALUE "LegalCopyright", "Freeware 2003-2006\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "LinkExecutor.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

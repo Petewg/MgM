@@ -1,14 +1,18 @@
+#
+# hbole.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/hbole
+-inc
+-o../../harbour/lib/hbole
 
 -I../../include
 
--hbx=../../include/${hb_name}.hbx
+-warn=yes
 
--w -es2 -ko
+-w -es2 -ko -q0
+
+-hbx=../../include/hbole.hbx
 
 win32ole.prg
 w32ole.c

@@ -83,7 +83,7 @@ Procedure Main
 
         @ 10, 20 IMAGE Image_1 PICTURE "" WIDTH 0 HEIGHT 0 
 
-        DEFINE TIMER Timer_1 INTERVAL 100 ACTION {|| Form_1.Paste_Clip.Enabled := IF (BMP_CLIPBOARD_EMPTY (),.F.,.T.), Form_1.Copy_Clip.Enabled := Flag_Image}
+        DEFINE TIMER Timer_1 INTERVAL 100 ACTION {|| Form_1.Paste_Clip.Enabled := iif (BMP_CLIPBOARD_EMPTY (),.F.,.T.), Form_1.Copy_Clip.Enabled := Flag_Image}
 
         Old_Width  := Form_1.Width
         Old_Height := Form_1.Height
@@ -93,8 +93,6 @@ Procedure Main
         SetBar (.F.)
 
     END WINDOW 
-
-    InitWaitWindow()
 
     CENTER WINDOW Form_1
 
@@ -109,7 +107,7 @@ Procedure Release_Handle
        BMP_RELEASE (Actual_hBitmap)
        BMP_RELEASE (Clip_hBitmap)
        BMP_RELEASE (View_Full_hBITMAP)
-       IMAGE_SET_hBITMAP  ("Form_1", "Image_1", View_Strecht_hBITMAP, 0, 0)
+       IMAGE_SET_hBITMAP ("Form_1", "Image_1", View_Strecht_hBITMAP, 0, 0)
 Return
 
 
@@ -118,13 +116,13 @@ Procedure Init_New
     LOCAL area
     BMP_RELEASE (View_Strecht_hBITMAP)
         
-    hWND := IMAGE_GET_hWND  ("Form_1", "Image_1")
+    hWND := IMAGE_GET_hWND ("Form_1", "Image_1")
     area := WIN_GET_CLIENT_RECT (Application.Handle)
     
     SCR_WIDTH  := area [1] - 40
     SCR_HEIGHT := area [2] - 40
             
-    IMAGE_SET_hBITMAP  ("Form_1", "Image_1", View_Strecht_hBITMAP, 0, 0)         
+    IMAGE_SET_hBITMAP ("Form_1", "Image_1", View_Strecht_hBITMAP, 0, 0)         
 Return
 
 
@@ -339,7 +337,7 @@ Procedure Boton (n)
              Angle := Rotate_Angle
           ENDIF      
   
-          WaitWindow2 ("WAIT: processing the image ...", .T.)
+          WaitWindow ("WAIT: processing the image ...", .T.)
 
           IF modo > 0
              New_hBitmap := BMP_TRANSFORM (Actual_hBitmap, modo, Angle, RGB (0,0,0))      
@@ -364,7 +362,7 @@ Procedure Boton (n)
              BMP_GRAY  (View_Full_hBitmap, 0, 0, w, h, Gray_Level)             
              COPY_ACTUAL_TO_VIEW ()      
           ENDIF
-        WaitWindow2 ()
+        WaitWindow ()
          
      CASE n = 2
           Reflect_Horizontal := .F.
@@ -449,12 +447,12 @@ Return
 Procedure COPY_ACTUAL_TO_VIEW
   LOCAL w, h
   LOCAL New_hBitmap
-  IF Flag_Image = .F.
+  IF Flag_Image == .F.
      Return
   ENDIF
       
   IF Form_1.View_1.Checked = .T. 
-     IMAGE_SET_hBITMAP  ("Form_1", "Image_1", View_Full_hBitmap, BMP_GET_INFO (View_Full_hBitmap, BMP_INFO_WIDTH), BMP_GET_INFO (View_Full_hBitmap, BMP_INFO_HEIGHT))
+     IMAGE_SET_hBITMAP ("Form_1", "Image_1", View_Full_hBitmap, BMP_GET_INFO (View_Full_hBitmap, BMP_INFO_WIDTH), BMP_GET_INFO (View_Full_hBitmap, BMP_INFO_HEIGHT))
      SetBar (.T.)
      Return
   ENDIF   
@@ -476,9 +474,6 @@ Procedure COPY_ACTUAL_TO_VIEW
      BMP_RELEASE (new_hBitmap)
   ENDIF
   
-  IMAGE_SET_hBITMAP  ("Form_1", "Image_1", View_Strecht_hBITMAP, BMP_GET_INFO (View_Strecht_hBITMAP, BMP_INFO_WIDTH), BMP_GET_INFO (View_Strecht_hBITMAP, BMP_INFO_HEIGHT))
+  IMAGE_SET_hBITMAP ("Form_1", "Image_1", View_Strecht_hBITMAP, BMP_GET_INFO (View_Strecht_hBITMAP, BMP_INFO_WIDTH), BMP_GET_INFO (View_Strecht_hBITMAP, BMP_INFO_HEIGHT))
   SetBar (.F.)
 Return
-
- 
-#include "WaitWindow.prg"

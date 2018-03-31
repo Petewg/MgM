@@ -1,0 +1,36 @@
+Game 15: versions history
+=========================
+
+! Bug fixed
++ New feature/modification
+
+Aug, 13 2009 v2.3
+-----------------
+  + store/release/restore hotkeys
+    at Top Table
+  ! misc bugfix
+
+Dec, 03 2006 v2.2
+-----------------
+  * Updated for Harbour 0.46.2
+    and HMG Extended build 28
+
+Nov, 24 2006 v2.1
+-----------------
+  * Updated for Harbour 0.46.2
+    and HMG Extended build 27
+
+Sep, 15 2003 v2.0
+-----------------
+  + New look of window
+  + New look of buttons
+  + Improved view of Top Table
+  + Clear of Top Table
+
+May, 01 2003 v1.1
+-----------------
+  + Save & Load of game
+
+Apr, 30 2003 v1.0
+-----------------
+  Original release

@@ -8,8 +8,6 @@
 
 #include "minigui.ch"
 
-#define ISVISTAORLATER()	( ISVISTA() .Or. ISSEVEN() )
-
 Procedure Main
 
 	DEFINE WINDOW w ;

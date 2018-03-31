@@ -1,0 +1,45 @@
+#define IDI_1 1001
+
+MAIN	ICON	res\resize.ico   
+IDI_1	ICON	res\resize.ico   
+
+RESIZE	BITMAP	res\resize.bmp   
+REFRESH	BITMAP	res\refresh.bmp   
+OPTIONS	BITMAP	res\options.bmp   
+EXIT	BITMAP	res\exit.bmp   
+ABOUT	BITMAP	res\about.bmp   
+
+TITLE	BITMAP	res\title.bmp   
+IE	BITMAP	res\ie.bmp   
+NSC	BITMAP	res\nsc.bmp   
+FOX	BITMAP	res\fox.bmp   
+WORLD	BITMAP	res\world.bmp   
+
+1 VERSIONINFO
+FILEVERSION 1,0,4,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Tray icon testing utility\000"
+		VALUE "FileVersion", "1.0.4.0"
+		VALUE "InternalName", "ResizeIt\000"
+		VALUE "LegalCopyright", "Freeware 2006"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "ResizeIt.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409, 0x04B0
+}
+}

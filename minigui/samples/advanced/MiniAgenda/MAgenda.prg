@@ -557,9 +557,8 @@ RETURN // SayAbout()
 PROCEDURE ShowAbout( cAbFName )
 Local oObject
 
-   oObject := GetProperty( 'frmAbout', 'acxAbout', 'Object' )
+   oObject := GetProperty( 'frmAbout', 'acxAbout', 'XObject' )
    oObject:Navigate( cAbFName )
 
 RETURN // ShowAbout()
 
-#include "ActiveX.prg"

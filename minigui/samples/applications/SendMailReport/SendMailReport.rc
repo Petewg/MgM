@@ -1,0 +1,50 @@
+#define IDI_MAIN 1001
+
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//	Resource Name	Resource Type   Resource FileName
+//
+	MAIN		ICON 		res\mail.ico
+	IDI_MAIN	ICON 		res\mail.ico
+	CONFIG		BITMAP		res\options.bmp
+	OPEN		BITMAP		res\open.bmp
+	SEND		BITMAP		res\sendMail.bmp
+	INFO		BITMAP		res\info.bmp
+	TRASH		BITMAP		res\TRASH.bmp
+	SAVE		BITMAP		res\save.bmp
+	EXIT		BITMAP		res\exit.bmp
+ /////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+1 VERSIONINFO
+FILEVERSION 1,7,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Cobian Report Sender\000"
+		VALUE "FileVersion", "1.7.0.0"
+		VALUE "InternalName", "SendMailReport"
+		VALUE "LegalCopyright", "Pierpaolo Martinello\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "SendMailReport.Exe\000"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.7.0.0"
+		VALUE "Comments", "Created by Pierpaolo Martinello && Grigory Filatov \000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}
+

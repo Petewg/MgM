@@ -1,6 +1,5 @@
 #include "hmg.ch"
 #include "hbzebra.ch"
-#include "BosTaurus.ch"
 
 /*
   HMG_CreateBarCode() function can be used to create barcode image in PNG file format if cPNGFileName parameter is included.
@@ -118,8 +117,8 @@ LOCAL x1:= 0, y1 := 0, nBarWidth := 0, nBarHeight := 0
    IF hb_zebra_GetError( hZebra ) != 0
       RETURN HB_ZEBRA_ERROR_INVALIDZEBRA
    ENDIF
-// hb_zebra_draw ( hZebra,   bCodeBlock,                                            dX, dY,     dWidth,     dHeight, iFlags )
-   hb_zebra_draw ( hZebra, {| x, y, w, h | nBarWidth:=x+w-x1, nBarHeight:=y+h-y1 }, x1, y1, nLineWidth, nLineHeight, iFlags )
+// hb_zebra_draw ( hZebra,   bCodeBlock,                                                            dX, dY,     dWidth,     dHeight, iFlags )
+   hb_zebra_draw ( hZebra, {| x, y, w, h | nBarWidth:=Max( x+w-x1, nBarWidth ), nBarHeight:=y+h-y1 }, x1, y1, nLineWidth, nLineHeight, iFlags )
 RETURN nBarWidth
 
 *-----------------------------------------------------------------------------------------------*

@@ -1,0 +1,17 @@
+
+ 32Bit-ShellFileOperations for MiniGUI             Copyright (c) Grigory Filatov
+ =================================================================================
+
+ This 32Bit library lets you copy, move, delete Files using the Windows 95/98/NT/2K/XP
+ SHFileOperation() API function. You need to include the Shell32.lib in your compile.bat,
+ and place Shell32.ch at top of your program source.
+ 
+ You can use the library Shell32.lib in your Applications without any cost.
+ It is FREEWARE.
+ 
+ Contact Information
+ ===================
+
+ Author:   Grigory Filatov
+ EMail:    gfilatov@inbox.ru
+

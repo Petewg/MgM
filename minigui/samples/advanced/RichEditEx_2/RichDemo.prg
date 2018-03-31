@@ -62,7 +62,7 @@ Function Main
    Public cUndo_Id     := 'It_DrDwn'
    Public lUndo        := .f.
    Public InstallPath  := "c:\"
-   Public cHelp        := "RichEdit.hlp"
+   Public cHelp        := "RichEdit.chm"
 
    Public rEdit := 8
    Public wEdit := 737
@@ -96,6 +96,7 @@ Function Main
    Public ActiveSlider:='Slider_1'
    Public ActiveChkBtn:='ChkBtn_1'
    PUBLIC MainForm    := 'Form_1'
+   SET HELPFILE TO 'richedit.chm'
 
    DECLARE WINDOW Form_1
 
@@ -169,14 +170,14 @@ Function Main
             ITEM '&Replace'   ACTION Search_click(1)  NAME It_Repl IMAGE 'repeat'
          END POPUP
          POPUP '&Insert'
-            ITEM '&Font'      ACTION SelFont(1) IMAGE "BMPFONT"
+            ITEM '&Font'      ACTION SelFont(1) IMAGE "FONT"
             ITEM '&Paragraf'  ACTION Paragraph_click() IMAGE "PARAGRAF"
             SEPARATOR
             ITEM '&Image'     ACTION MsgInfo ("  Image insert Click  ","Not implemented yet!")
             ITEM '&Link'      ACTION MsgInfo ("  Link insert Click  ","Not implemented yet!")
             END POPUP
          POPUP '&Help'
-            ITEM '&Help'+Chr(9)+'F1'   ACTION DISPLAY HELP MAIN IMAGE "BMPHELP"
+            ITEM '&Help'+Chr(9)+'F1'   ACTION DISPLAY HELP MAIN IMAGE "HELP"
             ITEM 'About'               ACTION DefSplash(1)
          END POPUP
       END MENU
@@ -644,7 +645,7 @@ Function  NewEdit(cFile,typ)
 
       @ rTab+rEdit-hLin+2 ,0  BUTTON &ActiveChkBtn;
          OF Form_1;
-         PICTURE 'TAB01';
+         PICTURE 'TAB0';
          ACTION  SetTypTab();
          WIDTH 14  HEIGHT 16;
          NOTABSTOP
@@ -1888,7 +1889,7 @@ Procedure SplashDelay(met)
    endif
    iTime := Seconds()
    Do While Seconds() - iTime < 2
-      DoEvents()
+      Do Events
    EndDo
    Form_Splash.Release
 Return

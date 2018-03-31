@@ -1,0 +1,21 @@
+This program allows to find the unused functions in MiniGUI projects.
+
+Algorithm's Description.
+1st pass.
+Touching the all PRG-modules in project and creating the all functions
+list (with excretion of static functions).
+2nd pass.
+Touching the functions list and finding theirs calls in the PRG and
+FMG modules.
+If function is static when calls is finding only in its PRG and FMG
+modules which calling from this PRG module.
+Else - in the all PRG and FMG modules of the project.
+
+Notes: remarks is consider on the same level as working lines.
+
+You can edit the current module at list by double mouse click.
+
+The unused functions are exuded in the list by yellow color.
+
+V.Sadonin
+sad@transbunker.ru

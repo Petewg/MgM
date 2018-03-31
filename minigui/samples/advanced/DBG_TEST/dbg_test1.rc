@@ -1,10 +1,8 @@
 //------------------------------------------------
 // HMG Debugger resources
 //------------------------------------------------
-#include "resource.h"
 
-
-IDI_ICON1      ICON  res\_dbg_icon.ico
+1001            ICON  res\_dbg_icon.ico
 
 _about        	PNG   res\_dbg_about.png
 

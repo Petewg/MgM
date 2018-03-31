@@ -39,7 +39,7 @@ Procedure Main()
 					"&subject=TransDesk%20Feedback:", , 1)
 			ITEM '&About...' ;
 				ACTION ShellAbout( "", PROGRAM + CRLF + ;
-					Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "ICON_1") )
+					Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "ICON_1", 32, 32) )
 			SEPARATOR	
 			ITEM 'E&xit'	ACTION Form_1.Release
 		END MENU

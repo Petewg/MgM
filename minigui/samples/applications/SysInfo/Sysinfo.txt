@@ -1,0 +1,33 @@
+ ----------------------------------------------------------------------------
+
+ Program     : SysInfo
+
+ Platform    : Windows 9x, 2000, XP
+
+ Description : This program shows system information about CPU, BIOS, memory,
+               drives, keyboard, mice, monitor, video adapter, net, printers.
+
+ Status      : FreeWare
+
+ Notice      : This program may not be sold or resold, distributed as a part
+               of  any commercial package, used in a commercial environment,
+               used  or  distributed  in support of a commercial service, or
+               used  or distributed to support any kind of profit-generating
+               activity,  even  if  it  is  being distributed freely. If you
+               would like to distribute this program as part of a commercial
+               distribution,  magazine,  Internet  book, CD ROM, etc. please
+               contact us for permission.
+
+ Disclaimer  : This  program  is  FreeWare  and  is provided "AS IS" without
+               warranty  of  any  kind, either express or implied, including
+               but  not limited to the implied warranties of merchantability
+               and  fitness  for a particular purpose. In no event shall the
+               author be liable for any damages whatsoever including direct,
+               indirect, incidental, consequential, loss of business profits
+               or  special  damages,  even if the author has been advised of
+               the possibility of such damages.
+ ----------------------------------------------------------------------------
+        Copyright (c) 2003-2012 Grigory Filatov.  All Rights Reserved      
+
+                      E-Mail : gfilatov@inbox.ru
+ ----------------------------------------------------------------------------

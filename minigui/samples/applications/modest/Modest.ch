@@ -7,7 +7,7 @@
 
 // New row symbol
 
-#define CRLF                         hb_eol()
+#define CRLF                         HB_OSNewLine()
 
 // About information
 

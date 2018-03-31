@@ -134,7 +134,7 @@ Procedure Main
             COL    280
             WIDTH  120
             HEIGHT 60
-            /*CAPTION "EXIT"*/
+            CAPTION "EXIT"
             ICON "ICO_EXIT"
             FONTNAME 'MS Sans serif'
             FONTSIZE 15 
@@ -193,5 +193,3 @@ Static Function RGB2DIM(nColor)
 
 Return { GetRed(nColor) , GetGreen(nColor) , GetBlue(nColor) }
 ///////////////////////////////////////////////////////////
-
-

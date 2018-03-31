@@ -17,7 +17,7 @@ Function Main
 		MAIN 
 
 		@ 200,140 BUTTON ImageButton_1 ;
-			PICTURE 'buttonbmp' ;
+			PICTURE 'button' ;
 			ACTION MsgInfo('Button Pressed!','!') ;
 			WIDTH 29 ;
 			HEIGHT 29 TOOLTIP 'Print Preview' ;

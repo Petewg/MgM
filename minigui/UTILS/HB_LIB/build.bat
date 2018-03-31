@@ -1,0 +1,1 @@
+call ..\..\batch\hbmk2.bat %* hb_lib hb_lib.hbc

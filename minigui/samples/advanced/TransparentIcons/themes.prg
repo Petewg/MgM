@@ -119,7 +119,7 @@ PROCEDURE OnDraw( param )	// modified
   IF ( GetObjectType( param ) <> OBJ_DC )
     GetClientRect( param, @aRect )
   ELSE
-    GetClientRect( GetWindowFromDC( param ), @aRect )
+    GetClientRect( WindowFromDC( param ), @aRect )
   ENDIF
 
   dx := aRect[3] - aRect[1]
@@ -312,8 +312,8 @@ RETURN nil
 
 * HMG 1.0 Experimental Build 9a (JK)
 * (C) 2005 Jacek Kubica <kubica@wssk.wroc.pl>
-/*
-STATIC FUNCTION OwnButtonPaint(  pdis )	// modified
+
+FUNCTION OwnButtonPaint(  pdis )	// modified
 ********************************
 Local hDC, itemState, itemAction, i, rgbTrans, hWnd, lFlat, lNotrans
 Local oldBkMode, oldTextColor , hOldFont, hBrush,nFreeSpace:=0
@@ -633,7 +633,7 @@ Local Button_name
    SetTextColor( hDC, oldTextColor )
 
 Return ( 1 )
-*/
+
 Static Function CountIt(cText)
 ******************************
   Local nPoz := 1, nCount := 0
@@ -717,6 +717,7 @@ HB_FUNC ( _COLORMENU )
 	SetMenuInfo(iMenu, &iMenuInfo);
 	DrawMenuBar((HWND) hb_parnl(1));
 }
+
 // JR
 HB_FUNC( SETSBBKCOLOR )
 {

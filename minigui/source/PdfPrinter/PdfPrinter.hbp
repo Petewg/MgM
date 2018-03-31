@@ -1,0 +1,21 @@
+#
+# PdfPrinter.hbp
+#
+
+-hblib
+
+-inc
+
+-o../../harbour/lib/PdfPrinter
+
+-I./include
+
+-w2 -es2 -ko -q0
+
+{bcc}-hbx=../../include/PdfPrinter.hbx
+
+source\THaruPdf.prg
+source\THaruPdfBase.prg
+source\HaruFonts.prg
+source\HaruUtils.prg
+source\HaruPrintMgr.prg

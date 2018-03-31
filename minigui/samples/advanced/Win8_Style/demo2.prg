@@ -19,28 +19,34 @@ STATIC aObjButton := {}, aObjImage := {}, aPicture := {}, aTekBackColor, aTekPic
 STATIC nOldRow, nOldCol, nOldWidth, nOldHeight, lMaximize := .F.
 
 Function Main()
-	LOCAL cResIco, cResPict := NIL, bAction, cTooltip, nWidth, nHeight
-	LOCAL nStRow1 := 90, nStRow2 := 218, nStRow3 := 347, nStRow4 := 477
-	LOCAL aFontColor := WHITE
+     LOCAL cResIco, cResPict := NIL, bAction, cTooltip, nWidth, nHeight
+     LOCAL nStRow1 := 90, nStRow2 := 218, nStRow3 := 347, nStRow4 := 477
+     LOCAL aFontColor := WHITE
       
-MyInitPicture() // Read the background images to an array 
+     MyInitPicture() // Read the background images to an array 
 
-	DEFINE WINDOW Form_1 AT 0,0 WIDTH 870 HEIGHT 650 MAIN ICON "AMAIN" TITLE PROGRAM NOMAXIMIZE NOSIZE NOCAPTION ;
-                 ON INIT ( Form_1.OButton_4x3.SetFocus ) BACKCOLOR COLOR_DESKTOP_DARK_CYAN 
+	DEFINE WINDOW Form_1 ;
+		AT 0,0 WIDTH 870 HEIGHT 650 ;
+                MAIN ;
+                ICON "1MAIN" ;
+		TITLE PROGRAM  ;
+                NOMAXIMIZE NOSIZE NOCAPTION ;
+                ON INIT ( Form_1.OButton_4x3.SetFocus ) ;
+	        BACKCOLOR COLOR_DESKTOP_DARK_CYAN 
 
-		nWidth  := Form_1.Width
-		nHeight := Form_1.Height
+  	        nWidth  := Form_1.Width
+	        nHeight := Form_1.Height
 
-		@ 1,90 LABEL Label_Title WIDTH nWidth - 50*2 - 70  HEIGHT 22 VALUE PROGRAM ;
-						 FONTCOLOR WHITE SIZE 14 BOLD TRANSPARENT CENTERALIGN ;
-						 ACTION MoveActiveWindow() ;
-						 OnMouseHover RC_CURSOR( "hand32" )
+                @ 1,90 LABEL Label_Title WIDTH nWidth - 50*2 - 70  HEIGHT 22 VALUE PROGRAM ;
+                  FONTCOLOR WHITE SIZE 14 BOLD TRANSPARENT CENTERALIGN ;
+                  ACTION MoveActiveWindow() ;
+                  OnMouseHover RC_CURSOR( "hand32" )
+ 
+                MyPopupImageMenu()
 
-		MyPopupImageMenu()
+                MySizesWinExit()  // management - right up windows
 
-		MySizesWinExit()  // management - right up windows
-
-		@ 25, 0  IMAGE Img_Bckgrnd PICTURE '' WIDTH nWidth HEIGHT nHeight STRETCH 
+                @ 25, 0  IMAGE Img_Bckgrnd PICTURE '' WIDTH nWidth HEIGHT nHeight STRETCH 
 
 		@ 50,30 LABEL label_1 VALUE "Start" WIDTH 120 HEIGHT 28 SIZE 18 FONTCOLOR WHITE BOLD TRANSPARENT 
 
@@ -168,7 +174,7 @@ Function MyPopupImageMenu()
            MenuItem 'COLOR_DESKTOP_YELLOW_ORANGE' Action ( MyRefresh( COLOR_DESKTOP_YELLOW_ORANGE, NIL ) )
            Separator
            IF Len( aPicture ) > 0
-              FOR nI := 1 TO Len(aPicture)
+              FOR nI := 1 TO LEN(aPicture)
                  cItemName := "IMAGE  ( " + aPicture[nI,1]+" )"
                  cFile := aPicture[nI,2]
                  cAction := "MyRefresh(NIL,'"+cFile+"')"
@@ -214,7 +220,7 @@ Return NIL
 Function METRO_BUTTON( cObject,nRow,nCol,nWidth,nHeight,cCaption,cResPicture,cResIco,;
                        aFontColor,aBACKCOLOR,bAction,cTooltip)
 
-    AAdd( aObjButton , { cObject,nRow,nCol } )  // add the item to refresh
+    AADD( aObjButton , { cObject,nRow,nCol } )  // add the item to refresh
 
     DEFINE BUTTONEX &cObject
     	ROW  nRow
@@ -244,7 +250,7 @@ Function METRO_IMAGE( cObject,nRow,nCol,nWidth,nHeight,cCaption,cResPicture,;
                       aFontColor,bAction)
    LOCAL aBackgroundColor := Form_1.BackColor
 
-   AAdd(  aObjImage , { cObject,nRow,nCol } )  // add the item to refresh
+   AADD(  aObjImage , { cObject,nRow,nCol } )  // add the item to refresh
 
    DEFINE IMAGE &cObject
       PARENT            Form_1
@@ -275,7 +281,7 @@ FUNCTION MyRefresh(aBackColor,cImage)
    nWidth  := GetProperty( cWnd, "Width")  
 
    //  refresh windows BackColor 
-   IF Len(aBackColor) > 0
+   IF LEN(aBackColor) > 0
       SetProperty( cWnd, "BackColor", aBackColor )
       aTekBackColor := aBackColor 
       aTekPict := NIL
@@ -283,7 +289,7 @@ FUNCTION MyRefresh(aBackColor,cImage)
    ENDIF
 
    //  refresh IMAGE windows Background 
-   IF Len(cImage) > 0
+   IF LEN(cImage) > 0
       SetProperty( cWnd, "Img_Bckgrnd", "Visible" , .F.     )
       SetProperty( cWnd, "Img_Bckgrnd", "Picture" , cImage  )
       SetProperty( cWnd, "Img_Bckgrnd", "Height"  , nHeight ) 
@@ -293,7 +299,7 @@ FUNCTION MyRefresh(aBackColor,cImage)
    ENDIF
 
    //  refresh METRO_BUTTON
-   FOR nI := 1 TO Len(aObjButton)
+   FOR nI := 1 TO LEN(aObjButton)
        cObj := aObjButton[nI,1]
        nHeight2 := nHeight - 650 + aObjButton[nI,2] 
        nWidth2  := (nWidth - 870)/2 + aObjButton[nI,3] 
@@ -303,7 +309,7 @@ FUNCTION MyRefresh(aBackColor,cImage)
        SetProperty( cWnd, cObj, "Visible" , .T. )
    NEXT
    //  refresh METRO_IMAGE
-   FOR nI := 1 TO Len(aObjImage)
+   FOR nI := 1 TO LEN(aObjImage)
        cObj := aObjImage[nI,1]
        nHeight2 := nHeight - 650 + aObjImage[nI,2]  
        nWidth2  := (nWidth  - 870)/2 + aObjImage[nI,3] 

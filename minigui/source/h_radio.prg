@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -50,19 +50,20 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value, ;
-      fontname, fontsize, tooltip, change, width, ;
-      spacing, HelpId, invisible, notabstop, bold, italic, underline, strikeout, ;
-      backcolor , fontcolor , transparent , horizontal , leftjustify , aReadOnly , aId )
+      fontname, fontsize, tooltip, change, width, spacing, HelpId, invisible, ;
+      notabstop, bold, italic, underline, strikeout, backcolor, fontcolor, ;
+      transparent , horizontal , leftjustify , aReadOnly , autosize , aId )
 *-----------------------------------------------------------------------------*
    LOCAL i , ParentFormHandle , blInit , mVar , BackCol , BackRow , k , Style
-   LOCAL aHandles[ 0 ], ControlHandle, FontHandle, n, lDialogInMemory
+   LOCAL aHandles[ 0 ], ControlHandle, FontHandle, n, lDialogInMemory, BackWidth
 
    hb_default( @Width, 120 )
    __defaultNIL( @change, "" )
    hb_default( @invisible, .F. )
    hb_default( @notabstop, .F. )
    hb_default( @horizontal, .F. )
-   hb_default( @Spacing, iif( horizontal, 0, 25 ) )
+   hb_default( @autosize, .F. )
+   hb_default( @Spacing, iif( horizontal, iif( autosize, GetBorderWidth(), 0 ), 25 ) )
    hb_default( @leftjustify, .F. )
 
    IF ( FontHandle := GetFontHandle( FontName ) ) != 0
@@ -81,11 +82,11 @@ FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value,
    ENDIF
    lDialogInMemory := _HMG_DialogInMemory
 
-   IF .NOT. _IsWindowDefined ( ParentFormName )  .AND. .NOT. lDialogInMemory
+   IF .NOT. _IsWindowDefined ( ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError( "Window: " + IFNIL( ParentFormName, "Parent", ParentFormName ) + " is not defined." )
    ENDIF
 
-   IF _IsControlDefined ( ControlName, ParentFormName )  .AND. .NOT. lDialogInMemory
+   IF _IsControlDefined ( ControlName, ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError ( "Control: " + ControlName + " Of " + ParentFormName + " Already defined." )
    ENDIF
 
@@ -179,31 +180,43 @@ FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value,
       BackCol := x
       BackRow := y
 
-      ControlHandle := InitRadioGroup ( ParentFormHandle, aOptions[1], 0, x, y , '' , 0 , width, invisible, notabstop , leftjustify )
+      ControlHandle := InitRadioGroup ( ParentFormHandle, aOptions [1], 0, x, y , '' , 0 , width, invisible, notabstop, leftjustify )
 
       IF FontHandle != 0
-         _SetFontHandle( ControlHandle, FontHandle )
+         _SetFontHandle ( ControlHandle, FontHandle )
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
          FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
       ENDIF
 
+      IF autosize
+         BackWidth := Width
+         Width := GetTextWidth ( NIL, aOptions [1], FontHandle ) + 21
+         MoveWindow ( ControlHandle, x, y, width, GetTextHeight ( NIL, aOptions [1], FontHandle ) + 8, .T. )
+      ENDIF
+
       AAdd ( aHandles , ControlHandle )
 
       FOR i := 2 TO Len ( aOptions )
+
          IF horizontal
             x += Width + Spacing
          ELSE
             y += Spacing
          ENDIF
 
-         ControlHandle := InitRadioButton ( ParentFormHandle, aOptions[i], 0, x, y , '' , 0 , width, invisible , leftjustify )
+         ControlHandle := InitRadioButton ( ParentFormHandle, aOptions [i], 0, x, y , '' , 0 , width, invisible, leftjustify )
 
          IF FontHandle != 0
-            _SetFontHandle( ControlHandle, FontHandle )
+            _SetFontHandle ( ControlHandle, FontHandle )
          ELSE
             FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
+
+         IF autosize
+            Width := GetTextWidth ( NIL, aOptions [i], FontHandle ) + 21
+            MoveWindow ( ControlHandle, x, y, width, GetTextHeight ( NIL, aOptions [i], FontHandle ) + 8, .T. )
          ENDIF
 
          AAdd ( aHandles , ControlHandle )
@@ -225,14 +238,15 @@ FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value,
       IF ValType( tooltip ) != "U"
          SetToolTip ( aHandles [1] , tooltip , GetFormToolTipHandle ( ParentFormName ) )
       ENDIF
+
    ENDIF
 
    Public &mVar. := k
 
-   _HMG_aControlType [k] := "RADIOGROUP"
+   _HMG_aControlType [k] :=  "RADIOGROUP"
    _HMG_aControlNames  [k] :=  ControlName
    _HMG_aControlHandles  [k] :=  aHandles
-   _HMG_aControlParenthandles [k] :=   ParentFormHandle
+   _HMG_aControlParenthandles [k] :=  ParentFormHandle
    _HMG_aControlIds  [k] :=  aId
    _HMG_aControlProcedures  [k] :=  ""
    _HMG_aControlPageMap  [k] := aReadOnly
@@ -245,10 +259,10 @@ FUNCTION _DefineRadioGroup ( ControlName, ParentFormName, x, y, aOptions, Value,
    _HMG_aControlBkColor [k] :=   backcolor
    _HMG_aControlFontColor  [k] :=  fontcolor
    _HMG_aControlDblClick  [k] :=  _HMG_ActiveTabButtons
-   _HMG_aControlHeadClick  [k] :=  {}
+   _HMG_aControlHeadClick  [k] :=  autosize
    _HMG_aControlRow  [k] :=  BackRow
    _HMG_aControlCol  [k] :=  BackCol
-   _HMG_aControlWidth  [k] :=  Width
+   _HMG_aControlWidth  [k] :=  iif( autosize, BackWidth, Width )
    _HMG_aControlHeight  [k] :=  iif( horizontal, 28, Spacing * Len ( aOptions ) + GetBorderHeight() )
    _HMG_aControlSpacing  [k] :=  Spacing
    _HMG_aControlContainerRow  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameRow [_HMG_FrameLevel] , -1 )

@@ -7,7 +7,7 @@
 MEMVAR hG
 MEMVAR nButton_One
 
-#include "hmg.ch"
+#include "minigui.ch"
 #include "i_winuser.ch"
 #include "zeegrid.ch"
 
@@ -29,7 +29,7 @@ PROCEDURE Main()
    DEFINE WINDOW Win_1 CLIENTAREA 600, 600 TITLE 'ZeeGrid demo' ;
       ICON "MAIN.ICO" ;
       WINDOWTYPE MAIN ;
-      ON RELEASE wapi_FreeLibrary( hMod )
+      ON RELEASE FreeLibrary( hMod )
 
       DEFINE MAIN MENU
          POPUP 'Info'

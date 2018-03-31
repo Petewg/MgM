@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -3706,18 +3706,45 @@ STATIC FUNCTION NoBrackets ( cStr )
 RETURN cStr
 #endif
 
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _GetFocusedControlType ( nFormHandle )
+*-----------------------------------------------------------------------------*
+   LOCAL nHandle := GetFocus()
+   LOCAL cType As String
+   LOCAL hControl, i
+
+   FOR EACH hControl IN _HMG_aControlHandles
+
+      i := hb_enumindex( hControl )
+
+      IF _HMG_aControlParentHandles [i] == nFormHandle
+
+         IF ValType ( hControl ) == 'N' .AND. hControl == nHandle
+            cType := _HMG_aControlType [i]
+            EXIT
+         ENDIF
+
+      ENDIF
+
+   NEXT
+
+RETURN cType
+
 *------------------------------------------------------------------------------*
 STATIC FUNCTION GetMenuItems ( lMenuItem, hMenu )
 *------------------------------------------------------------------------------*
-   LOCAL i, aMenuItems := {}
+   LOCAL i, h, aMenuItems := {}
    LOCAL cMenuType := iif( lMenuItem, "MENU", "POPUP" )
-   LOCAL nControlCount := Len ( _HMG_aControlHandles )
 
-   FOR i := 1 TO nControlCount
+   FOR EACH h IN _HMG_aControlHandles
+
+      i := hb_enumindex( h )
+
       IF _HMG_aControlType [i] == cMenuType .AND. _HMG_aControlPageMap [i] == hMenu .AND. iif( lMenuItem, .T., ( _HMG_aControlIds [i] == 1 ) )
          AAdd( aMenuItems, _HMG_aControlCaption [i] )
       ENDIF
-   NEXT i
+
+   NEXT
 
 RETURN aMenuItems
 

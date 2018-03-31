@@ -1,0 +1,7 @@
+//Resource 	Resource    Resource
+//Name		Type	    FileName
+//
+1MAIN_ICO        ICON       res\1MiniGui.ico   
+DEMO_AVI         AVI        res\compress.avi
+
+

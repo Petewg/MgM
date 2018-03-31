@@ -1,0 +1,34 @@
+MAINICON ICON "Printer.ico"
+
+LOGO BITMAP "res\logo.bmp"
+PRN_ON BITMAP "res\active.bmp"
+PRN_OFF BITMAP "res\printer.bmp"
+
+1 VERSIONINFO
+FILEVERSION 1,2,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Printer Switcher\000"
+		VALUE "FileVersion", "1.2.0.0"
+		VALUE "InternalName", "SwitchPrinter"
+		VALUE "LegalCopyright", "Freeware 2002-2009\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "SwitchPrinter.exe"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

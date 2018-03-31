@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat PlayDraw
+call ..\..\..\batch\hbmk2.bat %* PlayDraw.hbp

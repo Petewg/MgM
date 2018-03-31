@@ -67,7 +67,7 @@ PROCEDURE ShowRowCol
    Form_1.StatusBar.Item( 1 ) := 'Row: ' + hb_ntos( e + 1 ) + ' Col: ' + hb_ntos( q )
 
    IF e < 7
-      //Form_1.Edit_1.Refresh
+      Form_1.Edit_1.Refresh
    ENDIF
 
 RETURN

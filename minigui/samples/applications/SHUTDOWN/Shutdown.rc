@@ -1,0 +1,42 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN	ICON	ICONS\MAINICON.ico
+AMAIN		ICON	ICONS\MAINICON.ico
+SHUT		ICON	ICONS\SHUT.ico
+
+RU		ICON	ICONS\RU.ico
+GB		ICON	ICONS\GB.ico
+DE		ICON	ICONS\DE.ico
+FR		ICON	ICONS\FR.ico
+IT		ICON	ICONS\IT.ico
+ES		ICON	ICONS\ES.ico
+BG		ICON	ICONS\BG.ico
+
+1 VERSIONINFO
+FILEVERSION 2,2,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Shutdown Windows\000"
+		VALUE "FileVersion", "2.2.2.0"
+		VALUE "InternalName", "Shutdown\000"
+		VALUE "LegalCopyright", "Copyright © 2002-06 by Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "Shutdown.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

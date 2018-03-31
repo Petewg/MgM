@@ -59,7 +59,7 @@ Return
 Function DoWhile
 *-----------------------------------------------------------------------------*
   
-   DoEvents()
+  DO EVENTS
 
 Return lContinue
 

@@ -187,7 +187,26 @@ HB_FUNC( GETWINVERSTRING )
 
        // Test for the specific product.
 
-       if ( osvi.dwMajorVersion == 6 )
+       if( osvi.dwMajorVersion == 10 && osvi.dwMinorVersion == 0 )
+       {
+          strcat( szResult, "Microsoft Windows 10 " );
+
+          pIsWow64Process = ( P_ISWOW64PROCESS ) GetProcAddress( GetModuleHandle( TEXT( "kernel32" ) ), "IsWow64Process" );
+
+          if( pIsWow64Process )
+          {
+             if( ! pIsWow64Process( GetCurrentProcess(), &bIsWow64 ) )
+             {
+               /* Try alternative method? */
+             }
+          }
+
+          if( bIsWow64 )
+             strcat( szResult, ", 64-bit " );
+          else if (si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_INTEL )
+             strcat( szResult, ", 32-bit ");
+       }
+       else if ( osvi.dwMajorVersion == 6 )
        {
           typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
@@ -277,7 +296,6 @@ HB_FUNC( GETWINVERSTRING )
                 strcat( szResult, "Web Server Edition" );
                 break;
           }
-
 
           pIsWow64Process = ( P_ISWOW64PROCESS ) GetProcAddress( GetModuleHandle( TEXT( "kernel32" ) ), "IsWow64Process" );
 

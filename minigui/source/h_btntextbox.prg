@@ -35,10 +35,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -65,8 +65,8 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       invisible, notabstop, nId, disableedit, lDefault, cuetext, keepfocus )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle, aControlHandle := 0
-   LOCAL mVar, k, Style
-   LOCAL FontHandle, cBmp, cTTip, lBtn2 := ISBLOCK( ProcedureName2 )
+   LOCAL mVar, k, Style, lBtn2 := ISBLOCK( ProcedureName2 )
+   LOCAL FontHandle, cBmp, tmp
    LOCAL WorkArea, blInit
    LOCAL lDialogInMemory
 
@@ -91,6 +91,7 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       aBitmap := Array( 2 )
       aBitmap[1] := cBmp
    ENDIF
+
    IF ValType ( Field ) != 'U'
       IF  At ( '>', Field ) == 0
          MsgMiniGuiError ( "Control " + ControlName + " Of " + ParentFormName + " : You must specify a fully qualified field name." )
@@ -101,10 +102,11 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
          ENDIF
       ENDIF
    ENDIF
+
    IF ValType ( aToolTip ) != 'A'
-      cTTip := aToolTip
+      tmp := aToolTip
       aToolTip := Array( 3 )
-      aToolTip[1] := cTTip
+      aToolTip[1] := tmp
    ELSE
       IF Len( aToolTip ) < 3
          aToolTip := ASize( aToolTip, 3 )
@@ -223,15 +225,11 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       ENDIF
 
       // Add a ToolTip if param has value
-      IF ValType( aToolTip[1] ) != "U"
-         SetToolTip( aControlHandle[1], aToolTip[1], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[2] ) != "U"
-         SetToolTip( aControlHandle[2], aToolTip[2], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[3] ) != "U"
-         SetToolTip( aControlHandle[3], aToolTip[3], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
+      FOR tmp := 1 TO 3
+         IF ValType( aToolTip[tmp] ) != "U"
+            SetToolTip ( aControlHandle[tmp], aToolTip[tmp], GetFormToolTipHandle ( ParentFormName ) )
+         ENDIF
+      NEXT
 
    ENDIF
 

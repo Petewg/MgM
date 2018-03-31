@@ -10,86 +10,81 @@
  * Description: Main function of the demo. Create the main window.
  *  Parameters: None
  *      Return: NIL
-***************************************************************************************
-*/
+****************************************************************************************/
 function Main()
 
         // Database driver.
-	REQUEST DBFNTX
-	REQUEST DBFCDX
+        REQUEST DBFNTX
+        REQUEST DBFCDX
 
         // [x]Harbour modifiers.
-	SET CENTURY ON
+        SET CENTURY ON
 	SET EPOCH TO YEAR(DATE())-20
-	SET DELETED OFF
-	SET DATE TO BRITISH
+        SET DELETED OFF
+        SET DATE TO BRITISH
 
-	// Request available languages for test.
-	REQUEST HB_LANG_PT      // Portuguese.
-	REQUEST HB_LANG_EU      // Basque.
-	REQUEST HB_LANG_EN      // English.
-	REQUEST HB_LANG_ES      // Spanish.
-	REQUEST HB_LANG_FR      // French.
-	REQUEST HB_LANG_IT      // Italian.
-	REQUEST HB_LANG_NL      // Dutch.
-	REQUEST HB_LANG_PLWIN   // Polish Windows CP-1250
-	REQUEST HB_LANG_DE      // German.
+        // Request available languages for test.
+        REQUEST HB_LANG_PT      // Portuguese.
+        REQUEST HB_LANG_EU      // Basque.
+        REQUEST HB_LANG_EN      // English.
+        REQUEST HB_LANG_ES      // Spanish.
+        REQUEST HB_LANG_FR      // French.
+        REQUEST HB_LANG_IT      // Italian.
+        REQUEST HB_LANG_NL      // Dutch.
+        REQUEST HB_LANG_PLWIN   // Polish Windows CP-1250
+        REQUEST HB_LANG_DE      // German.
 	REQUEST HB_LANG_RUWIN   // Russian Windows CP-1251
 	REQUEST HB_LANG_UAWIN   // Ukranian Windows CP-1251
-	REQUEST HB_LANG_ELWIN   // Greek Windows CP-1253
 
-	// Set default language to English.
-	HB_LANGSELECT( "EN" )
+        // Set default language to English.
+        HB_LANGSELECT( "EN" )
 
         // Define the main window.
-	DEFINE WINDOW Win_1                  ;
-	  AT         0,0                    ;
-	  WIDTH      getdesktopWidth()      ;
-	  HEIGHT     getDeskTopHeight()-27  ;
-	  TITLE      "EDIT EXTENDED Demo"   ;
-	  MAIN                              ;
-	  NOMAXIMIZE                        ;
-	  NOSIZE                            ;
-	  ON INIT    OpenTable()            ;
-	  ON RELEASE CloseTable()           ;
-	  BACKCOLOR  GRAY
+        DEFINE WINDOW Win_1                  ;
+           TITLE      "EDIT EXTENDED Demo"   ;
+           MAIN                              ;
+           NOMAXIMIZE                        ;
+           NOSIZE                            ;
+           ON INIT    OpenTable()            ;
+           ON RELEASE CloseTable()           ;
+           BACKCOLOR  GRAY
 
-	  DEFINE MAIN MENU OF Win_1
-		  POPUP "DBF&NTX Demo"
-					 ITEM "&Simple EDIT EXTENDED test on DBFNTX driver"        ;
-								ACTION BasicDemo( "TEST2" )
-					 ITEM "&Advanced EDIT EXTENDED test on DBFNTX driver"      ;
-								ACTION AdvancedDemo( "TEST2" )
-		  END POPUP
-		  POPUP "&DBF&CDX Demo"
-					 ITEM "&Simple EDIT EXTENDED test on DBFCDX driver"        ;
-								ACTION BasicDemo( "TEST1" )
-					 ITEM "&Advanced EDIT EXTENDED test on DBFCDX driver"      ;
-								ACTION AdvancedDemo( "TEST1" )
-		  END POPUP
-		  POPUP "&Language"
-					 ITEM "&Select language"                                   ;
-								ACTION SelectLang()
-		  END POPUP
-		  POPUP "&Exit"
-					 ITEM "About EDIT EXTENDED demo"                           ;
-								ACTION About()
-					 SEPARATOR
-					 ITEM "&Exit demo"                                         ;
-								ACTION Win_1.Release
-		  END POPUP
-	  END MENU
+           DEFINE MAIN MENU OF Win_1
+              POPUP "DBF&NTX Demo"
+                      ITEM "&Simple EDIT EXTENDED test on DBFNTX driver"        ;
+                              ACTION BasicDemo( "TEST2" )
+                      ITEM "&Advanced EDIT EXTENDED test on DBFNTX driver"      ;
+                              ACTION AdvancedDemo( "TEST2" )
+              END POPUP
+              POPUP "&DBF&CDX Demo"
+                      ITEM "&Simple EDIT EXTENDED test on DBFCDX driver"        ;
+                              ACTION BasicDemo( "TEST1" )
+                      ITEM "&Advanced EDIT EXTENDED test on DBFCDX driver"      ;
+                              ACTION AdvancedDemo( "TEST1" )
+              END POPUP
+              POPUP "&Language"
+                      ITEM "&Select language"                                   ;
+                              ACTION SelectLang()
+              END POPUP
+              POPUP "&Exit"
+                      ITEM "About EDIT EXTENDED demo"                           ;
+                              ACTION About()
+                      SEPARATOR
+                      ITEM "&Exit demo"                                         ;
+                              ACTION Win_1.Release
+              END POPUP
+           END MENU
 
-	  DEFINE STATUSBAR FONT "ms sans serif" SIZE 9
-			STATUSITEM "HMG EDIT EXTENDED command demo"
-	  END STATUSBAR
+           DEFINE STATUSBAR FONT "ms sans serif" SIZE 9
+               STATUSITEM "HMG EDIT EXTENDED command demo"
+           END STATUSBAR
 
-	END WINDOW
+        END WINDOW
 
-	// Open window.
-	ACTIVATE WINDOW Win_1
+        // Open window.
+        ACTIVATE WINDOW Win_1
 
-	RETURN NIL
+return NIL
 
 
 
@@ -103,8 +98,7 @@ function Main()
  * Description: Open the database files and check the index files.
  *  Parameters: None
  *      Return: NIL
-***************************************************************************************
-*/
+****************************************************************************************/
 procedure OpenTable()
 
         // Open the TEST1 database file with the DBFCDX Driver.----------------
@@ -224,8 +218,7 @@ return
  * Description: Closes the active databases.
  *  Parameters: None
  *      Return: NIL
-***************************************************************************************
-*/
+****************************************************************************************/
 procedure CloseTable()
 
 //      CLOSE TEST1
@@ -246,8 +239,7 @@ return
  * Description: Run a basic demo (without parameters) of EDIT command.
  *  Parameters: [cArea]         Character. Name of the workarea.
  *      Return: NIL
-***************************************************************************************
-*/
+****************************************************************************************/
 procedure BasicDemo( cArea )
 
         // Basic demo of EDIT command.
@@ -268,8 +260,7 @@ return
  * Description: Runs a advanced demo of EDIT command with all parameters.
  *  Parameters: [cArea]         Character. Name of the workarea.
  *      Return: NIL
-***************************************************************************************
-*/
+****************************************************************************************/
 procedure AdvancedDemo( cArea )
 
         // Local variable declarations.----------------------------------------
@@ -328,8 +319,7 @@ return
  *  Parameters: [aValues]       Array. Values of the record.
  *              [lNew]          Logical. If .t. append mode, .f. edit mode.
  *      Return: lReturn         Logical. If .t. exit edit window, .f. stay in edit window.
-***************************************************************************************
-*/
+****************************************************************************************/
 function AdvancedSave( aValues, lNew, cArea )
 
         // Variable declaration.-----------------------------------------------
@@ -371,8 +361,7 @@ Return Year( dWhen ) - Year( dBirth ) - IIf( Right( DToS( dBirth ), 4 ) > Right(
  * Description: Select the [x]Harbour default language.
  *  Parameters: None
  *      Return: NIL
-***************************************************************************************
-*/
+****************************************************************************************/
 procedure SelectLang()
 
         LOCAL cMessage  := ""
@@ -382,7 +371,6 @@ procedure SelectLang()
                              "English"            ,;
                              "French"             ,;
                              "German"             ,;
-									  "Greek"              ,;
                              "Italian"            ,;
                              "Polish"             ,;
                              "Portuguese"         ,;
@@ -394,7 +382,6 @@ procedure SelectLang()
                              "EN"    ,;
                              "FR"    ,;
                              "DE"    ,;
-									  "ELWIN"    ,;
                              "IT"    ,;
                              "PLWIN" ,;
                              "PT"    ,;
@@ -430,8 +417,7 @@ return
  * Description: Select an item from an array of character items.
  *  Parameters: [acItems]       Array of character items.
  *      Return: [nItem]         Number of selected item.
-***************************************************************************************
-*/
+****************************************************************************************/
 function SelectItem( acItems, acLangs )
 
         // Local variable declarations.----------------------------------------
@@ -485,8 +471,7 @@ return ( nItem )
  * Description: Shows the about window.
  *  Parameters: None
  *      Return: NIL
-***************************************************************************************
-*/
+****************************************************************************************/
 procedure About()
 
         // Local variable declaration.-----------------------------------------

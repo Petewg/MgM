@@ -58,7 +58,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-// Virtual Key not defined in WinUser.h
+/* Virtual Key not defined in WinUser.h
 #define VK_ALT VK_MENU
 
 #define VK_0	48
@@ -98,7 +98,6 @@
 #define VK_Y	89
 #define VK_Z	90
 
-/*
 
 // Window Message Keyboard
 #define WM_CHAR 258
@@ -116,7 +115,6 @@
 #define UNICODE_NOCHAR  0xffff
 #define WM_HOTKEY 0x0312
 
-*/
 
 // Virtual Key
 #define VK_LBUTTON	1
@@ -125,6 +123,8 @@
 #define VK_MBUTTON	4
 #define VK_XBUTTON1	5
 #define VK_XBUTTON2	6
+*/
+
 #define VK_BACK	8
 #define VK_TAB	9
 #define VK_CLEAR	12
@@ -259,7 +259,7 @@
 
 
 // Mouse Key
-#define MK_LBUTTON	1
+//#define MK_LBUTTON	1
 #define MK_RBUTTON	2
 #define MK_SHIFT	4
 #define MK_CONTROL	8

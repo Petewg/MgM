@@ -1,0 +1,33 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN	ICON		MAIN.ICO
+OPEN		BITMAP		OPEN.BMP
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "File Splitter\000"
+		VALUE "FileVersion", "1.1.0.0"
+		VALUE "InternalName", "QuickSplit\000"
+		VALUE "LegalCopyright", "Copyright © 2006 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "QuickSplit.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

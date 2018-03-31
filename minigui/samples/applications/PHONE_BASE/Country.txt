@@ -1,0 +1,62 @@
+$   $ - symbol of comments in begin of string
+$   format of string
+$   country#capital#phone code
+
+Albania#Tirana#355 
+Andorra#Andorra#376
+Argentina#Buenos Aires#54
+Australia#Canberra#61
+Austria#Vienna#43
+Belarus#Minsk#375
+Belgium#Brussels#32
+Brazil#Brasilia#55
+Bulgaria#Sofia#359
+Canada#Ottawa#1204
+Chile#Santiago#56
+China#Beijing#86
+Croatia#Zagreb#384, 385
+Czech Rep#Prague#42, 420, 422, 424, 425, 426
+Egypt#Cairo#20
+England#London#44
+Estonia#Tallinn#372
+Finland#Helsinki#358
+France#Paris#33
+Germany#Berlin#49
+Greece#Athens#30
+Hollands#Amsterdam#31
+Hungary#Budapest#36
+Iceland#Reyjavik#354
+Ireland#Dublin#353
+Italy#Rome#39
+Japan#Tokyo#81
+Kazakhstan#Almati#7
+Latvia#Riga#371
+Liechtenstein#Vaduz#417, 423, 4175
+Lithuania#Vilnius#370
+Luxembourg#Luxembourg#352
+Macedonia#Skopje#389
+Malta#Valletta#356
+Moldova#Kishinev#373
+Monaco#Monaco#377
+Netherlands#Amsterdam#31
+Norway#Oslo#47
+Poland#Warsaw#48
+Portugal#Lisabon#351
+Romania#Bukharest#40
+Russia#Moscow#??
+Saudi Arabia#Riyadh#966
+Scotland#Edinburgh#???
+Slovakia#Bratislava#421, 427, 428, 429
+Slovenia#Ljubliana#386
+Spain#Madrid#34
+Sweden#Stockholm#46
+Switzerland#Bern#41
+Turkey#Ankara#90
+Ukraine#Kyiv#380
+United Kingdom#London#44
+USA#Washington D.C.#1
+USA#St. Minnesota#651
+USA#St. Flofida#727
+Vatican#City#??
+Wales#Cardiff#??
+Yugoslavia#Belgrade#381

@@ -1,0 +1,515 @@
+DEFINE WINDOW TEMPLATE AT 0,0 HEIGHT 233+IF(IsXPThemeActive(), 7, 0) WIDTH 334 TITLE "Settings" ICON "Main" MODAL ON RELEASE OnTopMain() FONT "MS Sans Serif" SIZE 9
+
+    DEFINE TAB TAB_1 AT 5,5 WIDTH 315 HEIGHT 165 VALUE 1 FONT "MS Sans Serif" SIZE 9 TOOLTIP Nil ON CHANGE Nil
+    
+        PAGE "General"
+        
+            DEFINE FRAME FRAME_1
+                ID Nil
+                COL 30
+                ROW 40
+                CAPTION "Save"
+                WIDTH 120
+                HEIGHT 85
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                OPAQUE .F.
+                TRANSPARENT .F.
+            END FRAME
+            
+            DEFINE CHECKBOX CHECKBOX_2
+                COL 55
+                ROW 65
+                WIDTH 76
+                HEIGHT 19
+                VALUE .F.
+                CAPTION "Position"
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                TABSTOP .T.
+                TRANSPARENT .F.
+                VISIBLE .T.
+                LEFTJUSTIFY .F.
+                THREESTATE .F.
+            END CHECKBOX
+            
+            DEFINE CHECKBOX CHECKBOX_3
+                COL 55
+                ROW 90
+                WIDTH 76
+                HEIGHT 19
+                VALUE .F.
+                CAPTION "Size"
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                TABSTOP .T.
+                TRANSPARENT .F.
+                VISIBLE .T.
+                LEFTJUSTIFY .F.
+                THREESTATE .F.
+            END CHECKBOX
+            
+            DEFINE CHECKBOX CHECKBOX_4
+                COL 190
+                ROW 65
+                WIDTH 100
+                HEIGHT 20
+                VALUE .F.
+                CAPTION "Always on top"
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                TABSTOP .T.
+                TRANSPARENT .F.
+                VISIBLE .T.
+                LEFTJUSTIFY .F.
+                THREESTATE .F.
+            END CHECKBOX
+            
+            DEFINE CHECKBOX CHECKBOX_5
+                COL 190
+                ROW 90
+                WIDTH 96
+                HEIGHT 19
+                VALUE .F.
+                CAPTION "Sort files"
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                TABSTOP .T.
+                TRANSPARENT .F.
+                VISIBLE .T.
+                LEFTJUSTIFY .F.
+                THREESTATE .F.
+            END CHECKBOX
+            
+        END PAGE
+        
+        PAGE "SMTP Server"
+        
+            DEFINE LABEL LABEL_1
+                COL 18
+                ROW 44
+                VALUE "Information about mail server"
+                ACTION Nil
+                WIDTH 167
+                HEIGHT 16
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE LABEL LABEL_2
+                COL 18
+                ROW 74
+                VALUE "Server name (or IP)"
+                ACTION Nil
+                WIDTH 112
+                HEIGHT 14
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE TEXTBOX TEXTBOX_1
+                COL 18
+                ROW 95
+                WIDTH 162
+                HEIGHT 21
+                VALUE Nil
+                READONLY .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                PASSWORD .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                INPUTMASK Nil
+                FORMAT Nil
+                MAXLENGTH Nil
+                UPPERCASE .F.
+                LOWERCASE .F.
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                ONENTER Nil
+                RIGHTALIGN .F.
+                VISIBLE .T.
+                TABSTOP .T.
+                HELPID Nil
+            END TEXTBOX
+            
+            DEFINE LABEL LABEL_3
+                COL 205
+                ROW 74
+                VALUE "Port"
+                ACTION Nil
+                WIDTH 47
+                HEIGHT 16
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE TEXTBOX TEXTBOX_2
+                COL 205
+                ROW 95
+                WIDTH 59
+                HEIGHT 21
+                VALUE "25"
+                READONLY .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                PASSWORD .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                INPUTMASK Nil
+                FORMAT Nil
+                MAXLENGTH Nil
+                UPPERCASE .F.
+                LOWERCASE .F.
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                ONENTER Nil
+                RIGHTALIGN .F.
+                VISIBLE .T.
+                TABSTOP .T.
+                HELPID Nil
+            END TEXTBOX
+            
+        END PAGE
+        
+        PAGE "Mail address"
+        
+            DEFINE LABEL LABEL_4
+                COL 12
+                ROW 31
+                VALUE "This data will be used as the return address at the message's sending."
+                ACTION Nil
+                WIDTH 288
+                HEIGHT 29
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE LABEL LABEL_5
+                COL 12
+                ROW 68
+                VALUE "E-mail"
+                ACTION Nil
+                WIDTH 55
+                HEIGHT 12
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE TEXTBOX TEXTBOX_3
+                COL 12
+                ROW 88
+                WIDTH 278
+                HEIGHT 21
+                VALUE Nil
+                READONLY .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                PASSWORD .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                INPUTMASK Nil
+                FORMAT Nil
+                MAXLENGTH Nil
+                UPPERCASE .F.
+                LOWERCASE .F.
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                ONENTER Nil
+                RIGHTALIGN .F.
+                VISIBLE .T.
+                TABSTOP .T.
+                HELPID Nil
+            END TEXTBOX
+            
+            DEFINE LABEL LABEL_6
+                COL 12
+                ROW 113
+                VALUE "Password"
+                ACTION Nil
+                WIDTH 55
+                HEIGHT 12
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE TEXTBOX TEXTBOX_4
+                COL 12
+                ROW 130
+                WIDTH 278
+                HEIGHT 21
+                VALUE Nil
+                READONLY .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                PASSWORD .T.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                INPUTMASK Nil
+                FORMAT Nil
+                MAXLENGTH Nil
+                UPPERCASE .F.
+                LOWERCASE .F.
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                ONENTER Nil
+                RIGHTALIGN .F.
+                VISIBLE .T.
+                TABSTOP .T.
+                HELPID Nil
+            END TEXTBOX
+            
+        END PAGE
+        
+    END TAB
+
+    DEFINE BUTTON BUTTON_1
+        COL 166
+        ROW 177
+        WIDTH 74
+        HEIGHT 23
+        CAPTION "OK"
+        PICTURE Nil
+        ICON Nil
+        ACTION ( SaveConfig(), ThisWindow.Release )
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        TRANSPARENT .F.
+        TOOLTIP Nil
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTON
+
+    DEFINE BUTTON BUTTON_2
+        COL 246
+        ROW 177
+        WIDTH 74
+        HEIGHT 23
+        CAPTION "Cancel"
+        PICTURE Nil
+        ICON Nil
+        ACTION ThisWindow.Release
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        TRANSPARENT .F.
+        TOOLTIP Nil
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTON
+
+    DEFINE CHECKBOX CHECKBOX_1
+        COL 6
+        ROW 180
+        WIDTH 160
+        HEIGHT 15
+        VALUE .F.
+        CAPTION "Save at application's close"
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        TRANSPARENT .F.
+        VISIBLE .T.
+        LEFTJUSTIFY .F.
+        THREESTATE .F.
+    END CHECKBOX
+
+    ON KEY RETURN ACTION Config.BUTTON_1.OnClick
+    ON KEY ESCAPE ACTION ThisWindow.Release
+
+END WINDOW
+

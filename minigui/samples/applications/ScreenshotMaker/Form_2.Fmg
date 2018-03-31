@@ -1,0 +1,349 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2005 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 132 , 235 WIDTH 738 HEIGHT 350 TITLE PROGRAM + " Options" ICON "MAIN" MODAL NOSIZE CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON PAINT Nil BACKCOLOR Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE FRAME Frame_1
+        ROW    10
+        COL    10
+        WIDTH  710
+        HEIGHT 200
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION NIL
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE FRAME Frame_2
+        ROW    225
+        COL    10
+        WIDTH  710
+        HEIGHT 85
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION NIL
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE LABEL Label_1
+        ROW    40
+        COL    30
+        WIDTH  150
+        HEIGHT 30
+        VALUE "2 snapshots per minutes"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE LABEL Label_2
+        ROW    100
+        COL    30
+        WIDTH  120
+        HEIGHT 24
+        VALUE "Save to folder"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE LABEL Label_3
+        ROW    140
+        COL    30
+        WIDTH  120
+        HEIGHT 24
+        VALUE "Filename"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE SLIDER Slider_1
+        ROW    38
+        COL    200
+        WIDTH  500
+        HEIGHT 30
+        RANGEMIN 1
+        RANGEMAX 60
+        VALUE nShotInterval
+        TOOLTIP ""
+        ONCHANGE ( nShotInterval := Form_2.Slider_1.Value, ;
+		Form_2.Label_1.Value := ltrim(str(nShotInterval)) + right(Form_2.Label_1.Value, 22) )
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        BACKCOLOR NIL
+    END SLIDER
+
+    DEFINE TEXTBOX Text_1
+        ROW    100
+        COL    200
+        WIDTH  390
+        HEIGHT 20
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE ( cSaveFolder := Form_2.Text_1.Value, ;
+		cSaveFolder := IF( Right(cSaveFolder, 1) == "\", cSaveFolder, cSaveFolder + "\" ) )
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE cSaveFolder
+    END TEXTBOX
+
+    DEFINE BUTTON Button_1
+        ROW    98
+        COL    600
+        WIDTH  100
+        HEIGHT 24
+        CAPTION "Select..."
+        ACTION if( Empty( cTmpFld := GetFolder("Select folder for the screenshots:", Left(cSaveFolder, Len(cSaveFolder) - 1)) ), , ;
+			( cSaveFolder := Upper(cTmpFld) + "\", Form_2.Text_1.Value := cSaveFolder ) )
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE TEXTBOX Text_2
+        ROW    140
+        COL    200
+        WIDTH  500
+        HEIGHT 20
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE cFilename := Strtran(Form_2.Text_2.Value, ":\/?*", "")
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE cFilename
+    END TEXTBOX
+
+    DEFINE CHECKBOX Check_1
+        ROW    180
+        COL    200
+        WIDTH  500
+        HEIGHT 20
+        CAPTION "Make screenshots by clicking left mouse button on tray icon only"
+        VALUE lMouseClick
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE lMouseClick := Form_2.Check_1.Value
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE BUTTON Button_2
+        ROW    245
+        COL    360
+        WIDTH  150
+        HEIGHT 45
+        CAPTION "Start"
+        ACTION IF(lMouseClick, , StartTimer())
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE BUTTON Button_3
+        ROW    245
+        COL    530
+        WIDTH  150
+        HEIGHT 45
+        CAPTION "Stop shoting"
+        ACTION IF(lMouseClick, , StopTimer())
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE LABEL Label_4
+        ROW    240
+        COL    50
+        WIDTH  260
+        HEIGHT 18
+        VALUE "Author: Grigory Filatov"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        CENTERALIGN .T. 
+    END LABEL
+
+    DEFINE LABEL Label_5
+        ROW    280
+        COL    50
+        WIDTH  260
+        HEIGHT 18
+        VALUE "Harbour MiniGUI Utility"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        CENTERALIGN .T. 
+    END LABEL
+
+    DEFINE HYPERLINK HyperLink_1
+        ROW    260
+        COL    65
+        WIDTH  260
+        HEIGHT 18
+        VALUE "http://harbourminigui.googlepages.com"
+        ADDRESS "http://harbourminigui.googlepages.com"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        AUTOSIZE .F.
+        HELPID Nil
+        VISIBLE .T.
+        HANDCURSOR .T.
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+    END HYPERLINK
+
+    ON KEY ESCAPE ACTION Form_2.Release
+
+END WINDOW
+

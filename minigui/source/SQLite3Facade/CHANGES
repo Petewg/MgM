@@ -1,0 +1,19 @@
+=========================
+SQLite3Facade for Harbour
+=========================
+
+CHANGES
+=======
+
+More recent changes on top.
+
+Version 0.2
+-----------
+
+[2013-june-04] Version 0.2 released. All tests are passed using Harbour 3.2.0dev.
+Updated June 2013, Added some extra functions, R.Visscher
+
+Version 0.1
+-----------
+
+[2011-may-05] Version 0.1 released. All tests are passed using Harbour 2.1.0dev.

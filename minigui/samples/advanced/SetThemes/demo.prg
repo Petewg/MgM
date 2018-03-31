@@ -366,7 +366,7 @@ RETURN Nil
 
 * HMG 1.0 Experimental Build 9a (JK)
 * (C) 2005 Jacek Kubica <kubica@wssk.wroc.pl>
-/*
+
 FUNCTION OwnButtonPaint(  pdis )	// modified
 ********************************
 Local hDC, itemState, itemAction, i, rgbTrans, hWnd, lFlat, lNotrans
@@ -679,10 +679,10 @@ Local nCRLF, lXPThemeActive := .f.
    SetTextColor( hDC, oldTextColor )
 
 Return ( 1 )
-*/
+
 Static Function CountIt(cText)
 ******************************
-  Local nPoz, nCount := 0
+  Local nPoz := 1, nCount := 0
 
   IF At(CRLF, cText) > 0
     DO WHILE .T.
@@ -714,7 +714,7 @@ Return nCount
 // Syntax:
 // Local cPS
 // BeginPaint( hWnd, @cPS) -> hDC
-/*
+
 HB_FUNC( BEGINPAINT )
 {
    PAINTSTRUCT pps ;
@@ -731,7 +731,7 @@ HB_FUNC( ENDPAINT )
 {
    hb_retl( EndPaint( (HWND) hb_parnl( 1 ), (PAINTSTRUCT*) hb_parcx( 2 ) ) );
 }
-*/
+
 #ifdef __XHARBOUR__
 #define HB_PARNI( n, x ) hb_parni( n, x )
 #else

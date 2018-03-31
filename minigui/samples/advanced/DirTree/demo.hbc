@@ -1,4 +1,4 @@
 incpaths=
 libpaths=
 libs=ziparchive
-{win}libs=cw32
+{win}libs=cw32

@@ -1,0 +1,42 @@
+#define ICON_1 1001
+
+ICON_1 ICON res\ssaver.ico
+
+WIZARD BITMAP res\wizard.bmp
+DISPLAY BITMAP res\display.bmp
+BITMAP BITMAP res\bitmap.bmp
+TICK BITMAP res\tick.bmp
+
+ABOUT BITMAP res\about.bmp
+SAVE BITMAP res\save.bmp
+CANCEL BITMAP res\cancel.bmp
+DUMMY BITMAP res\dummy.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,0,1,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Phantom Desktop Screen Saver\000"
+		VALUE "FileVersion", "1.0.1.0"
+		VALUE "InternalName", "PhantomDesktop\000"
+		VALUE "LegalCopyright", "Copyright © 2003-2006 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "PhantomDesktop.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

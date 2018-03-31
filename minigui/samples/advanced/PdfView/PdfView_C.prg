@@ -17,21 +17,6 @@ HB_FUNC ( ENABLEWINDOWREDRAW )
        RedrawWindow (hWnd, NULL, NULL, RDW_ERASE | RDW_FRAME | RDW_INVALIDATE | RDW_ALLCHILDREN);
 }
 
-//       ListView_ChangeExtendedStyle ( hWnd, [ nAddStyle ], [ nRemoveStyle ] )
-HB_FUNC( LISTVIEW_CHANGEEXTENDEDSTYLE )
-{
-   HWND  hWnd = (HWND) HB_PARNL( 1 );
-   DWORD Add = (DWORD) hb_parnl( 2 );
-   DWORD Remove = (DWORD) hb_parnl( 3 );
-   DWORD OldStyle, NewStyle, Style;
-
-   OldStyle = ListView_GetExtendedListViewStyle( hWnd );
-   NewStyle = ( OldStyle | Add) & ( ~Remove );
-   Style = ListView_SetExtendedListViewStyle( hWnd, NewStyle );
-
-   hb_retnl ((LONG) Style);
-}
-
 //        HMG_GetCursorPos ( [ hWnd ], @nRow, @nCol ) --> return { nRow, nCol }
 HB_FUNC ( HMG_GETCURSORPOS )
 {
@@ -125,7 +110,6 @@ HB_FUNC( GETWINDOWNORMALPOS )
   hb_storvni(wp.rcNormalPosition.bottom, -1, 4);
 }
 
-
        //SetMinMaxTrackSize(lParam, nMinX, nMinY, nMaxX, nMaxY)
 HB_FUNC( SETMINMAXTRACKSIZE )
 {
@@ -141,7 +125,6 @@ HB_FUNC( SETMINMAXTRACKSIZE )
     MinMax->ptMaxTrackSize.y = hb_parni(5);
 }
 
-
        //lParam form WM_LBUTTON*, WM_MBUTTON*, WM_RBUTTON* messages
        //Tab_HitTest(hWnd, lParam)
 HB_FUNC( TAB_HITTEST )
@@ -155,7 +138,6 @@ HB_FUNC( TAB_HITTEST )
   hb_retni(TabCtrl_HitTest((HWND) HB_PARNL(1), &tchti) + 1);
 }
 
-
        //TrackPopupMenu2(nHMenu, nFlags, nRow, nCol, nHWnd)
 HB_FUNC( TRACKPOPUPMENU2 )
 {
@@ -167,7 +149,6 @@ HB_FUNC( TRACKPOPUPMENU2 )
                           (HWND)  HB_PARNL(5),
                           NULL));
 }
-
 
        //PaintSizeGrip(nHWnd)
 HB_FUNC( PAINTSIZEGRIP )
@@ -192,7 +173,6 @@ HB_FUNC( PAINTSIZEGRIP )
   }
 }
 
-
        //Send_WM_COPYDATA(nHWnd, nAction, cText)
 HB_FUNC( SEND_WM_COPYDATA )
 {
@@ -205,7 +185,6 @@ HB_FUNC( SEND_WM_COPYDATA )
 
   SendMessageTimeout((HWND) HB_PARNL(1), WM_COPYDATA, (WPARAM) NULL, (LPARAM) &cds, 0, 5000, NULL);
 }
-
 
        //GetCopyDataAction(pCDS)
 HB_FUNC( GETCOPYDATAACTION )
@@ -224,17 +203,6 @@ HB_FUNC( GETCOPYDATASTRING )
     hb_retc(pCDS->lpData);
   else
     hb_retc(pCDS->lpData);
-}
-
-
-       //ChangeWindowMessageFilter(nHWnd, nMsg, nAction)
-HB_FUNC( CHANGEWINDOWMESSAGEFILTER )
-{
-#if WINVER == 0x0600
-  ChangeWindowMessageFilter((UINT) hb_parnl(2), (DWORD) hb_parnl(3));
-#elif WINVER >= 0x0601
-  ChangeWindowMessageFilterEx((HWND) HB_PARNL(1), (UINT) hb_parnl(2), (DWORD) hb_parnl(3), NULL);
-#endif
 }
 
 #pragma ENDDUMP

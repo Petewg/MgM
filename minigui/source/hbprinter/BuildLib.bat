@@ -1,15 +1,10 @@
 @echo off
+@setlocal
 
-@CALL %~d0\MiniguiM\batch\setpaths.bat
+SET HMGPATH=c:\minigui
 
-hbmk2 winprint.hbp 2> build.log
-if errorlevel 1 goto Err
-if errorlevel 0 if not errorlevel 1 del build.log
-Goto End
-:Err
-start build.log
+SET PATH=%HMGPATH%\harbour\bin;c:\borland\bcc55\bin;%PATH%
 
-:End
+hbmk2 winprint.hbp > build.log 2>&1
 
-
-
+@endlocal

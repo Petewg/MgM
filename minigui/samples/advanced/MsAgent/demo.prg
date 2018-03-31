@@ -105,10 +105,7 @@ Function Main()
        DEFINE POPUP "Opciones"
 
          ITEM "Mostrar un Texto" ;
-         ACTION oAgent:Say( "Hola, yo soy "+oAgent:GetName()+", Estoy funcionando bajo la Clase TMsAgent v1.3! Es fabulosa!" ) 
-
-         ITEM "Επίδειξη κειμένου" ;
-         ACTION oAgent:Say( "Γεια χαρά!, είμαι ο " + oAgent:GetName() + ", Λειτουργώ μέσα από την κλάση TMsAgent v1.3! Είναι υπέροχο!" ) 
+         ACTION oAgent:Say( "Hola, yo soy "+oAgent:GetName()+", Estoy funcionando bajo la Clase TMsAgent v1.3! Es fabulosa!" )
 
          DEFINE POPUP "Cambiando tipos de letra"
 

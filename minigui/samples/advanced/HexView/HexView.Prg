@@ -194,7 +194,7 @@ PROC OpenFile()
                     FIELDPUT( nFldNum, PADL(NTOC( ASC( SUBS( c1Line, nFldNum-1, 1 ) ), 16 ),2,"0") )
                 NEXT nFldNum
                 frmHVMain.pbrPBar1.Value := nFPntr * 100 / nFilSize
-                DoEvents()
+                DO EVENTS
             NEXT nFPntr
             
             frmHVMain.pbrPBar1.Hide

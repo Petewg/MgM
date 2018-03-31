@@ -1,0 +1,65 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds inside EXE.
+//
+//Resource 	Resource    Resource
+//Name		Type	    FileName
+//
+1MAIN_ICO       ICON         res1\1MiniGui.ico   
+
+LOGO128         PNG          res2\MiniGuiLogo.png
+Harbour         JPG          res2\harbour.jpg
+SOUND48         BITMAP       res2\sound48.bmp
+DBase48         ICON         res1\Dbase48x0.ico
+
+zmk01           ICON         res1\zmk01.ico
+zmk02           ICON         res1\zmk02.ico
+zmk03           ICON         res1\zmk03.ico
+zmk04           ICON         res1\zmk04.ico
+zmk05           ICON         res1\zmk05.ico
+zmk06           ICON         res1\zmk06.ico
+zmk07           ICON         res1\zmk07.ico
+zmk08           ICON         res1\zmk08.ico
+
+Exit48x1        ICON         res1\Exit48x1.ico
+Exit48x2        ICON         res1\Exit48x2.ico
+              
+ZIPAVI          AVI          res3\a_compress.avi
+QUARTER         WAVE         res3\Quarter.wav
+GRABBED32       CURSOR	     res3\Grabbed32x32.cur
+HAND32	        CURSOR	     res3\hand32x32.cur
+
+// -------------- put the files in resources --------------
+Readme_htm      RT_HTML      res4\Readme.htm 
+readme_html     CUSTOM       res4\readme.html
+test_dbf        CUSTOM       res4\test.dbf     
+
+
+1 VERSIONINFO
+FILEVERSION 1,0
+PRODUCTVERSION 1,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+  BLOCK "040904b0"
+  {
+    VALUE "FileDescription" , "The test program MiniGui\000"
+    VALUE "FileVersion"     , "1.0.0."
+    VALUE "InternalName"    , "Demo.exe\000"
+    VALUE "LegalCopyright"  , "(c) Copyright 2017 Verchenko Andrey (Dmitrov)\000"
+    VALUE "LegalTrademarks" , "Harbour + MiniGui\000"
+    VALUE "OriginalFilename", "Demo.exe\000"
+    VALUE "CompanyName"     , "V-Soft Dmitrov, Moscow region\000"
+    VALUE "ProductName"     , "MiniGui test programm\000"
+    VALUE "ProductVersion"  , "1.0.0."
+    VALUE "Comments"        , "Created by Verchenko Andrey <verchenkoag@gmail.com>\000"
+  }
+}
+
+BLOCK "VarFileInfo"
+{
+  VALUE "Translation", 0x0409 0x04B0
+}
+}
+
+

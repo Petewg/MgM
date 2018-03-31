@@ -54,14 +54,14 @@ FUNCTION Main()
 			PROGID "Preview.Preview.1"
 		END ACTIVEX
 
-		ON KEY DOWN ACTION Win1.Test.Object:Zoom(-1)
-		ON KEY UP ACTION Win1.Test.Object:Zoom(1)
+		ON KEY DOWN ACTION Win1.Test.XObject:Zoom(-1)
+		ON KEY UP ACTION Win1.Test.XObject:Zoom(1)
 		ON KEY LEFT ACTION PreviousImage()
 		ON KEY RIGHT ACTION NextImage()
 
 	END WINDOW
 
-	Win1.Test.Object:Showfile( GetStartUpFolder() + "\" + aFiles[nCurrent][1], 1 )
+	Win1.Test.XObject:Showfile( GetStartUpFolder() + "\" + aFiles[nCurrent][1], 1 )
 
 	Center Window Win1
 
@@ -78,7 +78,7 @@ PROCEDURE PreviousImage
 		nCurrent := nLen
 	ENDIF
 
-	Win1.Test.Object:Showfile( GetStartUpFolder() + "\" + aFiles[nCurrent][1], 1 )
+	Win1.Test.XObject:Showfile( GetStartUpFolder() + "\" + aFiles[nCurrent][1], 1 )
 
 RETURN
 
@@ -91,14 +91,14 @@ PROCEDURE NextImage
 		nCurrent := 1
 	ENDIF
 
-	Win1.Test.Object:Showfile( GetStartUpFolder() + "\" + aFiles[nCurrent][1], 1 )
+	Win1.Test.XObject:Showfile( GetStartUpFolder() + "\" + aFiles[nCurrent][1], 1 )
 
 RETURN
 
 
 Procedure Test()
 
-	Win1.Test.Object:Showfile( "c:\minigui\samples\advanced\bmpviewer\bmps\HateComp.bmp", 1 )
+	Win1.Test.XObject:Showfile( "c:\minigui\samples\advanced\bmpviewer\bmps\HateComp.bmp", 1 )
 
 Return
 

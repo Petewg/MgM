@@ -1,0 +1,45 @@
+MAINICON ICON DISPLAY.ICO
+
+ACT BITMAP active.bmp
+DEACT BITMAP deactive.bmp
+OPEN BITMAP open.bmp
+TRASH BITMAP trash.bmp
+UP BITMAP up.bmp
+DOWN BITMAP down.bmp
+
+CHECK BITMAP check.bmp
+UNCHECK BITMAP uncheck.bmp
+BLACKBOX BITMAP blackbox.bmp
+
+TOOLS BITMAP tools.bmp
+OK BITMAP ok.bmp
+CANCEL BITMAP cancel.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,5,4,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Desktop Wallpaper Changer\000"
+		VALUE "FileVersion", "1.5.4.0"
+		VALUE "InternalName", "DesktopChanger\000"
+		VALUE "LegalCopyright", "Freeware 2003-2007\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "DesktopChanger.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

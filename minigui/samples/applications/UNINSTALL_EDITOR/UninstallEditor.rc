@@ -1,0 +1,46 @@
+#define IDI_MAIN	1001
+
+IDI_MAIN	ICON	res\uninstall.ico
+
+HARBOUR		GIF	res\harbour.gif
+
+UNINSTALL	BITMAP	res\uninstall.bmp
+
+UNINSTALLNT	BITMAP	res\uninstallNT.bmp
+
+UNINSTALLXP	BITMAP	res\uninstallXP.bmp
+
+OPEN		BITMAP	res\open.bmp
+
+OK		BITMAP	res\br_ok.bmp
+
+NO		BITMAP	res\br_no.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,4,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Uninstall Editor for Win9x/NT\000"
+		VALUE "FileVersion", "1.4.0.0"
+		VALUE "InternalName", "UninstallEditor\000"
+		VALUE "LegalCopyright", "Freeware 2003-2006\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "UninstallEditor.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409, 0x04B0
+}
+}

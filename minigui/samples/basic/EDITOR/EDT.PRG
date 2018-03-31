@@ -13,7 +13,7 @@
 
 ANNOUNCE RDDSYS
 
-#include "hmg.ch"
+#include "minigui.ch"
 #include "winprint.ch"
 
 #define _CERRADO 0
@@ -499,48 +499,6 @@ Function _SetFontCharset ( ControlName, ParentForm , Value  )
    au := _HMG_aControlFontAttributes [i] [3]
    as := _HMG_aControlFontAttributes [i] [4]
 
-   // _HMG_aControlFontHandle [i] := SetFontNameSize ( h , n , s , ab , ai , au , as , 0, Value )
-   
    _HMG_aControlFontHandle [i] := _SetFont ( h , n , s , ab , ai , au , as , 0, Value )
 
 Return Nil
-
-#pragma begindump
-
-#include <windows.h>
-#include "hbapi.h"
-HB_FUNC( SETFONTNAMESIZE )
-{
-   HFONT font;
-   int bold = FW_NORMAL;
-   int italic = 0;
-   int underline = 0;
-   int strikeout = 0;
-   int angle = 0;
-   DWORD charset = DEFAULT_CHARSET;
-
-   if( hb_parl(4) )
-      bold = FW_BOLD;
-
-   if( hb_parl(5) )
-      italic = 1;
-
-   if( hb_parl(6) )
-      underline = 1;
-
-   if( hb_parl(7) )
-      strikeout = 1;
-
-   if( hb_parni(8) )
-      angle = hb_parni( 8 );
-
-   if( hb_parni(9) )
-      charset = hb_parni( 9 );
-
-   font = PrepareFont( ( char * ) hb_parc(2), ( LPARAM ) hb_parni(3), bold, italic, underline, strikeout, angle, charset );
-
-   SendMessage( ( HWND ) hb_parnl(1), ( UINT ) WM_SETFONT, ( WPARAM ) font, 1 );
-
-   hb_retnl( ( LONG ) font );
-}
-#pragma enddump

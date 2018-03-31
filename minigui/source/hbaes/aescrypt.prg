@@ -23,7 +23,7 @@ function EncryptFileAES( cFileIn, cFileOut, cPassword )
       return .f.
    endif
    
-   if CryptFileAES( cFileIn, cFileOut, cPassword, nMode ) == 1  // nMode 0=crypt 1=decrypt
+   if CryptFileAES( cFileIn, cFileOut, cPassword, nMode ) == 1
       msgstop( 'Destination file can not be created successfully!' )
       return .f.
    endif

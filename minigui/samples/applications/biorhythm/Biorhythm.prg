@@ -155,16 +155,11 @@ PROCEDURE Main()
   SelectLanguage()
      
   LOAD WINDOW Biorhythm AS oBiorhythm
-  
-  ON KEY ESCAPE OF oBiorhythm ACTION { || oBiorhythm.Release} 
-  ON KEY F1 OF oBiorhythm ACTION DISPLAY HELP MAIN 
-  ON KEY F2 OF oBiorhythm ACTION { || oBiorhythm.Center }
 
   Begin()
   ShowCycles()
 
   CENTER WINDOW oBiorhythm
-  
   ACTIVATE WINDOW oBiorhythm
 
 RETURN

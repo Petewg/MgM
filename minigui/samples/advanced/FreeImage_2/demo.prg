@@ -323,35 +323,3 @@ ReleaseDC( Application.Handle, hDC )
 Return
 
 ****** End of ShowRes ******
-
-// FUNCTION FI_Unload( nHandleImg )
-// RETURN NIL
-
-#pragma BEGINDUMP
-
-#include <windows.h>
-
-#include "hbapi.h"
-
-// HDC BeginPaint( HWND hwnd, LPPAINTSTRUCT lpPaint );
-// Syntax:
-// Local cPS
-// BeginPaint( hWnd, @cPS) -> hDC
-
-HB_FUNC( BEGINPAINT )
-{
-   PAINTSTRUCT pps ;
-   hb_retnl( (LONG) BeginPaint( (HWND) hb_parnl( 1 ), &pps ) ) ;
-   hb_storclen( (char *) &pps, sizeof(PAINTSTRUCT), 2 );
-}
-
-// BOOL EndPaint(  HWND hWnd, CONST PAINTSTRUCT *lpPaint );
-// Syntax:
-// EndPaint( hWnd, cPS ) -> lSuccess
-
-HB_FUNC( ENDPAINT )
-{
-   hb_retl( EndPaint( (HWND) hb_parnl( 1 ), (PAINTSTRUCT*) hb_parcx( 2 ) ) );
-}
-
-#pragma ENDDUMP

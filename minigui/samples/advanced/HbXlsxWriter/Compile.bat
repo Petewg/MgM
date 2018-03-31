@@ -1,0 +1,1 @@
+call ..\..\..\batch\compile.bat demo /CG /LE hbxlsxwriter /LE xlsxwriter /S -i. %*

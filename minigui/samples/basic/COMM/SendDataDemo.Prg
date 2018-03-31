@@ -10,12 +10,12 @@
 Function Main
 
 	Set StationName To 'Roberto_Station'
-	Set CommPath 	To hb_DirTemp()
+	Set CommPath 	To 'C:\'
 
 	DEFINE WINDOW Form_0 ;
-		AT 0, 0 ;
-		WIDTH 360 HEIGHT 480 ;
-		TITLE 'MiniGUI Communications Demo  - SEND DATA STATION' ;
+		AT 0,0 ;
+		WIDTH 640 HEIGHT 480 ;
+		TITLE 'MiniGUI Communications Demo' ;
 		ICON 'DEMO.ICO' ;
 		MAIN ;
 		FONT 'Arial' SIZE 10 
@@ -29,32 +29,10 @@ Function Main
 				ITEM 'About'		ACTION MsgInfo ("MiniGUI Communications Demo") 
 			END POPUP
 		END MENU
-		
-		DEFINE BUTTON Button_1
-			COL 50
-			ROW 200
-			WIDTH 250
-			HEIGHT 40
-			CAPTION ">>> Send Data >>>"
-			ACTION SendTest()
-			FONTNAME "COURIER NEW"
-			FONTSIZE 14
-			FONTBOLD .T.
-			FONTITALIC .F.
-			FONTUNDERLINE .F.
-			FONTSTRIKEOUT .F.
-			FONTCOLOR {000,000,255}
-			ONGOTFOCUS NIL
-			ONLOSTFOCUS NIL
-			HELPID NIL
-			FLAT .T.
-			NOTABSTOP .F.
-			TRANSPARENT .T.
-		END BUTTON
 
 	END WINDOW
 
-	// CENTER WINDOW Form_0
+	CENTER WINDOW Form_0
 
 	ACTIVATE WINDOW Form_0
 
@@ -71,8 +49,6 @@ Local aData := {} , aMultiData := {}
 	aAdd ( aMultiData , {'Peter','Gomez','543-8372'} )
 	aAdd ( aMultiData , {'Albert','Anderson','854-8273'} )
 
-	SendData ( 'John_Station' , "# Start of transmission #" + hb_EoL() )
-	
 	SendData ( 'John_Station' , 100 )
 
 	SendData ( 'John_Station' , Date() )
@@ -84,7 +60,5 @@ Local aData := {} , aMultiData := {}
 	SendData ( 'John_Station' , aData )
 
 	SendData ( 'John_Station' , aMultiData )
-	
-	SendData ( 'John_Station' , "# End of transmission #" + hb_EoL() )
 
 Return

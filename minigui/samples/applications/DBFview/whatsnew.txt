@@ -1,0 +1,22 @@
+
+2006/03/05: 
+* updated - userfun.prg - for compatibility with Harbour Compiler Alpha binary (CVS 2006-03-02 18:00)
+  Contributed by Jacek Kubica <kubica@wssk.wroc.pl>
+
+2005/03/30: DBFview v.0.77 Published.
+  Thanks to Rene Koot <rene@plantenkennis.com> for bugreport
+* ! fixed - If there is a space in the path (like C:\My Documents\test.dbf) DBFView can't open it.
+* ! fixed - incorrect open error processing
+* ! fixed - alias problem if there is a space in the database name
+
+2005/03/28: DBFview v.0.76 Published.
+  Thanks to Jacek Kubica <kubica@wssk.wroc.pl> for his great contribution:
+* + new - IPC (interprocess communication)
+    to open many databases in one DBFView instance while using DBFView as default dbf reader in the system
+  ! fixed - changed AT to RAT function while extracting dbf name with underline symbol in the name
+  ! modified - size of some labels (checkboxes) in search/replace window for language translations
+* + codepage support for Spanish and German languages
+* + German language translation. Contributed by Christian Lauer <clauer@netzw.de>
+* ! modified - export to clipper prg file. Based upon a contribution by Jacek Kubica <kubica@wssk.wroc.pl>
+* ! modified - use help file in format CHM. Contributed by Janusz Pora <soft_design@poczta.onet.pl>
+* ! fixed - statusbar information about zero record after zapping of database

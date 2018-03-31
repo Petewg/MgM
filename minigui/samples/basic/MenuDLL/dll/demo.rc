@@ -1,0 +1,20 @@
+#include "..\demo.ch" 
+
+MainMenu MENU
+{
+   POPUP "&Character"
+   {
+      MENUITEM    "&Regular\tF5",         IDM_REGULAR
+      MENUITEM    "&Bold\tCtrl+B",        IDM_BOLD
+      MENUITEM    "&Italic\tCtrl+I",      IDM_ITALIC
+      MENUITEM    "&Underline\tCtrl+U",   IDM_ULINE
+   }
+}
+
+FontAccel ACCELERATORS
+{
+   VK_F5,  IDM_REGULAR,    VIRTKEY
+   "B",    IDM_BOLD,       CONTROL, VIRTKEY
+   "I",    IDM_ITALIC,     CONTROL, VIRTKEY
+   "U",    IDM_ULINE,      CONTROL, VIRTKEY
+}

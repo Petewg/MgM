@@ -786,6 +786,8 @@ CLASS TSBrowse FROM TControl
 
    METHOD GetColumn( nCol )
 
+   METHOD AdjColumns( aColumns, nDelta )
+
    METHOD GetDlgCode( nLastKey )
 
    METHOD GetRealPos( nRelPos )
@@ -1022,6 +1024,10 @@ CLASS TSBrowse FROM TControl
 
    METHOD GetCellInfo( nRowPos, nCell, lColSpecHd )  //BK
 
+   METHOD GetValue( xCol )         INLINE ( xCol := hb_defaultValue(xCol, ::nCell), ;
+                                            EVal( ::GetColumn(xCol):bData ) )
+   METHOD SetValue( xCol, xVal )   INLINE ( xCol := hb_defaultValue(xCol, ::nCell), ;
+                                            EVal( ::SetColumn(xCol):bData, xVal ) )
 #ifdef __EXT_USERKEYS__
    METHOD UserKeys( nKey, bKey, lCtrl, lShift )  
 #endif
@@ -2354,6 +2360,10 @@ METHOD Destroy() CLASS TSBrowse
             AEval( ::aColumns[ i ]:aBitMaps, {|hBmp| If( Empty( hBmp ), , DeleteObject( hBmp ) ) } )
          EndIf
       Next
+   EndIf
+
+   If Valtype( ::aBitMaps ) == "A" .and. ! Empty( ::aBitMaps )
+      AEval( ::aBitMaps, {|hBmp| If( Empty( hBmp ), , DeleteObject( hBmp ) ) } )
    EndIf
 #ifndef _TSBFILTER7_
    If ::lFilterMode
@@ -4456,9 +4466,9 @@ METHOD Excel2( cFile, lActivate, hProgress, cTitle, lSave, bPrintRow ) CLASS TSB
    If ::hFont != Nil
       AAdd( aFont,  GetFontParam( ::hFont ) )
    Else
-      if ( hFont := GetFontHandle( ::cFont ) ) != 0
+      If ( hFont := GetFontHandle( ::cFont ) ) != 0
          AAdd( aFont, GetFontParam( hFont ) )
-      endif
+      EndIf
    EndIf
 
    For nCol := 1 To Len( ::aColumns )
@@ -4561,9 +4571,14 @@ METHOD Excel2( cFile, lActivate, hProgress, cTitle, lSave, bPrintRow ) CLASS TSB
             nFont  := AScan( aFont, {|e| e[ 1 ] == aFontTmp[ 1 ] .and. e[ 2 ] == aFontTmp[ 2 ] .and. ;
                              e[ 3 ] == aFontTmp[ 3 ] .and. e[ 4 ] == aFontTmp[ 4 ] .and. ;
                              e[ 5 ] == aFontTmp[ 5 ] .and. e[ 6 ] == aFontTmp[ 6 ] } )
+            // set Row Height
+            FWrite( nHandle, BiffRec( 37, ::nHeightCell * If( ::nHeightCell < 30, 20, 14 ) ) )
             FWrite( nHandle, BiffRec( 4, cTitle, 0, 0,, nAlign,, Max( 0, nFont - 1 ) ) )
             nLine := 3
          EndIf
+
+         // set Row Height
+         FWrite( nHandle, BiffRec( 37, ::nHeightHead * If( ::nHeightHead < 30, 20, 14 ) ) )
 
          For nCol := 1 To Len( ::aColumns )
 
@@ -4612,6 +4627,11 @@ METHOD Excel2( cFile, lActivate, hProgress, cTitle, lSave, bPrintRow ) CLASS TSB
          Loop
       EndIf
 
+      If nRow == 2
+         // set Row Height
+         FWrite( nHandle, BiffRec( 37, ::nHeightCell * If( ::nHeightCell < 30, 20, 14 ) ) )
+      EndIf
+
       For nCol := 1 To Len( ::aColumns )
 
          If ::aColumns[ nCol ]:lBitMap
@@ -4629,12 +4649,12 @@ METHOD Excel2( cFile, lActivate, hProgress, cTitle, lSave, bPrintRow ) CLASS TSB
          nPic := If( ! Empty( ::aColumns[ nCol ]:cPicture ), anPIC[ nCol ], Nil )
 
          If ValType( uData ) == "N"
-            FWrite( nHandle, BiffRec( 3, uData, nLine - 1, nCol - 1,, nAlign + 1, nPic, ;
+            FWrite( nHandle, BiffRec( 3, uData, nLine - 1, nCol - 1, .T., nAlign + 1, nPic, ;
                                       Max( 0, nFont - 1 ) ) )
          Else
             uData := Trim( StrTran( cValToChar( uData ), CRLF, Chr( 10 ) ) )
             nAlign := If( Chr( 10 ) $ uData, 4, nAlign )
-            FWrite( nHandle, BiffRec( 4, uData, nLine - 1, nCol - 1,, nAlign + 1, nPic, ;
+            FWrite( nHandle, BiffRec( 4, uData, nLine - 1, nCol - 1, .T., nAlign + 1, nPic, ;
                                       Max( 0, nFont - 1 ) ) )
          EndIf
 
@@ -4711,7 +4731,7 @@ METHOD Excel2( cFile, lActivate, hProgress, cTitle, lSave, bPrintRow ) CLASS TSB
    Next
 
    If hProgress != Nil
-      SendMessage(hProgress, PBM_SETPOS, nTotal, 0)
+      SendMessage( hProgress, PBM_SETPOS, nTotal, 0 )
    EndIf
 
    If lSave
@@ -4783,12 +4803,12 @@ METHOD ExcelOle( cXlsFile, lActivate, hProgress, cTitle, hFont, lSave, bExtern, 
    If hProgress != Nil
       nTotal := ( ::nLen + 1 ) * Len( ::aColumns ) + 30
       SetProgressBarRange ( hProgress , 1 , nTotal )
-      SendMessage(hProgress, PBM_SETPOS, 0, 0)
+      SendMessage( hProgress, PBM_SETPOS, 0, 0 )
       nEvery := Max( 1, Int( nTotal * .02 ) ) // refresh hProgress every 2 %
    EndIf
 
    If ! Empty( cXlsFile )
-      cXlsFile := AllTrim( StrTran( Upper( cXlsFile ), ".XLS" ) )
+      cXlsFile := AllTrim( cFileNoExt( cXlsFile ) )
    EndIf
 
    cTitle := AllTrim( cTitle )
@@ -4796,22 +4816,22 @@ METHOD ExcelOle( cXlsFile, lActivate, hProgress, cTitle, hFont, lSave, bExtern, 
    Try
       oExcel := CreateObject( "Excel.Application" )
    Catch
-      MsgStop( "Excel not available. [" + Ole2TxtError()+ "]", "Error" )
+      MsgStop( "Excel not available. [" + Ole2TxtError() + "]", "Error" )
       Return Nil
    End
 
    If hProgress != Nil
       nCount -= 15
-      SendMessage(hProgress, PBM_SETPOS, nCount, 0)
+      SendMessage( hProgress, PBM_SETPOS, nCount, 0 )
    EndIf
 
    oExcel:WorkBooks:Add()
-   oBook  := oExcel:Get( "ActiveWorkBook")
+   oBook  := oExcel:Get( "ActiveWorkBook" )
    oSheet := oExcel:Get( "ActiveSheet" )
 
    If hProgress != Nil
       nCount -= 15
-      SendMessage(hProgress, PBM_SETPOS, nCount, 0)
+      SendMessage( hProgress, PBM_SETPOS, nCount, 0 )
    EndIf
 
    ( ::cAlias )->( Eval( ::bGoTop ) )
@@ -4869,7 +4889,7 @@ METHOD ExcelOle( cXlsFile, lActivate, hProgress, cTitle, hFont, lSave, bExtern, 
             If hProgress != Nil
 
                If nCount % nEvery == 0
-                  SendMessage(hProgress, PBM_SETPOS,nCount,0)
+                  SendMessage( hProgress, PBM_SETPOS,nCount,0 )
                EndIf
 
                nCount ++
@@ -4900,19 +4920,19 @@ METHOD ExcelOle( cXlsFile, lActivate, hProgress, cTitle, hFont, lSave, bExtern, 
             EndIf
          EndIf
 
-         If ::aColumns[ nCol ]:cPicture != Nil
+         If ::aColumns[ nCol ]:cPicture != Nil .and. uData != Nil
             uData := Transform( uData, ::aColumns[ nCol ]:cPicture )
          EndIf
 
-         uData  :=  If( ValType( uData )=="D", DtoC( uData ), If( ValType( uData )=="N", Str( uData ) , ;
-                    If( ValType( uData )=="L", If( uData ,".T." ,".F." ), cValToChar( uData ) ) ) )
+         uData := If( ValType( uData )=="D", DtoC( uData ), If( ValType( uData )=="N", Str( uData ), ;
+                  If( ValType( uData )=="L", If( uData ,".T." ,".F." ), cValToChar( uData ) ) ) )
 
          cText += Trim( uData ) + Chr( 9 )
 
          If hProgress != Nil
 
             If nCount % nEvery == 0
-               SendMessage(hProgress, PBM_SETPOS, nCount, 0)
+               SendMessage( hProgress, PBM_SETPOS, nCount, 0 )
             EndIf
 
             nCount ++
@@ -4960,7 +4980,7 @@ METHOD ExcelOle( cXlsFile, lActivate, hProgress, cTitle, hFont, lSave, bExtern, 
 
    If ::lIsDbf
       ( ::cAlias )->( DbGoTo( nRecNo ) )
-      ::GoPos(nOldRow, nOldCol)
+      ::GoPos( nOldRow, nOldCol )
 
    EndIf
 
@@ -5373,6 +5393,53 @@ METHOD GetColumn( nCol ) CLASS TSBrowse
 Return ::aColumns[ nCol ]                       // returns a Column object
 
 * ============================================================================
+* METHOD TSBrowse:AdjColumns() Version 9.0 Mar/20/2018
+* ============================================================================
+
+METHOD AdjColumns( aColumns, nDelta ) CLASS TSBrowse
+
+   LOCAL c, i, k, n, s, w, obr := Self
+   LOCAL nVisible := 0, aVisible := {}, aCol := {}
+
+   Default nDelta := 1
+
+   If Empty( aColumns )
+      aColumns := Array( ::nColCount() )
+      AEval( aColumns, {|xv, nn| xv := nn, aColumns[ nn ] := xv } )
+   Endif
+
+   If HB_ISNUMERIC( aColumns )
+      AAdd( aCol, aColumns )
+   ElseIf HB_ISCHAR( aColumns )
+      AAdd( aCol, ::nColumn( aColumns ) )
+   Else
+      AEval( aColumns, {|xv| AAdd( aCol, iif( HB_ISCHAR( xv ), obr:nColumn( xv ), xv ) ) } )
+   EndIf
+
+   AEval( ::aColumns, {|oc| nVisible += iif( oc:lVisible, oc:nWidth, 0 ) } )
+   AEval(   aCol    , {|nc| iif( obr:aColumns[ nc ]:lVisible, AAdd( aVisible, nc ), Nil ) } )
+
+   w := GetWindowWidth( ::hWnd ) - nVisible - nDelta - iif( ::lNoVScroll, 0, GetVScrollBarWidth() )
+
+   If w > 0
+      k := Len( aVisible )
+      n := Int( w / k )
+      s := 0
+
+      For i := 1 To k
+          c := aVisible[ i ]
+          If i == k
+             ::aColumns[ c ]:nWidth += ( w - s )
+          Else
+             s += n
+             ::aColumns[ c ]:nWidth += n
+          EndIf
+      Next
+   EndIf
+
+RETURN Nil
+
+* ============================================================================
 * METHOD TSBrowse:GetDlgCode() Version 9.0 Nov/30/2009
 * ============================================================================
 
@@ -5445,7 +5512,7 @@ METHOD GoBottom() CLASS TSBrowse
       ::lHitBottom := .T.
       ::lHitTop    := .F.
       ::nRowPos    := Min( nLines, ::nLen )
-      ::nRowPos    := Min( nLines, ::nLenPos ) //JP 1.31
+      ::nRowPos    := Min( nLines, ::nLenPos )  //JP 1.31
       ::nAt        := ::nLastnAt := ::nLogicPos()
       ::nLenPos := ::nRowPos
 
@@ -11131,11 +11198,11 @@ METHOD SetColor( xColor1, xColor2, nColumn ) CLASS TSBrowse
 
    If ( Empty( ::aColumns ) .and. nColumn > 0 )
       Return nil
-   End
+   EndIf
 
    If Valtype( xColor1 ) == "A" .and.  Valtype( xColor2 ) == "A" .and. len ( xColor1 ) > len ( xColor2 )
       Return nil
-   End
+   EndIf
 
    If Valtype( xColor1 ) == "N" .and. Valtype( xColor2 ) == "N" .and. nColumn == 0
       Return ::SetColor( xColor1, xColor2 )  // FW SetColor Method only nClrText and nClrPane
@@ -11143,7 +11210,7 @@ METHOD SetColor( xColor1, xColor2, nColumn ) CLASS TSBrowse
 
    If Len( ::aColumns ) == 0 .and. ! ::lTransparent .and. ::hBrush == Nil
       nColor := If( ValType( xColor2[ 2 ] ) == "B", Eval( xColor2[ 2 ], 1, 1, Self ), xColor2[ 2 ] )
-      ::hBrush := CreateSolidBrush( GetRed ( nColor ), GetGreen ( nColor ), GetBlue (nColor ) )
+      ::hBrush := CreateSolidBrush( GetRed( nColor ), GetGreen( nColor ), GetBlue( nColor ) )
    EndIf
 
    If nColumn == 0 .and. ValType ( xColor2[ 1 ] ) == "N" .and. ValType( xColor1 ) == "A" .and. xColor1[ 1 ] == 1 .and. ;

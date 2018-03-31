@@ -97,7 +97,7 @@ Static Procedure OnInit()
 	DEFINE NOTIFY MENU OF Form_1
 		ITEM 'A&bout...'	ACTION ShellAbout( "About " + PROGRAM + "#", ;
 			PROGRAM + VERSION + CRLF + "Copyright " + Chr(169) + COPYRIGHT, ;
-			LoadTrayIcon( GetInstance(), IDI_MAIN ) )
+			LoadTrayIcon( GetInstance(), IDI_MAIN, 32, 32 ) )
 		SEPARATOR	
 		ITEM 'E&xit'		ACTION Form_1.Release
 	END MENU

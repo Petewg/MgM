@@ -1,2 +1,1 @@
-
-@for  %%i  IN (*.prg) DO @call %~d0\miniguim\batch\buildapp.bat %%~ni
+call ..\..\..\batch\hbmk2.bat %* demo

@@ -1,2 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat SetWindow
-
+call ..\..\..\batch\hbmk2.bat %* SetWindow.hbp

@@ -8,7 +8,7 @@
  *
  * Copyright 2007 Fernando Mancera <fmancera@viaopen.com> and
  * Antonio Linares <alinares@fivetechsoft.com>
- * www - http://harbour-project.org
+ * www - https://harbour.github.io/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

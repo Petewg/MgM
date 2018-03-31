@@ -1,0 +1,36 @@
+MAIN ICON SysInfo.ico
+
+SAVE BITMAP save.bmp
+
+PRINT BITMAP print.bmp
+
+COOL AVI COOL.AVI
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "System Information\000"
+		VALUE "FileVersion", "1.1.0.0"
+		VALUE "InternalName", "SysInfo\000"
+		VALUE "LegalCopyright", "Freeware 2003-2012\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "SysInfo.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

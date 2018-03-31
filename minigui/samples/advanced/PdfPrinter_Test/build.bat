@@ -1,0 +1,1 @@
+call ..\..\..\batch\hbmk2.bat %* DemoPdf.hbp DemoPdf.hbc

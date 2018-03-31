@@ -47,7 +47,7 @@ Local aButton := {}
 	IF hWnd > 0
 
 		IF IsIconic( hWnd )
-			Restore( hWnd )
+			_Restore( hWnd )
 		ELSE
 			SetForeGroundWindow( hWnd )
 		ENDIF
@@ -200,7 +200,7 @@ Local cFileExe := "TASKTEST.EXE", cPathExe := SubStr( ExeName(), 1, RAt( "\", Ex
           MsgAlert( 'The "TaskTest - ' + cMenu + '" is already running ! ' )
 
           IF IsIconic( hWndTask )
-		Restore( hWndTask )
+		_Restore( hWndTask )
           ELSE
 		SetForeGroundWindow( hWndTask )
           ENDIF
@@ -228,7 +228,7 @@ FUNCTION OnExit() // Check before running programs
             lExit := .F.
             cSayRun += cMenuTask + '   ;'
             IF IsIconic( hWndTask )
-               Restore( hWndTask )
+               _Restore( hWndTask )
             ELSE
                SetForeGroundWindow( hWndTask )
             ENDIF

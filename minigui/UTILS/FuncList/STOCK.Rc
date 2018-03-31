@@ -1,0 +1,36 @@
+STOCK		ICON	"Res\Stock.ico"
+
+NEW		BITMAP	"Res\New.bmp"
+OPEN		BITMAP	"Res\Open.bmp"
+SAVE		BITMAP	"Res\Save.bmp"
+EDIT		BITMAP	"Res\Edit.bmp"
+OPTIONS		BITMAP	"Res\Options.bmp"
+FIND		BITMAP	"Res\Find.bmp"
+FINDALL		BITMAP	"Res\FindAll.bmp"
+
+1 VERSIONINFO
+FILEVERSION 2006,11,1
+PRODUCTVERSION 2006,11,1
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Catalog functions\000"
+		VALUE "FileVersion", "2006.11.1\000"
+		VALUE "InternalName", "Stock\000"
+		VALUE "LegalCopyright", "V.V.Chumachenko\000"
+		VALUE "OriginalFilename", "Stock.exe"
+		VALUE "ProductName", "Stock\000"
+		VALUE "ProductVersion", "2006.11.1\000"
+		VALUE "Comments", "Designed by Harbour&MiniGUI\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

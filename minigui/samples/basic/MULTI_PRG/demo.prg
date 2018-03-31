@@ -8,7 +8,7 @@
 #include "minigui.ch"
 
 #ifndef _HBMK_
-//   Set Procedure To Other.Prg
+   Set Procedure To Other.Prg
 #endif
 
 Function Main
@@ -17,7 +17,7 @@ Function Main
 		AT 0,0 ;
 		WIDTH 640 HEIGHT 480 ;
 		TITLE 'Harbour MiniGUI Demo' ;
-		MAIN 
+		MAIN
 
 	END WINDOW
 
@@ -28,6 +28,7 @@ Function Main
 	Form_1.Activate
 
 Return Nil
+
 
 STATIC PROCEDURE TEST
 

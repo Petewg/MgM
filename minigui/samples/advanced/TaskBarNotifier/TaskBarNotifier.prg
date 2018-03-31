@@ -4,7 +4,7 @@
  * Author: P.Chornyj <myorg63@mail.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 #include "taskbarnotifier.ch"
 
 PROCEDURE Main

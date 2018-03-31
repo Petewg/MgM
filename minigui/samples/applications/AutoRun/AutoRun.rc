@@ -1,0 +1,10 @@
+#define IDI_MAIN 1001
+
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//	Resource name	Resource Type   Resource FileName
+//
+	IDI_MAIN	ICON 		movie.ico
+
+	LOGO		GIF		res\logo.gif

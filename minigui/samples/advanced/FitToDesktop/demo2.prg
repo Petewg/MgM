@@ -89,10 +89,7 @@ RETURN
  
 #pragma BEGINDUMP
 
-#define HB_OS_WIN_USED
-
-#include <windows.h>
-#include "hbapi.h"
+#include <mgdefs.h>
 
 HB_FUNC (GETDESKTOPREALTOP) 
 {

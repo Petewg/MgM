@@ -1,0 +1,54 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN	ICON	res\inifile.ico
+
+MAIN	ICON	res\inifile.ico
+TABJUMP	ICON	res\jump.ico
+
+OPEN	BITMAP	res\open.bmp
+
+APPEND	BITMAP	res\append.bmp
+CLEAR	BITMAP	res\clear.bmp
+COPY	BITMAP	res\copy.bmp
+
+SORT	BITMAP	res\sort.bmp
+JUMP	BITMAP	res\jump.bmp
+
+OK	BITMAP	res\ok.bmp
+NO	BITMAP	res\no.bmp
+
+ADD	BITMAP	res\add.bmp
+ADDKEY	BITMAP	res\addkey.bmp
+DELETE	BITMAP	res\delete.bmp
+DELKEY	BITMAP	res\delkey.bmp
+SEND	BITMAP	res\send.bmp
+EDIT	BITMAP	res\edit.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,0,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "INI File Editor\000"
+		VALUE "FileVersion", "1.0.2.0"
+		VALUE "InternalName", "INIFileEditor\000"
+		VALUE "LegalCopyright", "Copyright © 2006 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "INIFileEditor.exe"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

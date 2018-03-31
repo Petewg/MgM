@@ -1,0 +1,56 @@
+#define IDI_MAIN	1001
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAIN                ICON                    res\mci.ico
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_OPEN                BITMAP                  res\open.bmp
+IDB_PLAY                BITMAP                  res\play.bmp
+IDB_PAUSE               BITMAP                  res\pause.bmp
+IDB_STOP                BITMAP                  res\stop.bmp
+IDB_SOUND               BITMAP                  res\sound.bmp
+IDB_NOSOUND             BITMAP                  res\nosound.bmp
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+1 VERSIONINFO
+FILEVERSION 1,2,3,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Easy Media Player\000"
+		VALUE "FileVersion", "1.2.3.0"
+		VALUE "InternalName", "EasyPlayer\000"
+		VALUE "LegalCopyright", "Copyright © 2003-2013 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "EasyPlayer.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409, 0x04B0
+}
+}

@@ -28,7 +28,7 @@ PROCEDURE Main
 		NOTIFYICON 'ICON_1' ;
 		NOTIFYTOOLTIP PROGRAM + TIMER_INFO + iif( lTimer, "On", "Off" ) ;
 		ON NOTIFYCLICK ShellAbout( "About " + PROGRAM + "#", PROGRAM + ' version 2.0' + CRLF + Chr(169) + COPYRIGHT, ;
-					LoadTrayIcon(GetInstance(), "ICON_1") )
+					LoadTrayIcon(GetInstance(), "ICON_1", 32, 32) )
 
 		DEFINE NOTIFY MENU
 			ITEM 'Stop/Start Timer'	ACTION UpdateTimer() NAME Timer CHECKED

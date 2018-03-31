@@ -1,0 +1,36 @@
+#define		IDI_MAIN	1001
+
+IDI_MAIN	ICON		res\rgb.ico
+
+RED		BITMAP		res\red.bmp
+GREEN		BITMAP		res\green.bmp
+BLUE		BITMAP		res\blue.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,0,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Mix a color for use in web design\000"
+		VALUE "FileVersion", "1.0.2.0"
+		VALUE "InternalName", "RGBMixer\000"
+		VALUE "LegalCopyright", "Copyright © 2007 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "RGBMixer.exe"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

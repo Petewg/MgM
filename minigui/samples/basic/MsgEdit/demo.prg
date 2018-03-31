@@ -593,7 +593,7 @@ Function MsgCopy(acOrigName, acDestName, cTitle, lFilesOnly, lOkToAll, lAlarm )
       nFlag+=FOF_NOERRORUI
    Endif
 
-   //lResult:=( ShellFiles( , aFrom, aTo, FO_COPY, nFlag ) == 0 )
+   lResult:=( ShellFiles( , aFrom, aTo, FO_COPY, nFlag ) == 0 )
 
 Return lResult
 
@@ -634,7 +634,7 @@ Function MsgMove(acOrigName, acDestName, cTitle, lFilesOnly, lOkToAll, lAlarm )
       nFlag+=FOF_NOERRORUI
    Endif
 
-   //lResult:=( ShellFiles( , aFrom, aTo, FO_MOVE, nFlag ) == 0 )
+   lResult:=( ShellFiles( , aFrom, aTo, FO_MOVE, nFlag ) == 0 )
 
 Return lResult
 
@@ -668,7 +668,7 @@ Function MsgDelete(acOrigName, cTitle, lFilesOnly, lOkToAll, lAlarm )
       nFlag+=FOF_NOERRORUI
    Endif
 
-   //lResult:=( ShellFiles( , aFrom, , , nFlag ) == 0 )
+   lResult:=( ShellFiles( , aFrom, , , nFlag ) == 0 )
 
 Return lResult
 
@@ -918,9 +918,9 @@ Static	nStatus := 0
 	ENDIF
 RETURN
 
-#include "hbdll32.ch"
-DECLARE /*DLL_TYPE_LONG*/ FlashWindow( /*DLL_TYPE_LONG*/ hWnd, /*DLL_TYPE_LONG*/ nInvert ) ;
-	IN USER32.DLL ALIAS FlashWnd
+DECLARE DLL_TYPE_LONG FlashWindow( DLL_TYPE_LONG hWnd, DLL_TYPE_LONG nInvert ) ;
+	IN USER32.DLL ;
+	ALIAS FlashWnd
 
 /*
  * MsgToolTip(nSender, cText, [cTitle], [aColor])

@@ -1,4 +1,4 @@
-/* Used by Demo.rc*/
+// Used by Demo.rc
 #define IDD_ABOUT_DIALOG               201
 #define BTN_CLOSE                      206
 #define BTN_APPLY                      207

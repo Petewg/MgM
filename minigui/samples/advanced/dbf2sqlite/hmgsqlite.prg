@@ -30,7 +30,7 @@
  Parts of this project (especially hbmysql, hbpgsql and hbsqlit3 library contributions) are based upon:
 
 	"Harbour Project"
-	Copyright 1999-2008, http://www.harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 	
   "HMG - Harbour Windows GUI"
   Copyright 2002-2010 Roberto Lopez <mail.box.hmg@gmail.com>,http://sites.google.com/site/hmgweb/

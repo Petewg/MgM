@@ -15,7 +15,22 @@
 
 
 
-DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 800 HEIGHT 600 TITLE "MiniGUI Biorhythms" ICON "MAINICON" MAIN NOMAXIMIZE NOSIZE ON INIT {|| DrawBiorhythm() } ON RELEASE {|| ReleaseBiorhytms() } ON GOTFOCUS  {|| IIF(IsFirstRun,(IsFirstRun:=.F.,DrawBiorhythm()),NIL) } ON LOSTFOCUS {|| IsFirstRun:=.T. }
+DEFINE WINDOW TEMPLATE ;
+              AT 0 , 0 ;
+              WIDTH 800 HEIGHT 600 ;
+              TITLE "MiniGUI Biorhythms" ;
+              ICON "MAINICON" ;
+              MAIN ;
+              NOMAXIMIZE ;
+              NOSIZE ;
+              ON INIT      {|| DrawBiorhythm() } ;
+              ON RELEASE   {|| ReleaseBiorhytms() } ;
+              ON GOTFOCUS  {|| IIF(IsFirstRun,(IsFirstRun:=.F.,DrawBiorhythm()),NIL) } ;
+              ON LOSTFOCUS {|| IsFirstRun:=.T. }
+
+     ON KEY ESCAPE ACTION { || ThisWindow.Release}
+     ON KEY F1 ACTION DISPLAY HELP MAIN
+     ON KEY F2 ACTION { || ThisWindow.Center }
 
      DEFINE FRAME frBiorhythms
             ROW    0

@@ -131,7 +131,7 @@ Static Procedure r_menu()
 		ITEM IF( IsWindowVisible( GetFormHandle( "Form_1" ) ), '&Hide', '&Show' ) ;
 					ACTION HideShow()
 		ITEM '&About...'	ACTION ShellAbout( "", PROGRAM + VERSION + CRLF + ;
-			"Copyright " + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN") )
+			"Copyright " + Chr(169) + COPYRIGHT, LoadIconByName( "MAIN", 32, 32 ) )
 		SEPARATOR	
 		ITEM '&Exit'		ACTION Form_0.Release
 	END MENU

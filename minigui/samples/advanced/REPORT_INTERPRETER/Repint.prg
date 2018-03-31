@@ -4,13 +4,17 @@
    Created			: 17 November 2011 (12:00:20)
    Created by		: Pierpaolo Martinello
 
-   Last Updated	: 28/05/2013 16:49:04
+   Last Updated	: 22 May 2015
    Updated by		: Pierpaolo
 
    Comments		:
 *******************************************************************************/
+#ifndef __CALLDLL__
+#define __CALLDLL__
+#endif
 #include 'minigui.ch'
 #include 'winprint.ch'
+#include "hbdyn.ch"
 
 #define FR_PRIVATE     0x10
 #define FR_NOT_ENUM    0x20
@@ -55,7 +59,7 @@ private aPrinters, aports
            @5 ,320 BUTTON Button_4 CAPTION '&Simple (mm)' ACTION  {||print(4),f1.button_4.setfocus} Tooltip "See ReportS.mod"
            @5 ,425 BUTTON Button_5 CAPTION '&Miniprint (mm)' ACTION  {||print(5),f1.button_5.setfocus} Tooltip "See ReportM.mod"
            @50,5   BUTTON Button_6 CAPTION '&2PageS/Recno' ACTION  {||print(6),f1.button_6.setfocus} Tooltip "See ReportD.mod"
-           @50,110 BUTTON Button_7 CAPTION '&Labels' ACTION  {||print(7),f1.button_7.setfocus} Tooltip "See ReportL.mod or ReportLM.mod"
+           @50,110 BUTTON Button_7 CAPTION '&Labels' ACTION  {||print(7),f1.button_7.setfocus} Tooltip "See ReportL.mod"
            @50,215 BUTTON Button_8 CAPTION '&Array' ACTION  {||print(9),f1.button_8.setfocus} Tooltip "See ReportA.mod"
            @50,320 BUTTON Button_9 CAPTION '&Pdf (mm)' ACTION  {||print(8),f1.button_9.setfocus} Tooltip "See ReportP.mod"
            @50,425 BUTTON Button_10 CAPTION '&Unified' ACTION {||print(10),f1.button_10.setfocus} Tooltip [See Unified.mod "One script 3 drivers"]
@@ -95,8 +99,14 @@ if arg1=1
    SELE 3
    USE bdyb2003 ALIAS BOLLE
    index on Field->N_DOC to NBOLLE
+   choice := Scegli({"Use Hbprinter","use Miniprint","Use PdfPrint"},"Driver choice"," Unified Commands Demo",1)
 
-   WinREPINT("Bolla.mod","Bolle",NIL,"PROGRB->n_doc")
+   if choice = 0
+      return nil
+   Endif
+
+   WinREPINT("Bolla.mod","Bolle",NIL,"PROGRB->n_doc",,,aDRV[choice])
+
 else
    use test shared
    // make an array
@@ -107,7 +117,8 @@ else
    dbgotop()
    do case
       case arg1 = 2
-           WinREPINT("ReportF.mod","TEST",)
+
+           WinREPINT("ReportF.mod","TEST",,,,,aDRV[1])
 
       case arg1 = 3
            WinREPINT("ReportG.mod","TEST",)
@@ -132,17 +143,12 @@ else
            set filter to
 
       case arg1 = 7
-           choice := Scegli({"Use Hbprinter","use Miniprint"},"Driver choice"," WinReport Demo",1)
+           choice := Scegli({"Use Hbprinter","use Miniprint","Use PdfPrint"},"Driver choice"," WinReport Demo",1)
 
-           switch choice
-           case 0
-                exit
-           case 1
-                WinREPINT("ReportL.mod","TEST",)
-                exit
-           case 2
-                WinREPINT("ReportLM.mod","TEST",)
-           end switch
+           if choice = 0
+              return nil
+           Endif
+           WinREPINT("ReportL.mod","TEST",nil,nil,,,aDRV[choice])
 
       case arg1 = 8
            choice := Scegli({"As Miniprint","Generic features (unusual use!)"},"Example choice"," WinReport Pdf Demo",1)
@@ -260,7 +266,7 @@ if (calias)->(dbseek(Checosa)) .and. !empty(checosa)
 else
    if valtype(ritorna)="C"
       retval :=azzera((calias)->(fieldget(fieldpos(ritorna))))
-   elseif valtype(ritorna)="A"   
+   elseif valtype(ritorna)="A"
       retval:={}
       for px = 1 to len(ritorna)
           aadd(retval,azzera((calias)->(fieldget(fieldpos(ritorna[px])))))
@@ -299,26 +305,24 @@ return ritorno
 
 Static Function AddFont
 
-   Local nRet := AddFontResourceEx("FREE3OF9.TTF"+Chr(0),FR_PRIVATE+FR_NOT_ENUM,0)
+   Local nRet := AddFontResourceEx("FREE3OF9.ttf",FR_PRIVATE+FR_NOT_ENUM,0)
 
    If nRet == 0
-      MsgStop("An error is occured installing font FREE3OF9.TTF","Warning")
+      MsgStop("An error is occured at installing of font FREE3OF9.ttf.","Warning")
    EndIf
    Return Nil
 
 Static Function RemoveFont
 
-   Local nRet := RemoveFontResourceEx("FREE3OF9.TTF"+Chr(0),FR_PRIVATE+FR_NOT_ENUM,0)
+   Local lRet := RemoveFontResourceEx("FREE3OF9.ttf",FR_PRIVATE+FR_NOT_ENUM,0)
 
-   If nRet == 0
-      MsgStop("An error is occured removing font FREE3OF9.TTF","Warning")
+   If lRet == .F.
+      MsgStop("An error is occured at removing of font FREE3OF9.ttf.","Warning")
    EndIf
    return Nil
- 
- 
-#include "hbdll32.ch"
-DECLARE ANSI AddFontResourceEx ( lpszFilename, fl, pdv ) IN GDI32.DLL
-DECLARE ANSI RemoveFontResourceEx ( lpFileName, fl, pdv ) IN GDI32.DLL
+
+DECLARE HB_DYN_CTYPE_INT AddFontResourceEx ( lpszFilename, fl, pdv ) IN GDI32.DLL
+DECLARE HB_DYN_CTYPE_BOOL RemoveFontResourceEx ( lpFileName, fl, pdv ) IN GDI32.DLL
 /*
 */
 *-----------------------------------------------------------------------------*

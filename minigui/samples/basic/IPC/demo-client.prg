@@ -1,10 +1,12 @@
 /*
  * Harbour Win32 Demo
  *
- * Data Client
+ * The client program - sending data / Клиентская программа - посылка данных
+ *
  * Copyright 2015-2016 Verchenko Andrey <verchenkoag@gmail.com>
  *
  * Transmission of messages between applications / processes using the WM_COPYDATA
+ * Передача сообщений между приложениями/процессами при помощи сообщения WM_COPYDATA 
 */
 
 #include "hbgtinfo.ch"

@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat DYNAMIC_GRID
+call ..\..\..\batch\hbmk2.bat %* dynamic_grid

@@ -8,7 +8,7 @@
 
 ---------------------------------------------------------------------------*/
 
-#include "hmg.ch"
+#include 'minigui.ch' 
 #include "miniprint.ch"
 #include "fileio.ch"
 
@@ -453,16 +453,6 @@ ELSE
     Rt = ''                                                                       
   ENDIF                                                                                  
 ENDIF           
-a := {}
-for n := 1 to 100
-   aadd(a, { "Item "+hb_ntos(n) } )
-next
-aadd(a, { "Item long" + space( 30 ) + hb_ntos(n)+" !" } )
-
-n:=mchoice(a,,,,,Title)   
-
-msginfo( a[n] )
-
 release pop_dir
 *- return the selection                                                                  
 RETURN Rt 

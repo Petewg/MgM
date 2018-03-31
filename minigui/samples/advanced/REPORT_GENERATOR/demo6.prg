@@ -1,20 +1,14 @@
-#include "minigui.ch"
-#include "i_rptgen.ch"
-
-Set Procedure To h_rptgen
+#include "hmg.ch"
 
 Procedure Main
 
-	Public _HMG_RPTDATA := Array( 165 )
-
 	Set Century On
 	Set Date Ansi
+	Set Exclusive Off
 	
 	Use Test
 
 	DEFINE WINDOW Win_1 ;
-		ROW 0 ;
-		COL 0 ;
 		WIDTH 400 ;
 		HEIGHT 400 ;
 		TITLE 'Hello Report' ;

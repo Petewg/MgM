@@ -1,0 +1,34 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2007 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 99 , 83 WIDTH 640 HEIGHT 480 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Contactos by MigSoft" ICON "Tutor" MAIN CURSOR NIL ON INIT Nil ON RELEASE CnAdo:Close() ON INTERACTIVECLOSE ( IF(MsgYesNo("Salir del Sistema ?","Salida"),Principal.release,.F.) ) ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR {120,199,241} NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE MAIN MENU
+        DEFINE POPUP "&Archivo"
+            MENUITEM "&Contactos" ACTION AdministradordeContactos()
+            MENUITEM "&Tipos de Contacto" ACTION MsgInfo("To be Continued...","Continuara...")
+            SEPARATOR
+            MENUITEM "Salir" ACTION IF(MsgYesNo("Salir del Sistema ?","Salida"),Principal.release,NIL)
+        END POPUP
+        DEFINE POPUP "A&yuda"
+            MENUITEM "A&cerca de ..." ACTION MsgInfo(padc("Contactos MDB Data Base",30)+chr(13)+chr(10)+padc("MigSoft(c)",30)+chr(13)+chr(10)+padc("2007",30),"Acerca de ...")
+        END POPUP
+    END MENU
+
+    DEFINE TOOLBAR ToolBar_1 BUTTONSIZE 110,35 FONT "Arial" SIZE 9 FLAT RIGHTTEXT BORDER
+        BUTTON Button_1 CAPTION "Contactos" PICTURE "Contactos" ACTION AdministradordeContactos()
+        BUTTON Button_2 CAPTION "Tipos Ctto." PICTURE "Tipos" ACTION MsgInfo("To be Continued...","Continuara...")
+        BUTTON Button_3 CAPTION "Ayuda" PICTURE "Ayuda" ACTION MsgInfo(padc("Contactos MDB Data Base",30)+chr(13)+chr(10)+padc("MigSoft(c)",30)+chr(13)+chr(10)+padc("2007",30),"Acerca de ...")
+        BUTTON Button_4 CAPTION "Salir" PICTURE "Salir" ACTION IF(MsgYesNo("Salir del Sistema ?","Salida"),Principal.release,NIL)
+    END TOOLBAR
+
+    DEFINE STATUSBAR FONT "Arial" SIZE 9
+        STATUSITEM "Access Data Base" WIDTH 120
+        STATUSITEM "Harbour MiniGUI" WIDTH 250 ICON "main.ico"
+        CLOCK
+        DATE
+    END STATUSBAR
+
+END WINDOW
+
+

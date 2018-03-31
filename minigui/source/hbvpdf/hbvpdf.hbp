@@ -1,14 +1,18 @@
+#
+# hbvpdf.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/hbvpdf
+-inc
+-o../../harbour/lib/hbvpdf
 
 -I../../include
 
--hbx=../../include/${hb_name}.hbx
+-warn=max 
 
--w -es2 -ko 
+-w -es2 -ko -q0
+
+{bcc}-hbx=../../include/hbvpdf.hbx
 
 hbvpdf.prg
 hbvpsup.prg

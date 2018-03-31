@@ -59,7 +59,7 @@ Fail WAVE Sounds\Fail.wav
 Victory WAVE Sounds\Victory.wav
 
 1 VERSIONINFO
-FILEVERSION 1,2,2,0
+FILEVERSION 1,2,3,0
 PRODUCTVERSION 1,0,0,0
 FILEOS 0x4
 FILETYPE 0x1
@@ -69,20 +69,20 @@ BLOCK "StringFileInfo"
 	BLOCK "040904b0"
 	{
 		VALUE "FileDescription", "Easy Lines game\000"
-		VALUE "FileVersion", "1.2.2.0"
+		VALUE "FileVersion", "1.2.3.0"
 		VALUE "InternalName", "EZLines\000"
-		VALUE "LegalCopyright", "Copyright © 2005-2006 Grigory Filatov\000"
+		VALUE "LegalCopyright", "Copyright © 2005-2011 Grigory Filatov\000"
 		VALUE "LegalTrademarks", "Harbour"
 		VALUE "OriginalFilename", "EZLines.exe"
 		VALUE "CompanyName", ""
 		VALUE "ProductName", "MiniGUI Utility\000"
-		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "ProductVersion", "1.2.0.0"
 		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
 	}
 }
 
 BLOCK "VarFileInfo"
 {
-	VALUE "Translation", 0x0409, 0x04B0
+	VALUE "Translation", 0x0409 0x04B0
 }
 }

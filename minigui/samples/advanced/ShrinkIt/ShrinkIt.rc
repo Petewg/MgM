@@ -1,7 +1,7 @@
 MAIN ICON "tools.ico"
 
 1 VERSIONINFO
-FILEVERSION 1,1,0,0
+FILEVERSION 1,1,1,0
 PRODUCTVERSION 1,0,0,0
 FILEOS 0x4
 FILETYPE 0x1
@@ -11,7 +11,7 @@ BLOCK "StringFileInfo"
 	BLOCK "040904b0"
 	{
 		VALUE "FileDescription", "Shrink the active window\000"
-		VALUE "FileVersion", "1.1.0.0"
+		VALUE "FileVersion", "1.1.1.0"
 		VALUE "InternalName", "ShrinkIt\000"
 		VALUE "LegalCopyright", "Freeware 2004-2006\000"
 		VALUE "LegalTrademarks", "Harbour"
@@ -23,8 +23,8 @@ BLOCK "StringFileInfo"
 	}
 }
 
-// BLOCK "VarFileInfo"
-// {
-	// VALUE "Translation", 0x0409 0x04B0
-// }
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
 }

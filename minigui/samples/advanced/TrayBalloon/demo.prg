@@ -8,7 +8,7 @@
 */
 
 #include "minigui.ch"
-#include "i_winuser.ch"
+
 #define PROGRAM "MsgBalloon Demo"
 #define VERSION " version 1.1"
 #define COPYRIGHT " Grigory Filatov, 2007-2013"
@@ -56,7 +56,7 @@ Static Procedure Start()
 
 	ELSE
 
-		MsgStop( 'This Program Runs In Win2000/XP or later Only!', 'Stop' )
+		MsgStop( 'This Program Runs In Win2000/XP Only!', 'Stop' )
 		Form_1.Release
 
 	ENDIF
@@ -98,7 +98,7 @@ Static Procedure ActivateNotifyMenu()
 	DEFINE NOTIFY MENU OF Form_1
 		ITEM 'A&bout...'	ACTION ShellAbout( "About " + PROGRAM + "#", ;
 			PROGRAM + VERSION + CRLF + "Copyright " + Chr(169) + COPYRIGHT, ;
-			LoadTrayIcon(GetInstance(), IDI_MAIN) )
+			LoadTrayIcon(GetInstance(), IDI_MAIN, 32, 32) )
 		SEPARATOR	
 		ITEM 'E&xit'		ACTION Form_1.Release
 	END MENU

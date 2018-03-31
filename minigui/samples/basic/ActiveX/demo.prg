@@ -17,7 +17,7 @@ Procedure Main
 		WIDTH 800 ;
 		HEIGHT 500 ;
 		TITLE 'ActiveX Component Demo' ;
-		MAIN ICON "MGM" ;
+		MAIN ;
 		ON MAXIMIZE ( Win1.Test.Width := (Win1.Width) - 100, Win1.Test.Height := (Win1.Height) - 100 ) ;
 		ON SIZE ( Win1.Test.Width := (Win1.Width) - 100, Win1.Test.Height := (Win1.Height) - 100 ) ;
 		ON RELEASE Win1.Test.Release
@@ -59,19 +59,19 @@ Local cAddress
 
 	cAddress := InputBox ('Navigate:','Enter Address','http://hmgextended.com')
 
-	If .Not. Empty ( cAddress )
+	If .Not. Empty (cAddress)
 
-		oObject := Win1.Test.Object
+		oObject := Win1.Test.XObject
 		oObject:Navigate(cAddress)
 
 		* Look for following alternatives
 
-//		oObject := GetProperty('Win1','Test','Object')
+//		oObject := GetProperty('Win1','Test','XObject')
 //		oObject:Navigate(cAddress)
 // OR
-//		Win1.Test.Object:Navigate(cAddress)
+//		Win1.Test.XObject:Navigate(cAddress)
 // OR
-//		GetProperty('Win1','Test','Object'):Navigate(cAddress)
+//		GetProperty('Win1','Test','XObject'):Navigate(cAddress)
 
 	EndIf
 

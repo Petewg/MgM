@@ -3,18 +3,7 @@
 */
 
 #include "minigui.ch"
-
-#define LVS_EX_GRIDLINES        0x00000001
-#define LVS_EX_CHECKBOXES       0x00000004
-#define LVS_EX_TRACKSELECT      0x00000008
-#define LVS_EX_HEADERDRAGDROP   0x00000010
-#define LVS_EX_ONECLICKACTIVATE 0x00000040
-#define LVS_EX_TWOCLICKACTIVATE 0x00000080
-#define LVS_EX_FLATSB           0x00000100
-#define LVS_EX_INFOTIP          0x00000400 // listview does InfoTips for you
-#define LVS_EX_UNDERLINEHOT     0x00000800
-#define LVS_EX_UNDERLINECOLD    0x00001000
-#define LVS_EX_DOUBLEBUFFER     0x10000
+#include "i_winuser.ch"
 
 Static a_image[2], a_cab[4], a_width[4]
 
@@ -172,7 +161,6 @@ Return
 *.......................................................*
 
 Procedure ApplyStyles()
-Local h := GetControlHandle( "Grid_1", "Form_1" )
 Local i, aRows := {}, v
 
 	v := Form_1.Grid_1.Value
@@ -207,7 +195,7 @@ Local i, aRows := {}, v
 	END GRID
 
 #define LVS_NOSCROLL        0x2000
-	SetWindowStyle ( h, LVS_NOSCROLL, Form_1.Check1_6.Value )
+	SetWindowStyle ( Form_1.Grid_1.Handle, LVS_NOSCROLL, Form_1.Check1_6.Value )
 
 	ApplyStylesEx()
 
@@ -297,29 +285,3 @@ Local iStyle
 	ENDIF
 
 Return
-
-*.......................................................*
-
-#pragma BEGINDUMP
-
-#include <windows.h>
-#include <commctrl.h>
-
-#include "hbapi.h"
-
-//       ListView_ChangeExtendedStyle ( hWnd, [ nAddStyle ], [ nRemoveStyle ] )
-HB_FUNC( LISTVIEW_CHANGEEXTENDEDSTYLE )
-{
-   HWND  hWnd = (HWND) hb_parnl( 1 );
-   DWORD Add = (DWORD) hb_parnl( 2 );
-   DWORD Remove = (DWORD) hb_parnl( 3 );
-   DWORD OldStyle, NewStyle, Style;
-
-   OldStyle = ListView_GetExtendedListViewStyle( hWnd );
-   NewStyle = ( OldStyle | Add) & ( ~Remove );
-   Style = ListView_SetExtendedListViewStyle( hWnd, NewStyle );
-
-   hb_retnl ((LONG) Style);
-}
-
-#pragma ENDDUMP

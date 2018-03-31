@@ -1,5 +1,5 @@
 DEFINE REPORT TEMPLATE
-   TITLE  'REPORT OF CINEMA ARTISTS | second title'
+   TITLE  'LIST OF CINEMA ARTISTS | second title'
    HEADERS  {'','','',''} , { 'SIMPLE', 'LAST NAME', 'BIO', 'INCOME' }
    FIELDS   {'code','last','BIO','incoming'}
    WIDTHS   {10,20,70,14}

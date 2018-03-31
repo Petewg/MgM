@@ -13,8 +13,8 @@
 
 ANNOUNCE RDDSYS
 
-#include "hmg.ch"
-#include "directry.ch"
+#include "minigui.ch"
+#include "Directry.ch"
 
 #define PROGRAM 'BackUp'
 #define VERSION 'ver.1.3'
@@ -26,19 +26,18 @@ ANNOUNCE RDDSYS
 				NETNAME() + "\" + hb_USERNAME() + " : " + VERSION + " ::."
 
 // #define DEBUG
+#define NTRIM( n ) LTrim( Str( n ) )
 
 #define MsgInfo( c ) MsgInfo( c, "Information", , .f. )
 #define MsgAlert( c ) MsgEXCLAMATION( c, "Attention", , .f. )
 #define MsgStop( c ) MsgStop( c, "Stop!", , .f. )
 
 STATIC lConfirm := "", nCompress := 6, cSkin := "", cTarget := "", cZip := ""
-STATIC cMsgCancel := "", cMsgSkin := "", cMsgConf := "", cMsgStart := ""
-STATIC cMsgDir := "", cMsgEmpty := "", cMsgEnd := "", cMsgFailed := "", cMsgCreate := ""
-STATIC cMsgDelete := "", cMsgTotalTime := "", cMsgRate := ""
+STATIC cMsgCancel := "", cMsgSkin := "", cMsgConf := "", cMsgStart := "", ;
+       cMsgDir := "", cMsgEmpty := "", cMsgEnd := "", cMsgFailed := "", cMsgCreate := "", cMsgDelete := "", cMsgTotalTime := "", cMsgRate := ""
 	   
 STATIC cTargetFolder := "", cTargetPrefix := "", cTargetSuffix := "", cTargetExtension := ""
-STATIC nMinDaysToKeep := 0, nMinBackUpsToKeep := 0, nMinToKeep := 7, cMaskSeparator := ''
-STATIC cAllFilesMask := '*.*'
+STATIC nMinDaysToKeep := 0, nMinBackUpsToKeep := 0, nMinToKeep := 7, cMaskSeparator := '', cAllFilesMask := '*.*'
 STATIC dToDay // backUp's start date
 
 STATIC tStartTime, tTotalTime
@@ -54,24 +53,23 @@ PROCEDURE Main()
 	set(_SET_DATEFORMAT,"YYYY-MM-DD")
 	aSource := AppInit()
 	IF LEN(aSource) > 0
-		IF ! lConfirm
+		IF !lConfirm
 			do_backup(aSource)
 		ELSEIF lConfirm .and. MsgYesNo(cMsgStart, cMsgConf, , , .f.)
 			do_backup(aSource)
 		ENDIF
 	ENDIF
-   
-   RETURN
+RETURN
 
 *--------------------------------------------------------*
 FUNCTION AppInit()
 *--------------------------------------------------------*
-   LOCAL nI, cSourceDir := "", cSubFolders := "", cFileIncludeMask := "", cIsActive := ""
-   LOCAL aSource := {}
+LOCAL nI, cSourceDir := "", cSubFolders := "", cFileIncludeMask := "", cIsActive := ""
+LOCAL aSource := {}
 
-   tStartTime := GetTickCount()
+tStartTime := GetTickCount()
 
-   cTargetSuffix := hbTimeStamp()
+cTargetSuffix := hbTimeStamp()
 
 	BEGIN INI FILE ChangeFileExt( hb_ProgName(), '.ini' ) // DirPrg()+"\backup.ini"
 
@@ -399,7 +397,7 @@ PRIVATE nActualTot := 0
 	DEFINE TIMER Timer_1 OF myBackUp ;
             INTERVAL nInterval ;
             ACTION ( nCount++, nCount := IF(nCount > nMax, 1, nCount), ;
-		myBackUp.Image_2.Picture := cBmp + hb_NtoS(nCount) )
+		myBackUp.Image_2.Picture := cBmp + NTRIM(nCount) )
 
 	COMPRESS aFiles ;
             TO cZip ;
@@ -440,19 +438,23 @@ PRIVATE nActualTot := 0
 
 RETURN NIL
 //------------------------------------------------------------------//
-FUNCTION MaintainArchive()
+FUNCTION maintainArchive()
 	local aZipFiles := DIRECTORY(cTargetFolder + cTargetPrefix + '*' + cTargetExtension)
 	local aZipsToDelete := {}, sD
-
+#ifdef DEBUG
+	msgMulty(aZipFiles,cTargetFolder + cTargetPrefix + '*' + cTargetExtension)
+#endif
 	if LEN(aZipFiles) > nMinBackUpsToKeep
 		aeval(aZipFiles, {|x| sD := strtran(x[F_NAME],cTargetPrefix,''), IF(dToDay - stod(substr(sD,1,8)) > nMinDaysToKeep, aadd(aZipsToDelete,cTargetFolder+x[F_NAME]),Nil)})
 	endif
-
+#ifdef DEBUG
+	 msgMulty(aZipsToDelete,'aZipsToDelete')
+#endif
 	AEval( aZipsToDelete, { |file| myBackUp.Label_1.Value := LOWER( STRTRAN(cMsgDelete, "%1", file) ), Ferase( file ) } )
 RETURN NIL
 //------------------------------------------------------------------//
 STATIC FUNCTION ProgressUpdate(nPos, cFile)
-   LOCAL nFileSize := aInfo[nPos][2]
+LOCAL nFileSize := aInfo[nPos][2]
 
 	nActualTot += nFileSize
 	myBackUp.Progress_1.Value := Int( ( nActualTot / nTotLen ) * 100 )
@@ -462,9 +464,9 @@ STATIC FUNCTION ProgressUpdate(nPos, cFile)
 	tTotalTime := GetTickCount() - tStartTime
 	myBackUp.myTimeLabel.Value := cMsgTotalTime + ' : ' + timeToString( tTotalTime, 3 )
 	
-	 DoEvents()
+	DO EVENTS
 
-   Return Nil
+Return Nil
 
 *--------------------------------------------------------*
 Function timeToString( nTime, nDecPoints )
@@ -514,7 +516,7 @@ STATIC FUNCTION hbTimeStamp()
    cRet := aJoin(sSplit(cRet, ' '),'')
    cRet := aJoin(sSplit(cRet, '.'),'')
    cRet := aJoin(sSplit(cRet, ':'),'')
-   return(cRet)
+return(cRet)
 //------------------------------------------------------------------//
 STATIC Function aJoin(aIn, sDelim)
 	local sRet := ''
@@ -549,7 +551,6 @@ function sSplit(sIn, sDelim)
 		aRet := hb_aTokens(sIn, sDelim)
 	end if
 return(aRet)
-
 #ifdef DEBUG
 //------------------------------------------------------------------//
 STATIC FUNCTION xToString( xValue )
@@ -609,7 +610,6 @@ PROCEDURE MsgMulty( xMesaj, cTitle )
 	ENDIF
 RETURN //  MsgMulty()
 #endif
-
 //------------------------------------------------------------------//
 Function getFileDate(sFileName)
 	local cRet := '', cDf, tTime

@@ -1,16 +1,21 @@
+#
+# miniprint.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/miniprint
-
--cflag=-D__MINGW32__
--cflag=-D_ERRORMSG_
--hbx=../../include/${hb_name}.hbx
+-inc
+-o../../harbour/lib/miniprint
 
 -I../../include
 
--w3 -es2 -ko 
+-warn=max 
+
+-w3 -es2 -ko -q0
+
+{bcc|mingw}-hbx=../../include/miniprint.hbx
+
+-cflag=-D_ERRORMSG_
 
 h_miniprint.prg
 c_miniprint.c
+

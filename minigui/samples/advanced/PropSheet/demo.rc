@@ -1,7 +1,5 @@
-
-
 #include "DemoRes.h"
-#include <windows.h>
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
@@ -126,7 +124,7 @@ END
 // Icon
 //
 
-IDI_STARICON            ICON    DISCARDABLE    star.ico
-IDI_WIZARD              BITMAP  DISCARDABLE    WIZIMAGE1.BMP
-IDI_HEADER              BITMAP  DISCARDABLE    WIZSLIMAGE1.BMP
-IDB_WINE                BITMAP  DISCARDABLE    WINE.BMP
+IDI_STARICON            ICON    DISCARDABLE     "star.ico"
+IDI_WIZARD              BITMAP  DISCARDABLE    "WIZIMAGE1.BMP"
+IDI_HEADER              BITMAP  DISCARDABLE    "WIZSLIMAGE1.BMP"
+IDB_WINE                BITMAP  DISCARDABLE    "WINE.BMP"

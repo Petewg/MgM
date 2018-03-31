@@ -7,7 +7,8 @@
  * Copyright 2006 Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
+
 #define NTRIM( n ) LTrim( Str( n ) )
 #define APP_TITLE 'Main Window'
 

@@ -241,7 +241,7 @@ FUNCTION Trueval(string)
    local lenx,I,outval:='',letter
    default string to ''
    lenx := LEN(string)
-   For i = 1 TO lenx
+   For i = 1 TO LEN(string)
        letter := SUBST(string,i,1)
        IF letter $ "-0123456789."
           outval += letter
@@ -378,7 +378,7 @@ HB_FUNC( GETFILEDATE )
    hb_retc( StrDate );
    }
 }
-/*
+
 HB_FUNC ( ISEXERUNNING ) // ( cExeNameCaseSensitive ) --> lResult
 {
    HANDLE hMutex = CreateMutex( NULL, TRUE, ( LPTSTR ) hb_parc( 1 ) );
@@ -387,7 +387,7 @@ HB_FUNC ( ISEXERUNNING ) // ( cExeNameCaseSensitive ) --> lResult
 
    ReleaseMutex( hMutex );
 }
-*/
+
 HB_FUNC( ISICONIC )
 {
    hb_retl( IsIconic( ( HWND ) hb_parnl( 1 ) ) );
@@ -400,7 +400,7 @@ HB_FUNC ( FINDWINDOW )
 
 HB_FUNC( COPYFILE )
 {
-   hb_retnl( (LONG) CopyFile( (LPCSTR) hb_parc(1), (LPCSTR) hb_parc(2), HB_ISNIL(3) ? NULL : (LONG) hb_parni(3) ) );
+   hb_retnl( (LONG) CopyFile( (LPCSTR) hb_parc(1), (LPCSTR) hb_parc(2), ISNIL(3) ? NULL : (LONG) hb_parni(3) ) );
 }
 
 #pragma ENDDUMP

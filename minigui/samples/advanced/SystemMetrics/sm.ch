@@ -2,11 +2,11 @@
  * GetSystemMetrics() codes
  */
 
-#define SM_CXSCREEN             0
-#define SM_CYSCREEN             1
-#define SM_CXVSCROLL            2
-#define SM_CYHSCROLL            3
-#define SM_CYCAPTION            4
+//#define SM_CXSCREEN             0
+//#define SM_CYSCREEN             1
+//#define SM_CXVSCROLL            2
+//#define SM_CYHSCROLL            3
+//#define SM_CYCAPTION            4
 #define SM_CXBORDER             5
 #define SM_CYBORDER             6
 #define SM_CXDLGFRAME           7
@@ -17,7 +17,7 @@
 #define SM_CYICON               12
 #define SM_CXCURSOR             13
 #define SM_CYCURSOR             14
-#define SM_CYMENU               15
+//#define SM_CYMENU               15
 #define SM_CXFULLSCREEN         16
 #define SM_CYFULLSCREEN         17
 #define SM_CYKANJIWINDOW        18
@@ -34,8 +34,8 @@
 #define SM_CYMIN                29
 #define SM_CXSIZE               30
 #define SM_CYSIZE               31
-#define SM_CXFRAME              32
-#define SM_CYFRAME              33
+//#define SM_CXFRAME              32
+//#define SM_CYFRAME              33
 #define SM_CXMINTRACK           34
 #define SM_CYMINTRACK           35
 #define SM_CXDOUBLECLK          36
@@ -49,12 +49,12 @@
 
 #define SM_CXFIXEDFRAME           SM_CXDLGFRAME  /* ;win40 name change */
 #define SM_CYFIXEDFRAME           SM_CYDLGFRAME  /* ;win40 name change */
-#define SM_CXSIZEFRAME            SM_CXFRAME     /* ;win40 name change */
-#define SM_CYSIZEFRAME            SM_CYFRAME     /* ;win40 name change */
+//#define SM_CXSIZEFRAME            SM_CXFRAME     /* ;win40 name change */
+//#define SM_CYSIZEFRAME            SM_CYFRAME     /* ;win40 name change */
 
 #define SM_SECURE               44
-#define SM_CXEDGE               45
-#define SM_CYEDGE               46
+//#define SM_CXEDGE               45
+//#define SM_CYEDGE               46
 #define SM_CXMINSPACING         47
 #define SM_CYMINSPACING         48
 #define SM_CXSMICON             49

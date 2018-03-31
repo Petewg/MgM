@@ -1,0 +1,8 @@
+-oCLDBFix
+
+-w2 -es2
+
+cldbfix.prg
+clrepair.prg
+
+-lclraylib

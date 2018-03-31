@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -1609,8 +1609,10 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _ProcessInitProcedure ( i )
 *-----------------------------------------------------------------------------*
-   IF ISBLOCK( _HMG_aFormInitProcedure [ i ] )
-      DO EVENTS
+
+   IF ISBLOCK ( _HMG_aFormInitProcedure [ i ] )
+
+      SuppressKeyAndMouseEvents()
 
       _PushEventInfo()
 
@@ -1621,9 +1623,12 @@ PROCEDURE _ProcessInitProcedure ( i )
       _HMG_ThisFormName := _HMG_aFormNames[ _HMG_ThisFormIndex ]
       _HMG_ThisControlName := ""
 
-      Eval ( _HMG_aFormInitProcedure [ i ] )
+      IF ISBLOCK ( _HMG_aFormInitProcedure [ i ] )
+         Eval ( _HMG_aFormInitProcedure [ i ] )
+      ENDIF
 
       _PopEventInfo()
+
    ENDIF
 
    IF _HMG_AutoAdjust .AND. _HMG_MainClientMDIHandle == 0
@@ -2477,6 +2482,20 @@ FUNCTION _SetCenterWindowStyle ( lNewStyle )
    ENDIF
 
 RETURN lOldStyle
+
+*-----------------------------------------------------------------------------*
+FUNCTION SuppressKeyAndMouseEvents ( nWait )
+*-----------------------------------------------------------------------------*
+
+      REPEAT
+
+         HMG_KeyboardClearBuffer()
+         HMG_MouseClearBuffer()
+         DO EVENTS
+
+      UNTIL ( InkeyGUI( hb_defaultValue( nWait, 50 ) ) <> 0 )
+
+RETURN NIL
 
 // (JK) HMG Experimental 1.1. Build 14
 *-----------------------------------------------------------------------------*

@@ -86,7 +86,7 @@ DEFINE WINDOW MainForm ;
     ACTIVATE WINDOW MainForm
 Return  Nil
 
-Function FolderInMemory(nMet,lModal)
+Function FolderInMemory(nMet,lMod)
 LOCAL cFld, cPg1, cPg2, cPg3
    cPg1:= "Page1"+Str(nMet,1)
    cPg2:= "Page2"+Str(nMet,1)
@@ -94,13 +94,13 @@ LOCAL cFld, cPg1, cPg2, cPg3
 
    DEFINE FONT Font_1 FONTNAME "Arial" SIZE 10
 
-   IF lModal
+   IF lMod
       cFld:= "Fld_1"+Str(nMet,1)
    ELSE
       cFld:= "Fld_2"+Str(nMet,1)
    endif
    IF !IsWIndowDefined ( &cFld)
-      IF lModal
+      IF lMod
          DO CASE
          CASE nMet == 0
             DEFINE FOLDER &cFld OF MainForm  ;
@@ -245,7 +245,7 @@ LOCAL cFld, cPg1, cPg2, cPg3
 
                @ 250,120 BUTTON Btn_1x ID 391 ;
                    CAPTION 'Set Text'  ;
-                   ACTION setEdText(cPg1, lModal, 323);
+                   ACTION setEdText(cPg1, lMod, 323);
                    WIDTH 70   ;
                    HEIGHT 24  ;
                    TOOLTIP 'Set new value'
@@ -394,8 +394,8 @@ LOCAL cFld, cPg1, cPg2, cPg3
 
 Return Nil
 
-Function setEdText(cPage, lModal, nId)
-   IF lModal
+Function setEdText(cPage, lMod, nId)
+   IF lMod
       SetDialogItemText( GetFormHandle (cPage), nId,"New Text from Modal" )
    else
       SetProperty (cPage,"TextBox_1","value","New Text" )
@@ -443,20 +443,20 @@ Function SetInitfolder()
  //   InitDialogFolder - Initialized the Folder
 Return Nil
 
-Function FolderRC(nMet,lModal)
+Function FolderRC(nMet,lMod)
 LOCAL cFld, cPg1, cPg2, cPg3
 
    cPg1:= "Page1"+Str(nMet,1)
    cPg2:= "Page2"+Str(nMet,1)
    cPg3:= "Page3"+Str(nMet,1)
    DEFINE FONT Font_1 FONTNAME "Arial" SIZE 10
-   IF lModal
+   IF lMod
       cFld:= "Fld_3"+Str(nMet,1)
    ELSE
       cFld:= "Fld_4"+Str(nMet,1)
    endif
    IF !IsWIndowDefined ( &cFld)
-      IF lModal
+      IF lMod
          DO CASE
          CASE nMet == 0
             DEFINE FOLDER &cFld OF MainForm  RESOURCE ;

@@ -50,7 +50,6 @@
  */
 
 #define HB_OS_WIN
-#define HB_LEGACY_LEVEL4
 
 #ifndef CINTERFACE
    #define CINTERFACE 1
@@ -82,7 +81,7 @@
 
 #ifdef __MINGW32__
    /* Missing in oleauto.h */
-   /* WINOLEAUTAPI VarR8FromDec(DECIMAL *pdecIn, DOUBLE *pdblOut); */ /* exists in mingw32 v.4.92 and later*/
+   WINOLEAUTAPI VarR8FromDec(DECIMAL *pdecIn, DOUBLE *pdblOut);
 #endif
 
 #if ( defined(__DMC__) || defined(__MINGW32__) || ( defined(__WATCOMC__) && !defined(__FORCE_LONG_LONG__) ) )

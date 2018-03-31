@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -476,6 +476,8 @@ PROCEDURE HMG_SortColumn( nColumnNo )
       AEval( aImages, { |n, i| _SetMultiImage( cControlName, cFormName, i, n, ( _HMG_aControlMiscData1 [ix][3][i] == 1 ) ) } )
 
       _HMG_aControlRangeMax [ix] [nColumnNo] := iif( lAscend, ++nOrder, 1 )
+
+      _UpdateGridColors ( ix )
 
       _EnableListViewUpdate( cControlName , cFormName , .T. )
 
@@ -1282,10 +1284,8 @@ RETURN
 FUNCTION GetNumFromCellText ( Text )
 *-----------------------------------------------------------------------------*
    LOCAL s As String
-   // LOCAL x , c 
-   LOCAL c // code optimization - p.d. 03/02/2017 
+   LOCAL x , c
 
-   /*
    FOR x := 1 TO Len ( Text )
 
       c := SubStr ( Text, x, 1 )
@@ -1295,16 +1295,7 @@ FUNCTION GetNumFromCellText ( Text )
       ENDIF
 
    NEXT x
-   */
-   
-   // code optimization - p.d. 03/02/2017 
-   FOR EACH c IN Text
-      IF c $ "0123456789.-"
-         s += c
-      ENDIF
-   NEXT
-   // end code optimization - p.d. 03/02/2017 
-   
+
    IF Left ( AllTrim( Text ) , 1 ) == '(' .OR.  Right ( AllTrim( Text ) , 2 ) == 'DB'
       s := '-' + s
    ENDIF
@@ -1315,11 +1306,8 @@ RETURN Val( s )
 FUNCTION GETNumFromCellTextSP ( Text )
 *-----------------------------------------------------------------------------*
    LOCAL s As String
-   // LOCAL x , c
-   LOCAL c // code optimization - p.d. 03/02/2017 
+   LOCAL x , c
 
-   // code optimization - p.d. 03/02/2017 
-   /*
    FOR x := 1 TO Len ( Text )
 
       c := SubStr ( Text, x, 1 )
@@ -1339,21 +1327,7 @@ FUNCTION GETNumFromCellTextSP ( Text )
       ENDIF
 
    NEXT x
-   */
-   
-   // code optimization - p.d. 03/02/2017 
-   FOR EACH c IN Text
-      IF c $ "0123456789,-."
-         IF c == "."
-            c := ""
-         ELSEIF c == ","
-            c := "."
-         ENDIF
-         s += c
-      ENDIF
-   NEXT
-   // end code optimization - p.d. 03/02/2017 
-   
+
    IF Left ( AllTrim( Text ) , 1 ) == '(' .OR.  Right ( AllTrim( Text ) , 2 ) == 'DB'
       s := '-' + s
    ENDIF

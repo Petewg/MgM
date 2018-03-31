@@ -53,6 +53,9 @@ PROC Main()
    SET CENT ON
    SET DATE GERM
 
+*   REQUEST HB_LANG_ESWIN
+*   HB_LANGSELECT( "ESWIN" ) 
+
    DEFINE WINDOW Form_1 ;
 	AT 0,0 ;
 	WIDTH 0 HEIGHT 0 ;
@@ -88,11 +91,11 @@ STATIC PROC CuckooClock( nCaller )
          aCCPrpArray := ARRAY( 5 ),;
          cCurTime    := TIME(),;
          aTmpColor   := {},;
-         nLblType    := 0,;
+         nLblType ,;
          nlblRow     := 5,;
-         nlblWidth   := 0,;
-         nDigit      := 0,;
-         cDigit      := ''
+         nlblWidth,;
+         nDigit   ,;
+         cDigit
 
    IF HB_ISNIL( nCaller )
    
@@ -234,8 +237,8 @@ RETU // CuckooClock()
 
 STATIC PROC CCSetProp( cFrmName, cProperty, aValues )
 
-   LOCAL nDigit := 0,;
-         cDigit := ''
+   LOCAL nDigit,;
+         cDigit
 
    FOR nDigit := 1 TO 5
       cDigit := "lblClock" + LTRIM( STR( nDigit ) )
@@ -285,13 +288,10 @@ Static Function RemoveFont()
 Return RemoveFontResourceEx( "Lcdn.ttf", FR_PRIVATE+FR_NOT_ENUM, 0 )
 
 *-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.
-/*
+
 DECLARE DLL_TYPE_INT AddFontResourceEx ( DLL_TYPE_LPCTSTR lpszFilename, DLL_TYPE_DWORD flag, DLL_TYPE_LPVOID pdv ) IN GDI32.DLL
 DECLARE DLL_TYPE_BOOL RemoveFontResourceEx ( DLL_TYPE_LPCTSTR lpFileName, DLL_TYPE_DWORD flag, DLL_TYPE_LPVOID pdv ) IN GDI32.DLL
-*/
-#include "hbdll32.ch"
-DECLARE ANSI AddFontResourceEx( lpszFilename,  flag,  pdv ) IN GDI32.DLL
-DECLARE ANSI RemoveFontResourceEx( lpFileName, flag,  pdv ) IN GDI32.DLL
+
 *-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.
 
 #pragma BEGINDUMP

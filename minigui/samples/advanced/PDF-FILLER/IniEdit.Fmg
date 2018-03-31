@@ -1,0 +1,57 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2016 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 140 , 235 WIDTH 530 HEIGHT 251 TITLE "Pdf Form Filler Test 1.1" ICON "ACROBAT_ICO" CHILD NOSIZE NOMAXIMIZE NOMINIMIZE CURSOR NIL ON INIT NIL ON RELEASE if( IsWIndowDefined ("Dbview"),DoMethod ( "DbView", "release" ),NIL) ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON PAINT NIL BACKCOLOR Nil ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+DEFINE STATUSBAR FONT "Arial" SIZE 10
+STATUSITEM " Pdf Form Filler Power Ready!"
+END STATUSBAR
+
+     DEFINE BUTTON Button_0
+            ROW    160
+            COL    20
+            WIDTH  80
+            HEIGHT 28
+            ACTION if( !IsWIndowDefined (Dbview),DbView(),DoMethod ( "DbView", "setfocus" ))
+            CAPTION "&DbView"
+     END BUTTON  
+
+     DEFINE BUTTON Button_1
+            ROW    160
+            COL    120
+            WIDTH  80
+            HEIGHT 28
+            ACTION Test()
+            CAPTION "&Test"
+     END BUTTON  
+
+     DEFINE BUTTON Button_2
+            ROW    160
+            COL    220
+            WIDTH  80
+            HEIGHT 28
+            ACTION Obrw1:deleterow()
+            CAPTION "&Delete Row"
+     END BUTTON  
+
+     DEFINE BUTTON Button_3
+            ROW    160
+            COL    320
+            WIDTH  80
+            HEIGHT 28
+            ACTION (FDF:SaveIniField(),FDF:LoadData())
+            CAPTION "&Save Fields"
+     END BUTTON  
+
+     DEFINE BUTTON Button_9
+            ROW    160
+            COL    420
+            WIDTH  80
+            HEIGHT 28
+            ACTION Thiswindow.release
+            CAPTION "&Quit"
+     END BUTTON  
+
+END WINDOW
+
+

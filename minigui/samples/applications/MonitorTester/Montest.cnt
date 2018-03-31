@@ -1,0 +1,15 @@
+:Base Montest
+:Title Monitor Tester - Help
+1 Monitor Tester=ID_Tester
+1 Control=ID_Control
+1 About=ID_O
+1 Adjustment and testing of the monitor=ID_Regulacje
+1 Brightness and Contrast=ID_ Brightness
+1 Geometry=ID_Geometria
+1 Colour=ID_kolory
+1 White balance=ID_Balans
+1 Resolution, Moire and interference=ID_Rozdziel
+1 Focus=ID_Ostrosc
+1 Convergence, colour purity=ID_Zbieznosc
+1 Test of high voltage regulation=ID_Stab
+1 Readability=ID_Readability

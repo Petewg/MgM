@@ -14,7 +14,7 @@
 */
 
 
-#include "minigui.ch"
+#include <minigui.ch>
 #include "Dbstruct.ch"
 #include "tip.ch"
 
@@ -67,11 +67,18 @@ function main()
    fillcombo()
    ftp.combo_1.value := 1
    ftp.button_4.enabled := .f.
+   ftp.button_5.enabled := .f.
+   ftp.button_6.enabled := .f.
+   ftp.button_7.enabled := .f.
    center window ftp
    activate window ftp
 return nil
 
 function sitemanager()
+    IF IsWindowDefined("sitemanager")
+       Domethod( 'sitemanager', 'SETFOCUS')
+      RETURN NIL
+    Endif
 
    load window sitemanager
    center window sitemanager
@@ -168,7 +175,7 @@ function ftpConnect()
    IF Empty( oUrl )
       return nil
    endif
-   oClient := TIpClientFtp():new( oUrl, .T. ) // PARAM .T. TO LOG
+   oClient := TIpClientFtp():new( oUrl, .T. ) && PARAM .T. TO LOG
    IF Empty( oClient )
       return nil
    endif
@@ -191,6 +198,9 @@ function ftpConnect()
          oClient:Pasv()
       ENDIF
       ftp.button_4.enabled := .t.
+      ftp.button_5.enabled := .f.
+      ftp.button_6.enabled := .f.
+      ftp.button_7.enabled := .f.
       ftp.button_3.enabled := .f.
       FTPFILLGRID()
    ELSE
@@ -202,6 +212,7 @@ return nil
 
 FUNCTION FTPFILLGRID()
    local ctext, cSepChar, nPos, acDir, cLine, x, avalues, xpesq, xpos, cvalue, cvalue1
+   local nX, cFileName, nDirImg
 
    ctext := oClient:List()
    oClient:reset()
@@ -216,7 +227,7 @@ FUNCTION FTPFILLGRID()
       nPos := At( cSepChar, ctext )
    Endif
    acDir := {}
-   Do While nPos > 0 // .and. ! Eval( ::bAbort )
+   Do While nPos > 0 &&.and. ! Eval( ::bAbort )
       cLine := AllTrim( Left( ctext, nPos - 1 ) )
       ctext := SubStr( ctext, nPos + Len( cSepChar ) )
       cLine := AllTrim( StrTran( cLine, Chr(0), "" ) )
@@ -224,7 +235,7 @@ FUNCTION FTPFILLGRID()
       If( ! Empty( cLine ), AAdd( acDir, cLine ), Nil )
 
       nPos := At( cSepChar, ctext )
-      DoEvents()
+      DO EVENTS
    Enddo
 
    ftp.Grid_2.DisableUpdate
@@ -238,20 +249,18 @@ FUNCTION FTPFILLGRID()
          xpos := at(' ',xpesq)
          if xpos = 0
             aadd(avalues,xpesq)
-            if substr(avalues[1],1,1) = 'd'
-
-               ftp.Grid_2.AddItem( {0,avalues[10],avalues[5],avalues[7]+'.'+ALLTRIM(STR(nMONTH(avalues[6])))+'.'+avalues[8],avalues[9],avalues[1]}  )
-
-            else
-
-               ftp.Grid_2.AddItem( {1,avalues[10],avalues[5],avalues[7]+'.'+ALLTRIM(STR(nMONTH(avalues[6])))+'.'+avalues[8],avalues[9],avalues[1]}  )
-
-            endif
+            cFileName := ""
+            for nX := 10 to len(avalues)
+                cFileName += avalues[nX]+' '
+            next
+            cFileName := If( substr(avalues[1],1,1) = 'l', substr(cFileName, 1, at('->', cFileName) - 1), rtrim(cFileName) )
+            nDirImg := If( substr(avalues[1],1,1) = 'd', 0, 1 )
+            ftp.Grid_2.AddItem( {nDirImg,cFileName,avalues[5],avalues[7]+'.'+ALLTRIM(STR(nMONTH(avalues[6])))+'.'+avalues[8],avalues[9],avalues[1]} )
             exit
          endif
          cvalue := substr(xpesq,1,xpos-1)
-         xpesq := Ltrim(substr(xpesq,xpos+1,len(xpesq) ))
-         if len(avalues) < 7  .or. len(avalues) > 8
+         xpesq := Ltrim(substr(xpesq,xpos+1,len(xpesq)))
+         if len(avalues) < 7 .or. len(avalues) > 8
             aadd(avalues,cvalue)
          else
             if at(':',cvalue) > 0
@@ -268,7 +277,7 @@ FUNCTION FTPFILLGRID()
    next x
 
    ftp.Grid_2.EnableUpdate
-RETURN nil	
+RETURN nil
 
 FUNCTION LOCALMKDIR()
    local cfile := INPUTBOX('NEW DIR NAME ?')
@@ -323,6 +332,9 @@ FUNCTION FTPCLOSE()
 
    ftp.Grid_2.DeleteAllItems
    ftp.button_4.enabled := .f.
+   ftp.button_5.enabled := .f.
+   ftp.button_6.enabled := .f.
+   ftp.button_7.enabled := .f.
    ftp.button_3.enabled := .t.
 RETURN nil
 
@@ -343,11 +355,11 @@ FUNCTION FTPDEL()
    local ctype, lresp
    local cFile := getcolvalue("GRID_2","FTP",2)
    IF .NOT. EMPTY(cFile)
-      ctype := substr(getcolvalue("GRID_2","FTP",6),1,1)      
+      ctype := substr(getcolvalue("GRID_2","FTP",6),1,1)
       if ctype = 'd'
          lresp := oClient:RMD( cFile )
       ELSE
-         lresp := oClient:Dele( cFile )         
+         lresp := oClient:Dele( cFile )
       endif
       ftpfillgrid()
    ENDIF
@@ -374,7 +386,7 @@ FUNCTION FTPUP()
    local lresp
    local cFile := getcolvalue("GRID_1","FTP",2)
    local cFile1 := getcurrentfolder()+'\'+cFile
-   
+
    if ftp.grid_1.cell(1,2) # '[..]'
       cFile1 := 'C:\'+cFile
    endif
@@ -612,7 +624,7 @@ FUNCTION CurrentDirectory(param)
       nGridFocus := param
    endif
    IF nGridFocus = 1
-      ftp.Label_3.Value := cText         
+      ftp.Label_3.Value := cText
    ENDIF
 
 RETURN NIL

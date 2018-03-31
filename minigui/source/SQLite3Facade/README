@@ -1,0 +1,12 @@
+=========================
+SQLite3Facade for Harbour
+=========================
+
+README
+======
+
+This work is based on a Harbour build by Wagner Nunes <vagucs-at-vagucs-com-br>.
+
+It's redundant to say that this facade is an effort to make Harbour's SQLite3
+contribution library (``hbsqlit3`` and ``sqlite3`` libraries to be exact) a lot
+easier to use, since this is what a facade is, makes easier complicated things.

@@ -13,10 +13,6 @@
 #include "dbinfo.ch"
 #include "error.ch"
 
-#define RDDI_CONNECT          1001
-#define RDDI_DISCONNECT       1002
-#define RDDI_EXECUTE          1003
-
 ANNOUNCE RDDSYS
 REQUEST SQLMIX, SDDODBC
 

@@ -1,0 +1,97 @@
+* Harbour MiniGUI Two-Way Form Designer Generated Code
+* (c)2004-06 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 ;
+	WIDTH 640 HEIGHT 480 ;
+	TITLE PROGRAM ;
+	ICON IDI_MAIN ;
+	MAIN ;
+	ON INIT ( _HMG_aFormNotifyIconName[ GetFormIndex("Main") ] := IDI_MAIN, RestoreConfig(ThisWindow.Name), aProcInfo := AddToGrid(), BuildMenu(nTheme) ) ;
+	ON RELEASE SaveConfig(ThisWindow.Name) ;
+	ON SIZE ResizeCtrls() ;
+	ON MAXIMIZE ResizeCtrls() ;
+	ON MINIMIZE IF(lToTray, Minimize_Click(), ) ;
+	NOTIFYTOOLTIP PROGRAM ;
+	ON NOTIFYCLICK Notify_Click() ;
+	FONT "Tahoma" ;
+	SIZE 8
+
+      DEFINE GRID Grid_1
+        ROW    0
+        COL    0
+        WIDTH  0
+        HEIGHT 0
+        WIDTHS { 50, 200, 100, 100, 100, 100 }
+        HEADERS {'#', "Process", "Description", "Company Name", "Copyright", "Version"}
+        FONTNAME "Courier New"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE SetMenuPriority( Main.Grid_1.Value )
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONDBLCLICK Nil
+        ONHEADCLICK Nil
+        ONQUERYDATA Nil
+        MULTISELECT .F.
+        ALLOWEDIT .F.
+        VIRTUAL .F.
+        NOLINES .T.
+        HELPID Nil
+        IMAGE Nil
+        JUSTIFY Nil
+        ITEMCOUNT Nil
+        BACKCOLOR {255,255,224}
+        FONTCOLOR {  0, 36,104}
+        PAINTDOUBLEBUFFER .T.
+    END GRID
+
+    DEFINE BUTTONEX Button_1
+        ROW    10
+        COL    300
+        WIDTH  74
+        HEIGHT 26
+        CAPTION "&Kill It!"
+	PICTURE "KILL"
+        ACTION KillIt( Main.Grid_1.Value )
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 8
+        TOOLTIP "To terminate selected process"
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FLAT .T.
+        TABSTOP .T.
+        VISIBLE .T.
+    END BUTTONEX
+
+    DEFINE BUTTONEX Button_2
+        ROW    50
+        COL    300
+        WIDTH  74
+        HEIGHT 26
+        CAPTION "&Cancel"
+	PICTURE "EXIT"
+        ACTION ThisWindow.Release
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 8
+        TOOLTIP "Exit from program"
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FLAT .T.
+        TABSTOP .T.
+        VISIBLE .T.
+    END BUTTONEX
+
+END WINDOW
+

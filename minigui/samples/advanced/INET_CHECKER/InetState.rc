@@ -1,4 +1,6 @@
-ICON_1     ICON res\Net.ico
-ICON_GREEN ICON res\Green.ico
-ICON_RED   ICON res\red.ico
+ICON_1 ICON "res\Net.ico"
+
+ICON_GREEN ICON "res\Green.ico"
+
+ICON_RED ICON "res\red.ico"
 

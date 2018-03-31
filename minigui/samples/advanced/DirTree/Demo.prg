@@ -273,7 +273,7 @@ Local cMask     := AllTrim( wMain.Text_1.Value )      , ;
       cAttr     := Iif( wMain.Check_1.Value, 'H', '' ), ;
       aFullList                                       , ;
       aDir      := {}                                 , ;
-      aFiles    := {}                                 , ;
+      aFiles                                          , ;
       xItem
 
 If !( Right( cPath, 1 ) == '\' )
@@ -301,7 +301,7 @@ Begin Sequence
            Endif 
         Endif 
 
-        DoEvents()
+        Do Events
         
         If lBreak
            Break
@@ -338,7 +338,7 @@ Begin Sequence
              ScanDir( cPath + xItem )
            End Node
 
-           DoEvents()
+           Do Events
 
            If lBreak
               Break
@@ -359,7 +359,7 @@ Begin Sequence
       
          wMain.StatusBar.Item( 1 ) := ( cPath + xItem[ F_NAME ] )
          
-         DoEvents()
+         Do Events
       
          If !wMain.Check_2.Value         // Не расскрывать архивы
             TreeItem xItem[ F_NAME ]
@@ -905,7 +905,7 @@ Return
 
 Static Function GetOpenCommand( cExt )
 Local oReg       , ;
-      cVar1 := '', ;
+      cVar1      , ;
       cVar2 := '', ;
       nPos
 

@@ -3,8 +3,6 @@
 
 #include "miniprint.ch"
 
-MEMVAR _HMG_RPTDATA
-
 #xcommand LOAD REPORT <w> ; 
 	=> ;
 	_HMG_RPTDATA \[ 162 \] := <"w"> ;;

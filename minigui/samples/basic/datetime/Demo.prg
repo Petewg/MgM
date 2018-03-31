@@ -69,7 +69,6 @@ Function Main
       DEFINE DATEPICKER Date_1
          ROW   10
          COL   10
-         WIDTH 170
          VALUE Date()
          TOOLTIP 'DatePicker Control Altsyntax'
          SHOWNONE .F.
@@ -79,7 +78,6 @@ Function Main
          TITLEBACKCOLOR BLACK
          TITLEFONTCOLOR YELLOW
          TRAILINGFONTCOLOR PURPLE
-         
          DATEFORMAT "'Date 'dd.MM.yyy"
       END DATEPICKER
 

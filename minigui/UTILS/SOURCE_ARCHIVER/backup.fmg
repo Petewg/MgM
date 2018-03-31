@@ -1,0 +1,251 @@
+* HMG-IDE Form Designer Generated Code
+* (c) Roberto Lopez - http://sites.google.com/site/hmgweb
+
+DEFINE WINDOW TEMPLATE AT 255 , 350 WIDTH 650 HEIGHT 402 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Simple backup of *.prg and *.fmg files" ICON NIL MAIN CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE LABEL L_Miejsce
+        ROW    40
+        COL    0
+        WIDTH  200
+        HEIGHT 18
+        VALUE "Destination folder for backup file"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE BUTTON P_WybierzFolder
+        ROW    30
+        COL    520
+        WIDTH  100
+        HEIGHT 60
+        ACTION SelectBackupHolder()
+        CAPTION "Select destination folder"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .T.
+    END BUTTON
+
+    DEFINE TEXTBOX T_BackupFolder
+        ROW    40
+        COL    210
+        WIDTH  300
+        HEIGHT 24
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        CASECONVERT NONE
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+    END TEXTBOX
+
+    DEFINE LABEL L_Nazwa
+        ROW    90
+        COL    80
+        WIDTH  120
+        HEIGHT 18
+        VALUE "Create archive name:"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE TEXTBOX T_BackupName
+        ROW    189
+        COL    198
+        WIDTH  412
+        HEIGHT 24
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        CASECONVERT NONE
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+    END TEXTBOX
+
+    DEFINE RADIOGROUP R_ArchiveNameCreatingMethod
+        ROW    110
+        COL    160
+        WIDTH  400
+        HEIGHT 75
+        OPTIONS {"depending application name","depending application name and timestamp (suggested)","depending on manual entry"}
+        VALUE 1
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE CreateArchiveName()
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 25
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        READONLY Nil
+        HORIZONTAL .F. 
+    END RADIOGROUP
+
+    DEFINE BUTTON P_Wykonaj
+        ROW    320
+        COL    360
+        WIDTH  120
+        HEIGHT 28
+        ACTION MakeBackup()
+        CAPTION "F2 - make backup"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+    END BUTTON
+
+    DEFINE BUTTON P_Anuluj
+        ROW    320
+        COL    510
+        WIDTH  100
+        HEIGHT 28
+        ACTION thisWindow.Release
+        CAPTION "Cancel"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+    END BUTTON
+
+    DEFINE PROGRESSBAR ProgressIndicator
+        ROW    270
+        COL    70
+        WIDTH  490
+        HEIGHT 20
+        RANGEMIN 1
+        RANGEMAX 10
+        VALUE 0
+        TOOLTIP ""
+        HELPID Nil
+        VISIBLE .F.
+        SMOOTH .F.
+        VERTICAL .F. 
+        BACKCOLOR NIL
+        FORECOLOR NIL
+    END PROGRESSBAR
+
+    DEFINE CHECKBOX CH_OverwriteBackupsWithoutWarning
+        ROW    220
+        COL    200
+        WIDTH  330
+        HEIGHT 28
+        CAPTION "Overwrite existing backup files without warning"
+        VALUE .F.
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+END WINDOW
+

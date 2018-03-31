@@ -369,13 +369,13 @@ METHOD Create( cClsName )  CLASS TControl
 
    if ::nBottom != CW_USEDEFAULT
 
-     ::hWnd := _CreateWindowEx( xStyle,cClsName, ::cCaption,::nStyle, ::nLeft,::nTop,;
-                               ::nRight - ::nLeft + 1,::nBottom - ::nTop + 1, ;
+     ::hWnd := _CreateWindowEx( xStyle, cClsName, ::cCaption, ::nStyle, ::nLeft, ::nTop,;
+                               ::nRight - ::nLeft + 1, ::nBottom - ::nTop + 1, ;
                                ::hWndParent, 0, GetInstance() , ::nId )
 
    else
 
-     ::hWnd := _CreateWindowEx( xStyle,cClsName, ::cCaption,::nStyle, ::nLeft,::nTop,;
+     ::hWnd := _CreateWindowEx( xStyle, cClsName, ::cCaption, ::nStyle, ::nLeft, ::nTop,;
                                ::nRight , ::nBottom , ;
                                ::hWndParent, 0, GetInstance() , ::nId )
    endif

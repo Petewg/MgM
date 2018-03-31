@@ -21,7 +21,6 @@ Function Main()
 		AT 0,0 ;
 		WIDTH 640 HEIGHT 480 ;
 		TITLE 'Memory File System Demo' ;
-		ICON "HMG" ;
 		MAIN NOMAXIMIZE ;
 		ON INIT OpenTable() ;
 		ON RELEASE CloseTable()

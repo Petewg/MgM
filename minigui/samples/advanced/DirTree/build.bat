@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat demo -lhbmzip -lhbziparc
+call ..\..\..\batch\hbmk2.bat %* demo demo.hbc

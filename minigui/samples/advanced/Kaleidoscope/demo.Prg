@@ -80,7 +80,7 @@ define window k at 0,0 width 650 height 530 title "Kaleidoscope - 3D v.1.1 by S.
       col 510
       width 130
       caption "Background Colour"
-      action  setbackcolor2()
+      action  setbackcolor()
    end button
    define checkbox show1
       row 280
@@ -331,7 +331,7 @@ endif
 return nil
 
 *------------------------------------------------------------------------------*
-function setbackcolor2 // multiple definition
+function setbackcolor
 *------------------------------------------------------------------------------*
 backcolor := getcolor(backcolor)
 return nil
@@ -399,7 +399,7 @@ for i := 1 to len(akalai)
    
    alpoints1 := converttolpoints(aclone(akalai[i,1]),stereobase,sdiff*int((i-1)/8))
    arpoints1 := converttorpoints(aclone(akalai[i,1]),stereobase)
-
+   
    do case 
       case akalai[i,3] == "TRIANGLE" .or. akalai[i,3] == "POLYGON"
          drawpolygon("s",alPoints1,akalai[i,2],,akalai[i,2])
@@ -411,7 +411,7 @@ for i := 1 to len(akalai)
          drawrect("s",alpoints1[1,1],alpoints1[1,2],alpoints1[2,1],alpoints1[2,2],akalai[i,2],,akalai[i,2])
          drawrect("s",arpoints1[1,1],arpoints1[1,2],arpoints1[2,1],arpoints1[2,2],akalai[i,2],,akalai[i,2])
    endcase   
-
+         
 next i
 
 return nil
@@ -512,7 +512,6 @@ for j := 1 to len(apoints)
    endcase
    aadd(aout,{x1,y1})
 next j
-
 return aclone(aout)
 
 *------------------------------------------------------------------------------*
@@ -520,32 +519,32 @@ FUNCTION SAVEWINDOW ( cWindowName , cFileName , nRow , nCol , nWidth , nHeight )
 *------------------------------------------------------------------------------*
 Local ntop , nleft , nbottom , nright
 
-   if valtype ( cFileName ) = 'U'
-      cFileName := GetStartupFolder() + "\" + cWindowName + '.bmp'
-   endif
+	if valtype ( cFileName ) = 'U'
+		cFileName := GetStartupFolder() + "\" + cWindowName + '.bmp'
+	endif
 
-   if valtype ( nRow ) = 'U' ;
-      .or. ;
-      valtype ( nCol ) = 'U' ;
-      .or. ;
-      valtype ( nWidth ) = 'U' ;
-      .or. ;
-      valtype ( nHeight ) = 'U' 
+	if	valtype ( nRow ) = 'U' ;
+		.or. ;
+		valtype ( nCol ) = 'U' ;
+		.or. ;
+		valtype ( nWidth ) = 'U' ;
+		.or. ;
+		valtype ( nHeight ) = 'U' 
 
-      ntop  := -1
-      nleft := -1
-      nbottom  := -1
-      nright   := -1
+		ntop	:= -1
+		nleft	:= -1
+		nbottom	:= -1
+		nright	:= -1
 
-   else
+	else
 
-      ntop  := nRow
-      nleft := nCol
-      nbottom  := nHeight + nRow
-      nright   := nWidth + nCol
+		ntop	:= nRow
+		nleft	:= nCol
+		nbottom	:= nHeight + nRow
+		nright	:= nWidth + nCol
 
-   endif
+	endif
 
-   SAVEWINDOWBYHANDLE ( GetFormHandle ( cWindowName ) , cFileName , ntop , nleft , nbottom , nright )
+	SAVEWINDOWBYHANDLE ( GetFormHandle ( cWindowName ) , cFileName , ntop , nleft , nbottom , nright )
 
 RETURN NIL

@@ -7,13 +7,12 @@
 
 #include "MiniGUI.ch"
 #include "i_qhtm.ch"
-//#include "i_winuser.ch"
+#include "i_winuser.ch"
 
 Procedure Main
 local cfile := "winlist.htm"
 
 if !qhtm_init()
-	msginfo( "qhtm_init() failed!" )
 	return
 endif
 
@@ -37,8 +36,8 @@ DEFINE WINDOW Form_1 AT 0, 0		;
 
 	@ 0,0 QHTM Html_1 ;
 		FILE cfile ;
-		WIDTH 800 /*Form_1.Width - GetBorderWidth()*2*/ ;
-		HEIGHT 400 /*Form_1.Height - GetTitleHeight() - GetBorderHeight()*2*/ ;
+		WIDTH Form_1.Width - GetBorderWidth()*2 ;
+		HEIGHT Form_1.Height - GetTitleHeight() - GetBorderHeight()*2 ;
 		ON CHANGE {|lParam| QHTM_MessageBox( "The link is: " + QHTM_GetLink( lParam ) ) }
 
 END WINDOW
@@ -67,7 +66,7 @@ Local i
 	do case
 
         ***********************************************************************
-	case nMsg == 78 // WM_NOTIFY
+	case nMsg == WM_NOTIFY
         ***********************************************************************
 
 		i := Ascan ( _HMG_aControlIds , wParam )
@@ -86,7 +85,7 @@ Local i
 
 	otherwise
 
-		Events ( hWnd, nMsg, wParam, lParam )
+		Return Events ( hWnd, nMsg, wParam, lParam )
 
     endcase
 

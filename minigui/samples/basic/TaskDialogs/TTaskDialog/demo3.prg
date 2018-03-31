@@ -148,7 +148,7 @@ FUNCTION CreateTimedDialog()
       :CollapsedCtrlText := "Click to see more" 
       :ExpandedCtrlText  := "Hide Expanded Text" 
 
-      :EnableHyperlinks        := .T.
+      :EnableHyperlinks  := .T.
 
    ENDWITH 
 
@@ -158,7 +158,6 @@ RETURN oDialog
 #pragma BEGINDUMP
 
 #include <mgdefs.h>
-#include "hbapi.h"
 #include "hbapiitm.h"
 
 static BOOL CALLBACK EnumChildProc( HWND hWnd, LPARAM lParam );
@@ -187,7 +186,7 @@ static BOOL CALLBACK EnumChildProc( HWND hWnd, LPARAM lParam )
 
    hb_itemRelease( pHWnd );
 
-   return ( ( BOOL ) hb_parl( -1 ) );
+   return( ( BOOL ) hb_parl( -1 ) );
 }
 
 #pragma ENDDUMP

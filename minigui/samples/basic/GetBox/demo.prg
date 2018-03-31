@@ -12,15 +12,13 @@
 *-----------------------------
 Function MAIN()
 *-----------------------------
+   LOCAL oGet
 
    SET CENTURY ON
    SET DATE ANSI
    SET ShowDetailError ON
    SET DELETED ON
    SET BROWSESYNC ON
-   
-   SET AUTOADJUST ON NOBUTTONS
-   // SET AUTOZOOMING ON
 
    OPEN_TABLE()
 
@@ -33,7 +31,7 @@ Function MAIN()
       AT 0,0 ;
       WIDTH 480 HEIGHT 410 ;
       TITLE 'HMG GetBox Demo by Jacek Kubica <kubica@wssk.wroc.pl>' ;
-      MAIN ON INIT _AutoAdjust( This.Handle, {640, 480} )
+      MAIN
 
          DEFINE GETBOX Text_1 // Alternate Syntax
            ROW 10
@@ -47,9 +45,12 @@ Function MAIN()
            MESSAGE "Date Value"
            BACKCOLOR {{255,255,255},{255,255,200},{200,255,255}}
            FONTCOLOR {{0,0,0},{255,255,200},{0,0,255}}
-         END GETBOX
+         END GETBOX OBJECT oGet
 
-         @ 40,10 GETBOX Text_2 ;
+         oGet:SetKeyEvent( VK_F5, {|o| MsgBox( 'VK_F5 : ' + cValToChar( o:VarGet() ), This.Name ) } ) 
+         oGet:SetKeyEvent( , {|o| MsgBox( 'LDblClick : ' + cValToChar( o:VarGet() ), This.Name ) } )
+
+         @ 40,10 GETBOX Text_2 OBJ oGet ;
                  HEIGHT 20;
                  VALUE 57639 ;
                  ACTION MsgInfo( "Button Action");
@@ -61,6 +62,9 @@ Function MAIN()
                  VALIDMESSAGE "Value between -100 and 200000 " ;
                  BACKCOLOR {{255,255,255},{255,255,200},{200,255,255}} ;
                  FONTCOLOR {{0,0,0},{255,255,200},{0,0,255}}
+
+         oGet:SetKeyEvent( VK_F5, {|o| MsgBox( 'VK_F5 : ' + cValToChar( o:VarGet() ), This.Name ) } ) 
+         oGet:SetKeyEvent( , {|o| MsgBox( 'LDblClick : ' + cValToChar( o:VarGet() ), This.Name ) } )
 
          @ 78,10 GETBOX Text_3 ;
                  VALUE "Jacek";
@@ -381,6 +385,7 @@ Local aDbf := {}
   AADD (aDbf,{"Character"  , "C",  20,0})
   AADD (aDbf,{"Logical"    , "L",  1,0})
   dbcreate( ufile, aDbf, 'DBFNTX' )
+  aDbf := {}
 
 Return NIL
 
@@ -395,7 +400,7 @@ return .t.
 *-----------------------------
 Function _Trans(xval)
 *-----------------------------
-   Local RetVal
+   Local RetVal:=""
 
    if VALTYPE(xVAL)=="C"
       RetVal := xval

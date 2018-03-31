@@ -1,0 +1,6 @@
+-oDemoPdf
+
+-w2 -es2 -ko -q0
+
+source\DemoPdf.prg
+source\i2of5txt.prg

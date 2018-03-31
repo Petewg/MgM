@@ -1,0 +1,5 @@
+This program is co-winner of the first "xHarbour Annual Application Competition".
+You may see the announcement about this competition at the following URL:
+http://www.xharbour.com/index.asp?page=news_item&id=20
+and there are the results at this page:
+http://www.xharbour.com/index.asp?page=news_item&id=30

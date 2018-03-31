@@ -123,7 +123,7 @@ Define window wModest       ;
        Width 720            ;
        Height 580           ;
        Title APPNAME        ;
-       Icon 'AMODEST'       ;
+       Icon '1MODEST'       ;
        Main                 ;
        On Init ReSize()     ;
        On Size ReSize()     ;
@@ -317,7 +317,7 @@ Define window wModest       ;
    // because it is necessary for TsBrowse for show of position. 
 
    Define statusbar Font 'Tahoma' Size 9
-     StatusItem ''
+     StatusItem '' Default
      StatusItem '' Width 100                           // Show of position
      StatusItem '' Width 30                            // Changing indicator
      StatusItem aStat[ 'RDD' ] Width 100               // Current database RDD
@@ -838,7 +838,7 @@ Memvar aCollector
 Local nColor := RGB( 255, 255, 255 )
 
 // We will show in color only records with attributes
-// "New element" Ú‡ "Deleted element"
+// "New element" ‡nd "Deleted element"
 
 If !Empty( aCollector )
 
@@ -849,8 +849,8 @@ If !Empty( aCollector )
          nColor := RGB( 227, 227, 234 )
 
       ElseIf ( aCollector[ nItem, DBS_FLAG ] == FLAG_DELETED )
-        // Deleted row
-        nColor := RGB( 255, 128, 128 )
+         // Deleted row
+         nColor := RGB( 255, 128, 128 )
 
       Endif
 
@@ -903,7 +903,7 @@ wAboutMe.lblCopyright.Value  := ( 'Author:' + COPYRIGHT )
 wAboutMe.lblComponents.Value := ( HB_Compiler()    + CRLF + ;
                                   Version()        + CRLF + ;
                                   MiniGuiVersion()          ;
-                               )
+                                )
 
 On key Escape of wAboutMe Action wAboutMe.Release()
 On key Alt+X of wAboutMe Action { || Done(), ReleaseAllWindows() }  // Hotkey for urgent program closing
@@ -1598,7 +1598,7 @@ If ( aStat[ 'ChStruct'   ] .or. ;
    
 Endif
 
-cFile := GetFile( FILEDLG_FILTER, 'Select dBASE file', "." , .F., .T. )
+cFile := GetFile( FILEDLG_FILTER, 'Select dBASE file', , .F., .T. )
 
 If !Empty( cFile )
    GetStructure( cFile )

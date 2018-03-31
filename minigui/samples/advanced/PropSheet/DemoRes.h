@@ -1,4 +1,4 @@
-
+// Used by Demo.rc
 #define IDD_ABOUT_DIALOG                101
 #define IDR_MAIN_MENU                   102
 #define IDI_STARICON                    103

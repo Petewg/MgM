@@ -33,38 +33,38 @@ FUNCTION Main()
       f1.height := RowCharToPix( nHeight ) + GetBorderHeight() / iif( IsWinXP(), .5, 2 ) ) ;
       Nosize
 
-   @ RowCharToPix( 1 ), nCol LABEL l1 value "Enter Name    " font "MS Sans Serif" size 8
+   @RowCharToPix( 1 ), nCol LABEL l1 value "Enter Name    " font "MS Sans Serif" size 8
 
-   @ RowCharToPix( 1 ) -n, LenChartopix( f1 .l1. value ) getbox cName value cName PICTURE "@!" ;
+   @RowCharToPix( 1 ) -n, LenChartopix( f1 .l1. value ) getbox cName value cName PICTURE "@!" ;
       width nCtrlW height nCtrlH ;
       valid {|| CheckEmpty( ( cName := f1 .cName. value ), "You must enter a name" ) }
 
-   @ RowCharToPix( 4 ) -n, nCol LABEL l2 value "Enter street 1" font "MS Sans Serif" size 8
+   @RowCharToPix( 4 ) -n, nCol LABEL l2 value "Enter street 1" font "MS Sans Serif" size 8
 
-   @ RowCharToPix( 4 ) -2 * n, LenChartopix( f1 .l2. value ) getbox cStreet1 value cStreet1 ;
+   @RowCharToPix( 4 ) -2 * n, LenChartopix( f1 .l2. value ) getbox cStreet1 value cStreet1 ;
       width nCtrlW height nCtrlH ;
       valid {|| CheckEmpty( ( cStreet1 := f1 .cStreet1. value ), "You must enter a street address" ) }
 
-   @ RowCharToPix( 7 ) -2 * n, nCol LABEL l3 value "Enter street 2" font "MS Sans Serif" size 8
+   @RowCharToPix( 7 ) -2 * n, nCol LABEL l3 value "Enter street 2" font "MS Sans Serif" size 8
 
-   @ RowCharToPix( 7 ) -3 * n, LenChartopix( f1 .l3. value ) getbox cStreet2 value cStreet2 ;
+   @RowCharToPix( 7 ) -3 * n, LenChartopix( f1 .l3. value ) getbox cStreet2 value cStreet2 ;
       width nCtrlW height nCtrlH
 
-   @ RowCharToPix( 10 ) -3 * n, nCol LABEL l4 value "Enter City    " font "MS Sans Serif" size 8
+   @RowCharToPix( 10 ) -3 * n, nCol LABEL l4 value "Enter City    " font "MS Sans Serif" size 8
 
-   @ RowCharToPix( 10 ) -4 * n, LenChartopix( f1 .l4. value ) getbox cCity value cCity PICTURE "@!" ;
+   @RowCharToPix( 10 ) -4 * n, LenChartopix( f1 .l4. value ) getbox cCity value cCity PICTURE "@!" ;
       width nCtrlW height nCtrlH ;
       valid {|| CheckEmpty( ( cCity := f1 .cCity. value ), "You must enter a city name" ) }
 
-   @ RowCharToPix( 13 ) -4 * n, nCol LABEL l5 value "Enter state   " font "MS Sans Serif" size 8
+   @RowCharToPix( 13 ) -4 * n, nCol LABEL l5 value "Enter state   " font "MS Sans Serif" size 8
 
-   @ RowCharToPix( 13 ) -5 * n, LenChartopix( f1 .l5. value ) getbox cState value cState PICTURE "@!" ;
+   @RowCharToPix( 13 ) -5 * n, LenChartopix( f1 .l5. value ) getbox cState value cState PICTURE "@!" ;
       width ColCharToPix( 3.5 ) height nCtrlH ;
       valid {|| IfState( ( cState := f1 .cState. value ) ) }
 
-   @ RowCharToPix( 16 ) -6 * n, nCol LABEL l6 value "Enter zipcode " font "MS Sans Serif" size 8
+   @RowCharToPix( 16 ) -6 * n, nCol LABEL l6 value "Enter zipcode " font "MS Sans Serif" size 8
 
-   @ RowCharToPix( 16 ) -7 * n, LenChartopix( f1 .l6. value ) getbox cZipcode value cZipcode PICTURE "99999" ;
+   @RowCharToPix( 16 ) -7 * n, LenChartopix( f1 .l6. value ) getbox cZipcode value cZipcode PICTURE "99999" ;
       width ColCharToPix( 6 ) height nCtrlH ;
       valid {|| CheckEmpty( ( cZipcode := f1 .cZipcode. value ), "You must enter a zipcode" ) }
 

@@ -1,13 +1,16 @@
+#
+# hbgdip.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/hbgdip
+-inc
+-o../../harbour/lib/hbgdip
 
 -I../../include
--hbx=../../include/${hb_name}.hbx
 
--w2 -es2 -ko
+-warn=max
+
+-hbx=../../include/hbgdip.hbx
 
 core.c 
 pen.c 

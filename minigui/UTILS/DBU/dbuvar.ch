@@ -1,0 +1,102 @@
+memvar _DBUdbfopened
+memvar _DBUfname
+memvar _DBUindexed
+memvar _DBUfiltered
+memvar _DBUcondition
+memvar _DBUmaxrow
+memvar _DBUcontrolarr
+memvar _DBUeditmode
+memvar _DBUindexfieldname
+memvar _DBUbuttonsdefined
+memvar _DBUscrwidth
+memvar _DBUscrheight
+
+memvar _DBUwindowwidth
+memvar _DBUwindowheight
+
+memvar _DBUtotdeleted
+memvar _DBUlastpath
+memvar _DBUlastfname
+memvar _DBUcurrentprinter
+memvar _DBUpath
+memvar _DBUparentfname
+memvar _DBUchildfname
+memvar _DBUparentstructarr
+memvar _DBUchildstructarr
+memvar _DBUreddish
+memvar _DBUgreenish
+memvar _DBUblueish
+memvar _DBUyellowish
+memvar _DBUblack
+memvar _DBUindexfields
+memvar _DBUindexfiles
+memvar _DBUactiveindex
+
+memvar _DBUi
+memvar _DBUj
+
+memvar _DBUfieldname
+memvar _DBUforcondition
+memvar _DBUcondition1
+memvar _DBUvalue
+memvar _DBUinputwindowresult
+memvar _DBUinputwindowinitial
+memvar _DBUfieldnames
+memvar _DBUfieldsarr
+memvar _DBUstructarr
+memvar _DBUdbffunctions
+memvar _DBUindexlist
+memvar _DBUcurrentitem
+memvar _DBUindexfile
+memvar _DBUopenfilenames
+memvar _DBUsize, _DBUsize1
+memvar _DBUbuttonfirstrow
+memvar _DBUbuttonrow
+memvar _DBUbuttoncol
+memvar _DBUbuttoncount
+memvar _DBUcurrec
+
+memvar _DBUdbfsaved
+memvar _DBUtype1
+memvar _DBUcurline
+memvar _DBUpos
+memvar _DBUfname1
+
+memvar _DBUfieldnamesize
+memvar _DBUfieldsize
+memvar _DBUspecifysize
+memvar _DBUmaxcol
+memvar _DBUrow
+memvar _DBUcol
+memvar _DBUpages
+memvar _DBUhspace
+memvar _DBUvspace
+memvar _DBUcontrolname
+memvar _DBUheader1
+
+memvar _DBUoriginalarr
+memvar _DBUmodarr
+memvar _DBUline
+memvar _DBUbackname
+memvar _DBUnewname
+
+memvar _DBUmaxrow1
+memvar _DBUmaxcol1
+memvar _DBUfieldnamearr
+memvar _DBUfieldsizearr
+memvar _DBUlongest
+memvar _DBUavailableprinters
+memvar _DBUmaxportraitcol
+memvar _DBUmaxlandscapecol
+memvar _DBUfontsizesstr
+memvar _DBUfieldfound
+memvar _DBUheadingarr
+memvar _DBUjustifyarr
+memvar _DBUlinesrefarr
+memvar _DBUselectedstructarr
+memvar _DBUpageno
+memvar _DBUfirstrow
+memvar _DBUlastrow
+memvar _DBUcurrentrecordarr
+
+memvar _curDBUindexfile

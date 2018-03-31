@@ -2,34 +2,23 @@
 # hmg.hbp
 #
 
-# -exitstr 
-# -info    
-# -strip
-# -jobs=<n> start n compilation threads (multiprocess platforms only)
-# -jobs=2
-
-# -prgflag=/l
-# -cflag=-Ofast
-# -cflag=-mtune=native
-
-
-# -warn=<level> set C compiler warning level. <level> can be: max, yes, low, no, def (default: yes)
--warn=yes 
-
--hbx=../include/hmg.hbx
-
 -hblib
 
-# we never do incremental build
--inc-
+-inc
 
 -o../lib/minigui
 
 -I../include
 
--w3 -es2 -ko -l -ql
+-w3 -es2 -ko -q0
 
-#-cflag=-DWIN32_LEAN_AND_MEAN
+{bcc|mingw|msvc}-l
+
+-warn=yes
+
+{msvc}-cflag=-D_CRT_SECURE_NO_WARNINGS
+
+-hbx=../include/hmg.hbx
 
 c_bitmap.c
 c_browse.c
@@ -40,15 +29,15 @@ c_chklabel.c
 c_chklistbox.c
 c_combo.c
 c_controlmisc.c
-# c_crypt.c
+c_crypt.c
 c_cuebanner.c
 c_cursor.c
 c_datepicker.c
 c_dialog.c
 c_dialogs.c
 c_draw.c
-c_editbox.c
 c_error.c
+c_editbox.c
 c_folder.c
 c_font.c
 c_frame.c
@@ -99,6 +88,7 @@ hbgdiplus.c
 
 ErrorSys.prg
 h_activex.prg
+h_alert.prg
 h_animate.prg
 h_browse.prg
 h_btntextbox.prg
@@ -140,6 +130,7 @@ h_label.prg
 h_listbox.prg
 h_media.prg
 h_menu.prg
+h_misc.prg
 h_monthcal.prg
 h_mru.prg
 h_msgbox.prg
@@ -151,6 +142,7 @@ h_radio.prg
 h_registry.prg
 h_report.prg
 h_richeditbox.prg
+h_rptgen.prg
 h_scrsaver.prg
 h_slider.prg
 h_socket.prg
@@ -169,6 +161,3 @@ h_winapimisc.prg
 h_windows.prg
 h_windowsMDI.prg
 h_winprop.prg
-
-hbwin.hbc
-

@@ -1,0 +1,31 @@
+Tray Calendar minimizes to the Windows system tray.
+Tray Calendar's system tray icon shows the current
+day of the month. 
+
+Clicking on the Tray Calendar icon brings up a
+virtual calendar.
+
+The Tray Calendar main screen always starts up with
+the current year and month on the calendar.
+
+Press the calendar navigator buttons to go to any
+month and year. The left and right arrows go to
+previous and next months. The today label returns
+you to today's date.
+
+Click on a date to create or change the notes for
+that date. Text may be entered into the edit box
+just below the calendar. Text may be any length up
+to 32,000 characters. 
+
+To delete the notes for a day, simply click on the
+day and delete the notes from the edit field. When
+the notes edit field is empty, the notes for that
+day will be deleted.
+
+To delete all past notes (notes before today) click
+on the File..Delete Notes Before Today option.
+
+Clicking on the date display button at the bottom
+of the screen will copy the current date to the
+clipboard.

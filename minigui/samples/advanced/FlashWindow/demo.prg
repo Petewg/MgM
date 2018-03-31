@@ -6,7 +6,7 @@
 
 #define APP_TITLE "Hello World!"
 
-Procedure Main
+PROCEDURE Main
 
    LOCAL hWnd, lResult
 
@@ -16,13 +16,13 @@ Procedure Main
 
    IF hWnd > 0
 
-      if IsIconic( hWnd )
+      IF IsIconic( hWnd )
          _Restore( hWnd )
-      else
+      ELSE
          SetActiveWindow( hWnd )
          _Minimize( hWnd )
          _Restore( hWnd )
-      endif
+      ENDIF
 
    ELSE
 
@@ -43,7 +43,7 @@ Procedure Main
 
    ENDIF
 
-Return
+RETURN
 
 /*
  *	Flashing( [<cFormName>], [<nBlinks>], [<bWhen>] )

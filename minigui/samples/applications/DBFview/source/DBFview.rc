@@ -1,0 +1,47 @@
+AMAIN		ICON		..\res\main.ico
+CHILD		ICON		..\res\child.ico
+
+CHECK		BITMAP		..\res\check.bmp
+UNCHECK		BITMAP		..\res\uncheck.bmp
+
+OPEN		BITMAP		..\res\open.bmp
+SAVE		BITMAP		..\res\save.bmp
+DELETE		BITMAP		..\res\delete.bmp
+FIND		BITMAP		..\res\find.bmp
+GOTO		BITMAP		..\res\goto.bmp
+CODEPAGE	BITMAP		..\res\codepage.bmp
+PROP		BITMAP		..\res\prop.bmp
+ADJUST		BITMAP		..\res\adjust.bmp
+FILTER		BITMAP		..\res\filter.bmp
+REFRESH		BITMAP		..\res\refresh.bmp
+ABOUT		BITMAP		..\res\about.bmp
+
+
+1 VERSIONINFO
+FILEVERSION 0,7,8,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "DBF viewer and editor\000"
+		VALUE "FileVersion", "0.7.8.0"
+		VALUE "InternalName", "DBFview\000"
+		VALUE "LegalCopyright", "Copyright © 2004-2009 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "DBFview.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

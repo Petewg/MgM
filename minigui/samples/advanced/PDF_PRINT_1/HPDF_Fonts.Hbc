@@ -1,1 +1,1 @@
-libs=hbhpdf libhpdf png
+libs=hmg_hpdf hbhpdf libhpdf png

@@ -32,10 +32,10 @@
     "Harbour GUI framework for Win32"
     Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2018, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -281,6 +281,18 @@ HB_FUNC( GETKEYSTATE )
    hb_retni( GetKeyState( hb_parni( 1 ) ) );
 }
 
+HB_FUNC ( HMG_KEYBOARDCLEARBUFFER )
+{
+   MSG Msg;
+   while( PeekMessage( &Msg, NULL, WM_KEYFIRST, WM_KEYLAST, PM_REMOVE ) );
+}
+
+HB_FUNC ( HMG_MOUSECLEARBUFFER )
+{
+   MSG Msg;
+   while( PeekMessage( &Msg, NULL, WM_MOUSEFIRST, WM_MOUSELAST, PM_REMOVE ) );
+}
+
 #ifndef USER_TIMER_MINIMUM
 # define USER_TIMER_MINIMUM  0x0000000A
 #endif
@@ -479,9 +491,9 @@ HB_FUNC( MEMORYSTATUS )
    }
 }
 
-HB_FUNC( SHELLABOUT )
+HB_FUNC( C_SHELLABOUT )
 {
-   ShellAbout( 0, hb_parc( 1 ), hb_parc( 2 ), ( HICON ) HB_PARNL( 3 ) );
+   hb_retl( ShellAbout( ( HWND ) HB_PARNL( 1 ), hb_parc( 2 ), hb_parc( 3 ), ( HICON ) HB_PARNL( 4 ) ) );
 }
 
 HB_FUNC( PAINTBKGND )
@@ -868,7 +880,7 @@ HB_FUNC( WINVERSION )
 
                RegCloseKey( hKey );
 
-               if( szVersion != ( CHAR * ) "Unknown Operating System" )
+               if( lstrcmpi( "Unknown Operating System", szVersion ) != 0 )
                {
                   if( lstrcmpi( "WINNT", szProductType ) == 0 )
                      szVersionEx = "Workstation ";
@@ -1263,38 +1275,46 @@ HB_FUNC( DRAWTEXT )
 HB_FUNC( GETTEXTMETRIC )
 {
    TEXTMETRIC tm;
-   PHB_ITEM   aMetr = hb_itemArrayNew( 6 );
+   PHB_ITEM   aMetr = hb_itemArrayNew( 7 );
 
-   GetTextMetrics( ( HDC ) HB_PARNL( 1 ), // handle of device context
-                   &tm                    // address of text metrics structure
-                   );
+   if( GetTextMetrics( ( HDC ) HB_PARNL( 1 ), // handle of device context
+                       &tm                    // address of text metrics structure
+                       ) )
+   {
+      //tmHeight
+      //Specifies the height (ascent + descent) of characters.
+      HB_arraySetNL( aMetr, 1, tm.tmHeight );
 
-   //tmHeight
-   //Specifies the height (ascent + descent) of characters.
-   HB_arraySetNL( aMetr, 1, tm.tmHeight );
+      //tmAveCharWidth Specifies the average width of characters in the font
+      //(generally defined as the width of the letter x).
+      //This value does not include the overhang required for bold or italic characters.
+      HB_arraySetNL( aMetr, 2, tm.tmAveCharWidth );
 
-   //tmAveCharWidth Specifies the average width of characters in the font
-   //(generally defined as the width of the letter x).
-   //This value does not include the overhang required for bold or italic characters.
-   HB_arraySetNL( aMetr, 2, tm.tmAveCharWidth );
+      //tmMaxCharWidth
+      //Specifies the width of the widest character in the font.
+      HB_arraySetNL( aMetr, 3, tm.tmMaxCharWidth );
 
-   //tmMaxCharWidth
-   //Specifies the width of the widest character in the font.
-   HB_arraySetNL( aMetr, 3, tm.tmMaxCharWidth );
+      //tmAscent
+      //Specifies the ascent (units above the base line) of characters.
+      HB_arraySetNL( aMetr, 4, tm.tmAscent );
 
-   //tmAscent
-   //Specifies the ascent (units above the base line) of characters.
-   HB_arraySetNL( aMetr, 4, tm.tmAscent );
+      //tmDescent
+      //Specifies the descent (units below the base line) of characters.
+      HB_arraySetNL( aMetr, 5, tm.tmDescent );
 
-   //tmDescent
-   //Specifies the descent (units below the base line) of characters.
-   HB_arraySetNL( aMetr, 5, tm.tmDescent );
+      //tmInternalLeading
+      //Specifies the amount of leading (space) inside the bounds set by the tmHeight member.
+      //Accent marks and other diacritical characters may occur in this area.
+      //The designer may set this member to zero.
+      HB_arraySetNL( aMetr, 6, tm.tmInternalLeading );
 
-   //tmInternalLeading
-   //Specifies the amount of leading (space) inside the bounds set by the tmHeight member.
-   //Accent marks and other diacritical characters may occur in this area.
-   //The designer may set this member to zero.
-   HB_arraySetNL( aMetr, 6, tm.tmInternalLeading );
+      //tmExternalLeading
+      //The amount of extra leading (space) that the application adds between rows.
+      //Since this area is outside the font, it contains no marks and is not altered by text
+      //output calls in either OPAQUE or TRANSPARENT mode.
+      //The designer may set this member to zero.
+      HB_arraySetNL( aMetr, 7, tm.tmExternalLeading );
+   }
 
    hb_itemReturnRelease( aMetr );
 }

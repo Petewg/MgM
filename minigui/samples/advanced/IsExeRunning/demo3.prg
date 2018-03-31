@@ -7,7 +7,7 @@
  * Copyright 2013 Simon Norbert <simon.n@t-online.hu>
 */
 
-#include "hmg.ch"
+#include <minigui.ch>
 
 Procedure MAIN
 Local cTitle := 'One Instance Sample'
@@ -32,7 +32,7 @@ Function OnlyOneInstance( cAppTitle )
 Local hWnd := FindWindowEx( ,,, cAppTitle )
  
 if hWnd # 0
-   iif( IsIconic( hWnd ), Restore( hWnd ), SetForeGroundWindow( hWnd ) )
+   iif( IsIconic( hWnd ), _Restore( hWnd ), SetForeGroundWindow( hWnd ) )
    ExitProcess( 0 )
 endif
 

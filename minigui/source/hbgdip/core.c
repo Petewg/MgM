@@ -11,7 +11,7 @@ HB_FUNC( GDIPLUSINITEXT )
    UINT ufLoad = ( UINT ) hb_parns( 1 );
    GpStatus status = InvalidParameter;
 
-   if( (0 != ufLoad) & _GDI_GRAPHICS )
+   if( 0 != ( ufLoad & _GDI_GRAPHICS ) )
       status = GpExtLoadGraphics();
 
    if( Ok == status )

@@ -1,0 +1,47 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN ICON "res\main.ico"
+
+LOGO BITMAP "res\pk_logo.bmp"
+KILL BITMAP "res\kill.bmp"
+EXIT BITMAP "res\exit.bmp"
+INFO BITMAP "res\info.bmp"
+OPEN BITMAP "res\open.bmp"
+RUN BITMAP "res\run.bmp"
+CMD BITMAP "res\cmd.bmp"
+REFRESH BITMAP "res\refresh.bmp"
+
+MARK1 BITMAP "res\MARK1.bmp"
+MARK2 BITMAP "res\MARK2.bmp"
+MARK3 BITMAP "res\MARK3.bmp"
+CHECK BITMAP "res\CHECK.bmp"
+CHECK2 BITMAP "res\CHECK2.bmp"
+
+1 VERSIONINFO
+FILEVERSION 2,2,2,0
+PRODUCTVERSION 2,2,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Quickly terminate applications\000"
+		VALUE "FileVersion", "2.2.2.0\000"
+		VALUE "InternalName", "proc_klr\000"
+		VALUE "LegalCopyright", "Freeware 2004-2015\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "proc_klr.exe\000"
+		VALUE "CompanyName", "http://hmgextended.com\000"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "2.2.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

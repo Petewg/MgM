@@ -1,0 +1,18 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds inside EXE.
+//
+//Resource name	Resource Type   Resource FileName
+//
+1MAIN_ICO       ICON         res\1MiniGui.ico   
+
+f_one64         PNG          res\f_one64.png
+f_three64       PNG          res\f_three64.png
+f_two64         PNG          res\f_two64.png
+gear64x1        PNG          res\gear64x1.png
+gear64x2        PNG          res\gear64x2.png
+               
+m_Exit32        ICON         res\m_Exit32.ico
+m_One32         ICON         res\m_One32.ico
+m_Three32       ICON         res\m_Three32.ico
+m_Two32         ICON         res\m_Two32.ico
+
+

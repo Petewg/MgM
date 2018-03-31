@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <table>
   <item name="aa">
-course
-    <font name="Courier New" height="10" bold="1"/>
+course    <font name="Courier New" height="10" bold="1"/>
   </item>
   <item name="bb">
-Jimmy Hendrix
-    <font name="Arial" height="10"/>
-  </item>
-  <item name="cccccccc">
-blabla
-    <font name="Times New Roman" height="12"/>
-  </item>
-  <item name="NewItem2">
-This a new item added 31/07/2014
-    <font name="Ubuntu Mono" height="12" charset="161"/>
-  </item>
-  <item name="New Item">
-asdfgh
-    <font name="Telegrafico" height="12"/>
+Jimmy Hendrix    <font name="Arial" height="12" italic="1"/>
   </item>
 </table>

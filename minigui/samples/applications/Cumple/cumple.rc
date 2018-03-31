@@ -1,0 +1,7 @@
+MAIN       ICON ".\..\..\..\RESOURCES\DEFAULT.ICO"
+Znuevo     ICON ico\Nuevo.ico
+Zmodificar ICON ico\Modificar.ico
+Zguardar   ICON ico\Guardar.ico
+Zcancelar  ICON ico\Cancelar.ico
+Zeliminar  ICON ico\Eliminar.ico
+Zsalir     ICON ico\Salir.ico

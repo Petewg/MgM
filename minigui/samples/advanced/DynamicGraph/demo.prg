@@ -33,7 +33,7 @@ Procedure Main()
 
 		DEFINE NOTIFY MENU OF Form_Main
 		ITEM '&About...'	ACTION ShellAbout( "", PROGRAM + VERSION + CRLF + ;
-			"Copyright " + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN") )
+			"Copyright " + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN", 32, 32) )
 		SEPARATOR	
 		ITEM '&Exit'		ACTION Form_Main.Release
 		END MENU
@@ -173,7 +173,7 @@ Static Procedure RefreshWin( hWnd )
 *--------------------------------------------------------*
 
 	SendMessage( hWnd, WM_PAINT, 0, 0 )
-	DoEvents()
+	Do Events
 
 Return
 

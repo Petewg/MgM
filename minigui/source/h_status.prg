@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -47,6 +47,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 #include "minigui.ch"
 
+#define ID_STATUSBAR    0
 #define SB_SETTEXT      (WM_USER+1)
 #define SBT_OWNERDRAW   0x1000
 
@@ -87,7 +88,7 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
 
    ParentFormHandle := GetFormHandle ( ParentForm )
 
-   ControlHandle := InitMessageBar ( ParentFormHandle, "", 0 )
+   ControlHandle := InitMessageBar ( ParentFormHandle, ID_STATUSBAR )
 
    _HMG_ActiveStatusHandle := ControlHandle // New Public Value JP MDI
 
@@ -105,11 +106,11 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
 
    Public &mVar. := k
 
-   _HMG_aControlType [k] := "MESSAGEBAR"
+   _HMG_aControlType [k] :=  "MESSAGEBAR"
    _HMG_aControlNames  [k] :=  ControlName
    _HMG_aControlHandles  [k] :=  ControlHandle
    _HMG_aControlParenthandles [k] :=  ParentFormHandle
-   _HMG_aControlIds  [k] :=  0
+   _HMG_aControlIds  [k] :=  ID_STATUSBAR
    _HMG_aControlProcedures  [k] :=  ''
    _HMG_aControlPageMap  [k] :=  {}
    _HMG_aControlValue  [k] :=  Nil
@@ -134,7 +135,7 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
    _HMG_aControlFontName  [k] :=  fontname
    _HMG_aControlFontSize  [k] :=  fontsize
    _HMG_aControlFontAttributes  [k] :=  { bold, italic, underline, strikeout }
-   _HMG_aControlToolTip   [k] := ''
+   _HMG_aControlToolTip   [k] :=  ''
    _HMG_aControlRangeMin  [k] :=  0
    _HMG_aControlRangeMax  [k] :=  0
    _HMG_aControlCaption  [k] :=  ''

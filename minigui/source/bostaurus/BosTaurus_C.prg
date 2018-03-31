@@ -50,15 +50,26 @@
 
 #pragma BEGINDUMP
 
-
 #define WINVER 0x0501  // minimum requirements: Windows XP
 #include <mgdefs.h>
 
 #include <commctrl.h>
 #include <olectl.h>
 #include <time.h>
+#ifdef __POCC__
+   #include <wchar.h>
+   #define _USE_MATH_DEFINES
+#endif
 #include <math.h>
 
+#ifdef __XHARBOUR__
+   #define hb_parvni   hb_parni
+   #define hb_parvnd   hb_parnd
+   #define hb_storvnd  hb_stornd
+   #define HB_STORVNI  hb_storni
+#else
+   #define HB_STORVNI  hb_storvni
+#endif
 
 #ifdef __BORLANDC__
    #ifndef BT_BCC_LINK_LIB
@@ -819,20 +830,20 @@ HB_FUNC( BT_DC_CREATE )
 
    hb_reta( 50 );                                                         // Return array = {Type, hWnd, hBitmap, hDC, PaintStruct ...}
 
-   hb_storvni( ( INT ) BT.Type, -1, 1 );                                  // Type
+   HB_STORVNI( ( INT ) BT.Type, -1, 1 );                                  // Type
    HB_STORVNL( ( LONG_PTR ) BT.hWnd, -1, 2 );                             // hWnd
    HB_STORVNL( ( LONG_PTR ) BT.hDC, -1, 3 );                              // hDC
    // PAINTSTRUCT
    HB_STORVNL( ( LONG_PTR ) BT.PaintStruct.hdc, -1, 4 );                  // HDC  hdc;
-   hb_storvni( ( INT ) BT.PaintStruct.fErase, -1, 5 );                    // BOOL fErase;
-   hb_storvnl( ( LONG ) BT.PaintStruct.rcPaint.left, -1, 6 );             // RECT rcPaint.left;
-   hb_storvnl( ( LONG ) BT.PaintStruct.rcPaint.top, -1, 7 );              // RECT rcPaint.top;
-   hb_storvnl( ( LONG ) BT.PaintStruct.rcPaint.right, -1, 8 );            // RECT rcPaint.right;
-   hb_storvnl( ( LONG ) BT.PaintStruct.rcPaint.bottom, -1, 9 );           // RECT rcPaint.bottom;
-   hb_storvni( ( INT ) BT.PaintStruct.fRestore, -1, 10 );                 // BOOL fRestore;
-   hb_storvni( ( INT ) BT.PaintStruct.fIncUpdate, -1, 11 );               // BOOL fIncUpdate;
+   HB_STORVNI( ( INT ) BT.PaintStruct.fErase, -1, 5 );                    // BOOL fErase;
+   HB_STORVNL( ( LONG ) BT.PaintStruct.rcPaint.left, -1, 6 );             // RECT rcPaint.left;
+   HB_STORVNL( ( LONG ) BT.PaintStruct.rcPaint.top, -1, 7 );              // RECT rcPaint.top;
+   HB_STORVNL( ( LONG ) BT.PaintStruct.rcPaint.right, -1, 8 );            // RECT rcPaint.right;
+   HB_STORVNL( ( LONG ) BT.PaintStruct.rcPaint.bottom, -1, 9 );           // RECT rcPaint.bottom;
+   HB_STORVNI( ( INT ) BT.PaintStruct.fRestore, -1, 10 );                 // BOOL fRestore;
+   HB_STORVNI( ( INT ) BT.PaintStruct.fIncUpdate, -1, 11 );               // BOOL fIncUpdate;
    for( i = 0; i < 32; i++ )
-      hb_storvni( ( INT ) BT.PaintStruct.rgbReserved[ i ], -1, 12 + i );  // BYTE rgbReserved[32];
+      HB_STORVNI( ( INT ) BT.PaintStruct.rgbReserved[ i ], -1, 12 + i );  // BYTE rgbReserved[32];
 
 //   GdiSetBatchLimit (100);
 }
@@ -855,10 +866,10 @@ HB_FUNC( BT_DC_DELETE )
    // PAINTSTRUCT
    BT.PaintStruct.hdc            = ( HDC ) HB_PARVNL( 1, 4 );             // HDC  hdc;
    BT.PaintStruct.fErase         = ( BOOL ) hb_parvni( 1, 5 );            // BOOL fErase;
-   BT.PaintStruct.rcPaint.left   = ( LONG ) hb_parvnl( 1, 6 );            // RECT rcPaint.left;
-   BT.PaintStruct.rcPaint.top    = ( LONG ) hb_parvnl( 1, 7 );            // RECT rcPaint.top;
-   BT.PaintStruct.rcPaint.right  = ( LONG ) hb_parvnl( 1, 8 );            // RECT rcPaint.right;
-   BT.PaintStruct.rcPaint.bottom = ( LONG ) hb_parvnl( 1, 9 );            // RECT rcPaint.bottom;
+   BT.PaintStruct.rcPaint.left   = ( LONG ) HB_PARVNL( 1, 6 );            // RECT rcPaint.left;
+   BT.PaintStruct.rcPaint.top    = ( LONG ) HB_PARVNL( 1, 7 );            // RECT rcPaint.top;
+   BT.PaintStruct.rcPaint.right  = ( LONG ) HB_PARVNL( 1, 8 );            // RECT rcPaint.right;
+   BT.PaintStruct.rcPaint.bottom = ( LONG ) HB_PARVNL( 1, 9 );            // RECT rcPaint.bottom;
    BT.PaintStruct.fRestore       = ( BOOL ) hb_parvni( 1, 10 );           // BOOL fRestore;
    BT.PaintStruct.fIncUpdate     = ( BOOL ) hb_parvni( 1, 11 );           // BOOL fIncUpdate;
    for( i = 0; i < 32; i++ )
@@ -1642,8 +1653,8 @@ HB_FUNC( BT_DRAW_HDC_TEXTSIZE )
 
    GetTextExtentPoint32( hDC, Text, lstrlen( Text ), &SizeText );
    hb_reta( 6 );
-   hb_storvnl( ( LONG ) SizeText.cx, -1, 1 );
-   hb_storvnl( ( LONG ) SizeText.cy, -1, 2 );
+   HB_STORVNL( ( LONG ) SizeText.cx, -1, 1 );
+   HB_STORVNL( ( LONG ) SizeText.cy, -1, 2 );
 
    iFirstChar = ( UINT ) Text[ 0 ];
    iLastChar  = ( UINT ) Text[ 0 ];
@@ -1690,9 +1701,9 @@ HB_FUNC( BT_DRAW_HDC_PIXEL )
    }
 
    hb_reta( 3 );
-   hb_storvni( ( INT ) GetRValue( Color ), -1, 1 );
-   hb_storvni( ( INT ) GetGValue( Color ), -1, 2 );
-   hb_storvni( ( INT ) GetBValue( Color ), -1, 3 );
+   HB_STORVNI( ( INT ) GetRValue( Color ), -1, 1 );
+   HB_STORVNI( ( INT ) GetGValue( Color ), -1, 2 );
+   HB_STORVNI( ( INT ) GetBValue( Color ), -1, 3 );
 }
 
 
@@ -1920,7 +1931,7 @@ HB_FUNC( BT_BMP_LOADFILE )
 HB_FUNC( BT_BITMAPLOADEMF )
 {
    CHAR *   FileName        = ( CHAR * ) hb_parc( 1 );
-   COLORREF BackgroundColor = ( COLORREF ) RGB( hb_parvnl( 2, 1 ), hb_parvnl( 2, 2 ), hb_parvnl( 2, 3 ) );
+   COLORREF BackgroundColor = ( COLORREF ) RGB( HB_PARVNL( 2, 1 ), HB_PARVNL( 2, 2 ), HB_PARVNL( 2, 3 ) );
    INT      ModeStretch     = ( HB_ISNUM( 5 ) ? ( INT ) hb_parnl( 5 ) : BT_SCALE );
 
    HDC           memDC;
@@ -3511,8 +3522,8 @@ HB_FUNC( BT_TEXTOUT_SIZE )
 
    GetTextExtentPoint32( hDC, Text, lstrlen( Text ), &SizeText );
    hb_reta( 2 );
-   hb_storvnl( ( LONG ) SizeText.cx, -1, 1 );
-   hb_storvnl( ( LONG ) SizeText.cy, -1, 2 );
+   HB_STORVNL( ( LONG ) SizeText.cx, -1, 1 );
+   HB_STORVNL( ( LONG ) SizeText.cy, -1, 2 );
 
    SelectObject( hDC, hOldFont );
    DeleteObject( hFont );

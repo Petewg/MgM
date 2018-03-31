@@ -1,0 +1,166 @@
+/*
+
+  PUBLIC Variables
+
+
+*/
+
+   PUBL aOpnDatas  := {},;   // Open Datas
+        aOpnTables := {},;   // Open Tables
+        nOpDataCo  :=  0,;   // Open Data Count
+        nOpTablCo  :=  0,;   // Open Table Count
+        nOpUKnwCo  :=  0,;   // Open UnKnowns Count
+        nOpQueris  :=  0,;   // Open Queries
+        nOpnViews  :=  0,;   // Open Views
+        nOpLabels  :=  0,;   // Open Labels
+        nOpReports :=  0,;   // Open Reports
+        nOpFormats :=  0,;   // Open Formats
+        nOpTexts   :=  0,;   // Open Textts
+        lOpnCatal  := .F.,;  //
+        nCurDatNo  :=  0,;   // Current Data No
+        nCurPagNo  :=  0,;   // Current Page No
+        nOpnPagCo  :=  0,;   // Open (Active, visible ) Page Count
+        n1PagDtNo  :=  1,;   // 1st Page Data No
+        n1OpPagNo  :=  0,;   // 1st Open Page No // CDC
+        nBtnWidth  :=  0,;   // Button width
+        nMainWWid  := GetDesktopWidth()  * 0.9,;
+        nMainWHig  := GetDesktopHeight() * 0.9,;
+        nPrvBtLen  := 0,;
+        nNxtBtLen  := 0,;
+        cMWinName  := "",;
+        cProgFold  := ExOPFFFS( GetProgramFileName() ),;  //  GetExeFileName()
+        cLastCDir  := "",;   // Last Used Code Folder
+        cLastDDir  := ""     // Last Used Data Folder
+
+   PUBL cBegFoldr  := GetCurrentFolder(),;
+        cCDsKunye  := DisKunye(,2)
+
+   PUBL cCDskLabl  := SUBS( cCDsKunye, 9 ),;
+        cCDskSerN  := LEFT( cCDsKunye, 8 )
+
+   *
+   *  User Preferences :
+   *
+   PUBL aUPPromts := { "Open Recent Files at Start Up",;
+                       "Request confirmation for file overwriting",;
+                       "Request confirmation for Shutdown",;
+                       "Apply Validity Checking on user supplied expressions" },;
+        lPref0101 := .F.,;  // Open Recent Files at Start Up
+        lPref0102 := .F.,;  // Request user confirmation for file overwriting
+        lPref0103 := .F.,;  // Request confirmation for Shutdown
+        lPref0104 := .F.    // Apply Validity Cheking on user supplied expressions
+/*
+
+   PUBL aUPPromts := { "Open Recent Files at Start Up",;
+                       "Apply Validity Cheking on user-supplied expressions",;
+                       "Request confirmation for file overwriting",;
+                       "Request confirmation for Shutdown" },;
+        lPref0101 := .F.,;  // Open Recent Files at Start Up
+        lPref0102 := .F.,;  // Apply Validity Cheking on user supplied expressions
+        lPref0103 := .F.,;  // Request user confirmation for file overwriting
+        lPref0104 := .F.    // Request confirmation for Shutdown
+
+
+*/
+
+   PUBL aStExStru := { { "FIELD_NAME", "C", 10, 0 },;
+                       { "FIELD_TYPE", "C",  1, 0 },;
+                       { "FIELD_LEN",  "N",  3, 0 },;
+                       { "FIELD_DEC",  "N",  3, 0 } }
+
+   PUBL aMnuItems := { { "mitNew",       { || ( nOpDataCo < nMaxDataCo )         } },; // news
+                       { "mitOpen",      { || ( nOpDataCo < nMaxDataCo )         } },;
+                       { "mitOpenTable", { || ( nOpTablCo < nMaxTablCo )         } },;
+                       { "mitClose",     { || ( nOpDataCo > 0  )                 } },;
+                       { "mitClosTable", { || ( nOpTablCo > 0  )                 } },;
+                       { "mitClosCurT",  { || ( CDIsTable()    )                 } },;
+                       { "mitClosMulT",  { || ( nOpTablCo > 1  )                 } },;
+                       { "mitClosAllT",  { || ( nOpTablCo > 0  )                 } },;
+                       { "mitClosMulA",  { || ( nOpDataCo > 1  )                 } },;
+                       { "mitClosAllD",  { || ( nOpTablCo > 0  )                 } },;
+                       { "mitAppend",    { || ( CDIsTable()    )                 } },;
+                       { "mitAppFrom",   { || ( CDIsTable()    )                 } },;
+                       { "mitDispEdit",  { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitEdit",      { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitReplace",   { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitDelete",    { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitInseReco",  { || ( !HasIndex() .AND. RECC() > 0 )   } },;
+                       { "mitDeleCur",   { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitDeleMult",  { || ( CDIsTable() .AND. RECC() > 1 )   } },;
+                       { "mitReCall",    { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitZap",       { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitPack",      { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitSearch",    { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitSeek",      { || ( HasIndex()  .AND. INDEXORD()>0 ) } },;
+                       { "mitSkip",      { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitGo",        { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitGoTop",     { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitGoBottom",  { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitGotoReco",  { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitListRecs",  { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitDispStruct",{ || CDIsTable()                        } },;
+                       { "mitSum",       { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitAverage",   { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitCount",     { || ( CDIsTable() .AND. RECC() > 0 )   } },;
+                       { "mitOrgIndex",  { || CDIsTable()                        } },;
+                       { "mitInxSet",    { || CDIsTable()                        } },;
+                       { "mitInxRelease",{ || HasIndex()                         } },;
+                       { "mitInxBuild",  { || CDIsTable()                        } },;
+                       { "mitInxReBui",  { || HasIndex()                         } },;
+                       { "mitInxOrder",  { || HasIndex()                         } },;
+                       { "mitOrgSort",   { || CDIsTable()                        } },;
+                       { "mitOrgTotl",   { || CDIsTable()                        } },;
+                       { "mitCopyTo",    { || CDIsTable()                        } },;
+                       { "mitMdfTable",  { || CDIsTable()                        } } }
+                       
+                       
+
+
+
+
+/*
+                       { "mitDispFiles",                                           },;
+                       { "mitCopyFile",                                            },;
+                       { "mitRename",                                              },;
+                       { "mitErase",                                               },;
+                       { "mitImport",                                              },;
+                       { "mitExport",                                              } }
+
+                       { "mitNewCatal",   },;
+                       { "mitNewView",    },; //   { || ( nOpDataCo < nMaxDataCo ) } },;
+                       { "mitNewQuery",   },; //   { || ( nOpDataCo < nMaxDataCo ) } },;
+                       { "mitNewFormat",  },; //
+                       { "mitNewReport",  },; //   { || ( nOpDataCo < nMaxDataCo ) } },;
+                       { "mitNewLabel",   },; //   { || ( nOpDataCo < nMaxDataCo ) } },;
+
+                       { "mitOpenCatal",  },; //      { || ( nOpDataCo < nMaxDataCo ) } },;
+                       { "mitOpenView",   },; //      { || ( nOpDataCo < nMaxDataCo ) } },;
+                       { "mitOpenQuery",  },; //      { || ( nOpDataCo < nMaxDataCo ) } },;
+                       { "mitOpenFormat", },; //
+                       { "mitOpenReport", },; //      { || ( nOpDataCo < nMaxDataCo ) } },;
+                       { "mitOpenLabel",  },; //      { || ( nOpDataCo < nMaxDataCo ) } },;
+
+                       { "mitClosCatal",                                       },;
+                       { "mitClosView",                                        },;
+                       { "mitClosQuery",                                       },;
+                       { "mitClosReport",                                      },;
+                       { "mitClosFormat",                                      },;
+                       { "mitClosLabel",                                       },;
+
+                       { "mitMdfQuery",                                        },;
+                       { "mitMdfView",                                         },;
+                       { "mitMdfReport",                                       },;
+                       { "mitMdfFormat",                                       },;
+                       { "mitMdfLabel",                                        },;
+
+                       { "mitListStru",                                        },;
+
+                       { "mitReport",                                          },;
+                       { "mitLabel",                                           },;
+
+                       { "mitSetDrive",                                        },;
+                       { "mitDirectory",                                       },;
+
+
+*/
+

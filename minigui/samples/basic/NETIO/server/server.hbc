@@ -1,2 +1,2 @@
-libs=hbnetio ws2_32
+libs=hbnetio
 mt=yes

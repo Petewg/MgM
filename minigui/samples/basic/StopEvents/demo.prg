@@ -7,7 +7,7 @@
 
 FUNCTION Main
 
-   SET FONT TO 'Segoe UI', 10
+   SET FONT TO 'MS Sans Serif', 10
 
    DEFINE WINDOW Form_1 ;
       CLIENTAREA 400, 200 ; 

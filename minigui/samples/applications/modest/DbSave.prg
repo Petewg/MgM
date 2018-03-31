@@ -459,7 +459,7 @@ If lSuccess
    aStat[ 'ChDescript' ] := .F.
 
    WriteMsg( MSG_SAVE_SUCCESS )
-   DoEvents()
+   Do Events
    
 Else
    WriteMsg( MSG_SAVE_ERROR )
@@ -588,7 +588,7 @@ Local nRecno := OldBase->( Recno() )   , ;
       xValue
       
 wModest.StatusBar.Item( 2 ) := ( LTrim( Str( nRecno ) ) + '/' + LTrim( Str( nCount ) ) )
-DoEvents()
+Do Events
 
 NewBase->( DbAppend() )
 

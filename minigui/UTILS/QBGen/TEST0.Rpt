@@ -1,0 +1,17 @@
+DEFINE REPORT TEMPLATE 
+       TITLE    'TITOLO1|SOTTOTITOLO'
+       HEADERS  {'','','','','','','','','','',''} , {'FIRST','LAST','STREET','CITY','STATE','ZIP','HIREDATE','MARRIED','AGE','SALARY','NOTES'}
+       FIELDS   {'FIRST','LAST','STREET','CITY','STATE','ZIP','HIREDATE','MARRIED','AGE','SALARY','NOTES'}
+       WIDTHS   {20,20,20,20,12.50,17.50,14,12.50,12.50,12.50,20}
+       TOTALS   {.F.,.F.,.F.,.F.,.F.,.F.,.F.,.F.,.T.,.T.,.F.}
+       NFORMATS {'','','','','','','','Y','@E 99,999','@E 999,999,999',''}
+       WORKAREA TEST
+       LPP      50
+       CPL      80
+       LMARGIN  3
+       TMARGIN  3
+       PAPERSIZE DMPAPER_A4
+       PREVIEW
+       IMAGE    {"C:\MiniGUI\UTILS\QBGen\logo.jpg",1,10,10,20}
+       LANDSCAPE
+END REPORT

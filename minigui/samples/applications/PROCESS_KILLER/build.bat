@@ -1,0 +1,1 @@
+call ..\..\..\batch\hbmk2.bat %* proc_klr proc_klr.hbc

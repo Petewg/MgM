@@ -24,11 +24,11 @@ Memvar ofatt,a_res,alng
 *-----------------------------------------------------------------------------*
 Function aPrenota(risorsa)
 *-----------------------------------------------------------------------------*
-Local /*pos := 0 , n0 := 0,*/ indice:= trueval(this.name)
+Local pos:= 0 , n0 := 0, indice:= trueval(this.name)
 Local aImages := { "book" ,"book","book","proiector","car" }
 Local abHead  := {{"Date", "R", "From", "At" },{"Data", "R", "Dalle", "Alle" }}
    if len(ofatt:aFrecno)>= indice
-      //pos:= ofatt:aFrecno[indice]
+      pos:= ofatt:aFrecno[indice]
    else
       risorsa:= date()
       risorsa:= GetProperty ( "Principale", "MONTHCAL_1" , "VALUE")
@@ -165,7 +165,7 @@ return Listato()
 *-----------------------------------------------------------------------------*
 Function Listato()
 *-----------------------------------------------------------------------------*
-   Local /*cnt := 0 , oldDb := alias(),*/ ;
+   Local cnt := 0 , oldDb := alias(), ;
          noldorder   := Presa->(indexord()), ; // original file index order
          ntargetpos  := Presa->(recno())       // position of target file
    Local aLbl    := {{ 'From day:' ,'to day:'},{'Dal giorno:','Al giorno' }}[alng] ,;
@@ -218,18 +218,17 @@ Local vSto   := timetosec(left(prenota.timepicker_2.value,5)+":00:00")
 lOCAL Ldelay := (ofatt:delay*60)
 local Tsta   := vSta - Ldelay
 Local Tsto   := Vsto + Ldelay
-Local /*Limiti := {min(0,tsta),max(0,tsto)} ,*/ ok := .F. //, c1 := 0
+Local Limiti := {min(0,tsta),max(0,tsto)} , ok := .F.  ,c1 := 0
 local causa  := "", tot_ok := .T.
-local rcn    := recno() //, changed //:= .f.
+local rcn    := recno(), changed := .f.
 local gstate := {||presa->time_in+presa->time_out+dtos(presa->data_in)+presa->resource}
 local astate := {||left(prenota.timepicker_1.value,5)+left(prenota.timepicker_2.value,5) ;
                    + dtos(PRENOTA.DatePicker_1.value)+zaps(Prenota.ComboBoxEX_1.value) }
 DEFAULT NUOVA TO .F.
-/*
      changed := left(prenota.timepicker_1.value,5)+left(prenota.timepicker_2.value,5);
                  +dtos(PRENOTA.DatePicker_1.value)+zaps(Prenota.ComboBoxEX_1.value) ;
                  <> ;
-                 presa->time_in+presa->time_out+dtos(presa->data_in)+presa->resource */
+                 presa->time_in+presa->time_out+dtos(presa->data_in)+presa->resource
 dbgotop()
 
 if prenota.DatePicker_1.value < date()
@@ -273,7 +272,7 @@ while !eof() .and. (presa->data_in = prenota.datepicker_1.value .and. zaps(Preno
          causa := {"Existing reservation !","Prenotazione già esistente"}[alng]
       Endif
       tot_ok := tot_ok .and. ok
-      //c1 ++
+      c1 ++
       dbskip()
 end
 dbgoto(rcn)

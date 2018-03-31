@@ -11,24 +11,24 @@
 #define ICON_11 1011
 #define ICON_12 1012
 
-MAIN ICON main.ico
+MAIN ICON "main.ico"
 
-ICON_1 ICON ico\Icon_1.ico
-ICON_2 ICON ico\Icon_2.ico
-ICON_3 ICON ico\Icon_3.ico
-ICON_4 ICON ico\Icon_4.ico
-ICON_5 ICON ico\Icon_5.ico
-ICON_6 ICON ico\Icon_6.ico
-ICON_7 ICON ico\Icon_7.ico
-ICON_8 ICON ico\Icon_8.ico
-ICON_9 ICON ico\Icon_9.ico
-ICON_10 ICON ico\Icon_10.ico
-ICON_11 ICON ico\Icon_11.ico
-ICON_12 ICON ico\Icon_12.ico
+ICON_1 ICON "ico\Icon_1.ico"
+ICON_2 ICON "ico\Icon_2.ico"
+ICON_3 ICON "ico\Icon_3.ico"
+ICON_4 ICON "ico\Icon_4.ico"
+ICON_5 ICON "ico\Icon_5.ico"
+ICON_6 ICON "ico\Icon_6.ico"
+ICON_7 ICON "ico\Icon_7.ico"
+ICON_8 ICON "ico\Icon_8.ico"
+ICON_9 ICON "ico\Icon_9.ico"
+ICON_10 ICON "ico\Icon_10.ico"
+ICON_11 ICON "ico\Icon_11.ico"
+ICON_12 ICON "ico\Icon_12.ico"
 
-INFO BITMAP menu\info.bmp
-EXIT BITMAP menu\exit.bmp
-CHECK BITMAP menu\check.bmp
+INFO BITMAP "menu\info.bmp"
+EXIT BITMAP "menu\exit.bmp"
+CHECK BITMAP "menu\check.bmp"
 
 1 VERSIONINFO
 FILEVERSION 1,0,1,0
@@ -53,8 +53,8 @@ BLOCK "StringFileInfo"
 	}
 }
 
-// BLOCK "VarFileInfo"
-// {
-	// VALUE "Translation", 0x0409 0x04B0
-// }
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
 }

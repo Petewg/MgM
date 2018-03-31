@@ -253,7 +253,7 @@ PROCEDURE GoDraw()                       // Drawing lines by predefined styles
                      nDelay := SECONDS()
                            
                      WHILE ( SECONDS() - nDelay ) < .01
-                         DoEvents()
+                        DO EVENTS
                      ENDDO
                      
                      IF lFrmRSized

@@ -1,0 +1,122 @@
+[HEADER]
+Language=Russian
+NativeLanguage=Русский
+
+[MAIN_FORM]
+Title=Каталог функций
+btnNew=Построить новый список
+btnOpen=Загрузить список из файла
+btnSave=Сохранить список в файл
+btnEdit=Открыть в редакторе
+btnOptions=Настройка программы
+NameColumn=Наименование
+TypeColumn=Тип
+CommentColumn=Комментарий
+lblSearch=Найти
+msgSearch=Введите выражение для быстрого поиска
+btnSearch=Продолжить поиск
+btnFindAll=Найти все вхождения
+
+[MAINMENU]
+File=Файл
+New=Создать
+msgNew=Построить новый список
+Open=Открыть
+msgOpen=Загрузить существующий список
+Save=Сохранить
+msgSave=Сохранить список в файл
+Exit=Выход
+msgExit=Завершить работу
+Edit=Правка
+SetTitle=Описание каталога
+msgSetTitle=Задать описание текущего каталога
+OpenEditor=Открыть в редакторе
+msgOpenEditor=Открыть файл, содержащий функцию, в редакторе
+CopyName=Запомнить имя
+msgCopyName=Копировать название текущего элемента в буфер обмена
+Tools=Инструменты
+CodeFormat=Форматирование кода
+msgCodeFormat=Форматирование файлов программного кода
+CallsTable=Использование функций
+msgCallsTable=Таблица функций, используемых во всех программных файлах
+Service=Сервис
+Language=Язык
+SelectLang=Выбрать
+msgLanguage=Выбрать язык интерфейса
+TemplateLang=Шаблон
+msgTemplate=Создать файл языкового шаблона
+Options=Параметры
+msgOptions=Установка параметров программы
+About=О программе
+msgAbout=Информация о программе
+
+[OPTIONS_FORM]
+Title=Параметры работы
+frmOnStart=Действие при запуске
+rdgOnStart1=Никаких действий
+rdgOnStart2=Загрузить последний каталог
+frmSearch=Режим поиска
+rdgSearch1=Точное соответствие
+rdgSearch2=Вхождение фрагмента
+Editor=Внешний редактор
+rdgParameters1=Открыть файл без параметров
+rdgParameters2=Определить и передать номер строки %N
+rdgParameters3=Передать имя процедуры %P
+
+[SELECTLANG_FORM]
+Title=Выбор языка 
+
+[SETTITLE_FORM]
+Title=Установка наименования каталога
+lblName=Наименование
+
+[FINDALL_FORM]
+Title=Результаты поиска
+lblName=Вхождения
+NameColumn=Наименование
+FileColumn=Файл
+TypeColumn=Тип
+btnGoto=Перейти
+
+[FORMATTER_FORM]
+Title=Форматирование кода
+frmFiles=Обработать
+rdgFiles1=Текущий файл
+rdgFiles2=Все файлы
+frmCase=Регистр ключевых слов
+rdgCase1=нижний
+rdgCase2=ВЕРХНИЙ
+rdgCase3=С заглавной
+btnGoto=Начать
+Console=Ход выполнения
+Started=Обработка начата в
+Skipped=пропущен
+Finished=Завершена в
+Elapsed=Затраченное время
+KeyLoad=Загружен список ключевых слов
+KeyEmpty=Список ключевых слов отсутствует
+PhLoad=Загружен список составных операторов
+PhEmpty=Список составных операторов отсутствует
+OpenError=Ошибка открытия файла
+CreateError=Невозможно создать файл
+
+[CALLSTABLE_FORM]
+Console=Построение...
+Title=Таблица обращений к функциям
+NameColumn=Наименование
+TypeColumn=Тип
+DefinedColumn=Определена
+CalledColumn=Вызывается
+
+[SYSDIALOGS_FORM]
+FromFile=Загрузить список из файла
+ToFile=Сохранить список в файл
+ChoiceEditor=Выбор редактора
+TextFiles=Текстовые
+AppFiles=Программы
+AllFiles=Все файлы
+SourceDir=Выберите источник файлов
+Warning=Предупреждение
+FileExist=Файл %N существует. Заменить ?
+Inform=Информация
+Created=Создан файл %N

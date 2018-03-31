@@ -1,0 +1,9 @@
+//   Resource name   Resource Type    Resource FileName
+white    BITMAP  res\white.bmp
+whitedot BITMAP  res\whitedot.bmp
+black    BITMAP  res\black.bmp
+blackdot BITMAP  res\blackdot.bmp
+piano000 BITMAP  res\piano000.bmp
+piano001 BITMAP  res\piano001.bmp
+piano002 BITMAP  res\piano002.bmp
+piano003 BITMAP  res\piano003.bmp

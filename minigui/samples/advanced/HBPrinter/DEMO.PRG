@@ -106,7 +106,7 @@ LOCAL cprn,lprev,lr,lck,i,j,apoly,apoly2
  endif
 
  if f1.ck3.value
-      SET PREVIEW RECT 20,20,GetDesktopHeight()-20,GetDesktopWidth()-20
+      SET PREVIEW RECT 20,20,GetDesktopHeight()-GetTaskbarHeight()-18,GetDesktopWidth()-20
  endif
 
   set page orientation DMORIENT_PORTRAIT papersize DMPAPER_A4 font "f0"
@@ -241,7 +241,7 @@ LOCAL cprn,lprev,lr,lck,i,j,apoly,apoly2
           @20,24 PICTURE "PICTUREJPG" size 15,30
 
           @39,24 SAY "GIF from resource (HMGPICTURE)" TO PRINT
-          @40,24 PICTURE "PICTUREGIF" size 15,30
+          @40,24 PICTURE "PICTUREGIF" size 5,30
       END PAGE
 
   END DOC

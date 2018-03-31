@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat FileMan
+call ..\..\..\batch\hbmk2.bat %* FileMan

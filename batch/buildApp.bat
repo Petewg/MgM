@@ -22,29 +22,23 @@
       SET WARNLEV=-w3
       SET EXITLEV=-es2
       ) ELSE (
-      SET WARNLEV=-w2
+      SET WARNLEV=-w0
       SET EXITLEV=-es0
       )
 
 :: Compile Resources
    IF NOT EXIST %MGROOT%\minigui\resources\_hmg_resconfig.h (
       ECHO #define HMGRPATH %MGROOT%\minigui\resources > %MGROOT%\minigui\resources\_hmg_resconfig.h
-      ) ELSE ( findstr %MGROOT% %MGROOT%\minigui\resources\_hmg_resconfig.h > nul
-               IF %ERRORLEVEL% NEQ 0 (
-                  ECHO #define HMGRPATH %MGROOT%\minigui\resources > %MGROOT%\minigui\resources\_hmg_resconfig.h
-               )
-        )
+      )
    
    IF EXIST _temp.rc DEL _temp.rc   > NUL
    IF EXIST *.rc (
       COPY /V /A *.rc PRJ_RES_.rc  > NUL
       COPY /V /A %MGROOT%\minigui\resources\hmg.rc + %MGROOT%\minigui\resources\filler + PRJ_RES_.rc + %MGROOT%\minigui\resources\filler _temp.rc  > NUL
       DEL PRJ_RES_.rc > NUL 
-      ) ELSE (
-               COPY /V /A %MGROOT%\minigui\resources\hmg.rc + %MGROOT%\minigui\resources\filler _temp.rc  > NUL
-        )
-        
-   windres  --include-dir=%MGROOT%\minigui\resources --include-dir=%MGROOT%\minigui\include --input=_temp.rc --output=_temp.o  2> _BuildLog.txt
+   ) ELSE COPY /V /A %MGROOT%\minigui\resources\hmg.rc + %MGROOT%\minigui\resources\filler _temp.rc  > NUL
+      
+   windres  --include-dir=%MGROOT%\minigui\resources --input=_temp.rc --output=_temp.o  2> _BuildLog.txt
    
 
 IF "%2"=="-c" GOTO Console

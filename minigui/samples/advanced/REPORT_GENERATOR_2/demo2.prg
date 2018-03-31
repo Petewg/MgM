@@ -9,7 +9,11 @@ Memvar aRows
 
 Procedure Main
 
-	Public _HMG_RPTDATA := Array( 168 ), Drv := "M", Htitle := ''
+	Public Drv := "M", Htitle := ''
+
+	AAdd( _HMG_RPTDATA, "" )
+	AAdd( _HMG_RPTDATA, "" )
+	AAdd( _HMG_RPTDATA, "" )
 
 	Public i
 	Public aRows [ 20 ] [ 3 ]

@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -753,10 +753,12 @@ FUNCTION OwnButtonPaint( pdis )
 
             IF lSelected 
                IF Len( aGradient [ 1 ] ) == 3
+                  aDarkColor := _HMG_aControlBkColor [ i ]
                   IF IsArrayRGB( _HMG_aControlBkColor [ i ] ) .AND. ValType( _HMG_aControlBkColor [ i, 1 ] ) == "N"
                      _HMG_aControlBkColor [ i ] := { { 1, _HMG_aControlBkColor [ i ], Darker( _HMG_aControlBkColor [ i ], 82 ) } }
                   ENDIF
                   _GradientFill( hDC, xp2 + 2, xp1 + 2, yp2 - 2, yp1 - 2, _HMG_aControlBkColor [ i ], lvertical )
+                  _HMG_aControlBkColor [ i ] := aDarkColor
                ELSE
                   hBrush := CreateButtonBrush( hDC, yp1 - 2, yp2 - 2, aGradient [ 1 ][ 2 ], aGradient [ 1 ][ 1 ] )
                   FillRect( hDC, xp1 + 2, xp2 + 2, yp1 - 2, yp2 - 2, hBrush )
@@ -772,8 +774,9 @@ FUNCTION OwnButtonPaint( pdis )
                ENDIF
             ELSE
                IF Len( aGradient [ 1 ] ) == 3
-                  _GradientFill( hDC, xp2 + 1, xp1 + 1, yp2 - 1, yp1 - 1, iif( Len( aGradient ) == 1, ;
-                     InvertGradInfo( aGradient ), ModifGradInfo( aGradient ) ), lvertical )
+                  _GradientFill( hDC, xp2 + 1, xp1 + 1, yp2 - 1, yp1 - 1, ;
+                     iif( Len( aGradient ) == 1, InvertGradInfo( aGradient ), ;
+                     iif( ISARRAY( _HMG_aControlBkColor [ i, 1 ] ), _HMG_aControlBkColor [ i ], ModifGradInfo( aGradient ) ) ), lvertical )
                ELSE
                   hBrush := CreateButtonBrush( hDC, yp1 - 1, yp2 - 1, aGradient [ 1 ][ 2 ], aGradient [ 1 ][ 1 ] )
                   FillRect( hDC, xp1 + 1, xp2 + 1, yp1 - 1, yp2 - 1, hBrush )
@@ -955,7 +958,7 @@ FUNCTION OwnButtonPaint( pdis )
 
       IF ! ( AND( _HMG_aControlSpacing [ i ], OBT_ADJUST ) == OBT_ADJUST )
          y1 := Max( ( ( aBtnRc[ 4 ] / 2 ) - ( nCRLF * aMetr[ 1 ] ) / 2 ) - 1, 1 )
-         y2 := ( aMetr[ 1 ] + aMetr[ 5 ] ) * nCRLF
+         y2 := ( aMetr[ 1 ] + aMetr[ 7 ] ) * nCRLF
       ENDIF
 
       IF ! lDisabled
@@ -995,7 +998,9 @@ FUNCTION OwnButtonPaint( pdis )
          ELSE
             DrawGlyph( hDC, aBtnRc[ 1 ] + 3, aBtnRc[ 2 ] + 3 , aBtnRc[ 3 ] - 6, aBtnRc[ 4 ] - 6 , _HMG_aControlBrushHandle [ i ] , , .T. , .T. )
          ENDIF
+
       ENDIF
+
    ENDIF
 
    IF ( lSelected .OR. lFocus ) .AND. ! lDisabled .AND. ! lXPThemeActive
@@ -1103,10 +1108,12 @@ STATIC FUNCTION CountIt( cText )
    LOCAL nPoz, nCount := 0
 
    IF At( CRLF, cText ) > 0
+
       DO WHILE ( nPoz := At( CRLF, cText ) ) > 0
          nCount++
          cText := SubStr( cText, nPoz + 2 )
       ENDDO
+
    ENDIF
 
 RETURN nCount

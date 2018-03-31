@@ -19,12 +19,12 @@ Procedure Main
 			POPUP 'Common &Dialog Functions'
 				
 			ITEM 'PutFile() without default file name' ;
-				ACTION MsgInfo ( Putfile ( { {'jpg Files','*.jpg'} , {'gif Files','*.gif'} } , 'Save Image As' , 'X:\temp' ) )
+				ACTION MsgInfo ( Putfile ( { {'jpg Files','*.jpg'} , {'gif Files','*.gif'} } , 'Save Image As' , 'C:\' ) )
                         ITEM 'PutFile() without default extension' ;
-				ACTION MsgInfo ( Putfile ( { {'jpg Files','*.jpg'} , {'gif Files','*.gif'} } , 'Save Image As' , 'X:\temp' , ;
+				ACTION MsgInfo ( Putfile ( { {'jpg Files','*.jpg'} , {'gif Files','*.gif'} } , 'Save Image As' , 'C:\' , ;
 					.f., "My_picture" ) )
 			ITEM 'PutFile() with default filename - My_picture.jpg' ;
-				ACTION MsgInfo ( Putfile ( { {'jpg Files','*.jpg'} , {'gif Files','*.gif'} } , 'Save Image As' , 'X:\temp' , ;
+				ACTION MsgInfo ( Putfile ( { {'jpg Files','*.jpg'} , {'gif Files','*.gif'} } , 'Save Image As' , 'C:\' , ;
 					.f., "My_picture.jpg" ) )
 			END POPUP
 		END MENU

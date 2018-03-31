@@ -4,6 +4,6 @@
 //	Resource name	Resource Type	Resource FileName
 //
 	RESWAVE		WAVE		SAMPLE.WAV
-	BUTTONBMP		BITMAP		BUTTON.BMP
+	BUTTON		BITMAP		BUTTON.BMP
 	WORLD		ICON		WORLD.ICO
 

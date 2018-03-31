@@ -1,0 +1,69 @@
+MAIN ICON "world.ico"
+
+Z1 ICON flags\FLAG_A.ICO
+Z2 ICON	flags\FLAG_ALB.ICO
+Z3 ICON flags\FLAG_AND.ICO
+Z4 ICON flags\FLAG_BE.ICO
+Z5 ICON flags\FLAG_BOS.ICO
+Z6 ICON flags\FLAG_BUL.ICO
+Z7 ICON flags\FLAG_CIP.ICO
+Z8 ICON flags\FLAG_CZ.ICO 
+Z9 ICON flags\FLAG_DAN.ICO
+Z10 ICON flags\FLAG_DE.ICO
+Z11 ICON flags\FLAG_FIN.ICO
+Z12 ICON flags\FLAG_FR.ICO
+Z13 ICON flags\FLAG_GOR.ICO
+Z14 ICON flags\FLAG_HOR.ICO
+Z15 ICON flags\FLAG_HU.ICO
+Z16 ICON flags\FLAG_IR.ICO
+Z17 ICON flags\FLAG_IT.ICO
+Z18 ICON flags\FLAG_IZL.ICO
+Z19 ICON flags\FLAG_LIE.ICO
+Z20 ICON flags\FLAG_LUX.ICO
+Z21 ICON flags\FLAG_MAC.ICO
+Z22 ICON flags\FLAG_MLT.ICO
+Z23 ICON flags\FLAG_MON.ICO
+Z24 ICON flags\FLAG_NE.ICO
+Z25 ICON flags\FLAG_NOR.ICO
+Z26 ICON flags\FLAG_PL.ICO
+Z27 ICON flags\FLAG_POR.ICO
+Z28 ICON flags\FLAG_RO.ICO 
+Z29 ICON flags\FLAG_S_M.ICO
+Z30 ICON flags\FLAG_SER.ICO
+Z31 ICON flags\FLAG_SP.ICO
+Z32 ICON flags\FLAG_SW.ICO
+Z33 ICON flags\FLAG_SZ.ICO 
+Z34 ICON flags\FLAG_SZL.ICO
+Z35 ICON flags\FLAG_SZV.ICO
+Z36 ICON flags\FLAG_TOR.ICO
+Z37 ICON flags\FLAG_UK.ICO
+Z38 ICON flags\FLAG_VAT.ICO
+
+1 VERSIONINFO
+FILEVERSION 1,0,1,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Information about European countries\000"
+		VALUE "FileVersion", "1.0.2.0"
+		VALUE "InternalName", "Europe\000"
+		VALUE "LegalCopyright", "Freeware 2005\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "Europe.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

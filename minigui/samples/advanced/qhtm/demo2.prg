@@ -74,7 +74,7 @@ Local i
 
 	otherwise
 
-		Events ( hWnd, nMsg, wParam, lParam )
+		Return Events ( hWnd, nMsg, wParam, lParam )
 
     endcase
 

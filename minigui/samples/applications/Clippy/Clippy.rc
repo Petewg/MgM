@@ -1,0 +1,41 @@
+//
+//	Resource name	Resource Type	Resource FileName
+//
+	MAIN		ICON		res\CLIPPY.ICO
+
+	HAND		CURSOR		res\HAND.CUR
+
+	WHOOSH		WAVE		res\WHOOSH.WAV
+
+	CLIPPY		BITMAP		res\CLIPPY.BMP
+	YES		BITMAP		res\YES.BMP
+	NO		BITMAP		res\NO.BMP
+
+1 VERSIONINFO
+FILEVERSION 1,2,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Simulates an annoying clippy help assistant\000"
+		VALUE "FileVersion", "1.2.0.0"
+		VALUE "InternalName", "Clippy\000"
+		VALUE "LegalCopyright", "Copyright © 2005-2007 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "Clippy.exe\000"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

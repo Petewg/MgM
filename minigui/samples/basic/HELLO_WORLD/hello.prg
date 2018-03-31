@@ -1,19 +1,16 @@
 /*
  * Harbour MiniGUI Hello World Demo
- * (c) 2002-2009 Roberto Lopez <harbourminigui@gmail.com>
-*/
+ * (c) 2002-2009 Roberto Lopez
+ */
 
 #include "minigui.ch"
 
-Function Main
+PROCEDURE Main
 
-	DEFINE WINDOW Win_1 ;
-		ROW 0 ;
-		COL 0 ;
-		WIDTH 400 ;
-		HEIGHT 400 ;
-		TITLE 'Hello World!' ;
-		WINDOWTYPE MAIN  
+	DEFINE WINDOW Win_1		;
+		CLIENTAREA 400, 400	;
+		TITLE 'Hello World!'	;
+		WINDOWTYPE MAIN
 
 	END WINDOW
 
@@ -21,4 +18,4 @@ Function Main
 
 	Win_1.Activate
 
-Return Nil
+RETURN

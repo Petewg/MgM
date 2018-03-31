@@ -91,7 +91,7 @@ Procedure ProcessNotifyClick()
 		Form_1.Restore
 	EndIf
 
-	lflag := .not. lflag
+	lflag := .NOT. lflag
 
 Return
 
@@ -100,19 +100,17 @@ Procedure AnimationIcons
 *-------------------------------------------------------------
 
 	nCounter++
-	nCounter := IF(nCounter > NUM_ICON_FOR_ANIMATION, 1, nCounter)
+	nCounter := iif(nCounter > NUM_ICON_FOR_ANIMATION, 1, nCounter)
 
 	Form_1.NotifyIcon := aIconResource[nCounter]
-	AnimationTitleIcon( _HMG_MainHandle, aIconResource[nCounter] )
+	AnimationTitleIcon( App.Handle, aIconResource[nCounter] )
 
 Return
 
 
 #pragma BEGINDUMP
 
-#include <windows.h>
-#include "hbapi.h"
-#include "hbapiitm.h"
+#include <mgdefs.h>
 
 HB_FUNC( ANIMATIONTITLEICON )
 {
@@ -137,7 +135,6 @@ HB_FUNC( PAINTCHILDWINDOW )
 	hb_retni( DrawText(hDC, (LPCTSTR) hb_parc(2), -1, &r, DT_CENTER | DT_VCENTER | DT_SINGLELINE) );
 
 	EndPaint(hwnd, &ps);
-	ReleaseDC(hwnd, hDC);
 }
 
 #pragma ENDDUMP

@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat %* HaruPDF hbhpdf.hbc hbzebra.hbc
+call ..\..\..\batch\hbmk2.bat %* HaruPDF HaruPDF.hbc

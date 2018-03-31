@@ -3,7 +3,7 @@
  * CALLDLL compatibility library.
  *
  * Copyright 2010 Viktor Szakats (harbour syenar.net)
- * www - http://harbour-project.org
+ * www - https://harbour.github.io/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@
 STATIC s_hDLL   := { => }
 STATIC s_mutex  := hb_mutexCreate()
 
-PROCEDURE HMG_UnloadAllDll()
+PROCEDURE UnloadAllDll()
 
    hb_mutexLock( s_mutex )
    s_hDLL := { => }
@@ -74,7 +74,7 @@ FUNCTION HMG_CallDLL( cLibName, nRetType, cFuncName, ... )
       pLibrary := s_hDLL[ cLibName ]
 
       hb_mutexUnlock( s_mutex )
-
+      
       IF .NOT. HB_ISNUMERIC( nRetType )
          nRetType := HB_DYN_CTYPE_DEFAULT
       ENDIF

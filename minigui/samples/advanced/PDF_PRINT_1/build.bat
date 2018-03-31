@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat hpdf_fonts.hbp hpdf_fonts.hbc hbhpdf.hbc
+call ..\..\..\batch\hbmk2.bat %* HPDF_Fonts.hbp HPDF_Fonts.hbc

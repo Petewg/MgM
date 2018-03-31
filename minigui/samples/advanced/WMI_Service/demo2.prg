@@ -431,13 +431,6 @@ FUNCTION GetProductType( nType )
 RETURN cName
 
 
-FUNCTION IsVistaOrLater()
-
-   Local cOSName := WindowsVersion() [1]
-
-RETURN ( 'Vista' $ cOSName .Or. '7' $ cOSName )
-
-
 FUNCTION EnvVarInfo()
 
    Local oWmi, oEnvVar

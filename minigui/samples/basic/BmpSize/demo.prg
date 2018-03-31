@@ -1,85 +1,56 @@
 /*
  * Author: P.Chornyj <myorg63@mail.ru>
 */
-
 ANNOUNCE RDDSYS
 
 #include "minigui.ch"
+///////////////////////////////////////////////////////////////////////////////
+procedure main()
 
-#define c1Tab CHR(9)
-#define NTrim( n ) LTRIM( STR( n, IF( n == INT( n ), 0, 2 ) ) )
+   define window Form_Main ;
+      at 0,0 ;
+      width 320 height 240 ;
+      title 'fn:BmpSize() Demo' ;
+      main ;
+      nomaximize nosize
 
-#define BM_WIDTH     1
-#define BM_HEIGHT    2
-#define	BM_BITSPIXEL 3
+      define main menu
+         define popup "&File" 
+            menuitem '&Open' action( ;
+               Form_Main.Image_1.Picture := ;
+                  GetFile( { {'Bmp Files', '*.bmp'} }, 'Open a File', GetCurrentFolder(), .f., .t. ) ;
+             )
+            separator
+            menuitem "E&xit" action ThisWindow.Release
+         end popup
+      end menu
 
-#define IMAGE_FILES_GROUP '*.bmp;*.png;*.jpg;*.gif;*.tif'
+      @ 20, 20 image Image_1 ;
+         picture 'DEMO' ;
+         action Image_1_OnClick( Form_Main.Image_1.Picture ) ;
+         adjust ;
+         tooltip 'Click Me'
 
+   end window
 
-Function main()
-	Local picture := 'Demo', aPictInfo
+   Form_Main.Center()
+   Form_Main.Activate()
 
-        aPictInfo := BmpSize( picture )
- 
-	DEFINE WINDOW Form_Main ;
-		AT 0,0 ;
-		WIDTH 320 HEIGHT 240 ;
-		TITLE 'Get Bitmap Size Demo' ;
-		MAIN ;
-		NOMAXIMIZE 
+return
 
-		DEFINE MAIN MENU
+///////////////////////////////////////////////////////////////////////////////
+static procedure Image_1_OnClick( cName )
 
-			DEFINE POPUP "&File" 
+   local aPictInfo := BmpSize( cName )
+   local cMsg
 
-				MENUITEM '&Open' ;
-					ACTION ( picture := GetFile( { {'Image Files', IMAGE_FILES_GROUP } },'Open a File',GetCurrentFolder(),.f.,.t. ),;
-						aPictInfo := BmpSize( picture ), ;
-						Form_Main.Image_1.Picture := picture , AdJustWin( aPictInfo ) )
-						
-				SEPARATOR
-				MENUITEM "E&xit" ACTION ThisWindow.Release
+   cMsg := "Picture name:" + Chr(9) + cFileNoPath( cName ) + CRLF
+   cMsg += "Image Width:"  + Chr(9) + hb_NtoS( aPictInfo[1] ) + CRLF
+   cMsg += "Image Height:" + Chr(9) + hb_NtoS( aPictInfo[2] ) + CRLF
+   cMsg += "BitsPerPixel:" + Chr(9) + hb_NtoS( aPictInfo[3] ) + CRLF
 
-			END POPUP
+   cMsg += "Image has Alpha:" + Chr(9) + If( HasAlpha( cName ), 'TRUE', 'FALSE' )
 
-			DEFINE POPUP "&?" 
+   MsgInfo( cMsg, 'Bitmap Info' )
 
-				MENUITEM "Bitmap &Info" ACTION MsgMulty( { ;
-					"Picture name" + c1Tab + ": " + cFileNoPath( picture ), ;
-					"Image Width"  + c1Tab + ": " + NTrim( aPictInfo [BM_WIDTH] ), ;
-					"Image Height" + c1Tab + ": " + NTrim( aPictInfo [BM_HEIGHT] ), ;
-					"BitsPerPixel" + c1Tab + ": " + NTrim( aPictInfo [BM_BITSPIXEL] ) }, ;
-					"BMP Info" )
-
-			END POPUP
-
-		END MENU
-
-                @ 0, 0 IMAGE Image_1 PICTURE picture ADJUST 
-
-	END WINDOW
-
-	CENTER WINDOW Form_Main
-
-	ACTIVATE WINDOW Form_Main
-
-Return Nil
-
-STATIC FUNC AdJustWin( aPictInfo )
-
-IF Form_Main.Width < aPictInfo [BM_WIDTH] 
-	Form_Main.Width := aPictInfo [BM_WIDTH] + 20
-ENDIF
-	
-IF Form_Main.Height < aPictInfo [BM_HEIGHT]
-	Form_Main.Height := aPictInfo [BM_HEIGHT] + 50 
-ENDIF
-RETURN NIL
-
-
-
-
-
-
-/* ------------------------------------------------------------ */
-#include "MsM.prg"
+return

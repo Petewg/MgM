@@ -1,5 +1,10 @@
 @echo off
+@setlocal
 
-@CALL %~d0\MiniguiM\batch\setpaths.bat
+SET HMGPATH=c:\minigui
 
-hbmk2 tsb.hbp
+SET PATH=%HMGPATH%\harbour\bin;c:\borland\bcc55\bin;%PATH%
+
+hbmk2 tsb.hbp > build.log 2>&1
+
+@endlocal

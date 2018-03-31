@@ -17,7 +17,7 @@ ANNOUNCE RDDSYS
   #define __CALLDLL__
 #endif
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 #define TW_APP_ICO	1001
 #define TW_APP_TITLE	"Twerp - EZTwain sample app by Spike"
@@ -97,7 +97,7 @@ FUNCTION Acquire()
 
    TWAIN_SetHideUI( fHideUI )
 
-    if TWAIN_OpenDefaultSource() > 0
+   // if TWAIN_OpenDefaultSource() > 0
    hdib = TWAIN_AcquireNative( hWnd, wPixTypes )
    IF !Empty( hdib )
       // compute or guess a palette to use for display
@@ -106,9 +106,9 @@ FUNCTION Acquire()
       // size the window to just contain the image
       ResizeWindow()
    ENDIF
-    else
-     MsgStop( "Unable to open default Data Source.", "Error" )
-    endif
+   // else
+   //  MsgStop( "Unable to open default Data Source.", "Error" )
+   // endif
 
 RETURN NIL
 // *********
@@ -339,7 +339,6 @@ DECLARE BmpToJpg( BmpFile, JpgFile ) IN JPG.DLL ALIAS BMP2JPG
 //
 // Copyright 2005 Grigory Filatov <gfilatov@inbox.ru>
 // -----------------------------------------------------------------------------*
-
 DECLARE TWAIN_IsAvailable() IN EZTW32.DLL
 
 DECLARE TWAIN_SelectImageSource( hWnd ) IN EZTW32.DLL
@@ -365,14 +364,11 @@ DECLARE TWAIN_DibHeight( hdib ) IN EZTW32.DLL
 DECLARE TWAIN_DrawDibToDC( hDC, dx, dy, w, h, hdib, sx, sy ) IN EZTW32.DLL
 
 DECLARE TWAIN_SetHideUI( fHide ) IN EZTW32.DLL
-
 // -----------------------------------------------------------------------------*
 
 #else
 
 // -----------------------------------------------------------------------------*
-
-/*
 DECLARE DLL_TYPE_VOID SaveToJpgEx( DLL_TYPE_LONG hWnd, DLL_TYPE_LPCSTR cFileName, ;
       DLL_TYPE_INT nWidth, DLL_TYPE_INT nHeight ) IN JPG.DLL ALIAS SAVE2JPG
 
@@ -387,48 +383,36 @@ DECLARE DLL_TYPE_VOID BmpToJpg( DLL_TYPE_LPCSTR BmpFile, DLL_TYPE_LPCSTR JpgFile
 //
 // Copyright 2005 Grigory Filatov <gfilatov@inbox.ru>
 // -----------------------------------------------------------------------------*
-
 DECLARE DLL_TYPE_INT TWAIN_IsAvailable() IN EZTW32.DLL
+
 DECLARE DLL_TYPE_INT TWAIN_SelectImageSource( DLL_TYPE_HWND hWnd ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_INT TWAIN_AcquireToFilename( DLL_TYPE_HWND hWnd, DLL_TYPE_LPCSTR lpString ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_INT TWAIN_AcquireToClipboard( DLL_TYPE_HWND hwndApp, DLL_TYPE_LONG wPixTypes ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_INT TWAIN_EasyVersion() IN EZTW32.DLL
+
 // declare DLL_TYPE_INT TWAIN_OpenDefaultSource() in EZTW32.DLL
+
 DECLARE DLL_TYPE_HANDLE TWAIN_AcquireNative( DLL_TYPE_HWND hWnd, DLL_TYPE_LONG wPixTypes ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_HANDLE TWAIN_LoadNativeFromFilename( DLL_TYPE_LPCSTR pszFile ) IN EZTW32.DLL
 DECLARE DLL_TYPE_VOID TWAIN_FreeNative( DLL_TYPE_HANDLE hdib ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_INT TWAIN_WriteNativeToFilename( DLL_TYPE_HANDLE hdib, DLL_TYPE_LPCSTR pszFile ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_HANDLE TWAIN_CreateDibPalette( DLL_TYPE_HANDLE hdib ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_INT TWAIN_DibWidth( DLL_TYPE_HANDLE hdib ) IN EZTW32.DLL
 DECLARE DLL_TYPE_INT TWAIN_DibHeight( DLL_TYPE_HANDLE hdib ) IN EZTW32.DLL
+
 DECLARE DLL_TYPE_VOID TWAIN_DrawDibToDC( DLL_TYPE_HDC hDC, ;
       DLL_TYPE_INT dx, DLL_TYPE_INT dy, DLL_TYPE_INT w, DLL_TYPE_INT h, ;
       DLL_TYPE_HANDLE hdib, DLL_TYPE_INT sx, DLL_TYPE_INT sy ) IN EZTW32.DLL
 
 DECLARE DLL_TYPE_VOID TWAIN_SetHideUI( DLL_TYPE_INT fHide ) IN EZTW32.DLL
-
-*/
-#include "hbdll32.ch"
 // -----------------------------------------------------------------------------*
-DECLARE SaveToJpgEx( hWnd, cFileName, nWidth, nHeight ) IN JPG.DLL ALIAS SAVE2JPG
-DECLARE BmpToJpg(  BmpFile,  JpgFile ) IN JPG.DLL ALIAS BMP2JPG
-// -----------------------------------------------------------------------------*
-
-DECLARE TWAIN_IsAvailable() IN EZTW32.DLL
-DECLARE TWAIN_SelectImageSource( hWnd ) IN EZTW32.DLL
-DECLARE TWAIN_AcquireToFilename( hWnd, lpString ) IN EZTW32.DLL
-DECLARE TWAIN_AcquireToClipboard( hwndApp, wPixTypes ) IN EZTW32.DLL
-DECLARE TWAIN_EasyVersion() IN EZTW32.DLL
-DECLARE TWAIN_OpenDefaultSource() in EZTW32.DLL
-DECLARE TWAIN_AcquireNative( hWnd, wPixTypes ) IN EZTW32.DLL
-DECLARE TWAIN_LoadNativeFromFilename( pszFile ) IN EZTW32.DLL
-DECLARE TWAIN_FreeNative( hdib ) IN EZTW32.DLL
-DECLARE TWAIN_WriteNativeToFilename( hdib, pszFile ) IN EZTW32.DLL
-DECLARE TWAIN_CreateDibPalette( hdib ) IN EZTW32.DLL
-DECLARE TWAIN_DibWidth( hdib ) IN EZTW32.DLL
-DECLARE TWAIN_DibHeight( hdib ) IN EZTW32.DLL
-DECLARE TWAIN_DrawDibToDC( hDC, dx, dy, w, h, hdib, sx, sy ) IN EZTW32.DLL
-DECLARE TWAIN_SetHideUI( fHide ) IN EZTW32.DLL
 
 #endif
 
@@ -451,21 +435,7 @@ HB_FUNC( GETDESKTOPRECTHEIGHT )
    SystemParametersInfo( SPI_GETWORKAREA, 0, &rect, 0 );
    hb_retni(rect.bottom - rect.top);
 }
-/*
-HB_FUNC( C_CENTER )
-{
-   HWND hwnd = (HWND) hb_parnl(1);
-   RECT rect;
-   int w, h, x, y;
-   GetWindowRect( hwnd, &rect );
-   w = rect.right  - rect.left;
-   h = rect.bottom - rect.top;
-   SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-   x = rect.right - rect.left;
-   y = rect.bottom - rect.top;
-   SetWindowPos( hwnd, HWND_TOP, (x - w) / 2, (y - h) / 2, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE );
-}
-*/
+
 HB_FUNC( SETPALETTE )
 {
    HDC hDC = (HDC) hb_parnl(1);
@@ -473,21 +443,6 @@ HB_FUNC( SETPALETTE )
 
    SelectPalette (hDC, hPal, FALSE);
    RealizePalette (hDC);
-}
-
-
-HB_FUNC( BEGINPAINT )
-{
-   PAINTSTRUCT pps;
-
-   HDC hDC = BeginPaint( (HWND) hb_parnl( 1 ), &pps );
-   hb_retnl( (LONG) hDC );
-   hb_storclen( ( char * ) &pps, sizeof(PAINTSTRUCT), 2 );
-}
-
-HB_FUNC( ENDPAINT )
-{
-   hb_retl( EndPaint( (HWND) hb_parnl( 1 ), (PAINTSTRUCT*) hb_parc( 2 ) ) );
 }
 
 HB_FUNC( GETMINWIDTH )

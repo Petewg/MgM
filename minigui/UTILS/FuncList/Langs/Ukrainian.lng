@@ -1,0 +1,122 @@
+[HEADER]
+Language=Ukrainian
+NativeLanguage=Українська
+
+[MAIN_FORM]
+Title=Каталог функцій
+btnNew=Побудувати новий список
+btnOpen=Завантажити список з файлу
+btnSave=Зберегти список у файл
+btnEdit=Відкрити у зовнішньому редакторові
+btnOptions=Налаштування програми
+NameColumn=Найменування
+TypeColumn=Тип
+CommentColumn=Коментар
+lblSearch=Пошук
+msgSearch=Вкажіть вираз для швидкого пошуку
+btnSearch=продовжити пошук
+btnFindAll=Знайти всі входження
+
+[MAINMENU]
+File=Файл
+New=Створити
+msgNew=Побудувати новий список
+Open=Відкрити
+msgOpen=Завантажити існуючий список
+Save=Зберегти
+msgSave=Зберегти список до файлу
+Exit=Вихід
+msgExit=Завершити роботу
+Edit=Правка
+SetTitle=опис каталогу
+msgSetTitle=Призначити опис поточному каталогові
+OpenEditor=Відкрити у редакторові
+msgOpenEditor=Відкрити файл, що містить функцію, у зовнішньому редакторові
+CopyName=Запам’ятати ім’я
+msgCopyName=Копіювати назву поточного елементу до буферу обміну
+Tools=Інструменти
+CodeFormat=Форматування коду
+msgCodeFormat=Форматування файлів програмного коду
+CallsTable=Використання функцій
+msgCallsTable=Таблиця функцій, загальних для всіх програмних файлів
+Service=Сервіс
+Language=Мова
+SelectLang=Вибрати
+msgLanguage=Вибрати мові інтерфейсу
+TemplateLang=Шаблон
+msgTemplate=Створити файл мовного шаблону
+Options=Параметри
+msgOptions=Налаштування параметрів програми
+About=Про програму
+msgAbout=Відомості про програму
+
+[OPTIONS_FORM]
+Title=Параметри роботи
+frmOnStart=Дії при запускові
+rdgOnStart1=Ніяких дій
+rdgOnStart2=Завантажити останній список
+frmSearch=Режим пошуку
+rdgSearch1=Точна відповідність
+rdgSearch2=Входження фрагменту
+Editor=Зовнішній редактор
+rdgParameters1=Відкрити файл без параметрів
+rdgParameters2=Визначити і передати номер рядка %N
+rdgParameters3=Визначити і передати ім’я процедури %P
+
+[SELECTLANG_FORM]
+Title=Вибір мови
+
+[SETTITLE_FORM]
+Title=Встановлення найменування каталога
+lblName=Найменування
+
+[FINDALL_FORM]
+Title=Результати пошуку
+lblName=Входження
+NameColumn=Найменування
+FileColumn=Файл
+TypeColumn=Тип
+btnGoto=Перейти
+
+[FORMATTER_FORM]
+Title=Форматування коду
+frmFiles=Обробити
+rdgFiles1=Поточний файл
+rdgFiles2=Усі файли
+frmCase=Регістр ключових слів
+rdgCase1=нижній
+rdgCase2=ВЕРХНІЙ
+rdgCase3=Перша велика
+btnGoto=Почати
+Console=Хід виконання
+Started=Обробку почато о
+Skipped=пропущено
+Finished=Завершено о
+Elapsed=Витрачено часу
+KeyLoad=Завантажено перелік ключових слів
+KeyEmpty=Перелік ключових слів відсутній
+PhLoad=Завантажено перелік складних операторів
+PhEmpty=Перелік складних операторів відсутній
+OpenError=Помилка відкриття файлу
+CreateError=Неможливо створити файл
+
+[CALLSTABLE_FORM]
+Console=Побудова...
+Title=Таблиця звертань до функцій
+NameColumn=Найменування
+TypeColumn=Тип
+DefinedColumn=Визначено
+CalledColumn=Викликається
+
+[SYSDIALOGS_FORM]
+FromFile=Завантажити список з файлу
+ToFile=Зберегти список до файлу
+ChoiceEditor=Вибір редактора
+TextFiles=Текстові
+AppFiles=Програми
+AllFiles=Усі файли
+SourceDir=Виберіть джерело файлів
+Warning=Попередження
+FileExist=Файл %N існує. Замінити ?
+Inform=Інформація
+Created=Створено файл %N
