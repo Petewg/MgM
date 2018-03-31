@@ -1,2 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat demo combosearchgrid.prg -lhbsqlit3 -lsqlite3
-rem @call %~d0\miniguim\batch\buildapp.bat csg csg.hbc
+call ..\..\..\batch\hbmk2.bat %* csg.hbp csg.hbc

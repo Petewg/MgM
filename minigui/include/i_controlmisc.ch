@@ -32,10 +32,10 @@
 	"Harbour GUI framework for Win32"
  	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -146,6 +146,12 @@ SetResCursor( LoadCursor( NIL, IDC_SIZEWE ) )
 #xtranslate CursorUpArrow() ;
 => ;
 SetResCursor( LoadCursor( NIL, IDC_UPARROW ) )
+
+// Alert icons
+#define ICON_EXCLAMATION      1  // default value
+#define ICON_QUESTION         2
+#define ICON_INFORMATION      3
+#define ICON_STOP             4
 
 // System metrics
 #define SM_CXSCREEN             0

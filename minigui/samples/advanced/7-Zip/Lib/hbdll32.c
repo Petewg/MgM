@@ -59,12 +59,8 @@
 
 #define _WIN32_WINNT   0x0400
 
-#define HB_OS_WIN_USED
-
-#define __MINGW32__
-
 #include "hbvm.h"
-#include "hbapi.h"
+#include "mgdefs.h"
 #include "hbapierr.h"
 #include "hbapiitm.h"
 
@@ -591,7 +587,7 @@ static void DllExec( int iFlags, int iRtype, LPVOID lpFunction, PXPP_DLLEXEC xec
    {
       for( i = iFirst, iCnt = 0; i <= iParams && iCnt < _DLLEXEC_MAXPARAM; i++, iCnt++ )
       {
-         if( ISBYREF( i ) )
+         if( HB_ISBYREF( i ) )
          {
             switch( HB_ITEM_TYPE( hb_param( i, HB_IT_ANY ) ) )
             {
@@ -742,22 +738,22 @@ HB_FUNC( DLLPREPARECALL )
 
    memset( xec, 0, sizeof( XPP_DLLEXEC ) );
 
-   if( ISCHAR( 1 ) )
+   if( HB_ISCHAR( 1 ) )
    {
       xec->cDLL = hb_strdup( hb_parc( 1 ) );
       xec->hDLL = LoadLibraryA( xec->cDLL );
    }
-   else if( ISNUM( 1 ) )
+   else if( HB_ISNUM( 1 ) )
       xec->hDLL = ( HMODULE ) ( HB_PTRDIFF ) hb_parnint( 1 );
 
    if( xec->hDLL )
    {
-      if( ISCHAR( 3 ) )
+      if( HB_ISCHAR( 3 ) )
       {
          xec->cProc = ( char * ) hb_xgrab( hb_parclen( 3 ) + 2 ); /* Reserving space for possible ANSI "A" suffix. */
          hb_strncpy( xec->cProc, hb_parc( 3 ), hb_parclen( 3 ) );
       }
-      else if( ISNUM( 3 ) )
+      else if( HB_ISNUM( 3 ) )
          xec->wOrdinal = ( WORD ) hb_parni( 3 );
 
       xec->lpFunc = ( LPVOID ) GetProcAddress( xec->hDLL, xec->cProc ? ( LPCSTR ) xec->cProc : ( LPCSTR ) ( HB_PTRDIFF ) xec->wOrdinal );
@@ -768,18 +764,18 @@ HB_FUNC( DLLPREPARECALL )
       if( xec->lpFunc )
       {
          xec->dwType = _DLLEXEC_SIGNATURE;
-         xec->dwFlags = ISNUM( 2 ) ? hb_parnl( 2 ) : DC_CALL_STD;
+         xec->dwFlags = HB_ISNUM( 2 ) ? hb_parnl( 2 ) : DC_CALL_STD;
          hb_retptrGC( xec );
          return;
       }
 
-      if( ISCHAR( 1 ) )
+      if( HB_ISCHAR( 1 ) )
          FreeLibrary( xec->hDLL );
 
-      pszErrorText = ISCHAR( 3 ) ? "Invalid function name" : "Invalid function ordinal";
+      pszErrorText = HB_ISCHAR( 3 ) ? "Invalid function name" : "Invalid function ordinal";
    }
    else
-      pszErrorText = ISCHAR( 1 ) ? "Invalid library name" : "Invalid library handle";
+      pszErrorText = HB_ISCHAR( 1 ) ? "Invalid library name" : "Invalid library handle";
 
    hb_gcFree( xec );
 
@@ -812,9 +808,9 @@ static LPVOID hb_getprocaddress( HMODULE hDLL, int i )
    HB_SYMBOL_UNUSED( i );
    return NULL;
 #else
-   LPVOID lpFunction = ( LPVOID ) GetProcAddress( hDLL, ISCHAR( i ) ? ( LPCSTR ) hb_parc( i ) : ( LPCSTR ) hb_parni( i ) );
+   LPVOID lpFunction = ( LPVOID ) GetProcAddress( hDLL, HB_ISCHAR( i ) ? ( LPCSTR ) hb_parc( i ) : ( LPCSTR ) hb_parni( i ) );
 
-   if( ! lpFunction && ISCHAR( i ) ) /* try with ANSI suffix? */
+   if( ! lpFunction && HB_ISCHAR( i ) ) /* try with ANSI suffix? */
    {
       char * pszFuncName = ( char * ) hb_xgrab( hb_parclen( i ) + 2 );
       hb_strncpy( pszFuncName, hb_parc( i ), hb_parclen( i ) );
@@ -828,13 +824,13 @@ static LPVOID hb_getprocaddress( HMODULE hDLL, int i )
 
 HB_FUNC( DLLCALL )
 {
-   HMODULE hDLL = ISCHAR( 1 ) ? LoadLibraryA( hb_parc( 1 ) ) : ( HMODULE ) ( HB_PTRDIFF ) hb_parnint( 1 );
+   HMODULE hDLL = HB_ISCHAR( 1 ) ? LoadLibraryA( hb_parc( 1 ) ) : ( HMODULE ) ( HB_PTRDIFF ) hb_parnint( 1 );
 
    if( hDLL && ( HB_PTRDIFF ) hDLL >= 32 )
    {
       DllExec( hb_parni( 2 ), 0, hb_getprocaddress( ( HMODULE ) hDLL, 3 ), NULL, hb_pcount(), 4 );
       
-      if( ISCHAR( 1 ) )
+      if( HB_ISCHAR( 1 ) )
          FreeLibrary( hDLL );
    }
 }

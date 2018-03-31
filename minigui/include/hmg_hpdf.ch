@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.belgorod.su>
-    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://www.harbour-project.org
+   Copyright 2001 Alexander S.Kresin <alex@belacy.belgorod.su>
+   Copyright 2001 Antonio Linares <alinares@fivetech.com>
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2003, http://www.harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2007 Alexander S.Kresin <alex@belacy.belgorod.su>
+   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -61,9 +61,11 @@
 => ;
    <lSuccess> := _HMG_HPDF_INIT ( <cPDFFile>, if ( <.lOrientation.>   , <nOrientation>   , 1 ) , if ( <.lPaperSize.>   , <nPaperSize>      , 1 ) , if ( <.lPaperLength.>   , <nPaperLength>   , -999 ) , if ( <.lPaperWidth.>   , <nPaperWidth>      , -999 )   )
 
+
 #xcommand START HPDFDOC ;
 => ;
 _hmg_hpdf_startdoc()
+
 
 #xcommand START HPDFPAGE ;
 => ;
@@ -79,9 +81,11 @@ _hmg_hpdf_endpage()
 => ;
 _hmg_hpdf_enddoc()
 
+
 #xcommand ABORT HPDFDOC ;
 => ;
 _hmg_hpdf_abortdoc()
+
 
 #xcommand @ <Row> , <Col> HPDFPRINT [ DATA ] <cText> ;
    [ <lfont : FONT> <cFontName> ] ;
@@ -95,6 +99,7 @@ _hmg_hpdf_abortdoc()
    [ <align : CENTER,RIGHT> ] ;
    => ;
    _HMG_HPDF_PRINT ( <Row> , <Col> , <cFontName> , <nFontSize> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <cText> , <.bold.> , <.italic.> , <.underline.> , <.strikeout.> , <.lcolor.> , <.lfont.> , <.lsize.> , <"align"> , <nAngle> )
+
 
 #xcommand @ <Row> , <Col> HPDFPRINT [ DATA ] <cText> ;
    TO <ToRow> , <ToCol> ;
@@ -110,6 +115,7 @@ _hmg_hpdf_abortdoc()
    => ;
    _HMG_HPDF_MULTILINE_PRINT ( <Row> , <Col> , <ToRow> , <ToCol> , <cFontName> , <nFontSize> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <cText> , <.bold.> , <.italic.> , <.underline.> , <.strikeout.> , <.lcolor.> , <.lfont.> , <.lsize.> , <"align"> , <nAngle> )
 
+
 #xcommand @ <nRow> , <nCol> HPDFPRINT IMAGE <cImage> ;
    WIDTH <nWidth> ;
    HEIGHT <nheight> ;
@@ -117,11 +123,13 @@ _hmg_hpdf_abortdoc()
    => ;
    _HMG_HPDF_IMAGE ( <cImage> , <nRow> , <nCol> , <nheight> , <nWidth> , <.stretch.> )
 
+
 #xcommand @ <Row> , <Col> HPDFPRINT LINE TO <ToRow> , <ToCol> ;
    [ <lwidth : PENWIDTH> <Width> ] ;
    [ <lcolor : COLOR> <aColor> ] ;
    => ;
    _HMG_HPDF_LINE ( <Row> , <Col> , <ToRow> , <ToCol> , <Width> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\]  , <.lwidth.> , <.lcolor.> )
+
 
 #xcommand @ <Row> , <Col> HPDFPRINT RECTANGLE TO <ToRow> , <ToCol> ;
    [ <lwidth : PENWIDTH> <Width> ] ;
@@ -139,12 +147,14 @@ _hmg_hpdf_abortdoc()
    => ;
    _HMG_HPDF_ROUNDRECTANGLE ( <Row> , <Col> , <ToRow> , <ToCol> , <Width> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <.lwidth.> , <.lcolor.>, <.lfilled.>, <nCurve> )
 
+
 #xcommand @ <Row> , <Col> HPDFPRINT CIRCLE RADIUS <nRadius> ;
    [ <lwidth : PENWIDTH> <Width> ] ;
    [ <lcolor : COLOR> <aColor> ] ;
    [ <lFilled: FILLED> ];
    => ;
    _HMG_HPDF_CIRCLE ( <Row> , <Col> , <nRadius> , <Width> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\]  , <.lwidth.> , <.lcolor.> , <.lFilled.>)
+
 
 #xcommand @ <Row> , <Col> HPDFPRINT ELLIPSE HORIZONTAL RADIUS <nHRadius> ;
    VERTICAL RADIUS <nVRadius> ;
@@ -154,6 +164,7 @@ _hmg_hpdf_abortdoc()
    => ;
    _HMG_HPDF_ELLIPSE ( <Row> , <Col> , <nHRadius> , <nVRadius>, <Width> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\]  , <.lwidth.> , <.lcolor.> , <.lFilled.>)
 
+
 #xcommand @ <Row> , <Col> HPDFPRINT ARC RADIUS <nRadius> ;
    ANGLE FROM <nFromAngle> ;
    TO <nToAngle> ;
@@ -161,6 +172,7 @@ _hmg_hpdf_abortdoc()
    [ <lcolor : COLOR> <aColor> ] ;
    => ;
    _HMG_HPDF_Arc ( <Row> , <Col> , <nRadius> , <nFromAngle>, <nToAngle>, <Width> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\]  , <.lwidth.> , <.lcolor.> )
+
 
 #xcommand @ <Row> , <Col> HPDFPRINT CURVE FROM <nFromRow>, <nFromCol> TO <ToRow> , <ToCol> ;
    [ <lwidth : PENWIDTH> <Width> ] ;
@@ -183,14 +195,17 @@ _hmg_hpdf_abortdoc()
 
 #xcommand SET HPDFDOC PAGEOUTLINE TITLE <cTitle> [ NAME <cName> ] [ PARENT <cParent> ] => _HMG_HPDF_PageOutline( <cTitle>, <cParent>, <cName> )
 
+
 #xcommand @ <Row> , <Col> HPDFTOOLTIP <cToolTip> ;
    ICON <cIcon:COMMENT,KEY,NOTE,HELP,NEW_PARAGRAPH,PARAGRAPH,INSERT> ;
    => ;
    _HMG_HPDF_SetTextAnnot( <Row>, <Col>, <cToolTip>, <"cIcon"> )
 
+
 #xcommand INSERT HPDFPAGE BEFORE PAGE <nPage> => _HMG_HPDF_InsertPage( <nPage> )
 
 #xcommand SELECT HPDFPAGE <nPage> => _HMG_HPDF_GoToPage( <nPage> )
+
 
 #xcommand @ <Row> , <Col> HPDFPAGELINK <cLink> TO <nPage> ;
    [ <lfont : FONT> <cFontName> ] ;
@@ -210,6 +225,71 @@ _hmg_hpdf_abortdoc()
    => ;
    _HMG_HPDF_SetURLLink( <Row>, <Col>, <cTitle>, <cLink>, <cFontName>, <nFontSize>, <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <"align">, <.lcolor.>, <.lfont.>, <.lsize.> )
 
+
+#xcommand @ <Row> , <Col> HPDFPRINT SKEW <cText> ;
+	[ <lfont : FONT> <cFontName> ] ;
+	[ <lsize : SIZE> <nFontSize> ] ;
+	[ <bold : BOLD> [ IF <lBold> ] ] ;
+	[ <italic : ITALIC> [ IF <lItalic> ] ] ;
+	[ <lcolor : COLOR> <aColor> ] ;
+	[ <align : CENTER,RIGHT> ] ;
+	[ <langle : ANGLE> <nAngle> ] ;
+	[ <langle2: SKEW> <nAngle2> ] ;
+	=> ;
+	HPDF_SkewText ( <Row> , <Col> , <cFontName> , <nFontSize> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <cText> ,;
+		<.bold.> .AND. iif( HB_IsLogical(<lBold>), <lBold>, HB_IsNil(<lBold>) ) ,; 
+		<.italic.> .AND. iif( HB_IsLogical(<lItalic>), <lItalic>, HB_IsNil(<lItalic>) ) ,;
+		<.lcolor.> , <.lfont.> , <.lsize.> , <"align"> , <nAngle> , <nAngle2> ) 
+
+		
+#xcommand @ <Row> , <Col> HPDFPRINT SCALE <cText> ;
+	[ <lfont : FONT> <cFontName> ] ;
+	[ <lsize : SIZE> <nFontSize> ] ;
+	[ <bold : BOLD> [ IF <lBold> ] ] ;
+	[ <italic : ITALIC> [ IF <lItalic> ] ] ;
+	[ <lcolor : COLOR> <aColor> ] ;
+	[ <align : CENTER,RIGHT> ] ;
+	[ <lxscale : XSCALE> <nxscale> ] ;
+	[ <lyscale : YSCALE> <nyscale> ] ;
+	=> ;
+	HPDF_ScaleText ( <Row> , <Col> , <cFontName> , <nFontSize> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <cText> ,;
+		<.bold.> .AND. iif( HB_IsLogical(<lBold>), <lBold>, HB_IsNil(<lBold>) ) ,; 
+		<.italic.> .AND. iif( HB_IsLogical(<lItalic>), <lItalic>, HB_IsNil(<lItalic>) ) ,;
+		<.lcolor.> , <.lfont.> , <.lsize.> , <"align"> , <nxscale> , <nyscale> ) 
+
+
+#xcommand @ <Row> , <Col> HPDFPRINT RENDER <cText> ;
+	[ <lfont : FONT> <cFontName> ] ;
+	[ <lsize : SIZE> <nFontSize> ] ;
+	[ <bold : BOLD> [ IF <lBold> ] ] ;
+	[ <italic : ITALIC> [ IF <lItalic> ] ] ;
+	[ <lcolor : COLOR> <aColor> ] ;
+	[ <align : CENTER,RIGHT> ] ;
+	[ <mode : FILL, STROKE, FILL_THEN_STROKE, FILL_CLIPPING, STROKE_CLIPPING, FILL_STROKE_CLIPPING> ] ; 
+	[ <lrim: RIM> <nrim> ] ;
+	=> ;
+	HPDF_RenderText ( <Row> , <Col> , <cFontName> , <nFontSize> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <cText> ,;
+		<.bold.> .AND. iif( HB_IsLogical(<lBold>), <lBold>, HB_IsNil(<lBold>) ) ,; 
+		<.italic.> .AND. iif( HB_IsLogical(<lItalic>), <lItalic>, HB_IsNil(<lItalic>) ) ,;
+		<.lcolor.> , <.lfont.> , <.lsize.> , <"align"> , HPDF_<mode> , <nrim> ) 
+
+
+#xcommand @ <Row> , <Col> HPDFPRINT CIRCLED TEXT <cText> ;
+	[ <lfont : FONT> <cFontName> ] ;
+	[ <lsize : SIZE> <nFontSize> ] ;
+	[ <bold : BOLD> [ IF <lBold> ] ] ;
+	[ <italic : ITALIC> [ IF <lItalic> ] ] ;
+	[ <lcolor : COLOR> <aColor> ] ;
+ 	[ <lrad : RADIUS> <nRad> ] ;
+	[ <lrims: RIMS> ] ;
+	[ <align : TOP, BOTTOM> ] ;
+	=> ;
+	HPDF_CircleText ( <Row> , <Col> , <cFontName> , <nFontSize> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <cText> ,;
+		<.bold.> .AND. iif( HB_IsLogical(<lBold>), <lBold>, HB_IsNil(<lBold>) ) ,;
+		<.italic.> .AND. iif( HB_IsLogical(<lItalic>), <lItalic>, HB_IsNil(<lItalic>) ) ,;
+		<.lcolor.> , <.lfont.> , <.lsize.> , <nRad> , <.lrims.> , <"align"> )
+
+
 #xcommand SET HPDFINFO <attrib:AUTHOR,CREATOR,TITLE,SUBJECT,KEYWORDS,DATECREATED,DATEMODIFIED> TO <xValue> [ TIME <cTime> ] => _HMG_HPDF_SetInfo( <"attrib">, <xValue>, <cTime> )
 
 #xcommand GET HPDFINFO <attrib:AUTHOR,CREATOR,TITLE,SUBJECT,KEYWORDS,DATECREATED,DATEMODIFIED> TO <cValue> => <cValue> := _HMG_HPDF_GetInfo( <"attrib"> )
@@ -221,6 +301,11 @@ _hmg_hpdf_abortdoc()
 #xcommand SET HPDFPAGE DASH STYLE [ TO ] <nDashMode> => _HMG_HPDF_SetDash( <nDashMode> )
 
 #xcommand SET HPDFPAGE ORIENTATION [ TO ] <nMode> => _HMG_HPDF_SetOrientation( <nMode> )
+
+#xcommand SET HPDFDOC FONT NAME TO [ <cFontName> ] => _HMG_HPDF_SetFontName( <cFontName> )   
+
+#xcommand SET HPDFDOC FONT SIZE TO [ <nFontSize> ] => _HMG_HPDF_SetFontSize( <nFontSize> )
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // PDF CONFIGURATION CONSTANTS
@@ -362,5 +447,3 @@ _hmg_hpdf_abortdoc()
 #define HPDF_PAPER_PENV_10_ROTATED     118 /* PRC Envelope #10 Rotated 458 x 324 mm */
 
 #define HPDF_PAPER_USER                256
-
-

@@ -1,0 +1,39 @@
+
+MAIN ICON "images\main.ico"
+
+LOGO BITMAP "images\abcsoft.bmp"
+IMAGE1 BITMAP "images\desk.bmp"
+IMAGE2 BITMAP "images\appwiz.bmp"
+IMAGE3 BITMAP "images\sysdm.bmp"
+IMAGE4 BITMAP "images\mouse.bmp"
+IMAGE5 BITMAP "images\help.bmp"
+IMAGE6 BITMAP "images\exit.bmp"
+
+1 VERSIONINFO
+FILEVERSION 1,0,2,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Control Panel\000"
+		VALUE "FileVersion", "1.0.2.0"
+		VALUE "InternalName", "Control Panel\000"
+		VALUE "LegalCopyright", "Freeware 2011-2014\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "cpanel.exe\000"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

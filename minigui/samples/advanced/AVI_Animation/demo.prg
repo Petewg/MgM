@@ -97,7 +97,7 @@ Static lBusy := .F.
 
 		For i = 0 To 65535 Step 5
 			Form_1.Progress_1.Value := i
-			DoEvents()
+			Do Events
 		Next i
 
 		lBusy := .F.
@@ -105,5 +105,3 @@ Static lBusy := .F.
 	ENDIF
 
 Return
-
-// #include "animate.prg"

@@ -9,7 +9,7 @@
  * Copyright 2007 Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 *-----------------------------------------------------------------------------*
 Procedure Main
@@ -151,19 +151,14 @@ Return
 *-----------------------------------------------------------------------------*
 Function SaveToJPG( nQuality, nProgressive )
 *-----------------------------------------------------------------------------*
-Local nResult
-LOCAL cBmp := cFilePath( GetExeFileName() ) + "\tmp.bmp"
-LOCAL cJpg := cFilePath( GetExeFileName() ) + "\demo.jpg"
+Local nResult, cBmp := "C:\tmp.bmp", cJpg := cFilePath( GetExeFileName() ) + "\demo.jpg"
 
 	DEFAULT nQuality := 80, nProgressive := 1
-   
-	Form_1.Image_1.SaveAs( cBmp )				// Create temporary file which reguired for DIjpg.dll
-   
-   MSGDEBUG( cbmp, cjpg )
 
-	// nResult := BmpToJpg( cJpg, nQuality, nProgressive )	// Save to JPEG
-   // nResult := CallDLL32( "DIJPG.DLL", DLL_TYPE_LONG, "DIWriteJpg", cJpg, nQuality, nProgressive ) // HMG FUNC
-   nResult := CallDll32( "DIWriteJpg", "DIJPG.DLL", cJpg, nQuality, nProgressive )  // HARBOUR FUNC
+	Form_1.Image_1.SaveAs( cBmp )				// Create temporary file which reguired for DIjpg.dll
+
+	nResult := BmpToJpg( cJpg, nQuality, nProgressive )	// Save to JPEG
+
 	If nResult # 1						// An error occured
 		MsgStop( "BmpToJpg did not succeed!", "Error" )
 	EndIf
@@ -173,10 +168,6 @@ LOCAL cJpg := cFilePath( GetExeFileName() ) + "\demo.jpg"
 Return nResult
 
 *-----------------------------------------------------------------------------*
-
-//DECLARE DLL_TYPE_LONG DIWriteJpg(DLL_TYPE_LPCSTR DestPath, DLL_TYPE_LONG quality, DLL_TYPE_LONG progressive) ;
-	// IN DIJPG.DLL ALIAS BMPTOJPG
-
+DECLARE DLL_TYPE_LONG DIWriteJpg(DLL_TYPE_LPCSTR DestPath, DLL_TYPE_LONG quality, DLL_TYPE_LONG progressive) ;
+	IN DIJPG.DLL ALIAS BMPTOJPG
 *-----------------------------------------------------------------------------*
-
-// DECLARE DLL_TYPE_LONG DIWriteJpg( DestPath, quality, progressive ) IN DIJPG.DLL ALIAS BMPTOJPG

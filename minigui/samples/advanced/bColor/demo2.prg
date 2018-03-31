@@ -3,7 +3,7 @@
  * bColor2('R'), bColor2('R+'), bColor2('R++'), bColor2('R-'), bColor2('R--')
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 Function Main
 LOCAL a,y,x,i,j,k

@@ -53,7 +53,7 @@ METHOD Load() CLASS TActiveX
    local oError, bError
    local nHandle := GetFormHandle(::cWindowName)
    local xObjeto
-   // local OCX_Error := 0
+   local OCX_Error := 0
    AtlAxWinInit()
    ::hWnd := CreateWindowEx( nHandle, ::cProgId )
    MoveWindow( ::hWnd , ::nCol , ::nRow , ::nWidth , ::nHeight , .t. )

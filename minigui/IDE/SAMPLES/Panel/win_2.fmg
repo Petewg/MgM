@@ -1,0 +1,78 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2011 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 113 , 372 WIDTH 233 HEIGHT 418 VIRTUAL WIDTH 640 VIRTUAL HEIGHT 764 PANEL
+
+     DEFINE TEXTBOX Text_1
+            ROW    30
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    100
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_3
+            ROW    170
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_4
+            ROW    240
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_5
+            ROW    310
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_6
+            ROW    380
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_7
+            ROW    450
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_8
+            ROW    520
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_9
+            ROW    590
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_10
+            ROW    660
+            COL    40
+            WIDTH  120
+            HEIGHT 24
+     END TEXTBOX 
+
+END WINDOW
+
+

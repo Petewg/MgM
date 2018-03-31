@@ -503,7 +503,7 @@ MONTHCALENDAR - 'BackColor', 'FontColor' and others color clauses (for Win 9x/2k
 
 PROGRESSBAR - [ STYLE ] MARQUEE clause and VELOCITY property.
 
-RADIOGROUP - 'LeftJustify' clause.
+RADIOGROUP - AUTOSIZE and 'LeftJustify' clauses.
 
 RICHEDIT - method 'Save', event ON SELECT, drag/drop/paste events, NOVSCROL, NOHSCROLL, FILE and FIELD clauses, 'RichValue' and 'AutoFont' properties.
 

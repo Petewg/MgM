@@ -1,1 +1,1 @@
-Harbour MiniGUI Extended (MinGW) Edition 18.01 (Release)
+Harbour MiniGUI Extended Edition 18.03 (Release)

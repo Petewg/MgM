@@ -34,7 +34,8 @@ Public TotalFrames, CurrentFrame
 		AT 0,0 ;
 		WIDTH 320 HEIGHT 240 ;
 		TITLE 'Gif89 Demo' ;
-		MAIN NOMAXIMIZE NOSIZE;
+		MAIN NOMAXIMIZE NOSIZE ;
+		BACKCOLOR SILVER ;
 		ON INTERACTIVECLOSE OnClose()
 
 		DEFINE MAIN MENU
@@ -83,8 +84,8 @@ Public TotalFrames, CurrentFrame
 		Form_Main.Image_1.Col := ( Form_Main.Width - aPictInfo [2] - 2 * GetBorderWidth() ) / 2 + 1
 
 		DRAW PANEL IN WINDOW Form_Main ;
-			AT Form_Main.Image_1.Row - 2, Form_Main.Image_1.Col - 4 ;
-			TO Form_Main.Image_1.Row + aPictInfo [3] + 2, Form_Main.Image_1.Col + aPictInfo [2] + 4
+			AT Form_Main.Image_1.Row - 2, Form_Main.Image_1.Col - 2 ;
+			TO Form_Main.Image_1.Row + aPictInfo [3] + 2, Form_Main.Image_1.Col + aPictInfo [2] + 2
 	ENDIF
 
 	CENTER WINDOW Form_Main
@@ -126,5 +127,4 @@ Return Nil
 
 /*
 */
-#include "h_Gif89.prg"
 #include "MsM.prg"

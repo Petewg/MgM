@@ -25,10 +25,6 @@
 #ifndef MG_SETUP_H_
 #define MG_SETUP_H_
 
-#ifndef MGM_VERSION
-   #define MGM_VERSION   0x0709  /* 1801 */
-#endif
-
 #ifndef WINVER
   #if defined( __WIN98__ )
     #define WINVER   0x0400      /* version 4.0 */
@@ -124,5 +120,11 @@
 #endif /* __XHARBOUR__ */
 
 #define _isValidCtrlClass  _isValidCtrlClassA
+
+#if defined( __BORLANDC__ ) && ! defined( HB_ARCH_64BIT )
+  #undef MAKELONG
+  #define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | \
+                                         ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
+#endif
 
 #endif /* MG_SETUP_H_ */

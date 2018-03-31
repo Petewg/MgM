@@ -8,7 +8,7 @@
  * HMG Experimental 1.1 Build 12a
 */
 
-#include "hmg.ch"
+#include "MiniGUI.ch"
 
 Function MAIN()
 Local aRows [20] [3], bColor1, bColor2, ;
@@ -34,8 +34,6 @@ Local aRows [20] [3], bColor1, bColor2, ;
 	aRows [18]	:= {'Samarbide','Armando','854-7873'} 
 	aRows [19]	:= {'Pradon','Alejandra','???-????'} 
 	aRows [20]	:= {'Reyes','Monica','432-5836'} 
-   
-   set autoadjust on
 
 	DEFINE WINDOW Form_1 AT 97,62 WIDTH 597 HEIGHT 337 MAIN TITLE "Extend Disable/Enable control DEMO" 
                 bColor1 := {|x,nItem| if( nItem/2 == int(nItem/2), RGB(255,255,255), RGB(128,255,255) )}

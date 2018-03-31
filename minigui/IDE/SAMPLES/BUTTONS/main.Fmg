@@ -1,0 +1,97 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 170 , 240 WIDTH 240 HEIGHT 358 VIRTUAL WIDTH NIL  VIRTUAL HEIGHT NIL  TITLE "Buttons Test" ICON NIL MAIN NOMAXIMIZE NOSIZE CURSOR NIL ON INIT NIL ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR NIL NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK NIL ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+    DEFINE BUTTON Text_Only_Button
+           ROW    20
+           COL    20
+           WIDTH  190
+           HEIGHT 60
+           ACTION MsgInfo('Text Only Button')
+           CAPTION "Text Only"
+           FONTNAME "Arial"
+           FONTSIZE 9
+           TOOLTIP "Text Only Button"
+           FONTBOLD .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS Nil
+           ONLOSTFOCUS Nil
+           HELPID Nil
+           FLAT .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+     DEFINE BUTTONEX Text_And_Image_Button
+            ROW    90
+            COL    20
+            WIDTH  190
+            HEIGHT 100
+            CAPTION "Text And Image"
+            PICTURE "button.bmp"
+            ACTION MsgInfo('Text And Image Button')
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            FONTCOLOR NIL
+            VERTICAL .T.
+            LEFTTEXT .F.
+            UPPERTEXT .F.
+            ADJUST .F.
+            TOOLTIP "Text And Image Button"
+            BACKCOLOR NIL
+            NOHOTLIGHT .F.
+            FLAT .F.
+            NOTRANSPARENT .F.
+            NOXPSTYLE .F.
+            ONGOTFOCUS Nil
+            ONLOSTFOCUS Nil
+            TABSTOP .T.
+            HELPID Nil
+            VISIBLE .T.
+            DEFAULT .F.
+     END BUTTONEX  
+
+     DEFINE BUTTONEX Image_Only_Button
+            ROW    200
+            COL    20
+            WIDTH  190
+            HEIGHT 100
+            CAPTION ""
+            PICTURE "button.bmp"
+            ACTION MsgInfo ('Image Only Button')
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            FONTCOLOR NIL
+            VERTICAL .F.
+            LEFTTEXT .F.
+            UPPERTEXT .F.
+            ADJUST .F.
+            TOOLTIP "Image Only Button"
+            BACKCOLOR NIL
+            NOHOTLIGHT .F.
+            FLAT .F.
+            NOTRANSPARENT .F.
+            NOXPSTYLE .F.
+            ONGOTFOCUS Nil
+            ONLOSTFOCUS Nil
+            TABSTOP .T.
+            HELPID Nil
+            VISIBLE .T.
+            DEFAULT .F.
+     END BUTTONEX  
+
+END WINDOW
+
+

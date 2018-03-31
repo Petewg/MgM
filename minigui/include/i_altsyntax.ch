@@ -32,10 +32,10 @@
 	"Harbour GUI framework for Win32"
  	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -688,6 +688,7 @@ Radio Group
    _HMG_ActiveControlFontBold   := .f.      ;;
    _HMG_ActiveControlFontItalic   := .f.      ;;
    _HMG_ActiveControlFontStrikeOut   := .f.      ;;
+   _HMG_ActiveControlAutoSize    := .f.   ;;
    _HMG_ActiveControlTransparent   := .f.      ;;
    _HMG_ActiveControlReadOnly  := Nil      ;;
    _HMG_ActiveControlFontUnderLine   := .f.      ;;
@@ -738,6 +739,7 @@ Radio Group
       _HMG_ActiveControlHorizontal,;
       _HMG_ActiveControlLeftJustify,;
       _HMG_ActiveControlReadOnly,;
+      _HMG_ActiveControlAutoSize,;
       _HMG_ActiveControlId )
 
 /*----------------------------------------------------------------------------
@@ -3197,7 +3199,6 @@ _DefineBrowse ( _HMG_ActiveControlName ,    ;
 
 /*----------------------------------------------------------------------------
 Hyperlink
- - 2016/10/06 added FontUnderLine attribute - p.d. 
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE HYPERLINK <name> ;
@@ -3215,7 +3216,6 @@ Hyperlink
    _HMG_ActiveControlSize              := Nil      ;;
    _HMG_ActiveControlFontBold          := .f.      ;;
    _HMG_ActiveControlFontItalic        := .f.      ;;
-   _HMG_ActiveControlFontUnderLine     := Nil      ;;
    _HMG_ActiveControlTooltip           := Nil      ;;
    _HMG_ActiveControlBackColor         := Nil      ;;
    _HMG_ActiveControlFontColor         := Nil      ;;
@@ -3262,7 +3262,7 @@ Hyperlink
         _HMG_ActiveControlHelpId,;
         _HMG_ActiveControlInvisible,;
         _HMG_ActiveControlFontItalic,;
-	     _HMG_ActiveControlFontUnderLine, ; // was: .t. - changed by p.d. 2016/10/06
+	.t., ;
 	.f., ;
         _HMG_ActiveControlAutosize,;
         _HMG_ActiveControlRightAlign,;

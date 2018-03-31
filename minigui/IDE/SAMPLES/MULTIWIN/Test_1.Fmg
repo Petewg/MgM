@@ -1,0 +1,195 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2006 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 168 , 233 WIDTH 400 HEIGHT 301 TITLE "Test" ICON NIL CURSOR NIL ON INIT NIL ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR Nil ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+    DEFINE BUTTON Button_1
+           ROW    220
+           COL    90
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Button_1"
+           ACTION   Nil
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           HELPID  Nil
+           FLAT    .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    220
+           COL    200
+           WIDTH  100
+           HEIGHT 28
+           CAPTION "Button_2"
+           ACTION   Nil
+           FONTNAME  "Arial"
+           FONTSIZE  9
+           TOOLTIP  ""
+           FONTBOLD  .F.
+           FONTITALIC .F.
+           FONTUNDERLINE .F.
+           FONTSTRIKEOUT .F.
+           ONGOTFOCUS  Nil
+           ONLOSTFOCUS Nil
+           HELPID  Nil
+           FLAT    .F.
+           TABSTOP .T.
+           VISIBLE .T.
+           TRANSPARENT .F.
+     END BUTTON  
+
+     DEFINE LABEL Label_1
+            ROW    60
+            COL    70
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Label_1"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID Nil
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION Nil
+            AUTOSIZE  .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE LABEL Label_2
+            ROW    100
+            COL    70
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Label_2"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            HELPID Nil
+            VISIBLE .T.
+            TRANSPARENT .F.
+            ACTION Nil
+            AUTOSIZE  .F.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END LABEL  
+
+     DEFINE TEXTBOX Text_1
+            ROW    60
+            COL    210
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE Nil
+            ONGOTFOCUS Nil
+            ONLOSTFOCUS Nil
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE  ""
+     END TEXTBOX 
+
+     DEFINE TEXTBOX Text_2
+            ROW    100
+            COL    210
+            WIDTH  120
+            HEIGHT 24
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP ""
+            ONCHANGE Nil
+            ONGOTFOCUS Nil
+            ONLOSTFOCUS Nil
+            FONTBOLD  .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            ONENTER Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            READONLY .F.
+            RIGHTALIGN .F.
+            MAXLENGTH  NIL
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            INPUTMASK NIL
+            FORMAT NIL
+            VALUE  ""
+     END TEXTBOX 
+
+     DEFINE HYPERLINK HyperLink_1
+            ROW    160
+            COL    80
+            WIDTH  238
+            HEIGHT 21
+            VALUE  "http://harbourminigui.googlepages.com"
+            ADDRESS "http://harbourminigui.googlepages.com"
+            FONTNAME "Arial"
+            FONTSIZE 9
+            TOOLTIP "This is a ToolTip"
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            AUTOSIZE .F.
+            HELPID Nil
+            VISIBLE .T.
+            HANDCURSOR .T.
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+     END HYPERLINK  
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    20
+            WIDTH  350
+            HEIGHT 190
+            FONTNAME "Arial"
+            FONTSIZE 9
+            FONTBOLD .F.
+            FONTITALIC .F.
+            FONTUNDERLINE .F.
+            FONTSTRIKEOUT .F.
+            CAPTION "Frame_1"
+            BACKCOLOR NIL
+            FONTCOLOR NIL
+            OPAQUE .T.
+     END FRAME  
+
+END WINDOW
+
+

@@ -1,0 +1,32 @@
+
+hmg_ico        ICON         res\hmg.ico
+                                
+n1             BITMAP       res\1.bmp
+n2             BITMAP       res\2.bmp
+n3             BITMAP       res\3.bmp
+n4             BITMAP       res\4.bmp
+n5             BITMAP       res\5.bmp
+n6             BITMAP       res\6.bmp
+n7             BITMAP       res\7.bmp
+n8             BITMAP       res\8.bmp
+n9             BITMAP       res\9.bmp
+                                
+br_dn          BITMAP       res\br_dn.bmp
+br_up          BITMAP       res\br_up.bmp
+br_emp         BITMAP       res\br_emp.bmp
+br_plus        BITMAP       res\br_plus.bmp
+br_view        BITMAP       res\br_view.bmp
+                                  
+page_new       BITMAP       res\page_new.bmp
+page_del       BITMAP       res\page_del.bmp
+page_edit      BITMAP       res\page_edit.bmp
+page_nr        BITMAP       res\page_nr.bmp
+page_fltr      BITMAP       res\page_fltr.bmp
+page_next      BITMAP       res\page_next.bmp
+page_refr      BITMAP       res\page_refresh.bmp
+printer        BITMAP       res\printer.bmp
+tools          BITMAP       res\tools.bmp
+exit           BITMAP       res\exit.bmp
+help           BITMAP       res\help.bmp
+cabinet        BITMAP       res\cabinet.bmp
+excel          BITMAP       res\doc_exel.bmp

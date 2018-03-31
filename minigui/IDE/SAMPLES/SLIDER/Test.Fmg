@@ -1,0 +1,146 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 167 , 238 WIDTH 561 HEIGHT 446 VIRTUAL WIDTH NIL  VIRTUAL HEIGHT NIL  TITLE "Slider Demo" ICON NIL MAIN CURSOR NIL ON INIT NIL ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR NIL NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK NIL ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+     DEFINE SLIDER Slider_1
+            ROW    70
+            COL    20
+            WIDTH  120
+            HEIGHT 35
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            NOTICKS .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+     DEFINE SLIDER Slider_2
+            ROW    20
+            COL    20
+            WIDTH  120
+            HEIGHT 35
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+     DEFINE SLIDER Slider_3
+            ROW    110
+            COL    20
+            WIDTH  120
+            HEIGHT 35
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            BOTH .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+     DEFINE SLIDER Slider_4
+            ROW    160
+            COL    20
+            WIDTH  120
+            HEIGHT 35
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            TOP .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+     DEFINE SLIDER Slider_5
+            ROW    20
+            COL    210
+            WIDTH  35
+            HEIGHT 120
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            VERTICAL .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+     DEFINE SLIDER Slider_6
+            ROW    20
+            COL    280
+            WIDTH  35
+            HEIGHT 120
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            NOTICKS .T.
+            VERTICAL .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+     DEFINE SLIDER Slider_7
+            ROW    20
+            COL    340
+            WIDTH  35
+            HEIGHT 120
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            BOTH .T.
+            VERTICAL .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+     DEFINE SLIDER Slider_8
+            ROW    20
+            COL    420
+            WIDTH  35
+            HEIGHT 120
+            RANGEMIN 1
+            RANGEMAX 10
+            VALUE 0
+            TOOLTIP ""
+            ONCHANGE Nil
+            HELPID Nil
+            TABSTOP .T.
+            VISIBLE .T.
+            LEFT .T.
+            VERTICAL .T.
+            BACKCOLOR NIL
+     END SLIDER  
+
+END WINDOW
+
+

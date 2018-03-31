@@ -1,0 +1,93 @@
+/* MANIFEST FOR CREATE OF THEMED APPLICATIONS */
+
+1 24 "Windows7.Manifest"
+
+/* INTERNAL USED CURSORS */
+
+MINIGUI_FINGER		CURSOR		finger.cur
+MINIGUI_DRAGUP		CURSOR		dragup.cur
+MINIGUI_DRAGDOWN	CURSOR		dragdown.cur
+
+/* EDIT COMMAND IMAGES OF BUTTONS */
+
+MINIGUI_EDIT_CANCEL     BITMAP          edit_cancel.bmp
+MINIGUI_EDIT_CLOSE      BITMAP          edit_close.bmp
+MINIGUI_EDIT_COPY       BITMAP          edit_copy.bmp
+MINIGUI_EDIT_DELETE     BITMAP          edit_delete.bmp
+MINIGUI_EDIT_EDIT       BITMAP          edit_edit.bmp
+MINIGUI_EDIT_FIND       BITMAP          edit_find.bmp
+MINIGUI_EDIT_NEW        BITMAP          edit_new.bmp
+MINIGUI_EDIT_OK         BITMAP          edit_ok.bmp
+MINIGUI_EDIT_PRINT      BITMAP          edit_print.bmp
+MINIGUI_EDIT_ADD        BITMAP          edit_add.bmp
+MINIGUI_EDIT_DEL        BITMAP          edit_del.bmp
+MINIGUI_EDIT_SET        BITMAP          edit_set.bmp
+MINIGUI_EDIT_UNDO       BITMAP          edit_undo.bmp
+
+/* GRID SORT IMAGES */
+
+MINIGUI_GRID_ASC	BITMAP          grid_up.bmp
+MINIGUI_GRID_DSC	BITMAP          grid_down.bmp
+
+ZZZ_A_WINDOW		ICON		window.ico
+
+/* ALERT ICONS */
+
+ZZZ_B_ALERT		ICON		alert.ico
+ZZZ_B_QUESTION		ICON		question.ico
+ZZZ_B_INFO		ICON		info.ico
+ZZZ_B_STOP		ICON		stop.ico
+
+/* STATUS ICONS */
+
+ZZZ_LED_ON		ICON		led_on.ico
+ZZZ_LED_OFF		ICON		led_off.ico
+
+#include "mgver.h"
+
+/* NOTE: BCC 5.5 has an RC preprocessor bug that in certain cases will append
+         a trash byte to the return value of this macro. Such trash byte
+         will result in a broken manifest record and the executable rejected
+         by the OS (f.e. Windows 10) to run. It can be "fixed" by using
+         a macro name shorter or longer by one character. But, instead of
+         such non-zero-cost hacks, please switch to a modern compiler. */
+#define MG_MACRO2STRING( macro )   MACRO2STR( macro )
+#define MACRO2STR( macro )         #macro
+
+#define MG_VER_PROD                MG_VER_MAJOR,MG_VER_MINOR,MG_VER_RELEASE,0
+#define MG_VER_PROD_STR            MG_MACRO2STRING( MG_VER_MAJOR ) "." MG_MACRO2STRING( MG_VER_MINOR ) "." MG_MACRO2STRING( MG_VER_RELEASE ) ".0"
+#define MG_VER_FILE                MG_VER_PROD
+#define MG_VER_FILE_STR            MG_VER_PROD_STR
+
+#define MG_NAME                    "MiniGUI Extended"
+
+/* Version info */
+
+#include <winver.h>
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    MG_VER_FILE
+PRODUCTVERSION MG_VER_PROD
+FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
+FILEFLAGS      0
+FILEOS         VOS__WINDOWS32
+FILETYPE       VFT_APP
+BEGIN
+   BLOCK "StringFileInfo"
+   BEGIN
+      BLOCK "040904B0"  /* LANGUAGE: US English (0x0409), ENCODING: Unicode (1200/0x04B0) */
+      BEGIN
+         VALUE "Comments",         "See LICENSE.txt for licensing terms." "\0"
+         VALUE "CompanyName",      MG_NAME "\0"
+         VALUE "FileDescription",  MG_NAME "\0"
+         VALUE "FileVersion",      MG_VER_FILE_STR "\0"
+         VALUE "LegalCopyright",   "Copyright © 2005-2018 MiniGUI Team" "\0"
+         VALUE "ProductName",      MG_NAME "\0"
+         VALUE "ProductVersion",   MG_VER_PROD_STR "\0"
+      END
+   END
+   BLOCK "VarFileInfo"
+   BEGIN
+      VALUE "Translation", 0x0409, 0x04B0  /* LANGUAGE: US English (0x0409), ENCODING: Unicode (1200/0x04B0) */
+   END
+END

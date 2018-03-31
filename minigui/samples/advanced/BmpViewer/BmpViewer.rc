@@ -32,4 +32,9 @@ BLOCK "StringFileInfo"
 		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
 	}
 }
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
 }

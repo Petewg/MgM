@@ -32,10 +32,10 @@
 	"Harbour GUI framework for Win32"
  	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -49,12 +49,18 @@
 #include "miniprint.ch"
 #endif
 
+#ifndef _RPTGEN_
+#include "i_rptgen.ch"
+#endif
+
 #ifndef _BT_
 #include "BosTaurus.ch"
 #endif
 
 #ifndef __HMG_COMPAT__
 #define __HMG_COMPAT__
+
+#include "i_wincolor.ch"
 
 #xtranslate PICTALIGNMENT TOP => _HMG_ActiveControlUpText := .F. ; _HMG_ActiveControlVertical := .T.
 #xtranslate PICTALIGNMENT LEFT => LEFTTEXT .F.
@@ -127,23 +133,23 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 #xtranslate CellNavigationColor (_SELECTEDROW_DISPLAYCOLOR, <l>) => //
 
 
-#xcommand  SET TOOLTIPBACKCOLOR <aColor> =>;
+#xcommand  SET TOOLTIPBACKCOLOR <aColor> => ;
    SendMessage( GetFormToolTipHandle(Application.FormName), TTM_SETTIPBKCOLOR, RGB(<aColor>\[1\], <aColor>\[2\], <aColor>\[3\]), 0 )
 
-#xcommand  SET TOOLTIPFORECOLOR <aColor> =>;
+#xcommand  SET TOOLTIPFORECOLOR <aColor> => ;
    SendMessage( GetFormToolTipHandle(Application.FormName), TTM_SETTIPTEXTCOLOR, RGB(<aColor>\[1\], <aColor>\[2\], <aColor>\[3\]), 0 )
 
 
 #define LWA_COLORKEY 0x01
 #define LWA_ALPHA    0x02
 
-#xtranslate SET WINDOW <FormName> TRANSPARENT TO <nAlphaBlend> =>;  // nAlphaBlend = 0 to 255 (completely transparent = 0, opaque = 255)
+#xtranslate SET WINDOW <FormName> TRANSPARENT TO <nAlphaBlend> => ;  // nAlphaBlend = 0 to 255 (completely transparent = 0, opaque = 255)
    SetLayeredWindowAttributes( GetFormHandle( <"FormName"> ), 0, <nAlphaBlend>, LWA_ALPHA )
 
-#xtranslate SET WINDOW <FormName> [ TRANSPARENT ] TO OPAQUE =>;
+#xtranslate SET WINDOW <FormName> [ TRANSPARENT ] TO OPAQUE => ;
    SetLayeredWindowAttributes( GetFormHandle( <"FormName"> ), 0, 255, LWA_ALPHA )
 
-#xtranslate SET WINDOW <FormName> TRANSPARENT TO COLOR <aColor> =>;
+#xtranslate SET WINDOW <FormName> TRANSPARENT TO COLOR <aColor> => ;
    SetLayeredWindowAttributes( GetFormHandle( <"FormName"> ), RGB(<aColor>\[1\], <aColor>\[2\], <aColor>\[3\]), 0, LWA_COLORKEY )
 
 
@@ -172,10 +178,10 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 #define AW_SLIDE        0x00040000
 #define AW_BLEND        0x00080000
 
-#xtranslate ANIMATE WINDOW <FormName> INTERVAL <nMilliseconds> MODE <nFlags> =>;
+#xtranslate ANIMATE WINDOW <FormName> INTERVAL <nMilliseconds> MODE <nFlags> => ;
    AnimateWindow( GetFormHandle( <"FormName"> ), <nMilliseconds>, <nFlags> )
 
-#xtranslate ANIMATE WINDOW <FormName> MODE <nFlags> =>;
+#xtranslate ANIMATE WINDOW <FormName> MODE <nFlags> => ;
    AnimateWindow( GetFormHandle( <"FormName"> ), 200, <nFlags> )
 
 #xtranslate SET CODEPAGE TO UNICODE => Set (_SET_CODEPAGE, "UTF8")
@@ -185,7 +191,7 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 #xtranslate SET WINDOW MAIN OFF => _HMG_MainWindowFirst := .F.
 #xtranslate SET WINDOW MAIN ON  => _HMG_MainWindowFirst := .T.
 
-#xcommand ACTIVATE WINDOW DEBUGGER <name, ...> =>;
+#xcommand ACTIVATE WINDOW DEBUGGER <name, ...> => ;
    _ActivateWindow ( \{<"name">\}, .T., .T. )
 
 
@@ -249,6 +255,10 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
 #translate _TIMELONG12H  => "hh:mm:ss tt"
 #translate _TIMESHORT12H => "hh:mm tt"
 
+// by Dr. Claudio Soto, April 2016
+
+#xtranslate CHECK TYPE [ <lSoft: SOFT> ] <var> AS <type> [, <varN> AS <typeN> ] => ;
+   HMG_CheckType( <.lSoft.>, { <"type"> , ValType( <var> ), <"var"> } [, { <"typeN"> , ValType( <varN> ), <"varN"> } ] )
 
 #xcommand  DEFINE TOOLBAR  <name> ;
       [ OF <parent> ] ;
@@ -273,8 +283,8 @@ _GetClientRect ( GetFormHandle ( <FormName> ) ) \[4]
       [ <custom : CUSTOMIZE> ] ;
       [ <break: BREAK> ] ;
    => ;
-   _BeginToolBar ( <"name">, <"parent">,,, <buttonwidth>-iif(<.strictwidth.>,16,iif(<imagewidth> > 26,<imagewidth>/2+1,0)), ;
-                   <buttonheight>-iif(<.strictwidth.>,16,iif(<imageheight> > 26,-(<imageheight>/8+1),0)), <grippertext>,, <f>, <s>, ;
+   _BeginToolBar ( <"name">, <"parent">,,, <buttonwidth>-iif(<.strictwidth.>,16,iif(<imagewidth> > 26,<imagewidth>/2+1,-16)), ;
+                   <buttonheight>-iif(<.strictwidth.>,16,iif(<imageheight> > 26,-(<imageheight>/8+1),10)), <grippertext>,, <f>, <s>, ;
                    <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
                    <.border.>, <.wrap.>, <.custom.> )
 

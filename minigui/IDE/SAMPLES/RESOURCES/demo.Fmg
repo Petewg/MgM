@@ -1,0 +1,37 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2008 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 132 , 235 WIDTH 550 HEIGHT 240 TITLE "Resource Test" MAIN
+
+    DEFINE BUTTON Button_1
+           ROW    90
+           COL    120
+           WIDTH  60
+           HEIGHT 40
+           ACTION MsgInfo("Image Button Clicked!")
+           CAPTION ""
+           TRANSPARENT .T.
+           PICTURE "BUTTON"
+     END BUTTON  
+
+    DEFINE BUTTON Button_2
+           ROW    90
+           COL    200
+           WIDTH  240
+           HEIGHT 40
+           ACTION Play_Click()
+           CAPTION "PLAY WAVE FROM RESOURCE"
+     END BUTTON  
+
+     DEFINE FRAME Frame_1
+            ROW    60
+            COL    100
+            WIDTH  360
+            HEIGHT 90
+            CAPTION "Resource Test"
+            OPAQUE .T.
+     END FRAME  
+
+END WINDOW
+
+

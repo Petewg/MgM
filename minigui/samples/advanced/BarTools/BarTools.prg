@@ -33,10 +33,10 @@
  	Copyright 2001 Alexander S.Kresin <alex@belacy.belgorod.su>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
 	 
-	www - http://harbour-project.org
+	www - https://harbour.github.io
         
 	"Harbour Project"
-	Copyright 1999-2003, http://harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 
 ---------------------------------------------------------------------------*/
 /*
@@ -54,8 +54,8 @@ Status:		Public Domain
 Memvar cur_path
 Memvar cIniFile
 
-Function Main()
-         cur_path := cFilePath( GetModuleFileName( GetInstance() ) )+"\"
+Function Main(PRINT)
+         cur_path := cFilePath( GetModuleFileName( GetInstance() ) )
 
          cIniFile := cur_path + Lower( cFileNoExt( GetModuleFileName( GetInstance() ) ) ) + ".ini"
 
@@ -67,7 +67,7 @@ Function Main()
          m->baud     :={"2400","4800","9600","19200"}
          m->parity   :={"N","O","M","E"}	
          // 0,1,2,3 -> none, odd, mark, even
-
+         
          if !File(CInifile)
             saveparam(cInifile,.t.)
          endif   
@@ -87,7 +87,7 @@ Function cFileDisc( cPathMask )
 *--------------------------------------------------------*
 return If( At( ":", cPathMask ) == 2, Upper( Left( cPathMask, 2 ) ), "" )
 /*
-/
+*/
 *-----------------------------------------------------------------------------*
 FUNCTION cFilePath( cPathMask )
 *-----------------------------------------------------------------------------*
@@ -138,12 +138,15 @@ Function WriteIni( cSection, cEntry, cValue, cFileIni )
 	 Local achousecao := .F.
 	 Local achouvar   := .F.
 	 Local procura
+	 Local cArq
+	 Local nLinhas
 	 Local nContador  := 0
 	 Local vargrav	  :=  upper( AllTrim( cEntry ) ) + "=" +;
 			      AllTrim( cValue ) + Chr( 13 ) + Chr( 10 )
 	 Local Puntatore
 	 Local pontvar
 	 Local pontfim
+	 Local linha
 	 Local i
 	 Local armou	:= .F.
 	 Local disparou := .F.
@@ -265,17 +268,17 @@ return nil
 /*
 */  
 *-------------------------------------------------------------*
-Function CommDataRx()
+Function CommDataRx(clear)
 *-------------------------------------------------------------*
 Local nRetBytes:=readcommpure()
-return substr(nRetBytes,1,At( chr(13), nRetBytes ) - 1)
+return substr(nRetBytes,1,At( chr(13), nRetBytes ) - 1)     
 /*
 */
 *-------------------------------------------------------------*
-PROCEDURE BarSset()
+proc BarSset()
 *-------------------------------------------------------------*
 
-     m->f_com:="COM"+zaps(Setbarcode.Slider_1.value)
+     m->f_com:="COM"+zaps(Setbarcode.radiogroup_1.value)
      m->scanset :=setbarcode.combo_1.item(setbarcode.combo_1.value)+","+;
                   setbarcode.combo_2.item(setbarcode.combo_2.value)+","+;
                   setbarcode.combo_3.item(setbarcode.combo_3.value)+","+;
@@ -297,8 +300,7 @@ proc BarRset(set)
         Getparam(cInifile)
         Setbarcode.Label_3.Value:="Last Barcode"
         //setbarcode.Spinner_1.value:=m->delay
-        setbarcode.Slider_1.value:=val(right(m->f_com,1))
-        Setbarcode.Frame_1.caption:="Com_Port ("+right(m->f_com,1)+")"
+        setbarcode.radiogroup_1.value:=val(right(m->f_com,1))
         pos:=at(",",string)
         string:=substr(m->scanset,pos+1)
         setbarcode.combo_1.value:= ascan(m->baud,substr(m->scanset,1,pos-1))
@@ -311,9 +313,8 @@ return
 
 #pragma BEGINDUMP
 
-# ifndef _WIN32_WINNT
-  #define _WIN32_WINNT  0x0400
-#endif
+#define _WIN32_WINNT  0x0400
+
 #include <windows.h>
 
 #include "hbapi.h"
@@ -407,12 +408,13 @@ HB_FUNC (READCOMMPURE)
   static  DWORD  RetBytes;
   static  DWORD  i;
   static  char  ReadStr[2048];
+  static  long  retval;
    
    if (hb_parl(1))   // add By Pier for clear buffer if necesssary
    {
-    ReadStr[0]=0;
+    ReadStr[0]=0;   
    } 
-   ReadFile(ComNum,bRead,255,&RetBytes,0);
+   retval=ReadFile(ComNum,bRead,255,&RetBytes,0);
    
    if(RetBytes>0)
    {
@@ -436,6 +438,7 @@ HB_FUNC (WRITECOM32)
   static DWORD   RetBytes;
   static char    ComString[2048];
   static char    CRLF[2048];
+  static  long  retval;
 
   sprintf(TMP_STR,"%c%c",13,10);
   strcpy(CRLF,TMP_STR);
@@ -449,7 +452,7 @@ HB_FUNC (WRITECOM32)
 
   }
 
-  WriteFile(ComNum,bRead,strlen(ComString),&RetBytes,0);
+  retval=WriteFile(ComNum,bRead,strlen(ComString),&RetBytes,0);
 
   hb_retnl( RetBytes);
 }

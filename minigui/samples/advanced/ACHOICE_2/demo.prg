@@ -10,10 +10,11 @@
 */
 
 
-#include "hmg.ch"
+#include "minigui.ch"
 
-*************
-PROCEDURE main
+
+**************
+PROCEDURE Main
 
    SET DEFAULT ICON TO "ZZZ_A_WINDOW"
    SET CENTERWINDOW RELATIVE PARENT
@@ -40,7 +41,7 @@ PROCEDURE main
    RETURN
 
 
-***************************************
+************************************
 FUNCTION Test()  // test stub module
 
    LOCAL aChoices_ := { { "Date"          },;
@@ -52,32 +53,33 @@ FUNCTION Test()  // test stub module
 
    LOCAL nChoice
    
-   nChoice := hmgAchoice( NIL, aChoices_, "Select Report Type" )
+   nChoice := hmg_Achoice( NIL, aChoices_, "Select Report Type" )
    IF nChoice > 0
       MSGINFO( aChoices_[ nChoice, 1 ], "HMG AChoice: " + hb_ntos( nChoice ) )
    ENDIF
+
    RETURN NIL
 
 
 *****************************************************************************
-FUNCTION hmgAchoice( cTitle, aSelection_, cHeading, cFont, nFontSize, lSort )
+FUNCTION hmg_Achoice( cTitle, aSelection_, cHeading, cFont, nFontSize, lSort )
 
    LOCAL nRetVal := 0
-   
+
    LOCAL nWidth
    LOCAL nHeight
 
    LOCAL ii
    LOCAL cLonger
-   
+
    LOCAL nCellWidth
 
    DEFAULT cTitle TO "Please select"
    DEFAULT aSelection_ TO {}
    DEFAULT cHeading TO "Available Options"
-   DEFAULT cFont TO "Arial"
-   DEFAULT nFontSize TO 9
-   DEFAULT lSort TO .f.
+   DEFAULT cFont TO _HMG_DefaultFontName
+   DEFAULT nFontSize TO _HMG_DefaultFontSize + 2
+   DEFAULT lSort TO .F.
 
    //--> terminate and return 0 if there are no selections specified
    IF LEN( aSelection_ ) < 1
@@ -99,23 +101,24 @@ FUNCTION hmgAchoice( cTitle, aSelection_, cHeading, cFont, nFontSize, lSort )
    IF LEN( cLonger ) < LEN( cHeading )
       cLonger := cHeading
    ENDIF
-   
+
    //--> calculate dimensions
-   nWidth     := GETTEXTWIDTH( Nil, cLonger, cFont )
+   nWidth     := GETTXTWIDTH( cLonger, nFontSize, cFont )
    nCellWidth := nWidth
-   nHeight    := iif(ISVISTAORLATER(), 1, 2) * GetBorderWidth()+LEN( aSelection_ ) * nFontSize 
+   nWidth     += GetBorderWidth()
+   nHeight    := LEN( aSelection_ ) * nFontSize 
    nHeight    := INT( nHeight / 72 * 25.4 ) + 1
-   nHeight    := nHeight * LEN( aSelection_ ) + 40
+   nHeight    := nHeight * LEN( aSelection_ ) + GetTitleHeight() + GetBorderHeight() / 2
 
    DEFINE WINDOW frmAchoice;
-      AT 0,0 WIDTH nWidth + 13 HEIGHT nHeight;
+      CLIENTAREA nWidth, nHeight;
       TITLE cTitle;
       MODAL NOSIZE;
       ON MOUSECLICK ThisWindow.Release
-      
-      ON KEY ESCAPE ACTION ThisWindow.release
-      ON KEY RETURN ACTION ( nRetVal := frmAchoice.grdChoice.Value, ThisWindow.release )
-   
+
+      ON KEY ESCAPE ACTION ThisWindow.Release
+      ON KEY RETURN ACTION ( nRetVal := frmAchoice.grdChoice.Value, ThisWindow.Release )
+
       @  0, 0 GRID grdChoice;
          WIDTH frmAchoice.Width HEIGHT frmAchoice.Height - 3;
          HEADERS { cHeading } WIDTHS { nCellWidth };
@@ -132,3 +135,27 @@ FUNCTION hmgAchoice( cTitle, aSelection_, cHeading, cFont, nFontSize, lSort )
    ACTIVATE WINDOW frmAchoice
 
    RETURN nRetVal
+
+
+***************************************************************************************
+STATIC FUNCTION GetTxtWidth( cText, nFontSize, cFontName ) // get the width of the text
+
+   LOCAL hFont
+   LOCAL nWidth
+
+   LOCAL cChr := 'W'
+
+   IF VALTYPE( cText ) == 'N'
+      cText := REPLICATE( cChr, cText )
+   ENDIF
+
+   DEFAULT cText := REPLICATE( cChr, 2 ), ;
+      cFontName := _HMG_DefaultFontName, ;
+      nFontSize := _HMG_DefaultFontSize
+
+   hFont := InitFont( cFontName, nFontSize + 2 )
+   nWidth := GetTextWidth( 0, cText, hFont )
+
+   DeleteObject( hFont )
+
+   RETURN nWidth

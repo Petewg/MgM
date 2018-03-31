@@ -1,5 +1,5 @@
 With this utility you can test the formulations of yours 
-serial reader of barcode.  
+reader of barcode seriale.  
 This program is part of a working program 
 from more months.
 I hope of being of aid for who tries one solution using Minigui.

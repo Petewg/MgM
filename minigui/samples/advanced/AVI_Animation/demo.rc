@@ -1,5 +1,1 @@
-// Note: 161.avi have been renamed to avi161.avi because MinGW resource
-// compiler <windres> doesn't like filenames starting with numbers.
-// P.D. 29/03/2016
-
-161 AVI avi161.avi
+161		AVI		161.avi

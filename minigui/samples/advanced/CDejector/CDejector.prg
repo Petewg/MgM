@@ -4,7 +4,7 @@
  * Copyright 2002-05 Roberto Lopez <harbourminigui@gmail.com>
  * http://harbourminigui.googlepages.com/
  *
- * Copyright 2002-2011 Grigory Filatov <gfilatov@inbox.ru>
+ * Copyright 2002-2017 Grigory Filatov <gfilatov@inbox.ru>
 */
 
 ANNOUNCE RDDSYS
@@ -14,7 +14,7 @@ ANNOUNCE RDDSYS
 
 #define PROGRAM 'CD Ejector'
 #define VERSION ' version 1.2'
-#define COPYRIGHT ' 2002-2011, Grigory Filatov'
+#define COPYRIGHT ' 2002-2017, Grigory Filatov'
 
 #define NTRIM( n )  hb_ntos( n )
 
@@ -23,8 +23,8 @@ Static lEject := .T., lWinRun := .F., aCD := {}, lRelease := .F.
 Function Main(lStartUp)
 Local lSplash := FILE("MGLOGO.BMP")
 
-	If ! Empty(lStartUp) .AND. Upper(Substr(lStartUp, 2)) == "STARTUP" .OR. ;
-		! Empty( GETREGVAR( NIL, "Software\Microsoft\Windows\CurrentVersion\Run", "CD Ejector" ) )
+	If !Empty(lStartUp) .AND. Upper(Substr(lStartUp, 2)) == "STARTUP" .OR. ;
+		!Empty(GETREGVAR( NIL, "Software\Microsoft\Windows\CurrentVersion\Run", "CD Ejector" ))
 		lWinRun := .T.
 	EndIf
 
@@ -32,7 +32,7 @@ Local lSplash := FILE("MGLOGO.BMP")
 
 	SET GLOBAL HOTKEYS ON
 
-	aCD := GetCDdrives()
+	aCD := aCDDrives()
 
 	DEFINE WINDOW Form_1 ;
 		AT 0,0 ;
@@ -141,46 +141,29 @@ Local i, cName
 				ITEM "Open/Close " + aCD[i] ACTION MCIrun() NAME &cName
 			Next
 		ELSE
-			ITEM IF( lEject, "&Open ", "&Close " ) + "CD" ACTION MCIrun()
+			ITEM IF( lEject, "&Open ", "&Close " ) + "CD" ACTION MCIrun() NAME CD_1
 		ENDIF
-		SEPARATOR
-		ITEM 'Removable Drives List' ACTION {|| MsgInfo( GetRemovableDrives() ) } NAME Removables
-		SEPARATOR
 		ITEM '&About...' ACTION ShellAbout( "About " + PROGRAM + "#", ;
 				PROGRAM + VERSION + CRLF + ;
-				"Copyright " + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "AMAIN") )
+				"Copyright " + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "AMAIN", 32, 32) )
 		SEPARATOR	
 		ITEM 'E&xit'	ACTION Form_1.Release
 	END MENU
 
 	IF Len(aCD) == 1
-		_DefaultMenuItem( 3, "Auto_Run", "Form_1" )
+		Set Default MenuItem CD_1 Of Form_1
 	ENDIF
 
 Return
 
 #define DRIVE_CDROM       5
 *--------------------------------------------------------*
-function GetCDdrives()
+function aCDDrives()
 *--------------------------------------------------------*
 local aDrives := {}, aAllDrv := GetDrives(), i
 
 For i := 1 To Len( aAllDrv )
    if GetDriveType( aAllDrv[i] ) == DRIVE_CDROM
-      AAdd( aDrives, aAllDrv[i] )
-   endif
-Next
-
-return aDrives
-
-#define DRIVE_REMOVABLE    2
-*--------------------------------------------------------*
-function GetRemovableDrives()
-*--------------------------------------------------------*
-local aDrives := {}, aAllDrv := GetDrives(), i
-
-For i := 1 To Len( aAllDrv )
-   if GetDriveType( aAllDrv[i] ) == DRIVE_REMOVABLE
       AAdd( aDrives, aAllDrv[i] )
    endif
 Next
@@ -195,8 +178,7 @@ Local iTime := Seconds()
 DEFAULT nWait TO 2
 
 Do While Seconds() - iTime < nWait
-	INKEY(.5)
-	DoEvents()
+	INKEYGUI(500)
 EndDo
 
 Return
@@ -227,10 +209,10 @@ STATIC FUNCTION GETREGVAR(nKey, cRegKey, cSubKey, uValue)
 *--------------------------------------------------------*
    LOCAL oReg, cValue
 
-   nKey := Iif( nKey == NIL, HKEY_CURRENT_USER, nKey )
-   uValue := Iif( uValue == NIL, "", uValue )
-   oReg := TReg32():Create( nKey, cRegKey )
-   cValue := oReg:Get( cSubKey, uValue )
+   nKey := IF(nKey == NIL, HKEY_CURRENT_USER, nKey)
+   uValue := IF(uValue == NIL, "", uValue)
+   oReg := TReg32():Create(nKey, cRegKey)
+   cValue := oReg:Get(cSubKey, uValue)
    oReg:Close()
 
 RETURN cValue
@@ -260,32 +242,12 @@ STATIC FUNCTION DELREGVAR(nKey, cRegKey, cSubKey)
 
 RETURN nValue
 
-*--------------------------------------------------------*
-Function _DefaultMenuItem( ItemNumber, ItemName, FormName )
-*--------------------------------------------------------*
-Local i , h
-
-	i := GetControlIndex( ItemName, FormName )
-
-	h := _HMG_aControlpageMap[ i ]
-
-	SetMenuDefaultItem( h, ItemNumber )
-
-Return Nil
-
 
 #pragma BEGINDUMP
 
-#include <windows.h>
-#include "hbapi.h"
-#include "hbstack.h"
-#include "hbapiitm.h"
+#define NO_LEAN_AND_MEAN
 
-#ifdef __XHARBOUR__
-#define HB_STORC( n, x, y ) hb_storc( n, x, y )
-#else
-#define HB_STORC( n, x, y ) hb_storvc( n, x, y )
-#endif
+#include <mgdefs.h>
 
 void CloseOrEjectCD(const char *NameDriveCD, BOOL FlagOpenClose)
 {
@@ -337,16 +299,11 @@ HB_FUNC ( ENABLEPERMISSIONS )
 HB_FUNC ( MCISENDSTRING )
 
 {
-	BYTE bBuffer[ 255 ];
+	const char * bBuffer[ 255 ];
 
-	hb_retnl( ( LONG ) mciSendString( ( LPSTR) hb_parc( 1 ), ( LPSTR ) bBuffer, 254, ( HWND ) hb_parnl( 3 ) ) );
+	hb_retnl( ( LONG ) mciSendString( ( LPSTR ) hb_parc( 1 ), ( LPSTR ) bBuffer, 254, ( HWND ) hb_parnl( 3 ) ) );
 
-	hb_storc( bBuffer, 2 );
-}
-
-HB_FUNC ( SETMENUDEFAULTITEM )
-{
-	SetMenuDefaultItem( (HMENU) hb_parnl( 1 ), hb_parni( 2 ) - 1, TRUE );
+	hb_storc( ( const char * ) bBuffer, 2 );
 }
 
 HB_FUNC ( GETDRIVES )
@@ -381,7 +338,7 @@ HB_FUNC ( GETDRIVES )
 
 HB_FUNC ( GETDRIVETYPE )
 {
-	hb_retni( GetDriveType( (LPCTSTR) hb_parc(1) ) ) ;
+	hb_retni( GetDriveType( ( LPCTSTR ) hb_parc( 1 ) ) ) ;
 }
 
 HB_FUNC ( OPENTHISCD )
@@ -393,42 +350,5 @@ HB_FUNC ( CLOSETHISCD )
 {
 	CloseOrEjectCD( hb_parc( 1 ), FALSE );
 }
-/* 
-HB_FUNC ( INITIMAGE )
-{
-	HWND  h;
-	HBITMAP hBitmap;
-	HWND hwnd;
 
-	hwnd = (HWND) hb_parnl(1);
-
-	h = CreateWindowEx(0,"static",NULL, WS_CHILD | WS_VISIBLE | SS_BITMAP | SS_NOTIFY,
-		hb_parni(3), hb_parni(4), 0, 0, hwnd, (HMENU)hb_parni(2), GetModuleHandle(NULL), NULL );
-
-	hBitmap = (HBITMAP) LoadImage(0,hb_parc(5),IMAGE_BITMAP,hb_parni(6),hb_parni(7),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
-	if (hBitmap==NULL)
-	{
-		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL), hb_parc(5), IMAGE_BITMAP, hb_parni(6), hb_parni(7), LR_CREATEDIBSECTION);
-	}
-
-	SendMessage( h, (UINT)STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hBitmap );
-
-	hb_retnl( (LONG) h );
-}
-
-HB_FUNC ( C_SETPICTURE )
-{
-	HBITMAP hBitmap;
-
-	hBitmap = (HBITMAP) LoadImage(0,hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
-	if (hBitmap==NULL)
-	{
-		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL),hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_CREATEDIBSECTION);
-	}
-
-	SendMessage((HWND) hb_parnl (1),(UINT)STM_SETIMAGE,(WPARAM)IMAGE_BITMAP,(LPARAM)hBitmap);
-
-	hb_retnl ( (LONG) hBitmap );
-}
- */
 #pragma ENDDUMP

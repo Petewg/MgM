@@ -164,7 +164,7 @@ Static Procedure OnTimer()
 Local cSecond := Right(Time(), 2)
 
 	IF cCurSec != cSecond
-		DoEvents()
+		Do Events
 		DisplayWatch()
 	ENDIF
 
@@ -598,30 +598,3 @@ Return MsgInfo( padc(PROGRAM + VERSION, 38) + CRLF + ;
 	SubStr(MiniGuiVersion(), 1, 38) + CRLF + CRLF + ;
 	padc("This program is Freeware!", 38) + CRLF + ;
 	padc("Copying is allowed!", 40), "About..." )
-
-
-	/*
-#pragma BEGINDUMP
-
-#define HB_OS_WIN_USED
-#define _WIN32_WINNT   0x0400
-
-#include <windows.h>
-#include "hbapi.h"
-#include "hbapiitm.h"
-
-HB_FUNC ( C_CENTER ) 
-{
-	RECT rect;
-	int w, h, x, y;
-	GetWindowRect((HWND) hb_parnl (1), &rect);
-	w  = rect.right  - rect.left;
-	h = rect.bottom - rect.top;
-	SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-	x = rect.right - rect.left;
-	y = rect.bottom - rect.top;
-	SetWindowPos( (HWND) hb_parnl (1), HWND_TOP, (x - w) / 2, (y - h) / 2 + 1, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE ) ;
-}
-
-#pragma ENDDUMP
-*/

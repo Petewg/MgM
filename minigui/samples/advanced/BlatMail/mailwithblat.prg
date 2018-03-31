@@ -11,7 +11,7 @@ STATIC hInstDLL             // handle to DLL
 #endif
 
 #include "hbclass.ch"
-#include "hbdyn.ch"
+
 /*
 
    The class BlatMail is a wrapper to use the BLAT email sending program as a DLL.  
@@ -237,7 +237,7 @@ METHOD New() CLASS BLATMAIL
 #ifdef _use_CallDLL
 
    IF nLoadedBlat=0
-      hInstDLL:=wapi_LoadLibrary( 'BLAT.DLL' )
+      hInstDLL:=LoadLibrary('BLAT.DLL')
       nLoadedBlat:=1
    ELSE
       nLoadedBlat++
@@ -712,7 +712,7 @@ METHOD BlatUnload(lAbsolute)  CLASS BLATMAIL
 * If have Blat loaded once or we are wanting to do it no matter how many times
 * we have loaded it then unload it
 
-      wapi_FreeLibrary(hInstDLL)
+      FreeLibrary(hInstDLL)
       nLoadedBlat:=0
    ELSEIF nLoadedBlat>0
 
@@ -739,7 +739,7 @@ LOCAL nReturn
 
 #ifdef _use_CallDLL
 
-  nReturn:=CallDLL32(hInstDLL,wapi_GetProcAddress(hInstDLL,'cSend'),,3,10,cCommand)
+  nReturn:=CallDLL(hInstDLL,GetProcAddress(hInstDLL,'cSend'),,3,10,cCommand)
 
 #else
 

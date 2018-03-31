@@ -12,7 +12,7 @@
 
 ANNOUNCE RDDSYS
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 #define PROGRAM 'Test Client for Win32 Cleanup API'
 #define COPYRIGHT ' 2006 Grigory Filatov'
@@ -96,14 +96,15 @@ Return MsgInfo( PROGRAM + CRLF + ;
 	padc("Copying is allowed!", 40), "About", IDI_MAIN, .f. )
 
 #define DLL_TYPE_HRESULT      -4 
-#include "hbdll32.ch"
 *-----------------------------------------------------------------------------*
+DECLARE DLL_TYPE_BOOL Delete_IECache( DLL_TYPE_BOOL bDeleteCache, DLL_TYPE_BOOL bDeleteCacheIndex ) ;
+	IN CLEANUP.DLL
 
-DECLARE /*DLL_TYPE_BOOL*/ Delete_IECache( /*DLL_TYPE_BOOL*/ bDeleteCache, /*DLL_TYPE_BOOL*/ bDeleteCacheIndex ) IN CLEANUP.DLL
+DECLARE DLL_TYPE_BOOL Delete_IECookies( DLL_TYPE_BOOL bDeleteCookies, DLL_TYPE_BOOL bDeleteCookiesIndex ) ;
+	IN CLEANUP.DLL
 
-DECLARE /*DLL_TYPE_BOOL*/ Delete_IECookies( /*DLL_TYPE_BOOL*/ bDeleteCookies, /*DLL_TYPE_BOOL*/ bDeleteCookiesIndex ) IN CLEANUP.DLL
-
-DECLARE /*DLL_TYPE_HRESULT*/ Delete_IEHistory( /*DLL_TYPE_BOOL*/ bDeleteHistory, /*DLL_TYPE_BOOL*/ bDeleteHistoryIndex ) IN CLEANUP.DLL
+DECLARE DLL_TYPE_HRESULT Delete_IEHistory( DLL_TYPE_BOOL bDeleteHistory, DLL_TYPE_BOOL bDeleteHistoryIndex ) ;
+	IN CLEANUP.DLL
 *-----------------------------------------------------------------------------*
 
 

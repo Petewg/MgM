@@ -1,2 +1,1 @@
-
-@call %~d0\miniguim\batch\buildapp.bat aesdemo -lhbaes
+call ..\..\..\batch\hbmk2.bat %* aesdemo.hbp aesdemo.hbc

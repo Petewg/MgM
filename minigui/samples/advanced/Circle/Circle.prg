@@ -49,7 +49,7 @@ PROCEDURE OnInit
 
 	Form_1.Button_1.Setfocus
 
-	 LayeredWindowStarting(_HMG_MainHandle)
+	LayeredWindowStarting(_HMG_MainHandle)
 
 	CLEAN MEMORY
 
@@ -151,7 +151,7 @@ HB_FUNC ( LAYEREDWINDOWSTARTING )
 
 	for ( x = 0; x < 255; x += 5 )
 	{
-		SetLayeredWindowAttributes(hWnd, 0, x, 0x02);
+		SetLayeredWindowAttributes(hWnd, 0, x, LWA_ALPHA);
   
 		if( PeekMessage((LPMSG) &Msg, 0, 0, 0, PM_REMOVE) )
 		{
@@ -161,7 +161,7 @@ HB_FUNC ( LAYEREDWINDOWSTARTING )
 		Sleep(50);
 	}
 
-	SetLayeredWindowAttributes(hWnd, 0, 255, 0x02);
+	SetLayeredWindowAttributes(hWnd, 0, 255, LWA_ALPHA);
 }
 
 #pragma ENDDUMP
