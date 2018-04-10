@@ -1,23 +1,27 @@
-ANNOUNCE RDDSYS
+/*
+ * HMG_Alert() Demo
+ *
+ * Direct replacement for Clipper Alert() function
+ *
+ * Copyright (c) Francisco Garcia Fernandez
+ *
+ * Modified by Grigory Filatov at 18-02-2018
+ */
 
 #include "hmg.ch"
 
-#define ICON_EXCLAMATION      1  // default value
-#define ICON_QUESTION         2
-#define ICON_INFORMATION      3
-#define ICON_STOP             4
-#define ICON_SAVE             5
-
-SET PROCEDURE TO ALERT
+ANNOUNCE RDDSYS
 
 PROCEDURE MAIN
 
    SET WINDOW MAIN OFF
 
-   _alert( _alert( "Test Question;Second Line", {"&Yes","&No","Con&tinue","&Cancel"}, "Please, Select" ), 3, "Information", ICON_INFORMATION )
+   HMG_Alert( ;
+      HMG_Alert( "Test Question;Second Line", {"&Yes","&No","Con&tinue","&Cancel"}, "Please, Select" ), ;
+      3 /* timeout in the seconds */, "Information", ICON_INFORMATION )
 
-   _alert( "Test Alert", , "Stop!", ICON_STOP )
+   HMG_Alert( "MessageBox Stop", NIL, "Stop!", ICON_STOP )
 
-   _alert( "Test Alert", , "Alert" )
+   HMG_Alert( "MessageBox Alert", NIL, "Alert" )
 
 RETURN

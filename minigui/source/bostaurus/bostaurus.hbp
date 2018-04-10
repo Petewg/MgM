@@ -1,12 +1,17 @@
+#
+# bostaurus.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/bostaurus
+-inc
+-o../../harbour/lib/bostaurus
 
 -I../../include
--hbx=../../include/${hb_name}.hbx
 
--w2 -es2 -ko
+-warn
+
+-w2 -es2 -ko -q0
+
+{bcc}-hbx=../../include/bostaurus.hbx
 
 bostaurus.prg

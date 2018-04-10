@@ -1,4 +1,4 @@
-#include "hmg.ch"
+#include "minigui.ch"
 
 Set Proc To Calc.prg
 

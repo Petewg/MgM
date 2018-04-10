@@ -1,0 +1,753 @@
+* HMG-IDE UNICODE Form Designer Generated Code
+* (c) Roberto Lopez - http://sites.google.com/site/hmgweb
+
+DEFINE WINDOW TEMPLATE AT 267 , 409 WIDTH 550 HEIGHT 440 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Options for print a plain text file" ICON NIL MODAL CURSOR NIL ON INIT Fill_PrOps() ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON PAINT Nil BACKCOLOR Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE LABEL lblFontName
+        ROW    150
+        COL    40
+        WIDTH  110
+        HEIGHT 24
+        VALUE "Font Name :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE LABEL lblFontSize
+        ROW    150
+        COL    370
+        WIDTH  70
+        HEIGHT 20
+        VALUE "Font Size :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE LABEL lblVMargin
+        ROW    190
+        COL    20
+        WIDTH  130
+        HEIGHT 30
+        VALUE "Vert. Margin (mm) :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE LABEL lblHMargin
+        ROW    190
+        COL    260
+        WIDTH  180
+        HEIGHT 30
+        VALUE "Horizontal margin (mm) :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE LABEL lblChrsPerLin
+        ROW    230
+        COL    30
+        WIDTH  120
+        HEIGHT 24
+        VALUE "Characters / line :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE LABEL lblLineHeigth
+        ROW    230
+        COL    310
+        WIDTH  130
+        HEIGHT 30
+        VALUE "Line Heigth (mm) :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE BUTTON btnApply
+        ROW    340
+        COL    90
+        WIDTH  100
+        HEIGHT 30
+        ACTION SetPrntOps()
+        CAPTION "Set and Exit"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+    DEFINE BUTTON btnExit
+        ROW    340
+        COL    410
+        WIDTH  70
+        HEIGHT 28
+        ACTION ThisWindow.Release
+        CAPTION "Exit"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+    DEFINE CHECKBOX chbWordWrap
+        ROW    105
+        COL    420
+        WIDTH  90
+        HEIGHT 25
+        CAPTION "Word wrap"
+        VALUE .F.
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE TEXTBOX txbFontName
+        ROW    150
+        COL    160
+        WIDTH  170
+        HEIGHT 24
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        DISABLEDBACKCOLOR Nil
+        DISABLEDFONTCOLOR Nil
+        CASECONVERT NONE
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+    END TEXTBOX
+
+    DEFINE SPINNER spnFontSize
+        ROW    150
+        COL    450
+        WIDTH  60
+        HEIGHT 24
+        RANGEMIN 5
+        RANGEMAX 22
+        VALUE 0
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 1
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END SPINNER
+
+    DEFINE SPINNER spnVertMarg
+        ROW    190
+        COL    160
+        WIDTH  60
+        HEIGHT 24
+        RANGEMIN 0
+        RANGEMAX 100
+        VALUE 20
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 1
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END SPINNER
+
+    DEFINE SPINNER spnHorzMarg
+        ROW    190
+        COL    450
+        WIDTH  60
+        HEIGHT 24
+        RANGEMIN 0
+        RANGEMAX 100
+        VALUE 20
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 2
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END SPINNER
+
+    DEFINE SPINNER spnChrsLine
+        ROW    230
+        COL    160
+        WIDTH  60
+        HEIGHT 24
+        RANGEMIN 10
+        RANGEMAX 300
+        VALUE 0
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 1
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END SPINNER
+
+    DEFINE SPINNER spnLineHeight
+        ROW    230
+        COL    450
+        WIDTH  60
+        HEIGHT 24
+        RANGEMIN 5
+        RANGEMAX 24
+        VALUE 0
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        WRAP .F.
+        READONLY .F.
+        INCREMENT 1
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END SPINNER
+
+    DEFINE LABEL lblPaper
+        ROW    110
+        COL    70
+        WIDTH  80
+        HEIGHT 24
+        VALUE "Paper :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE COMBOBOX cmbPapers
+        ROW    105
+        COL    160
+        WIDTH  250
+        HEIGHT 300
+        ITEMS aPapers[ 2 ]
+        VALUE 7
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE NIL
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+        IMAGE Nil
+        DROPPEDWIDTH Nil
+        ONDROPDOWN Nil
+        ONCLOSEUP Nil
+    END COMBOBOX
+
+    DEFINE LABEL lblSrcFile
+        ROW    30
+        COL    30
+        WIDTH  120
+        HEIGHT 24
+        VALUE "Source File :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE TEXTBOX txbSrcFile
+        ROW    30
+        COL    160
+        WIDTH  330
+        HEIGHT 24
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP "This text box is read only; for source file use 'File\Select'"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .T.
+        RIGHTALIGN .F.
+        DISABLEDBACKCOLOR Nil
+        DISABLEDFONTCOLOR Nil
+        CASECONVERT NONE
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+    END TEXTBOX
+
+    DEFINE BUTTON btnResetPrOpt
+        ROW    340
+        COL    250
+        WIDTH  110
+        HEIGHT 30
+        ACTION ReSetPrntOps()
+        CAPTION "Reset and Exit"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+    DEFINE LABEL Label_1
+        ROW    70
+        COL    40
+        WIDTH  110
+        HEIGHT 20
+        VALUE "Printer :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE COMBOBOX cmbPrinters
+        ROW    65
+        COL    160
+        WIDTH  190
+        HEIGHT 250
+        ITEMS aPrinterList
+        VALUE 0
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+        IMAGE Nil
+        DROPPEDWIDTH Nil
+        ONDROPDOWN Nil
+        ONCLOSEUP Nil
+    END COMBOBOX
+
+    DEFINE BUTTON btnSelPrinter
+        ROW    65
+        COL    360
+        WIDTH  50
+        HEIGHT 24
+        ACTION SelectPrinter()
+        CAPTION "Select"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+    DEFINE CHECKBOX chbDialog
+        ROW    65
+        COL    420
+        WIDTH  100
+        HEIGHT 28
+        CAPTION "Dialog"
+        VALUE .F.
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE DialogChanged()
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE LABEL Label_2
+        ROW    270
+        COL    30
+        WIDTH  120
+        HEIGHT 20
+        VALUE "Show Progress :"
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        RIGHTALIGN .T. 
+    END LABEL
+
+    DEFINE CHECKBOX chbPBar
+        ROW    265
+        COL    160
+        WIDTH  75
+        HEIGHT 28
+        CAPTION "Prgs.Bar"
+        VALUE .F.
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP "Progress Bar"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE CHECKBOX chbSBI1
+        ROW    265
+        COL    250
+        WIDTH  75
+        HEIGHT 28
+        CAPTION "Stt.Bar 1"
+        VALUE .F.
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP "Line printed"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE CHECKBOX chbSBI3
+        ROW    265
+        COL    350
+        WIDTH  75
+        HEIGHT 28
+        CAPTION "Stt.Bar 3"
+        VALUE .F.
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP "Bytes Read"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+    DEFINE CHECKBOX chbSBI4
+        ROW    265
+        COL    440
+        WIDTH  75
+        HEIGHT 28
+        CAPTION "Stt.Bar 4"
+        VALUE .F.
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP "Pages printed"
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+    END CHECKBOX
+
+END WINDOW
+

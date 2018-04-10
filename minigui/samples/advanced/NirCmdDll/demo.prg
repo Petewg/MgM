@@ -8,10 +8,10 @@
  * (c) 2010-2016 Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 #include "hbdyn.ch"
 
-PROCEDURE Main
+Procedure Main
   
 	SET HELPFILE TO 'NirCmd.chm'
 
@@ -20,7 +20,7 @@ PROCEDURE Main
 	DEFINE WINDOW Form_1 ;
 		AT 0,0 ;
 		WIDTH 400 ;
-		HEIGHT 270 + iif(IsWinXPorLater(), GetBorderHeight(), 0) ;
+		HEIGHT 230 + iif(IsWinXPorLater(), GetBorderHeight(), 0) ;
 		TITLE 'NirCmd DLL Test' ;
 		ICON 'NirCmd.ico' ;
 		MAIN ;
@@ -84,7 +84,7 @@ PROCEDURE Main
 			COL	200
 			WIDTH	150
 			CAPTION 'Start the screen saver'
-			ACTION Iif( msgYesNo( "really you want to start the screen saver?",,.t.), StartSS_Click(), NIL )
+			ACTION StartSS_Click()
 		END BUTTON
 
 		DEFINE BUTTON Button_7
@@ -92,7 +92,7 @@ PROCEDURE Main
 			COL	200
 			WIDTH	150
 			CAPTION 'Disable the screen saver'
-			ACTION Iif( msgYesNo( "really you want to disable the screen saver?",,.t.), DisableSS_Click(), NIL )
+			ACTION DisableSS_Click()
 		END BUTTON
 
 		DEFINE BUTTON Button_8
@@ -100,7 +100,7 @@ PROCEDURE Main
 			COL	200
 			WIDTH	150
 			CAPTION 'Enable the screen saver'
-			ACTION Iif( msgYesNo( "really you want to enable the screen saver?",,.t.), EnableSS_Click(), NIL )
+			ACTION EnableSS_Click()
 		END BUTTON
 
 		DEFINE BUTTON Button_9
@@ -131,15 +131,7 @@ PROCEDURE Main
 				ACTION ThisWindow.Release()
 			ENDIF
 		END BUTTON
-	  
-		DEFINE BUTTON Button_0
-			ROW	200
-			COL	115
-			WIDTH	150
-			CAPTION 'Get out of here!'
-			ACTION Iif( MsgYesNo ( 'Are You Sure ?', 'Exit' ), ThisWindow.Release(), NIL )
-		END BUTTON
-	  
+
 		ON KEY F1 ACTION DISPLAY HELP MAIN
 		ON KEY ESCAPE ACTION ThisWindow.Release()
 
@@ -148,83 +140,79 @@ PROCEDURE Main
 	CENTER WINDOW Form_1
 	ACTIVATE WINDOW Form_1
 
-   RETURN
+Return
 
 
 Procedure OpenCDRom_Click()
-	DoNirCmd( "cdrom open" )
-	RETURN
+    DoNirCmd( "cdrom open" )
+Return
 
 
 Procedure CloseCDRom_Click()
-	DoNirCmd( "cdrom close" )
-	RETURN
+    DoNirCmd( "cdrom close" )
+Return
 
 
 Procedure MuteVolume_Click()
-	DoNirCmd( "mutesysvolume 1" )
-	RETURN
+    DoNirCmd( "mutesysvolume 1" )
+Return
 
 
 Procedure UnmuteVolume_Click()
-	DoNirCmd( "mutesysvolume 0" )
-	RETURN
+    DoNirCmd( "mutesysvolume 0" )
+Return
 
 
 Procedure MonitorOff_Click()
-	MsgAlert('Monitor will be off for 10 seconds!', 'Warning')
-	DoNirCmd( "monitor off" )
-	inkey(10)
-	DoNirCmd( "monitor on" )
-	RETURN
+    MsgAlert('Monitor will be off for 10 seconds!', 'Warning')
+    DoNirCmd( "monitor off" )
+    inkey(10)
+    DoNirCmd( "monitor on" )
+Return
 
 
 Procedure StartSS_Click()
-	DoNirCmd( "screensaver" )
-	RETURN
+    DoNirCmd( "screensaver" )
+Return
 
 
 Procedure EnableSS_Click()
-	DoNirCmd( [regsetval sz "HKCU\control panel\desktop" "ScreenSaveActive" 1] )
-	RETURN
+    DoNirCmd( [regsetval sz "HKCU\control panel\desktop" "ScreenSaveActive" 1] )
+Return
 
 
 Procedure DisableSS_Click()
-	DoNirCmd( [regsetval sz "HKCU\control panel\desktop" "ScreenSaveActive" 0] )
-	RETURN
+    DoNirCmd( [regsetval sz "HKCU\control panel\desktop" "ScreenSaveActive" 0] )
+Return
 
 
 Procedure ClearClipboard_Click()
-	DoNirCmd( "clipboard clear" )
-	RETURN
+    DoNirCmd( "clipboard clear" )
+Return
 
 
 Procedure TrayBalloon_Click()
-	EXECUTE FILE "nircmd.exe" PARAMETERS [trayballoon "Hello" "This is the text that will be appear inside the balloon!" "shell32.dll,-154" 10000]
-	RETURN
+    EXECUTE FILE "nircmd.exe" PARAMETERS [trayballoon "Hello" "This is the text that will be appear inside the balloon!" "shell32.dll,-154" 10000]
+Return
 
 
 Procedure TaskManager_Click()
-	EXECUTE FILE "nircmd.exe" PARAMETERS "sendkeypress ctrl+shift+esc"
-	RETURN
+    EXECUTE FILE "nircmd.exe" PARAMETERS "sendkeypress ctrl+shift+esc"
+Return
 
 
 Procedure savescreenshot_Click()
-	Form_1.Minimize
-	EXECUTE FILE "nircmd.exe" PARAMETERS "savescreenshot *clipboard*"
-	Form_1.Restore
-	RETURN
+    Form_1.Minimize
+    EXECUTE FILE "nircmd.exe" PARAMETERS "savescreenshot *clipboard*"
+    Form_1.Restore
+Return
 
 
 Procedure FlashWin_Click()
-	EXECUTE FILE "nircmd.exe" PARAMETERS [win flash title 'NirCmd DLL Test']
-	RETURN
+    EXECUTE FILE "nircmd.exe" PARAMETERS [win flash title 'NirCmd DLL Test']
+Return
 
 
 // BOOL WINAPI DoNirCmd(LPSTR lpszCommand)
 Function DoNirCmd( cCommand )
-// Return CallDll32( "NIRCMD.DLL", HB_DYN_CTYPE_BOOL, "DoNirCmd", cCommand )
-	RETURN CallDll32( "DoNirCmd", "NIRCMD.DLL", cCommand )
-
-
-
+Return HMG_CallDLL( "NIRCMD.DLL", HB_DYN_CTYPE_BOOL, "DoNirCmd", cCommand )

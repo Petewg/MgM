@@ -1,0 +1,14 @@
+
+// HBPRINT PRINT PREVIEW IMAGE BUTTONS
+
+zzz_printicon           ICON    print.ico
+hbprint_end             BITMAP  hbprint_end.bmp
+hbprint_next            BITMAP  hbprint_next.bmp
+hbprint_top             BITMAP  hbprint_top.bmp
+hbprint_back            BITMAP  hbprint_back.bmp
+hbprint_close           BITMAP  hbprint_close.bmp
+hbprint_print           BITMAP  hbprint_print.bmp
+hbprint_save            BITMAP  hbprint_save.bmp
+hbprint_zoomin          BITMAP  hbprint_zoomin.bmp
+hbprint_zoomout         BITMAP  hbprint_zoomout.bmp
+hbprint_option          BITMAP  hbprint_option.bmp

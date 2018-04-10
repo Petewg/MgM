@@ -1,38 +1,38 @@
-AMODEST		ICON	Res\Modest.ico
+1MODEST		ICON	"Res\Modest.ico"
 
-LOGO		BITMAP	Res\Modest.bmp
+LOGO		PNG	"Res\Modest.png"
 
-NEW_FILE	BITMAP	Res\New.bmp
-OPEN_FILE	BITMAP	Res\Open.bmp
-SAVE		BITMAP	Res\Save.bmp
-PRINT		BITMAP	Res\Print.bmp
+NEW_FILE	BITMAP	"Res\New.bmp"
+OPEN_FILE	BITMAP	"Res\Open.bmp"
+SAVE		BITMAP	"Res\Save.bmp"
+PRINT		BITMAP	"Res\Print.bmp"
 
-COPY		BITMAP	Res\Copy.bmp
-CUT		BITMAP	Res\Cut.bmp
-PASTE		BITMAP	Res\Paste.bmp
+COPY		BITMAP	"Res\Copy.bmp"
+CUT		BITMAP	"Res\Cut.bmp"
+PASTE		BITMAP	"Res\Paste.bmp"
 
-ABOUT		BITMAP	Res\About.bmp
+ABOUT		BITMAP	"Res\About.bmp"
 
-EDIT_FIELD	BITMAP	Res\Edit_Field.bmp
-ADD_FIELD	BITMAP	Res\New_Field.bmp
-INS_FIELD	BITMAP	Res\Ins_Field.bmp
-DEL_FIELD	BITMAP	Res\Del_Field.bmp
-EDIT_TEXT	BITMAP	Res\Edit_Text.bmp
+EDIT_FIELD	BITMAP	"Res\Edit_Field.bmp"
+ADD_FIELD	BITMAP	"Res\New_Field.bmp"
+INS_FIELD	BITMAP	"Res\Ins_Field.bmp"
+DEL_FIELD	BITMAP	"Res\Del_Field.bmp"
+EDIT_TEXT	BITMAP	"Res\Edit_Text.bmp"
 
-OPTIONS		BITMAP	Res\Options.bmp
+OPTIONS		BITMAP	"Res\Options.bmp"
 
-OK		ICON	Res\OK.ico
-CANCEL		ICON	Res\Cancel.ico
+OK		ICON	"Res\OK.ico"
+CANCEL		ICON	"Res\Cancel.ico"
 
-MUST_SAVE	ICON	Res\MustSave.ico
+MUST_SAVE	ICON	"Res\MustSave.ico"
 
-FILE_FIND	BITMAP	Res\FileFind.bmp
+FILE_FIND	BITMAP	"Res\FileFind.bmp"
 
 1 VERSIONINFO
-// FILEVERSION 2008,02,1
-// PRODUCTVERSION 2008,02,1,0
-// FILEOS 0x4
-// FILETYPE 0x1
+FILEVERSION 2008,02,1
+PRODUCTVERSION 2008,02,1
+FILEOS 0x4
+FILETYPE 0x1
 {
 BLOCK "StringFileInfo"
 {
@@ -51,6 +51,6 @@ BLOCK "StringFileInfo"
 
 BLOCK "VarFileInfo"
 {
-	VALUE "Translation", 0x0409, 0x04B0
+	VALUE "Translation", 0x0409 0x04B0
 }
 }

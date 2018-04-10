@@ -1,0 +1,104 @@
+#Path C:\MINIGUI\UTILS\FUNCLIST
+#Title MiniGUI TSBrowse
+h_controlmisc1.prg            	                    	
+   cValToChar                 	Function            	
+   _GetTextHeight             	Function            	
+   _GetKeyState               	Function            	
+   _InvertRect                	Function            	
+c_controlmisc1.c              	                    	
+   NOR                        	HB_FUNC             	
+   CREATEPEN                  	HB_FUNC             	
+   MOVETO                     	HB_FUNC             	
+   LINETO                     	HB_FUNC             	
+   DRAWICON                   	HB_FUNC             	
+   CURSORWE                   	HB_FUNC             	
+   CURSORSIZE                 	HB_FUNC             	
+   RELEASECAPTURE             	HB_FUNC             	
+   INVERTRECT                 	HB_FUNC             	
+   GETCLASSINFO               	HB_FUNC             	
+   _GETCLIENTRECT             	HB_FUNC             	
+   ISICONIC                   	HB_FUNC             	
+   SETCAPTURE                 	HB_FUNC             	
+   SETWINDOWLONG              	HB_FUNC             	
+   GETTEXTCOLOR               	HB_FUNC             	
+   GETBKCOLOR                 	HB_FUNC             	
+   LOADIMAGE                  	HB_FUNC             	
+   MOVEFILE                   	HB_FUNC             	
+   GETACP                     	HB_FUNC             	
+   CURSORSTOP                 	HB_FUNC             	
+   DESTROYCURSOR              	HB_FUNC             	
+SBMSG.PRG                     	                    	
+   LoadMsg                    	Function            	
+SCRLLBAR.PRG                  	                    	
+h_tbrowse.prg                 	                    	
+   _DefineTBrowse             	Function            	
+   _EndTBrowse                	Function            	
+   LoadFields                 	Function            	
+   SetArray                   	Function            	
+   SetArrayTo                 	Function            	
+   _aData                     	Static  Function    	
+   AClone                     	Static  Function    	
+   AutoHeaders                	Static  Function    	
+   lASeek                     	Static  Function    	
+   BrwGoBottom                	Static  Function    	
+   BrwGoTop                   	Static  Function    	
+   BuildSkip                  	Static  Function    	
+   BuildFiltr                 	Static  Function    	
+   BuildAutoSeek              	Static  Function    	
+   BuildAutoFilter            	Static  Function    	
+   BrwGoTo                    	Static  Function    	
+   DateSeek                   	Static  Function    	
+   EmptyAlias                 	Static  Function    	
+   GetUniqueName              	Static  Function    	
+   _IsChar                    	Static  Function    	
+   _IsNumeric                 	Static  Function    	
+   MakeBlock                  	Static  Function    	
+   nValToNum                  	Function            	
+   RSetSkip                   	Static  Function    	
+   RSetLocate                 	Static  Function    	
+   RSetFilter                 	Static  Function    	
+   SetHeights                 	Static  Function    	
+   FileRename                 	Static  Function    	
+   AdoGenFldBlk               	Static  Function    	
+   ClipperFieldType           	Static  Function    	
+   IdentSuper                 	Static  Function    	
+   lAEqual                    	Function            	
+   StockBmp                   	Function            	
+   cAnsi2Bmp                  	Static  Function    	
+   cAnsi2Hex                  	Static  Function    	
+   cHex2Bin                   	Static  Function    	
+   nBmpWidth                  	Static  Function    	
+   _nColumn                   	Function            	
+   SBrowse                    	Function            	
+   RecordBrowse               	Static  Function    	
+   aHash2Array                	Static  Function    	
+c_TBrowse.c                   	                    	
+   REGISTER_CLASS             	HB_FUNC             	
+   _CREATEWINDOWEX            	HB_FUNC             	
+   TSDRAWCELL                 	HB_FUNC             	
+   TSBRWSCROLL                	HB_FUNC             	
+   TSBRWHSCROLL               	HB_FUNC             	
+   ROWFROMPIX                 	HB_FUNC             	
+   SBGETHEIGHT                	HB_FUNC             	
+   COUNTROWS                  	HB_FUNC             	
+   SBMPHEIGHT                 	HB_FUNC             	
+   SBMPWIDTH                  	HB_FUNC             	
+   GETSCRLRANGE               	HB_FUNC             	
+   INITEDSPINNER              	HB_FUNC             	
+   SETINCREMENTSPINNER        	HB_FUNC             	
+TBtnBox.prg                   	                    	
+TComboBox.prg                 	                    	
+TControl.prg                  	                    	
+TCursor.prg                   	                    	
+TDatePicker.prg               	                    	
+TGetBox.prg                   	                    	
+TSCOLUMN.PRG                  	                    	
+   ColClone                   	Function            	
+   BiffRec                    	Function            	
+   StrCharCount               	Function            	
+   StrWBlock                  	Function            	
+   lIsFile                    	Function            	
+   ArrayWBlock                	Function            	
+   ComboWBlock                	Function            	
+TSMULTI.PRG                   	                    	
+

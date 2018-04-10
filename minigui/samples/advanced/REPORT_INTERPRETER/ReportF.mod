@@ -5,7 +5,7 @@
 # case ncpl= 140   nfsize:=7
 # case ncpl= 160   nfsize:=6
 
-[Declare]80/PREV
+[Declare]80/PREV/SELE
 SET JOB NAME [Fantasy Print demo]
 SET SPLASH TO  ... Warten Sie bitte...    Arbeiten Sie im Gange
 SET PAPERSIZE DMPAPER_A4

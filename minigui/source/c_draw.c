@@ -33,10 +33,10 @@
     "Harbour GUI framework for Win32"
     Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2018, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -269,7 +269,6 @@ HB_FUNC( REDRAWWINDOW )
       hb_retl( HB_FALSE );
 }
 
-/* this function below, does not seem to be used anywhere in minigui library. (p.d. 28/04/2017) */
 HB_FUNC( SETBACKCOLOR )
 {
    HWND hWnd = ( HWND ) ( LONG_PTR ) HB_PARNL( 1 );

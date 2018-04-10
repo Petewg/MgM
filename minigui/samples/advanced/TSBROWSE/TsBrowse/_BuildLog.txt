@@ -1,0 +1,18 @@
+_temp.rc:101: unrecognized escape sequence
+windres: warning: 2: "CAKE": 1033: duplicate value
+_temp.rc:102: unrecognized escape sequence
+windres: warning: 2: "CANCEL": 1033: duplicate value
+_temp.rc:103: unrecognized escape sequence
+_temp.rc:104: unrecognized escape sequence
+windres: warning: 2: "EXCEL16": 1033: duplicate value
+_temp.rc:105: unrecognized escape sequence
+windres: warning: 2: "EXITB16": 1033: duplicate value
+_temp.rc:106: unrecognized escape sequence
+windres: warning: 2: "HEAD": 1033: duplicate value
+_temp.rc:107: unrecognized escape sequence
+windres: warning: 2: "MARK": 1033: duplicate value
+_temp.rc:108: unrecognized escape sequence
+windres: warning: 2: "OK": 1033: duplicate value
+_temp.rc:109: unrecognized escape sequence
+windres: warning: 2: "POINT": 1033: duplicate value
+_temp.rc:110: unrecognized escape sequence

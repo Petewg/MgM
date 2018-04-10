@@ -85,7 +85,7 @@ local aoptions:=_HMG_aControlCaption [i]
 local nvalue:=_HMG_aControlValue [i]
 
       domethod(Form, Control, 'release')
-       DoEvents()
+      do events
 
       @ 110, 10 RadioGroup Radiogroup2 of &form ;
 		Options aoptions ;

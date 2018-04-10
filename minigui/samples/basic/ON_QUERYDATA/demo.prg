@@ -1,23 +1,22 @@
 /*
-* MiniGUI Virtual Grid Demo
-*/
+ * MiniGUI Virtual Grid Demo
+ *
+ */
 
 #include "minigui.ch"
 
-Memvar lAscend
+MEMVAR lAscend
 
-Function Main
-Local aData := array( 1000, 2 )
+FUNCTION Main
+	LOCAL aData := Array( 1000, 2 )
 
-	AEVAL(aData, {|e,i| e[1] := str(random(1000)), e[2] := str(random(1000))})
+	AEval( aData, {|e| e[ 1 ] := Str( Random(1000) ), e[ 2 ] := Str( Random(1000) )} )
 
-	Private lAscend := .t.
+	PRIVATE lAscend := .T.
 
 	DEFINE WINDOW Form_1 ;
-		AT 0,0 ;
-		WIDTH 450 ;
-		HEIGHT 400 ;
-		TITLE 'Sort Virtual Grid Demo' ;
+		CLIENTAREA 420, 370 ;
+		TITLE 'Column Sort In Virtual Grid' ;
 		MAIN 
 
 		DEFINE MAIN MENU
@@ -27,15 +26,15 @@ Local aData := array( 1000, 2 )
 		END MENU
 
 		@ 10,10 GRID Grid_1 ;
-		WIDTH 400 ;
-		HEIGHT 330 ;
-		HEADERS {'','Column 2','Column 3'} ;
-		WIDTHS {0,140,140};
-		VIRTUAL ;
-		ITEMCOUNT Len(aData) ;
-		ON QUERYDATA QueryTest(aData) ;
-		ON HEADCLICK { , {|| SortThisColumn(aData,'1') }, {|| SortThisColumn(aData,'2') } } ;
-		IMAGE { "br_no", "br_ok" }
+			WIDTH 400 ;
+			HEIGHT 330 ;
+			HEADERS { '', 'Column 2', 'Column 3' } ;
+			WIDTHS { 0, 140, 140 };
+			VIRTUAL ;
+			ITEMCOUNT Len(aData) ;
+			ON QUERYDATA QueryTest(aData) ;
+			ON HEADCLICK { , {|| SortThisColumn(aData, '1') }, {|| SortThisColumn(aData, '2') } } ;
+			IMAGE { "br_no", "br_ok" }
 
 	END WINDOW
 
@@ -43,27 +42,36 @@ Local aData := array( 1000, 2 )
 
 	ACTIVATE WINDOW Form_1
 
-Return Nil
+RETURN Nil
 
-Procedure QueryTest(aArray)
 
-	If This.QueryColIndex == 1
-		If Int ( This.QueryRowIndex / 2 ) == This.QueryRowIndex / 2
+PROCEDURE QueryTest( aArray )
+
+	IF This.QueryColIndex == 1
+
+		IF Int( This.QueryRowIndex / 2 ) == This.QueryRowIndex / 2
 			This.QueryData := 0
-		Else
+		ELSE
 			This.QueryData := 1
-		EndIf
-	Else
-		This.QueryData := aArray[This.QueryRowIndex][This.QueryColIndex-1]
-	EndIf
+		ENDIF
 
-Return
+	ELSE
 
-Static Function SortThisColumn(aArray, cEle)
-Local bBlock := "{|x,y| x[" + cEle + "]" + if(lAscend, "<", ">") + "y[" + cEle + "]}"
+		This.QueryData := aArray[This.QueryRowIndex][This.QueryColIndex - 1]
 
-	aSort( aArray, , , &bBlock )
+	ENDIF
 
-	Form_1.Grid_1.ItemCount := Len(aArray)
+RETURN
 
-Return ( lAscend := !lAscend )
+
+STATIC FUNCTION SortThisColumn( aArray, cEle )
+	LOCAL cBlock := "{|x,y| x[" + cEle + "]" + iif( lAscend, "<", ">" ) + "y[" + cEle + "]}"
+
+#ifndef __XHARBOUR__
+	ASort( aArray, , , Eval( hb_macroBlock( cBlock ) ) )
+#else
+	ASort( aArray, , , &( cBlock ) )
+#endif
+	Form_1.Grid_1.Refresh
+
+RETURN ( lAscend := !lAscend )

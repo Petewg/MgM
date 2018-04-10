@@ -50,8 +50,8 @@ Memvar nScrWidth, nScrHeight
 *--------------------------------------------------------*
 Function Main( fname )
 *--------------------------------------------------------*
-LOCAL nLen, aDesk := GetDesktopArea()
-PRIVATE nScrWidth := aDesk[3], nScrHeight := aDesk[4]
+LOCAL nLen, aRect := GetDesktopArea()
+   PRIVATE nScrWidth := aRect[ 3 ] - aRect[ 1 ], nScrHeight := aRect[ 4 ] - aRect[ 2 ]
 
    default fname := "JpgViewer.jpg"
 
@@ -571,45 +571,3 @@ return MsgInfo( padc(PROGRAM + VERSION, 38) + CRLF + ;
 Function JpgSize( cJPGfile )
 *--------------------------------------------------------*
 return hb_GetImageSize( cJPGfile )
-
-
-#pragma BEGINDUMP
-
-#include <windows.h>
-#include "hbapi.h"
-
-#ifdef __XHARBOUR__
-#define HB_STORNI( n, x, y ) hb_storni( n, x, y )
-#else
-#define HB_STORNI( n, x, y ) hb_storvni( n, x, y )
-#endif
-
-HB_FUNC ( GETDESKTOPAREA ) 
-{
-	RECT rect;
-	SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-
-	hb_reta(4);
-	HB_STORNI((INT) rect.top, -1, 1);
-	HB_STORNI((INT) rect.left, -1, 2);
-	HB_STORNI((INT) rect.right - rect.left, -1, 3);
-	HB_STORNI((INT) rect.bottom - rect.top, -1, 4);
-}
-
-#if ! defined( __MINGW32__ )
-
-HB_FUNC ( C_CENTER )
-{
-	RECT rect;
-	int w, h, x, y;
-	GetWindowRect((HWND) hb_parnl (1), &rect);
-	w  = rect.right  - rect.left;
-	h = rect.bottom - rect.top;
-	SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-	x = rect.right - rect.left;
-	y = rect.bottom - rect.top;
-	SetWindowPos( (HWND) hb_parnl (1), HWND_TOP, (x - w) / 2, (y - h) / 2, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE );
-}
-#endif
-
-#pragma ENDDUMP

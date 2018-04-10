@@ -19,14 +19,12 @@
    #include "hbcompat.ch"
 #endif
 
-// Set Procedure To tAxPrg.prg
+Set Procedure To tAxPrg.prg
 
 Static oWActiveX
 Static oActiveX
 Static bVerde := .T.
 Static lThemed := .F.
-
-#include "tAxPrg.prg"
 
 FUNCTION Main()
 

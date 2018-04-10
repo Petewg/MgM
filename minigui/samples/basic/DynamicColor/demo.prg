@@ -18,8 +18,6 @@ Function Main
 Local b1, b2, b3, b4, b5, b6, bk1, bk2, bk3, bk4, bk5, bk6
 
 	SET CENTURY ON
-	
-	SET AUTOADJUST ON
 
 	b1 := { || RGB(255,255,255) }
 	b2 := { || RGB(255,255,0) }

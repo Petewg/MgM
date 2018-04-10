@@ -1,0 +1,89 @@
+SELECTOR library
+Written in Clipper 5.2e by Janusz Piwowarski.
+Version 1.1
+Email: januszp@geocities.com
+
+*----------*
+
+@...SELECT
+A pseudo-SQL command used to retrieve data from databases
+
+Syntax:
+
+    @ [<array>] SELECT
+        <xExpr> [AS <xcName> [LENGHT <nLenght> DEC <nDecimals>]]
+            [GROUP|TOTAL|AVERAGE] [SUMMARY]
+        [, <xExpr2> [AS <xcName2> [LENGHT <nLenght2> DEC <nDecimals2>]]
+               [GROUP|TOTAL|AVERAGE] [SUMMARY]...]
+        [FROM <xcnArea>] ;
+        [OTM <xcnChild> SEEK <xValueFromMother> EQUAL <xValueFromChild>] ;
+        [FOR <lCondition>] ;
+        [WHILE <lCondition>] ;
+        [REST] ;
+        [TO <xcFile>] ;
+        [ALIAS <xcAlias>] ;
+        [ADDITIVE [IF <lCondition>]] ;
+        [SUMMARY <aSummary>] ;
+        [EVAL <xEval>] ;
+
+Arguments:
+
+    <array> is a name of an variable used to "compile" @...SELECT. The
+    default name is SelectList.
+
+    <xExpr> is a database field name or expression
+
+    AS <xcName> defines the field name in the target file. If not specified,
+    field name is taken from <xExpr>.
+
+    LENGHT <nLenght> DEC <nDecimals> are the lenght and the number of decimal
+    places of the field in the target file. The defaults are taken from
+    <xExpr>.
+
+    GROUP specifies the unique key value in the target file.
+
+    TOTAL specifies that <xExpr> is summarized by unique key value.
+
+    AVERAGE specifies that <xExpr> is averaged by unique key value.
+
+    SUMMARY specifies that <xExpr> is summarized to <aSummary>
+
+    OTM <xcnChild> SEEK <xValueFromMother> EQUAL <xValueFromChild> specifies
+    the "one to many" relation.
+
+    FROM <xcnArea> is the @...SELECT work area. The default is current area.
+
+    FOR <lCondition> specifies the conditional set of records to @..SELECT.
+
+    WHILE <lCondition> specifies the set of records meeting the condition
+    from the first record in the source area until the condition fails.
+
+    REST specifies that @...SELECT begins from the current record, otherwise
+    it begins from the first record.
+
+    TO <xcFile> specifies the name of the target file. The default is
+    "TEMP.DBF".
+
+    ALIAS <xcAlias> specifies the name to associate with the target work
+    area. If the <xcFile> is ommited, the default is "temp". Otherwise, the
+    alias defaults to the target filename.
+
+    ADDITIVE IF <lCondition> causes @...SELECT to continue the work with
+    existing <xcFile> if <lCondition> is ommited or returns true.
+
+    SUMMARY <aSummary> is the name of an existing and initialized array used
+    to store totals.
+
+    EVAL <xEval> specifies a expression that is evaluated either for each
+    record processed.
+
+Header files: Selector.ch
+
+*----------*
+
+Hello.
+
+Thanks for testing my product. If you have any questions or suggestions,
+or if you have received any errors, please report me.
+
+Janusz.

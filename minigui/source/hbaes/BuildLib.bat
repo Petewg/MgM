@@ -1,5 +1,7 @@
 @echo off
 
-@CALL %~d0\MiniguiM\batch\setpaths.bat
+SET HMGPATH=c:\minigui
 
-hbmk2 -ql -hbx=hbaes.hbx hbaes.hbp    2> Build.log
+SET PATH=%HMGPATH%\harbour\bin;c:\borland\bcc55\bin;%PATH%
+
+hbmk2 hbaes.hbp

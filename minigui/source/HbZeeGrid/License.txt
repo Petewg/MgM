@@ -1,0 +1,25 @@
+
+ZeeGrid License
+---------------
+
+ZeeGrid is made available free-of-charge for any application development.
+You are free to redistribute the binary file ZeeGrid.DLL and/or ZeeGridx64.DLL
+with your application, and use the message header file ZeeGrid.h or any derivative
+thereof, provided all copyright information remains unaltered. 
+
+You may not publish, in any form, instructions, manuals, or tutorials on ZeeGrid usage.
+This only relates to ZeeGrid instructions, manuals, or tutorials in a development sense.
+ZeeGrid usage may be included in your own application instructions as it pertains to the
+user's view and interaction with ZeeGrid. Just to clarify; Discussion, code snippets,
+examples of ZeeGrid usage on user groups is fine. Writing and publishing an article or book
+such as "Using ZeeGrid in Win32 Applications" is not. 
+
+I do request that if ZeeGrid is used in a commercial or publicly distributed application,
+a mention of ZeeGrid and my name (David Hillard) be put in your Help/About dialog. 
+
+I would appreciate you letting me know what type of application ZeeGrid is being used in,
+and what language/platform was used in its development. It would also be interesting if
+you'd let me know what part of the world you're in. It would be cool to make a map graphic
+and put it on this site showing world-wide usage of ZeeGrid. 
+
+ZeeGrid Copyright © 2002-2016 by David Hillard

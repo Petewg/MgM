@@ -390,9 +390,9 @@ METHOD DefineBrush( defname, lstyle, lcolor, lhatch ) CLASS HBPrinter
       lcolor := RGB ( lcolor[ 1 ], lcolor[ 2 ], lcolor[ 3 ] )
    ENDIF
    // END RL
-   hb_Default( @lstyle, BS_NULL )
-   hb_Default( @lcolor, 0xFFFFFF )
-   hb_Default( @lhatch, HS_HORIZONTAL )
+   DEFAULT lstyle TO BS_NULL
+   DEFAULT lcolor TO 0xFFFFFF
+   DEFAULT lhatch TO HS_HORIZONTAL
    AAdd( ::Brushes[ 1 ], rr_createbrush( lstyle, lcolor, lhatch ) )
    AAdd( ::Brushes[ 2 ], Upper( AllTrim( defname ) ) )
 
@@ -431,9 +431,9 @@ METHOD ModifyBrush( defname, lstyle, lcolor, lhatch ) CLASS HBPrinter
       lcolor := RGB ( lcolor[ 1 ], lcolor[ 2 ], lcolor[ 3 ] )
    ENDIF
    // END RL
-   hb_Default( @lstyle, -1 )
-   hb_Default( @lcolor, -1 )
-   hb_Default( @lhatch, -1 )
+   DEFAULT lstyle TO -1
+   DEFAULT lcolor TO -1
+   DEFAULT lhatch TO -1
    ::Brushes[ 1, lpos ] := rr_modifybrush( lhand, lstyle, lcolor, lhatch )
    IF lhand == ::Brushes[ 1, 1 ]
       ::selectbrush( ::Brushes[ 2, lpos ] )
@@ -453,9 +453,9 @@ METHOD DefinePen( defname, lstyle, lwidth, lcolor ) CLASS HBPrinter
       lcolor := RGB ( lcolor[ 1 ], lcolor[ 2 ], lcolor[ 3 ] )
    ENDIF
    // END RL
-   hb_Default( @lstyle, PS_SOLID )
-   hb_Default( @lcolor, 0xFFFFFF )
-   hb_Default( @lwidth, 0 )
+   DEFAULT lstyle TO PS_SOLID
+   DEFAULT lcolor TO 0xFFFFFF
+   DEFAULT lwidth TO 0
    AAdd( ::Pens[ 1 ], rr_createpen( lstyle, lwidth, lcolor ) )
    AAdd( ::Pens[ 2 ], Upper( AllTrim( defname ) ) )
 
@@ -483,9 +483,9 @@ METHOD ModifyPen( defname, lstyle, lwidth, lcolor ) CLASS HBPrinter
       lcolor := RGB ( lcolor[ 1 ], lcolor[ 2 ], lcolor[ 3 ] )
    ENDIF
    // END RL
-   hb_Default( @lstyle, -1 ) 
-   hb_Default( @lcolor, -1 )
-   hb_Default( @lwidth, -1 )
+   DEFAULT lstyle TO -1
+   DEFAULT lcolor TO -1
+   DEFAULT lwidth TO -1
    ::Pens[ 1, lpos ] := rr_modifypen( lhand, lstyle, lwidth, lcolor )
    IF lhand == ::Pens[ 1, 1 ]
       ::selectpen( ::Pens[ 2, lpos ] )
@@ -512,9 +512,9 @@ METHOD DefineFont( defname, lfontname, lfontsize, lfontwidth, langle, lweight, l
       RETURN self
    ENDIF
    lfontname := if( lfontname == NIL, "", Upper( AllTrim( lfontname ) ) )
-   hb_Default( @lfontsize, -1 )
-   hb_Default( @lfontwidth, 0 )
-   hb_Default( @langle, -1 )
+   DEFAULT lfontsize TO -1
+   DEFAULT lfontwidth TO 0
+   DEFAULT langle TO -1
    lweight := if( Empty( lweight ), 0, 1 )
    litalic := if( Empty( litalic ), 0, 1 )
    lunderline := if( Empty( lunderline ), 0, 1 )
@@ -644,8 +644,8 @@ RETURN aret
 METHOD DrawText( row, col, torow, tocol, txt, style, defname ) CLASS HBPrinter
 
    LOCAL lhf := ::getobjbyname( defname, "F" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    rr_drawtext( ::Convert( { row, col } ), ::Convert( { torow, tocol } ), txt, style, lhf )
 
 RETURN self
@@ -721,9 +721,9 @@ METHOD DrawImageList( defname, nicon, row, col, torow, tocol, lstyle, color ) CL
    IF Empty( lhi )
       RETURN self
    ENDIF
-   hb_Default( @COLOR, -1 )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT COLOR TO -1
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error := rr_drawimagelist( lhi[ 1 ], nicon, ::convert( { row, col } ), ::convert( { torow - row, tocol - col } ), lhi[ 3 ], lhi[ 4 ], lstyle, color )
 
 RETURN self
@@ -732,8 +732,8 @@ RETURN self
 METHOD Rectangle( row, col, torow, tocol, defpen, defbrush ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" ), lhb := ::getobjbyname( defbrush, "B" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_rectangle( ::convert( { row, col } ), ::convert( { torow, tocol } ), lhp, lhb )
 
 RETURN self
@@ -742,8 +742,8 @@ RETURN self
 METHOD FrameRect( row, col, torow, tocol, defbrush ) CLASS HBPrinter
 
    LOCAL lhb := ::getobjbyname( defbrush, "B" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_framerect( ::convert( { row, col } ), ::convert( { torow, tocol } ), lhb )
 
 RETURN self
@@ -752,8 +752,8 @@ RETURN self
 METHOD RoundRect( row, col, torow, tocol, widthellipse, heightellipse, defpen, defbrush ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" ), lhb := ::getobjbyname( defbrush, "B" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_roundrect( ::convert( { row, col } ), ::convert( { torow, tocol } ), ::convert( { widthellipse, heightellipse } ), lhp, lhb )
 
 RETURN self
@@ -762,16 +762,17 @@ RETURN self
 METHOD FillRect( row, col, torow, tocol, defbrush ) CLASS HBPrinter
 
    LOCAL lhb := ::getobjbyname( defbrush, "B" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_fillrect( ::convert( { row, col } ), ::convert( { torow, tocol } ), lhb )
 
 RETURN self
 
 
 METHOD InvertRect( row, col, torow, tocol ) CLASS HBPrinter
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_invertrect( ::convert( { row, col } ), ::convert( { torow, tocol } ) )
 
 RETURN self
@@ -780,8 +781,8 @@ RETURN self
 METHOD Ellipse( row, col, torow, tocol, defpen, defbrush ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" ), lhb := ::getobjbyname( defbrush, "B" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_ellipse( ::convert( { row, col } ), ::convert( { torow, tocol } ), lhp, lhb )
 
 RETURN self
@@ -790,8 +791,8 @@ RETURN self
 METHOD Arc( row, col, torow, tocol, rowsarc, colsarc, rowearc, colearc, defpen ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_arc( ::convert( { row, col } ), ::convert( { torow, tocol } ), ::convert( { rowsarc, colsarc } ), ::convert( { rowearc, colearc } ), lhp )
 
 RETURN self
@@ -800,8 +801,8 @@ RETURN self
 METHOD ArcTo( row, col, torow, tocol, rowrad1, colrad1, rowrad2, colrad2, defpen ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_arcto( ::convert( { row, col } ), ::convert( { torow, tocol } ), ::convert( { rowrad1, colrad1 } ), ::convert( { rowrad2, colrad2 } ), lhp )
 
 RETURN self
@@ -810,8 +811,8 @@ RETURN self
 METHOD Chord( row, col, torow, tocol, rowrad1, colrad1, rowrad2, colrad2, defpen, defbrush ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" ), lhb := ::getobjbyname( defbrush, "B" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_chord( ::convert( { row, col } ), ::convert( { torow, tocol } ), ::convert( { rowrad1, colrad1 } ), ::convert( { rowrad2, colrad2 } ), lhp, lhb )
 
 RETURN self
@@ -820,8 +821,8 @@ RETURN self
 METHOD Pie( row, col, torow, tocol, rowrad1, colrad1, rowrad2, colrad2, defpen, defbrush ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" ), lhb := ::getobjbyname( defbrush, "B" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_pie( ::convert( { row, col } ), ::convert( { torow, tocol } ), ::convert( { rowrad1, colrad1 } ), ::convert( { rowrad2, colrad2 } ), lhp, lhb )
 
 RETURN self
@@ -860,8 +861,8 @@ RETURN self
 METHOD Line( row, col, torow, tocol, defpen ) CLASS HBPrinter
 
    LOCAL lhp := ::getobjbyname( defpen, "P" )
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    ::error = rr_line( ::convert( { row, col } ), ::convert( { torow, tocol } ), lhp )
 
 RETURN self
@@ -925,8 +926,8 @@ METHOD DefineRectRgn( defname, row, col, torow, tocol ) CLASS HBPrinter
    IF lhand <> 0
       RETURN self
    ENDIF
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    AAdd( ::Regions[ 1 ], rr_creatergn( ::convert( { row, col } ), ::convert( { torow, tocol } ), 1 ) )
    AAdd( ::Regions[ 2 ], Upper( AllTrim( defname ) ) )
 
@@ -939,8 +940,8 @@ METHOD DefineEllipticRgn( defname, row, col, torow, tocol ) CLASS HBPrinter
    IF lhand <> 0
       RETURN self
    ENDIF
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    AAdd( ::Regions[ 1 ], rr_creatergn( ::convert( { row, col } ), ::convert( { torow, tocol } ), 2 ) )
    AAdd( ::Regions[ 2 ], Upper( AllTrim( defname ) ) )
 
@@ -953,8 +954,8 @@ METHOD DefineRoundRectRgn( defname, row, col, torow, tocol, widthellipse, height
    IF lhand <> 0
       RETURN self
    ENDIF
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    AAdd( ::Regions[ 1 ], rr_creatergn( ::convert( { row, col } ), ::convert( { torow, tocol } ), 3, ::convert( { widthellipse, heightellipse } ) ) )
    AAdd( ::Regions[ 2 ], Upper( AllTrim( defname ) ) )
 
@@ -1241,11 +1242,11 @@ RETURN rr_gettextalign()
 METHOD Picture( row, col, torow, tocol, cpicture, extrow, extcol ) CLASS HBPrinter
 
    LOCAL lp1 := ::convert( { row, col } ), lp2, lp3
-   hb_Default( @torow, ::maxrow )
-   hb_Default( @tocol, ::maxcol )
+   DEFAULT torow to ::maxrow
+   DEFAULT tocol to ::maxcol
    lp2 := ::convert( { torow, tocol }, 1 )
-   hb_Default( @extrow, 0 )
-   hb_Default( @extcol, 0 )
+   DEFAULT extrow TO 0
+   DEFAULT extcol TO 0
    lp3 := ::convert( { extrow, extcol } )
    rr_drawpicture( cpicture, lp1, lp2, lp3 )
 
@@ -1368,7 +1369,7 @@ METHOD PrevShow() CLASS HBPrinter
    IF azoom[ 3 ] < 30
       scale := scale * 1.25
       ::prevshow()
-      MsgExclamation( aopisy[ 18 ] + " -", aopisy[ 1 ], , .F., .F. )
+      msgstop( aopisy[ 18 ], aopisy[ 1 ], , .F., .F. )
    ENDIF
    HideWindow( ahs[ 6, 7 ] )
    _SetControlHeight( "i1", "hbpreview1", azoom[ 3 ] + 20 )
@@ -1379,7 +1380,7 @@ METHOD PrevShow() CLASS HBPrinter
    IF !rr_previewplay( ahs[ 6, 7 ], ::METAFILES[ page, 1 ], azoom )
       scale := scale / 1.25
       ::PrevShow()
-      MsgExclamation( aopisy[ 18 ] + " +", aopisy[ 1 ], , .F., .F. )
+      msgstop( aopisy[ 18 ], aopisy[ 1 ], , .F., .F. )
    ENDIF
    rr_scrollwindow( ahs[ 5, 7 ], -spos[ 1 ] * azoom[ 4 ], -spos[ 2 ] * azoom[ 3 ] )
    CShowControl( ahs[ 6, 7 ] )
@@ -1451,42 +1452,41 @@ STATIC FUNCTION LangInit
 #ifdef _MULTILINGUAL_
    LOCAL cLang
 #endif
-   LOCAL aLang := {  'Preview', ;    // 01
-							'&Cancel', ;    // 02
-							'&Print', ;     // 03
-							'&Save', ;      // 04
-							'&First', ;     // 05
-							'P&revious', ;  // 06
-							'&Next', ;      // 07
-							'&Last', ;      // 08
-							'Zoom &In', ;   // 09
-							'&Zoom Out', ;  // 10
-							'&Options', ;   // 11
-							'Go To Page:', ;   // 12
-							'Page preview ', ; // 13
-							'Thumbnails preview', ; // 14
-							'Page', ;               // 15
-							'Print only current page', ;  // 16
-							'Pages:', ;        // 17
-							'No more zoom', ;  // 18
-							'Print options', ; // 19
-							'Print from', ; 	 // 20
-							'to', ;    			 // 21
-							'Copies', ;			 // 22
-							'Print Range', ;   // 23 
-							'All from range', ; // 24
-							'Odd only', ;   	  // 25
-							'Even only', ;   	  // 26
-							'All but odd first', ;  // 27
-							'All but even first', ; // 28
-							'Printing ....', ;		// 29
-							'Waiting for paper change...', ; // 30
-							'Sa&ve as...', ; // 31
-							'Save &All', ;   // 32
-							'EMF Files', ;   // 33
-							'All Files', ;   // 34
-							'Ok'         ;   // 35
-						}
+   LOCAL aLang := { 'Preview', ;
+      '&Cancel', ;
+      '&Print', ;
+      '&Save', ;
+      '&First', ;
+      'P&revious', ;
+      '&Next', ;
+      '&Last', ;
+      'Zoom &In', ;
+      '&Zoom Out', ;
+      '&Options', ;
+      'Go To Page:', ;
+      'Page preview ', ;
+      'Thumbnails preview', ;
+      'Page', ;
+      'Print only current page', ;
+      'Pages:', ;
+      'No more zoom !', ;
+      'Print options', ;
+      'Print from', ;
+      'to', ;
+      'Copies', ;
+      'Print Range', ;
+      'All from range', ;
+      'Odd only', ;
+      'Even only', ;
+      'All but odd first', ;
+      'All but even first', ;
+      'Printing ....', ;
+      'Waiting for paper change...', ;
+      'Sa&ve as...', ; // 31
+   'Save &All', ; // 32
+   'EMF Files', ; // 33
+   'All Files'                    ; // 34
+   }
 
 #ifdef _MULTILINGUAL_
    cLang := Upper( Left( Set ( _SET_LANGUAGE ), 2 ) )
@@ -1532,8 +1532,7 @@ STATIC FUNCTION LangInit
          'Ρξυπΰνθςό κΰκ...', ;
          'Ρξυπΰνθςό βρε', ;
          'Τΰιλϋ EMF', ;
-         'Βρε τΰιλϋ',  ;
-			'Ok' ;
+         'Βρε τΰιλϋ'  ;
          }
 
       // Ukrainian
@@ -1571,8 +1570,7 @@ STATIC FUNCTION LangInit
          'Ηαεπεγςθ ÿκ...', ;
          'Ηαεπεγςθ βρε', ;
          'Τΰιλθ EMF', ;
-         'Σρi τΰιλθ', ;
-			'Ok' ;			
+         'Σρi τΰιλθ' ;
          }
 
       // Italian
@@ -1610,8 +1608,7 @@ STATIC FUNCTION LangInit
          'Sa&ve as...', ;
          'Save &All', ;
          'EMF Files', ;
-         'All Files',  ;
-			'Ok' ;
+         'All Files'  ;
          }
 
       // Spanish
@@ -1649,8 +1646,7 @@ STATIC FUNCTION LangInit
          'Sa&ve as...', ;
          'Save &All', ;
          'EMF Files', ;
-         'All Files',  ;
-			'Ok' ;
+         'All Files'  ;
          }
 
       // Polish
@@ -1688,8 +1684,7 @@ STATIC FUNCTION LangInit
          'Zapisz jako..', ;
          'Zapisz wszystko', ;
          'Pliki EMF', ;
-         'Wszystkie pliki', ;
-			'Ok' ;
+         'Wszystkie pliki' ;
          }
 
       // Portuguese
@@ -1727,8 +1722,7 @@ STATIC FUNCTION LangInit
          'Sa&lvar Como...', ;
          'Salvar &Tudo', ;
          'Arquivos EMF', ;
-         'Todos Arquivos', ;
-			'Ok' ;
+         'Todos Arquivos' ;
          }
 
       // German
@@ -1766,8 +1760,7 @@ STATIC FUNCTION LangInit
          'Sa&ve as...', ;
          'Save &All', ;
          'EMF Files', ;
-         'All Files', ;
-			'Ok' ;
+         'All Files' ;
          }
 
       // French
@@ -1805,8 +1798,7 @@ STATIC FUNCTION LangInit
          'Sa&ve as...', ;
          'Save &All', ;
          'EMF Files', ;
-         'All Files', ;
-			'Ok' ;
+         'All Files' ;
          }
 
       // Finnish
@@ -1844,8 +1836,7 @@ STATIC FUNCTION LangInit
          'Tallenna nimellδ...', ;
          'Tallenna kaikki', ;
          'EMF Tiedostot', ;
-         'Kaikki Tiedostot', ;
-			'Ok' ;
+         'Kaikki Tiedostot' ;
          }
 
       // Dutch
@@ -1883,8 +1874,7 @@ STATIC FUNCTION LangInit
          'Be&waar als...', ;
          'Bewaar &Alles', ;
          'EMF-bestanden', ;
-         'Alle bestanden', ;
-			'Ok' ;
+         'Alle bestanden' ;
          }
 
       // Czech
@@ -1923,7 +1913,6 @@ STATIC FUNCTION LangInit
          "Uloit &vechno", ;
          "EMF soubor", ;
          "Vechny soubory", ;
-			'Ok' ;
          }
 
       // Slovak
@@ -1962,7 +1951,6 @@ STATIC FUNCTION LangInit
          "Uloi &vetko", ;
          "EMF sϊbor", ;
          "Vetky sϊbory", ;
-			'Ok' ;
          }
 
       // Slovenian
@@ -2000,8 +1988,7 @@ STATIC FUNCTION LangInit
          'Shrani kot...', ;
          'Shrani vse', ;
          'EMF datoteke', ;
-         'Vse datoteke', ;
-			'Ok' ;
+         'Vse datoteke' ;
          }
 
       // Hungarian
@@ -2040,47 +2027,45 @@ STATIC FUNCTION LangInit
          "Mindet mentsd", ;
          "EMF αllomαny", ;
          "Minden αllomαny", ;
-			'Ok' ;
          }
 
       // Greek - Ellinika
    CASE cLang == 'EL'
-      aLang := {  'Προβολή', ;
-						'Έ&ξοδος', ;
-						'&Εκτύπωση', ;
-						'&Αποθήκευση σελίδας', ;
-						'&1η σελίδα', ;
-						'Π&ροηγ.Σελ.', ;
-						'&Επόμενη', ;
-						'&Τελευταία', ;
-						'Zoom +', ;
-						'Zoom -', ;
-						'&Επιλογές', ;
-						'Προβολή σελίδας:', ;
-						'Προβολή ', ;
-						'Μικρογραφίες', ;
-						'Σελ.', ;
-						'Τύπωσε μόνο την παρούσα', ;
-						'Σελίδες:', ;
-						'Τέλος zoom', ;
-						'Επιλογές', ;
-						'Τύπωσε από σελίδα', ;
-						'Έως σελίδα', ;
-						'Αντίγραφα', ;
-						'Εύρος εκτύπωσης', ;
-						'Ολες τις σελίδες', ;
-						'Μόνο τις μονές σελίδες ', ;
-						'Μόνο τις ζυγές σελίδες', ;
-						'Ολες εκτος απο την 1η μονή', ;
-						'Ολες εκτος απο την 1η ζυγή', ;
-						'Εκτυπώνω ....', ;
-						'Αναμονή για αλλαγή χαρτιού...', ;
-						'Αποθήκευση σελίδας ως..', ;
-						'Αποθήκευση όλων των σελίδων', ;
-						'Αρχεία EMF', ;
-						'Όλα τα αρχεία', ;
-						'Εντάξει' ;
-					}
+      aLang := { 'Προβολή', ;
+         '&Ακυρο', ;
+         '&Τύπωσε', ;
+         '&Σώσε', ;
+         '&1η', ;
+         'Π&ροηγ/νη', ;
+         '&Επομενη', ;
+         '&Τελευτ/α', ;
+         'Zoom +', ;
+         'Zoom -', ;
+         '&Επιλογες', ;
+         'Πηγαινε σελ:', ;
+         'Προβολη ', ;
+         'Μικρογραφίες', ;
+         'Σελ.', ;
+         'Τυπωσε μονο την παρουσα', ;
+         'Σελιδες:', ;
+         'Οχι άλλο zoom !', ;
+         'Επιλογές', ;
+         'Τύπωσε από', ;
+         'έως', ;
+         'Αντίγραφα', ;
+         'Εύρος εκτύπωσης', ;
+         'Ολες απο', ;
+         'Μόνο Μονές ', ;
+         'Μόνο Ζυγές', ;
+         'Ολες εκτος απο την 1η μονή', ;
+         'Ολες εκτος απο την 1η ζυγή', ;
+         'Τυπώνω ....', ;
+         'Αναμονη για αλλαγη χαρτιου...', ;
+         'Αποθήκευση ως..', ;
+         'Αποθήκευση όλων', ;
+         'Αρχεία EMF', ;
+         'Όλα τα αρχεία' ;
+         }
 
       // Bulgarian
    CASE cLang == 'BG'
@@ -2117,8 +2102,7 @@ STATIC FUNCTION LangInit
          'Ρϊυπΰνθ κΰςξ...', ;
          'Ρϊυπΰνθ βρθχκξ', ;
          'Τΰιλξβε EMF', ;
-         'Βρθχκθ τΰιλξβε',  ;
-			'Ok' ;
+         'Βρθχκθ τΰιλξβε'  ;
          }
    ENDCASE
 
@@ -2130,8 +2114,7 @@ RETURN aLang
 METHOD Preview() CLASS HBPrinter
    
    LOCAL i, pi := 1
-   LOCAL cToolButtonFont := GetDefaultFontName() // 'Segoe UI' for Vista or later, 'Tahoma' for XP, "MS Sans Serif" otherwise
-	LOCAL nButtons, nButWidth
+   LOCAL cToolButtonFont := 'Arial Narrow'
    PRIVATE page := 1, scale := ::PREVIEWSCALE, azoom := { 0, 0, 0, 0 }, ahs := {}, npages := {}
    PRIVATE dx, dy, ngroup := -1, ath := {}, iloscstron := Len( ::metafiles )
    PRIVATE aOpisy := LangInit()
@@ -2179,12 +2162,12 @@ METHOD Preview() CLASS HBPrinter
       MODAL NOSIZE ;
       FONT 'Arial' SIZE 9
 
-   _DefineHotKey( "HBPREVIEW", 0,  VK_ESCAPE, {|| ::PrevClose( .T. ) } ) // Escape
-   _DefineHotKey( "HBPREVIEW", 0, VK_ADD, {|| scale := scale * 1.25, ::PrevShow() } ) // zoom in
-   _DefineHotKey( "HBPREVIEW", 0, VK_SUBTRACT, {|| scale := scale / 1.25, ::PrevShow() } ) // zoom out
-   _DefineHotKey( "HBPREVIEW", MOD_CONTROL, VK_P, {|| ::prevprint(), if( ::CLSPREVIEW, ::PrevClose( .F. ), NIL ) } ) // Print
-   _DefineHotKey( "HBPREVIEW", 0,  VK_PRIOR, {|| page := ::CurPage := if( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // back
-   _DefineHotKey( "HBPREVIEW", 0,  VK_NEXT, {|| page := ::CurPage := if( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // next
+   _definehotkey( "HBPREVIEW", 0,  27, {|| ::PrevClose( .T. ) } ) // Escape
+   _definehotkey( "HBPREVIEW", 0, 107, {|| scale := scale * 1.25, ::PrevShow() } ) // zoom in
+   _definehotkey( "HBPREVIEW", 0, 109, {|| scale := scale / 1.25, ::PrevShow() } ) // zoom out
+   _definehotkey( "HBPREVIEW", MOD_CONTROL, VK_P, {|| ::prevprint(), if( ::CLSPREVIEW, ::PrevClose( .F. ), NIL ) } ) // Print
+   _definehotkey( "HBPREVIEW", 0,  33, {|| page := ::CurPage := if( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // back
+   _definehotkey( "HBPREVIEW", 0,  34, {|| page := ::CurPage := if( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // next
 
    DEFINE STATUSBAR
       STATUSITEM aopisy[ 15 ] + " " + hb_ntos( page ) WIDTH 100
@@ -2192,40 +2175,28 @@ METHOD Preview() CLASS HBPrinter
       STATUSITEM aopisy[ 17 ] + " " + hb_ntos( iloscstron ) WIDTH 100
    END STATUSBAR
 
-   // @ 15, ahs[ 1, 6 ] - 277  COMBOBOX combo_1 ITEMS npages VALUE 1 WIDTH 58 FONT 'Arial' SIZE 8 NOTABSTOP ON CHANGE {|| page := ::CurPage := HBPREVIEW.combo_1.value, ::PrevShow() }
-   // @ 19, ahs[ 1, 6 ] - 384 LABEL prl VALUE aopisy[ 12 ] WIDTH 100 HEIGHT 18 FONT 'Arial' SIZE 8 BACKCOLOR iif( isseven(), { 211, 218, 237 }, iif( _HMG_IsXP, { 239, 235, 219 }, NIL ) ) RIGHTALIGN
-	
-	nButWidth := 75
-	
-//	@ 19, ahs[ 1, 6 ] - ((nButtons * nButWidth) -   5) LABEL prl VALUE aopisy[ 12 ] WIDTH 100 HEIGHT 18 FONT 'Arial' SIZE 8 BACKCOLOR iif( isseven(), { 211, 218, 237 }, iif( _HMG_IsXP, { 239, 235, 219 }, NIL ) ) RIGHTALIGN
-//	@ 15, ahs[ 1, 6 ] - ((nButtons * nButWidth) -   5) + 105 COMBOBOX combo_1 ITEMS npages VALUE 1 WIDTH 58 FONT 'Arial' SIZE 8 NOTABSTOP ON CHANGE {|| page := ::CurPage := HBPREVIEW.combo_1.value, ::PrevShow() }	
-	IF iloscstron > 1
-		nButtons := 10 // 6 + Iif( iloscstron > 1, 4 , 0 )
-		@ 19, ( (nButtons * nButWidth) +  60 ) LABEL prl VALUE aopisy[ 12 ] WIDTH 100 HEIGHT 18 FONT 'Arial' SIZE 8 BACKCOLOR iif( isseven(), { 211, 218, 237 }, iif( _HMG_IsXP, { 239, 235, 219 }, NIL ) ) RIGHTALIGN
-		@ 15, ( (nButtons * nButWidth) + 170 ) COMBOBOX combo_1 ITEMS npages VALUE 1 WIDTH 40 FONT 'Arial' SIZE 8 NOTABSTOP ON CHANGE {|| page := ::CurPage := HBPREVIEW.combo_1.value, ::PrevShow() }	
-	ENDIF
+   @ 19, ahs[ 1, 6 ] - 184 LABEL prl VALUE aopisy[ 12 ] WIDTH 100 HEIGHT 18 FONT 'Arial' SIZE 8 BACKCOLOR iif( IsAppXPThemed(), iif( isseven(), { 211, 218, 237 }, iif( _HMG_IsXP, { 239, 235, 219 }, nRGB2Arr( GetSysColor( 5 ) ) ) ), NIL ) RIGHTALIGN
+   @ 15, ahs[ 1, 6 ] - 77  COMBOBOX combo_1 ITEMS npages VALUE 1 WIDTH 58 FONT 'Arial' SIZE 8 ON CHANGE {|| page := ::CurPage := HBPREVIEW.combo_1.value, ::PrevShow() }
 
    DEFINE SPLITBOX
-      DEFINE TOOLBAR TB1 BUTTONSIZE /*50, 37*/ nButWidth, 40 FONT iif( AScan( rr_GetFontNames(), {| x | x == cToolButtonFont } ) > 0, cToolButtonFont, 'Arial' ) SIZE 8 FLAT BREAK
-
-			BUTTON B2 CAPTION  aopisy[ 3 ]  PICTURE 'hbprint_print'   ACTION {|| ::prevprint(), iif( ::CLSPREVIEW, ::PrevClose( .F. ), nil ) }
+      DEFINE TOOLBAR TB1 BUTTONSIZE 50, 37 FONT iif( AScan( rr_GetFontNames(), {| x | x == cToolButtonFont } ) > 0, cToolButtonFont, 'Arial' ) SIZE 8 FLAT BREAK
          BUTTON B3 CAPTION  aopisy[ 4 ]  PICTURE 'hbprint_save'  WHOLEDROPDOWN
          DEFINE DROPDOWN MENU BUTTON B3
             ITEM aopisy[ 4 ]  ACTION {|| ::savemetafiles( ::CurPage ) }
             ITEM aopisy[ 31 ] ACTION {|| pi := Putfile ( { { aopisy[ 33 ], '*.emf' }, { aopisy[ 34 ], '*.*' } }, , GetStartUpFolder(), .T., ::DOCNAME ), iif( Empty( pi ), , ::savemetafiles( ::CurPage, pi ) ) }
             ITEM aopisy[ 32 ] ACTION {|| ::savemetafiles() }
-			END MENU
-			BUTTON B1 CAPTION  aopisy[ 2 ]  PICTURE 'hbprint_close'   ACTION {|| ::PrevClose( .T. ) } SEPARATOR			
-			BUTTON B10 CAPTION aopisy[ 11 ] PICTURE 'hbprint_option'  ACTION {|| ::PrintOption() } SEPARATOR
-			BUTTON B8 CAPTION  aopisy[ 9 ]  PICTURE 'hbprint_zoomin'  ACTION {|| scale := scale * 1.25, ::PrevShow() }
-			BUTTON B9 CAPTION  aopisy[ 10 ] PICTURE 'hbprint_zoomout' ACTION {|| scale := scale / 1.25, ::PrevShow() } SEPARATOR			
-			IF iloscstron > 1
-				BUTTON B4 CAPTION  aopisy[ 5 ] PICTURE 'hbprint_top'   ACTION {|| page := ::CurPage := 1, HBPREVIEW.combo_1.value := page, ::PrevShow() }
-				BUTTON B5 CAPTION  aopisy[ 6 ] PICTURE 'hbprint_back'  ACTION {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() }
-				BUTTON B6 CAPTION  aopisy[ 7 ] PICTURE 'hbprint_next'  ACTION {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() }
-				BUTTON B7 CAPTION  aopisy[ 8 ] PICTURE 'hbprint_end'   ACTION {|| page := ::CurPage := iloscstron, HBPREVIEW.combo_1.value := page, ::PrevShow() } SEPARATOR
-			ENDIF
-
+        END MENU
+        BUTTON B2 CAPTION  aopisy[ 3 ]  PICTURE 'hbprint_print'   ACTION {|| ::prevprint(), iif( ::CLSPREVIEW, ::PrevClose( .F. ), nil ) }
+        BUTTON B10 CAPTION aopisy[ 11 ] PICTURE 'hbprint_option'  ACTION {|| ::PrintOption() } SEPARATOR
+        IF iloscstron > 1
+           BUTTON B4 CAPTION  aopisy[ 5 ] PICTURE 'hbprint_top'   ACTION {|| page := ::CurPage := 1, HBPREVIEW.combo_1.value := page, ::PrevShow() }
+           BUTTON B5 CAPTION  aopisy[ 6 ] PICTURE 'hbprint_back'  ACTION {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() }
+           BUTTON B6 CAPTION  aopisy[ 7 ] PICTURE 'hbprint_next'  ACTION {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() }
+           BUTTON B7 CAPTION  aopisy[ 8 ] PICTURE 'hbprint_end'   ACTION {|| page := ::CurPage := iloscstron, HBPREVIEW.combo_1.value := page, ::PrevShow() } SEPARATOR
+        ENDIF
+        BUTTON B8 CAPTION  aopisy[ 9 ]  PICTURE 'hbprint_zoomin'  ACTION {|| scale := scale * 1.25, ::PrevShow() }
+        BUTTON B9 CAPTION  aopisy[ 10 ] PICTURE 'hbprint_zoomout' ACTION {|| scale := scale / 1.25, ::PrevShow() } SEPARATOR
+        BUTTON B1 CAPTION  aopisy[ 2 ]  PICTURE 'hbprint_close'   ACTION {|| ::PrevClose( .T. ) } SEPARATOR
       END TOOLBAR
 
       AAdd( ahs, { 0, 0, 0, 0, 0, 0, GetFormHandle( "hbpreview" ) } )
@@ -2239,33 +2210,30 @@ METHOD Preview() CLASS HBPrinter
       WIDTH ahs[ 2, 6 ] - 15  HEIGHT ahs[ 2, 5 ] - ahs[ 3, 5 ] - ahs[ 4, 5 ] - 10 ;
       VIRTUAL WIDTH ahs[ 2, 6 ] - 5;
       VIRTUAL HEIGHT ahs[ 2, 5 ] - ahs[ 3, 5 ] - ahs[ 4, 5 ] ;
-		SPLITCHILD NOCAPTION //GRIPPERTEXT "P"
-      // TITLE aopisy[ 13 ] SPLITCHILD GRIPPERTEXT "P"
+      TITLE aopisy[ 13 ] SPLITCHILD GRIPPERTEXT "P"
 
       AAdd( ahs, { 0, 0, 0, 0, 0, 0, GetFormHandle( "hbpreview1" ) } )
       rr_getclientrect( ahs[ 5 ] )
       @ ahs[ 5, 2 ] + 10, ahs[ 5, 1 ] + 10 IMAGE I1  PICTURE "" WIDTH ahs[ 5, 6 ] - 10 HEIGHT ahs[ 5, 5 ] - 10
-		// @ ahs[ 5, 2 ] + 10, ((ahs[ 2, 6 ] - 15)/2) - ((ahs[ 5, 6 ] - 10)/4) IMAGE I1  PICTURE "" WIDTH ahs[ 5, 6 ] - 10 HEIGHT ahs[ 5, 5 ] - 10
       AAdd( ahs, { 0, 0, 0, 0, 0, 0, GetControlHandle( "i1", "hbpreview1" ) } )
       rr_getclientrect( ahs[ 6 ] )
 
-      _DefineHotKey( "HBPREVIEW1", 0, VK_ESCAPE,      {|| _ReleaseWindow( "HBPREVIEW" ) } )
-      _DefineHotKey( "HBPREVIEW1", 0, VK_ADD,         {|| scale := scale * 1.25, :: PrevShow () } )
-      _DefineHotKey( "HBPREVIEW1", 0, VK_SUBTRACT,    {|| scale := scale / 1.25, :: PrevShow () } )
-      _DefineHotKey( "HBPREVIEW1", MOD_CONTROL, VK_P, {|| ::prevprint(), iif( ::CLSPREVIEW, ::PrevClose( .F. ), NIL ) } ) // Print
+      _definehotkey( "HBPREVIEW1", 0,  27, {|| _ReleaseWindow( "HBPREVIEW" ) } )
+      _definehotkey( "HBPREVIEW1", 0, 107, {|| scale := scale * 1.25, :: PrevShow () } )
+      _definehotkey( "HBPREVIEW1", 0, 109, {|| scale := scale / 1.25, :: PrevShow () } )
+      _definehotkey( "HBPREVIEW1", MOD_CONTROL, VK_P, {|| ::prevprint(), iif( ::CLSPREVIEW, ::PrevClose( .F. ), NIL ) } ) // Print
 
    IF iloscstron > 1
-      _DefineHotKey( "HBPREVIEW1", 0, VK_PRIOR, {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // back
-      _DefineHotKey( "HBPREVIEW1", 0, VK_NEXT,  {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // next
-      _DefineHotKey( "HBPREVIEW1", 0, VK_END,   {|| page := ::CurPage := iloscstron, HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // end
-      _DefineHotKey( "HBPREVIEW1", 0, VK_HOME,  {|| page := ::CurPage := 1, HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // home
-      _DefineHotKey( "HBPREVIEW1", 0, VK_LEFT,  {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // Left
-      _DefineHotKey( "HBPREVIEW1", 0, VK_UP,    {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // up
-      _DefineHotKey( "HBPREVIEW1", 0, VK_RIGHT, {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // right
-      _DefineHotKey( "HBPREVIEW1", 0, VK_DOWN,  {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // down
+      _definehotkey( "HBPREVIEW1", 0, 33, {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // back
+      _definehotkey( "HBPREVIEW1", 0, 34, {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // next
+      _definehotkey( "HBPREVIEW1", 0, 35, {|| page := ::CurPage := iloscstron, HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // end
+      _definehotkey( "HBPREVIEW1", 0, 36, {|| page := ::CurPage := 1, HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // home
+      _definehotkey( "HBPREVIEW1", 0, 37, {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // Left
+      _definehotkey( "HBPREVIEW1", 0, 38, {|| page := ::CurPage := iif( page == 1, 1, page - 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // up
+      _definehotkey( "HBPREVIEW1", 0, 39, {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // right
+      _definehotkey( "HBPREVIEW1", 0, 40, {|| page := ::CurPage := iif( page == iloscstron, page, page + 1 ), HBPREVIEW.combo_1.value := page, ::PrevShow() } ) // down
    ENDIF
    END WINDOW
-	CENTER WINDOW HBPREVIEW1
 
    IF ::thumbnails .AND. iloscstron > 1
       DEFINE WINDOW HBPREVIEW2  ;
@@ -2344,9 +2312,8 @@ METHOD PrintOption() CLASS HBPrinter
    IF IsWindowDefined( PrOpt ) == .F.
 
       SET GETBOX FOCUS BACKCOLOR
-      
-      /*
-		DEFINE WINDOW PrOpt AT 0, 0 ;
+
+      DEFINE WINDOW PrOpt AT 0, 0 ;
          WIDTH 300 HEIGHT 150 ;
          TITLE aopisy[ 19 ] ;
          ICON 'zzz_Printicon' ;
@@ -2354,15 +2321,17 @@ METHOD PrintOption() CLASS HBPrinter
          NOSIZE ;
          FONT 'Arial' SIZE 9
 
-      @  2,   2 FRAME   PrOptFrame  WIDTH 290 HEIGHT 118 - iif( _HMG_IsXP, GetBorderHeight(), 0 )
-      @ 18,  10 LABEL   label_11  VALUE aopisy[ 20 ] WIDTH 79 HEIGHT 21 FONT 'Arial' SIZE 9  VCENTERALIGN
-      @ 18,  90 TEXTBOX textFrom HEIGHT 21 WIDTH 33 NUMERIC Font 'Arial' SIZE 9 MAXLENGTH 3 RIGHTALIGN ON ENTER PrOpt.TextTo.setfocus
-      @ 18, 134 LABEL   label_12  VALUE aopisy[ 21 ] WIDTH 14 HEIGHT 21 FONT 'Arial' SIZE 9  VCENTERALIGN
-      @ 18, 156 TEXTBOX textTo HEIGHT 21 WIDTH 33 NUMERIC Font 'Arial' SIZE 9 MAXLENGTH 3 RIGHTALIGN ON ENTER PrOpt.TextCopies.setfocus
-      @ 18, 200 LABEL   label_18  VALUE aopisy[ 22 ] WIDTH 40 HEIGHT 21 FONT 'Arial' SIZE 9  VCENTERALIGN
-      @ 18, 252 TEXTBOX textCopies  HEIGHT 21 WIDTH 30 NUMERIC Font 'Arial' SIZE 9 MAXLENGTH 3 RIGHTALIGN ON ENTER PrOpt.prnCombo.setfocus
-      @ 50,  10 LABEL   label_13  VALUE aopisy[ 23 ] WIDTH 79 HEIGHT 21 FONT 'Arial' SIZE 9  VCENTERALIGN
-      @ 50,  90 COMBOBOX prnCombo VALUE ::PRINTOPT ITEMS { aopisy[ 24 ], aopisy[ 25 ], aopisy[ 26 ], aopisy[ 27 ], aopisy[ 28 ] } ;
+      @ 2, 2    FRAME   PrOptFrame  WIDTH 290 HEIGHT 118 - iif( _HMG_IsXP, GetBorderHeight(), 0 )
+      @ 18, 10  LABEL   label_11  VALUE aopisy[ 20 ] WIDTH 79 HEIGHT 21 FONT 'Arial' SIZE 9 BOLD VCENTERALIGN
+      @ 18, 90  GETBOX textFrom HEIGHT 21 WIDTH 33 VALUE Max( ::nFromPage, 1 ) PICTURE '999' ;
+         VALID {|| (This.Value > 0 .AND. This.Value <= PrOpt.textTo.Value)} FONT 'Arial' SIZE 9 RIGHTALIGN
+      @ 18, 134 LABEL   label_12  VALUE aopisy[ 21 ] WIDTH 14 HEIGHT 21 FONT 'Arial' SIZE 9 BOLD VCENTERALIGN
+      @ 18, 156 GETBOX textTo HEIGHT 21 WIDTH 33 VALUE ::nToPage PICTURE '999' ;
+         VALID {|| (This.Value >= Getproperty('PrOpt','textFrom','Value') .AND. This.Value <= ::ntopage)} FONT 'Arial' SIZE 9 RIGHTALIGN
+      @ 18, 200 LABEL   label_18  VALUE aopisy[ 22 ] WIDTH 40 HEIGHT 21 FONT 'Arial' SIZE 9 BOLD VCENTERALIGN
+      @ 18, 252 GETBOX textCopies  HEIGHT 21 WIDTH 30 VALUE ::nCopies PICTURE '999' FONT 'Arial' SIZE 9 RIGHTALIGN
+      @ 50, 10  LABEL   label_13  VALUE aopisy[ 23 ] WIDTH 79 HEIGHT 21 FONT 'Arial' SIZE 9 BOLD VCENTERALIGN
+      @ 50, 90  COMBOBOX prnCombo VALUE ::PRINTOPT ITEMS { aopisy[ 24 ], aopisy[ 25 ], aopisy[ 26 ], aopisy[ 27 ], aopisy[ 28 ] } ;
          WIDTH 195 FONT 'Arial' SIZE 9 ON ENTER PrOpt.Button_14.setfocus
 
       @ 84, 90  BUTTON button_14 CAPTION "&OK" ;
@@ -2377,12 +2346,8 @@ METHOD PrintOption() CLASS HBPrinter
          FONT 'Arial' SIZE 9
 
       END WINDOW
-		*/
-		LOAD WINDOW PrOpt
-      _DefineHotKey( "PrOpt", 0, VK_ESCAPE, {|| _ReleaseWindow( "PrOpt" ) } )
-      PrOpt.textCopies.Value := ::nCopies
-      PrOpt.textFrom.Value := Max( ::nfrompage, 1 )
-      PrOpt.textTo.Value := iif( ::nwhattoprint < 2, iloscstron, ::ntopage )
+
+      _definehotkey( "PrOpt", 0, 27, {|| _ReleaseWindow( "PrOpt" ) } )
       PrOpt.Center
       PrOpt.Activate
 

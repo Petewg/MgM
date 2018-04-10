@@ -1,0 +1,33 @@
+; Language File for Shutdown Utility
+
+[Data]
+RadioButtonTime=Parar el ordenador a una hora especificada
+RadioButtonTimeLeft=Parar el ordenador después de un tiempo
+CheckBoxWindow=o parar si esta ventana desaparece
+LabelWindowTitle=Título:
+LabelClock=
+LabelProcess=¿Qué acción debo hacer?
+RadioButtonShutdown=Parar
+RadioButtonReboot=Reiniciar
+RadioButtonLogOff=Salir del usuario
+CheckBoxPowerOff=Apagar el ordenador después de parar
+CheckBoxForceMode=Forzar acción si un programa bloqueado
+CheckBoxStayOnTop=La ventana permanecerá en lo alto
+LabelLanguage=Lenguaje:
+
+WaitTitle=¡La utilidad Shutdown está activa!
+LabelWindowInfo=o si el siguiente título de ventana desaparece:
+LabelTopShutdown=Tiempo restante hasta parar ordenador:
+LabelTopReboot=Tiempo restante para reiniciar ordenador:
+LabelTopLogOff=Tiempo restante para salir del usuario:
+
+TitleError=Error
+TitleWarning=Alerta
+TitleInformation=Información
+TitleAbout=Acerca de...
+
+ButtonStart=¡¡¡Iniciar!
+ButtonExit=Salir
+ButtonAbout=Acerca de...
+ButtonOk=OK
+ButtonCancel=Cancelar

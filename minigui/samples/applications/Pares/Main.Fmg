@@ -1,0 +1,230 @@
+* HMG-IDE UNICODE Form Designer Generated Code
+* (c) Roberto Lopez - http://sites.google.com/site/hmgweb
+
+DEFINE WINDOW TEMPLATE AT 0 , 0 WIDTH 486 HEIGHT 486 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Encontrar figuras pares" ICON NIL MAIN CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR {0,34,0} NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE MAIN MENU
+        DEFINE POPUP "&Archivo"
+            MENUITEM "&Reiniciar el juego" ACTION Reiniciar()
+            MENUITEM "&Salir de la aplicación" ACTION Salir()
+        END POPUP
+        DEFINE POPUP "A&yuda"
+            MENUITEM "&Acerca de..." ACTION AcercaDe()
+        END POPUP
+    END MENU
+
+    DEFINE IMAGE IMG_01
+        ROW    30
+        COL    20
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[1],"IMG_01")
+    END IMAGE
+
+    DEFINE IMAGE IMG_02
+        ROW    30
+        COL    130
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[2],"IMG_02")
+    END IMAGE
+
+    DEFINE IMAGE IMG_03
+        ROW    30
+        COL    240
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[3],"IMG_03")
+    END IMAGE
+
+    DEFINE IMAGE IMG_04
+        ROW    30
+        COL    350
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[4],"IMG_04")
+    END IMAGE
+
+    DEFINE IMAGE IMG_05
+        ROW    140
+        COL    20
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[5],"IMG_05")
+    END IMAGE
+
+    DEFINE IMAGE IMG_06
+        ROW    140
+        COL    130
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[6],"IMG_06")
+    END IMAGE
+
+    DEFINE IMAGE IMG_07
+        ROW    140
+        COL    240
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[7],"IMG_07")
+    END IMAGE
+
+    DEFINE IMAGE IMG_08
+        ROW    140
+        COL    350
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[8],"IMG_08")
+    END IMAGE
+
+    DEFINE IMAGE IMG_09
+        ROW    250
+        COL    20
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[9],"IMG_09")
+    END IMAGE
+
+    DEFINE IMAGE IMG_10
+        ROW    250
+        COL    130
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[10],"IMG_10")
+    END IMAGE
+
+    DEFINE IMAGE IMG_11
+        ROW    250
+        COL    240
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[11],"IMG_11")
+    END IMAGE
+
+    DEFINE IMAGE IMG_12
+        ROW    250
+        COL    350
+        WIDTH  100
+        HEIGHT 100
+        PICTURE "Oculto"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Mostrar(acCargado[12],"IMG_12")
+    END IMAGE
+
+    DEFINE FRAME Frame_1
+        ROW    10
+        COL    10
+        WIDTH  450
+        HEIGHT 360
+        FONTNAME "Arial"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION NIL
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE BUTTON BTN_Salir
+        ROW    390
+        COL    240
+        WIDTH  100
+        HEIGHT 28
+        ACTION Salir()
+        CAPTION "&Salir"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+    DEFINE BUTTON Button_1
+        ROW    390
+        COL    120
+        WIDTH  100
+        HEIGHT 28
+        ACTION Reiniciar()
+        CAPTION "&Reiniciar"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+END WINDOW
+

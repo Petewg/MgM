@@ -8,82 +8,94 @@
 ANNOUNCE RDDSYS
 
 #include "minigui.ch"
+#include "i_winuser.ch"
 
-Function Main
+//////////////////////////////////////////////////////////////////////////////
+procedure Main()
 
-	DEFINE WINDOW Form_1 ;
-		AT 0,0 ;
-		WIDTH GetDesktopWidth() HEIGHT GetDesktopHeight() ;
-		TITLE 'Demo for Gradient Background' ;
-		MAIN ;
-		ICON 'MAIN' ;
-		NOMAXIMIZE NOSIZE ;
-		ON PAINT ( FillBlue(_HMG_MainHandle), TextPaint() )
+   SET EVENTS FUNC TO App_OnEvents
 
-		ON KEY ESCAPE ACTION ThisWindow.Release
+   DEFINE WINDOW Form_1 ;
+      TITLE 'Demo for Gradient Background' ;
+      MAIN ;
+      NOMAXIMIZE NOSIZE ;
+      ICON 'MAIN'
 
-	END WINDOW
+   END WINDOW
 
-	CENTER WINDOW Form_1
+   ON KEY ESCAPE OF Form_1 ACTION ThisWindow.Release()
 
-	ACTIVATE WINDOW Form_1
+   ACTIVATE WINDOW Form_1
 
-Return Nil
+return
 
+//////////////////////////////////////////////////////////////////////////////
+function App_OnEvents( hWnd, nMsg, wParam, lParam )
 
-Procedure TextPaint()
+   local nResult
 
-      DRAW TEXT IN WINDOW Form_1 AT 10, 14 ;
-		VALUE "Program Setup" ;
-		FONT "Verdana" SIZE 24 BOLD ITALIC ;
-		FONTCOLOR WHITE TRANSPARENT
+   switch nMsg
+   case WM_ERASEBKGND
+      nResult := FillBlue( hWnd )
+      exit
+   case WM_PAINT
+      nResult := App_OnPaint( hWnd )
+      exit
+   otherwise
+      nResult := Events( hWnd, nMsg, wParam, lParam )
+   end
 
-      DRAW TEXT IN WINDOW Form_1 AT Form_1.Height - 54, Form_1.Width - 230 ;
-		VALUE "Copyright (c) 2003 by Grigory Filatov" ;
-		FONT "Tahoma" SIZE 10 ITALIC ;
-		FONTCOLOR WHITE TRANSPARENT
+return nResult
 
-Return
+//////////////////////////////////////////////////////////////////////////////
+function App_OnPaint( hWnd )
 
+   local aRect := { 0, 0, 0, 0 }
+   local hDC, pPS
+   local cRect := ""
 
-#pragma BEGINDUMP
+   hDC := BeginPaint( hWnd, @pPS )
 
-#include <windows.h>
-#include "hbapi.h"
+   DRAW TEXT IN hDC AT 10, 14 ;
+      VALUE "Program Setup" ;
+      FONT "Verdana" SIZE 24 BOLD ITALIC ;
+      FONTCOLOR WHITE TRANSPARENT ;
+      ONCE
 
-HB_FUNC( FILLBLUE )
-{   
-    HWND   hwnd;
-    HBRUSH brush;
-    RECT   rect;
-    HDC    hdc;
-    int    cx;
-    int    cy;
-    int    blue = 200;
-    int    steps;
-    int    i;
+   DRAW TEXT IN hDC AT Form_1.Height - 54, Form_1.Width - 270 ;
+      VALUE "Copyright (c) 2003-2017 by Grigory Filatov" ;
+      FONT "Tahoma" SIZE 10 ITALIC ;
+      FONTCOLOR WHITE TRANSPARENT ;
+      ONCE
 
-    hwnd = (HWND) hb_parnl (1);
-    hdc  = GetDC(hwnd);
+   EndPaint( hWnd, pPS )
 
-    GetClientRect(hwnd, &rect);
+return 0
 
-    cx = rect.top;
-    cy = rect.bottom;
-    steps = (cy - cx) / 5 + 1;
-    rect.bottom = 0;
+//////////////////////////////////////////////////////////////////////////////
+function FillBlue( hWnd )
 
-    for( i = 0 ; i < steps ; i++ )
-    {
-        rect.bottom += 5;
-        brush = CreateSolidBrush( RGB(0, 0, blue) );
-        FillRect(hdc, &rect, brush);
-        DeleteObject(brush);
-        rect.top += 5;
-        blue -= 1;
-    }
+   local hDC := GetDC( hWnd )
+   local aRect := { 0, 0, 0, 0 }
+   local cx, cy, nSteps, nI, blue := 200
+   local brush
 
-    ReleaseDC(hwnd, hdc);
-}
+   GetClientRect( hWnd, @aRect )
 
-#pragma ENDDUMP
+   cx := aRect[2]
+   cy := aRect[4]
+   nSteps = (cy - cx) / 5
+   aRect[4] := 0
+
+   for nI := 0 to nSteps
+      aRect[4] += 5
+
+      brush := CreateSolidBrush( 0, 0, blue-- ) ; FillRect( hdc, aRect, brush )
+      DeleteObject( brush )
+
+      aRect[2] += 5
+   next
+
+   ReleaseDC( hWnd, hDC );
+
+return 1

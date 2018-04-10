@@ -1,0 +1,164 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2010 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 182 , 239 WIDTH 400 HEIGHT 244 TITLE "Tab Demo" MAIN
+
+  DEFINE TAB Tab_1 AT 10,10 WIDTH 370 HEIGHT 190 VALUE 1 FONT "Arial" SIZE 9 TOOLTIP "" ON CHANGE Nil
+
+    PAGE "Page 1"
+
+        DEFINE FRAME Frame_3
+               ROW    50
+               COL    40
+               WIDTH  300
+               HEIGHT 110
+               FONTSIZE 12
+               OPAQUE .T.
+        END FRAME  
+
+        DEFINE LABEL Label_1
+               ROW    80
+               COL    60
+               WIDTH  120
+               HEIGHT 24
+               VALUE "Label_1"
+        END LABEL  
+
+        DEFINE TEXTBOX Text_1
+               ROW    80
+               COL    190
+               WIDTH  120
+               HEIGHT 24
+        END TEXTBOX 
+
+        DEFINE LABEL Label_2
+               ROW    110
+               COL    60
+               WIDTH  120
+               HEIGHT 24
+               VALUE "Label_2"
+        END LABEL  
+
+        DEFINE TEXTBOX Text_2
+               ROW    110
+               COL    190
+               WIDTH  120
+               HEIGHT 24
+        END TEXTBOX 
+
+    END PAGE 
+
+    PAGE "Page 2"
+
+        DEFINE RADIOGROUP RadioGroup_1
+               ROW    80
+               COL    130
+               WIDTH  120
+               HEIGHT 50
+               OPTIONS { 'Option 1','Option 2'}
+               VALUE 1
+        END RADIOGROUP  
+
+        DEFINE FRAME Frame_1
+               ROW    50
+               COL    100
+               WIDTH  160
+               HEIGHT 110
+               OPAQUE .T.
+        END FRAME  
+
+    END PAGE 
+
+    PAGE "Page 3"
+
+        DEFINE FRAME Frame_2
+               ROW    50
+               COL    50
+               WIDTH  290
+               HEIGHT 110
+               OPAQUE .T.
+        END FRAME  
+
+       DEFINE CHECKBOX Check_1
+              ROW    70
+              COL    80
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Check_1"
+        END CHECKBOX  
+
+       DEFINE CHECKBOX Check_2
+              ROW    120
+              COL    80
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Check_2"
+        END CHECKBOX  
+
+       DEFINE CHECKBOX Check_3
+              ROW    70
+              COL    210
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Check_3"
+        END CHECKBOX  
+
+       DEFINE CHECKBOX Check_5
+              ROW    120
+              COL    210
+              WIDTH  100
+              HEIGHT 28
+              CAPTION "Check_5"
+        END CHECKBOX  
+
+    END PAGE 
+
+    PAGE "Page 4"
+
+        DEFINE FRAME Frame_4
+               ROW    50
+               COL    60
+               WIDTH  260
+               HEIGHT 110
+               OPAQUE .T.
+        END FRAME  
+
+        DEFINE SLIDER Slider_1
+               ROW    90
+               COL    120
+               WIDTH  120
+               HEIGHT 35
+               RANGEMIN 1
+               RANGEMAX 10
+        END SLIDER  
+
+    END PAGE 
+
+    PAGE "Page 5"
+
+        DEFINE FRAME Frame_5
+               ROW    50
+               COL    40
+               WIDTH  300
+               HEIGHT 110
+               OPAQUE .T.
+        END FRAME  
+
+        DEFINE HYPERLINK HyperLink_1
+               ROW    90
+               COL    70
+               WIDTH  200
+               HEIGHT 21
+               VALUE "http://www.geocities.com/harbour_minigui"
+               ADDRESS "http://www.geocities.com/harbour_minigui"
+               AUTOSIZE .T.
+               HANDCURSOR .T.
+        END HYPERLINK  
+
+    END PAGE 
+
+  END TAB 
+
+END WINDOW
+
+

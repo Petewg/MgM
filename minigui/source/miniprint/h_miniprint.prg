@@ -416,6 +416,8 @@ Local icb
 		_HMG_PRINTER_PREVIEW_DISABLESCROLLBARS (GetFormHandle('_HMG_PRINTER_SHOWTHUMBNAILS'))
 	endif
 
+	SET INTERACTIVECLOSE OFF
+
 	DEFINE WINDOW _HMG_PRINTER_PPNAV ;
 			AT 1 + iif ( IsVistaThemed , 3 , 0 ) , GetDesktopWidth() - 320 - iif ( IsVistaThemed , 5 , 0 ) ;
 			WIDTH 312 + GetBorderWidth() ;
@@ -1050,7 +1052,7 @@ Function GetPrinter()
 *------------------------------------------------------------------------------*
 Local RetVal		:= ''
 Local Printers		:= asort (aPrinters())
-Local cDefaultPrinter	:= win_printerGetDefault()
+Local cDefaultPrinter	:= GetDefaultPrinter()
 Local i
 Local nInitPosition	:= 0
 
@@ -2102,7 +2104,8 @@ Return
 *------------------------------------------------------------------------------*
 FUNCTION _hmg_printer_setjobname( cName )
 *------------------------------------------------------------------------------*
-   RETURN hb_defaultValue( cName , 'HMGPrintSys' ) // avoid problematic (long & spaced) name
+RETURN hb_defaultValue( cName , 'Harbour MiniGUI Print System' )
+
 *------------------------------------------------------------------------------*
 FUNCTION HMG_PrintGetJobInfo ( aJobData )   // by Dr. Claudio Soto, August 2015
 *------------------------------------------------------------------------------*

@@ -1,0 +1,86 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+#define IDI_MAIN 1001
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAIN                ICON                    "res\TrayDay.ico"
+IDI_ICON9               ICON                    "res\icon9.ico"
+IDI_ICON8               ICON                    "res\icon8.ico"
+IDI_ICON7               ICON                    "res\icon7.ico"
+IDI_ICON6               ICON                    "res\icon6.ico"
+IDI_ICON5               ICON                    "res\icon5.ico"
+IDI_ICON4               ICON                    "res\icon4.ico"
+IDI_ICON31              ICON                    "res\icon31.ico"
+IDI_ICON30              ICON                    "res\icon30.ico"
+IDI_ICON3               ICON                    "res\icon3.ico"
+IDI_ICON29              ICON                    "res\icon29.ico"
+IDI_ICON28              ICON                    "res\icon28.ico"
+IDI_ICON27              ICON                    "res\icon27.ico"
+IDI_ICON26              ICON                    "res\icon26.ico"
+IDI_ICON25              ICON                    "res\icon25.ico"
+IDI_ICON24              ICON                    "res\icon24.ico"
+IDI_ICON23              ICON                    "res\icon23.ico"
+IDI_ICON22              ICON                    "res\icon22.ico"
+IDI_ICON21              ICON                    "res\icon21.ico"
+IDI_ICON20              ICON                    "res\icon20.ico"
+IDI_ICON2               ICON                    "res\icon2.ico"
+IDI_ICON19              ICON                    "res\icon19.ico"
+IDI_ICON18              ICON                    "res\icon18.ico"
+IDI_ICON17              ICON                    "res\icon17.ico"
+IDI_ICON16              ICON                    "res\icon16.ico"
+IDI_ICON15              ICON                    "res\icon15.ico"
+IDI_ICON14              ICON                    "res\icon14.ico"
+IDI_ICON13              ICON                    "res\icon13.ico"
+IDI_ICON12              ICON                    "res\icon12.ico"
+IDI_ICON11              ICON                    "res\icon11.ico"
+IDI_ICON10              ICON                    "res\icon10.ico"
+IDI_ICON1               ICON                    "res\icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_DOWN BITMAP "menu\Down.bmp"
+IDB_SHUFFLE BITMAP "menu\Shuffle.bmp"
+IDB_HELP BITMAP "menu\Help.bmp"
+IDB_INFO BITMAP "menu\Info.bmp"
+IDB_MAIL BITMAP "menu\Mail.bmp"
+IDB_EXIT BITMAP "menu\Exit.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Displays the date in the system tray\000"
+		VALUE "FileVersion", "1.1.0.0"
+		VALUE "InternalName", "TrayCalendar\000"
+		VALUE "LegalCopyright", "Copyright © Grigory Filatov, 2003-2006\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "TrayCalendar.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

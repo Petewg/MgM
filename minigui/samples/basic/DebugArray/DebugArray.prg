@@ -59,9 +59,6 @@ next
 DebugArray(Arr, .f., txt) //array monodimensional
 DebugArray( ArrMulti, .T., txt ) //array multidimensional
 
-inkeygui(3000)
-hb_FileDelete( "*DebugArray.txt" )
-
 return
 
 

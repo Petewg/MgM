@@ -1,0 +1,40 @@
+    SOFTWARE LICENSE AGREEMENT
+
+    Program "Dayly-SL". 
+    Copyright (C) 2007-2012 Sergey Logoshny.
+
+Program Dayly-SL 2.0 is distributed as FREEWARE. This means:
+
+1. All copyrights to Dayly-SL are exclusively owned by the
+   author - Sergey Logoshny.
+
+2. Dayly-SL may be freely distributed, with exceptions noted
+   below, provided the distribution package is not modified. No
+   person or company may charge a fee for the distribution of
+   Dayly-SL without written permission from the copyright holder.
+
+3. DAYLY-SL IS DISTRIBUTED "AS IS". NO WARRANTY OF ANY KIND
+   IS EXPRESSED OR IMPLIED. YOU USE AT YOUR OWN RISK. THE AUTHOR WILL
+   NOT BE LIABLE FOR DATA LOSS, DAMAGES, LOSS OF PROFITS OR ANY OTHER
+   KIND OF LOSS WHILE USING OR MISUSING THIS SOFTWARE.
+
+4. You may not emulate, clone, rent, lease, sell, modify,
+   decompile, disassemble, otherwise reverse engineer, or transfer the
+   licensed program, or any subset of the licensed program, except as
+   provided for in this agreement. Any such unauthorized use shall
+   result in immediate and automatic termination of this license and
+   may result in criminal and/or civil prosecution.
+
+   All rights not expressly granted here are reserved by Sergey Logoshny.
+
+5. Installing and using Dayly-SL signifies acceptance of these
+   terms and conditions of the license.
+
+6. If you do not agree with the terms of this license you must remove
+   Dayly-SL files from your storage devices and cease to use the
+   product.
+
+   Program homepages - http://minisoft.tora.ru
+                       http://slmini.narod.ru
+
+Thank you for using Dayly-SL.

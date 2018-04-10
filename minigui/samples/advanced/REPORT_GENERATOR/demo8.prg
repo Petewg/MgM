@@ -1,14 +1,9 @@
-#include "minigui.ch"
-#include "i_rptgen.ch"
-
-Set Procedure To h_rptgen
+#include "hmg.ch"
 
 Memvar i
 Memvar aRows
 
 Procedure Main
-
-	Public _HMG_RPTDATA := Array( 165 )
 
 	Public i
 	Public aRows [ 20 ] [ 3 ]

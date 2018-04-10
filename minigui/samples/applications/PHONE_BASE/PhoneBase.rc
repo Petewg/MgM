@@ -1,0 +1,44 @@
+SYSTEM ICON "phone.ico"
+
+PHONE ICON "phone2.ico"
+
+PHONE BITMAP "phone.bmp"
+
+PHONEXP BITMAP "phoneXP.bmp"
+
+SEARCH BITMAP "search.bmp"
+
+OPEN BITMAP "op_ph.bmp"
+
+CLOSE BITMAP "cl_ph.bmp"
+
+HARBOUR GIF "harbour.gif"
+
+1 VERSIONINFO
+FILEVERSION 1,1,1,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Phone Base for Win9x/NT\000"
+		VALUE "FileVersion", "1.1.1.0"
+		VALUE "InternalName", "PhoneBase\000"
+		VALUE "LegalCopyright", "Freeware 2003\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "PhoneBase.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

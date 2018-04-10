@@ -12,57 +12,52 @@
 #include "HBSQLit3.ch"
 #include "MiniGUI.ch"
 
-#define DB_NAME            'PicBase.s3db'   // Working database
+#define DB_NAME            'PicBase.s3db'   // Рабочая база
 
-#define WM_PAINT	     15             // To force a redraw window
+#define WM_PAINT	     15             // Для принудительной перерисовки окна
 
-// The output area of the image is fixed
-// The Coordinates Of The
+// Область вывода графического изображения фиксирована
+
+// Координаты
 
 #define FI_TOP                5
 #define FI_LEFT             260
 #define FI_BOTTOM           470
 #define FI_RIGHT            765
 
-// Dimensions
+// Размеры
 
 #define FI_WIDTH            ( FI_RIGHT - FI_LEFT )
 #define FI_HEIGHT           ( FI_BOTTOM - FI_TOP )
 
 
 
-Static lCreateBase := .T.   // Flag: automatically create a new database
-Static aParams              // An array of operating parameters 
+Static lCreateBase := .T.   // Признак: автоматически создавать новую базу
+Static aParams              // Массив рабочих параметров 
 
 
 /******
 *
-*       Demonstration of images stored in the image file 
-*       and SQLite database
+*       Демонстрация рисунков, хранящихся в графических файлах 
+*       и в базе SQLite
 *
 */
 
 Procedure Main
 
-aParams := { 'StartDir'  => GetCurrentFolder(), ;        // The current directory
-             'pDB'       => nil               , ;        // Handle Base
-             'ReadFiles' => .T.               , ;        // Read the list of files
-             'SavePos'   => .F.               , ;        // Save the position in the file list
-             'Reload'    => .T.                 ;        // Sign of the necessity to re-read the database
+aParams := { 'StartDir'  => GetCurrentFolder(), ;        // Текущий каталог
+             'pDB'       => nil               , ;        // Дескриптор базы
+             'ReadFiles' => .T.               , ;        // Перечитать список файлов
+             'SavePos'   => .F.               , ;        // Сохранять позицию в списке файлов 
+             'Reload'    => .T.                 ;        // Признак необходимости перечитать БД
            }
 
-
-
-
-
-
-			  
 If Empty( aParams[ 'pDB' ] := OpenBase() )
    MsgStop( "Can't open/create " + DB_NAME, "Error" )
    Quit
 Endif
 
-FI_Initialise()          // Initialize the library FreeImage
+FI_Initialise()          // Инициализация библиотеки FreeImage
 
 Set font to 'Tahoma', 9
 
@@ -78,10 +73,10 @@ Define window wMain                   ;
        On Release FI_DeInitialise()   ;
        On Paint ShowMe()
 
-   // ShowMe() - procedure for image output. In the description window it better
-   // specify only the On paint. This will update the content
-   // the main window is redrawn at every. Additional indication
-   // On init ShowMe () causes a flickering window at startup.
+   // ShowMe() - процедура вывода изображения. В описании окна её лучше
+   // указать только в On paint. Это позволит обновлять содержимое
+   // главного окна при всякой перерисовке. Дополнительное указание
+   // On init ShowMe() приводит к мерцанию окна программы при запуске.
    
    Define tab tbData ;
           at 5, 5    ;
@@ -146,7 +141,7 @@ End window
 
 On Key Alt+X of wMain Action ReleaseAllWindows()
 
-ListFiles()     // Fill in file list
+ListFiles()     // Заполняем список файлов
 
 Center window wMain
 Activate window wMain
@@ -160,7 +155,7 @@ Return
 *
 *       OpenBase() --> pHandleDB
 *
-*       Open/create DATABASE
+*       Открытие/создание БД
 *
 */
 
@@ -171,16 +166,16 @@ Local lExistDB  := File( DB_NAME )                     , ;
 
 If !Empty( pHandleDB )
    
-   // When auto_vacuum = 0 after you are finished deleting data does not change the database file size.
-	// Freed blocks are marked as "free" and can be reused
-   // Subsequent operations to add new records.
-   // To reduce file size, you must run Vacuum
+   // При auto_vacuum = 0 после завершения операций удаления данных размер файла БД не изменяется.
+   // Освобождённые блоки помечаются как "свободные" и могут повторно использоваться в 
+   // последующих операциях добавления новых записей.
+   // Для уменьшения размера файла необходимо выполнить команду Vacuum
    
    SQLite3_Exec( pHandleDB, 'PRAGMA auto_vacuum = 0' )
 
    If !lExistDB
       
-      // Create table
+      // Создаём таблицу
     
       cCommand := 'Create table if not exists Picts( Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Image BLOB );'
       SQLite3_Exec( pHandleDB, cCommand )
@@ -198,23 +193,23 @@ Return pHandleDB
 *
 *      SwitchTab()
 *
-*      Processing switch between lists (file records)
+*      Обработка переключения между списками (файлы-записи)
 *
 */
 
 Static Procedure SwitchTab
 Local nValue := wMain.tbData.Value
 
-// Setting the active item
+// Установка активного элемента
 
 If ( nValue == 1 )
    ListFiles()
-   wMain.grdFiles.SetFocus       // Tab files
+   wMain.grdFiles.SetFocus       // Вкладка файлов
    
 ElseIf( nValue == 2 )
 
    ListRecords()
-   wMain.grdRecords.SetFocus     // Tab recordings
+   wMain.grdRecords.SetFocus     // Вкладка записей
    
 Endif
 
@@ -229,7 +224,7 @@ Return
 *
 *       ListFiles()
 *
-*       Creating a list of image files
+*       Формирование списка графических файлов
 *
 */
     
@@ -239,7 +234,7 @@ Local nPos   := wMain.grdFiles.Value, ;
 
 If aParams[ 'ReadFiles' ]
  
-   // Of the FreeImage supported file types, use only part
+   // Из поддерживаемых FreeImage типов файлов используем только часть
 
    AEval( Directory( aParams[ 'StartDir' ] + '\*.jpg'  ), { | elem | AAdd( aFiles, Lower( elem[ F_NAME ] ) ) } )
    AEval( Directory( aParams[ 'StartDir' ] + '\*.jpeg' ), { | elem | AAdd( aFiles, Lower( elem[ F_NAME ] ) ) } )
@@ -252,15 +247,15 @@ If aParams[ 'ReadFiles' ]
 
    If !Empty( aFiles )
    
-      ASort( aFiles, { | x, y | x < y } )       // Sort list
+      ASort( aFiles, { | x, y | x < y } )       // Сортируем список
 
-      wMain.grdFiles.DisableUpdate              // Disable the grid update (applicable for a large number of image files in a folder
+      wMain.grdFiles.DisableUpdate              // Запрет на обновление грида (актуально при большом количестве графических файлов в папке)
 
       AEval( aFiles, { | elem | wMain.grdFiles.AddItem( { elem } ) } )
 
-      wMain.grdFiles.EnableUpdate               // Allow show the changes in the grid
+      wMain.grdFiles.EnableUpdate               // Разрешаем показать выполненные изменения в гриде
 
-      // When the list of current directory pointer position are
+      // При обновлении списка текущего каталога позицию указателя сохраняем
    
       If !aParams[ 'SavePos' ]    
          
@@ -292,7 +287,7 @@ Return
 *
 *       ListRecords()
 *       
-*       Populating a table with existing records in the database
+*       Заполнение таблицы имеющихся в БД записей
 *
 */
 
@@ -309,7 +304,7 @@ If aParams[ 'Reload' ]
    If !Empty( aData )
    
       For each aItem in aData
-         // In a sample of only 2 fields: ID and name of the file
+         // В выборке только 2 поля: идентификатор и имя файла
          wMain.grdRecords.AddItem( { aItem[ 1 ], aItem[ 2 ] } )
       Next
    
@@ -317,9 +312,9 @@ If aParams[ 'Reload' ]
    
    Endif
 
-   // You must overhaul the list of entries in the database
-   // A sign is installed during initialization or added and
-   // delete records
+   // Необходимо переформирование списка записей, имеющихся в БД
+   // Признак устанавливается при инициализации или после добавления и
+   // удаления записей
    
    aParams[ 'Reload' ] := .F.
    
@@ -340,7 +335,7 @@ Return
 *
 *       ChangeFolder()
 *
-*       Change the current directory
+*       Смена текущего каталога
 *
 */
 
@@ -370,7 +365,7 @@ Return
 *
 *       ShowMe()
 *
-*       Image output
+*       Вывод изображения
 *
 */
 
@@ -397,14 +392,14 @@ If !( nHandleImg == nil )
    
    FI_Unload( nHandleImg )
    
-   // Displaying smaller images after the great results in 
-   // overlapping images. So you need to clear the area by declaring
-   // it "null and void".
-   // Better handle not all Window , but only a part,
-   // that shows the picture.
+   // Вывод изображения меньшего размера после большого приводит к 
+   // наложению картинок. Поэтому нужно очистить область, объявив
+   // её "недействительной".
+   // Рациональнее обрабатывать не всё окно программы, а только часть,
+   // в которой показывается картинка.
      
-   // Fitting cleaning: when you move the window off the screen from image
-   // are the artifacts.
+   // Подгонка очистки: при перемещении окна за пределы экрана от изображения
+   // остаются артефакты.
    
    InvalidateRect( Application.Handle, 1, FI_LEFT, 0, ( wMain.Width - 1 ), ( wMain.Height - 15 ) )
       
@@ -422,17 +417,17 @@ If Empty( nPos )
    Return
 Endif
 
-   // The picture we get from different sources, depending on the current tab
+   // Рисунок получаем из разных источников, в зависимости от текущей вкладки
    
    If ( nTabValue == 1 )
    
-      // From a file
+      // Из файла
       
       If !File( cFile := aParams[ 'StartDir' ] + '\' + wMain.grdFiles.Item( nPos )[ 1 ] )
          Return
       Endif
 
-      cImage := MemoRead( cFile )         // Loading into memory
+      cImage := MemoRead( cFile )         // Загрузка в память
       
   Else
   
@@ -451,34 +446,34 @@ If Empty( cImage )
    Return
 Endif
 
-// This upload a picture directly from a file
+// Это загрузка рисунка непосредственно из файла
 // nHandleImg := FI_Load( FI_GetFileType( cFile ), cFile, 0 )
 
-// Figure a is loaded into memory and displays from there
+// Рисунок предварительно загружается в память и выводится оттуда
 
 nHandleImg := FI_LoadFromMemory( FI_GetFileTypeFromMemory( cImage, Len( cImage ) ), cImage, 0 )
 
-// The original size of the image
+// Оригинальный размер изображения
 
 nWidth  := FI_GetWidth( nHandleImg )
 nHeight := FI_GetHeight( nHandleImg )
 
-// FreeImage will try to fit in a specified area of an image, but
-// this distortion. Therefore, for large drawings look forward
-// reduction factor (zoom).
+// FreeImage будет стараться вписать изображение в заданную область, но
+// при этом будут искажения. Поэтому для больших рисунков рассчитываем
+// коэффициент уменьшения (масштабирования).
 
-// ! ATTENTION
-// Change the aspect ratio and calculation of large images slow down the video image
+// ! ВНИМАНИЕ
+// Расчет и изменение пропорций больших рисунков замедляет вывод изображения
 
 If ( ( nHeight > FI_HEIGHT ) .or. ( nWidth > FI_WIDTH )  )
 
-   // Display the coefficient on the excess amount.
-   // The image is sized proportionally.
+   // Коэффициент выводим по наибольшему превышению размера.
+   // Изображение подгоняется пропорционально.
    
    If ( ( nHeight - FI_HEIGHT ) > ( nWidth - FI_WIDTH ) )
       
-      // Excess of the height. The calculation is performed on the
-      // parameter.
+      // Превышение области по высоте. Расчёт выполняется по этому
+      // параметру.
       
       nKoeff := ( FI_HEIGHT / nHeight )
    Else
@@ -496,8 +491,8 @@ If ( ( nHeight > FI_HEIGHT ) .or. ( nWidth > FI_WIDTH )  )
    
 Endif
 
-// Positioning of the image. If the size is smaller than the specified region
-// output figure is centered on this axis.
+// Позиционирование изображения. Если размер меньше заданной области
+// вывода, рисунок центрируется по этой оси.
 
 If ( nWidth < FI_WIDTH )
    nLeft  += Int( ( FI_WIDTH - nWidth ) / 2 )
@@ -509,14 +504,13 @@ If ( nHeight < FI_HEIGHT )
    nBottom := ( nTop + nHeight )
 Endif
 
-// Image output
+// Вывод изображения
 
 hDC := BeginPaint( Application.Handle, @pps )
 
 FI_WinDraw( nHandleImg, hDC, nTop, nLeft, nBottom, nRight )
 
 EndPaint( Application.Handle, pps )
-ReleaseDC( Application.Handle, hDC )
 
 Return
 
@@ -527,13 +521,13 @@ Return
 *
 *       RefreshMe()
 *
-*       Image redrawing
+*       Перерисовка изображения
 *
 */
 
 Static Procedure RefreshMe
    
-	DoEvents()
+	DO EVENTS
 
 	SendMessage( _HMG_MainHandle, WM_PAINT, 0, 0 )
 
@@ -546,7 +540,7 @@ Return
 *
 *       Do_SQL_Query( cQuery ) --> aResult
 *
-*       Fetch
+*       Выполнение выборки
 *
 */
 
@@ -606,7 +600,7 @@ Return aResult
 *
 *       AddToBase()
 *
-*       To add a picture to a base
+*       Добавление рисунка в базу
 *
 */
 
@@ -663,7 +657,7 @@ Return
 *
 *       DelRecord()
 *
-*       Delete a record from a database
+*       Удаление записи из базы
 *
 */
 
@@ -682,18 +676,18 @@ If !Empty( nPos )
 
      If ( SQLite3_Exec( aParams[ 'pDB' ], cCommand ) == SQLITE_OK )
 
-        // To reduce the file size of the DATABASE, you must execute the command
-        // Vacuum. But when a large DATABASE this may take
-        // some time.
+        // Для уменьшения размера файла БД необходимо выполняем команду
+        // Vacuum. Но при большой БД на это может потребоваться
+        // некоторое время.
         
         If ( SQLite3_exec( aParams[ 'pDB' ], 'Vacuum' ) == SQLITE_OK )
         
-           // Re-read the list
+           // Перечитать список
      
            aParams[ 'Reload' ] := .T.
            ListRecords()
 
-           // If possible, leave the pointer in the same position
+           // По возможности, указатель оставить на той же позиции
      
            nCount := wMain.grdRecords.ItemCount
      
@@ -721,7 +715,7 @@ Return
 *
 *       SaveToFile()
 *
-*       To export an image from the DATABASE to a file
+*       Экспорт рисунка из БД в файл
 *
 */
 
@@ -749,9 +743,9 @@ If !Empty( nPos )
 
    cImage := aData[ 1, 1 ]
 
-   // Because the file's extension to determine the new image format
-   // When the save operation, you must explicitly specify the file extension
-   // (the default is the current format)
+   // Т.к. по расширению файла определяем новый формат изображения,
+   // то при операции сохранения необходимо явно указывать расширение файла
+   // (по умолчанию используется его текущий формат)
 
    cFile := PutFile( { { 'JPG files', '*.jpg' }, { 'JPEG files', '*.jpeg' }, ; 
                        { 'PNG files', '*.png' }, { 'GIF files' , '*.gif'  }, ;
@@ -784,15 +778,15 @@ If !Empty( nPos )
       Return
    Endif
 
-   // By file extension define an image identifier and
-   // constant for the save operation
+   // По расширению файла определяем идентификатор изображения и
+   // константу для операции сохранения
    
    HB_FNameSplit( cFile, , , @cExt )
    cExt := Lower( cExt )
    
    Do case
       Case ( cExt == '.png' )
-        nFIF    := FIF_PNG            // Image ID for input/output
+        nFIF    := FIF_PNG            // Идентификатор изображения для ввода/вывода
         nFormat := PNG_DEFAULT 
 
       Case ( cExt == '.gif' )
@@ -809,7 +803,7 @@ If !Empty( nPos )
 
       Otherwise
       
-        // Default is JPG or JPEG
+        // По умолчанию JPG или JPEG
         nFIF    := FIF_JPEG
         nFormat := JPEG_DEFAULT 
 
@@ -823,10 +817,10 @@ If !Empty( nPos )
    
    FI_Unload( nHandleImg )
 
-   // If the entry is successful, you should re-read the list of files.
-   // Position of the pointer does not change (to simplify), although the list is
-   // file-name and here you can memorize the current file and look for it
-   // position in pereform and topic list.
+   // Если запись выполнена успешно, необходимо перечитать список файлов.
+   // Позицию указателя не изменяем (для упрощения), хотя список упорядочен
+   // по именам файлов и здесь можно запоминать текущий файл и искать его
+   // положение в переформированном списке.
    
    If lSuccess
       aParams[ 'ReadFiles' ] := .T.
@@ -837,6 +831,3 @@ Endif
 Return
 
 ****** End of SaveToFile ******
-
-// FUNCTION FI_Unload( nHandleImg )
-// RETURN NIL

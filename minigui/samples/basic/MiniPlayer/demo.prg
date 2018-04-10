@@ -7,7 +7,7 @@
 ANNOUNCE RDDSYS
 
  
-#include "hmg.ch"
+#include "minigui.ch"
 
 #define APP_TITLE "Mini MP3 Player"
 
@@ -334,14 +334,10 @@ FUNCTION MyEvents ( hWnd, nMsg, wParam, lParam )
 RETURN result
 
 //mciSendString 
-#include "hbdll32.ch"
-declare ansi mciSendString( command,  returnValue,  returnLength,  hWnd ) IN WINMM.DLL
-//mciSendString 
-/*
 DECLARE DLL_TYPE_LONG mciSendString( ;
 	DLL_TYPE_LPSTR command, DLL_TYPE_LPTSTR returnValue, DLL_TYPE_INT returnLength, DLL_TYPE_LONG hWnd ) ;
 	IN WINMM.DLL
-*/
+
 *-------------------------------------------*
 PROCEDURE custom_progress_bar( cWindowName, nRow, nCol, nWidth, nHeight, aColor, nValue, nMax )
 *-------------------------------------------*

@@ -1,0 +1,87 @@
+
+           Description of program
+
+ MiniGraph is produced graphing and tables of the values of the functions
+ of form Y1=f(x) and Y2=f(x), assigned in the rectangular coordinate system.
+ Where f(x) - algebraic expression of arbitrary complexity.
+ It reflects the tables of the values of argument and functions.
+ It have possible to preserve graph and table in the files.
+ Changing interval and step of a change in the argument, it is possible
+ to analyze the individual sections of graph.
+ It is convenient to use for the graphical solution of the system of equations
+ and checking of different algebraic conversions.
+
+ Program window have a four areas.
+
+ SELECT - contain: 
+  - Revealed list of the selection of the user functions.
+  - Collection of the buttons for enter of the standard functions
+  - Collection of the buttons for enter of the constants
+    With the selection of function, constants the corresponding value will be
+    brought into the position of the cursor of the active field of the expression.
+    User functions are located in the file "userfun.txt".
+    This file can be edited (with notepad). It is possible to bring in the separate
+    fragments of function, using the rules of the writing accepted in the program.
+
+ FUNCTIONS - contain: 
+  - Fields for enter of the expressions Y1 and Y2
+    With the activation of field it is separated by the white color.
+    Fields have the standard menu of editing (right button of mouse)
+    The register of introduction does not have a value.
+
+ ARGUMENT - contain:
+  - the field for enter of the range of a change in the argument ( X ) 
+  - the field for enter of the step of a change in the argument ( X )
+    Range and step of argument is mutually connected with the maximum number of points.
+
+ SETTINGS  - contain:
+  - the element of switching angular measure
+  - the elements of the installation of the special features of mapping the graph
+
+ Usage:
+    Collect the expression of function from the keyboard or with the aid of
+    the buttons of the selection. 
+    Select the interval of the values of the argument.
+    Select the step of changes in the argument.
+    Press the button  < To build the graph >.
+    Graph is ready!
+    Moving the indicator of the table of values it is possible to see the displacement
+    of marker on the graph in accordance with the values of the table.
+    For retaining of graph and table use the buttons of the retention.
+    Graph remains in the format BMP
+    Table remains in the format RTF (Word) or XLS (Excel)
+    File name graph_+(1...n) at folder ..\GRAPH  
+    Program makes it possible to use its own set of user functions.
+    Functions are located in the text file userfun.txt.
+    Functions are written with the aid of the text editor (for example, notepad),
+    each into one line. 
+
+ Used functions 
+   Sin(x)		-  sine of angle x    
+   Cos(x)		-  cosine of angle x  
+   Tg(x)		-  tangent of angle x 
+   ArcS(x)		-  arcsine x    
+   ArcC(x)		-  arccosine x 
+   ArcT(x)		-  arctangent x 
+   DR(x)		-  translation from degree to radian
+   RD(x)		-  translation from radian to degree
+   Lg(x)		-  decimal logarithm
+   Ln(x)		-  natural logarithm
+   ABS(x)		-  absolute value
+   Sqr(x)               -  square root 
+
+ Example of system of equations
+   Expressions are written with the application of arithmetic operations and brackets.
+   The sign of multiplication (*) between the coefficient and the argument (x)
+   it is possible not to place.
+   For example:
+   System of equations
+   Y1=Sin(x)+Sin(x/2)+Sin(x/4)+Sin(x/8)
+   Y2=(x^2)/4-3x-12
+   Range -5.0 < X > 1.0   Step 0.01
+   Angles in radians
+   Solution  X = -2.63
+
+ CONTACTS:
+   Homepage    http://www.slmini.narod.ru
+   E-mail             serlogosh@yandex.ru

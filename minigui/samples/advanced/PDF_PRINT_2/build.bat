@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat %* HPdfDemo HPdfDemo.hbc hbhpdf.hbc
+call ..\..\..\batch\hbmk2.bat %* HPdfDemo.hbp HPdfDemo.hbc

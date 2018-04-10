@@ -1,0 +1,33 @@
+; Language File for Shutdown Utility
+
+[Data]
+RadioButtonTime=Herunterfahren zu einer bestimmten Uhrzeit
+RadioButtonTimeLeft=Herunterfahren nach Ablauf einer Zeit
+CheckBoxWindow=oder beim Verschwinden dieses Fensters
+LabelWindowTitle=Fenstertitel:
+LabelClock=Uhr
+LabelProcess=Welchen Vorgang durchführen?
+RadioButtonShutdown=Herunterfahren
+RadioButtonReboot=Neustarten
+RadioButtonLogOff=Benutzer abmelden
+CheckBoxPowerOff=Computer danach ausschalten
+CheckBoxForceMode=Vorgang erzwingen bei Blockierung
+CheckBoxStayOnTop=Fenster immer im Vordergrund
+LabelLanguage=Sprache:
+
+WaitTitle=Shutdown Utility is aktiv!
+LabelWindowInfo=oder wenn folgendes Fenster geschlossen wird:
+LabelTopShutdown=Restliche Zeit bis zurn Herunterfahren:
+LabelTopReboot=Restliche Zeit bis zurn Neustart:
+LabelTopLogOff=Restliche Zeit bis zurn Abmelden:
+
+TitleError=Error
+TitleWarning=Warning
+TitleInformation=Information
+TitleAbout=Info...
+
+ButtonStart=Start!!!
+ButtonExit=Beenden
+ButtonAbout=Info...
+ButtonOk=OK
+ButtonCancel=Abbrechen

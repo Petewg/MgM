@@ -1,14 +1,14 @@
 // Using a resource file like this, you can include bitmaps, icons and sounds
 // inside EXE.
 //
-//	Resource name	Resource Type   Resource FileName
+//	Resource Name	Resource Type   Resource FileName
 //
 	MAIN		ICON		MAIN.ICO
 
 
 1 VERSIONINFO
-FILEVERSION 1,0,0,0
-PRODUCTVERSION 1,0,0,0
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,1,0,0
 FILEOS 0x4
 FILETYPE 0x1
 {
@@ -17,14 +17,14 @@ BLOCK "StringFileInfo"
 	BLOCK "040904b0"
 	{
 		VALUE "FileDescription", "This program calculates your CPU Speed in MHz\000"
-		VALUE "FileVersion", "1.0.0.0"
+		VALUE "FileVersion", "1.1.0.0"
 		VALUE "InternalName", "CPUSpeed\000"
 		VALUE "LegalCopyright", "GPL 2016\000"
 		VALUE "LegalTrademarks", "Harbour"
 		VALUE "OriginalFilename", "CPUSpeed.exe\000"
 		VALUE "CompanyName", "\000"
 		VALUE "ProductName", "MiniGUI Utility"
-		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "ProductVersion", "1.1.0.0"
 		VALUE "Comments", "Created by Pete D.\000"
 	}
 }

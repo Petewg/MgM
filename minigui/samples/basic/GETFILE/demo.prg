@@ -17,9 +17,7 @@ Local a
 		DEFINE MAIN MENU
 			DEFINE POPUP 'Common &Dialog Functions'
 				MENUITEM 'Select single file' ACTION MsgInfo( Getfile ( , 'Open a File' , , , .t. ), "Result" )
-				MENUITEM 'Select Image file(s)' ACTION ( a := Getfile ( { {'Image Files','*.bmp;*.png;*.jpg;*.gif;*.tif'} } , 'Open File(s)' , "C:\Users\Public\Pictures\Sample Pictures" , .t. , .t. ), ;
-								aEval( a, {|x,i| msginfo ( x, ltrim( str ( i ) ) )} ) )				
-				MENUITEM 'Select All file(s)' ACTION ( a := Getfile ( { {'All Files','*.*'} } , 'Open File(s)' , GetCurrentFolder() , .t. , .t. ), ;
+				MENUITEM 'Select file(s)' ACTION ( a := Getfile ( { {'All Files','*.*'} } , 'Open File(s)' , GetCurrentFolder() , .t. , .t. ), ;
 								aEval( a, {|x,i| msginfo ( x, ltrim( str ( i ) ) )} ) )
 				SEPARATOR
 				ITEM 'Exit' ACTION ThisWindow.Release
@@ -33,4 +31,3 @@ Local a
 	ACTIVATE WINDOW Win_1
 
 Return
-//"C:\Users\Public\Pictures\Sample Pictures\Desert.jpg"

@@ -1,1 +1,1 @@
-@call %~d0\miniguim\batch\buildapp.bat VIEW_IMAGE
+call ..\..\..\batch\hbmk2.bat %* VIEW_IMAGE.hbp

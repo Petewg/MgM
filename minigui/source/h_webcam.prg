@@ -115,18 +115,20 @@ RETURN cap_CreateCaptureWindow( "WebCam", hb_bitOr( WS_CHILD, WS_VISIBLE ), y, x
 *------------------------------------------------------------------------------*
 FUNCTION _StartWebCam ( cWindow, cControl )
 *------------------------------------------------------------------------------*
-   LOCAL hWnd
+   LOCAL hWnd, w, h
    LOCAL lSuccess
 
    hWnd := GetControlHandle ( cControl, cWindow )
 
    IF cap_DriverConnect( hWnd, 0 )
 
-      lSuccess := cap_PreviewScale( hWnd, .T. )
+      w := _GetControlWidth ( cControl, cWindow )
+      h := _GetControlHeight ( cControl, cWindow )
 
-      lSuccess := lSuccess .AND. cap_PreviewRate( hWnd, GetControlValue ( cControl, cWindow ) )
-
-      lSuccess := lSuccess .AND. cap_Preview( hWnd, .T. )
+      lSuccess := ( cap_SetVideoFormat( hWnd, Max( w, 320 ), Max( h, 240 ) ) .AND. ;
+         cap_PreviewScale( hWnd, .T. ) .AND. ;
+         cap_PreviewRate( hWnd, GetControlValue ( cControl, cWindow ) ) .AND. ;
+         cap_Preview( hWnd, .T. ) )
 
    ELSE
       // error connecting to video source
@@ -177,6 +179,7 @@ RETURN
 
 #if defined( __BORLANDC__ )
 #pragma warn -use /* unused var */
+#pragma warn -eff /* no effect */
 #endif
 
 HB_FUNC( CAP_CREATECAPTUREWINDOW )
@@ -197,6 +200,25 @@ HB_FUNC( CAP_DRIVERCONNECT )
 HB_FUNC( CAP_DRIVERDISCONNECT )
 {
    hb_retl( capDriverDisconnect( ( HWND ) HB_PARNL( 1 ) ) );
+}
+
+HB_FUNC( CAP_SETVIDEOFORMAT )
+{
+   BITMAPINFO binf;
+   HWND hCapWnd = ( HWND ) HB_PARNL( 1 );
+
+   capGetVideoFormat( hCapWnd, &binf, sizeof( BITMAPINFO ) );
+
+   binf.bmiHeader.biWidth        = hb_parni( 2 );
+   binf.bmiHeader.biHeight       = hb_parni( 3 );
+   binf.bmiHeader.biPlanes       = 1;
+   binf.bmiHeader.biBitCount     = 24;
+   binf.bmiHeader.biCompression  = BI_RGB;
+   binf.bmiHeader.biSizeImage    = 0;
+   binf.bmiHeader.biClrUsed      = 0;
+   binf.bmiHeader.biClrImportant = 0;
+
+   hb_retl( capSetVideoFormat( hCapWnd, &binf, sizeof( BITMAPINFO ) ) );
 }
 
 HB_FUNC( CAP_PREVIEWRATE )

@@ -13,9 +13,9 @@
 
 #include "minigui.ch"
 
-*********** 
+*——————————————————* 
 Function Main() 
-*********** 
+*——————————————————* 
 
    SET AUTOADJUST ON //NOBUTTONS
 // SET AUTOZOOMING ON
@@ -26,12 +26,12 @@ Function Main()
        AT 0,0 WIDTH 648 HEIGHT 404 ; 
        TITLE 'AutoAdjust Demo by MigSoft' ;
        MAIN ;
-       ON SIZE Size_Check() ICON "MGM"
+       ON SIZE Size_Check()
 
        @ 18,31 FRAME frame_1 CAPTION "Datos Generales" ; 
          WIDTH 576 HEIGHT 281
 
-       principal.frame_1.fontcolor:={255,0,0} 
+       principal.frame_1.fontcolor:={0,0,0} 
        principal.frame_1.fontname:='MS Sans Serif' 
        principal.frame_1.fontsize:= 10 
 
@@ -126,9 +126,9 @@ Function Main()
 Return Nil
 
 
-*********** 
+*——————————————————* 
 Procedure Size_Check
-*********** 
+*——————————————————* 
 
    IF Principal.Width < 608
       Principal.Width := 608

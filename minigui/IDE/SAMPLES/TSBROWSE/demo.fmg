@@ -1,0 +1,30 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2010 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 169 , 243 WIDTH 510 HEIGHT 400 TITLE "Hello World!" MAIN
+
+     DEFINE LABEL Label_1
+            ROW    10
+            COL    20
+            WIDTH  70
+            HEIGHT 20
+            VALUE "Hello World!!"
+            CENTERALIGN .T.
+     END LABEL  
+
+     DEFINE TBROWSE TBROWSE_1 ; 
+            AT    50,20 ; 
+            WIDTH  460 ; 
+            HEIGHT 297 ; 
+            HEADERS 'CODE','FIRST','LAST','MARRIED','BIRTH','BIO' ; 
+            COLSIZES 100,100,100,100,100,100 ; 
+            WORKAREA "DEMO" ; 
+            FIELDS CODE,FIRST,LAST,MARRIED,BIRTH,BIO ; 
+            VALUE 1 ; 
+            TOOLTIP NIL ; 
+            MESSAGE ""
+     END TBROWSE  
+
+END WINDOW
+
+

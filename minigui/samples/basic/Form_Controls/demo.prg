@@ -1,15 +1,15 @@
 /*
-* DESCRIPTION : MiniGUI sample program 
+* DESCRIPTION : MiniGUI sample program
 *               ("playing" with controls)
-* PURPOSE     : Harbour/MiniGUI Experiment(al)
+* PURPOSE     : Harbour/MiniGUI
 * DATE CREATED: 01/07/2004 11:19:24
 * VERSION     : 0.01
-* COMPILER    : Harbour Compiler Alpha at http://harbour-project.org/
+* COMPILER    : Harbour Compiler at https://harbour.github.io/
 * GUI LIB     : MiniGUI Library at http://harbourminigui.googlepages.com/
 * EDITOR      : PSPad v.4.3.0(1971) http://www.pspad.com
 * AUTHOR      : Pete Dionysopoulos - Greece
 * COPYRIGHT   : (c) Pete Dionysopoulos
-*               _GetArrayOfAllControlsForForm function 
+*               _GetArrayOfAllControlsForForm function
 *               by Grigory Filatov of Ukraine. - Thanks, Grigory!
 * LICENCE     : GPL - This program is free software
 *               (no warranty - no obligation, do whatever you like with it
@@ -23,84 +23,89 @@
 #include 'minigui.ch'
 
 /******************************************************************************/
-function main()
+FUNCTION Main()
 /******************************************************************************/
-set date french
-load window TestForm as AppWin
-center window AppWin
-activate window AppWin
-return nil
+SET DATE FRENCH
+
+LOAD WINDOW TestForm AS AppWin
+CENTER WINDOW AppWin
+ACTIVATE WINDOW AppWin
+
+RETURN NIL
 
 /******************************************************************************/
-function showControls( cForm )
+FUNCTION showControls( cForm )
 /******************************************************************************/
-local aCtrls := _GetArrayOfAllControlsForForm ( cForm )
-local nI, xVal
-local aEle :={}
-local CtrlName
+LOCAL aCtrls := _GetArrayOfAllControlsForForm ( cForm )
+LOCAL nI, xVal
+LOCAL aEle
+LOCAL CtrlName
 
-load window Ctrl_Form as Ctrls
-Ctrls.Grid_1.DeleteAllItems 
-for nI := 1 to len( aCtrls )
+LOAD WINDOW Ctrl_Form AS Ctrls
+Ctrls.Grid_1.DeleteAllItems
+FOR nI := 1 TO Len( aCtrls )
    aEle := {}
-   CtrlName := aCTrls[nI]
-   aadd(aEle, CtrlName)
+   CtrlName := aCTrls[ nI ]
+   AAdd( aEle, CtrlName )
    xVal := GetProperty( "AppWin", CtrlName, "value" )
-   aadd(aEle, xChar( xVal ))
+   AAdd( aEle, xChar( xVal ) )
    Ctrls.Grid_1.AddItem( aEle )
-next
+NEXT
 
-center window Ctrls
-activate window Ctrls
-return nil
+CENTER WINDOW Ctrls
+ACTIVATE WINDOW Ctrls
+
+RETURN NIL
 
 /******************************************************************************/
-function EnableDisableCtrls( cFormName )
+FUNCTION EnableDisableCtrls( cFormName )
 /******************************************************************************/
-local aCtrls := _GetArrayOfAllControlsForForm ( cFormName )
-local nI, lOnOff, cCtrlName
+LOCAL aCtrls := _GetArrayOfAllControlsForForm ( cFormName )
+LOCAL nI, lOnOff, cCtrlName
 
 lOnOff := ( GetProperty( cFormName, 'Button_3', "caption" ) == 'Enable controls' )
-if !lOnOff
-   for nI := 1 to len( aCtrls )
-      cCtrlName := aCTrls[nI]
-      SetProperty( cFormName, cCtrlName, "enabled", .f. )
-   next
-   SetProperty( cFormName, 'Button_3', "enabled", .t. )
+IF !lOnOff
+   FOR nI := 1 TO Len( aCtrls )
+      cCtrlName := aCTrls[ nI ]
+      SetProperty( cFormName, cCtrlName, "enabled", .F. )
+   NEXT
+   SetProperty( cFormName, 'Button_3', "enabled", .T. )
    SetProperty( cFormName, 'Button_3', "caption", 'Enable controls' )
-else
-   for nI := 1 to len( aCtrls )
-      cCtrlName := aCTrls[nI]
-      SetProperty( cFormName, cCtrlName, "enabled", .t. )
-   next
+ELSE
+   FOR nI := 1 TO Len( aCtrls )
+      cCtrlName := aCTrls[ nI ]
+      SetProperty( cFormName, cCtrlName, "enabled", .T. )
+   NEXT
    SetProperty( cFormName, 'Button_3', "caption", 'Disable controls' )
-endif
-return nil
+ENDIF
+
+RETURN NIL
 
 /******************************************************************************/
-Function _GetArrayOfAllControlsForForm ( cFormName )
+FUNCTION _GetArrayOfAllControlsForForm ( cFormName )
 /******************************************************************************/
-Local nFormHandle , i , nControlCount , aRetVal := {} , x
+LOCAL nFormHandle, i, nControlCount, aRetVal := {}, x
 
 nFormHandle := GetFormHandle ( cFormName )
 nControlCount := Len ( _HMG_aControlHandles )
-For i := 1 To nControlCount
-   If _HMG_aControlParentHandles[i] == nFormHandle
-      If ValType( _HMG_aControlHandles[i] ) == 'N'
-         IF ! Empty( _HMG_aControlNames[i] )
-            If Ascan( aRetVal, _HMG_aControlNames[i] ) == 0
-               Aadd( aRetVal, _HMG_aControlNames[i] )
-            EndIf
-         ENDIF
-      ElseIf ValType( _HMG_aControlHandles [i] ) == 'A'
-         For x := 1 To Len ( _HMG_aControlHandles[i] )
-            IF !Empty( _HMG_aControlNames[i] )
-               If Ascan( aRetVal, _HMG_aControlNames[i] ) == 0
-                  Aadd( aRetVal, _HMG_aControlNames [i] )
-               EndIf
+FOR i := 1 TO nControlCount
+   IF _HMG_aControlParentHandles[ i ] == nFormHandle
+      IF ValType( _HMG_aControlHandles[ i ] ) == 'N'
+         IF ! Empty( _HMG_aControlNames[ i ] )
+            IF AScan( aRetVal, _HMG_aControlNames[ i ] ) == 0
+               AAdd( aRetVal, _HMG_aControlNames[ i ] )
             ENDIF
-         Next x
-      EndIf
-   EndIf
-Next i
-Return Asort( aRetVal )
+         ENDIF
+      ELSEIF ValType( _HMG_aControlHandles[i ] ) == 'A'
+         FOR x := 1 TO Len ( _HMG_aControlHandles[ i ] )
+            IF !Empty( _HMG_aControlNames[ i ] )
+               IF AScan( aRetVal, _HMG_aControlNames[ i ] ) == 0
+                  AAdd( aRetVal, _HMG_aControlNames[i ] )
+               ENDIF
+            ENDIF
+         NEXT x
+      ENDIF
+   ENDIF
+NEXT i
+
+RETURN ASort( aRetVal )

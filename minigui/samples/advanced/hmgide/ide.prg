@@ -1472,7 +1472,7 @@ RETURN
 
 /*----------------------------------------------------------------------*/
 
-PROCEDURE DrawFocusRect( oControl )
+STATIC PROCEDURE DrawFocusRect( oControl )
 
 	ERASE WINDOW oEdit
 

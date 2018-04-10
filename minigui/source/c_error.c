@@ -34,10 +34,10 @@
     "Harbour GUI framework for Win32"
     Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2018, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -50,10 +50,11 @@
  */
 
 //#define _UNICODE
+
 #ifdef _UNICODE
-#ifndef UNICODE
-#define UNICODE
-#endif
+# ifndef UNICODE
+#  define UNICODE
+# endif
 #endif
 
 #include <mgdefs.h>
@@ -85,13 +86,13 @@ void hmg_ErrorExit( LPCTSTR lpszMessage, DWORD dwError, BOOL bExit )
    lpDisplayBuf = ( LPVOID ) LocalAlloc( LMEM_ZEROINIT, ( hmg_tstrlen( ( LPCTSTR ) lpMsgBuf ) +
                                                           hmg_tstrlen( lpszMessage ) + 40 ) * sizeof( TCHAR ) );
 
-        #ifdef UNICODE
+#ifdef UNICODE
    swprintf_s( ( LPTSTR ) lpDisplayBuf, LocalSize( lpDisplayBuf ) / sizeof( TCHAR ), TEXT( "'%s' failed with error %lu : %s" ),
                lpszMessage, nError, ( LPTSTR ) lpMsgBuf );
-        #else
+#else
    hb_snprintf( ( LPTSTR ) lpDisplayBuf, LocalSize( lpDisplayBuf ) / sizeof( TCHAR ), TEXT( "'%s' failed with error %lu : %s" ),
                 lpszMessage, nError, ( LPTSTR ) lpMsgBuf );
-        #endif
+#endif
 
    MessageBox( NULL, ( LPCTSTR ) lpDisplayBuf, TEXT( "MiniGUI Error" ), MB_OK );
 

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<Database file="D:\Programs\Modest\Org.dbf">
+ <Description>Сведения об организациях</Description>
+ <Structure>
+  <Field dec="0" len="4" name="ORG" type="C">Уникальный идентификационный код организации - для связи с другими таблицами.
+
+Допустимые символы - только цифровые, длина - полная (&quot;0001&quot;, &quot;0002&quot;, &quot;0112&quot;)</Field>
+  <Field dec="0" len="20" name="NAME" type="C">Краткое наименование организации</Field>
+  <Field dec="0" len="250" name="TITLE" type="C">Полное наименование организации</Field>
+  <Field dec="0" len="6" name="INDEX" type="C">Почтовый индекс</Field>
+  <Field dec="0" len="30" name="AREA" type="C">Область, в которой расположен город (населённый пункт), в котором находится организация</Field>
+  <Field dec="0" len="20" name="CITY" type="C">Наименование города, населённого пункта, в котором находится организация</Field>
+  <Field dec="0" len="60" name="ADDRESS" type="C">Улица, дом (корпус) (общим списком)</Field>
+  <Field dec="0" len="40" name="PHONEALL" type="C">Общие телефоны/факсы (общим списком)</Field>
+  <Field dec="0" len="120" name="FINRECV" type="C">Финансовые реквизиты - общим перечнем</Field>
+ </Structure>
+</Database>
+

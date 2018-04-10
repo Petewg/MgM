@@ -612,7 +612,6 @@ HB_FUNC (TREEVIEW_EXPANDCHILDRENRECURSIVE)
    }
 }
 
-/*
 HB_FUNC (TREEVIEW_GETNEXTSIBLING)
 {
    HWND        hWndTV     = (HWND) HB_PARNL (1);
@@ -620,12 +619,36 @@ HB_FUNC (TREEVIEW_GETNEXTSIBLING)
    HTREEITEM   NextItemHandle = TreeView_GetNextSibling ( hWndTV , ItemHandle ) ;
    HB_RETNL ((LONG_PTR) NextItemHandle ) ;
 }
-*/
+
 HB_FUNC (TREEVIEW_GETROOT)
 {
    HWND hWndTV = (HWND) HB_PARNL (1);
    HTREEITEM RootItemHandle = TreeView_GetRoot ( hWndTV );
    HB_RETNL ((LONG_PTR) RootItemHandle ) ;
+}
+
+HB_FUNC( WINMAJORVERSIONNUMBER )
+{
+   OSVERSIONINFOEX osvi;
+
+   ZeroMemory(&osvi,sizeof(OSVERSIONINFOEX));
+   osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+
+    GetVersionEx((OSVERSIONINFO*)&osvi);
+
+   hb_retni( osvi.dwMajorVersion );
+}
+
+HB_FUNC( WINMINORVERSIONNUMBER )
+{
+   OSVERSIONINFOEX osvi;
+
+   ZeroMemory(&osvi,sizeof(OSVERSIONINFOEX));
+   osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+
+   GetVersionEx((OSVERSIONINFO*)&osvi);
+
+   hb_retni( osvi.dwMinorVersion ) ;
 }
 
 //        GetWindowThreadProcessId (hWnd, @nThread, @nProcessID)
@@ -671,6 +694,22 @@ HB_FUNC ( GETPARENT )
 {
    HWND hWnd = (HWND) HB_PARNL (1);
    HB_RETNL ((LONG_PTR) GetParent(hWnd) );
+}
+
+//       ClientToScreen (hWnd, @x, @y)
+HB_FUNC (CLIENTTOSCREEN)
+{
+   HWND hWnd = (HWND) HB_PARNL (1);
+   LONG x    = (LONG) hb_parnl (2);
+   LONG y    = (LONG) hb_parnl (3);
+   POINT Point;
+   Point.x = x;
+   Point.y = y;
+   hb_retl (ClientToScreen(hWnd, &Point));
+   if (HB_ISBYREF(2))
+       hb_stornl ((LONG) Point.x, 2);
+   if (HB_ISBYREF(3))
+       hb_stornl ((LONG) Point.y, 3);
 }
 
 //       ClientToScreenRow (hWnd, Row) --> New_Row 

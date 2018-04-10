@@ -48,7 +48,7 @@ Return
 
 Procedure Test()
 
-	Win1.Test.Object:url := "c:\\minigui\\samples\\basic\\resourcedemo\\sample.wav"
+	Win1.Test.XObject:url := "c:\\minigui\\samples\\basic\\resourcedemo\\sample.wav"
 
 Return
 

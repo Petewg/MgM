@@ -836,7 +836,6 @@ HB_FUNC( SETPARTABS )                              //SetParTabs(HWND hwnd , aTab
 HB_FUNC( GETPARSTARTID )                           //GetParStartId(HWND hwnd )
 {
    PARAFORMAT2 parForm;
-   int         n;
    parForm.cbSize = sizeof( PARAFORMAT2 );
    parForm.dwMask = PFM_OFFSETINDENT;
 
@@ -863,7 +862,6 @@ HB_FUNC( SETPARSTARTID )                           //SetParStartId(HWND hwnd , L
 HB_FUNC( GETPARRIGHTID )                           //GetParRightId(HWND hwnd )
 {
    PARAFORMAT2 parForm;
-   int         n;
    parForm.cbSize = sizeof( PARAFORMAT2 );
    parForm.dwMask = PFM_RIGHTINDENT;
 
@@ -890,7 +888,6 @@ HB_FUNC( SETPARRIGHTID )                           //SetParRightId(HWND hwnd , L
 HB_FUNC( GETPAROFFSET )                            //GetParTabs(HWND hwnd )
 {
    PARAFORMAT2 parForm;
-   int         n;
    parForm.cbSize = sizeof( PARAFORMAT2 );
    parForm.dwMask = PFM_OFFSET;
 
@@ -952,12 +949,12 @@ HB_FUNC( WINSIZE1 )                                // WinSize(HWND hwnd)
 
 HB_FUNC( POSFROMCHAR )                             // PointRTF(HWND hwnd)
 {
-   HWND        hwnd;
+   HWND        hwnd = (HWND) hb_parnl( 1 );
    CHARRANGE   cRange;
    DWORD       ptl;
 
-   SendMessage( (HWND) hb_parnl(1), (UINT) EM_EXGETSEL, 0, (LPARAM) & cRange );
-   ptl = SendMessage( (HWND) hb_parnl(1), (UINT) EM_POSFROMCHAR, (WPARAM) (LONG) cRange.cpMax, 0 );
+   SendMessage( hwnd, (UINT) EM_EXGETSEL, 0, (LPARAM) & cRange );
+   ptl = SendMessage( hwnd, (UINT) EM_POSFROMCHAR, (WPARAM) (LONG) cRange.cpMax, 0 );
 
    hb_reta( 2 );
    HB_STORNL( HIWORD(ptl), -1, 1 );

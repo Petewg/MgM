@@ -1,0 +1,332 @@
+DEFINE WINDOW TEMPLATE AT 0,0 ;
+	HEIGHT 300+IF(IsXPThemeActive(), 8, 0) ;
+	WIDTH 400 TITLE "MultipleMail" ;
+	ICON "Main" ;
+	MAIN ;
+	ON INIT LoadData() ;
+	ON MAXIMIZE OnSize() ;
+	ON SIZE OnSize() ;
+	ON DROPFILES {|aFiles| TakeDrop(aFiles)} ;
+	ON RELEASE ( SaveData(), SocketExit() ) ;
+	FONT "Tahoma" SIZE 9
+
+
+    DEFINE MAINMENU
+      DEFINE POPUP "File"
+        MENUITEM "Send" ACTION SendMails() NAME MnuSend
+        SEPARATOR
+        MENUITEM "Add" ACTION GetItems()
+        MENUITEM "Delete" ACTION DeleteItem() NAME MnuDelete
+        MENUITEM "Delete All" ACTION DeleteAll() NAME MnuDeleteAll
+        SEPARATOR
+        MENUITEM "Exit" ACTION ThisWindow.Release
+      END POPUP
+      DEFINE POPUP "Service"
+        MENUITEM "Tuning..." ACTION Config()
+      END POPUP
+      DEFINE POPUP "Help"
+        MENUITEM "About" ACTION MsgAbout()
+      END POPUP
+    END MENU
+
+    DEFINE STATUSBAR FONT "MS Sans Serif" SIZE 8
+        STATUSITEM "Files: 0" WIDTH 60
+        STATUSITEM "Size: 0 b" WIDTH 100
+        STATUSITEM "" WIDTH 210
+    END STATUSBAR
+
+
+    DEFINE TOOLBAR ToolBar BUTTONSIZE 16,18 FONT "MS Sans Serif" SIZE 8 FLAT
+        BUTTON btnSend PICTURE "Send" TOOLTIP "Send mails" ACTION SendMails() SEPARATOR
+        BUTTON btnAdd PICTURE "Add" TOOLTIP "Add file(s)" ACTION GetItems()
+        BUTTON btnDelete PICTURE "DelRec" TOOLTIP "Delete file(s)" ACTION DeleteItem()
+        BUTTON btnDeleteAll PICTURE "Delete" TOOLTIP "Delete all files" ACTION DeleteAll() SEPARATOR
+        BUTTON btnConfig PICTURE "Config" TOOLTIP "Tuning" ACTION Config()
+    END TOOLBAR
+
+    DEFINE TAB TAB_1 AT 54,0 WIDTH 392 HEIGHT 180 VALUE 1 FONT "MS Sans Serif" SIZE 8 TOOLTIP Nil ON CHANGE Nil
+    
+        PAGE "Letter"
+        
+            DEFINE LABEL LABEL_1
+                COL 10
+                ROW 38
+                VALUE "E-mail"
+                ACTION Nil
+                WIDTH 45
+                HEIGHT 15
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE LABEL LABEL_2
+                COL 10
+                ROW 62
+                VALUE "Subject"
+                ACTION Nil
+                WIDTH 45
+                HEIGHT 15
+                AUTOSIZE .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                BORDER .f.
+                CLIENTEDGE .f.
+                HSCROLL .f.
+                VSCROLL .f.
+                TRANSPARENT .F.
+                HELPID Nil
+                VISIBLE .T.
+            END LABEL
+            
+            DEFINE COMBOBOX COMBOBOX_1
+                COL 60
+                ROW 33
+                WIDTH 320
+                HEIGHT 60
+                VALUE 1
+                ITEMS {""}
+                SORT .F.
+                DISPLAYEDIT .T.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 8
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTUNDERLINE .F.
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                ONENTER Nil
+                ONDISPLAYCHANGE UpdateToolBtns()
+                ONLISTDISPLAY Nil
+                ONLISTCLOSE Nil
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+            END COMBOBOX
+            
+            DEFINE COMBOBOX COMBOBOX_2
+                COL 60
+                ROW 57
+                WIDTH 320
+                HEIGHT 60
+                VALUE 1
+                ITEMS {""}
+                SORT .F.
+                DISPLAYEDIT .T.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 8
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTUNDERLINE .F.
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                ONENTER Nil
+                ONDISPLAYCHANGE Nil
+                ONLISTDISPLAY Nil
+                ONLISTCLOSE Nil
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+            END COMBOBOX
+            
+            DEFINE EDITBOX EDITBOX_1
+                COL 4
+                ROW 90
+                WIDTH 384
+                HEIGHT 85
+                VALUE ""
+                READONLY .F.
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                MAXLENGTH Nil
+                ONGOTFOCUS Nil
+                ONCHANGE Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                VISIBLE .T.
+                TABSTOP .T.
+                NOVSCROLLBAR .T.
+                NOHSCROLLBAR .T.
+            END EDITBOX
+            
+        END PAGE
+        
+        PAGE "Files"
+        
+            DEFINE GRID GRID_1
+                COL 4
+                ROW 25
+                WIDTH 384
+                HEIGHT 150
+                HEADERS {"File","Size"}
+                WIDTHS {280,100}
+                ITEMS {}
+                VALUE Nil
+                FONTNAME "MS Sans Serif"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                TOOLTIP Nil
+                BACKCOLOR Nil
+                FONTCOLOR Nil
+                DYNAMICBACKCOLOR Nil
+                DYNAMICFORECOLOR Nil
+                ONGOTFOCUS UpdateToolBtns()
+                ONCHANGE UpdateToolBtns()
+                ONLOSTFOCUS Nil
+                ONDBLCLICK Nil
+                ONHEADCLICK Nil
+                COLUMNCONTROLS Nil
+                COLUMNVALID Nil
+                COLUMNWHEN Nil
+                VIRTUAL .F.
+                ITEMCOUNT Nil
+                ONQUERYDATA Nil
+                MULTISELECT .T.
+                NOLINES .T.
+                SHOWHEADERS .T.
+                ALLOWEDIT .F.
+                IMAGE Nil
+                JUSTIFY { , GRID_JTFY_RIGHT }
+                HELPID Nil
+                BREAK .F.
+            END GRID
+            
+        END PAGE
+        
+    END TAB
+
+    DEFINE LABEL LABEL_3
+        COL 8
+        ROW 33
+        VALUE "Progress of sending"
+        ACTION Nil
+        WIDTH 100
+        HEIGHT 15
+        AUTOSIZE .F.
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        FONTCOLOR Nil
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE PROGRESSBAR PROGRESSBAR_1
+        COL 110
+        ROW 30
+        RANGEMIN 0
+        RANGEMAX 10
+        VALUE 0
+        WIDTH 190
+        HEIGHT 11
+        TOOLTIP Nil
+        VERTICAL .F.
+        SMOOTH .T.
+        HELPID Nil
+        VISIBLE .T.
+        BACKCOLOR Nil
+        FORECOLOR Nil
+    END PROGRESSBAR
+
+    DEFINE PROGRESSBAR PROGRESSBAR_2
+        COL 110
+        ROW 42
+        RANGEMIN 0
+        RANGEMAX 10
+        VALUE 0
+        WIDTH 190
+        HEIGHT 11
+        TOOLTIP Nil
+        VERTICAL .F.
+        SMOOTH .T.
+        HELPID Nil
+        VISIBLE .T.
+        BACKCOLOR Nil
+        FORECOLOR Nil
+    END PROGRESSBAR
+
+    DEFINE BUTTONEX BUTTONEX_1
+        COL 310
+        ROW 30
+        WIDTH 74
+        HEIGHT 23
+        CAPTION "Cancel"
+        ACTION ( lStop := .T. )
+        PICTURE Nil
+        ICON "STOP"
+        FONTNAME "MS Sans Serif"
+        FONTSIZE 9
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        FONTCOLOR Nil
+        VERTICAL .F.
+        LEFTTEXT .F.
+        UPPERTEXT .F.
+        ADJUST .F.
+        TOOLTIP Nil
+        BACKCOLOR Nil
+        NOHOTLIGHT .F.
+        FLAT .T.
+        NOTRANSPARENT .F.
+        NOXPSTYLE .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTONEX
+
+END WINDOW
+

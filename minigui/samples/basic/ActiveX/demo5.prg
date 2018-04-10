@@ -50,17 +50,17 @@ FUNCTION Main()
 RETURN NIL
 
 Procedure Test1()
-Local cDay := StrZero(Win1.Calendar.Object:Day, 2)
-Local cMonth := StrZero(Win1.Calendar.Object:Month, 2)
-Local cYear := Str(Win1.Calendar.Object:Year, 4)
+Local cDay := StrZero(Win1.Calendar.XObject:Day, 2)
+Local cMonth := StrZero(Win1.Calendar.XObject:Month, 2)
+Local cYear := Str(Win1.Calendar.XObject:Year, 4)
 
-	MsgInfo( StoD( cYear+cMonth+cDay ), "Selected Date" )
+	MsgInfo( StoD( cYear + cMonth + cDay ), "Selected Date" )
 
 Return
 
 Procedure Test2()
 
-	Win1.Calendar.Object:Value := Date() + 7
+	Win1.Calendar.XObject:Value := Date() + 7
 
 Return
 

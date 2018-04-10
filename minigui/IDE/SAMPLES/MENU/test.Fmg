@@ -1,0 +1,154 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2005 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 169 , 234 WIDTH 507 HEIGHT 374 TITLE "Menu Test" ICON NIL MAIN NOMAXIMIZE NOSIZE CURSOR NIL ON INIT NIL ON RELEASE NIL ON INTERACTIVECLOSE NIL ON MOUSECLICK NIL ON MOUSEDRAG NIL ON MOUSEMOVE NIL ON SIZE NIL ON MAXIMIZE NIL ON MINIMIZE NIL ON PAINT NIL BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK NIL ON GOTFOCUS NIL ON LOSTFOCUS NIL ON SCROLLUP NIL ON SCROLLDOWN NIL ON SCROLLLEFT NIL ON SCROLLRIGHT NIL ON HSCROLLBOX NIL ON VSCROLLBOX NIL
+
+    DEFINE MAIN MENU
+        DEFINE POPUP "File"
+            MENUITEM "Open" ACTION MsgInfo("Open") IMAGE "info.bmp"
+            MENUITEM "Save" ACTION MsgInfo("Save") IMAGE "free.bmp"
+            SEPARATOR
+            MENUITEM "Exit" ACTION ThisWIndow.Release IMAGE "exit.bmp"
+        END POPUP
+        DEFINE POPUP "Help"
+            MENUITEM "About" ACTION MsgInfo("HMG IDE - Menu Designer")
+        END POPUP
+    END MENU
+
+    DEFINE BUTTON Button_1
+        ROW    260
+        COL    140
+        WIDTH  100
+        HEIGHT 28
+        CAPTION "Button_1"
+        ACTION Nil
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE BUTTON Button_2
+        ROW    260
+        COL    250
+        WIDTH  100
+        HEIGHT 28
+        CAPTION "Button_2"
+        ACTION Nil
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        PICTURE Nil
+    END BUTTON
+
+    DEFINE DATEPICKER DatePicker_1
+        ROW    40
+        COL    360
+        WIDTH  120
+        HEIGHT 24
+        VALUE CTOD(" / / ")
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SHOWNONE .F.
+        UPDOWN .F.
+        RIGHTALIGN .F.
+    END DATEPICKER
+
+    DEFINE LABEL Label_1
+        ROW    20
+        COL    40
+        WIDTH  120
+        HEIGHT 24
+        VALUE "Label_1"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE BROWSE Browse_1
+        ROW    70
+        COL    50
+        WIDTH  120
+        HEIGHT 120
+        VALUE 0
+        WIDTHS {0}
+        HEADERS {''}
+        WORKAREA Nil
+        FIELDS {''}
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONDBLCLICK Nil
+        ALLOWEDIT .F.
+        ALLOWAPPEND .F.
+        ONHEADCLICK Nil
+        ALLOWDELETE .F.
+        HELPID Nil
+        VALID Nil
+        VALIDMESSAGES Nil
+        LOCK .F.
+        VSCROLLBAR .T.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        IMAGE Nil
+        JUSTIFY Nil
+        NOLINES .F.
+        READONLYFIELDS Nil
+        INPLACEEDIT .F. 
+    END BROWSE
+
+END WINDOW
+
+

@@ -57,7 +57,7 @@ RETURN NIL
 
 Procedure Test()
 
-	Win1.Test.Object:Movie := "http://www.youtube.com/v/58CZcCvwND4&hl=en&fs=1"
+	Win1.Test.XObject:Movie := "http://www.youtube.com/v/58CZcCvwND4&hl=en&fs=1"
 
 Return
 

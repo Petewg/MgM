@@ -1,0 +1,60 @@
+MAIN		ICON		res\StickyNotes.ico
+
+HAND		CURSOR		res\hand.cur
+FINGER		CURSOR		res\finger.cur
+
+TOP		BITMAP		res\top.bmp
+BOTTOM		BITMAP		res\bottom.bmp
+CLOSE		BITMAP		res\close.bmp
+
+EXIT		BITMAP		res\exit.bmp
+HIDE		BITMAP		res\hide.bmp
+INFO		BITMAP		res\info.bmp
+
+STRINGTABLE
+{
+10001,"The program is intended for creation the small notes on desktop. The start:"
+10002,"StickyNotes Text of your note."
+10003,"Copyright © Grigory Filatov 2003-12"
+10004,"gfilatov@inbox.ru"
+10005,""
+}
+
+STRINGTABLE
+{
+20001,"Программа предназначена для создания небольших заметок на рабочем столе. Запуск:"
+20002,"StickyNotes Текст Вашей заметки."
+20003,"Автор: © Григорий Филатов 2003-12"
+20004,"gfilatov@inbox.ru"
+20005,""
+}
+
+1 VERSIONINFO
+FILEVERSION 1,5,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Sticky Notes for Win9x/ME/2k/XP/7\000"
+		VALUE "FileVersion", "1.5.0.0"
+		VALUE "InternalName", "StickyNotes"
+		VALUE "LegalCopyright", "Copyright © Grigory Filatov 2003-2012\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "StickyNotes.exe"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "CompanyName", "\000"
+		VALUE "Comments", "Freeware, but see add notes for conditions\000"
+		VALUE "Aditional Notes", "Not for distribution without the author's permission"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

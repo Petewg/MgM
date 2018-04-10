@@ -566,4 +566,4 @@ BOOL SaveHBitmapToFile( void * HBitmap, const char * FileName, unsigned int Widt
    return TRUE;
 }
 
-#pragma ENDDUMP
+#pragma ENDUMP

@@ -1,0 +1,7 @@
+1MAIN_ICO       ICON            res\1IconWin.ico
+iExit48x1       ICON            res\iExit48x1.ico
+iExit48x2       ICON            res\iExit48x2.ico
+iSave48x1       ICON            res\iFloppy48x1.ico
+iSave48x2       ICON            res\iFloppy48x2.ico
+iLoad48x1       ICON            res\iSave48x1.ico
+iLoad48x2       ICON            res\iSave48x2.ico

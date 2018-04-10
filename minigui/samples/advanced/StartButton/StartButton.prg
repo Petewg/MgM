@@ -151,7 +151,7 @@ Static Procedure ActivateNotifyMenu( lWinRun )
 				Form_1.Sound.Checked := !lSound ) ;
 				NAME Sound
 		ITEM 'A&bout...'	ACTION ShellAbout( "About#", PROGRAM + VERSION + CRLF + ;
-				"Copyright " + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN") )
+				"Copyright " + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN", 32, 32) )
 		SEPARATOR	
 		ITEM 'E&xit'		ACTION Form_1.Release
 	END MENU

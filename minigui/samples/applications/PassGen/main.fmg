@@ -1,0 +1,92 @@
+	DEFINE WINDOW TEMPLATE ; 
+		AT 0,0 ;
+		WIDTH 444 ;
+		HEIGHT 298 ; 
+		TITLE 'Password Generator' ; 
+		ICON 'key' ;
+		MAIN ;
+		NOMAXIMIZE ;
+		NOSIZE ;
+		ON INIT GenPass( nPassword, cCharSet ) ;
+		ON RELEASE SaveIni( main.Spinner_11.Value, main.Text_11.Value ) ;
+		FONT 'System' ;
+		SIZE 10
+
+
+		@ 5,12 FRAME frame_11 ; 
+			CAPTION "Settings" ; 
+			WIDTH 410 ; 
+			HEIGHT 120
+
+		@ 41,25 LABEL label_11 ; 
+			VALUE 'Length of password:' ; 
+			WIDTH 150 ; 
+			HEIGHT 24
+
+		@ 36,168 SPINNER spinner_11 ; 
+			RANGE 4,40 ; 
+			VALUE  nPassword ; 
+			WIDTH 42 ; 
+			HEIGHT 27 ; 
+			ON LOSTFOCUS nPassword := main.Spinner_11.Value ;
+			WRAP
+
+		@ 35,222 BUTTON button_11 ;
+			CAPTION '&CharSet' ; 
+			ACTION main.text_11.SetFocus ;
+			WIDTH 90 ;
+			HEIGHT 28
+
+		@ 35,320 BUTTON button_12 ;
+			CAPTION '&Default' ; 
+			ACTION ( main.spinner_11.value := 10, main.text_11.value := cDefCharSet ) ;
+			WIDTH 90 ;
+			HEIGHT 28
+
+		@ 80,25 TEXTBOX text_11 ; 
+			HEIGHT 24 ; 
+			WIDTH 385 ; 
+			VALUE cCharSet ; 
+			MAXLENGTH  80 ; 
+			ON ENTER main.button_13.SetFocus
+
+		@ 135,12 FRAME frame_12 ; 
+			CAPTION "Password" ; 
+			WIDTH 410 ; 
+			HEIGHT 120
+
+		@ 160,25 TEXTBOX text_12 ; 
+			HEIGHT 24 ; 
+			WIDTH 385 ; 
+			MAXLENGTH  40 ; 
+			READONLY ;
+			ON ENTER main.button_13.SetFocus
+
+		@ 206,25 BUTTON button_13 ;
+			CAPTION '&Generate' ; 
+			ACTION GenPass( main.Spinner_11.Value, main.Text_11.Value ) ;
+			WIDTH 90 ;
+			HEIGHT 28 ; 
+			DEFAULT 
+
+		@ 206,123 BUTTON button_14 ;
+			CAPTION 'Clip&board' ; 
+			ACTION CopyToClipBoard( main.Text_12.Value ) ;
+			WIDTH 90 ;
+			HEIGHT 28
+ 
+		@ 206,223 BUTTON button_15 ;
+			CAPTION '&About' ; 
+			ACTION MsgAbout() ;
+			WIDTH 90 ;
+			HEIGHT 28
+ 
+		@ 206,321 BUTTON button_16 ;
+			CAPTION 'E&xit' ; 
+			ACTION ThisWindow.Release ;
+			WIDTH 90 ;
+			HEIGHT 28
+ 
+		main.button_13.SetFocus
+
+	END WINDOW 

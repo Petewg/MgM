@@ -1,13 +1,32 @@
 //hotkeys
 #include "i_keybd.ch"
 
+//D
+#xcommand ON KEY CONTROL+SHIFT+D [ OF <parent> ] ACTION <action> ;
+=> ;
+_DefineHotKey ( <"parent"> , MOD_CONTROL + MOD_SHIFT , VK_D , <{action}> )
+
+#xcommand RELEASE KEY CONTROL+SHIFT+D OF <parent> ;
+=> ;
+_ReleaseHotKey ( <"parent"> , MOD_CONTROL + MOD_SHIFT , VK_D )
+
 //F
 #xcommand ON KEY CONTROL+SHIFT+F [ OF <parent> ] ACTION <action> ;
 => ;
 _DefineHotKey ( <"parent"> , MOD_CONTROL + MOD_SHIFT , VK_F , <{action}> )
+
 #xcommand RELEASE KEY CONTROL+SHIFT+F OF <parent> ;
 => ;
 _ReleaseHotKey ( <"parent"> , MOD_CONTROL + MOD_SHIFT , VK_F )
+
+//R
+#xcommand ON KEY CONTROL+SHIFT+R [ OF <parent> ] ACTION <action> ;
+=> ;
+_DefineHotKey ( <"parent"> , MOD_CONTROL + MOD_SHIFT , VK_R , <{action}> )
+
+#xcommand RELEASE KEY CONTROL+SHIFT+R OF <parent> ;
+=> ;
+_ReleaseHotKey ( <"parent"> , MOD_CONTROL + MOD_SHIFT , VK_R )
 
 //TAB
 #xcommand ON KEY CONTROL+SHIFT+TAB [ OF <parent> ] ACTION <action> ;

@@ -1,0 +1,61 @@
+
+MAIN     ICON   montest.ico
+
+SMALL    BITMAP res\small.bmp
+CLOSE    BITMAP res\close.bmp
+ABOUT    BITMAP res\about.bmp
+HELP     BITMAP res\help.bmp
+READ     BITMAP res\read.bmp
+HIGH     BITMAP res\high.bmp
+ADJUST   BITMAP res\adjust.bmp
+GREY     BITMAP res\grey.bmp
+BARS     BITMAP res\bars.bmp
+TEST1    BITMAP res\test1.bmp
+VERT     BITMAP res\vert.bmp
+HORIZ    BITMAP res\horiz.bmp
+CROSS    BITMAP res\cross.bmp
+R1       BITMAP res\r1.bmp
+R2       BITMAP res\r2.bmp
+R3       BITMAP res\r3.bmp
+R6       BITMAP res\r6.bmp
+R20      BITMAP res\r20.bmp
+R50      BITMAP res\r50.bmp
+HIDE     BITMAP res\hide.bmp
+PINK     BITMAP res\pink.bmp
+AQUA     BITMAP res\aqua.bmp
+YELLOW   BITMAP res\yellow.bmp
+BLUE     BITMAP res\blue.bmp
+GREEN    BITMAP res\green.bmp
+RED      BITMAP res\red.bmp
+SOUND    BITMAP res\sound.bmp
+DISPLAY  BITMAP res\display.bmp
+LOGO     BITMAP res\logo.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,0,1,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Monitor Tester\000"
+		VALUE "FileVersion", "1.0.1.0"
+		VALUE "InternalName", "MonTest\000"
+		VALUE "LegalCopyright", "Freeware 2005"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "MonTest.exe"
+		VALUE "CompanyName", "MiniGUI"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

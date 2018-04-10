@@ -6,7 +6,7 @@ E-Mail: gfilatov@inbox.ru
 
 What is JpgViewer ?
 
-JpgViewer is a fast FREEWARE JPEG file viewer for Win9x/NT, Windows 2000 and
+JpgViewer is a fast FREEWARE JPEG file viewer for Win98, Windows 2000 and
 Windows XP.
 
 Keyboard Control:
@@ -26,7 +26,7 @@ Back       - to load previous image in the folder
 Space      - to load the next image in the folder
 Esc        - to exit from program
 
-Made by Harbour and MiniGUI without external DLL files.
+Made by Harbour and MiniGUI without using of the external DLL files.
 
 Enjoy ! :-)
 

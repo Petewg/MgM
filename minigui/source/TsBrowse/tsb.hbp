@@ -1,14 +1,18 @@
+#
+# tsb.hbp
+#
 
 -hblib
--warn=max
--inc-
+-inc
 -o../../lib/tsbrowse
 
 -I../../include
 
--w2 -es2 -ko 
+-w2 -es2 -ko -q0
 
-#-cflag=-DWIN32_LEAN_AND_MEAN
+{bcc}-hbx=../../include/tsbrowse.hbx
+
+-warn
 
 SBMSG.PRG
 SCRLLBAR.PRG
@@ -24,4 +28,3 @@ h_controlmisc1.prg
 h_tbrowse.prg
 c_TBrowse.c
 c_controlmisc1.c
-

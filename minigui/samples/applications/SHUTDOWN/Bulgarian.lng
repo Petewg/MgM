@@ -1,0 +1,33 @@
+; Language File for Shutdown Utility
+
+[Data]
+RadioButtonTime=Спри компютъра в указания час
+RadioButtonTimeLeft=Спри компютъра след определено време
+CheckBoxWindow=или спри, ако този прозорец не е активен
+LabelWindowTitle=Прозорец:
+LabelClock=
+LabelProcess=Какво действие да предприема?
+RadioButtonShutdown=Изключи компютъра
+RadioButtonReboot=Рестартирай компютъра
+RadioButtonLogOff=Влез под друго име
+CheckBoxPowerOff=После изключи и захранването
+CheckBoxForceMode=Принудително при блокиране
+CheckBoxStayOnTop=Прозорецът е над другите
+LabelLanguage=Език:
+
+WaitTitle=Shutdown Utility е активирана
+LabelWindowInfo=или веднага, щом не е активен:
+LabelTopShutdown=Компютърът ще бъде изключен след
+LabelTopReboot=Компютърът ще се рестартира след
+LabelTopLogOff=Потребителят ще бъде сменен след
+
+TitleError=Грешка
+TitleWarning=Предупреждение
+TitleInformation=Информация
+TitleAbout=За мен...
+
+ButtonStart=Старт!!!
+ButtonExit=Изход
+ButtonAbout=За мен...
+ButtonOk=OK
+ButtonCancel=Отмени

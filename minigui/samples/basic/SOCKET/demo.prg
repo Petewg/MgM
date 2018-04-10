@@ -34,11 +34,12 @@ Procedure Main
 
 Return
 
+
 Procedure TestHttp()
 Local Response
 Private Test
 
-	OPEN CONNECTION Test SERVER 'www.harbour-project.org' PORT 80 HTTP
+	OPEN CONNECTION Test SERVER 'www.hmgextended.com' PORT 80 HTTP
 
 	GET URL '/' TO Response CONNECTION Test 
 
@@ -47,5 +48,3 @@ Private Test
 	MsgInfo (Response)
 
 Return
-
-

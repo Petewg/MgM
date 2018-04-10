@@ -15,11 +15,12 @@
  * update in 27/01/2010
 */
 
+#include "minigui.ch"
+
 Memvar c_TITLE
 Memvar pListenSocket
 **********************************************************************************
-*Function Main
-#include "minigui.ch"
+* Function Main
 Function Main
 	Public c_TITLE := "HMG Talk Server"
 	Public pListenSocket
@@ -38,7 +39,7 @@ Function Main
 		NOTIFYTOOLTIP 'HMG Talk Server' ;
 		ON NOTIFYCLICK Show_Status();
 		ON INIT Start_Server();
-		ON RELEASE NIL /*Delete_Table()*/
+		ON RELEASE Delete_Table()
 
 		DEFINE NOTIFY MENU
 			ITEM 'About...'		ACTION MsgInfo( 'HMG Talk Server', c_TITLE )
@@ -109,26 +110,29 @@ Return Nil
 **********************************************************************************
 * Start the Server
 Function Start_Server()
-     Local c_Path  := "C:\"
-     Local c_Port  := "2941"
+     Local c_Path := GetStartupFolder()
+     Local c_Port := "2941"
+     Local c_Addr := "127.0.0.1"
 	pListenSocket := NIL
 
 	if !File("Config.ini")
 	   Begin ini file ("Config.ini")
-	      Set Section "CONFIGURATIONS" ENTRY "Port"   To c_Port
-	      Set Section "CONFIGURATIONS" ENTRY "Path"   To c_Path
+	      Set Section "CONFIGURATIONS" ENTRY "Port"    To c_Port
+	      Set Section "CONFIGURATIONS" ENTRY "Path"    To c_Path
+	      Set Section "CONFIGURATIONS" ENTRY "Address" To c_Addr
 	   End ini
 	else
 	   Begin ini file ("Config.ini")
-	      Get c_Port   Section "CONFIGURATIONS" ENTRY "Port"
-	      Get c_Path   Section "CONFIGURATIONS" ENTRY "Path"
-	   End Ini
-     endif
+	      Get c_Port Section "CONFIGURATIONS" ENTRY "Port"
+	      Get c_Path Section "CONFIGURATIONS" ENTRY "Path"
+	      Get c_Addr Section "CONFIGURATIONS" ENTRY "Address" DEFAULT c_Addr
+	   End ini
+	endif
 
 	Form_1.Text_1.Value := c_Port
 	Form_1.Text_2.Value := c_Path
 
-	pListenSocket := netio_mtserver( Val( AllTrim(Form_1.Text_1.Value) ) )
+	pListenSocket := netio_mtserver( Val( AllTrim(c_Port) ), c_Addr )
 
 	if empty( pListenSocket )
 		SetProperty( "Form_1","NOTIFYICON","STOP" )
@@ -153,7 +157,6 @@ Function Stop_Server()
 		SetProperty( "Form_1","NOTIFYICON","STOP" )
 		netio_serverstop( pListenSocket )
 		pListenSocket := NIL
-//  		Show_Status()
      endif
 Return Nil
 
@@ -185,8 +188,9 @@ Function Write_Ini()
      endif
 
      Begin ini file ("Config.ini")
-	   Set Section "CONFIGURATIONS" ENTRY "Port"   To Form_1.Text_1.Value
-	   Set Section "CONFIGURATIONS" ENTRY "Path"   To Form_1.Text_2.Value
+	   Set Section "CONFIGURATIONS" ENTRY "Port"    To Form_1.Text_1.Value
+	   Set Section "CONFIGURATIONS" ENTRY "Path"    To Form_1.Text_2.Value
+	   Set Section "CONFIGURATIONS" ENTRY "Address" To "127.0.0.1"
      End ini
 
      Restart_Server()

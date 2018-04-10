@@ -1032,12 +1032,11 @@ Static Function Hgconvert(ltxt)
    endcase
 return ''
 
-/*
 *-----------------------------------------------------------------------------*
 Function BrowseForFolder( nfolder, nflag, cTitle, cInitPath, lCenter )
 *-----------------------------------------------------------------------------*
 Return HB_BrowseForFolder( NIL, cTitle, nflag, nfolder, cInitPath, lCenter )
-*/
+
 *------------------------------------------------------------------------------*
 Static Function GetInstallAcrobat(hKey)
 *------------------------------------------------------------------------------*
@@ -1099,7 +1098,6 @@ void CenterDialog( HWND hwnd )
    MoveWindow( hwnd, (x - w) / 2, (y - h) / 2, w, h, TRUE );
 }
 
-/*
 int CALLBACK BrowseCallbackProc( HWND hWnd, UINT uMsg, LPARAM lParam, LPARAM lpData )
 {
    TCHAR szPath[MAX_PATH];
@@ -1112,8 +1110,6 @@ int CALLBACK BrowseCallbackProc( HWND hWnd, UINT uMsg, LPARAM lParam, LPARAM lpD
 
    return 0;
 }
-
-
 
 HB_FUNC( HB_BROWSEFORFOLDER )  // Syntax: HB_BROWSEFORFOLDER([<hWnd>],[<cTitle>],<nFlags>,[<nFolderType>],[<cInitPath>],[<lCenter>])
 {
@@ -1149,7 +1145,7 @@ HB_FUNC( HB_BROWSEFORFOLDER )  // Syntax: HB_BROWSEFORFOLDER([<hWnd>],[<cTitle>]
 
    hb_xfree( lpBuffer );
 }
-*/
+
 
 HB_FUNC ( REGENUMKEY )
 {

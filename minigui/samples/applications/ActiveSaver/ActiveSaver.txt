@@ -1,0 +1,24 @@
+ActiveSaver for Windows 9x/NT/2000/XP
+Copyright (c) 2003 Grigory Filatov. All rights reserved.
+
+DESCRIPTION:
+~~~~~~~~~~~~
+Attention system administrators: do users of your network 
+forget to log off before leaving?
+ActiveSaver may be of help: you can set it up as a screen
+saver, and when the time is up, ActiveSaver would logoff,
+restart, or even shut down the computer. You can make it
+display a warning message before performing the action,
+or run a program (for example, to clean the system up
+after the last user). 
+
+INSTALLATION: 
+~~~~~~~~~~~~~
+Run the file "ActiveSaver.exe". The ActiveSaver.scr will be
+copied into your Windows folder, and then it will be set up.
+
+DISTRIBUTION: 
+~~~~~~~~~~~~~
+This screen saver is FREE, and may be freely copied and distributed, 
+as long as it is not modified in any way, and no fee is charged for 
+its distribution (small shipping and handling fee is acceptable). 

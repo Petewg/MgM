@@ -1,0 +1,777 @@
+* HMG-IDE UNICODE Form Designer Generated Code
+* (c) Roberto Lopez - http://sites.google.com/site/hmgweb
+
+DEFINE WINDOW TEMPLATE AT 28 , 260 WIDTH 560 HEIGHT 650 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Mouse's cursors" ICON NIL MAIN CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR {180,180,180} NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE FRAME Frame_1
+        ROW    10
+        COL    20
+        WIDTH  200
+        HEIGHT 590
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Windows"
+        BACKCOLOR {180,180,180}
+        FONTCOLOR {155,0,0}
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE BUTTON Cur_Win_1
+        ROW    30
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_ARROW)
+        CAPTION "IDC_ARROW"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_ARROW.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_2
+        ROW    70
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_HAND)
+        CAPTION "IDC_HAND"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_HAND.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_3
+        ROW    110
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_HELP)
+        CAPTION "IDC_HELP"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_HELP.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_4
+        ROW    150
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_WAIT)
+        CAPTION "IDC_WAIT"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_WAIT.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_5
+        ROW    190
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_CROSS)
+        CAPTION "IDC_CROSS"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_CROSS.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_6
+        ROW    230
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_IBEAM)
+        CAPTION "IDC_IBEAM"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_IBEAM.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_7
+        ROW    270
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_APPSTARTING)
+        CAPTION "IDC_APPSTARTING"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_APPSTARTING.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_8
+        ROW    310
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_NO)
+        CAPTION "IDC_NO"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_NO.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_9
+        ROW    350
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_SIZEALL)
+        CAPTION "IDC_SIZEALL"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_SIZEALL.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_10
+        ROW    390
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_SIZENESW)
+        CAPTION "IDC_SIZENESW"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_SIZENESW.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_11
+        ROW    430
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_SIZENWSE)
+        CAPTION "IDC_SIZENWSE"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_SIZENWSE.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_12
+        ROW    470
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_SIZENS)
+        CAPTION "IDC_SIZENS"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_SIZENS.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_13
+        ROW    510
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_SIZEWE)
+        CAPTION "IDC_SIZEWE"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_SIZEWE.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE BUTTON Cur_Win_14
+        ROW    550
+        COL    30
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls(IDC_UPARROW)
+        CAPTION "IDC_UPARROW"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\IDC_UPARROW.png"
+        PICTALIGNMENT RIGHT
+    END BUTTON
+
+    DEFINE FRAME Frame_2
+        ROW    10
+        COL    330
+        WIDTH  200
+        HEIGHT 230
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "HMG"
+        BACKCOLOR {180,180,180}
+        FONTCOLOR {155,0,0}
+        OPAQUE .T.
+    END FRAME
+	
+	DEFINE BUTTON Cur_HMG_1
+        ROW    30
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("HP_GLASS")
+        CAPTION "HP_GLASS"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\HP_GLASS.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_2
+        ROW    70
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("Cursors\finger.cur")
+        CAPTION "HMG_FINGER"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\HMG_FINGER.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_3
+        ROW    110
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("MINIGUI_DRAGUP")
+        CAPTION "HMG_DRAGUP"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\HMG_DRAGUP.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_4
+        ROW    150
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("Cursors\draglist.cur")
+        CAPTION "HMG_DRAGLIST"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\HMG_DRAGLIST.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_5
+        ROW    190
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("MINIGUI_DRAGDOWN")
+        CAPTION "HMG_DRAGDOWN"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\HMG_DRAGDOWN.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE FRAME Frame_3
+        ROW    250
+        COL    330
+        WIDTH  200
+        HEIGHT 110
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Resource (.rc)"
+        BACKCOLOR {180,180,180}
+        FONTCOLOR {155,0,0}
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE BUTTON Cur_RES_1
+        ROW    270
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("WRITE")
+        CAPTION "WRITE"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\WRITE.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_Res_2
+        ROW    310
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("EYEDROPPER")
+        CAPTION "EYEDROPPER"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\EYEDROPPER.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE FRAME Frame_4
+        ROW    370
+        COL    330
+        WIDTH  200
+        HEIGHT 230
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Animated (.ani files)"
+        BACKCOLOR {180,180,180}
+        FONTCOLOR {155,0,0}
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE BUTTON Cur_HMG_10
+        ROW    390
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("Cursors\Working in Background.ani")
+        CAPTION "Working in Background"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\BACKGROUND.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_11
+        ROW    430
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("Cursors\nono.ani")
+        CAPTION "No, no..."
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\NONO.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_12
+        ROW    470
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("Cursors\sleepani.ani")
+        CAPTION "Sleeping..."
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE "Images\SLEEP.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_13
+        ROW    510
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("Cursors\idea.ani")
+        CAPTION "Any idea"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE "Images\IDEA.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Cur_HMG_14
+        ROW    550
+        COL    340
+        WIDTH  180
+        HEIGHT 36
+        ACTION SetCursorOnControls("Cursors\minion - text.ani")
+        CAPTION "Write here"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .T.
+        MULTILINE .F.
+        PICTURE "Images\MINION.png"
+        LEFTTEXT .F.
+    END BUTTON
+
+    DEFINE BUTTON Button_1
+        ROW    280
+        COL    240
+        WIDTH  70
+        HEIGHT 70
+        ACTION SetCursorOnControls("Cursors\HMG.cur")
+        CAPTION "Custom"
+        FONTNAME "Arial"
+        FONTSIZE 8
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .T.
+        PICTURE "Images\HMG.png"
+        VERTICAL .T.
+    END BUTTON
+
+END WINDOW
+

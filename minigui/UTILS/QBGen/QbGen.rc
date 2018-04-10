@@ -1,0 +1,61 @@
+#define IDI_MAIN 1001
+
+AAAAZZZZ    ICON    "Res\QbG.ico"
+1Register   ICON    "Res\QbG.ico"
+IDI_MAIN    ICON    "Res\QbG.ico"
+Tools       BITMAP  "Res\Tools.BMP"
+OPTIONS     BITMAP  "Res\Options.bmp"
+CANCEL      BITMAP  "Res\cancel.bmp"
+EDIT_CLOSE  BITMAP  "Res\EDIT_CLOSE.bmp"
+EDIT_DELETE BITMAP  "Res\EDIT_DELETE.bmp"
+EDIT_EDIT   BITMAP  "Res\EDIT_EDIT.bmp"
+EDIT_FIND   BITMAP  "Res\EDIT_FIND.bmp"
+EDIT_NEW    BITMAP  "Res\EDIT_NEW.bmp"
+EDIT_PRINT  BITMAP  "Res\EDIT_PRINT.bmp"
+GO_FIRST    BITMAP  "Res\GO_FIRST.bmp"
+GO_LAST     BITMAP  "Res\GO_LAST.bmp"
+GO_NEXT     BITMAP  "Res\GO_NEXT.bmp"
+GO_PREV     BITMAP  "Res\GO_PREV.bmp"
+OK          BITMAP  "Res\OK.bmp"
+RAImBOW     BITMAP  "RES\RAImBOW.bmp"
+REINDEX     BITMAP  "Res\REINDEX.bmp"
+TRASH       BITMAP  "Res\trash.bmp"
+TN          BITMAP  "Res\tn.bmp"
+TC          BITMAP  "Res\tc.bmp"
+DATEPICKER  BITMAP  "Res\DATEPICKER.bmp"
+CHECKBOX    BITMAP  "Res\CHECKBOX.bmp"
+RADIO       BITMAP  "Res\RADIO.bmp"
+COMBO       BITMAP  "Res\Combo.bmp"
+LABEL       BITMAP  "Res\LABEL.bmp"
+BUTTON      BITMAP  "Res\BUTTON.bmp"
+Up          BITMAP  "Res\Up.bmp"
+Down        BITMAP  "Res\Down.bmp"
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Quick Browser Generator\000"
+		VALUE "FileVersion", "1.0.0.0"
+		VALUE "InternalName", "Quickb"
+		VALUE "LegalCopyright", "Pierpaolo Martinello\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "Quickb.Exe\000"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Pierpaolo Martinello && Grigory Filatov \000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

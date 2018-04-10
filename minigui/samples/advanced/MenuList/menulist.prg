@@ -7,8 +7,6 @@
 
 #include "minigui.ch"
 
-#define ISVISTAORLATER()	( ISVISTA() .Or. ISSEVEN() )
-
 #define VerdeAgua       { 204 , 255 , 153 }
 #define VerdeDuro  	{  51 , 153 , 255 }
 #define VerdeSapo	{   0 , 102 ,   0 }

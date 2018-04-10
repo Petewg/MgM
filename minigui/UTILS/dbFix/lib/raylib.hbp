@@ -1,0 +1,15 @@
+-hblib
+-o..\clraylib
+
+-w -es2
+
+-DDOS_ONLY
+
+Filepart.prg
+Frequent.prg
+Numbers.prg
+Dirstuff.prg
+File_io.prg
+Genvalid.prg
+Netuse.prg
+Msgmeter.prg

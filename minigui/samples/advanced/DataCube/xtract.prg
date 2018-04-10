@@ -1,4 +1,4 @@
-#include <minigui.ch>
+#include <hmg.ch>
 
 Set proc to grid2csv
 Set proc to sampledata
@@ -108,9 +108,9 @@ next nCount
 i := GetControlIndex ( cGrid , cWindow )
 aJustify := _HMG_aControlMiscData1 [i] [3]
 
-//WAIT WINDOW "Creating Data Environment - Please wait..." NOWAIT
+WAIT WINDOW "Creating Data Environment - Please wait..." NOWAIT
 exporttosql("s","data")
-//wait clear 
+wait clear 
 
 
 for i := 1 to len(aAvailCols)
@@ -488,7 +488,7 @@ if len(aSelRows) == 0 .and. len(aSelCols) == 0 .and. len(aSelData) == 0
 endif
 
 
-//wait window "Please wait while tabulating..." nowait
+wait window "Please wait while tabulating..." nowait
 
 
 aRowIds := aclone(aSelRows)
@@ -948,13 +948,8 @@ if nData > 0
    for i := 1 to nData
       aadd(aResults,aclone(aColTotal[i]))
    next i
-   
-   
 
 endif
-
-
-
 
 aReportGrid := {}
 
@@ -970,8 +965,7 @@ for i := 1 to nResRows
    aadd(aReportGrid,aclone(aResults[i]))
 next i
 
-
-//wait clear 
+wait clear 
 
 //aReportGrid := aClone(aResults)
 

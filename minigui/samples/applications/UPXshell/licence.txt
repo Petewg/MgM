@@ -1,0 +1,19 @@
+End-User License Agreement for Advanced Shell for UPX v.2.0
+
+This End-User License Agreement ("EULA") is a legal agreement between you, end-user, and Grigory Filatov (author of this Software) for the use of the Advanced Shell for UPX v.2.0 software product ("SOFTWARE PRODUCT").
+By installing, copying, or otherwise using the SOFTWARE PRODUCT, you agree to be bounded by the terms of this EULA.
+If you do not agree to the terms of this EULA, do not install or use the SOFTWARE PRODUCT.
+
+COPYRIGHT
+Advanced Shell for UPX v.2.0 is Copyright © 2006 Grigory Filatov http://minigui.mylivepage.ru
+The Ultimate Packer for eXecutables (UPX) is Copyright © 1996-2004 Markus Oberhumer & Laszlo Molnar http://upx.sourceforge.net
+
+NO WARRANTIES
+The Author of this Software expressly disclaims any warranty for the SOFTWARE PRODUCT. 
+The SOFTWARE PRODUCT and any related documentation is provided "AS IS" without warranty of any kind, either express or implied, including, without limitation, the implied warranties or merchantability, fitness for a particular purpose, or noninfringement. 
+The entire risk arising out of use or performance of the SOFTWARE PRODUCT remains with you.
+
+REGISTRATION
+Advanced Shell for UPX v.2.0 is a freeware product. It may be used free of charge.
+
+By using this software, you are agreeing to the terms of this license.

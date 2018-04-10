@@ -68,7 +68,7 @@ Static Procedure fRecibe()
 *------------------------
 
 While lOcupado
-  DoEvents()
+  do events
 Enddo
 
 buffer  := InbufSize(nHandle)

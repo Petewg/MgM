@@ -47,7 +47,7 @@ Static nHeight      := 430
 Static lFind        := .f.
 Static aFileEdit    := {}
 Static InstallPath  := ""
-Static cHelp        := "RichEdit.hlp"
+Static cHelp        := "RichEdit.chm"
 
 Static rEdit := 8
 Static wEdit := 737
@@ -127,11 +127,11 @@ Function Main
 				ITEM '&Replace'			ACTION Search_click(1)  NAME It_Repl IMAGE 'repeat'
 			END POPUP
 			POPUP '&Insert'
-				ITEM '&Font'				ACTION SelFont(1) IMAGE "BMPFONT"
+				ITEM '&Font'				ACTION SelFont(1) IMAGE "FONT"
 				ITEM '&Paragraph'			ACTION Paragraph_click() IMAGE "PARAGRAF"
 			END POPUP
 			POPUP '&Help'
-				ITEM '&Help'+Chr(9)+'F1'		ACTION DISPLAY HELP MAIN IMAGE "BMPHELP"
+				ITEM '&Help'+Chr(9)+'F1'		ACTION DISPLAY HELP MAIN IMAGE "HELP"
 				ITEM 'About'				ACTION  MsgInfo (padc("MiniGUI RichEdit Demo", Len(MiniguiVersion()))+KON_LIN+ ;
 					"Contributed by Janusz Pora <januszpora@onet.eu>"+KON_LIN+KON_LIN+ ;
 					MiniguiVersion(),"A COOL Feature ;)")
@@ -244,20 +244,18 @@ Function Main
 			COMBOBOX Combo_1 ;
 				ITEMS aListFont;
 				VALUE 2 ;
-				WIDTH 80 ;
-				HEIGHT 200 ;
+				HEIGHT 200;
 				FONT 'Tahoma' SIZE 9 ;
-				LISTWIDTH 200 ;
-				TOOLTIP 'Font Name' ;
-				ON CHANGE SetName_Click()
-				
+				TOOLTIP 'Font Name';
+				ON CHANGE SetName_Click();
+				BREAK
+
 			COMBOBOX Combo_2 ;
 				ITEMS aSizeFont ;
 				VALUE 3 ;
 				WIDTH 40;
 				TOOLTIP 'Font Size' ;
-				ON CHANGE SetSize_Click() /*;
-				BREAK */
+				ON CHANGE SetSize_Click() 
 
 			DEFINE TOOLBAR ToolBar_3 BUTTONSIZE 17,17 SIZE 8 FLAT
 
@@ -1491,7 +1489,6 @@ Return Nil
 #pragma BEGINDUMP
 
 #define _WIN32_IE      0x0500
-#define HB_OS_WIN_USED
 #define _WIN32_WINNT   0x0400
 #include <shlobj.h>
 
@@ -1508,7 +1505,7 @@ Return Nil
 #include <wingdi.h>
 #include <setupapi.h>
 
-static LPBYTE cbuffer;
+static HGLOBAL cbuffer;
 static int ilefontow;
 static int aktfont;
 
@@ -1539,7 +1536,7 @@ HB_FUNC( RR_GETFONTS )
 	ilefontow=0;
 
 	EnumFontFamiliesEx(hDC,&lf,(FONTENUMPROC)effxp,1,0);
-	cbuffer = GlobalAlloc(GPTR, ilefontow*127);
+	cbuffer = ( char * ) GlobalAlloc(GPTR, ilefontow*127);
 	aktfont=0;
 
 	EnumFontFamiliesEx(hDC,&lf,(FONTENUMPROC)effxp,0,0);
@@ -1548,14 +1545,13 @@ HB_FUNC( RR_GETFONTS )
 	GlobalFree(cbuffer);
 }
 
-/*
 HB_FUNC ( REBARHEIGHT )
 {
 	LRESULT lResult ;
 	lResult =  SendMessage( (HWND) hb_parnl (1),(UINT) RB_GETBARHEIGHT, 0, 0 );
 	hb_retnl( (UINT)lResult );
 }
-*/
+
 HB_FUNC ( GETDEVCAPS ) // GetDevCaps ( hwnd )
 {
 	INT      ix;
@@ -1573,7 +1569,6 @@ HB_FUNC ( GETDEVCAPS ) // GetDevCaps ( hwnd )
 	hb_retni( (UINT) ix );
 }
 
-/*
 HB_FUNC ( MENUITEM_SETBITMAPS )
 {
 
@@ -1595,7 +1590,7 @@ HB_FUNC ( MENUITEM_SETBITMAPS )
 	SetMenuItemBitmaps( (HMENU) hb_parnl(1) , hb_parni(2), MF_BYCOMMAND , (HBITMAP) himage1 , (HBITMAP) himage2 ) ;
 
 }
-*/
+
 #pragma ENDDUMP
 
 #include "l_richeditbox.prg"

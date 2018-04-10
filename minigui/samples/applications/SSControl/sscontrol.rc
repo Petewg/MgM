@@ -1,0 +1,34 @@
+MAINICON ICON "Icon_1.ico"
+
+OFF ICON "Icon_2.ico"
+
+ON ICON "Icon_3.ico"
+
+1 VERSIONINFO
+FILEVERSION 2,2,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Screen Saver Controller\000"
+		VALUE "FileVersion", "2.2.0.0"
+		VALUE "InternalName", "SSControl"
+		VALUE "LegalCopyright", "Freeware 2003"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "SSControl.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

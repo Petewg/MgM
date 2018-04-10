@@ -1,6 +1,7 @@
 #include <hmg.ch>
 #include "hmg_hpdf.ch"
 
+memvar _HMG_HPDFDATA
 
 PROCEDURE Main()
    
@@ -98,7 +99,7 @@ PROCEDURE Text2PDF( ;                     // Build PDF from a text file
       nLMargin, ;
       nTextWidth, ;
       oFont, ;
-      aText
+      aText, c1Line, cLSpace, nTLnWidth, nTxtHigh
          
    LOCAL aFB14List := { "Courier", ;
       "Courier-Bold", ;

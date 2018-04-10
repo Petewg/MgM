@@ -7,8 +7,6 @@
 
 #include 'minigui.ch'
 
-#define ISVISTAORLATER()	( ISVISTA() .Or. ISSEVEN() )
-
 #xcommand ON KEY SPACE [ OF <parent> ] ACTION <action> ;
 => ;
 _DefineHotKey ( <"parent"> , 0 , VK_SPACE , <{action}> )

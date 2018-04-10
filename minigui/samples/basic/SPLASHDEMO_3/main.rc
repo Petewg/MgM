@@ -1,0 +1,9 @@
+1_MAIN        ICON              res\1IconWin.ico
+
+DEMO          JPG               res\demo.jpg
+
+iExit         ICON		res\iExit64.ico
+iPiople       ICON		res\iPiople64.ico
+iMessage      ICON		res\iMessage64.ico
+iMusic        ICON		res\iMusic64.ico
+iAbout        ICON		res\iAbout64.ico

@@ -1,0 +1,15 @@
+#
+# hbziparc.hbp
+#
+
+-hblib
+-inc
+-o../../harbour/lib/hbziparc
+
+-I../../include
+
+-hbx=../../include/hbziparc.hbx
+
+-w3 -es2 -ko -q0
+
+hbziparc.prg

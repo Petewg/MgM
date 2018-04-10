@@ -1,3 +1,268 @@
+2018/03/28: HMG Extended Edition version 18.03.
+  * Fixed: Missed update of a dynamic color at column sorting in a GRID control.
+           Problem was reported by Vagelis Prodromidis.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * New: 'PDF Printer' library is based upon the Harbour HaruPDF class:
+           - declaration of the object THaruPdf:
+             PRINT <oPrint> TO HARU [ FILE <cFile> ] ;
+                             [ <lPreview: PREVIEW> ] ;
+                          [ USER PASS <cUserpass>  ] ;
+                        [ OWNER PASS <cOwnerpass>  ] ;
+                        [ PERMISION  <nPermision>  ]
+           - start and end of page
+             PRINTPAGE
+             ...
+             ENDPAGE
+           - end of printing
+             ENDPRINT
+           (see source in folder \Source\PdfPrinter)
+           Based upon a contribution of Carlos Mora for FiveWin.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\PdfPrinter_Test)
+  * Enhanced: The colored ButtonEx control supports also a definition of gradient
+           color for a MouseHover event through the BACKCOLOR <aGradient> clause
+           (also as and a pressed gradient).
+           - New: Added the read/write properties 'GradientFill' and
+             'GradientOver' for ButtonEx control.
+           You can set above properties at runtime as usually:
+             Win.ButtonEx.GradientFill := aGradFill
+             SetProperty( Form, Control, 'GradientOver', aGradOver )
+           or with 'This' object reference
+             This.GradientFill := aGradFill
+             This.GradientOver := aGradOver
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo4.prg in folder \samples\Basic\ButtonEx)
+  * Enhanced: WebCam: added the useful function cap_SetVideoFormat().
+           Syntax: cap_SetVideoFormat( Win.Camera.Handle, <width>, <height> )
+           Requested by user on Russian HMG forum.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Enhanced: Added the useful function SuppressKeyAndMouseEvents() for blocking
+           of the mouse and keyboard pressing at the event's processing.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\PROGRESSBAR)
+  * Modified: The minor optimizations for a speed (and stability) improvement
+           in the some internal functions.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Internal OOP class TWndData: improved method DoEvent().
+           Suggested and contributed by Sergej Kiselev
+           (see demo in folder \samples\Advanced\APP_OOPEVENTS)
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG:
+           - New: Added the useful functions HMG_KeyboardClearBuffer() and
+             HMG_MouseClearBuffer().
+             Contributed by Claudio Soto at official HMG forum.
+           - New: Addition of 455 new colors definitions
+             Contributed by Grigory Filatov
+             (see i_wincolor.ch in folder \include)
+  * Updated: The .HBX files were generated with hbmk2 utility for the all basic
+           libraries. Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see *.hbx in folder \include)
+  * Updated: HMG_HPDF library (see source in folder \source\HMG_HPDF):
+           - New: Added the new global commands:
+             SET HPDFDOC FONT NAME TO <cFontName>
+             SET HPDFDOC FONT SIZE TO <nFontSize>
+           Remark:
+           The command SET HPDFDOC FONT NAME TO restores the "Helvetica" font
+           as the default.
+           SET HPDFDOC FONT SIZE TO - restores font size 12 as the default.
+           (see demo in folder \samples\Advanced\PDF_PRINT)
+           - Fixed: STRIKEOUT and UNDERLINE options also works with ANGLE clause.
+           - Fixed: validation/selection of fonts in the function _HMG_HPDF_SetFont().
+           - New: Added the new print commands:
+             @ <Row>, <Col> HPDFPRINT SKEW <cText> ...
+             @ <Row>, <Col> HPDFPRINT SCALE <cText> ...
+             @ <Row>, <Col> HPDFPRINT RENDER <cText> ...
+             @ <Row>, <Col> HPDFPRINT CIRCLED TEXT <cText> ...
+           Based upon a contribution of HMG user Edward
+           (see demo in folder \samples\Advanced\PDF_PRINT_3)
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added the new method AdjColumns( [ aColumns ] [, nDelta ] ).
+             Contributed by Sergej Kiselev
+           (see demo in folder \samples\Advanced\APP_OOPREPORT)
+           - minor corrections in the methods ExcelOle() and Excel2().
+           - basic numerical colors were moved from the header file tsbrowse.ch
+             to i_color.ch (it is helpful for assignment of a gradient color). 
+           Requested by Verchenko Andrey <verchenkoag@gmail.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.23.0dev (from 3.22.0).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2018-03-16 19:10).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * Updated: HMGS-IDE v.1.4.3.2 Project Manager and Two-Way Visual Form Designer.
+           Contributed by Pierpaolo Martinello <pier.martinello[at]alice.it>
+           (look for what's new at changelog.txt in folder \Ide)
+  * New: 'Modify menu item test' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see menudemo1.prg in folder \samples\Basic\Menu)
+  * New: 'Using OOP events for creation of the reports' sample.
+           Contributed by Sergej Kiselev
+           (see in folder \samples\Advanced\APP_OOPREPORT)
+  * Updated: 'Print Pie Graph' sample: updated the data for February 2018.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\GraphPrint)
+  * Updated: 'MiniPrint Demo' sample: added output of printing to a PDF file.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\MiniPrint)
+  * Updated: 'Shutdown Of Called Process' sample:
+           - added a workaround to catch a process Id at Windows 64-bit.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\GoStop)
+  * Updated: 'MySql Client' sample:
+           - increased quantity of the tables in a project to 999;
+           - fixed program crash at a quick moving across a tables list
+             due to a latency of the queries in the procedure UpdateData().
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\MySqlClient)
+  * Updated: 'TSBrowse Export data to a XLS/XML file' sample.
+           Contributed by Igor Nazarov and Verchenko Andrey
+           (see in folder \samples\Advanced\Tsb_Brw2xml)
+  * Updated: 'WebCam preview and capture' sample:
+           - use BosTaurus library for capturing an image from clipboard and
+             saving of above image to JPEG format instead of local code.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\WebCam_2)
+
+2018/02/28: HMG Extended Edition version 18.02.
+  * Enhanced: The RadioGroup control supports an optional AUTOSIZE clause now.
+           It will be useful for definition of the Horizontal RadioGroup with
+           a variable width of the items.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\RadioGroup_nofixed)
+  * Modified: The Report Generator by Roberto Lopez was moved to MiniGUI core
+           from the samples (see help file report.txt in folder
+           \samples\Advanced\REPORT_GENERATOR).
+           Output of the reports is possible to printer or HTML and PDF formats.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\Report_Test)
+  * Modified: The Clipper Alert() compatible function was moved to MiniGUI core.
+           Syntax:
+             HMG_Alert( cText, [<aOptions>], [<cTitle>], [<nType>] )
+           where cText as in Clipper, let's separate the lines with semicolon.
+           Suggested by Pierpaolo Martinello.
+           Based upon a code of Francisco Garcia Fernandez for FiveWin.
+           Modified for MiniGUI Ex by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\WALERT_2)
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG:
+           - New: Added the command CHECK TYPE [ SOFT ] <var1> AS <type1> [ ,
+             <var2> AS <type2> [ , <varN> AS <typeN> ] ] for checking at runtime
+             the specified type of a variable or function/procedure parameter.
+             Where:
+             <Var> is the name of variable;
+             <Type> is one of the following variable types:
+               ARRAY, BLOCK, CHARACTER, DATE, HASH, LOGICAL, NIL, NUMERIC, MEMO,
+               POINTER, SYMBOL, TIMESTAMP, OBJECT, USUAL (in the last case the
+               variable can take any of the above types, in the practice the
+               variable type is not checked).
+             When the SOFT clause is specified the variable can take the NIL
+             value or the specified value, otherwise the variable can take only
+             the value which is specified in the command.
+             The checking the type of a variable or a function/procedure parameter
+             is useful for a minimization of input errors (defensive programming).
+             If any of the variables do not have the specified type an error
+             message is displayed and the program is aborted.
+           Based upon a contribution of Claudio Soto <srvet@adinet.com.uy>
+  * Updated: Added new methods in the internal OOP classes TWndData, TCnlData
+           and TTsbData.
+           Suggested and contributed by Sergej Kiselev.
+  * Updated: Function HttpConnect modified to use TUrl and TIpClientHttp classes
+           instead of THttp class from Socket library. Also modified to accept a
+           reference to a variable instead of the name of a variable.
+           Added HEADERS clause to GET URL command to retrieve only the page's
+           headers.
+           Added NOHEADERS clause to GET URL command to retrieve only the page's
+           DATA.
+           Added OBJ clause to OPEN CONNECTION command to enable the use of
+           variable's reference instead of a variable's name.
+           Based upon a code borrowed from OOHG.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\Http)
+  * Updated: The ProcInfo library code was modified by Pierpaolo Martinello:
+           - added the NoWarn parameter and returned result in the functions
+             KillProcess() and SetPriorityToProcess().
+           (see procinfo.txt for description in folder \samples\Advanced\ProcInfo)
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added processing of a row height in the method Excel2().
+             Contributed by Igor Nazarov.
+           - added cleaning of variable :aBitMaps in the method Destroy().
+             (see demo in folder \samples\Advanced\Tsb_BitMaps)
+           - added the new methods GetValue( xCol ) and SetValue( xCol, xVal ).
+             Contributed by Sergej Kiselev
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.22.0 (from 3.22.0dev).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2018-02-12 10:00):
+           * New: Added HbXlsXml extras library.
+           Contributed by Igor Nazarov (see source in folder \Source\HbXlsXml);
+           * Updated: HbNetIO contrib library;
+           * Updated: SddODBC contrib library.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * Updated: HMGS-IDE v.1.4.3.1 Project Manager and Two-Way Visual Form Designer.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look for what's new at changelog.txt in folder \Ide)
+  * New: 'Variable RadioGroup horizontal nofixed' sample.
+           Based upon a contribution of Pierpaolo Martinello
+           (see in folder \samples\Basic\RadioGroup_nofixed)
+  * New: 'Making an animation in windows' sample.
+           Based upon a C-code of Brook Miles (was written in 2002).
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\ANIMATION)
+  * New: 'Text Case Conversion' sample.
+           Based upon a contribution of Bicahi Esgici.
+           Adapted for Minigui Extended by Pierpaolo Martinello
+           (see in folder \samples\Advanced\CaseConvert)
+  * New: 'TSBrowse Export data to a XML file' sample (based on HbXlsXml library).
+           Contributed by Igor Nazarov and Verchenko Andrey
+           (see in folder \samples\Advanced\Tsb_Brw2xml)
+  * New: 'Using OOP events for windows and controls' sample.
+           Contributed by Sergej Kiselev.
+           (see in folder \samples\Advanced\APP_OOPEVENTS)
+  * Updated: 'Print Pie Graph' sample: updated the data for January 2018.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\GraphPrint)
+  * Updated: 'OptionBox() function' sample: using AUTOSIZE clause of RadioGroup.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\OptionBox)
+  * Updated: 'MailBox Checker' sample:
+           - avoided error in case of double opening of Form_2;
+           - changed cryptography routines due to the found out errors.
+           Contributed by Pierpaolo Martinello <pier.martinello[at]alice.it>
+           (see in folder \samples\Advanced\CHECKMAILBOX)
+  * Updated: 'PDF Form Filler' sample:
+           - adapted to Windows 10 64-bit and Acrobat Reader DC.
+           Contributed by Pierpaolo Martinello <pier.martinello[at]alice.it>
+           (see in folder \samples\Advanced\PDF-FILLER)
+  * Updated: 'Report Generator' sample by Roberto Lopez <harbourminigui@gmail.com>:
+           - updated for compatibility with the latest Minigui core changes.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\REPORT_GENERATOR)
+  * Updated: 'Report Generator 2':
+           - updated for compatibility with the latest Minigui core changes.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Advanced\REPORT_GENERATOR_2)
+  * Updated: 'Using of TSBrowse for a table from an array' sample:
+           - misc bugfix.
+           Contributed by Sergej Kiselev and Verchenko Andrey
+           (see in folder \samples\Advanced\Tsb_array_3)
+  * Updated: 'Partial seek in TsBrowse' sample.
+           Based upon a contribution of Sergej Kiselev
+           (see in folder \samples\Advanced\Tsb_seek)
+  * Updated: 'Get Windows Version string' sample: added Windows 10 detection.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\WinVersion_2)
+  * Updated: 'Safety Scan' sample: using AUTOSIZE clause of RadioGroup.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Applications\SafetyScan)
+  * Updated: 'SendMailReport Enhanced 1.7' sample:
+           - changed cryptography routines due to the found out errors.
+           Contributed by Pierpaolo Martinello <pier.martinello[at]alice.it>
+           (see in folder \samples\Applications\SendMailReport)
+  * Updated: 'DBF Browser' sample:
+           - updated for compatibility with the latest Minigui core changes.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Utils\hmg_dbview)
+
 2018/01/24: HMG Extended Edition version 18.01.
   * Fixed: A typo in the imagelist processing prevented the use of the imagelist
            without a mask (introduced in the build 2.5.4).

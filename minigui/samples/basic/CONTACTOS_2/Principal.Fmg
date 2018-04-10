@@ -1,0 +1,34 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2005 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 58 , 87 WIDTH 640 HEIGHT 480 TITLE "Designed with MiniGUI IDE :: Roberto Lopez ::" ICON "Tutor" MAIN CURSOR NIL ON INIT Nil ON RELEASE Nil ON INTERACTIVECLOSE IF(MsgYesNo("Salir del Sistema ?","Salida"),Principal.release,.F.) ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR {120,199,241} NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE MAIN MENU
+        DEFINE POPUP "&Archivo"
+            MENUITEM "&Contactos" ACTION AdministradordeContactos()
+            MENUITEM "&Tipos de Contacto" ACTION AdministradorDeTipos()
+            SEPARATOR
+            MENUITEM "Salir" ACTION IF(MsgYesNo("Salir del Sistema ?","Salida"),Principal.release,NIL)
+        END POPUP
+        DEFINE POPUP "A&yuda"
+            MENUITEM "A&cerca de ..." ACTION MsgInfo(padc("Designed with ",30)+chr(13)+chr(10)+padc("MiniGUI IDE",30)+chr(13)+chr(10)+padc("Roberto Lopez",30))
+        END POPUP
+    END MENU
+
+    DEFINE TOOLBAR ToolBar_1 BUTTONSIZE 110,35 FONT "Arial" SIZE 9 FLAT RIGHTTEXT BORDER
+        BUTTON Button_1 CAPTION "Contactos" PICTURE "contactos.bmp" ACTION AdministradordeContactos()
+        BUTTON Button_2 CAPTION "Tipos Ctto." PICTURE "tipos.bmp" ACTION AdministradordeTipos()
+        BUTTON Button_3 CAPTION "Ayuda" PICTURE "ayuda.bmp" ACTION MsgInfo(padc("Designed with ",30)+chr(13)+chr(10)+padc("MiniGUI IDE",30)+chr(13)+chr(10)+padc("Roberto Lopez",30))
+        BUTTON Button_4 CAPTION "Salir" PICTURE "salir.bmp" ACTION IF(MsgYesNo("Salir del Sistema ?","Salida"),Principal.release,NIL)
+    END TOOLBAR
+
+    DEFINE STATUSBAR FONT "Arial" SIZE 9
+        STATUSITEM "Contactos with MiniGUI IDE" WIDTH 120
+        STATUSITEM "Harbour MiniGUI" WIDTH 250 ICON "main.ico"
+        CLOCK
+        DATE
+    END STATUSBAR
+
+END WINDOW
+
+

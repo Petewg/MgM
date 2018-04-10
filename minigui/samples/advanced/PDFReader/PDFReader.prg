@@ -51,7 +51,6 @@ RETURN NIL
 STATIC PROCEDURE fOpenActivex()
 LOCAL cPDF
 
-MsgInfo( "Adobe Acrobat Reader must be installed, otherwise the demo will generate error!", "Important Note" )
 cPDF := GetStartUpFolder()+"\PDFOpenParameters.PDF"
 
 IF FILE(cPDF)

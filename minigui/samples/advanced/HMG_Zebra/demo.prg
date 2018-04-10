@@ -2,33 +2,6 @@
 
 Set Procedure To HMG_Zebra.prg
 
-// Claudio Soto (July 2013)
-
-#translate SET WINDOW <cFormName> TRANSPARENT TO <nAlphaBlend> ;
-=>;   // nAlphaBlend = 0 to 255 (completely transparent = 0, opaque = 255)
-   SetWindowTransparent (GetFormHandle(<"cFormName">), <nAlphaBlend>)
-
-#translate SET WINDOW <cFormName> [ TRANSPARENT ] TO OPAQUE ;
-=>;
-   SetWindowTransparent (GetFormHandle(<"cFormName">), 255)
-
-
-#define FLASHW_CAPTION 1
-#define FLASHW_TRAY 2
-#define FLASHW_ALL (FLASHW_CAPTION + FLASHW_TRAY)
-
-#translate FLASH WINDOW <cFormName> CAPTION COUNT <nTimes> INTERVAL <nMilliseconds> ;
-=>;
-   FlashWindowEx (GetFormHandle(<"cFormName">), FLASHW_CAPTION, <nTimes>, <nMilliseconds>) 
-
-#translate FLASH WINDOW <cFormName> TASKBAR COUNT <nTimes> INTERVAL <nMilliseconds> ;
-=>;
-   FlashWindowEx (GetFormHandle(<"cFormName">), FLASHW_TRAY, <nTimes>, <nMilliseconds>) 
-
-#translate FLASH WINDOW <cFormName> [ ALL ] COUNT <nTimes> INTERVAL <nMilliseconds> ;
-=>;
-   FlashWindowEx (GetFormHandle(<"cFormName">), FLASHW_ALL, <nTimes>, <nMilliseconds>) 
-
 MEMVAR aTypeItems
 MEMVAR aValues
 MEMVAR aBarColor
@@ -43,7 +16,7 @@ Function Main
    PRIVATE aValues :={;
                          "477012345678","1234567","01234567891","123456","ABC123","12345678901","1234","1234567",;
                          "-1234","ABC-123","Code 128","Hello, World of Harbour! It's 2D barcode PDF417",;
-                         "Hello, World of Harbour! It's 2D barcode DataMatrix","http://harbour-project.org/"}
+                         "Hello, World of Harbour! It's 2D barcode DataMatrix","https://harbour.github.io/"}
    PRIVATE aBarColor := { 0, 0, 0 }
    PRIVATE aBackColor := { 255, 255, 255 }
 
@@ -201,7 +174,7 @@ function CreateBarCode
    endif      
 
    if IsWinXPorLater()
-      // SET WINDOW barcode TRANSPARENT TO 150   // nAlphaBlend = 0 to 255 (completely transparent = 0, opaque = 255)
+      SET WINDOW barcode TRANSPARENT TO 150   // nAlphaBlend = 0 to 255 (completely transparent = 0, opaque = 255)
    endif
 
    DEFINE WINDOW Form1;
@@ -268,84 +241,3 @@ function changebackcolor
       aBackColor := aColor
    endif
 return nil
-
-
-*--------------------------------------------------------------*
-Function SetWindowTransparent (hWnd, nAlphaBlend)
-*--------------------------------------------------------------*
-   #define LWA_COLORKEY 0x01
-   #define LWA_ALPHA    0x02
-   // When nAlphaBlend is 0, the window is completely transparent. When nAlphaBlend is 255, the window is opaque.
-   IF ValType (nAlphaBlend) <> "N" .OR. nAlphaBlend > 255
-      nAlphaBlend := 255   // completely opaque
-   ELSEIF nAlphaBlend < 0
-      nAlphaBlend := 0     // completely transparent
-   ENDIF
-Return SetLayeredWindowAttributes (hWnd, 0, nAlphaBlend, LWA_ALPHA)
-
-/*
-#pragma BEGINDUMP
-
-#if defined ( __MINGW32__ )
-#  define _WIN32_WINNT 0x0500
-#endif
-
-#include <windows.h>
-#include "hbapi.h"
-
-//        FlashWindowEx (hWnd, dwFlags, uCount, dwTimeout)
-HB_FUNC ( FLASHWINDOWEX )
-{
-   FLASHWINFO FlashWinInfo;
-
-   FlashWinInfo.cbSize    = sizeof (FLASHWINFO);
-   FlashWinInfo.hwnd      = (HWND)  hb_parnl (1);
-   FlashWinInfo.dwFlags   = (DWORD) hb_parnl (2);
-   FlashWinInfo.uCount    = (UINT)  hb_parnl (3);
-   FlashWinInfo.dwTimeout = (DWORD) hb_parnl (4);
-
-   hb_retl ((BOOL) FlashWindowEx (&FlashWinInfo));
-}
-
-//        SetLayeredWindowAttributes (hWnd, crKey, bAlpha, dwFlags)
-HB_FUNC ( SETLAYEREDWINDOWATTRIBUTES )
-{
-#if defined ( __MINGW32__ )
-
-   HWND     hWnd    = (HWND)     hb_parnl (1);
-   COLORREF crKey   = (COLORREF) hb_parnl (2);
-   BYTE     bAlpha  = (BYTE)     hb_parni (3);
-   DWORD    dwFlags = (DWORD)    hb_parnl (4);
-
-   if (!(GetWindowLong (hWnd, GWL_EXSTYLE) & WS_EX_LAYERED))
-       SetWindowLong (hWnd, GWL_EXSTYLE, (GetWindowLong (hWnd, GWL_EXSTYLE) | WS_EX_LAYERED));
-
-   hb_retl ((BOOL) SetLayeredWindowAttributes (hWnd, crKey, bAlpha, dwFlags));
-
-#else
-	typedef BOOL (__stdcall *PFN_SETLAYEREDWINDOWATTRIBUTES) (HWND, COLORREF, BYTE, DWORD);
-
-	PFN_SETLAYEREDWINDOWATTRIBUTES pfnSetLayeredWindowAttributes = NULL;
-
-	HINSTANCE hLib = LoadLibrary ("user32.dll");
-
-	if (hLib != NULL)
-	{
-		pfnSetLayeredWindowAttributes = (PFN_SETLAYEREDWINDOWATTRIBUTES) GetProcAddress(hLib, "SetLayeredWindowAttributes");
-	}
-
-	if (pfnSetLayeredWindowAttributes)
-	{
-		SetWindowLong ((HWND) hb_parnl (1), GWL_EXSTYLE, GetWindowLong((HWND) hb_parnl (1), GWL_EXSTYLE) | WS_EX_LAYERED);
-		pfnSetLayeredWindowAttributes ((HWND) hb_parnl (1), (COLORREF) hb_parnl (2), hb_parni (3), (DWORD) hb_parnl (4));
-	}
-
-	if (!hLib)
-	{
-		FreeLibrary (hLib);
-	}
-#endif
-}
-
-#pragma ENDDUMP
-*/

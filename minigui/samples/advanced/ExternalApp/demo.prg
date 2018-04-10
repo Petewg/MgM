@@ -7,7 +7,7 @@
  * Copyright 2006-2011 Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 #define WM_CLOSE           0x0010
 
@@ -24,17 +24,16 @@ FUNCTION Main()
 Local nLang := nHex( SubStr( I2Hex( GetUserLangID() ), 3 ) )
 
 	IF nLang == 25
-		cAppTitle := "????????????"
+		cAppTitle := "Κΰλόκσλÿςξπ"
 	ELSEIF nLang == 10 .OR. nLang == 22
 		cAppTitle := "Calculadora"
-   ELSEIF nLang == 8
-      cAppTitle := "Αριθμομηχανή"
+	ELSEIF nlang == 16
+		cAppTitle := "Calcolatrice"
 	ELSE //IF nLang == 9
 		cAppTitle := "Calculator"
 	ENDIF
 
-
-	DEFINE WINDOW Form_Main ;
+  	DEFINE WINDOW Form_Main ;
 		AT 0,0 ;
 		WIDTH 400 HEIGHT 200 ;
 		TITLE "Minimize/Restore Calc Demo" ;
@@ -105,7 +104,7 @@ Local hWnd, n
 
 		IF IsIconic( hWnd )
 
-			Restore( hWnd )
+			_Restore( hWnd )
 
 		ELSE
 
@@ -161,7 +160,6 @@ RETURN nResult
 #pragma BEGINDUMP
 
 #include <windows.h>
-
 #include "hbapi.h"
 
 HB_FUNC ( GETUSERLANGID )

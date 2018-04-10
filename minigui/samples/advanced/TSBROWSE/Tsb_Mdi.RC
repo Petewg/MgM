@@ -1,0 +1,12 @@
+
+Cake     BITMAP "bitmaps\Cake.bmp"
+Cancel   BITMAP "bitmaps\Cancel.bmp"
+Clipv    BITMAP "bitmaps\Clipv.bmp"
+Excel16  BITMAP "bitmaps\Excel16.bmp"
+ExitB16  BITMAP "bitmaps\ExitB16.bmp"
+Head     BITMAP "bitmaps\Head.bmp"
+Mark     BITMAP "bitmaps\Mark.bmp"
+Ok       BITMAP "bitmaps\Ok.bmp"
+Point    BITMAP "bitmaps\Point.bmp"
+Super16  BITMAP "bitmaps\Super16.bmp"
+

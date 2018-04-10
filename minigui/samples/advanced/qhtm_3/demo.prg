@@ -9,15 +9,14 @@
 #include "I_QHTM.ch"
 #include "Inkey.ch"
 
-// Определения / define WinAPI
+// Определения WinAPI
 
 #define WM_NOTIFY	             78
 
 // Команды (переназначаемые ссылки)
-// Commands (redirected links)
 
 #define ID_CMD                  'CMD:'
-#define ID_CMD_STOPLOG          ( ID_CMD + 'STOPLOG' )  // Остановить логирование - Stop logging
+#define ID_CMD_STOPLOG          ( ID_CMD + 'STOPLOG' )  // Остановить логирование
 
 Memvar nScrollPos, aBreak
 
@@ -95,8 +94,7 @@ Return
 *
 *       AppDone()
 *
-*       Завершение работы 
-*       Shutdown
+*       Завершение работы
 *
 */
 
@@ -117,10 +115,7 @@ Return
 *       Пользовательская обработка событий.
 *       Здесь будем разделять команды запуска процедур и перехода по ссылкам
 *       в QHTM
-* 		
-* 		 Custom event processing.
-*      There will split the run command procedures and referrals
-*      In QHTM
+*
 */
  
 Function MyEvents( hWnd, nMsg, wParam, lParam )
@@ -163,8 +158,7 @@ Return 0
 *
 *       Добавление кода HTML к существующему с сохранением
 *       текущего положения
-*       Adding to the existing HTML code with the preservation
-*       current position
+*
 */
 
 Static Procedure TestAddHTML
@@ -209,7 +203,7 @@ End Window
 nHandle := GetControlHandle( 'MyHTML', 'wAddHTML' )
 
 // Кнопку восстановления позиции прокрутки запрещаем до запоминания позиции 
-// Restore button scroll position to prohibit the storing position
+
 wAddHTML.btnSetPos.Enabled := .F.
 wAddHTML.btnGoTo.Enabled   := .F.
 
@@ -229,7 +223,7 @@ Return
 *       GetQHTMPos( nHandle )
 *
 *       Получение текущей позиции прокрутки
-*       Get the current scroll position
+*
 */
 
 Static Procedure GetQHTMPos( nHandle )
@@ -261,7 +255,7 @@ Return
 *       SetQHTMPos( nHandle )
 *
 *       Восстановление позиции прокрутки
-*       Restoration of the scroll position
+*
 */
 
 Static Procedure SetQHTMPos( nHandle )
@@ -280,9 +274,7 @@ Return
 *       Добавление кода HTML к существующему с возможностью
 *       выбора текущего положения (не изменять или устанавливать
 *       на добавленные строки)
-*       Adding to the existing HTML code with the ability to
-*      selection of the current situation (not modify or install
-*      Added to the line)
+*
 */
 
 Static Procedure TestAddHTML2
@@ -326,7 +318,7 @@ Return
 *       Logging()
 *
 *       Пример формирование лога
-*       An example of the formation of the log
+*
 *
 */
   
@@ -363,7 +355,7 @@ Do while !aBreak[ 'Stop' ]
 
    nLine ++
    
-   DoEvents()
+   Do Events
    
    // Замедляет вывод
    

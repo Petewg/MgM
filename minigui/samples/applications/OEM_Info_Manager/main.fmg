@@ -1,0 +1,651 @@
+DEFINE WINDOW TEMPLATE AT 0,0 HEIGHT 402 + IF(IsXPThemeActive(), 6, 0) WIDTH 496 TITLE "OEM Info Manager v.1.0 [04.03.2008]" ICON "MAIN" MAIN NOMINIMIZE NOMAXIMIZE NOSIZE FONT "MS Sans Serif" SIZE 9
+
+    DEFINE FRAME FRAME_1
+        COL 6
+        ROW 4
+        CAPTION "Logo image"
+        WIDTH 200
+        HEIGHT 220
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE FRAME FRAME_2
+        COL 16
+        ROW 19
+        CAPTION ""
+        WIDTH 180
+        HEIGHT 117
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE IMAGE Image_1
+        COL 18
+        ROW 21
+        WIDTH 176
+        HEIGHT 113
+        PICTURE NIL
+        VISIBLE .T.
+        STRETCH .F.
+    END IMAGE
+
+    DEFINE LABEL LABEL_1
+        COL 18
+        ROW 140
+        VALUE "Image path:"
+        ACTION Nil
+        WIDTH 70
+        HEIGHT 14
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX TEXTBOX_1
+        COL 16
+        ROW 160
+        WIDTH 152
+        HEIGHT 21
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE BUTTON BUTTON_1
+        COL 172
+        ROW 158
+        WIDTH 26
+        HEIGHT 24
+        CAPTION ""
+        PICTURE "Folder"
+        ICON Nil
+        ACTION OpenPicture()
+        FLAT .F.
+        TABSTOP .T.
+        TRANSPARENT .F.
+        TOOLTIP Nil
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTON
+
+    DEFINE BUTTON BUTTON_2
+        COL 16
+        ROW 188
+        WIDTH 75
+        HEIGHT 24
+        CAPTION "Default"
+        ACTION ( SetProperty( "Main", "TextBox_1", "Value", "" ), SetProperty( "Main", "Image_1", "Picture", "" ), DoMethod( "Main", "Image_1", "Refresh" ) )
+        FLAT .F.
+        TABSTOP .T.
+        TRANSPARENT .F.
+        TOOLTIP Nil
+        VISIBLE .T.
+        DEFAULT .F.
+    END BUTTON
+
+    DEFINE FRAME FRAME_3
+        COL 7
+        ROW 232
+        CAPTION "Windows Registration Information"
+        WIDTH 200
+        HEIGHT 100
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL LABEL_2
+        COL 16
+        ROW 256
+        VALUE "Registered to:"
+        ACTION Nil
+        WIDTH 68
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL LABEL_3
+        COL 16
+        ROW 281
+        VALUE "Organization:"
+        ACTION Nil
+        WIDTH 68
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL LABEL_4
+        COL 16
+        ROW 306
+        VALUE "ID:"
+        ACTION Nil
+        WIDTH 15
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX TEXTBOX_2
+        COL 90
+        ROW 254
+        WIDTH 106
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_3
+        COL 90
+        ROW 279
+        WIDTH 106
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_4
+        COL 35
+        ROW 304
+        WIDTH 162
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH 24
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE FRAME FRAME_4
+        COL 212
+        ROW 4
+        CAPTION "General:"
+        WIDTH 272
+        HEIGHT 74
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL LABEL_5
+        COL 220
+        ROW 25
+        VALUE "Manufacturer:"
+        ACTION Nil
+        WIDTH 68
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL LABEL_6
+        COL 220
+        ROW 52
+        VALUE "Model:"
+        ACTION Nil
+        WIDTH 32
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX TEXTBOX_5
+        COL 293
+        ROW 22
+        WIDTH 182
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH 26
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_6
+        COL 260
+        ROW 48
+        WIDTH 215
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH 26
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE FRAME FRAME_5
+        COL 212
+        ROW 86
+        CAPTION "Support Information:"
+        WIDTH 272
+        HEIGHT 246
+        OPAQUE .F.
+        TRANSPARENT .F.
+    END FRAME
+
+    DEFINE LABEL LABEL_7
+        COL 220
+        ROW 106
+        VALUE "Contact Info:"
+        ACTION Nil
+        WIDTH 62
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX TEXTBOX_7
+        COL 285
+        ROW 104
+        WIDTH 190
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE LABEL LABEL_8
+        COL 220
+        ROW 131
+        VALUE "Contact Person:"
+        ACTION Nil
+        WIDTH 76
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX TEXTBOX_8
+        COL 300
+        ROW 129
+        WIDTH 175
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE LABEL LABEL_9
+        COL 220
+        ROW 156
+        VALUE "Address:"
+        ACTION Nil
+        WIDTH 42
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX TEXTBOX_9
+        COL 268
+        ROW 154
+        WIDTH 207
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE LABEL LABEL_10
+        COL 220
+        ROW 181
+        VALUE "Address (Cont.):"
+        ACTION Nil
+        WIDTH 76
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE TEXTBOX TEXTBOX_10
+        COL 300
+        ROW 179
+        WIDTH 175
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_11
+        COL 300
+        ROW 204
+        WIDTH 175
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_12
+        COL 300
+        ROW 229
+        WIDTH 175
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_13
+        COL 300
+        ROW 254
+        WIDTH 175
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_14
+        COL 300
+        ROW 279
+        WIDTH 175
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE TEXTBOX TEXTBOX_15
+        COL 300
+        ROW 304
+        WIDTH 175
+        HEIGHT 20
+        VALUE Nil
+        READONLY .F.
+        MAXLENGTH Nil
+        UPPERCASE .F.
+        LOWERCASE .F.
+        ONGOTFOCUS Nil
+        ONCHANGE Nil
+        ONLOSTFOCUS Nil
+        ONENTER Nil
+        RIGHTALIGN .F.
+        VISIBLE .T.
+        TABSTOP .T.
+        HELPID Nil
+    END TEXTBOX
+
+    DEFINE LABEL LABEL_11
+        COL 220
+        ROW 206
+        VALUE "Contact Phone:"
+        ACTION Nil
+        WIDTH 76
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL LABEL_12
+        COL 220
+        ROW 231
+        VALUE "E-mail Address:"
+        ACTION Nil
+        WIDTH 76
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL LABEL_13
+        COL 220
+        ROW 256
+        VALUE "Web Site URL:"
+        ACTION Nil
+        WIDTH 76
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL LABEL_14
+        COL 220
+        ROW 281
+        VALUE "Comments (1):"
+        ACTION Nil
+        WIDTH 76
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+    DEFINE LABEL LABEL_15
+        COL 220
+        ROW 306
+        VALUE "Comments (2):"
+        ACTION Nil
+        WIDTH 76
+        HEIGHT 20
+        AUTOSIZE .F.
+        BORDER .f.
+        CLIENTEDGE .f.
+        HSCROLL .f.
+        VSCROLL .f.
+        TRANSPARENT .F.
+        HELPID Nil
+        VISIBLE .T.
+    END LABEL
+
+END WINDOW
+

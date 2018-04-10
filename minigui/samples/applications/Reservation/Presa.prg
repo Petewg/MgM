@@ -261,6 +261,7 @@ Principale.buttonex_1.show
 
 RETURN Nil
 /*
+*/
 *------------------------------------------------------------------------------*
 FUNCTION PRINTWINDOW ( cWindowName , lPreview , ldialog , nRow , nCol , nWidth , nHeight )
 *------------------------------------------------------------------------------*
@@ -388,8 +389,8 @@ LOCAL ntop , nleft , nbottom , nright
    Ferase(TempName)
 
 RETURN NIL
-
-//   msgbox(tstring(timetosec(PRESA->TIME_out)-timetosec(PRESA->TIME_IN)),"Totale")
+/*
+   msgbox(tstring(timetosec(PRESA->TIME_out)-timetosec(PRESA->TIME_IN)),"Totale")
 */
 *-----------------------------------------------------------------------------*
 Function Statistic()
@@ -500,9 +501,11 @@ METHOD IFDATA() CLASS TApplication
 *-----------------------------------------------------------------------------*
    Local aLbl    := {{ 'From day:' },{'Dal giorno:' }}[alng] ,;
          aIniVal := {  presa->data_in },;
-         aFmt    := { '99/99/99' }, status, ;
+         aFmt    := { '99/99/99' },;
+         status  := 0 ,;
          a_imsg  := {'New archive with import:','Nuovo archivio con importazione:' } [alng]
-   Local aEmsg   := {[Repeat the operation!]+CRLF+[as the only active user!],[Ripetere le operazione]+CRLF+[come unico utente attivo!]} [alng]
+   Local aEmsg   := {[Repeat the operation!]+CRLF+[as the only active user!];
+                    ,[Ripetere l'operazione]+CRLF+[come unico utente attivo!]} [alng]
    Local localIp := GetLocalIp()[1],uTmp:=SubStr(LocalIP,Rat(".",LocalIP)+1)+"_"
    local archivio:= oFatt:DataPath+ uTmp+"PresaNew.DbF"
    Local a_res   := {}
@@ -653,7 +656,7 @@ return Nil
 
 #define _WIN32_IE      0x0500
 #define HB_OS_WIN_USED
-//#define _WIN32_WINNT   0x0400
+#define _WIN32_WINNT   0x0400
 #include <shlobj.h>
 
 #include <windows.h>
@@ -706,7 +709,6 @@ HB_FUNC( GETLOCALIP )
    WSACleanup();
 }
 
-/*
 ///////////////////////////////////////////////////////////////////////////////
 // SAVE WINDOW (Based On Code Contributed by Ciro Vargas Clemov)
 ///////////////////////////////////////////////////////////////////////////////
@@ -799,6 +801,6 @@ HB_FUNC( SAVEWINDOWBYHANDLE )
 	ReleaseDC( hWnd, hDC );
 
 }
-*/
+
 #pragma ENDDUMP
 

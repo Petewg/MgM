@@ -47,7 +47,7 @@ RETURN NIL
 
 Procedure Test()
 
-	Win1.Test.Object:src := GetStartUpFolder() + "\test.pdf"
+	Win1.Test.XObject:src := GetStartUpFolder() + "\test.pdf"
 
 Return
 

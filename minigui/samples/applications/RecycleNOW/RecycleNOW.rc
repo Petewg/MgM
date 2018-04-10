@@ -1,0 +1,36 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//	Resource name	Resource Type   Resource FileName
+//
+	MAIN		ICON		MAIN.ICO
+
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Immediate removal of files in the Recycle Bin\000"
+		VALUE "FileVersion", "1.0.0.0"
+		VALUE "InternalName", "RecycleNOW\000"
+		VALUE "LegalCopyright", "Freeware 2005\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "RecycleNOW.exe\000"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

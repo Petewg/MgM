@@ -3,7 +3,7 @@
  * TSocket class
  *
  * Copyright 2001-2003 Matteo Baccan <baccan@infomedia.it>
- * www - http://harbour-project.org
+ * www - https://harbour.github.io/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

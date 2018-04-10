@@ -1,0 +1,37 @@
+2007-05-12   Release 1.2
+Switched parameters Compress and Clog
+Add Msgbox with syntax help. You can start Sendmail /? for this option
+Changed 'Exit' Icon
+Resized windows
+Add statusbar and Tooltip with filename of file(s) attached necessary
+to understand on what file he is' operating in case of long file
+Solved incorrect path of zipped File
+Solved bug with long FileName:
+this action requires Build 37 or later (changes are found in c_ini.c)
+Changed Function GetComboArray(), now return exactly that contains combobox,
+the preceding version was wrong, if the combobox changed, it kept on bringing
+the contents inserted in the definition of the combobox, it works well now.
+Changes in Attached list are full active on runtime
+(now do not require saves for execute latest action)
+Minor changes...
+
+2016-01-06   Release 1.3
+Add procedure to recognize, analyze and send report for Cobian Backup log
+
+2016-02-11   Release 1.4
+Changed icons, add icon for save direct parameters,
+add options to send the full log.
+Fixed the incorrect addition of files to be sent.
+
+2016-02-20 Release 1.5
+Added shutdown capability
+
+2016-03-08 Release 1.6
+After more test I Fixed the incorrect management of files to be sent and 
+temporary files to be clean up.
+
+2018-02-04 Release 1.7
+changed cryptography routines due to the found out errors and correct 
+sending the report as an attachment.
+
+For oher info see SendMailReport.Chm

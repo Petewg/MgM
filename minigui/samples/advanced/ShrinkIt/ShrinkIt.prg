@@ -50,7 +50,7 @@ Procedure Main()
 					"&subject=Shrink%20It%20Feedback:" + ;
 					"&body=How%20are%20you%2C%20Grigory%3F", , 1 )
 			ITEM '&About...'	ACTION ShellAbout( "", PROGRAM + ' version 1.1' + ;
-					CRLF + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN") )
+					CRLF + Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN", 32, 32) )
 			SEPARATOR
 			ITEM 'E&xit'	ACTION Form_1.Release
 		END MENU

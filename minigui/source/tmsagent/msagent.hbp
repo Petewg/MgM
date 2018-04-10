@@ -1,14 +1,15 @@
+#
+# tmsagent.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/tmsagent
+-inc
+-o../../harbour/lib/tmsagent
 
 -I../../include
 
--hbx=../../include/${hb_name}.hbx
+-hbx=../../include/msagent.hbx
 
--w -es2 -ko -q0
+-w3 -es2 -ko -q0
 
 tmsagent.prg
-

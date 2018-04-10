@@ -1,0 +1,48 @@
+ICON_1 ICON "main.ico"
+
+ICON_2 ICON "clean.ico"
+
+DUMMY BITMAP "bmps\dummy.bmp"
+HIDE BITMAP "bmps\hide.bmp"
+EXIT1 BITMAP "bmps\exit.bmp"
+CLEAN BITMAP "bmps\clean.bmp"
+ALERT BITMAP "bmps\alert.bmp"
+ALERT2 BITMAP "bmps\alertXP2.bmp"
+SYSTEM BITMAP "bmps\system.bmp"
+SYSTEM2 BITMAP "bmps\systemXP2.bmp"
+
+REC BITMAP "menu\recover.bmp"
+FREE BITMAP "menu\free.bmp"
+INFO BITMAP "menu\info.bmp"
+EXIT BITMAP "menu\exit.bmp"
+CHECK BITMAP "menu\check.bmp"
+UNCHECK BITMAP "menu\uncheck.bmp"
+
+1 VERSIONINFO
+FILEVERSION 1,0,9,5
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Memory Optimizer\000"
+		VALUE "FileVersion", "1.0.9.5\000"
+		VALUE "InternalName", "FreeMemory\000"
+		VALUE "LegalCopyright", "Freeware 2003-2011\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "FreeMemory.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

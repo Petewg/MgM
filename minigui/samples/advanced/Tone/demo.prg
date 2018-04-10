@@ -200,7 +200,7 @@ FUNCTION VALTONE( val_note, val_time )
       INKEY(val_time/24)
    ENDCASE
 
-   DoEvents()
+   DO EVENTS
 
 RETURN Nil
 

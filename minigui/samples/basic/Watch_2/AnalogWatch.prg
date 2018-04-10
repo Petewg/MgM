@@ -15,7 +15,7 @@ MEMVAR a, rr
 
 PROCEDURE Main()
 
-PRIVATE a := 1000/2
+PRIVATE a := 640/2
 PRIVATE rr := a/2
 
   DEFINE WINDOW Form_1 ;

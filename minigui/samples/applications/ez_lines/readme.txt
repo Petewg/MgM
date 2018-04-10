@@ -1,5 +1,6 @@
-EZ Lines v1.2.2 Copyright (c) 2005 Grigory Filatov
-==================================================
+EZ Lines v.1.2.3
+Copyright (c) 2005-2011 Grigory Filatov
+=======================================
 
 This program was built by Harbour compiler and MiniGUI library.
 
@@ -22,7 +23,7 @@ Distribution
 This version of EZLines is FREEWARE, and you can copy, distribute,
 and use it freely as long as this message remains intact.
 
-If you like this program, please EMail me and let me know.
+If you like this program, please e-mail me and let me know.
 
 Contact Information
 ~~~~~~~~~~~~~~~~~~~

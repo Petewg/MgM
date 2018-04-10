@@ -17,12 +17,12 @@
 #define IDOK                1
 #define IDCANCEL            2
 
-Static lBlock := .F., IsTimerLeave := .F.
+Static lBlock := .F.
 Static SoundFileName := ""
 Static Description := ""
 
 *--------------------------------------------------------*
-PROCEDURE Main()
+Procedure Main()
 *--------------------------------------------------------*
 
 	SET MULTIPLE OFF WARNING
@@ -34,35 +34,37 @@ PROCEDURE Main()
 		AT 0,0 ;
 		WIDTH 0 HEIGHT 0 ;
 		TITLE PROGRAM ;
-		MAIN /*NOSHOW*/ ;
+		MAIN NOSHOW ;
 		NOTIFYICON IDI_ICON ;
 		NOTIFYTOOLTIP PROGRAM ;
 		ON NOTIFYCLICK Settings()
 		
 		DEFINE NOTIFY MENU
 			ITEM '&About...'	ACTION ShellAbout( "", ;
-					PROGRAM + VERSION + CRLF + ;
-					IF(IsXPThemeActive(), "", "Copyright ") + Chr(169) + COPYRIGHT, ;
-					LoadMainIcon(GetInstance(), IDI_ICON) )
+							PROGRAM + VERSION + CRLF + ;
+							IF(IsXPThemeActive(), "", "Copyright ") + Chr(169) + COPYRIGHT, ;
+							LoadMainIcon(GetInstance(), IDI_ICON) )
 			SEPARATOR
 			ITEM 'E&xit'		ACTION Form_1.Release
 		END MENU
 
 	END WINDOW
 
+	Form_1.NotifyTooltip := PROGRAM + ' is OFF'
+
 	ACTIVATE WINDOW Form_1
 
-RETURN
+Return
 
 *--------------------------------------------------------*
 Procedure Settings()
 *--------------------------------------------------------*
 	IF lBlock == .T.
-		RETURN
+		Return
 	ENDIF
 
 	DEFINE DIALOG Form_2 OF Form_1 ;
-		RESOURCE IDD_DIALOG1 ;
+		RESOURCE IDD_DIALOG ;
 		ON INIT { |hDlg| lBlock := .T., SetForegroundWindow(hDlg) } ;
 		ON RELEASE lBlock := .F.
 
@@ -70,7 +72,10 @@ Procedure Settings()
 			ACTION OnOK()
 
 		REDEFINE BUTTON Btn_2 ID IDCANCEL ;
-			ACTION _ReleaseWindow ( 'Form_2' )
+			ACTION ( ;
+			Form_1.NotifyTooltip := PROGRAM + ' is ' + ;
+				iif( IsControlDefined( Timer_1, Form_1 ) .and. Form_1.Timer_1.Enabled, 'ON', 'OFF' ), ;
+			_ReleaseWindow ( 'Form_2' ) )
 
 		REDEFINE BUTTON Btn_3 ID IDC_QUIT ;
 			ACTION _ReleaseWindow ( 'Form_1' )
@@ -92,143 +97,81 @@ Procedure Settings()
 
         END DIALOG 
 
-RETURN
+Return
 
 *--------------------------------------------------------*
-PROCEDURE OnOK()
+Procedure OnOK()
 *--------------------------------------------------------*
 local time := Form_2.TextBox_1.Value
 
-	if IsTimerLeave
+	if IsControlDefined( Timer_1, Form_1 )
 		Form_1.Timer_1.Value := time * 60000
+		Form_1.Timer_1.Enabled := .T.
 	else
-		DEFINE TIMER Timer_1 OF Form_1 INTERVAL time * 60000 ACTION TimerAction()
-		IsTimerLeave = .T.
+		DEFINE TIMER Timer_1 OF Form_1 INTERVAL time * 60000 ACTION TimerAction() ONCE
 	endif
 
+	Form_1.NotifyTooltip := PROGRAM + ' is ON'
 	Description := Form_2.TextBox_2.Value
 
 	_ReleaseWindow ( 'Form_2' )
 
-RETURN
+Return
 
 *--------------------------------------------------------*
-PROCEDURE OnBrowseForFile()
+Procedure OnBrowseForFile()
 *--------------------------------------------------------*
-local file := GetFile( { {"Audio files (*.wav)", "*.wav"}, {"All files (*.*)", "*.*"} }, ;
+local cFile := GetFile( { {"Audio files (*.wav)", "*.wav"}, {"All files (*.*)", "*.*"} }, ;
 		"Select a sound", cFilePath(SoundFileName), , .T. )
 
-	if file(file)
-		SoundFileName := file
+	if File( cFile )
+		SoundFileName := cFile
 		Form_2.TextBox_3.Value := SoundFileName
 	endif
 
-RETURN
+Return
 
 *--------------------------------------------------------*
-PROCEDURE OnTest()
+Procedure OnTest()
 *--------------------------------------------------------*
-	if Empty(SoundFileName)
+	if Empty( SoundFileName )
 		PlayAsterisk()
 	else
 		PLAY WAVE SoundFileName
 	endif
 
-RETURN
+Return
 
 *--------------------------------------------------------*
-PROCEDURE TimerAction()
+Procedure TimerAction()
 *--------------------------------------------------------*
-	if IsTimerLeave
-		Form_1.Timer_1.Release
-		IsTimerLeave = .F.
-	endif
 
-	if Empty(SoundFileName)
+	if Empty( SoundFileName )
 		PlayAsterisk()
 	else
 		PLAY WAVE SoundFileName
 	endif
 
 	MsgAlert( Description, "Timer" )
+	Form_1.NotifyTooltip := PROGRAM + ' is OFF'
 
-RETURN
+Return
 
 
 #pragma BEGINDUMP
 
-#include <windows.h>
-#include "hbapi.h"
-#include "hbapiitm.h"
+#include <mgdefs.h>
 
 HB_FUNC( LOADMAINICON )
 {
 	HICON himage;
-	HINSTANCE hInstance  = (HINSTANCE) hb_parnl(1);  // handle to application instance
-	WORD      wIconName  = (WORD)      hb_parni(2);  // resource identifier
+	HINSTANCE hInstance  = ( HINSTANCE ) HB_PARNL( 1 );  // handle to application instance
+	WORD      wIconName  = ( WORD )      hb_parni( 2 );  // resource identifier
 
-	himage = (HICON) LoadImage (hInstance, MAKEINTRESOURCE (wIconName), IMAGE_ICON,
-				0, 0, LR_DEFAULTCOLOR);
+	himage = ( HICON ) LoadImage( hInstance, MAKEINTRESOURCE (wIconName), IMAGE_ICON,
+				0, 0, LR_DEFAULTCOLOR );
 
-	hb_retnl( (LONG) himage );
-}
-/*
-HB_FUNC( LOADTRAYICON )
-{
-	HICON himage;
-	HINSTANCE hInstance  = (HINSTANCE) hb_parnl(1);  // handle to application instance
-	WORD      wIconName  = (WORD)      hb_parni(2);  // resource identifier
-
-	himage = (HICON) LoadImage (hInstance, MAKEINTRESOURCE (wIconName), IMAGE_ICON,
-				16, 16, LR_DEFAULTCOLOR);
-
-	hb_retnl( (LONG) himage );
+	HB_RETNL( ( LONG_PTR ) himage );
 }
 
-HB_FUNC( INITIMAGE )
-{
-	HWND  h;
-	HBITMAP hBitmap;
-	HWND hwnd;
-	int Style;
-
-	hwnd = (HWND) hb_parnl(1);
-
-	Style = WS_CHILD | SS_BITMAP | SS_NOTIFY ;
-
-	if ( ! hb_parl (8) )
-	{
-		Style = Style | WS_VISIBLE ;
-	}
-
-	h = CreateWindowEx( 0, "static", NULL, Style,
-		hb_parni(3), hb_parni(4), 0, 0,
-		hwnd, (HMENU) hb_parni(2), GetModuleHandle(NULL), NULL ) ;
-
-	hBitmap = (HBITMAP) LoadImage(0,hb_parc(5),IMAGE_BITMAP,hb_parni(6),hb_parni(7),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
-	if (hBitmap==NULL)
-	{
-		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL),hb_parc(5),IMAGE_BITMAP,hb_parni(6),hb_parni(7),LR_CREATEDIBSECTION);
-	}
-
-	SendMessage( h, (UINT) STM_SETIMAGE, (WPARAM) IMAGE_BITMAP, (LPARAM) hBitmap );
-
-	hb_retnl( (LONG) h );
-}
-
-HB_FUNC( C_SETPICTURE )
-{
-	HBITMAP hBitmap;
-
-	hBitmap = (HBITMAP) LoadImage(0,hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
-	if (hBitmap==NULL)
-	{
-		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL),hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_CREATEDIBSECTION);
-	}
-
-	SendMessage( (HWND) hb_parnl (1), (UINT) STM_SETIMAGE, (WPARAM) IMAGE_BITMAP, (LPARAM) hBitmap );
-
-	hb_retnl( (LONG) hBitmap );
-}
-*/
 #pragma ENDDUMP

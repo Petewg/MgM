@@ -25,24 +25,23 @@ Function Main()
 	DEFINE WINDOW Form_1 ;
 		AT 0,0 WIDTH 870 HEIGHT 650 ;
 		MINWIDTH 870 MINHEIGHT 650  ;
-      MAIN ;
-      ICON "AMAIN" ;
+                MAIN ;
+                ICON "1MAIN" ;
 		TITLE PROGRAM  ;
-	   ON SIZE { || MyRefresh() } ;
-      ON MAXIMIZE { || MyRefresh() } ;
-      ON INTERACTIVECLOSE { || MyExit() } ;
-	   BACKCOLOR COLOR_DESKTOP_DARK_YELLOW 
+	        ON SIZE { || MyRefresh() } ;
+        	ON MAXIMIZE { || MyRefresh() } ;
+                ON INTERACTIVECLOSE { || MyExit() } ;
+	        BACKCOLOR COLOR_DESKTOP_DARK_YELLOW 
 
-      MyPopup()
+                MyPopup()
 
-  	   nWidth  := Form_1.Width
-	   nHeight := Form_1.Height
+  	        nWidth  := Form_1.Width
+	        nHeight := Form_1.Height
 
 		@ 20,30 LABEL label_1 VALUE "Start" WIDTH 120 HEIGHT 28 SIZE 18 FONTCOLOR WHITE BOLD TRANSPARENT 
 
                 // the first row of tiles 
-                cResIco  := NIL  
-					 cResPict := "bMail"
+                cResIco  := NIL  ; cResPict := "bMail"
                 bAction  := 'MsgInfo("PRESS OButton_1x1 BUTTONEX")'
                 cTooltip := "OButton_1x1 BUTTONEX with icon"
                 METRO_BUTTON("OButton_1x1",nStRow1,50,247,120,"Mail",cResPict,cResIco,;
@@ -78,7 +77,7 @@ Function Main()
                              aFontColor,COLOR_BUTTONE_PURPLE,bAction,cTooltip)
         
                 cResPict := "Desktop"
-                bAction  := 'MyPopup()' // '(MsgInfo("PRESS OImage_2x2 IMAGE"), MyPopup())'
+                bAction  := 'MsgInfo("PRESS OImage_2x2 IMAGE")'
                 METRO_IMAGE("OImage_2x2",nStRow2,300+5,247,120,"Desktop",cResPict,;
                              aFontColor,bAction)
 
@@ -157,6 +156,7 @@ Function MyPopup()
     // add an object to a form
     DEFINE MAIN MENU OF Form_1
       Popup 'File'
+           Separator
            Item 'Exit' Action MyExit() Image 'EXIT'
       End Popup
       Popup '&BackColor WINDOW'
@@ -180,7 +180,7 @@ Return NIL
 Function METRO_BUTTON( cObject,nRow,nCol,nWidth,nHeight,cCaption,cResPicture,cResIco,;
                        aFontColor,aBACKCOLOR,bAction,cTooltip)
 
-    AAdd( aObjButton , { cObject,nRow,nCol } )  // add the item to refresh
+    AADD( aObjButton , { cObject,nRow,nCol } )  // add the item to refresh
 
     DEFINE BUTTONEX &cObject
     	ROW  nRow
@@ -205,13 +205,12 @@ Function METRO_BUTTON( cObject,nRow,nCol,nWidth,nHeight,cCaption,cResPicture,cRe
     END BUTTONEX
 
 Return NIL
-
 //////////////////////////////////////////////////////////////////////
 Function METRO_IMAGE( cObject,nRow,nCol,nWidth,nHeight,cCaption,cResPicture,;
                       aFontColor,bAction)
    LOCAL aBackgroundColor := Form_1.BackColor
 
-   AAdd(  aObjImage , { cObject,nRow,nCol } )  // add the item to refresh
+   AADD(  aObjImage , { cObject,nRow,nCol } )  // add the item to refresh
 
    DEFINE IMAGE &cObject
       PARENT            Form_1
@@ -231,7 +230,6 @@ Function METRO_IMAGE( cObject,nRow,nCol,nWidth,nHeight,cCaption,cResPicture,;
       WIDTH nWidth-20 HEIGHT 20 SIZE 10 FONTCOLOR aFontColor BOLD TRANSPARENT 
 
 Return NIL
-
 ////////////////////////////////////////////////////////////
 FUNCTION MyRefresh()          
    LOCAL nI, cWnd := _HMG_ThisFormName, cObj
@@ -241,7 +239,7 @@ FUNCTION MyRefresh()
    nWidth  := GetProperty( cWnd, "Width")  
 
    //  refresh METRO_BUTTON
-   FOR nI := 1 TO Len(aObjButton)
+   FOR nI := 1 TO LEN(aObjButton)
        cObj := aObjButton[nI,1]
        nHeight2 := nHeight - 660 + aObjButton[nI,2] 
        nWidth2  := (nWidth - 870)/2 + aObjButton[nI,3] 
@@ -251,7 +249,7 @@ FUNCTION MyRefresh()
        SetProperty( cWnd, cObj, "Visible" , .T. )
    NEXT
    //  refresh METRO_IMAGE
-   FOR nI := 1 TO Len(aObjImage)
+   FOR nI := 1 TO LEN(aObjImage)
        cObj := aObjImage[nI,1]
        nHeight2 := nHeight - 660 + aObjImage[nI,2]  
        nWidth2  := (nWidth  - 870)/2 + aObjImage[nI,3] 
@@ -280,17 +278,14 @@ FUNCTION MyRefresh()
    ENDIF
 
 Return NIL
-
 ////////////////////////////////////////////////////////////
 Procedure ClearMenu()
 
-   DEFINE MAIN MENU OF Form_1
+        DEFINE MAIN MENU OF Form_1
 
-   END MENU
-	
-	MsgInfo( "Click 'Desktop' to re-enable Menu")
+        END MENU
 
-	Return
+Return
 ////////////////////////////////////////////////////////////
 FUNCTION MyExit()          // Exit programm
    LOCAL lExit, cMess

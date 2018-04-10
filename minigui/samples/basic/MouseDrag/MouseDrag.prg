@@ -5,13 +5,13 @@ STATIC nCursRow, nCursCol
 
 DECLARE WINDOW frmMousDrag
 
-PROCEDURE MAIN()
+PROCEDURE Main()
 
    aCorners := { { 20, 300 }, { 300, 20 }, { 300, 580 } }
 
    nIncrement := 10
-   nCursRow   := GetCursorPos()[ 1 ]
-   nCursCol   := GetCursorPos()[ 2 ]
+   nCursRow   := GetCursorRow()
+   nCursCol   := GetCursorCol()
 
    DefWindow()
 
@@ -39,8 +39,8 @@ PROCEDURE DefWindow()                     // Define Window
 
       DEFINE STATUSBAR FONT 'Verdana' SIZE 8
          STATUSITEM "Drag corners for reformating of shape"
-         STATUSITEM ""
-         STATUSITEM ""
+         STATUSITEM "" FONTCOLOR BLACK RIGHTALIGN
+         STATUSITEM "" FONTCOLOR BLACK RIGHTALIGN
       END STATUSBAR
 
 END WINDOW
@@ -51,11 +51,11 @@ RETURN // DefWindow()
 
 PROCEDURE UpdaSBar() 
 
-   nCursRow := GetCursorPos()[ 1 ] - frmMousDrag.Row - GetTitleHeight() - GetBorderHeight()
-   nCursCol := GetCursorPos()[ 2 ] - frmMousDrag.Col - GetBorderWidth()
+   nCursRow := GetCursorRow() - frmMousDrag.Row - GetTitleHeight() - GetBorderHeight()
+   nCursCol := GetCursorCol() - frmMousDrag.Col - GetBorderWidth()
 
-   frmMousDrag.StatusBar.Item( 2 ) := PADC( nCursRow, 20 )
-   frmMousDrag.StatusBar.Item( 3 ) := PADC( nCursCol, 20 )
+   frmMousDrag.StatusBar.Item( 2 ) := hb_ntos( nCursRow )
+   frmMousDrag.StatusBar.Item( 3 ) := hb_ntos( nCursCol )
 
 RETURN // UpdaSBar() 
 
@@ -76,7 +76,7 @@ PROCEDURE DrawShape()
    FOR nCorner := 1 TO LEN( aCorners )
 
       a1Corner := aCorners[ nCorner ]
-      a2Corner := aCorners[ IF( nCorner < 3, nCorner + 1, 1 ) ]
+      a2Corner := aCorners[ iif( nCorner < 3, nCorner + 1, 1 ) ]
       nCorner1Y := a1Corner[ 1 ]
       nCorner1X := a1Corner[ 2 ]
       nCorner2Y := a2Corner[ 1 ]
@@ -87,8 +87,8 @@ PROCEDURE DrawShape()
             TO nCorner2Y, nCorner2X
 
       DRAW ELLIPSE IN WINDOW frmMousDrag ;
-            AT nCorner1Y -5, nCorner1X -5 ;
-            TO nCorner1Y +5, nCorner1X +5
+            AT nCorner1Y - 5, nCorner1X - 5 ;
+            TO nCorner1Y + 5, nCorner1X + 5
 
    NEXT nCorner
 
@@ -98,11 +98,11 @@ RETURN // DrawShape()
 
 PROCEDURE ReFormShape()
 
-   LOCAL nCursRowC := GetCursorPos()[ 1 ] - frmMousDrag.Row - GetTitleHeight() - GetBorderHeight(),;
-         nCursColC := GetCursorPos()[ 2 ] - frmMousDrag.Col - GetBorderWidth()
+   LOCAL nCursRowC := GetCursorRow() - frmMousDrag.Row - GetTitleHeight() - GetBorderHeight(), ;
+         nCursColC := GetCursorCol() - frmMousDrag.Col - GetBorderWidth()
 
    LOCAL nCorner := ASCAN( aCorners, { | a1 | ABS( nCursRowC - a1[ 1 ] ) < nIncrement .AND. ;
-					ABS( nCursColC - a1[ 2 ] ) < nIncrement } )
+         ABS( nCursColC - a1[ 2 ] ) < nIncrement } )
 
    IF nCorner > 0
       aCorners[ nCorner, 1 ] := nCursRowC

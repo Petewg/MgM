@@ -9,15 +9,14 @@
   Revised by Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 memvar _aItems, _nSelected, lAnyWhereSearch
 
 Function Main
-LOCAL aCountries := HB_ATOKENS( MEMOREAD( "Countries.lst" ), CRLF )
+local aCountries := HB_ATOKENS( MEMOREAD( "Countries.lst" ), CRLF )
 
 set font to _GetSysFont() , 10
-set default icon to "mgm"
 
 define window sample at 0,0 width 640 height 480 title "HMG Achoice Demo" main
    define label label1
@@ -45,7 +44,7 @@ define window sample at 0,0 width 640 height 480 title "HMG Achoice Demo" main
       action iif(empty(doachoice(aCountries)),nil,sample.textbox3.setfocus)
       ongotfocus sample.label4.visible:=.t.
       onlostfocus sample.label4.visible:=.f.
-      on enter iif(! empty(sample.textbox2.value),doachoice(aCountries),sample.textbox3.setfocus)
+      on enter iif(empty(sample.textbox2.value),doachoice(aCountries),sample.textbox3.setfocus)
    end btntextbox
    define label label3
       row 70
@@ -73,46 +72,30 @@ sample.center
 sample.activate
 Return Nil
 
-
-FUNCTION DoAchoice( aItems )
-LOCAL nTop
-LOCAL nLeft
-LOCAL nDefault := 1
-LOCAL nSelected
-LOCAL control := thiswindow.focusedcontrol
-LOCAL value := GetProperty( thiswindow.name, control, 'value' )
-LOCAL aList := {}, aSaveItems, lMultiDim := .F.
-nTop := GetProperty(thiswindow.name,control,'row')
-nLeft := GetProperty(thiswindow.name,control,'col') + GetProperty(thiswindow.name,control,'width') +  iif(ISVISTAORLATER(),10, 6)
-
-
-if valtype( aItems[1] ) == "A"
-   aeval( aItems, {|e| aadd( aList, e[1])} )
-   aSaveItems := Aclone( aItems )
-   aItems := aList
-   lMultiDim := .T. 
-endif
+function doachoice(aItems)
+local nTop := 10
+local nLeft := 300
+local nDefault := 1
+local nSelected
+local control:=thiswindow.focusedcontrol
+local value:=getproperty(thiswindow.name,control,'value')
 
 if len(alltrim(value)) > 0
    nDefault := ascan(aItems,value)
-endif
+endif   
 
 nSelected := HMG_AChoice( nTop, nLeft, , , aItems, nDefault )
 
 setproperty(thiswindow.name,control,'value',iif(nSelected > 0,aItems[nSelected],''))
-if lMultiDIm
-   aItems := AClone( aSaveItems )
-   msginfo( iif( nSelected > 0, aItems[nSelected, 2], "Esc pressed. Return value is: "+ hb_ntos(nSelected) ) )
-endif   
 return nSelected
 
-STATIC FUNCTION HMG_Achoice(nTop,nLeft,nBottom,nRight,aList,nDefault,lAnyWhere)
-LOCAL nRow := thiswindow.row + GetTitleHeight()+ iif(ISVISTAORLATER(), 3, -1)
-LOCAL nCol := thiswindow.col
-LOCAL nWindowWidth := thiswindow.width
-LOCAL nWindowHeight := thiswindow.height
-LOCAL nWidth
-LOCAL nHeight
+function HMG_Achoice(nTop,nLeft,nBottom,nRight,aList,nDefault,lAnyWhere)
+local nRow := thiswindow.row + GetTitleHeight()
+local nCol := thiswindow.col
+local nWindowWidth := thiswindow.width
+local nWindowHeight := thiswindow.height
+local nWidth
+local nHeight
 
 private _aItems := aclone(aList)
 private _nSelected := 0
@@ -124,7 +107,7 @@ default nBottom := thiswindow.height - GetTitleHeight() - 10
 default nRight := thiswindow.width - 2*GetBorderWidth() - 10
 lAnyWhereSearch := lAnyWhere
 nWidth := iif(nRight < nWindowWidth,  nRight - nLeft,nWindowWidth - nLeft - 2*GetBorderWidth() - 10)
-nHeight := iif(nBottom < nWindowHeight, nBottom - nTop,nWindowHeight - nTop - GetTitleHeight() - 10) -2
+nHeight := iif(nBottom < nWindowHeight, nBottom - nTop,nWindowHeight - nTop - GetTitleHeight() - 10)
 if iswindowdefined(_HMG_aChoice)
    release window _HMG_aChoice
 endif
@@ -139,7 +122,7 @@ DEFINE WINDOW _HMG_aChoice AT nRow+nTop, nCol+nLeft ;
 
    define textbox _edit
       row 5
-      col 0
+      col 5
       width nWidth - 2*GetBorderWidth()
       on change     _aChoiceTextChanged( lAnyWhere )
       on enter      _aChoiceSelected()
@@ -147,9 +130,9 @@ DEFINE WINDOW _HMG_aChoice AT nRow+nTop, nCol+nLeft ;
    end textbox
    define listbox _list
       row 30
-      col 0
+      col 5
       width nWidth - 2*GetBorderWidth()
-      height nHeight - 50+ 3
+      height nHeight - 50
       items aList
       on change _achoicelistchanged()
       on dblclick _aChoiceSelected()
@@ -172,9 +155,9 @@ _HMG_Achoice.activate
 return _nSelected
 
 STATIC PROC _aChoiceTextChanged( lAnyWhere )
-   LOCAL cCurValue := _HMG_aChoice._edit.value 
-   LOCAL nItemNo
-   LOCAL lFound := .f.
+   local cCurValue := _HMG_aChoice._edit.value 
+   local nItemNo
+   local lFound := .f.
    
    for nItemNo := 1 to len(_aitems)
       if lAnyWhere
@@ -196,7 +179,7 @@ STATIC PROC _aChoiceTextChanged( lAnyWhere )
    endif
 return 
 
-STATIC FUNCTION _aChoiceselected
+function _aChoiceselected
 if _HMG_aChoice._List.value > 0
    _nSelected := _HMG_aChoice._list.value
 else
@@ -205,7 +188,7 @@ endif
 release window _HMG_aChoice
 return nil
 
-STATIC FUNCTION _aChoiceDoUpKey()
+function _aChoiceDoUpKey()
    IF _HMG_aChoice._List.value > 1 
       _HMG_aChoice._List.value := _HMG_aChoice._List.value - 1
       _HMG_aChoice._edit.value := _HMG_aChoice._List.item(_HMG_aChoice._List.value)
@@ -213,7 +196,7 @@ STATIC FUNCTION _aChoiceDoUpKey()
    ENDIF
 return nil
   
-STATIC FUNCTION _aChoiceDoDownKey()
+function _aChoiceDoDownKey()
    IF _HMG_aChoice._List.value < _HMG_aChoice._List.ItemCount 
       _HMG_aChoice._List.value := _HMG_aChoice._List.value + 1
       _HMG_aChoice._edit.value := _HMG_aChoice._List.item(_HMG_aChoice._List.value) 
@@ -221,7 +204,7 @@ STATIC FUNCTION _aChoiceDoDownKey()
    ENDIF
 return nil
 
-STATIC FUNCTION _aChoicePgUpKey()
+function _aChoicePgUpKey()
    IF _HMG_aChoice._List.value > 1 
       IF _HMG_aChoice._List.value - 23 < 1
          _HMG_aChoice._List.value := 1
@@ -233,7 +216,7 @@ STATIC FUNCTION _aChoicePgUpKey()
    ENDIF
 return nil
   
-STATIC FUNCTION _aChoicePgDownKey()
+function _aChoicePgDownKey()
    IF _HMG_aChoice._List.value < _HMG_aChoice._List.ItemCount 
       IF _HMG_aChoice._List.value + 23 > _HMG_aChoice._List.ItemCount 
          _HMG_aChoice._List.value := _HMG_aChoice._List.ItemCount
@@ -245,12 +228,12 @@ STATIC FUNCTION _aChoicePgDownKey()
    ENDIF
 return nil
 
-STATIC FUNCTION _aChoiceDoEscKey()
+function _aChoiceDoEscKey()
 _nSelected := 0
 release window _HMG_aChoice
 return nil
 
-STATIC FUNCTION _achoicelistchanged
+function _achoicelistchanged
 if upper(this.name) == "_EDIT" .and. upper(thiswindow.name) == "_HMG_ACHOICE" .and. .not. lAnyWhereSearch
    _HMG_aChoice._edit.value := _HMG_aChoice._List.item(_HMG_aChoice._List.value) 
    textboxeditsetsel("_HMG_aChoice","_Edit",0,-1)
@@ -259,8 +242,8 @@ return nil
 
 #define EM_SETSEL		177
 
-STATIC FUNCTION textboxeditsetsel(cParent,cControl,nStart,nEnd)
-   LOCAL i := GetControlIndex ( cControl, cParent )
+function textboxeditsetsel(cParent,cControl,nStart,nEnd)
+   Local i := GetControlIndex ( cControl, cParent )
 
    if i == 0
       Return Nil

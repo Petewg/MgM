@@ -1,0 +1,18 @@
+// Using a resource file like this, you can include bitmaps and icons 
+// inside EXE .
+//
+//   Resource name   Resource Type    Resource FileName
+
+
+        amain        ICON      system.ico
+        boldico       ICON      bold.ico
+        clearico      ICON      clear.ico
+        strzal        bitmap    arrowdn1.bmp
+        strzald       bitmap    arrowdn2.bmp
+        close         bitmap    close.bmp
+        closed        bitmap    closed.bmp
+        clear         bitmap    clear.bmp
+        cleard        bitmap    cleard.bmp
+        bold          bitmap    bold.bmp
+        boldd         bitmap    boldd.bmp
+        

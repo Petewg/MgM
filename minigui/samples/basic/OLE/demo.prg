@@ -161,7 +161,7 @@ RETURN
  *    this code needs HBOLE library
  *
  * Copyright 2007 Enrico Maria Giordano e.m.giordano at emagsoftware.it
- * www - http://harbour-project.org
+ * www - https://harbour.github.io
  *
  */
 

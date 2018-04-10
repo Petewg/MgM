@@ -836,7 +836,7 @@ NEXT
 
 RedrawWindow(GetFormHandle(cF))
 
-DoEvents()
+DO EVENTS
 
 nPress--
 IF nPress < 1

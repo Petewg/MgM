@@ -1,0 +1,276 @@
+/*
+ * TDatabase and TData Classes
+ *
+ */
+
+/****
+*
+*     Utility functions
+*
+*/
+
+FUNCTION cGetNewAlias( cPrefix )
+
+RETURN ( cPrefix + "_" + hb_ntos( _GetId() ) )
+
+FUNCTION NumPict( nLen, nDec )
+...
+
+FUNCTION uValBlank( uValue )
+...
+
+/****
+*
+*     CLASS TDatabase()
+*
+*/
+
+CLASS TDataBase
+
+   DATA   nArea                  AS NUMERIC INIT 0
+   DATA   lBuffer
+   DATA   lShared                AS LOGICAL INIT ! Set( _SET_EXCLUSIVE )
+   DATA   aBuffer
+   DATA   bBoF, bEoF, bNetError
+   DATA   cAlias, cFile          AS CHARACTER INIT ""
+   DATA   cDriver                AS CHARACTER INIT rddSetDefault()
+   DATA   lReadOnly              AS LOGICAL INIT .F.
+   DATA   lOemAnsi
+   DATA   lTenChars              AS LOGICAL INIT .F.
+   DATA   aFldNames              AS ARRAY
+   DATA   aStruct                AS ARRAY
+   DATA   Cargo
+
+
+   METHOD New(  ncArea, cFile, cDriver, lShared, lReadOnly )  CONSTRUCTOR
+   METHOD Open( ncArea, cFile, cDriver, lShared, lReadOnly )  CONSTRUCTOR
+
+   METHOD Use()
+   METHOD SetArea( nWorkArea )   // used internally
+
+   METHOD Activate()
+
+   METHOD AddIndex( cFile, cTag ) INLINE ( ::nArea )->( ordListAdd( cFile, cTag ) )
+   MESSAGE AnsiToOem METHOD _AnsiToOem()
+   METHOD Append()            INLINE ( ::nArea )->( dbAppend() )
+
+   METHOD AppendFrom( cFile, aFields, bFor, bWhile, nNext, nRec, lRest )
+
+   METHOD Blank()
+   METHOD Bof()               INLINE ( ::nArea )->( Bof() )
+   METHOD Close()             INLINE ( ::nArea )->( dbCloseArea() )
+   METHOD CloseIndex()        INLINE ( ::nArea )->( ordListClear() )
+   METHOD Commit()            INLINE ( ::nArea )->( dbCommit() )
+
+   METHOD CopyTo( cFile, aFields, bFor, bWhile, nNext, nRec, cRdd, cCp )
+
+   METHOD Create( cFile, aStruct, cDriver ) ;
+      INLINE dbCreate( cFile, aStruct, cDriver )
+
+   METHOD CreateIndex( cFile, cTag, cKey, bKey, lUnique ) INLINE ;
+      ( ::nArea )->( ordCreate( cFile, cTag, cKey, bKey, lUnique ) )
+
+   METHOD ClearRelation()     INLINE ( ::nArea )->( dbClearRelation() )
+
+   METHOD DbCreate( aStruct ) INLINE dbCreate( ::cFile, aStruct, ::cDriver )
+
+   METHOD Deactivate()        INLINE ( ::nArea )->( dbCloseArea() ), ::nArea := 0
+
+   MESSAGE Eval METHOD _Eval( bBlock, bFor, bWhile, nNext, nRecord, lRest )
+
+   MESSAGE Delete METHOD _Delete()
+   METHOD Deleted()           INLINE ( ::nArea )->( Deleted() )
+
+   METHOD DeleteIndex( cTag, cFile ) INLINE ( ::nArea )->( ordDestroy( cTag, cFile ) )
+
+   METHOD Eof()               INLINE ( ::nArea )->( Eof() )
+
+   METHOD FCount()            INLINE ( ::nArea )->( FCount() )
+   MESSAGE FieldGet METHOD _FieldGet( nField )
+
+   METHOD FieldName( nField )
+   METHOD AddCol( cCol, cType, nLen, nDec, bBlock )
+   METHOD MapCol( cFld, cNewName )
+   MESSAGE FieldPos          METHOD TD_FieldPos
+   METHOD TD_FieldPos( cFieldName )
+   MESSAGE FieldBlock        METHOD _FieldBlock
+   MESSAGE FieldWBlock       METHOD _FieldBlock
+   METHOD _FieldBlock( cnCol )
+
+   METHOD FieldType( n, c )
+
+   MESSAGE FieldPut METHOD _FieldPut( nField, uVal )
+
+   METHOD Found()             INLINE ( ::nArea )->( Found() )
+
+   METHOD GoTo( nRecNo )      INLINE ( ::nArea )->( dbGoto( nRecNo ) ), ;
+      If( ::lBuffer, ::Load(), )
+
+   METHOD GoTop()             INLINE ( ::nArea )->( dbGoTop() ), ;
+      If( ::lBuffer, ::Load(), )
+   METHOD GoBottom()          INLINE ( ::nArea )->( dbGoBottom() ), ;
+      If( ::lBuffer, ::Load(), )
+
+   METHOD IndexKey( ncTag, cFile )   INLINE ( ::nArea )->( ordKey( ncTag, cFile ) )
+   METHOD IndexName( nTag, cFile )   INLINE ( ::nArea )->( ordName( nTag, cFile ) )
+   METHOD IndexBagName( nInd )       INLINE ( ::nArea )->( ordBagName( nInd ) )
+   METHOD IndexOrder( cTag, cFile )  INLINE ( ::nArea )->( ordNumber( cTag, cFile ) )
+
+   METHOD LastRec()           INLINE ( ::nArea )->( LastRec() )
+
+   METHOD Load()
+   METHOD RollBack()
+
+   METHOD Lock()              INLINE ( ::nArea )->( FLock() )
+   METHOD RecLock( nRecNo )
+   METHOD IsRecLocked( nRecNo )
+   METHOD UnLock()            INLINE ( ::nArea )->( dbUnlock() )
+   METHOD RecUnLock( nRecNo )
+
+   METHOD Modified()
+   METHOD Updated()
+
+   MESSAGE OemToAnsi METHOD _OemToAnsi()
+   METHOD Pack()              INLINE ( ::nArea )->( DbPack() )
+   METHOD ReCall()
+
+   METHOD RecCount()          INLINE ( ::nArea )->( RecCount() )
+   METHOD RecNo()             INLINE ( ::nArea )->( RecNo() )
+   METHOD KeyNo()             INLINE ( ::nArea )->( ordKeyNo() )
+   METHOD KeyGoTo( nkeyNo )   INLINE ( ( ::nArea )->( ordKeyGoto( nKeyNo ) ), ::Load() )
+   METHOD KeyCount()          INLINE ( ::nArea )->( ordKeyCount() )
+   METHOD BookMark( u )       INLINE ( If( u != nil, ::GoTo( u ), ), ::RecNo() )
+
+   METHOD Save()
+   METHOD SaveBuff()
+
+   METHOD SetBuffer( lOnOff ) // if TRUE reloads buffer, return lBuffer.
+
+   METHOD Seek( uExp, lSoft, lWildSeek, lCurRec )
+
+   METHOD SetOrder( cnTag, cFile )    INLINE ( ::nArea )->( ordSetFocus( cnTag, cFile ) )
+   METHOD ordDescend( cnTag, cFile, lDesc ) INLINE ( ::nArea )->( ordDescend( cnTag, cFile, lDesc ) )
+   METHOD SetRelation( oncArea, cExp, lScoped )
+   METHOD SetFilter( cFilter )
+   METHOD ordScope( nScopeType, uValue )
+
+   METHOD Skip( nRecords )
+
+   METHOD Used()              INLINE ( ::nArea )->( Used() )
+   METHOD Zap()               INLINE ( ::nArea )->( DbZap() )
+
+   ERROR HANDLER OnError( uParam1 )
+
+ENDCLASS
+
+/****
+*
+*     CLASS TData()
+*
+*
+*/
+
+CLASS TData FROM TDataBase
+
+   EXPORT:
+   DATA nTimeout AS NUMERIC
+
+   METHOD clearFilter()
+   METHOD getFilter()
+   METHOD Locked()
+   METHOD reIndex()
+   METHOD setFilter( cFilter, bFilter )
+
+   METHOD New( cAlias, cFile, cDriver, lShared, lReadOnly ) CONSTRUCTOR
+   METHOD Append()
+   METHOD createIndex( cFile, cTag, cKey, lUnique, lAscending, lMeter, ;
+      nInterval, cMessage )
+
+   METHOD Close() INLINE ( ::nArea )->( dbCloseArea() )
+   MESSAGE Delete METHOD _Delete()
+   METHOD End() INLINE ( ::nArea )->( dbCloseArea() )
+
+   MESSAGE Lock METHOD FileLock()
+   METHOD recLock()
+
+   METHOD Save()
+   METHOD Use()
+
+ENDCLASS
+
+
+Description
+```````````
+The variables and methods shown also include ones inherited from TDatabase.
+
+Exported Variables of Class TData
+`````````````````````````````````
+aBuffer				field buffer array.
+bBOF				codeblock to execute at BOF, defaults to nil
+bEOF				codeblock to execute at EOF, defaults to nil
+lOemAnsi			use OEM to ANSI and ANSI to OEM conversion, defaults to false
+
+lTenChars			defaults to true
+nTimeout			seconds to retry locking, defaults to 5
+
+Exported Methods of Class TData
+```````````````````````````````
+activate()			Do not use (inherited from TDatabase)
+addIndex( cFile, cTag )		Load an index ( see also closeIndex() )
+append()			append a blank record
+blank()				loads buffer with blank data
+bof()				is begining-of-file
+clearFilter()			clear the filter
+clearRelation()			clear the relation
+
+close()				close the file ( see also end() )
+closeIndex()			close all indexes for this file
+commit()			commit to disk
+create( cFile, aStruct, cDriver )
+createIndex()			create an index
+dbCreate( aStructure )
+dbEval( bBlock, bFor, bWhile, nNext, nRecord, lRest )
+deActivate()			Do not use (inherited by TDatabase)
+delete()			delete current record
+deleteIndex( cTag, cFile )	delete an index
+deleted()			is current record deleted?
+
+end()				same as close()
+eof()				is end-of-file
+fcount()			number of fields in file
+fieldGet( nField)		get data in field nField
+fieldName(nField)		fieldname
+fieldPos( cFieldName)		postion of fieldname
+fieldPut( nField, uValue )	replace data in field nField
+found()				was last seek() successful?
+getFilter()			get the current filter expression
+goBottom()			go to last record
+goTop()				go to first record
+
+goTo( nRecNo )			go to record number
+indexBagName( nInd )
+indexKey( ncTag, cFile )
+indexName( nTag, cFile)
+indexOrder( cTag, cFile )
+lastRec()			number of records in current database ( same as recCount() )
+lock()				file lock
+new()				initialize a database
+pack()				remove deleted records from file
+recCount()			number of records in file ( same as lastRec() )
+recLock()			record lock
+recNo()				returns record number of current record
+
+recall()			undelete current record
+reindex()			reindex all open indexes this area
+save()				save data in buffer
+seek( uExp, lSoft )		seek data using current index order, returns lSuccess (no need to use found())
+setBuffer(lOn)			turn field buffering on or off
+setFilter()			set a filter expression
+setOrder( cnTag, cFile )	set controlling index
+setRelation( ncArea, cExp )	set a relation between files
+
+skip( [nRecs] )			skip nRecs
+unLock()			unlock current record or release file lock
+use()				open file
+used()				is file open
+zap()				delete all records in current file

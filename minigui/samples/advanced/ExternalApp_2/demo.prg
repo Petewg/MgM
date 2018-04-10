@@ -258,23 +258,25 @@ static PHB_ITEM pArray;
    #pragma argsused
 #endif
 
-BOOL CALLBACK EnumWindowsProc (HWND hWnd, LPARAM lParam)
+BOOL CALLBACK EnumWindowsProc( HWND hWnd, LPARAM lParam )
 {
+  PHB_ITEM pHWnd = hb_itemPutNL( NULL, ( LONG ) hWnd ); 
 #if defined( __MINGW32__ )
-   UNREFERENCED_PARAMETER (lParam);
+   UNREFERENCED_PARAMETER( lParam );
 #endif
-   hb_arrayAddForward (pArray, hb_itemPutNLL (NULL, (LONG) hWnd));
+   hb_arrayAddForward( pArray, pHWnd );
+   hb_itemRelease( pHWnd );
 
    return TRUE;
 }
 
 HB_FUNC ( ENUMWINDOWS )
 {
-   pArray = hb_itemArrayNew ( 0 );
+   pArray = hb_itemArrayNew( 0 );
 
-   EnumWindows ((WNDENUMPROC) EnumWindowsProc, (LPARAM) 0);
+   EnumWindows( ( WNDENUMPROC ) EnumWindowsProc, ( LPARAM ) 0 );
 
-   hb_itemReturnRelease ( pArray );
+   hb_itemReturnRelease( pArray );
    pArray = NULL;
 }
 
@@ -283,59 +285,5 @@ HB_FUNC ( ISMAXIMIZED )
    HWND hWnd = (HWND) hb_parnl (1);
    hb_retl ( (BOOL) IsZoomed ( hWnd ) );
 }
-#pragma ENDDUMP
-
-#pragma BEGINDUMP
-
-#include <windows.h>
-#include <winuser.h>
-#include "hbapi.h"
-
-#define VK1_A 65
-#define VK1_C 67
-#define VK1_V 86
-#define VK1_X 88
-
-/* select all - ctrl-a */
-HB_FUNC( SEND_SELECTALL )
-{
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), 0, 0);
-keybd_event(VK1_A, MapVirtualKey(VK1_A, 0), 0, 0);
-keybd_event(VK1_A, MapVirtualKey(VK1_A, 0), KEYEVENTF_KEYUP, 0);
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), KEYEVENTF_KEYUP, 0);
-}
-
-/* copy - ctrl-c */
-HB_FUNC( SEND_COPY )
-{
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), 0, 0);
-keybd_event(VK1_C, MapVirtualKey(VK1_C, 0), 0, 0);
-keybd_event(VK1_C, MapVirtualKey(VK1_C, 0), KEYEVENTF_KEYUP, 0);
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), KEYEVENTF_KEYUP, 0);
-}
-
-/* paste - ctrl-v */
-HB_FUNC( SEND_PASTE )
-{
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), 0, 0);
-keybd_event(VK1_V, MapVirtualKey(VK1_V, 0), 0, 0);
-keybd_event(VK1_V, MapVirtualKey(VK1_V, 0), KEYEVENTF_KEYUP, 0);
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), KEYEVENTF_KEYUP, 0);
-}
-
-/* cut - ctrl-x */
-HB_FUNC( SEND_CUT )
-{
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), 0, 0);
-keybd_event(VK1_X, MapVirtualKey(VK1_X, 0), 0, 0);
-keybd_event(VK1_X, MapVirtualKey(VK1_X, 0), KEYEVENTF_KEYUP, 0);
-keybd_event(VK_CONTROL, MapVirtualKey(VK_CONTROL, 0), KEYEVENTF_KEYUP, 0);
-}
-
 
 #pragma ENDDUMP
-
-
-
-
-

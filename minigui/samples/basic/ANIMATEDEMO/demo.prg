@@ -12,13 +12,14 @@ Function main()
 		WIDTH 640 ;
 		HEIGHT 400 ;
 		TITLE '@...ANIMATEBOX Test' ;
-		MAIN
+		MAIN ;
+		BACKCOLOR TEAL
 
 		@ 08,40 ANIMATEBOX Ani_1 ;
 			WIDTH 32 ;
 			HEIGHT 32 ;
 			FILE 'Process.Avi' ;
-			TRANSPARENT ;
+			TRANSPARENT BACKCOLOR TEAL ;
 			NOBORDER
 
 		@ 60,10 BUTTON Button_D1 ;

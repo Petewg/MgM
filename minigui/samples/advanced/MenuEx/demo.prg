@@ -6,8 +6,8 @@
 
 PROCEDURE Main
 
-// LOCAL aColors
-LOCAL Font1, Font2, Font3, Font4, Font0 
+LOCAL aColors
+LOCAL Font1, Font2, Font3, Font4 
 
 	DEFINE FONT font_0 FONTNAME GetDefaultFontName() SIZE 10
 	DEFINE FONT font_1 FONTNAME 'Times New Roman' SIZE 10 BOLD

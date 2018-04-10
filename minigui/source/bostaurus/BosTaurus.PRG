@@ -42,8 +42,11 @@
 *******************************************************************************
 
 
+#ifdef __XHARBOUR__
+  #define __MINIPRINT__
+#endif
+
 #include "hmg.ch"
-#include "BosTaurus.ch"   
 
 #include "BosTaurus_HB.prg"
 #include "BosTaurus_C.prg"

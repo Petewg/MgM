@@ -19,12 +19,11 @@ PROCEDURE main()
 
    SET EVENTS FUNCTION TO App_OnEvents
 
-   /*
-   hPng1 := hmg_LoadPng( 'res\image1.png',,, .T. )
-   hPng2 := hmg_LoadPng( 'res\image2.png',,, .T. )
-   hPng3 := hmg_LoadPng( 'IMAGE2', 'PNG',, .T.  )
-   hPng4 := hmg_LoadPng( 'IMAGE1', 'PNG',, .T.  )
-*/
+   hPng1 := hmg_LoadPng( 'res\image1.png' )
+   hPng2 := hmg_LoadPng( 'res\image2.png' )
+   hPng3 := hmg_LoadPng( 'IMAGE2', 'PNG' )
+   hPng4 := hmg_LoadPng( 'IMAGE1', 'PNG' )
+
    DEFINE WINDOW Form_1 ;
       BACKCOLOR WHITE ;
       CLIENTAREA 400, 220 ;
@@ -93,6 +92,12 @@ STATIC PROCEDURE ChangeBkClr( aBackColor )
    InvalidateRect( Form_1.Handle, 1 )
 
    RETURN
+
+//////////////////////////////////////////////////////////
+
+STATIC FUNCTION hmg_LoadPng( resname, restype )
+
+   RETURN c_GetResPicture( resname, iif( restype == NIl, NIL, restype ) )
 
 //////////////////////////////////////////////////////////
 

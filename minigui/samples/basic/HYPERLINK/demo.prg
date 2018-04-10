@@ -6,7 +6,7 @@
  * Copyright 2008 Grigory Filatov <gfilatov@inbox.ru>
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 #define DARKBLUE {0, 0, 128}
 #define TITLE_1  "Harbour MiniGUI Files Archive - Internet Explorer"
@@ -107,7 +107,6 @@ FUNCTION SetLinkBackColor()
    
    CASE FindWindow( 0, TITLE_5 ) > 0
       Main_form.hl5.FontColor := DARKBLUE   
-      Main_form.hl5.FontUnderline := .F.
 
   END CASE
 
@@ -145,5 +144,7 @@ FUNCTION AddSlash(cInFolder)
 
 RETURN cOutFolder
 
-#include "hbdll32.ch"
-DECLARE ANSI FindWindow ( lpClassName, lpWindowName ) IN USER32.DLL
+
+DECLARE DLL_TYPE_LONG ;
+   FindWindow ( DLL_TYPE_LPSTR lpClassName, DLL_TYPE_LPSTR lpWindowName ) ;
+   IN USER32.DLL

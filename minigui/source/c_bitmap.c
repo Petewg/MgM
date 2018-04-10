@@ -32,10 +32,10 @@
     "Harbour GUI framework for Win32"
     Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2018, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -916,13 +916,12 @@ BOOL GetImageSize( const char * fn, int * x, int * y )
    return FALSE;
 }
 
-HB_FUNC_TRANSLATE( HB_GETIMAGESIZE, HMG_GETIMAGESIZE )
 /*
- * Syntax: hmg_GetImageSize( cPicFile )
+ * Syntax: hb_GetImageSize( cPicFile )
  * Parameter: cPicFile = graphic file (JPG, GIF, PNG)
  * Return: 2 dim array -> array[1] = width, array[2] = height
  */
-HB_FUNC( HMG_GETIMAGESIZE )
+HB_FUNC( HB_GETIMAGESIZE )
 {
    int x = 0, y = 0;
 

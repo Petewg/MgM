@@ -1,0 +1,1 @@
+call ..\..\..\batch\compile.bat demo /l hbmzip /l ziparchive %1 %2 %3 %4 %5 %6 %7 %8 %9

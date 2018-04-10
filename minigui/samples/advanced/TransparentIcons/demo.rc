@@ -1,12 +1,12 @@
-ICO_AWIN       ICON    res\a_smile_24x24.ico
+ICO_AWIN       ICON    "res\a_smile_24x24.ico"
 
-ICO_OPEN       ICON    res\tools_24x24.ico
-ICO_EXIT       ICON    res\exit_48x48.ico
+ICO_OPEN       ICON    "res\tools_24x24.ico"
+ICO_EXIT       ICON    "res\exit_48x48.ico"
 
-ICO_ONE        ICON    res\user_one_128x128.ico
-ICO_TWO        ICON    res\user_two_128x128.ico
-ICO_THREE      ICON    res\user_three_128x128.ico
-ICO_MANY       ICON    res\user_many_128x128.ico
+ICO_ONE        ICON    "res\user_one_128x128.ico"
+ICO_TWO        ICON    "res\user_two_128x128.ico"
+ICO_THREE      ICON    "res\user_three_128x128.ico"
+ICO_MANY       ICON    "res\user_many_128x128.ico"
 
-BMP00 	      BITMAP	res\00.bmp
-BMP03	         BITMAP	res\03.bmp
+BMP00 	       BITMAP	"res\00.bmp"
+BMP03	       BITMAP	"res\03.bmp"

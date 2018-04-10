@@ -3,9 +3,6 @@
  * Author: P.Chornyj <myorg63@mail.ru>
  *
  * Revised by Grigory Filatov <gfilatov@inbox.ru>
- *
- * Adapted to MinGW Pete D. 03/09/2015
- *
 */
 
 #include "minigui.ch"
@@ -28,8 +25,8 @@ Private cTargetName
 
 	DEFINE WINDOW Win_1 ;
 		AT 0,0 ;
-		WIDTH 800 ;
-		HEIGHT 600 ;
+		WIDTH 400 ;
+		HEIGHT 400 ;
 		TITLE 'Hello World!' ;
 		MAIN ;
 		ON INIT OnInit()
@@ -43,7 +40,6 @@ Private cTargetName
 
 	END WINDOW
 
-	CENTER WINDOW Win_1
 	ACTIVATE WINDOW Win_1
 
 Return
@@ -52,11 +48,14 @@ Return
 PROCEDURE OnInit
 
 	IF !IsWinNT()
-		MsgStop( 'This Program Runs In Win2000/XP or later!', 'Stop' )
+		MsgStop( 'This Program Runs In Win2000/XP Only!', 'Stop' )
 		ReleaseAllWindows()
 	ENDIF
 
 	cTargetName := GetDomainName() + Chr(0)
+
+	// debug message
+//	MsgInfo( cTargetName, "Domain" )
 
 RETURN
 
@@ -256,12 +255,11 @@ HB_FUNC( CREDUI_INFO )
 #define UNICODE
 #endif
 
-/*
 #ifndef _BCC_LINK_LIB
 #define _BCC_LINK_LIB  "C:\Borland\BCC55\Lib\PSDK\netapi32.lib"  // If necessary define adequate path in your application before include header files
 #endif
 #pragma comment (lib, _BCC_LINK_LIB)   // for Borland C Compiler
-*/
+
 #include <windows.h> 
 #include <lm.h>
 

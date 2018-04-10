@@ -54,7 +54,7 @@ LOCAL nSeconds := 0, nCount := 11, lLoop := .T.
             NonStop.Lbl_Progress.Value := LTRIM( STR( nCount ) ) + " second" + IF(nCount > 1, "s", "")
             nSeconds := SECONDS()
         ENDIF
-         DoEvents()
+        DO EVENTS
     ENDDO
 
     IF lLoop

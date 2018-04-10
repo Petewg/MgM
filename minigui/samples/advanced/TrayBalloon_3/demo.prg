@@ -102,14 +102,14 @@ Return NIL
 Static Procedure OnInit()
 *--------------------------------------------------------*
 
-	pMainWin := win_N2P( Application.Handle )
+	pMainWin := WIN_N2P( Application.Handle )
 
-	Form_1.Command_ShowTip.Enabled := ShellTrayIconAdd( pMainWin, win_N2P( ahTrayIcons[ 1 ] ), PROGRAM )
+	Form_1.Command_ShowTip.Enabled := ShellTrayIconAdd( pMainWin, WIN_N2P( ahTrayIcons[ 1 ] ), PROGRAM )
 
 	DEFINE NOTIFY MENU OF Form_1
 		ITEM 'A&bout...'	ACTION ShellAbout( "About " + PROGRAM + "#", ;
 			PROGRAM + VERSION + CRLF + "Copyright " + Chr(169) + COPYRIGHT, ;
-			LoadTrayIcon( GetInstance(), IDI_BOB ) )
+			LoadTrayIcon( GetInstance(), IDI_BOB, 32, 32 ) )
 		SEPARATOR	
 		ITEM 'E&xit'		ACTION Form_1.Release
 	END MENU
@@ -144,7 +144,7 @@ Static Procedure Command1_Click()
    Local nIconIndex := Form_1.Option1.Value
 
    IF Form_1.Check1.Value
-      Form_1.Command_ShowTip.Enabled := ShellTrayIconAdd( pMainWin, win_N2P( ahTrayIcons[ nIconIndex ] ), PROGRAM )
+      Form_1.Command_ShowTip.Enabled := ShellTrayIconAdd( pMainWin, WIN_N2P( ahTrayIcons[ nIconIndex ] ), PROGRAM )
       Form_1.Option1.Enabled := ( Form_1.Command_ShowTip.Enabled )
    ELSE
       ShellTrayIconRemove( pMainWin )
@@ -168,7 +168,7 @@ Static Procedure Option_Click()
 *--------------------------------------------------------*
    Local nIconIndex := Form_1.Option1.Value
 
-   Form_1.Command_ShowTip.Enabled := ShellTrayIconChange( pMainWin, win_N2P( ahTrayIcons[ nIconIndex ] ) )
+   Form_1.Command_ShowTip.Enabled := ShellTrayIconChange( pMainWin, WIN_N2P( ahTrayIcons[ nIconIndex ] ) )
    Form_1.Option1.Enabled := ( Form_1.Command_ShowTip.Enabled )
 
 Return

@@ -1,0 +1,359 @@
+* HMG-IDE UNICODE Form Designer Generated Code
+* (c) Roberto Lopez - http://sites.google.com/site/hmgweb
+
+DEFINE WINDOW TEMPLATE AT 51 , 231 WIDTH 519 HEIGHT 565 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Displaying mode when image file not found with Bos Taurus library" ICON NIL MAIN NOMAXIMIZE NOMINIMIZE NOSIZE CURSOR NIL ON INIT Nil ON RELEASE Proc_ON_RELEASE() ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR Nil NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE IMAGE Image_1
+        ROW    10
+        COL    40
+        WIDTH  40
+        HEIGHT 40
+        PICTURE "HMG"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .F.
+        ACTION Nil
+    END IMAGE
+
+    DEFINE LABEL Label_1
+        ROW    8
+        COL    120
+        WIDTH  360
+        HEIGHT 36
+        VALUE "Company Name"
+        FONTNAME "Arial"
+        FONTSIZE 24
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .T.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR {0,128,128}
+    END LABEL
+
+    DEFINE FRAME Frame_1
+        ROW    70
+        COL    20
+        WIDTH  472
+        HEIGHT 140
+        FONTNAME "Arial"
+        FONTSIZE 11
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Customer registration"
+        BACKCOLOR NIL
+        FONTCOLOR {0,0,255}
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE LABEL Label_2
+        ROW    100
+        COL    40
+        WIDTH  80
+        HEIGHT 20
+        VALUE "Full name:"
+        FONTNAME "Arial"
+        FONTSIZE 10
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE LABEL Label_3
+        ROW    100
+        COL    120
+        WIDTH  220
+        HEIGHT 18
+        VALUE "Client name"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .T.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {255,255,255}
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE LABEL Label_4
+        ROW    130
+        COL    40
+        WIDTH  80
+        HEIGHT 20
+        VALUE "Address:"
+        FONTNAME "Arial"
+        FONTSIZE 10
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE LABEL Label_5
+        ROW    130
+        COL    120
+        WIDTH  220
+        HEIGHT 18
+        VALUE "Client address"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .T.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {255,255,255}
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE LABEL Label_6
+        ROW    160
+        COL    40
+        WIDTH  80
+        HEIGHT 20
+        VALUE "City:"
+        FONTNAME "Arial"
+        FONTSIZE 10
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE LABEL Label_7
+        ROW    160
+        COL    119
+        WIDTH  220
+        HEIGHT 18
+        VALUE "Client city"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .T.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {255,255,255}
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE FRAME Frame_2
+        ROW    80
+        COL    360
+        WIDTH  120
+        HEIGHT 120
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Client picture"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE IMAGE Image_2
+        ROW    98
+        COL    370
+        WIDTH  100
+        HEIGHT 90
+        PICTURE "hmg2.bmp"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .T.
+        ACTION Nil
+    END IMAGE
+
+    DEFINE FRAME Frame_3
+        ROW    220
+        COL    20
+        WIDTH  472
+        HEIGHT 246
+        FONTNAME "Arial"
+        FONTSIZE 11
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Product selling"
+        BACKCOLOR NIL
+        FONTCOLOR {0,0,255}
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE FRAME Frame_4
+        ROW    250
+        COL    40
+        WIDTH  250
+        HEIGHT 120
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Description"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE LABEL Label_8
+        ROW    270
+        COL    50
+        WIDTH  230
+        HEIGHT 90
+        VALUE "Sometimes the scent of seasonal hand wash is all we need to rouse our holiday spirits. Available in an array of festive fragrances, our naturally derived gel hand wash will leave your hands soft, clean and ready to be tucked into a pair of fair isle mitte"
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP ""
+        FONTBOLD .F.
+        FONTITALIC .T.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        VISIBLE .T.
+        TRANSPARENT .F.
+        ACTION Nil
+        AUTOSIZE .F.
+        BACKCOLOR {255,255,255}
+        FONTCOLOR NIL
+    END LABEL
+
+    DEFINE FRAME Frame_5
+        ROW    372
+        COL    40
+        WIDTH  250
+        HEIGHT 80
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Available"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE IMAGE Image_3
+        ROW    390
+        COL    50
+        WIDTH  230
+        HEIGHT 50
+        PICTURE "hmg3.bmp"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .T.
+        ACTION Nil
+    END IMAGE
+
+    DEFINE FRAME Frame_6
+        ROW    250
+        COL    310
+        WIDTH  170
+        HEIGHT 202
+        FONTNAME "Arial"
+        FONTSIZE 10
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Product image"
+        BACKCOLOR NIL
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE IMAGE Image_4
+        ROW    270
+        COL    320
+        WIDTH  150
+        HEIGHT 170
+        PICTURE "hmg4.bmp"
+        HELPID Nil
+        VISIBLE .T.
+        STRETCH .T.
+        ACTION Nil
+    END IMAGE
+
+    DEFINE BUTTON Button_1
+        ROW    490
+        COL    210
+        WIDTH  100
+        HEIGHT 28
+        ACTION Submit()
+        CAPTION "Submit"
+        FONTNAME "Arial"
+        FONTSIZE 12
+        TOOLTIP ""
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE Nil
+        PICTALIGNMENT TOP
+    END BUTTON
+
+END WINDOW
+

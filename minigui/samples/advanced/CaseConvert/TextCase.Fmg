@@ -1,0 +1,372 @@
+* HMG-IDE UNICODE Form Designer Generated Code
+* (c) Roberto Lopez - http://sites.google.com/site/hmgweb
+
+DEFINE WINDOW TEMPLATE AT 194 , 443 WIDTH 643 HEIGHT 555 VIRTUAL WIDTH Nil VIRTUAL HEIGHT Nil TITLE "Text Case Conversion" ICON NIL MAIN NOMAXIMIZE NOSIZE CURSOR NIL ON INIT AdjustConds() ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK Nil ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR {192,192,192} NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE FRAME freTxt2Conv
+        ROW    20
+        COL    30
+        WIDTH  510
+        HEIGHT 60
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Text to be converted:"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE TEXTBOX txbSourceString
+        ROW    43
+        COL    40
+        WIDTH  460
+        HEIGHT 27
+        FONTNAME "Verdana"
+        FONTSIZE 11
+        ACTION (TCCApply( frmTextCase.txbSourceString.Value ),this.setfocus)
+        IMAGE "bmpApply"
+        BUTTONWIDTH 24
+        FONTBOLD .T.
+        ONENTER (TCCApply( frmTextCase.txbSourceString.Value ),this.setfocus)
+        TABSTOP .T.
+        VISIBLE .T.
+        RIGHTALIGN .F.
+        DISABLEDBACKCOLOR {192,192,192}
+        VALUE "viva HMG Extended, viva all supporters !"
+    END TEXTBOX
+
+    DEFINE BUTTON btnApply
+        ROW    45
+        COL    510
+        WIDTH  20
+        HEIGHT 23
+        ACTION TCCApply( frmTextCase.txbSourceString.Value )
+        CAPTION Nil
+        FONTNAME "Arial"
+        FONTSIZE 9
+        TOOLTIP "Apply ( Enter )"
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        HELPID Nil
+        FLAT .F.
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        MULTILINE .F.
+        PICTURE "bmpApply"
+        PICTALIGNMENT TOP
+    END BUTTON
+
+    DEFINE FRAME Frame_2
+        ROW    20
+        COL    550
+        WIDTH  50
+        HEIGHT 60
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Info"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE BUTTON btnInfo
+        ROW    45
+        COL    565
+        WIDTH  20
+        HEIGHT 23
+        ACTION SayInfo()
+        CAPTION "?"
+        FONTNAME "FixedSys"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FLAT .F.
+        TABSTOP .F.
+        VISIBLE .T.
+        PICTALIGNMENT TOP
+    END BUTTON
+
+    DEFINE FRAME Frame_3
+        ROW    90
+        COL    30
+        WIDTH  570
+        HEIGHT 60
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Conversion Type"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE RADIOGROUP rgbConvType
+        ROW    110
+        COL    40
+        WIDTH  73
+        HEIGHT 28
+        OPTIONS { 'Camel', 'Lower', 'Start', 'U_Snake', 'L_Snake', 'U_Train', 'L_Train' }
+        VALUE 1
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE AdjustConds()
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 7
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        READONLY Nil
+        HORIZONTAL .T.
+    END RADIOGROUP
+
+    DEFINE FRAME frePunct
+        ROW    160
+        COL    30
+        WIDTH  175
+        HEIGHT 190
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Punctuation"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE RADIOGROUP rgbPunct
+        ROW    180
+        COL    40
+        WIDTH  110
+        HEIGHT 100
+        OPTIONS { 'left intact', 'remove', '=> spaces', '=> underscore', '=> dashe' }
+        VALUE 1
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 32
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        READONLY Nil
+        HORIZONTAL .F.
+        ONCHANGE (TCCApply( frmTextCase.txbSourceString.Value ),this.setfocus)
+    END RADIOGROUP
+
+    DEFINE FRAME freSpaces
+        ROW    160
+        COL    228
+        WIDTH  175
+        HEIGHT 190
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Spaces"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE RADIOGROUP rgbSpace
+        ROW    180
+        COL    245
+        WIDTH  120
+        HEIGHT 100
+        OPTIONS { 'left intact', 'remove', '=> underscore', '=> dashe' }
+        VALUE 1
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 32
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        READONLY Nil
+        HORIZONTAL .F.
+        ONCHANGE (TCCApply( frmTextCase.txbSourceString.Value ),this.setfocus)
+    END RADIOGROUP
+
+    DEFINE FRAME freCaseConv
+        ROW    160
+        COL    425
+        WIDTH  175
+        HEIGHT 190
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Case conversion"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE Listbox cmbCaseConv
+        ROW    180
+        COL    440
+        WIDTH  140
+        HEIGHT 160
+        ITEMS { 'left intact', 'upper all', 'upper only 1st', 'upper only 2nd', 'upper all but 1st', 'upper all but 2nd', 'lower all', 'lower only 1st', 'lower only 2nd', 'lower all but 1st', 'lower all but 2nd' }
+        VALUE 1
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE (TCCApply( frmTextCase.txbSourceString.Value ),this.setfocus)
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        SORT .F.
+        ONENTER Nil
+        ONDISPLAYCHANGE Nil
+        DISPLAYEDIT .F.
+        IMAGE Nil
+        DROPPEDWIDTH Nil
+        ONDROPDOWN Nil
+        ONCLOSEUP Nil
+    END listBOX
+
+    DEFINE FRAME freDelmAdd
+        ROW    360
+        COL    30
+        WIDTH  570
+        HEIGHT 60
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Delimiter to add"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE RADIOGROUP rgbDelmAdd
+        ROW    380
+        COL    40
+        WIDTH  73
+        HEIGHT 28
+        OPTIONS { 'none', 'space', 'u.score', 'dashe', 'comma', 's.colon', 'colon' }
+        VALUE 1
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        FONTBOLD .F.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        TRANSPARENT .F.
+        SPACING 7
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        READONLY Nil
+        HORIZONTAL .T.
+        ONCHANGE (TCCApply( frmTextCase.txbSourceString.Value ),this.setfocus)
+    END RADIOGROUP
+
+    DEFINE FRAME freExamples
+        ROW    430
+        COL    30
+        WIDTH  570
+        HEIGHT 70
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        CAPTION "Result :"
+        BACKCOLOR {192,192,192}
+        FONTCOLOR NIL
+        OPAQUE .T.
+    END FRAME
+
+    DEFINE TEXTBOX txbResult
+        ROW    453
+        COL    40
+        WIDTH  540
+        HEIGHT 30
+        FONTNAME "Verdana"
+        FONTSIZE 9
+        TOOLTIP ""
+        ONCHANGE Nil
+        ONGOTFOCUS Nil
+        ONLOSTFOCUS Nil
+        FONTBOLD .T.
+        FONTITALIC .F.
+        FONTUNDERLINE .F.
+        FONTSTRIKEOUT .F.
+        ONENTER Nil
+        HELPID Nil
+        TABSTOP .T.
+        VISIBLE .T.
+        READONLY .F.
+        RIGHTALIGN .F.
+        DISABLEDBACKCOLOR Nil
+        DISABLEDFONTCOLOR Nil
+        CASECONVERT NONE
+        BACKCOLOR NIL
+        FONTCOLOR {0,0,255}
+        INPUTMASK Nil
+        FORMAT Nil
+        VALUE ""
+    END TEXTBOX
+
+END WINDOW
+

@@ -1,15 +1,15 @@
-DEFINE WINDOW TEMPLATE AT 0,0 HEIGHT 255 + IF(IsThemed() .and. !IsSeven(), 5, 0) WIDTH 364 TITLE "About me" ICON "AMODEST" MODAL NOSIZE CURSOR "" FONT "Tahoma" SIZE 9
+DEFINE WINDOW TEMPLATE AT 0,0 HEIGHT 255 + IF(IsThemed() .and. !IsSeven(), 5, 0) WIDTH 364 TITLE "About me" ICON "1MODEST" MODAL NOSIZE CURSOR "" FONT "Tahoma" SIZE 9
 
     DEFINE IMAGE Image_1
         COL 20
         ROW 27
         PICTURE "LOGO"
-        WIDTH 55
-        HEIGHT 55
+        WIDTH 48
+        HEIGHT 48
         ACTION Nil
         TOOLTIP Nil
-        STRETCH .F.
-        WHITEBACKGROUND .F.
+        STRETCH .T.
+        TRANSPARENT .T.
         HELPID Nil
         VISIBLE .T.
     END IMAGE

@@ -35,7 +35,7 @@ Function Main
 		DEFINE STATUSBAR FONT 'MS Sans Serif' SIZE 8
 			STATUSITEM "Item 1" 	ACTION MsgInfo('Click! 1')
 			STATUSITEM "Item 2" 	WIDTH 100 ACTION MsgInfo('Click! 2') 
-			STATUSITEM 'A Car!'	WIDTH 100 ICON 'Car.Ico' ACTION MsgInfo('Click! 3') 
+			STATUSITEM 'A Car!'	WIDTH 100 ICON 'Car.Ico'
 			CLOCK 
 			DATE 
 		END STATUSBAR

@@ -1,0 +1,65 @@
+MAIN ICON "res\Main.ico"
+
+B105 BITMAP "res\Bitmap_1.bmp"
+
+B106 BITMAP "res\Bitmap_2.bmp"
+
+B107 BITMAP "res\Bitmap_3.bmp"
+
+B108 BITMAP "res\Bitmap_4.bmp"
+
+B109 BITMAP "res\Bitmap_5.bmp"
+
+B110 BITMAP "res\Bitmap_6.bmp"
+
+B111 BITMAP "res\Bitmap_7.bmp"
+
+B112 BITMAP "res\Bitmap_8.bmp"
+
+B113 BITMAP "res\Bitmap_9.bmp"
+
+B114 BITMAP "res\Bitmap_10.bmp"
+
+B115 BITMAP "res\Bitmap_11.bmp"
+
+B116 BITMAP "res\Bitmap_12.bmp"
+
+B117 BITMAP "res\Bitmap_13.bmp"
+
+B118 BITMAP "res\Bitmap_14.bmp"
+
+B119 BITMAP "res\Bitmap_15.bmp"
+
+B120 BITMAP "res\Bitmap_16.bmp"
+
+B121 BITMAP "res\Bitmap_17.bmp"
+
+B122 BITMAP "res\Bitmap_18.bmp"
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,7
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x40004
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "CompanyName", "\000"
+		VALUE "FileDescription", "XMas Lights"
+		VALUE "FileVersion", "1.0.0.7"
+		VALUE "InternalName", "XMas Lights"
+		VALUE "LegalCopyright", "Copyright © 2005-2017 Grigory Filatov\000"
+		VALUE "OriginalFilename", "XMas Lights.exe"
+		VALUE "ProductName", "XMas Lights"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

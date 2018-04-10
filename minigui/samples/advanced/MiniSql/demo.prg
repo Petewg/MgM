@@ -58,13 +58,11 @@ Return
 Procedure ShowQuery()
 *------------------------------------------------------------------------------*
 Local nHandle
-Local i, cPassword
-
-hb_default( @cPassword, "1234" ) // change this to your mysql password or to "" if no password used
+Local i
 
 	* Connect
 
-      	nHandle := SqlConnect( 'localhost' , 'root' , cPassword )
+      	nHandle := SqlConnect( 'localhost' , 'root' , '' )
 
 	if Empty( nHandle )
 		MsgStop( "Can't Connect" )
@@ -74,9 +72,7 @@ hb_default( @cPassword, "1234" ) // change this to your mysql password or to "" 
 	* Select DataBase
 
 	if SqlSelectD( nHandle , 'NAMEBOOK' ) != 0
-		MsgStop( "Can't Select Database" + hb_eol() + ;
-                "Hint: build and run \minigui\samples\basic\MYSQL\demo_2"+hb_eol()+;
-                "to create NAMEBOOK DATABASE and then re-build this sample" )
+		MsgStop( "Can't Select Database" )
 		Return
 	Endif
 

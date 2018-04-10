@@ -6,7 +6,7 @@
 
 ANNOUNCE RDDSYS
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 #define PROGRAM 'System ToolBox'
 #define VERSION ' version 1.2'
@@ -63,7 +63,7 @@ Procedure Main()
 							"&body=How%20are%20you%2C%20Grigory%3F", , 1 )
 			ITEM '&About...'		ACTION ShellAbout( "About " + PROGRAM + "#", PROGRAM + ;
 							VERSION + CRLF + Chr(169) + COPYRIGHT, ;
-							LoadTrayIcon(GetInstance(), "MAINICON") )
+							LoadTrayIcon(GetInstance(), "MAINICON", 32, 32) )
 			SEPARATOR	
 			ITEM 'E&xit'			ACTION Form_1.Release
 		END MENU
@@ -410,20 +410,27 @@ DEFAULT nWait TO 2
 
 Do While Seconds() - iTime < nWait
 	INKEY(1)
-	DoEvents()
+	DO EVENTS
 EndDo
 
 Return
 
 *--------------------------------------------------------*
-#include "hbdll32.ch"
-DECLARE ANSI FindWindow (  lpClassName,  lpWindowName ) IN USER32.DLL
+DECLARE DLL_TYPE_LONG ;
+	FindWindow ( DLL_TYPE_LPSTR lpClassName, DLL_TYPE_LPSTR lpWindowName ) ;
+	IN USER32.DLL
 
-DECLARE ANSI FindWindowEx (  hWnd1,  hWnd2,  lpsz1,  lpsz2 ) IN USER32.DLL
+DECLARE DLL_TYPE_LONG ;
+	FindWindowEx ( DLL_TYPE_LONG hWnd1, DLL_TYPE_LONG hWnd2, DLL_TYPE_LPSTR lpsz1, DLL_TYPE_LPSTR lpsz2 ) ;
+	IN USER32.DLL
 
-DECLARE ANSI ShowWindow (  hwnd,  nCmdShow ) IN USER32.DLL ALIAS ShowSysWindow
+DECLARE DLL_TYPE_LONG ;
+	ShowWindow ( DLL_TYPE_LONG hwnd, DLL_TYPE_LONG nCmdShow ) ;
+	IN USER32.DLL ALIAS ShowSysWindow
 
-DECLARE ANSI ExitWindowsEx (  uFlags,  dwReserved ) IN USER32.DLL ALIAS SysShutDown
+DECLARE DLL_TYPE_LONG ;
+	ExitWindowsEx ( DLL_TYPE_LONG uFlags, DLL_TYPE_LONG dwReserved ) ;
+	IN USER32.DLL ALIAS SysShutDown
 *--------------------------------------------------------*
 
 

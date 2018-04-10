@@ -127,7 +127,7 @@ RETURN
 #translate Alert( <c>, <t> ) => MsgExclamation( <c>, <t> )
 
 *----------------------
-FUNCTION ShowVersion()
+ FUNCTION ShowVersion()
 *---------------------------------------------------------------------------
 * Shows SQLite version
 *---------------------------------------------------------------------------
@@ -137,7 +137,7 @@ FUNCTION ShowVersion()
 RETURN 0
 
 *-------------------------------
-FUNCTION ShowTables( lMsgShow )
+ FUNCTION ShowTables( lMsgShow )
 *---------------------------------------------------------------------------
 * Shows all tables inside the database
 *---------------------------------------------------------------------------
@@ -158,7 +158,7 @@ FUNCTION ShowTables( lMsgShow )
 RETURN( IIF( nChoices > 0, aResult[ nChoices ], "") )
 
 *-----------------------------
-FUNCTION ShowFields( cTable )
+ FUNCTION ShowFields( cTable )
 *---------------------------------------------------------------------------
 * Shows fields on a box from given table
 *---------------------------------------------------------------------------
@@ -179,7 +179,7 @@ FUNCTION ShowFields( cTable )
 RETURN( IIF( nChoices > 0, aResult[ nChoices ], "") )
 
 *------------------------------
-FUNCTION ShowCOLInfo( cTable )
+ FUNCTION ShowCOLInfo( cTable )
 *---------------------------------------------------------------------------
 * Shows Information about fields...
 *---------------------------------------------------------------------------
@@ -199,7 +199,7 @@ FUNCTION ShowCOLInfo( cTable )
 RETURN nChoices
 
 *---------------------------
-FUNCTION ShowData( cDBase )
+ FUNCTION ShowData( cDBase )
 *---------------------------------------------------------------------------
 * Shows data
 *---------------------------------------------------------------------------
@@ -243,7 +243,7 @@ FUNCTION ShowData( cDBase )
 RETURN 0
 
 *------------------------------
-FUNCTION CreatefromDBF( cDBase )
+ FUNCTION CreatefromDBF( cDBase )
 *---------------------------------------------------------------------------
   LOCAL cHeader, cQuery := "", NrReg:= 0, cTable := cFileNoExt(cDBase)
   LOCAL lCreateIfNotExist := .f.
@@ -293,7 +293,7 @@ FUNCTION CreatefromDBF( cDBase )
 RETURN 0
 
 *---------------------
-FUNCTION BrowseData()
+ FUNCTION BrowseData()
 *---------------------------------------------------------------------------
 * Browse data
 *---------------------------------------------------------------------------
@@ -315,6 +315,7 @@ IF SQLITE_TABLEEXISTS( "Names" )
     HEADERS {"Code", "Name"};
     WIDTHS  {60, 335} ;
     VALUE 1 ;
+    PAINTDOUBLEBUFFER ;
     ON DBLCLICK Get_Fields(db, 2)
 
   @ 357,11 LABEL  Label_Search_Generic ;
@@ -382,11 +383,13 @@ DELETE ITEM ALL FROM Grid_1 Of Grid_Names
 aResult := SQLITE_QUERY( db, "SELECT CODE, NAME FROM Names WHERE NAME LIKE "+cSearch+" ORDER BY NAME")
 
 if LEN(aResult) > 0
+  Grid_Names.Grid_1.DisableUpdate 
   For i := 1 To LEN(aResult) Step 2
     cCode := aResult[i]
     cName := aResult[i+1]
     ADD ITEM { Padr(cCode, 4), cName } TO Grid_1 Of Grid_Names
   Next
+  Grid_Names.Grid_1.EnableUpdate 
 endif
 
 Grid_Names.cSearch.SetFocus  
@@ -551,7 +554,7 @@ EndIf
 Return Nil
 
 *-------------------------------------
-FUNCTION SQLITE_TABLEEXISTS( cTable )
+ FUNCTION SQLITE_TABLEEXISTS( cTable )
 *---------------------------------------------------------------------------
 * Uses a (special) master table where the names of all tables are stored
 *---------------------------------------------------------------------------
@@ -570,7 +573,7 @@ FUNCTION SQLITE_TABLEEXISTS( cTable )
 RETURN( lRet )
 
 *---------------------------
-FUNCTION SQLITE_DROPTABLE()
+ FUNCTION SQLITE_DROPTABLE()
 *---------------------------------------------------------------------------
 * Deletes a table from current database
 * WARNING !!   It deletes forever...
@@ -597,7 +600,7 @@ FUNCTION SQLITE_DROPTABLE()
 RETURN lRet
 
 *---------------------------------
-FUNCTION SQLITE_FIELDS( cTable )
+ FUNCTION SQLITE_FIELDS( cTable )
 *---------------------------------------------------------------------------
 * Returns an unidimensional array with field names only
 *---------------------------------------------------------------------------
@@ -622,7 +625,7 @@ FUNCTION SQLITE_FIELDS( cTable )
 RETURN( aFields )
 
 *--------------------------------
-FUNCTION SQLITE_COLUMNS( cTable )
+ FUNCTION SQLITE_COLUMNS( cTable )
 *---------------------------------------------------------------------------
 * Returns an 2-dimensional array with field names and types
 *---------------------------------------------------------------------------
@@ -649,7 +652,7 @@ FUNCTION SQLITE_COLUMNS( cTable )
 RETURN( aFields )
 
 *------------------------
-FUNCTION SQLITE_TABLES()
+ FUNCTION SQLITE_TABLES()
 *---------------------------------------------------------------------------
 * Uses a (special) master table where the names of all tables are stored
 * Returns an array with names of tables inside of the database
@@ -673,7 +676,7 @@ FUNCTION SQLITE_TABLES()
 RETURN( aTables )
 
 *--------------------------------------
-FUNCTION SQLITE_QUERY( db, cStatement )
+ FUNCTION SQLITE_QUERY( db, cStatement )
 *---------------------------------------------------------------------------
   LOCAL stmt, nCCount, nI, nCType
   LOCAL aRet := {}

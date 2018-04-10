@@ -1,0 +1,142 @@
+
+      DEFINE BUTTON btnPrev
+         ROW 0
+         COL 0    
+         CAPTION " < "  // PICTURE "Prev.bmp"
+         FONTNAME "FixedSys"
+         FONTSIZE 10     
+         FONTBOLD .T.
+         WIDTH nNavBtWdt 
+         HEIGHT 23
+         TOOLTIP ' Previous '
+         ACTION  FB_PrevPage()
+      END BUTTON // btnPrev
+      
+      DEFINE BUTTON btnNext
+         ROW 0
+         COL 0
+         CAPTION " > "  
+         FONTNAME "FixedSys"
+         FONTSIZE 10
+         FONTBOLD .T.
+         WIDTH nNavBtWdt 
+         HEIGHT 23
+         TOOLTIP ' Next '
+         ACTION FB_NextPage() 
+         FLAT .T.
+      END BUTTON // btnNext
+
+      DEFINE BUTTON btnClose
+         ROW 0
+         COL 0
+         CAPTION " X "
+         FONTNAME "FixedSys"
+         FONTSIZE 10
+         FONTBOLD .T.
+         WIDTH nNavBtWdt 
+         HEIGHT 23
+         TOOLTIP ' Close '
+         ACTION { || IF( EMPTY( aOpnDatas ), ,  ClosData(,"C") ) } 
+         FLAT .T.
+      END BUTTON // btnClose
+
+      DEFINE BUTTON btnPag01
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 1 )          
+      END BUTTON // btnPag01
+      
+      DEFINE BUTTON btnPag02
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 2 )          
+      END BUTTON // btnPag02
+      
+      DEFINE BUTTON btnPag03
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 3 )          
+      END BUTTON // btnPag01
+      
+      DEFINE BUTTON btnPag04
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 4 )          
+      END BUTTON // btnPag04
+      
+      DEFINE BUTTON btnPag05
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 5 )          
+      END BUTTON // btnPag05
+      
+      DEFINE BUTTON btnPag06
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 6 )          
+      END BUTTON // btnPag06
+      
+      DEFINE BUTTON btnPag07
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 7 )          
+      END BUTTON // btnPag07
+      
+      DEFINE BUTTON btnPag08
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 8 )
+      END BUTTON // btnPag08
+      
+      DEFINE BUTTON btnPag09
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 9 )
+      END BUTTON // btnPag09
+      
+      DEFINE BUTTON btnPag10
+         ROW 0
+         COL 0    
+         WIDTH 0 // nMinBtWdt
+         HEIGHT 23
+         FONTNAME "Tahoma"
+*        FONTSIZE 7      
+         ACTION FB_SelePage( 10 )
+      END BUTTON // btnPag10
+

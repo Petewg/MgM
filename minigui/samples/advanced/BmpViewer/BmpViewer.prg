@@ -39,8 +39,8 @@ Memvar nScrWidth, nScrHeight
 *--------------------------------------------------------*
 Procedure Main( fname )
 *--------------------------------------------------------*
-LOCAL nLen := 0, aDesk := GetDesktopArea()
-PRIVATE nScrWidth := aDesk[3], nScrHeight := aDesk[4]
+LOCAL nLen := 0, aRect := GetDesktopArea()
+   PRIVATE nScrWidth := aRect[ 3 ] - aRect[ 1 ], nScrHeight := aRect[ 4 ] - aRect[ 2 ]
 
    default fname := ""
 
@@ -486,43 +486,3 @@ return MsgInfo( padc(PROGRAM + VERSION, 40) + CRLF + ;
 	hb_compiler() + CRLF + version() + CRLF + ;
 	Left(MiniGuiVersion(), 38) + CRLF + CRLF + ;
 	padc("This program is Freeware!", 40), "About", , .f. )
-
-
-#pragma BEGINDUMP
-
-#include <windows.h>
-#include "hbapi.h"
-#include "hbapiitm.h"
-
-#ifdef __XHARBOUR__
-#define HB_STORNI( n, x, y ) hb_storni( n, x, y )
-#else
-#define HB_STORNI( n, x, y ) hb_storvni( n, x, y )
-#endif
-
-HB_FUNC ( GETDESKTOPAREA ) 
-{
-	RECT rect;
-	SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-
-	hb_reta(4);
-	HB_STORNI((INT) rect.top, -1, 1);
-	HB_STORNI((INT) rect.left, -1, 2);
-	HB_STORNI((INT) rect.right - rect.left, -1, 3);
-	HB_STORNI((INT) rect.bottom - rect.top, -1, 4);
-}
-/*
-HB_FUNC ( C_CENTER )
-{
-	RECT rect;
-	int w, h, x, y;
-	GetWindowRect((HWND) hb_parnl (1), &rect);
-	w  = rect.right  - rect.left;
-	h = rect.bottom - rect.top;
-	SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
-	x = rect.right - rect.left;
-	y = rect.bottom - rect.top;
-	SetWindowPos( (HWND) hb_parnl (1), HWND_TOP, (x - w) / 2, (y - h) / 2, 0, 0, SWP_NOSIZE | SWP_NOACTIVATE );
-}
-*/
-#pragma ENDDUMP

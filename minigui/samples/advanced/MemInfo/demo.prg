@@ -4,7 +4,7 @@
  * Copyright 2002-07 Roberto Lopez <harbourminigui@gmail.com>
  * http://harbourminigui.googlepages.com/
  *
- * Copyright 2007 Grigory Filatov <gfilatov@inbox.ru>
+ * Copyright 2007-2017 Grigory Filatov <gfilatov@inbox.ru>
 */
 
 ANNOUNCE RDDSYS
@@ -12,8 +12,8 @@ ANNOUNCE RDDSYS
 #include "minigui.ch"
 
 #define PROGRAM "Memory Info"
-#define VERSION " version 1.1"
-#define COPYRIGHT " Grigory Filatov, 2007"
+#define VERSION " version 1.2"
+#define COPYRIGHT " Grigory Filatov, 2007-2017"
 
 #define NUMERIC 0
 #define DIGITAL 9
@@ -22,23 +22,21 @@ ANNOUNCE RDDSYS
 #define	IDB_ICONFONT2	1002
 
 Static nAvailableMem := 0, nStyle
+
 *--------------------------------------------------------*
 Procedure Main()
 *--------------------------------------------------------*
 
 	SET MULTIPLE OFF
 
-	Default nStyle To NUMERIC
+	Default nStyle To DIGITAL
 
 	DEFINE WINDOW Form_1 		;
-		AT 0,0 			;
-		WIDTH 0 HEIGHT 0 	;
 		TITLE PROGRAM 		;
-		ICON "MAIN"		;
 		MAIN NOSHOW 		;
 		NOTIFYTOOLTIP PROGRAM	;
 		ON INIT Start()		;
-		ON RELEASE ShowNotifyIcon( _HMG_MainHandle, .F., NIL, NIL )
+		ON RELEASE ShowNotifyIcon( This.Handle, .F., NIL, NIL )
 
 		DEFINE TIMER Timer_1 ;
 			INTERVAL 1000 ;
@@ -53,11 +51,11 @@ Return
 *--------------------------------------------------------*
 Static Procedure Start()
 *--------------------------------------------------------*
-Local i := Ascan( _HMG_aFormhandles, GetFormHandle("Form_1") )
+Local i := GetFormIndex( This.Name )
 Local nFreeMem := MemoryStatus(2)
 Local nAvailable := Round( nFreeMem / MemoryStatus(1), 2 )
 Local lState := ( nFreeMem < 0.1 * MemoryStatus(1) )
-Local nIcon := IF(IsWinNT(), IDB_ICONFONT, IDB_ICONFONT2)
+Local nIcon := iif(IsWinNT(), IDB_ICONFONT, IDB_ICONFONT2)
 Local hIcon := LoadNumericIcon( nFreeMem, nAvailable, lState, nStyle, nIcon )
 
 	CLEAN MEMORY
@@ -70,18 +68,26 @@ Local hIcon := LoadNumericIcon( nFreeMem, nAvailable, lState, nStyle, nIcon )
 	nAvailableMem := nFreeMem
 
 	DEFINE NOTIFY MENU OF Form_1
+
 		ITEM 'About...'			ACTION ShellAbout( "About " + PROGRAM + "# ", ;
-			PROGRAM + VERSION + CRLF + "Copyright " + Chr(169) + COPYRIGHT, ;
-			LoadTrayIcon(GetInstance(), "MAIN") )
+			PROGRAM + VERSION + CRLF + "Copyright " + Chr(169) + COPYRIGHT, hIcon )
+
 		SEPARATOR	
+
 		POPUP 'Icon Style'
+
 			ITEM 'Numerical'	ACTION ( nStyle := NUMERIC, nAvailableMem := 0, ;
-				Form_1.Dig.Checked := .f., Form_1.Num.Checked := .t. ) NAME NUM CHECKED
+				Form_1.Dig.Checked := .f., Form_1.Num.Checked := .t. ) NAME NUM
+
 			ITEM 'Digital'		ACTION ( nStyle := DIGITAL, nAvailableMem := 0, ;
-				Form_1.Dig.Checked := .t., Form_1.Num.Checked := .f. ) NAME DIG
+				Form_1.Dig.Checked := .t., Form_1.Num.Checked := .f. ) NAME DIG CHECKED
+
 		END POPUP
+
 		SEPARATOR	
+
 		ITEM 'Exit'			ACTION Form_1.Release
+
 	END MENU
 
 Return
@@ -89,11 +95,11 @@ Return
 *--------------------------------------------------------*
 Static Procedure ChangeTrayIcon()
 *--------------------------------------------------------*
-Local i := Ascan( _HMG_aFormhandles, GetFormHandle("Form_1") )
+Local i := GetFormIndex( ThisWindow.Name )
 Local nFreeMem := MemoryStatus(2)
 Local nAvailable := Round( nFreeMem / MemoryStatus(1), 2 )
 Local lState := ( nFreeMem < 0.1 * MemoryStatus(1) )
-Local nIcon := IF(IsWinNT(), IDB_ICONFONT, IDB_ICONFONT2)
+Local nIcon := iif(IsWinNT(), IDB_ICONFONT, IDB_ICONFONT2)
 Local hIcon := LoadNumericIcon( nFreeMem, nAvailable, lState, nStyle, nIcon )
 
 	IF nAvailableMem != nFreeMem
@@ -114,14 +120,8 @@ Return
 */
 #pragma BEGINDUMP
 
-#define _WIN32_IE      0x0500
-#define HB_OS_WIN_USED
-#define _WIN32_WINNT   0x0400
-#include <shlobj.h>
-
-#include <windows.h>
+#include <mgdefs.h>
 #include <commctrl.h>
-#include "hbapi.h"
 
 static HBITMAP m_bmFont = NULL; // font used in icon
 
@@ -238,56 +238,10 @@ HB_FUNC( LOADNUMERICICON )
 {
 	HICON himage;
 
-	himage = (HICON) MakeIcon_Numerical( (DWORD) hb_parnl( 1 ), 
-		(FLOAT) hb_parnd( 2 ), (BOOL) hb_parl( 3 ), (INT) hb_parni( 4 ), (INT) hb_parni( 5 ) ) ;
+	himage = ( HICON ) MakeIcon_Numerical( ( DWORD ) hb_parnl( 1 ), 
+		( FLOAT ) hb_parnd( 2 ), ( BOOL ) hb_parl( 3 ), ( INT ) hb_parni( 4 ), ( INT ) hb_parni( 5 ) ) ;
 
-	hb_retnl( (LONG) himage );
-}
-/*
-HB_FUNC( INITIMAGE )
-{
-	HWND  h;
-	HBITMAP hBitmap;
-	HWND hwnd;
-	int Style;
-
-	hwnd = (HWND) hb_parnl(1);
-
-	Style = WS_CHILD | SS_BITMAP | SS_NOTIFY ;
-
-	if ( ! hb_parl (8) )
-	{
-		Style = Style | WS_VISIBLE ;
-	}
-
-	h = CreateWindowEx( 0, "static", NULL, Style,
-		hb_parni(3), hb_parni(4), 0, 0,
-		hwnd, (HMENU) hb_parni(2), GetModuleHandle(NULL), NULL ) ;
-
-	hBitmap = (HBITMAP) LoadImage(0,hb_parc(5),IMAGE_BITMAP,hb_parni(6),hb_parni(7),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
-	if (hBitmap==NULL)
-	{
-		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL),hb_parc(5),IMAGE_BITMAP,hb_parni(6),hb_parni(7),LR_CREATEDIBSECTION);
-	}
-
-	SendMessage( h, (UINT) STM_SETIMAGE, (WPARAM) IMAGE_BITMAP, (LPARAM) hBitmap );
-
-	hb_retnl( (LONG) h );
+	HB_RETNL( ( LONG_PTR ) himage );
 }
 
-HB_FUNC( C_SETPICTURE )
-{
-	HBITMAP hBitmap;
-
-	hBitmap = (HBITMAP) LoadImage(0,hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_LOADFROMFILE|LR_CREATEDIBSECTION);
-	if (hBitmap==NULL)
-	{
-		hBitmap = (HBITMAP) LoadImage(GetModuleHandle(NULL),hb_parc(2),IMAGE_BITMAP,hb_parni(3),hb_parni(4),LR_CREATEDIBSECTION);
-	}
-
-	SendMessage( (HWND) hb_parnl (1), (UINT) STM_SETIMAGE, (WPARAM) IMAGE_BITMAP, (LPARAM) hBitmap );
-
-	hb_retnl( (LONG) hBitmap );
-}
-*/
 #pragma ENDDUMP

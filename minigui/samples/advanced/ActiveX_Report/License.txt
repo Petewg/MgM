@@ -1,0 +1,18 @@
+Catchysoft Report Generator - conditions of use
+
+This program is copyright © 2005 Vladimir Namkhoev. You are
+authorised to use the program for your own private use but you may 
+not sell the program or remove any copyright information from it. 
+Catchysoft Report Generator may be used commercially free of charge.
+
+You may distribute your compiled applications based on Catchysoft 
+Report Generator, provided your application does not expose 
+Catchysoft Report Generator's functionality for use by developers in 
+their products.  You may not distribute any part of Catchysoft 
+Report Generator's compiled code in any form.  You may not use 
+Catchysoft Report Generator to create controls or components for use 
+by other developers without prior written permission.
+
+You use the library at your own risk - the author accepts no 
+responsibility for any problems or losses which might arise from its 
+use, and support for the library is not guaranteed.

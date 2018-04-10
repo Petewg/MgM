@@ -1,0 +1,1597 @@
+#Path C:\MINIGUI\UTILS\FUNCLIST
+#Title MiniGUI Source
+h_activex.prg                 	                    	
+   _DefineActivex             	Procedure           	
+   ReleaseActiveX             	Procedure           	
+   SetActiveXObject           	Function            	
+   GetActiveXObject           	Function            	
+   _GetControlObject          	Function            	
+   INITACTIVEX                	HB_FUNC             	
+   EXITACTIVEX                	HB_FUNC             	
+h_animate.prg                 	                    	
+   _DefineAnimateRes          	Function            	
+   SetAnimateResFile          	Function            	
+   GetAnimateResFile          	Function            	
+   SetAnimateResId            	Function            	
+   GetAnimateResId            	Function            	
+   ReleaseAnimateRes          	Procedure           	
+   INITANIMATERES             	HB_FUNC             	
+   UNLOADANIMATELIB           	HB_FUNC             	
+c_bitmap.c                    	                    	
+   SAVEWINDOWBYHANDLE         	HB_FUNC             	
+   WNDCOPY                    	HB_FUNC             	
+   C_HASALPHA                 	HB_FUNC             	
+   DRAWGLYPH                  	HB_FUNC             	
+   DRAWGLYPHMASK              	HB_FUNC             	
+   LOADBITMAP                 	HB_FUNC             	
+   HB_GETIMAGESIZE            	HB_FUNC             	
+   GETBITMAPSIZE              	HB_FUNC             	
+   GETICONSIZE                	HB_FUNC             	
+h_browse.prg                  	                    	
+   _DefineBrowse              	Function            	
+   InitDialogBrowse           	Function            	
+   HMG_OrdCreate              	Static  Procedure   	
+   HMG_SetOrder               	Procedure           	
+   _BrowseUpdate              	Procedure           	
+   _GetBrowseFieldValue       	Function            	
+   _GetBrowseFnValue          	Function            	
+   _TypeEx                    	Static  Function    	
+   _BrowseNext                	Procedure           	
+   _BrowsePrior               	Procedure           	
+   _BrowseHome                	Procedure           	
+   _BrowseEnd                 	Procedure           	
+   _BrowseUp                  	Procedure           	
+   _BrowseDown                	Procedure           	
+   _BrowseRefresh             	Procedure           	
+   _BrowseSetValue            	Procedure           	
+   _BrowseGetValue            	Function            	
+   _BrowseDelete              	Function            	
+   _BrowseEdit                	Function            	
+   _EditRecord                	Function            	
+   _WHENEVAL                  	Static  Procedure   	
+   _EditRecordOk              	Static  Function    	
+   _EditRecordCancel          	Static  Function    	
+   _BrowseInPlaceEdit         	Static  Function    	
+   _InPlaceEditOk             	Static  Procedure   	
+   _InPlaceEditSave           	Static  Procedure   	
+   NetRlock                   	Static  Function    	
+   ProcessInPlaceKbdEdit      	Procedure           	
+   _BrowseSync                	Static  Procedure   	
+   _BrowseOnChange            	Procedure           	
+   _BrowseInPlaceAppend       	Static  Procedure   	
+   _BrowseVscrollUpdate       	Static  Procedure   	
+   _BrowseVscrollFastUpdate   	Procedure           	
+   _SetGetBrowseProperty      	Function            	
+   NoQuote                    	Static  Function    	
+c_browse.c                    	                    	
+   INITBROWSE                 	HB_FUNC             	
+   INITVSCROLLBAR             	HB_FUNC             	
+   GETSCROLLRANGEMAX          	HB_FUNC             	
+   INITVSCROLLBARBUTTON       	HB_FUNC             	
+   SETSCROLLINFO              	HB_FUNC             	
+h_btntextbox.prg              	                    	
+   _DefineBtnTextBox          	Function            	
+   InitDialogBtnTextBox       	Function            	
+   TBBtnEvents                	Function            	
+c_btntextbox.c                	                    	
+   INITBTNTEXTBOX             	HB_FUNC             	
+   REDEFBTNTEXTBOX            	HB_FUNC             	
+   SETTBBTNMARGIN             	HB_FUNC             	
+h_button.prg                  	                    	
+   _DefineButton              	Function            	
+   _DefineImageButton         	Function            	
+   InitDialogButtonImage      	Function            	
+   _DefineOwnerButton         	Function            	
+   OBTNEVENTS                 	Function            	
+   OwnButtonPaint             	Function            	
+   ToUnicode                  	Static  Function    	
+   _SetBtnPictureMask         	Function            	
+   _DestroyBtnPictureMask     	Function            	
+   _DestroyBtnPicture         	Function            	
+   Darker                     	Function            	
+   Lighter                    	Function            	
+   CountIt                    	Static  Function    	
+   InvertGradInfo             	Static  Function    	
+   ModifGradInfo              	Static  Function    	
+   ReplaceGradInfo            	Static  Procedure   	
+   _GradientFill              	Static  Function    	
+c_button.c                    	                    	
+   INITBUTTON                 	HB_FUNC             	
+   INITIMAGEBUTTON            	HB_FUNC             	
+   INITOWNERBUTTON            	HB_FUNC             	
+   _SETBTNPICTURE             	HB_FUNC             	
+   _GETBTNPICTUREHANDLE       	HB_FUNC             	
+   _SETMIXEDBTNPICTURE        	HB_FUNC             	
+   _SETBTNICON                	HB_FUNC             	
+   _SETMIXEDBTNICON           	HB_FUNC             	
+   DRAWBUTTON                 	HB_FUNC             	
+   GETOWNBTNHANDLE            	HB_FUNC             	
+   GETOWNBTNSTATE             	HB_FUNC             	
+   GETOWNBTNDC                	HB_FUNC             	
+   GETOWNBTNITEMID            	HB_FUNC             	
+   GETOWNBTNITEMACTION        	HB_FUNC             	
+   GETOWNBTNCTLTYPE           	HB_FUNC             	
+   GETOWNBTNRECT              	HB_FUNC             	
+   CREATEBUTTONBRUSH          	HB_FUNC             	
+h_checkbox.prg                	                    	
+   _DefineCheckBox            	Function            	
+   _DefineCheckButton         	Function            	
+   InitDialogCheckButton      	Function            	
+   _DefineImageCheckButton    	Function            	
+c_checkbox.c                  	                    	
+   INITCHECKBOX               	HB_FUNC             	
+   INITCHECKBUTTON            	HB_FUNC             	
+   INITIMAGECHECKBUTTON       	HB_FUNC             	
+h_chklabel.prg                	                    	
+   _DefineChkLabel            	Function            	
+   GetCheckBmp                	Static  Function    	
+   cAnsi2Bmp                  	Static  Function    	
+   cAnsi2Hex                  	Static  Function    	
+   cHex2Bin                   	Static  Function    	
+c_chklabel.c                  	                    	
+   INITCHKLABEL               	HB_FUNC             	
+   SETCHKLABEL                	HB_FUNC             	
+   GETCHKLABEL                	HB_FUNC             	
+h_chklistbox.prg              	                    	
+   _DefineChkListbox          	Function            	
+   InitDialogChkListBox       	Function            	
+   _SetGetChkListItemState    	Function            	
+c_chklistbox.c                	                    	
+   INITCHKLISTBOX             	HB_FUNC             	
+   INITMULTICHKLISTBOX        	HB_FUNC             	
+   CHKLISTBOXINSERTITEM       	HB_FUNC             	
+   CHKLISTBOXADDITEM          	HB_FUNC             	
+   SETCHKLBITEMHEIGHT         	HB_FUNC             	
+   CHKLIST_SETCHECKBOX        	HB_FUNC             	
+   CHKLIST_GETCHECKBOX        	HB_FUNC             	
+   _ONMEASURELISTBOXITEM      	HB_FUNC             	
+   _ONDRAWLISTBOXITEM         	HB_FUNC             	
+   GETMISCTLTYPE              	HB_FUNC             	
+h_clbutton.prg                	                    	
+   _DefineCLButton            	Procedure           	
+   ReleaseCLButtonImageList   	Procedure           	
+   CLButtonEventhandler       	Function            	
+   CLButton_SetShield         	Procedure           	
+   CLButtonSetFocus           	Procedure           	
+   CLButtonEnable             	Procedure           	
+   CLButtonDisable            	Procedure           	
+   SetCLButtonHandle          	Function            	
+   GetCLButtonHandle          	Function            	
+   SetCLButtonCaption         	Function            	
+   GetCLButtonCaption         	Function            	
+   SetCLButtonNoteText        	Procedure           	
+   GetCLButtonNoteText        	Function            	
+   SetCLButtonPicture         	Procedure           	
+   GetCLButtonPicture         	Function            	
+   INITCLBUTTON               	HB_FUNC             	
+   CLBUTTON_SETNOTE           	HB_FUNC             	
+   CLBUTTON_SETIMAGE          	HB_FUNC             	
+h_combo.prg                   	                    	
+   _DefineCombo               	Function            	
+   InitDialogComboBox         	Function            	
+   _DefineComboEx             	Function            	
+   _DataComboRefresh          	Procedure           	
+   _SetGetDropDownWidth       	Function            	
+c_combo.c                     	                    	
+   INITCOMBOBOX               	HB_FUNC             	
+   INITCOMBOBOXEX             	HB_FUNC             	
+   COMBOSETITEMHEIGHT         	HB_FUNC             	
+   COMBOSHOWDROPDOWN          	HB_FUNC             	
+   COMBOEDITSETSEL            	HB_FUNC             	
+   COMBOGETEDITSEL            	HB_FUNC             	
+   COMBOSELECTSTRING          	HB_FUNC             	
+   COMBOFINDSTRING            	HB_FUNC             	
+   COMBOFINDSTRINGEXACT       	HB_FUNC             	
+   COMBOGETSTRING             	HB_FUNC             	
+   COMBOADDSTRINGEX           	HB_FUNC             	
+   COMBOINSERTSTRINGEX        	HB_FUNC             	
+   COMBOADDDATASTRINGEX       	HB_FUNC             	
+h_controlmisc.prg             	                    	
+   _GetValue                  	Function            	
+   _SetValue                  	Function            	
+   _AddItem                   	Function            	
+   _DeleteItem                	Function            	
+   _DeleteAllItems            	Function            	
+   GetControlIndex            	Function            	
+   GetControlName             	Function            	
+   GetControlHandle           	Function            	
+   GetControlContainerHandle  	Function            	
+   GetControlParentHandle     	Function            	
+   GetControlId               	Function            	
+   GetControlType             	Function            	
+   GetControlValue            	Function            	
+   GetControlPageMap          	Function            	
+   _SetFocus                  	Function            	
+   _DisableControl            	Function            	
+   _EnableControl             	Function            	
+   _ShowControl               	Function            	
+   _HideControl               	Function            	
+   _SetItem                   	Function            	
+   _GetItem                   	Function            	
+   _SetControlSizePos         	Function            	
+   _GetItemCount              	Function            	
+   _GetControlRow             	Function            	
+   _GetControlCol             	Function            	
+   _GetControlWidth           	Function            	
+   _GetControlHeight          	Function            	
+   _SetControlCaption         	Function            	
+   _SetPicture                	Function            	
+   _EnableToolbarButton       	Static  Function    	
+   _DisableToolbarButton      	Static  Function    	
+   _GetComboItemValue         	Function            	
+   _GetControlAction          	Function            	
+   _SetControlAction          	Static  Function    	
+   _GetToolTip                	Function            	
+   _SetToolTip                	Function            	
+   _GetMultiToolTip           	Function            	
+   _SetRangeMin               	Function            	
+   _SetRangeMax               	Function            	
+   _GetRangeMin               	Function            	
+   _GetRangeMax               	Function            	
+   _SetMultiCaption           	Function            	
+   _GetMultiCaption           	Function            	
+   _SetMultiImage             	Function            	
+   _GetMultiImage             	Function            	
+   InputWindow                	Function            	
+   _InputWindowOk             	Function            	
+   _InputWindowCancel         	Function            	
+   _ReleaseControl            	Function            	
+   _EraseControl              	Function            	
+   _IsControlVisibleFromHandle	Function            	
+   _IsControlVisible          	Function            	
+   _SetCaretPos               	Function            	
+   _GetCaretPos               	Function            	
+   SetProperty                	Procedure           	
+   GetProperty                	Function            	
+   DoMethod                   	Function            	
+   GetControlTabPage          	Function            	
+   _IsControlSplitBoxed       	Static  Function    	
+   _SetArrayToControl         	Static  Function    	
+   _Refresh                   	Procedure           	
+   _SaveData                  	Procedure           	
+   _ChangeWindowTopmostStyle  	Procedure           	
+   _ChangeWindowHelpButtonStyl	Procedure           	
+   _ChangeWindowStyle         	Static  Procedure   	
+   _SetWindowBackColor        	Function            	
+   _GetFocusedControl         	Function            	
+   _SetFontColor              	Static  Function    	
+   _SetBackColor              	Static  Function    	
+   _GetFontColor              	Static  Function    	
+   _GetBackColor              	Function            	
+   _IsControlEnabled          	Function            	
+   _SetTextEditReadOnly       	Static  Procedure   	
+   _SetStatusIcon             	Procedure           	
+   _SetStatusWidth            	Procedure           	
+   _GetControlFree            	Function            	
+   _EnableListViewUpdate      	Function            	
+   _GetCompactPath            	Function            	
+   _GetShortPathName          	Function            	
+   _ExtDisableControl         	Function            	
+   _ExtEnableControl          	Function            	
+   _SetGetRichValue           	Static  Function    	
+   _SetGetAutoFont            	Static  Function    	
+   _SetGetCheckboxItemState   	Static  Function    	
+   _SetType                   	Function            	
+   _IsTyped                   	Function            	
+   _GetId                     	Function            	
+   IsArrayRGB                 	Function            	
+   cFilePath                  	Function            	
+   cFileNoPath                	Function            	
+   cFileNoExt                 	Function            	
+   _IsComboExtend             	Function            	
+   _DefineLetterOrDigitHotKey 	Function            	
+   _IsWindowVisibleFromHandle 	Function            	
+   _SetGetMinMaxInfo          	Static  Function    	
+   _SetGetImageHBitmap        	Static  Function    	
+   _GetPicture                	Function            	
+   _GetCaption                	Function            	
+   _GetFocusedControlType     	Function            	
+   _IsFieldExists             	Function            	
+   _IsControlDefined          	Function            	
+   NoQuote                    	Static  Function    	
+   GetUserControlType         	Static  Function    	
+c_controlmisc.c               	                    	
+   HB_SETCODEPAGE       	HB_FUNC             	
+   MAKELONG                   	HB_FUNC             	
+   _ENABLESCROLLBARS          	HB_FUNC             	
+   DELETEOBJECT               	HB_FUNC             	
+   IMAGELIST_DESTROY          	HB_FUNC             	
+   SETFOCUS                   	HB_FUNC             	
+   INSERTSHIFTTAB             	HB_FUNC             	
+   SYSTEMPARAMETERSINFO       	HB_FUNC             	
+   GETTEXTWIDTH               	HB_FUNC             	
+   KEYBD_EVENT                	HB_FUNC             	
+   INSERTVKEY                 	HB_FUNC             	
+   _HMG_SETVSCROLLVALUE       	HB_FUNC             	
+   _HMG_SETHSCROLLVALUE       	HB_FUNC             	
+   SHOWCARET                  	HB_FUNC             	
+   HIDECARET                  	HB_FUNC             	
+   DESTROYCARET               	HB_FUNC             	
+   CREATECARET                	HB_FUNC             	
+   CHANGESTYLE                	HB_FUNC             	
+   MOVEBTNTEXTBOX             	HB_FUNC             	
+   HB_DATE                    	HB_FUNC             	
+   HB_LEFTEQI                 	HB_FUNC             	
+h_crypt.prg                   	                    	
+   _ENCRYPT                   	Function            	
+   _DECRYPT                   	Function            	
+   FI_CODE                    	Function            	
+   FI_DECODE                  	Function            	
+   DB_ENCRYPT                 	Function            	
+   DB_UNENCRYPT               	Function            	
+   cFileName                  	Static  Function    	
+   DB_CODE                    	Function            	
+c_crypt.c                     	                    	
+   CHARXOR                    	HB_FUNC             	
+c_cuebanner.c                 	                    	
+   GETCUEBANNERTEXT           	HB_FUNC             	
+   SENDMESSAGESTRINGW         	HB_FUNC             	
+c_cursor.c                    	                    	
+   LOADCURSOR                 	HB_FUNC             	
+   LOADCURSORFROMFILE         	HB_FUNC             	
+   SETRESCURSOR               	HB_FUNC             	
+   FILECURSOR                 	HB_FUNC             	
+   CURSORHAND                 	HB_FUNC             	
+   SETWINDOWCURSOR            	HB_FUNC             	
+   SETHANDCURSOR              	HB_FUNC             	
+h_datepicker.prg              	                    	
+   _DefineDatePick            	Function            	
+   _DefineTimePick            	Function            	
+   InitDialogDatePicker       	Function            	
+   _SetGetDatePickerDateFormat	Function            	
+   _SetDatePickerRange        	Function            	
+c_datepicker.c                	                    	
+   INITDATEPICK               	HB_FUNC             	
+   INITTIMEPICK               	HB_FUNC             	
+   SETDATEPICK                	HB_FUNC             	
+   SETTIMEPICK                	HB_FUNC             	
+   GETDATEPICKYEAR            	HB_FUNC             	
+   GETDATEPICKMONTH           	HB_FUNC             	
+   GETDATEPICKDAY             	HB_FUNC             	
+   GETDATEPICKHOUR            	HB_FUNC             	
+   GETDATEPICKMINUTE          	HB_FUNC             	
+   GETDATEPICKSECOND          	HB_FUNC             	
+   SETDATEPICKNULL            	HB_FUNC             	
+   SETDATEPICKRANGE           	HB_FUNC             	
+   SETDATEPICKERDATEFORMAT    	HB_FUNC             	
+h_dialog.prg                  	                    	
+   _DefineDialog              	Function            	
+   _BeginDialog               	Function            	
+   _EndDialog                 	Function            	
+   DialogProc                 	Function            	
+   ModalDialogProc            	Function            	
+   DisableDialogItem          	Function            	
+   EnableDialogItem           	Function            	
+   EraseDialog                	Function            	
+   _ReleaseDialog             	Function            	
+c_dialog.c                    	                    	
+   INITMODALDIALOG            	HB_FUNC             	
+   INITDIALOG                 	HB_FUNC             	
+   GETDIALOGITEMHANDLE        	HB_FUNC             	
+   CHECKDLGBUTTON             	HB_FUNC             	
+   UNCHECKDLGBUTTON           	HB_FUNC             	
+   SETDIALOGITEMTEXT          	HB_FUNC             	
+   ENDDIALOG                  	HB_FUNC             	
+   ADDDIALOGPAGES             	HB_FUNC             	
+   GETDLGCTRLID               	HB_FUNC             	
+   SETDLGITEMINT              	HB_FUNC             	
+   GETDLGITEMTEXT             	HB_FUNC             	
+   GETEDITTEXT                	HB_FUNC             	
+   CHECKRADIOBUTTON           	HB_FUNC             	
+   ISDLGBUTTONCHECKED         	HB_FUNC             	
+   CREATEDLGTEMPLATE          	HB_FUNC             	
+   INITEXCOMMONCONTROLS       	HB_FUNC             	
+h_dialogs.prg                 	                    	
+   GetColor                   	Function            	
+   GetFolder                  	Function            	
+   BrowseForFolder            	Function            	
+   GetFile                    	Function            	
+   Putfile                    	Function            	
+   GetFont                    	Function            	
+c_dialogs.c                   	                    	
+   CHOOSEFONT                 	HB_FUNC             	
+   C_GETFILE                  	HB_FUNC             	
+   C_PUTFILE                  	HB_FUNC             	
+   C_BROWSEFORFOLDER          	HB_FUNC             	
+   CHOOSECOLOR                	HB_FUNC             	
+h_draw.prg                    	                    	
+   drawtextout                	Function            	
+   drawline                   	Function            	
+   drawrect                   	Function            	
+   drawroundrect              	Function            	
+   drawellipse                	Function            	
+   drawarc                    	Function            	
+   drawpie                    	Function            	
+   drawpolygon                	Function            	
+   drawpolybezier             	Function            	
+   HMG_DrawIcon               	Function            	
+   EraseWindow                	Function            	
+   DrawWindowBoxIn            	Function            	
+   DrawWindowBoxRaised        	Function            	
+c_draw.c                      	                    	
+   BEGINPAINT                 	HB_FUNC             	
+   ENDPAINT                   	HB_FUNC             	
+   DRAWFOCUSRECT              	HB_FUNC             	
+   DRAWSTATE                  	HB_FUNC             	
+   GETUPDATERECT              	HB_FUNC             	
+   GDIFLUSH                   	HB_FUNC             	
+   GRAYSTRING                 	HB_FUNC             	
+   INVALIDATERECT             	HB_FUNC             	
+   REDRAWWINDOW               	HB_FUNC             	
+   SETBACKCOLOR               	HB_FUNC             	
+   SETBKMODE                  	HB_FUNC             	
+   UPDATEWINDOW               	HB_FUNC             	
+   VALIDATERECT               	HB_FUNC             	
+   WINDOWFROMDC               	HB_FUNC             	
+h_edit.prg                    	                    	
+   ABM                        	Function            	
+   ABMRefresh                 	Static  Function    	
+   ABMEventos                 	Static  Function    	
+   ABMBuscar                  	Static  Function    	
+   ABMBusqueda                	Static  Function    	
+   ABMListado                 	Function            	
+   ABMListadoEvento           	Function            	
+   ABMListadoImprimir         	Function            	
+   Cabecera                   	Static  Function    	
+   NoArray                    	Function            	
+h_editbox.prg                 	                    	
+   _DefineEditbox             	Function            	
+   _DataEditBoxRefresh        	Procedure           	
+   InitDialogEdit             	Function            	
+c_editbox.c                   	                    	
+   INITEDITBOX                	HB_FUNC             	
+h_edit_ex.prg                 	                    	
+   ABM2                       	Function            	
+   ABM2salir                  	Static  Function    	
+   ABM2Redibuja               	Static  Function    	
+   ABM2CambiarOrden           	Static  Function    	
+   ABM2EjecutaOpcion          	Static  Function    	
+   ABM2Editar                 	Static  Function    	
+   ABM2ConFoco                	Static  Function    	
+   ABM2SinFoco                	Static  Function    	
+   ABM2AlEntrar               	Static  Function    	
+   ABM2EditarGuardar          	Static  Function    	
+   ABM2Seleccionar            	Static  Function    	
+   ABM2EditarCopiar           	Static  Function    	
+   ABM2Borrar                 	Static  Function    	
+   ABM2Recover                	Static  Function    	
+   ABM2Buscar                 	Static  Function    	
+   ABM2ActivarFiltro          	Static  Function    	
+   ABM2ControlFiltro          	Static  Function    	
+   ABM2EstableceFiltro        	Static  Function    	
+   ABM2DesactivarFiltro       	Static  Function    	
+   ABM2Imprimir               	Static  Function    	
+   ABM2DefinirRegistro        	Static  Function    	
+   ABM2DefinirColumnas        	Static  Function    	
+   ABM2Listado                	Static  Function    	
+h_error.prg                   	                    	
+   hb_GTSYS                   	Procedure           	
+   MsgMiniGuiError            	Function            	
+   _HMG_GenError              	Static  Function    	
+   MiniGuiVersion             	Function            	
+c_error.c                     	                    	
+ErrorSys.prg                  	                    	
+   ErrorSys                   	Procedure           	
+   DefError                   	Static  Function    	
+   ErrorMessage               	Static  Function    	
+   ShowError                  	Static  Procedure   	
+   ErrorLog                   	Static  Procedure   	
+   strvalue                   	Static  Function    	
+   _lShowDetailError          	Function            	
+   HTML_ERRORLOG              	Function            	
+   HTML_INI                   	Function            	
+   HTML_LINETEXT              	Procedure           	
+   HTML_LINE                  	Procedure           	
+   HTML_END                   	Procedure           	
+   _SetErrorLogFile           	Procedure           	
+h_events.prg                  	                    	
+   Events                     	Function            	
+   _SetNextFocus              	Procedure           	
+   _PushEventInfo             	Procedure           	
+   _PopEventInfo              	Procedure           	
+   GetObjectByHandle          	Function            	
+   InstallEventHandler        	Procedure           	
+   InstallPropertyHandler     	Procedure           	
+   InstallMethodHandler       	Procedure           	
+   NoBrackets                 	Static  Function    	
+   GetMenuItems               	Static  Function    	
+   _OnDrawStatusItem          	Static  Procedure   	
+   _OnGetMinMaxInfo           	Static  Function    	
+   _MouseCoordCorr            	Static  Procedure   	
+   _ProcessSliderEvents       	Static  Procedure   	
+   DoComboAutoComplete        	Static  Procedure   	
+   _AutoAdjust                	Procedure           	
+h_folder.prg                  	                    	
+   _BeginFolder               	Function            	
+   _DefineFolder              	Function            	
+   _DefineFolderPage          	Function            	
+   _BeginFolderPage           	Function            	
+   _EndFolderPage             	Function            	
+   _EndFolder                 	Function            	
+   _DefineFolderDialog        	Function            	
+   InitPageFldProc            	Function            	
+   FolderProc                 	Function            	
+   PageFldProc                	Function            	
+   GetFolderHandle            	Function            	
+   EraseFolder                	Function            	
+   _ReleaseFolder             	Function            	
+   RetValue                   	Static  Function    	
+c_folder.c                    	                    	
+   CREATEFOLDERPAGEINDIRECT   	HB_FUNC             	
+   CREATEFOLDERPAGE           	HB_FUNC             	
+   CREATEDLGFOLDER            	HB_FUNC             	
+   FOLDERHWNDTOINDEX          	HB_FUNC             	
+   FOLDERGETCURRENTPAGEHWND   	HB_FUNC             	
+   FOLDER_CHANGED             	HB_FUNC             	
+   FOLDER_UNCHANGED           	HB_FUNC             	
+   FOLDER_ISDIRTY             	HB_FUNC             	
+   FOLDER_ISFINISH            	HB_FUNC             	
+   FOLDER_GETIDFLD            	HB_FUNC             	
+   FOLDER_GETTABHANDLE        	HB_FUNC             	
+   FOLDER_CLEANUP             	HB_FUNC             	
+h_font.prg                    	                    	
+   _DefineFont                	Procedure           	
+   _ReleaseFont               	Procedure           	
+   _EraseFontDef              	Procedure           	
+   GetFontHandle              	Function            	
+   GetFontParam               	Function            	
+   _GetFontAttr               	Function            	
+   _SetFontAttr               	Function            	
+   GetFontParamByRef          	Function            	
+   GetFontList                	Function            	
+c_font.c                      	                    	
+   INITFONT                   	HB_FUNC             	
+   _SETFONT                   	HB_FUNC             	
+   _SETFONTHANDLE             	HB_FUNC             	
+   GETSYSTEMFONT              	HB_FUNC             	
+   ENUMFONTSEX                	HB_FUNC             	
+h_frame.prg                   	                    	
+   _DefineFrame               	Static  Function    	
+   _BeginFrame                	Function            	
+c_frame.c                     	                    	
+   INITFRAME                  	HB_FUNC             	
+h_getbox.prg                  	                    	
+   _DefineGetBox              	Function            	
+   _GetBoxSetNextFocus        	Static  Procedure   	
+   _DataGetBoxRefresh         	Procedure           	
+   _DataGetBoxSave            	Procedure           	
+   OGETEVENTS                 	Function            	
+   _SetGetBoxValue            	Procedure           	
+   _SetGetBoxValidMessage     	Procedure           	
+   _GetGetBoxValidMessage     	Function            	
+   _RangeCheck                	Function            	
+   _SetGetBoxColorFocus       	Function            	
+   _DispGetBoxText            	Procedure           	
+   _SetGetBoxCaret            	Static  Procedure   	
+   _GetPictureData            	Function            	
+   _FirstEditable             	Static  Function    	
+   _IsEditable                	Static  Function    	
+   _Input                     	Static  Function    	
+   _GetDefinedStatusBarItemVal	Static  Function    	
+c_getbox.c                    	                    	
+   INITGETBOX                 	HB_FUNC             	
+   CHECKBIT                   	HB_FUNC             	
+   GETTEXTHEIGHT              	HB_FUNC             	
+h_Gif89.prg                   	                    	
+   _DefineAniGif              	Function            	
+   _ReleaseAniGif             	Procedure           	
+   _EraseGifDef               	Static  Procedure   	
+   GifPlay                    	Static  Function    	
+   GifStop                    	Static  Function    	
+   GifIsRunning               	Static  Function    	
+   LoadGif                    	Function            	
+   ReadFromStream             	Function            	
+   GetFrameDelay              	Function            	
+h_gradient.prg                	                    	
+   DrawGradient               	Function            	
+   ISENABLEDGRADIENT          	HB_FUNC             	
+   _INITGRADIENTFUNC          	HB_FUNC             	
+   _EXITGRADIENTFUNC          	HB_FUNC             	
+   ALPHABLEND                 	HB_FUNC             	
+   TRANSPARENTBLT             	HB_FUNC             	
+   FILLGRADIENT               	HB_FUNC             	
+   CREATEGRADIENTBRUSH        	HB_FUNC             	
+h_graph.prg                   	                    	
+   GraphShow                  	Procedure           	
+   EraseBarGraph              	Procedure           	
+   DrawBar                    	Static  Procedure   	
+   DrawBox                    	Static  Procedure   	
+   DrawPoint                  	Static  Procedure   	
+   Circle                     	Static  Procedure   	
+   nMax                       	Static  Function    	
+   DetMaxVal                  	Static  Function    	
+   ClrShadow                  	Static  Function    	
+   RGB2HSL                    	Static  Function    	
+   HSL2RGB                    	Static  Function    	
+   drawpiegraph               	Function            	
+   ErasePieGraph              	Procedure           	
+   _PiePrint                  	Function            	
+   _GraphPrint                	Function            	
+   _bmpprint                  	Static  Function    	
+   PrintWindow                	Function            	
+c_graph.c                     	                    	
+   TEXTDRAW                   	HB_FUNC             	
+   LINEDRAW                   	HB_FUNC             	
+   RECTDRAW                   	HB_FUNC             	
+   ROUNDRECTDRAW              	HB_FUNC             	
+   ELLIPSEDRAW                	HB_FUNC             	
+   ARCDRAW                    	HB_FUNC             	
+   PIEDRAW                    	HB_FUNC             	
+   POLYGONDRAW                	HB_FUNC             	
+   POLYBEZIERDRAW             	HB_FUNC             	
+   WNDBOXIN                   	HB_FUNC             	
+   WNDBOXRAISED               	HB_FUNC             	
+h_grid.prg                    	                    	
+   _DefineGrid                	Function            	
+   InitDialogGrid             	Function            	
+   _AddGridRow                	Function            	
+   HMG_SortColumn             	Procedure           	
+   _EditItem                  	Function            	
+   _EditItemOk                	Static  Function    	
+   _AddGridColumn             	Procedure           	
+   _DeleteGridColumn          	Procedure           	
+   _UpdateGridColors          	Procedure           	
+   ProcessDynamicArray        	Static  Procedure   	
+   _tEval                     	Function            	
+   _GridInplaceEdit           	Function            	
+   _ParseGridControls         	Function            	
+   _GridInplaceEditOK         	Static  Procedure   	
+   _SetGridCellEditValue      	Procedure           	
+   _GridInplaceKbdEdit        	Procedure           	
+   GetNumFromCellText         	Function            	
+   GETNumFromCellTextSP       	Function            	
+   _GetGridCellValue          	Function            	
+   _SetGridCellValue          	Procedure           	
+   _GetColumnWidth            	Function            	
+   _SetColumnWidth            	Function            	
+   _SetColumnWidthAuto        	Function            	
+   _SetColumnWidthAutoH       	Function            	
+   _SetColumnsWidthAuto       	Function            	
+   _SetColumnsWidthAutoH      	Function            	
+   _GridPgDn                  	Procedure           	
+   _GridPgUp                  	Procedure           	
+   _GridHome                  	Procedure           	
+   _GridEnd                   	Procedure           	
+   _GridPrior                 	Procedure           	
+   _GridNext                  	Procedure           	
+   _GridScrollToPos           	Procedure           	
+   _GetIVirtualItem           	Function            	
+   _DoGridCustomDraw          	Function            	
+   _GRIDINPLACEKBDEDIT_2      	Procedure           	
+   _GRID_KBDSCROLL            	Procedure           	
+c_grid.c                      	                    	
+   INITLISTVIEW               	HB_FUNC             	
+   LISTVIEW_SETITEMCOUNT      	HB_FUNC             	
+   ADDLISTVIEWBITMAP          	HB_FUNC             	
+   ADDLISTVIEWBITMAPHEADER    	HB_FUNC             	
+   LISTVIEW_GETFIRSTITEM      	HB_FUNC             	
+   INITLISTVIEWCOLUMNS        	HB_FUNC             	
+   ADDLISTVIEWITEMS           	HB_FUNC             	
+   LISTVIEW_SETCURSEL         	HB_FUNC             	
+   LISTVIEWGETMULTISEL        	HB_FUNC             	
+   LISTVIEWSETMULTISEL        	HB_FUNC             	
+   LISTVIEWSETITEM            	HB_FUNC             	
+   LISTVIEWGETITEM            	HB_FUNC             	
+   LISTVIEWGETITEMROW         	HB_FUNC             	
+   LISTVIEWGETITEMCOUNT       	HB_FUNC             	
+   SETGRIDCOLUMNHEADER        	HB_FUNC             	
+   SETGRIDCOLUMNHEADERIMAGE   	HB_FUNC             	
+   LISTVIEWGETCOUNTPERPAGE    	HB_FUNC             	
+   LISTVIEW_ENSUREVISIBLE     	HB_FUNC             	
+   SETIMAGELISTVIEWITEMS      	HB_FUNC             	
+   GETIMAGELISTVIEWITEMS      	HB_FUNC             	
+   LISTVIEW_GETTOPINDEX       	HB_FUNC             	
+   LISTVIEW_REDRAWITEMS       	HB_FUNC             	
+   LISTVIEW_HITTEST           	HB_FUNC             	
+   LISTVIEW_GETSUBITEMRECT    	HB_FUNC             	
+   LISTVIEW_GETITEMRECT       	HB_FUNC             	
+   LISTVIEW_UPDATE            	HB_FUNC             	
+   LISTVIEW_SCROLL            	HB_FUNC             	
+   LISTVIEW_SETBKCOLOR        	HB_FUNC             	
+   LISTVIEW_SETTEXTBKCOLOR    	HB_FUNC             	
+   LISTVIEW_SETTEXTCOLOR      	HB_FUNC             	
+   LISTVIEW_GETTEXTCOLOR      	HB_FUNC             	
+   LISTVIEW_GETBKCOLOR        	HB_FUNC             	
+   LISTVIEW_ADDCOLUMN         	HB_FUNC             	
+   LISTVIEW_DELETECOLUMN      	HB_FUNC             	
+   LISTVIEW_GETCOLUMNWIDTH    	HB_FUNC             	
+   LISTVIEW_SETCOLUMNWIDTH    	HB_FUNC             	
+   LISTVIEW_GETCHECKSTATE     	HB_FUNC             	
+   LISTVIEW_SETCHECKSTATE     	HB_FUNC             	
+   LISTVIEW_GETCOLUMNCOUNT    	HB_FUNC             	
+   LISTVIEW_CHANGEEXTENDEDSTYL	HB_FUNC             	
+   LISTVIEW_GETEXTENDEDSTYLE  	HB_FUNC             	
+   LISTVIEW_SETSORTHEADER     	HB_FUNC             	
+hbgdiplus.c                   	                    	
+   GDIPLUSSTARTUP             	HB_FUNC             	
+   GDIPLUSSHUTDOWN            	HB_FUNC             	
+   GDIPCREATEBITMAPFROMFILE   	HB_FUNC             	
+   GDIPCREATEHBITMAPFROMBITMAP	HB_FUNC             	
+   GDIPDISPOSEIMAGE           	HB_FUNC             	
+h_help.prg                    	                    	
+   SetHelpFile                	Procedure           	
+   DisplayHelpTopic           	Procedure           	
+   HMG_DbfToArray             	Function            	
+   HMG_ArrayToDBF             	Function            	
+   ConvertType                	Static  Function    	
+   HMG_DbfToExcel             	Function            	
+c_help.c                      	                    	
+   WINHELP                    	HB_FUNC             	
+c_hmgapp.c                    	                    	
+   GETINSTANCE                	HB_FUNC             	
+   GETCOMCTL32DLLVER          	HB_FUNC             	
+   OLEDATARELEASE             	HB_FUNC             	
+h_hotkey.prg                  	                    	
+   _DefineHotKey              	Function            	
+   _ReleaseHotKey             	Procedure           	
+   _GetHotKeyBlock            	Function            	
+   _PushKey                   	Procedure           	
+   HMG_PressKey               	Function            	
+   _SetHotKeyByName           	Function            	
+   _DetermineKey              	Function            	
+c_hotkey.c                    	                    	
+   INITHOTKEY                 	HB_FUNC             	
+   RELEASEHOTKEY              	HB_FUNC             	
+h_hotkeybox.prg               	                    	
+   _DefineHotKeyBox           	Function            	
+   _GetHotKeyName             	Function            	
+c_hotkeybox.c                 	                    	
+   C_GETHOTKEYNAME            	HB_FUNC             	
+   INITHOTKEYBOX              	HB_FUNC             	
+   SETHOTKEYVALUE             	HB_FUNC             	
+   C_GETHOTKEYVALUE           	HB_FUNC             	
+   C_GETHOTKEY                	HB_FUNC             	
+h_hyperlink.prg               	                    	
+   _SetAddress                	Procedure           	
+   _SetAddressControlProcedure	Procedure           	
+c_icon.c                      	                    	
+   COPYICON                   	HB_FUNC             	
+   DESTROYICON                	HB_FUNC             	
+   DUPLICATEICON              	HB_FUNC             	
+   LOADICON                   	HB_FUNC             	
+   EXTRACTICON                	HB_FUNC             	
+   EXTRACTICONEX              	HB_FUNC             	
+   LOADICONBYNAME             	HB_FUNC             	
+   DRAWICONEX                 	HB_FUNC             	
+h_image.prg                   	                    	
+   _DefineImage               	Function            	
+   InitDialogImage            	Function            	
+   BmpSize                    	Function            	
+   HasAlpha                   	Function            	
+c_image.c                     	                    	
+   INITIMAGE                  	HB_FUNC             	
+   C_SETPICTURE               	HB_FUNC             	
+   C_GETRESPICTURE            	HB_FUNC             	
+h_imagelist.prg               	                    	
+   _DefineImageList           	Function            	
+   _AddImageToImageList       	Function            	
+   _AddImageMaskedToImageList 	Function            	
+   _ImageListSetBkColor       	Function            	
+   _EraseImage                	Function            	
+   _BeginDragImage            	Function            	
+c_imagelist.c                 	                    	
+   INITIMAGELIST              	HB_FUNC             	
+   IL_ADD                     	HB_FUNC             	
+   IL_ADDMASKED               	HB_FUNC             	
+   IL_DRAW                    	HB_FUNC             	
+   IL_REMOVE                  	HB_FUNC             	
+   IL_SETBKCOLOR              	HB_FUNC             	
+   IL_ERASEIMAGE              	HB_FUNC             	
+   IL_BEGINDRAG               	HB_FUNC             	
+   IL_DRAGMOVE                	HB_FUNC             	
+   IL_DRAGENTER               	HB_FUNC             	
+   IL_ENDDRAG                 	HB_FUNC             	
+   IL_GETIMAGECOUNT           	HB_FUNC             	
+h_ini.prg                     	                    	
+   _SetGetLogFile             	Function            	
+   _LogFile                   	Function            	
+   _LogFile                   	Function            	
+   _BeginIni                  	Function            	
+   _GetIni                    	Function            	
+   _SetIni                    	Function            	
+   _DelIniEntry               	Function            	
+   _DelIniSection             	Function            	
+   _EndIni                    	Function            	
+   xChar                      	Function            	
+   xValue                     	Function            	
+   AToC                       	Function            	
+   CToA                       	Function            	
+   _GetSectionNames           	Function            	
+   _GetSection                	Function            	
+c_ini.c                       	                    	
+   GETPRIVATEPROFILESTRING    	HB_FUNC             	
+   WRITEPRIVATEPROFILESTRING  	HB_FUNC             	
+   DELINIENTRY                	HB_FUNC             	
+   DELINISECTION              	HB_FUNC             	
+   _GETPRIVATEPROFILESECTIONNA	HB_FUNC             	
+   _GETPRIVATEPROFILESECTION  	HB_FUNC             	
+h_init.prg                    	                    	
+   Init                       	Procedure           	
+   TimeFromStart              	Function            	
+   _hmg_Elapsed               	Static  Function    	
+   InitCodePage               	Static  Procedure   	
+   _GetSysFont                	Function            	
+   InitMessages               	Procedure           	
+h_ipaddress.prg               	                    	
+   _DefineIPAddress           	Function            	
+c_ipaddress.c                 	                    	
+   INITIPADDRESS              	HB_FUNC             	
+   SETIPADDRESS               	HB_FUNC             	
+   GETIPADDRESS               	HB_FUNC             	
+h_label.prg                   	                    	
+   _DefineLabel               	Function            	
+   InitDialogLabel            	Function            	
+   OLABELEVENTS               	Function            	
+c_label.c                     	                    	
+   INITLABEL                  	HB_FUNC             	
+h_listbox.prg                 	                    	
+   _DefineListbox             	Function            	
+   InitDialogListBox          	Function            	
+   LB_Array2String            	Function            	
+c_listbox.c                   	                    	
+   INITLISTBOX                	HB_FUNC             	
+   LISTBOXGETSTRING           	HB_FUNC             	
+   INITMULTILISTBOX           	HB_FUNC             	
+   LISTBOXGETMULTISEL         	HB_FUNC             	
+   LISTBOXSETMULTISEL         	HB_FUNC             	
+   LISTBOXSETMULTITAB         	HB_FUNC             	
+   _GETDDLMESSAGE             	HB_FUNC             	
+   GET_DRAG_LIST_NOTIFICATION_	HB_FUNC             	
+   GET_DRAG_LIST_DRAGITEM     	HB_FUNC             	
+   DRAG_LIST_DRAWINSERT       	HB_FUNC             	
+   DRAG_LIST_MOVE_ITEMS       	HB_FUNC             	
+h_media.prg                   	                    	
+   _DefinePlayer              	Function            	
+   PlayWave                   	Function            	
+   _DefineAnimateBox          	Function            	
+   InitDialogAnimateBox       	Function            	
+c_media.c                     	                    	
+   MESSAGEBEEP                	HB_FUNC             	
+   C_PLAYWAVE                 	HB_FUNC             	
+   STOPWAVE                   	HB_FUNC             	
+   INITPLAYER                 	HB_FUNC             	
+   MCIFUNC                    	HB_FUNC             	
+   INITANIMATE                	HB_FUNC             	
+   OPENANIMATE                	HB_FUNC             	
+   PLAYANIMATE                	HB_FUNC             	
+   SEEKANIMATE                	HB_FUNC             	
+   STOPANIMATE                	HB_FUNC             	
+   CLOSEANIMATE               	HB_FUNC             	
+h_menu.prg                    	                    	
+   _DefineMainMenu            	Procedure           	
+   _DefineMenuPopup           	Procedure           	
+   _EndMenuPopup              	Procedure           	
+   _DefineMenuItem            	Procedure           	
+   _DefineSeparator           	Procedure           	
+   _EndMenu                   	Procedure           	
+   _GetMenuIds                	Static  Function    	
+   _DefaultMenuItem           	Function            	
+   _DisableMenuItem           	Function            	
+   _EnableMenuItem            	Function            	
+   _CheckMenuItem             	Function            	
+   _UncheckMenuItem           	Function            	
+   _IsMenuItemChecked         	Function            	
+   _IsMenuItemEnabled         	Function            	
+   _DefineContextMenu         	Procedure           	
+   _DefineNotifyMenu          	Procedure           	
+   _DefineDropDownMenu        	Procedure           	
+   _DefineControlContextMenu  	Procedure           	
+   _ShowControlContextMenu    	Procedure           	
+   _GetMenuItemCaption        	Function            	
+   _SetMenuItemCaption        	Function            	
+   _SetMenuItemBitmap         	Procedure           	
+   _SetMenuItemIcon           	Procedure           	
+   _SetMenuItemFont           	Function            	
+   _InsertMenuItem            	Function            	
+   _ModifyMenuItem            	Function            	
+   _RemoveMenuItem            	Function            	
+c_menu.c                      	                    	
+   SETACCELERATORTABLE        	HB_FUNC             	
+   ACCELERATORTABLE2ARRAY     	HB_FUNC             	
+   ARRAY2ACCELERATORTABLE     	HB_FUNC             	
+   COPYACCELERATORTABLE       	HB_FUNC             	
+   CREATEACCELERATORTABLE     	HB_FUNC             	
+   DESTROYACCELERATORTABLE    	HB_FUNC             	
+   LOADACCELERATORS           	HB_FUNC             	
+   LOADMENU                   	HB_FUNC             	
+   _NEWMENUSTYLE              	HB_FUNC             	
+   _CLOSEMENU                 	HB_FUNC             	
+   TRACKPOPUPMENU             	HB_FUNC             	
+   SETMENU                    	HB_FUNC             	
+   SETMENUDEFAULTITEM         	HB_FUNC             	
+   XCHECKMENUITEM             	HB_FUNC             	
+   XUNCHECKMENUITEM           	HB_FUNC             	
+   XENABLEMENUITEM            	HB_FUNC             	
+   XDISABLEMENUITEM           	HB_FUNC             	
+   XDISABLECLOSEBUTTON        	HB_FUNC             	
+   CREATEMENU                 	HB_FUNC             	
+   CREATEPOPUPMENU            	HB_FUNC             	
+   APPENDMENUSTRING           	HB_FUNC             	
+   APPENDMENUPOPUP            	HB_FUNC             	
+   APPENDMENUSEPARATOR        	HB_FUNC             	
+   MODIFYMENUITEM             	HB_FUNC             	
+   INSERTMENUITEM             	HB_FUNC             	
+   REMOVEMENUITEM             	HB_FUNC             	
+   MENUITEM_SETBITMAPS        	HB_FUNC             	
+   MENUITEM_SETCHECKMARKS     	HB_FUNC             	
+   MENUITEM_SETICON           	HB_FUNC             	
+   MENUITEM_SETFONT           	HB_FUNC             	
+   XGETMENUCAPTION            	HB_FUNC             	
+   XSETMENUCAPTION            	HB_FUNC             	
+   XGETMENUCHECKSTATE         	HB_FUNC             	
+   XGETMENUENABLEDSTATE       	HB_FUNC             	
+   ISMENU                     	HB_FUNC             	
+   GETMENU                    	HB_FUNC             	
+   GETSYSTEMMENU              	HB_FUNC             	
+   GETMENUITEMCOUNT           	HB_FUNC             	
+   _ONDRAWMENUITEM            	HB_FUNC             	
+   SETMENUBITMAPHEIGHT        	HB_FUNC             	
+   GETMENUBITMAPHEIGHT        	HB_FUNC             	
+   SETMENUSEPARATORTYPE       	HB_FUNC             	
+   SETMENUSELECTEDITEM3D      	HB_FUNC             	
+   SETMENUCURSORTYPE          	HB_FUNC             	
+   GETMENUCOLORS              	HB_FUNC             	
+   SETMENUCOLORS              	HB_FUNC             	
+   _ONDESTROYMENU             	HB_FUNC             	
+   _ONMEASUREMENUITEM         	HB_FUNC             	
+c_monitors.c                  	                    	
+   COUNTMONITORS              	HB_FUNC             	
+   ISSAMEDISPLAYFORMAT        	HB_FUNC             	
+   ENUMDISPLAYMONITORS        	HB_FUNC             	
+   GETMONITORINFO             	HB_FUNC             	
+   MONITORFROMPOINT           	HB_FUNC             	
+   MONITORFROMWINDOW          	HB_FUNC             	
+   WINDOWTOMONITOR            	HB_FUNC             	
+h_monthcal.prg                	                    	
+   _DefineMonthCal            	Function            	
+   InitDialogMonthCalendar    	Function            	
+   OMONTHCALEVENTS            	Function            	
+c_monthcal.c                  	                    	
+   INITMONTHCAL               	HB_FUNC             	
+   SETMONTHCALVALUE           	HB_FUNC             	
+   GETMONTHCALVALUE           	HB_FUNC             	
+   SETPOSMONTHCAL             	HB_FUNC             	
+h_mru.prg                     	                    	
+   AddMRUItem                 	Function            	
+   CheckForDuplicateMRU       	Static  Function    	
+   AddMenuElement             	Function            	
+   ReorderMRUList             	Static  Function    	
+   SaveMRUFileList            	Function            	
+   _DefineMruItem             	Function            	
+   ClearMRUList               	Function            	
+h_msgbox.prg                  	                    	
+   MsgYesNo                   	Function            	
+   MsgYesNoCancel             	Function            	
+   MsgRetryCancel             	Function            	
+   MsgOkCancel                	Function            	
+   MsgInfo                    	Function            	
+   MsgStop                    	Function            	
+   MsgExclamation             	Function            	
+   MsgBox                     	Function            	
+   _MsgBox                    	Static  Function    	
+c_msgbox.c                    	                    	
+   MESSAGEBOXINDIRECT         	HB_FUNC             	
+   MESSAGEBOXTIMEOUT          	HB_FUNC             	
+h_objects.prg                 	                    	
+   oWndData                   	Function            	
+   oCnlData                   	Function            	
+   oKeyData                   	Function            	
+   hb_HGetDef                 	Static  Function    	
+h_objmisc.prg                 	                    	
+   _WindowCargo               	Function            	
+   _ControlCargo              	Function            	
+   _WindowObj                 	Function            	
+   _ControlObj                	Function            	
+   Do_Obj                     	Function            	
+   Do_ControlEventProcedure   	Function            	
+   Do_WindowEventProcedure    	Function            	
+   Do_OnWndInit               	Function            	
+   Do_OnWndRelease            	Function            	
+   Do_OnCtlInit               	Function            	
+   Do_OnCtlRelease            	Function            	
+   Do_OnWndLaunch             	Function            	
+   Do_OnCtlLaunch             	Function            	
+   HMG_SETWINDOWOBJECT        	HB_FUNC             	
+   HMG_DELWINDOWOBJECT        	HB_FUNC             	
+   HMG_GETWINDOWOBJECT        	HB_FUNC             	
+   HMG_ISWINDOWOBJECT         	HB_FUNC             	
+h_pager.prg                   	                    	
+   _BeginPager                	Function            	
+   _EndPager                  	Function            	
+c_pager.c                     	                    	
+   GETHANDLEREBAR             	HB_FUNC             	
+   ADDTOPAGER                 	HB_FUNC             	
+   SETBKCOLORPAGER            	HB_FUNC             	
+   PAGERCALCSIZE              	HB_FUNC             	
+   PAGERSCROLL                	HB_FUNC             	
+   INITPAGER                  	HB_FUNC             	
+   PAGERFORWARDMOUSE          	HB_FUNC             	
+   PAGERGETBUTTONSIZE         	HB_FUNC             	
+   PAGERSETBUTTONSIZE         	HB_FUNC             	
+   PAGERGETBORDER             	HB_FUNC             	
+   PAGERSETBORDER             	HB_FUNC             	
+   PAGERGETPOS                	HB_FUNC             	
+   PAGERSETPOS                	HB_FUNC             	
+h_progressbar.prg             	                    	
+   _DefineProgressBar         	Function            	
+   InitDialogProgressBar      	Function            	
+c_progressbar.c               	                    	
+   INITPROGRESSBAR            	HB_FUNC             	
+h_radio.prg                   	                    	
+   _DefineRadioGroup          	Function            	
+   InitDialogRadioGroup       	Function            	
+   _SetRadioGroupReadOnly     	Procedure           	
+c_radio.c                     	                    	
+   INITRADIOGROUP             	HB_FUNC             	
+   INITRADIOBUTTON            	HB_FUNC             	
+h_registry.prg                	                    	
+   Bin2U                      	Static  Function    	
+   IsRegistryKey              	Function            	
+   CreateRegistryKey          	Function            	
+   GetRegistryValue           	Function            	
+   SetRegistryValue           	Function            	
+   DeleteRegistryVar          	Function            	
+   DeleteRegistryKey          	Function            	
+   ISWOW64                    	HB_FUNC             	
+c_registry.c                  	                    	
+   REGCLOSEKEY                	HB_FUNC             	
+   REGOPENKEYEXA              	HB_FUNC             	
+   REGQUERYVALUEEXA           	HB_FUNC             	
+   REGENUMKEYEXA              	HB_FUNC             	
+   REGSETVALUEEXA             	HB_FUNC             	
+   REGCREATEKEY               	HB_FUNC             	
+   REGENUMVALUEA              	HB_FUNC             	
+   REGDELETEKEY               	HB_FUNC             	
+   REGDELETEVALUEA            	HB_FUNC             	
+   REGCONNECTREGISTRY         	HB_FUNC             	
+h_report.prg                  	                    	
+   easyreport                 	Function            	
+   headers                    	Static  Function    	
+   mypreview                  	Static  Function    	
+   JUSTIFICALINEA             	Static  Function    	
+   extreport                  	Function            	
+   leadato                    	Static  Function    	
+   leaimage                   	Static  Function    	
+   leadatoh                   	Static  Function    	
+   leadatologic               	Static  Function    	
+   clean                      	Static  Function    	
+   learowi                    	Static  Function    	
+   leacoli                    	Static  Function    	
+   imp_SUBTOTALES             	Static  Procedure   	
+   imp_pagina                 	Static  Procedure   	
+c_resource.c                  	                    	
+   RCDATATOFILE               	HB_FUNC             	
+h_richeditbox.prg             	                    	
+   _DefineRichEditBox         	Function            	
+   _DataBaseRichEditBoxSave   	Procedure           	
+   _DataRichEditBoxSetValue   	Function            	
+   _DataRichEditBoxGetValue   	Function            	
+   _DataRichEditBoxOpen       	Procedure           	
+   _DataRichEditBoxSave       	Procedure           	
+c_richeditbox.c               	                    	
+   INITRICHEDITBOX            	HB_FUNC             	
+   UNLOADRICHEDITLIB          	HB_FUNC             	
+   STREAMIN                   	HB_FUNC             	
+   STREAMOUT                  	HB_FUNC             	
+   GETAUTOFONTRTF             	HB_FUNC             	
+   SETAUTOFONTRTF             	HB_FUNC             	
+   SETBKGNDCOLOR              	HB_FUNC             	
+   GETFONTRTF                 	HB_FUNC             	
+   SETFONTRTF                 	HB_FUNC             	
+h_scrsaver.prg                	                    	
+   _BeginScrSaver             	Function            	
+   _ActivateScrSaver          	Function            	
+   _ReleaseScrSaver           	Function            	
+   _lValidScrSaver            	Function            	
+c_scrsaver.c                  	                    	
+   VERIFYPASSWORD             	HB_FUNC             	
+   CHANGEPASSWORD             	HB_FUNC             	
+   SETCURSORPOS               	HB_FUNC             	
+   SHOWCURSOR                 	HB_FUNC             	
+h_slider.prg                  	                    	
+   _DefineSlider              	Function            	
+   InitDialogSlider           	Function            	
+c_slider.c                    	                    	
+   INITSLIDER                 	HB_FUNC             	
+h_socket.prg                  	                    	
+   httpconnect                	Function            	
+   GetData                    	Function            	
+   SendData                   	Function            	
+h_spinner.prg                 	                    	
+   _DefineSpinner             	Function            	
+   OSPINEVENTS                	Function            	
+c_spinner.c                   	                    	
+   INITSPINNER                	HB_FUNC             	
+   SETSPINNERINCREMENT        	HB_FUNC             	
+h_splitbutton.prg             	                    	
+   _DefineSplitButton         	Procedure           	
+   SPButtonEventHandler       	Function            	
+   SPButtonSetFocus           	Procedure           	
+   SPButtonEnable             	Procedure           	
+   SPButtonDisable            	Procedure           	
+   LaunchDropdownMenu         	Static  Function    	
+   INITSPLITBUTTON            	HB_FUNC             	
+h_status.prg                  	                    	
+   _BeginMessageBar           	Function            	
+   _EndMessageBar             	Function            	
+   _DefineItemMessage         	Function            	
+   _SetStatusClock            	Function            	
+   _SetStatusKeybrd           	Function            	
+   _IsOwnerDrawStatusBarItem  	Function            	
+   AMPM                       	Static  Function    	
+   _SetStatusBarKbd           	Function            	
+   _GetStatusItemWidth        	Function            	
+   _SetStatusItemProperty     	Function            	
+   _SetStatusProgressMessage  	Function            	
+   _SetStatusProgressPos      	Function            	
+   _SetStatusProgressRange    	Function            	
+c_status.c                    	                    	
+   INITMESSAGEBAR             	HB_FUNC             	
+   INITITEMBAR                	HB_FUNC             	
+   SETITEMBAR                 	HB_FUNC             	
+   GETITEMBAR                 	HB_FUNC             	
+   REFRESHITEMBAR             	HB_FUNC             	
+   KEYTOGGLE                  	HB_FUNC             	
+   KEYTOGGLENT                	HB_FUNC             	
+   SETSTATUSITEMICON          	HB_FUNC             	
+   SETSTATUSBARSIZE           	HB_FUNC             	
+   REFRESHSTATUSITEM          	HB_FUNC             	
+   REFRESHPROGRESSITEM        	HB_FUNC             	
+   CREATEPROGRESSBARITEM      	HB_FUNC             	
+   SETPOSPROGRESSBARITEM      	HB_FUNC             	
+h_tab.prg                     	                    	
+   _BeginTab                  	Function            	
+   _DefineTab                 	Static  Function    	
+   InitDialogTab              	Function            	
+   UpdateTab                  	Function            	
+   _BeginTabPage              	Function            	
+   _EndTabPage                	Function            	
+   _EndTab                    	Function            	
+   _AddTabPage                	Function            	
+   _AddTabControl             	Function            	
+   _DeleteTabPage             	Function            	
+   OwnTabPaint                	Function            	
+c_tab.c                       	                    	
+   INITTABCONTROL             	HB_FUNC             	
+   TABCTRL_SETCURSEL          	HB_FUNC             	
+   TABCTRL_GETCURSEL          	HB_FUNC             	
+   TABCTRL_INSERTITEM         	HB_FUNC             	
+   TABCTRL_DELETEITEM         	HB_FUNC             	
+   SETTABCAPTION              	HB_FUNC             	
+   ADDTABBITMAP               	HB_FUNC             	
+   WINDOWFROMPOINT            	HB_FUNC             	
+   GETMESSAGEPOS              	HB_FUNC             	
+h_taskdlg.prg                 	                    	
+c_taskdlgs.c                  	                    	
+   WIN_TASKDIALOG0            	HB_FUNC             	
+   WIN_TASKDIALOGINDIRECT0    	HB_FUNC             	
+   _SETWINDOWTITLE            	HB_FUNC             	
+   _CLICKBUTTON               	HB_FUNC             	
+   _CLICKRADIOBUTTON          	HB_FUNC             	
+   _CLICKVERIFICATION         	HB_FUNC             	
+   _ENABLEBUTTON              	HB_FUNC             	
+   _ENABLERADIOBUTTON         	HB_FUNC             	
+   _SETBUTTONELEVATIONREQUIRED	HB_FUNC             	
+   _SETMAININSTRUCTION        	HB_FUNC             	
+   _SETCONTENT                	HB_FUNC             	
+   _SETFOOTER                 	HB_FUNC             	
+   _SETEXPANDEDINFORMATION    	HB_FUNC             	
+   _SETPROGRESSBARPOS         	HB_FUNC             	
+   _SETPROGRESSBARRANGE       	HB_FUNC             	
+   _SETPROGRESSBARSTATE       	HB_FUNC             	
+   _SETPROGRESSBARMARQUEE     	HB_FUNC             	
+   _SETMARQUEEPROGRESSBAR     	HB_FUNC             	
+   _UPDATEMAININSTRUCTION     	HB_FUNC             	
+   _UPDATECONTENT             	HB_FUNC             	
+   _UPDATEFOOTER              	HB_FUNC             	
+   _UPDATEEXPANDEDINFORMATION 	HB_FUNC             	
+   _UPDATEMAINICON            	HB_FUNC             	
+   _UPDATEFOOTERICON          	HB_FUNC             	
+h_textbox.prg                 	                    	
+   _DefineTextBox             	Function            	
+   InitDialogTextBox          	Function            	
+   _DefineMaskedTextbox       	Function            	
+   InitDialogMaskedTextBox    	Function            	
+   GetNumFromText             	Function            	
+   GetNumMask                 	Static  Function    	
+   _DefineCharMaskTextbox     	Function            	
+   ProcessCharMask            	Procedure           	
+   CharMaskTekstOK            	Static  Function    	
+   _DataTextBoxRefresh        	Procedure           	
+   _DataTextBoxSave           	Procedure           	
+   ProcessNumText             	Procedure           	
+   GETNumFromTextSP           	Function            	
+   OEDITEVENTS                	Function            	
+c_textbox.c                   	                    	
+   INITMASKEDTEXTBOX          	HB_FUNC             	
+   INITTEXTBOX                	HB_FUNC             	
+   INITCHARMASKTEXTBOX        	HB_FUNC             	
+h_timer.prg                   	                    	
+   _DefineTimer               	Function            	
+c_timer.c                     	                    	
+   INITTIMER                  	HB_FUNC             	
+   KILLTIMER                  	HB_FUNC             	
+h_toolbar.prg                 	                    	
+   _DefineToolBar             	Function            	
+   _EndToolBar                	Function            	
+   _DefineToolButton          	Function            	
+   _AddToolBarToSplitBox      	Static  Function    	
+   _BeginToolBar              	Function            	
+   _BeginToolBarEx            	Function            	
+   _CreatePopUpChevron        	Function            	
+   _DropDownShortcut          	Static  Procedure   	
+c_toolbar.c                   	                    	
+   INITTOOLBAR                	HB_FUNC             	
+   INITTOOLBUTTON             	HB_FUNC             	
+   INITTOOLBAREX              	HB_FUNC             	
+   INITTOOLBUTTONEX           	HB_FUNC             	
+   GETSIZETOOLBAR             	HB_FUNC             	
+   MAXTEXTBTNTOOLBAR          	HB_FUNC             	
+   ISBUTTONBARCHECKED         	HB_FUNC             	
+   CHECKBUTTONBAR             	HB_FUNC             	
+   ISBUTTONENABLED            	HB_FUNC             	
+   GETBUTTONBARRECT           	HB_FUNC             	
+   GETBUTTONPOS               	HB_FUNC             	
+   SETBUTTONTIP               	HB_FUNC             	
+   SETTOOLBUTTONCAPTION       	HB_FUNC             	
+   SETTOOLBUTTONIMAGE         	HB_FUNC             	
+   REPLACETOOLBUTTONIMAGE     	HB_FUNC             	
+   SETROWSBUTTON              	HB_FUNC             	
+   RESIZESPLITBOXITEM         	HB_FUNC             	
+   SETCHEVRONSTYLESPLITBOXITEM	HB_FUNC             	
+   CREATEPOPUPCHEVRON         	HB_FUNC             	
+   GETBUTTONBAR               	HB_FUNC             	
+   GETIMAGELIST               	HB_FUNC             	
+   SETCHEVRONIMAGE            	HB_FUNC             	
+   DESTROYMENU                	HB_FUNC             	
+   ADJUSTFLOATTOOLBAR         	HB_FUNC             	
+   RESIZEFLOATTOOLBAR         	HB_FUNC             	
+   TOOLBAREXCUSTFUNC          	HB_FUNC             	
+c_tooltip.c                   	                    	
+   SETTOOLTIPACTIVATE         	HB_FUNC             	
+   SETTOOLTIPBALLOON          	HB_FUNC             	
+   SETTOOLTIPMAXWIDTH         	HB_FUNC             	
+   INITTOOLTIP                	HB_FUNC             	
+   SETTOOLTIP                 	HB_FUNC             	
+   INITTOOLTIPEX              	HB_FUNC             	
+   TTM_ACTIVATE               	HB_FUNC             	
+   TTM_GETDELAYTIME           	HB_FUNC             	
+   TTM_GETMARGIN              	HB_FUNC             	
+   TTM_GETMAXTIPWIDTH         	HB_FUNC             	
+   TTM_GETTIPBKCOLOR          	HB_FUNC             	
+   TTM_GETTIPTEXTCOLOR        	HB_FUNC             	
+   TTM_GETTOOLCOUNT           	HB_FUNC             	
+   TTM_POP                    	HB_FUNC             	
+   TTM_POPUP                  	HB_FUNC             	
+   TTM_SETDELAYTIME           	HB_FUNC             	
+   TTM_SETMARGIN              	HB_FUNC             	
+   TTM_SETMAXTIPWIDTH         	HB_FUNC             	
+   TTM_SETTIPBKCOLOR          	HB_FUNC             	
+   TTM_SETTIPTEXTCOLOR        	HB_FUNC             	
+   TTM_TRACKACTIVATE          	HB_FUNC             	
+   TTM_TRACKPOSITION          	HB_FUNC             	
+   TTM_UPDATE                 	HB_FUNC             	
+   TTM_UPDATETIPTEXT          	HB_FUNC             	
+   TTM_WINDOWFROMPOINT        	HB_FUNC             	
+h_tree.prg                    	                    	
+   _DefineTree                	Function            	
+   InitDialogTree             	Function            	
+   _DefineTreeNode            	Function            	
+   _EndTreeNode               	Function            	
+   _DefineTreeItem            	Function            	
+   _EndTree                   	Function            	
+   _Collapse                  	Procedure           	
+   _Expand                    	Procedure           	
+   TreeItemGetHandle          	Static  Function    	
+   TreeItemChangeImage        	Procedure           	
+c_tree.c                      	                    	
+   INITTREE                   	HB_FUNC             	
+   INITTREEVIEWBITMAP         	HB_FUNC             	
+   ADDTREEVIEWBITMAP          	HB_FUNC             	
+   ADDTREEITEM                	HB_FUNC             	
+   TREEVIEW_GETSELECTION      	HB_FUNC             	
+   TREEVIEW_SELECTITEM        	HB_FUNC             	
+   TREEVIEW_DELETEITEM        	HB_FUNC             	
+   TREEVIEW_DELETEALLITEMS    	HB_FUNC             	
+   TREEVIEW_GETCOUNT          	HB_FUNC             	
+   TREEVIEW_GETPREVSIBLING    	HB_FUNC             	
+   TREEVIEW_GETITEM           	HB_FUNC             	
+   TREEVIEW_SETITEM           	HB_FUNC             	
+   TREEITEM_SETIMAGEINDEX     	HB_FUNC             	
+   TREEVIEW_GETSELECTIONID    	HB_FUNC             	
+   TREEVIEW_GETNEXTSIBLING    	HB_FUNC             	
+   TREEVIEW_GETCHILD          	HB_FUNC             	
+   TREEVIEW_GETPARENT         	HB_FUNC             	
+h_wbrush.prg                  	                    	
+   _SetWindowBKBrush          	Function            	
+h_webcam.prg                  	                    	
+   _DefineWebCam              	Function            	
+   _CreateWebCam              	Function            	
+   _StartWebCam               	Function            	
+   _ReleaseWebCam             	Procedure           	
+   CAP_CREATECAPTUREWINDOW    	HB_FUNC             	
+   CAP_DRIVERCONNECT          	HB_FUNC             	
+   CAP_DRIVERDISCONNECT       	HB_FUNC             	
+   CAP_PREVIEWRATE            	HB_FUNC             	
+   CAP_PREVIEWSCALE           	HB_FUNC             	
+   CAP_PREVIEW                	HB_FUNC             	
+   CAP_EDITCOPY               	HB_FUNC             	
+h_winapimisc.prg              	                    	
+   WindowsVersion             	Function            	
+   _Execute                   	Function            	
+c_winapimisc.c                	                    	
+   WAITRUNPIPE                	HB_FUNC             	
+   COPYRTFTOCLIPBOARD         	HB_FUNC             	
+   COPYTOCLIPBOARD            	HB_FUNC             	
+   RETRIEVETEXTFROMCLIPBOARD  	HB_FUNC             	
+   CLEARCLIPBOARD             	HB_FUNC             	
+   GETBLUE                    	HB_FUNC             	
+   GETRED                     	HB_FUNC             	
+   GETGREEN                   	HB_FUNC             	
+   GETKEYSTATE                	HB_FUNC             	
+   INKEYGUI                   	HB_FUNC             	
+   GETDC                      	HB_FUNC             	
+   RELEASEDC                  	HB_FUNC             	
+   HIWORD                     	HB_FUNC             	
+   LOWORD                     	HB_FUNC             	
+   C_GETSPECIALFOLDER         	HB_FUNC             	
+   C_GETDLLSPECIALFOLDER      	HB_FUNC             	
+   GETPHYSICALLYINSTALLEDSYSTE	HB_FUNC             	
+   MEMORYSTATUS               	HB_FUNC             	
+   SHELLABOUT                 	HB_FUNC             	
+   PAINTBKGND                 	HB_FUNC             	
+   GETWINDOWSDIR              	HB_FUNC             	
+   GETSYSTEMDIR               	HB_FUNC             	
+   GETTEMPDIR                 	HB_FUNC             	
+   POSTMESSAGE                	HB_FUNC             	
+   DEFWINDOWPROC              	HB_FUNC             	
+   GETSTOCKOBJECT             	HB_FUNC             	
+   GETNEXTDLGTABITEM          	HB_FUNC             	
+   SHELLEXECUTE               	HB_FUNC             	
+   WAITRUN                    	HB_FUNC             	
+   WAITRUNTERM                	HB_FUNC             	
+   ISEXERUNNING               	HB_FUNC             	
+   SETSCROLLPOS               	HB_FUNC             	
+   CREATEFOLDER               	HB_FUNC             	
+   SETCURRENTFOLDER           	HB_FUNC             	
+   REMOVEFOLDER               	HB_FUNC             	
+   GETCURRENTFOLDER           	HB_FUNC             	
+   CREATESOLIDBRUSH           	HB_FUNC             	
+   SETTEXTCOLOR               	HB_FUNC             	
+   SETBKCOLOR                 	HB_FUNC             	
+   GETSYSCOLOR                	HB_FUNC             	
+   WINVERSION                 	HB_FUNC             	
+   ISWINXPORLATER             	HB_FUNC             	
+   ISVISTAORLATER             	HB_FUNC             	
+   ISEXE64                    	HB_FUNC             	
+   GETDLLVERSION              	HB_FUNC             	
+   SELECTOBJECT               	HB_FUNC             	
+   FILLRECT                   	HB_FUNC             	
+   EMPTYWORKINGSET            	HB_FUNC             	
+   CLEANPROGRAMMEMORY         	HB_FUNC             	
+   GETCOMPACTPATH             	HB_FUNC             	
+   GETSHORTPATHNAME           	HB_FUNC             	
+   DRAWTEXT                   	HB_FUNC             	
+   GETTEXTMETRIC              	HB_FUNC             	
+   _GETCLIENTRECT             	HB_FUNC             	
+   ISOEMTEXT                  	HB_FUNC             	
+   GETOBJECTTYPE              	HB_FUNC             	
+   DRAGACCEPTFILES            	HB_FUNC             	
+   DRAGQUERYFILES             	HB_FUNC             	
+   DRAGFINISH                 	HB_FUNC             	
+h_windows.prg                 	                    	
+   _DefineWindow              	Function            	
+   _DefineModalWindow         	Function            	
+   _DefineSplitChildWindow    	Function            	
+   _SetThisFormInfo           	Function            	
+   _SetWindowSizePos          	Function            	
+   GetFormIndex               	Function            	
+   _SetNotifyIconName         	Function            	
+   _SetNotifyIconTooltip      	Function            	
+   _DefineSplitBox            	Function            	
+   _EndSplitBox               	Function            	
+   _EndSplitChildWindow       	Function            	
+   _EndPanelWindow            	Function            	
+   _EndWindow                 	Function            	
+   _InputBoxAdjust            	Static  Procedure   	
+   _SetWindowRgn              	Function            	
+   _SetPolyWindowRgn          	Function            	
+   _ActivateWindow            	Function            	
+   _ActivateAllWindows        	Function            	
+   _RefreshDataControls       	Procedure           	
+   _SetActivationFlag         	Procedure           	
+   _ProcessInitProcedure      	Procedure           	
+   _SetFocusedSplitChild      	Function            	
+   _SetActivationFocus        	Procedure           	
+   _GenActivateId             	Static  Function    	
+   _hmg_OnHideFocusManagement 	Procedure           	
+   _DoControlEventProcedure   	Function            	
+   _DoWindowEventProcedure    	Function            	
+   _GetGridCellData           	Function            	
+   IsThemed                   	Function            	
+   IsAppXPThemed              	Function            	
+   IsXPThemeActive            	Function            	
+   VirtualChildControlFocusPro	Procedure           	
+   NoQuote                    	Static  Function    	
+   _IsWindowActive            	Function            	
+   _IsWindowDefined           	Function            	
+   GetWindowType              	Function            	
+   GetFormName                	Function            	
+   GetFormToolTipHandle       	Function            	
+   GetFormHandle              	Function            	
+   ReleaseAllWindows          	Function            	
+   _ReleaseWindow             	Function            	
+   _ShowWindow                	Function            	
+   _HideWindow                	Function            	
+   _CenterWindow              	Function            	
+   _SetCenterWindowStyle      	Function            	
+   _IsChildOfActiveWindow     	Function            	
+   _GetParent                 	Static  Function    	
+   GetParentFormName          	Function            	
+   StopWindowEventProcedure   	Function            	
+   StopControlEventProcedure  	Function            	
+   GetLastActiveFormIndex     	Function            	
+   GetLastActiveControlIndex  	Function            	
+   MsgDebug                   	Function            	
+   WaitWindow                 	Procedure           	
+   EfeitoLabel                	Static  Procedure   	
+c_windows.c                   	                    	
+   GETGLOBALLISTENER          	HB_FUNC             	
+   SETGLOBALLISTENER          	HB_FUNC             	
+   RESETGLOBALLISTENER        	HB_FUNC             	
+   APPEVENTS                  	HB_FUNC             	
+   APPEVENTSREMOVE            	HB_FUNC             	
+   APPEVENTSUPDATE            	HB_FUNC             	
+   ENUMAPPEVENTS              	HB_FUNC             	
+   GETAPPEVENTSINFO           	HB_FUNC             	
+   WINEVENTS                  	HB_FUNC             	
+   WINEVENTSREMOVE            	HB_FUNC             	
+   WINEVENTSUPDATE            	HB_FUNC             	
+   ENUMWINEVENTS              	HB_FUNC             	
+   GETWINEVENTSINFO           	HB_FUNC             	
+   INITMESSAGEONLYWINDOW      	HB_FUNC             	
+   INITDUMMY                  	HB_FUNC             	
+   INITWINDOW                 	HB_FUNC             	
+   INITMODALWINDOW            	HB_FUNC             	
+   INITSPLITCHILDWINDOW       	HB_FUNC             	
+   INITSPLITBOX               	HB_FUNC             	
+   REGISTERWINDOW             	HB_FUNC             	
+   REGISTERSPLITCHILDWINDOW   	HB_FUNC             	
+   UNREGISTERWINDOW           	HB_FUNC             	
+   MSC_VER                    	HB_FUNC             	
+c_windowsAPI.c                	                    	
+   DOMESSAGELOOP              	HB_FUNC             	
+   DOEVENTS                   	HB_FUNC             	
+   EXITPROCESS                	HB_FUNC             	
+   SHOWWINDOW                 	HB_FUNC             	
+   GETACTIVEWINDOW            	HB_FUNC             	
+   SETACTIVEWINDOW            	HB_FUNC             	
+   POSTQUITMESSAGE            	HB_FUNC             	
+   DESTROYWINDOW              	HB_FUNC             	
+   ISWINDOWVISIBLE            	HB_FUNC             	
+   ISWINDOWENABLED            	HB_FUNC             	
+   ENABLEWINDOW               	HB_FUNC             	
+   DISABLEWINDOW              	HB_FUNC             	
+   SETFOREGROUNDWINDOW        	HB_FUNC             	
+   BRINGWINDOWTOTOP           	HB_FUNC             	
+   GETFOREGROUNDWINDOW        	HB_FUNC             	
+   SETWINDOWTEXT              	HB_FUNC             	
+   SETWINDOWTEXTW             	HB_FUNC             	
+   SETWINDOWBACKGROUND        	HB_FUNC             	
+   SETWINDOWPOS               	HB_FUNC             	
+   ANIMATEWINDOW              	HB_FUNC             	
+   FLASHWINDOWEX              	HB_FUNC             	
+   SETLAYEREDWINDOWATTRIBUTES 	HB_FUNC             	
+   C_CENTER                   	HB_FUNC             	
+   GETWINDOWTEXT              	HB_FUNC             	
+   SENDMESSAGE                	HB_FUNC             	
+   SENDMESSAGESTRING          	HB_FUNC             	
+   GETNOTIFYCODE              	HB_FUNC             	
+   GETNOTIFYID                	HB_FUNC             	
+   GETHWNDFROM                	HB_FUNC             	
+   GETDRAWITEMHANDLE          	HB_FUNC             	
+   GETFOCUS                   	HB_FUNC             	
+   GETGRIDCOLUMN              	HB_FUNC             	
+   GETGRIDVKEY                	HB_FUNC             	
+   MOVEWINDOW                 	HB_FUNC             	
+   GETWINDOWRECT              	HB_FUNC             	
+   GETSYSTEMMETRICS           	HB_FUNC             	
+   GETTASKBARHEIGHT           	HB_FUNC             	
+   SHOWNOTIFYICON             	HB_FUNC             	
+   GETCURSORPOS               	HB_FUNC             	
+   SCREENTOCLIENT             	HB_FUNC             	
+   LOADTRAYICON               	HB_FUNC             	
+   CHANGENOTIFYICON           	HB_FUNC             	
+   GETITEMPOS                 	HB_FUNC             	
+   SETSCROLLRANGE             	HB_FUNC             	
+   GETSCROLLPOS               	HB_FUNC             	
+   GETWINDOWSTATE             	HB_FUNC             	
+   REDRAWWINDOWCONTROLRECT    	HB_FUNC             	
+   ADDSPLITBOXITEM            	HB_FUNC             	
+   C_SETWINDOWRGN             	HB_FUNC             	
+   C_SETPOLYWINDOWRGN         	HB_FUNC             	
+   GETHELPDATA                	HB_FUNC             	
+   GETMSKTEXTMESSAGE          	HB_FUNC             	
+   GETMSKTEXTWPARAM           	HB_FUNC             	
+   GETMSKTEXTLPARAM           	HB_FUNC             	
+   GETWINDOW                  	HB_FUNC             	
+   GETGRIDOLDSTATE            	HB_FUNC             	
+   GETGRIDNEWSTATE            	HB_FUNC             	
+   GETGRIDDISPINFOINDEX       	HB_FUNC             	
+   SETGRIDQUERYDATA           	HB_FUNC             	
+   SETGRIDQUERYIMAGE          	HB_FUNC             	
+   FINDWINDOWEX               	HB_FUNC             	
+   GETDS                      	HB_FUNC             	
+   GETRC                      	HB_FUNC             	
+   SETBCFC                    	HB_FUNC             	
+   SETBRCCD                   	HB_FUNC             	
+   GETTABBEDCONTROLBRUSH      	HB_FUNC             	
+   GETTABBRUSH                	HB_FUNC             	
+   INITMINMAXINFO             	HB_FUNC             	
+   SETMINMAXINFO              	HB_FUNC             	
+   ISWINDOWHANDLE             	HB_FUNC             	
+   GETWINDOWBRUSH             	HB_FUNC             	
+   SETWINDOWBRUSH             	HB_FUNC             	
+   CREATEHATCHBRUSH           	HB_FUNC             	
+   CREATEPATTERNBRUSH         	HB_FUNC             	
+c_windowsCLS.c                	                    	
+   GETCLASSNAME               	HB_FUNC             	
+   GETCLASSNAMEBYREF          	HB_FUNC             	
+   GETWINDOWLONG              	HB_FUNC             	
+   GETWINDOWSTYLE             	HB_FUNC             	
+   SETWINDOWSTYLE             	HB_FUNC             	
+   ISWINDOWHASSTYLE           	HB_FUNC             	
+   ISWINDOWHASEXSTYLE         	HB_FUNC             	
+h_windowsMDI.prg              	                    	
+   MdiEvents                  	Function            	
+   _DefineChildMDIWindow      	Function            	
+   _EndMdiChildWindow         	Function            	
+   _ActivateMdiWindow         	Function            	
+   _MdiChildClose             	Function            	
+   ActivateMdiChildWindow     	Function            	
+   _CloseActiveMdi            	Function            	
+   _MdiChildCloseAll          	Function            	
+   _MdiChildRestoreAll        	Function            	
+   GetActiveMdiHandle         	Function            	
+   DestroyActiveMdi           	Function            	
+   _MdiWindowsTile            	Function            	
+   _MdiWindowsCascade         	Function            	
+   _MdiWindowsIcons           	Function            	
+   _MdiWindowsRestore         	Function            	
+   _MdiWindowsActivate        	Function            	
+   GetObjectByClientMDI       	Function            	
+c_windowsMDI.c                	                    	
+   REGISTERMDIWINDOW          	HB_FUNC             	
+   INITMDIWINDOW              	HB_FUNC             	
+   INITMDICLIENTWINDOW        	HB_FUNC             	
+   INITMDICHILDWINDOW         	HB_FUNC             	
+   ARRANGEICONICWINDOWS       	HB_FUNC             	
+   DEFMDICHILDPROC            	HB_FUNC             	
+   DEFFRAMEPROC               	HB_FUNC             	
+   GETCLIENTRECT              	HB_FUNC             	
+   SIZECLIENTWINDOW           	HB_FUNC             	
+h_winprop.prg                 	                    	
+   _SetWindowProp             	Procedure           	
+   _GetWindowProp             	Function            	
+   _RemoveWindowProp          	Function            	
+   _EnumWindowProps           	Function            	
+   _GetFormHandle             	Static  Function    	
+c_winprop.c                   	                    	
+   SETPROP                    	HB_FUNC             	
+   GETPROP                    	HB_FUNC             	
+   REMOVEPROP                 	HB_FUNC             	
+   ENUMPROPS                  	HB_FUNC             	
+   ENUMPROPSEX                	HB_FUNC             	
+c_winxp.c                     	                    	
+   INITUXTHEME                	HB_FUNC             	
+   ENDUXTHEME                 	HB_FUNC             	
+   ISTHEMEACTIVE              	HB_FUNC             	
+   ISAPPTHEMED                	HB_FUNC             	
+   OPENTHEMEDATA              	HB_FUNC             	
+   CLOSETHEMEDATA             	HB_FUNC             	
+   DRAWTHEMEBACKGROUND        	HB_FUNC             	
+   DRAWTHEMEPARENTBACKGROUND  	HB_FUNC             	
+   SETWINDOWTHEME             	HB_FUNC             	
+   ENABLETHEMEDIALOGTEXTURE   	HB_FUNC             	
+   PTINRECT                   	HB_FUNC             	
+

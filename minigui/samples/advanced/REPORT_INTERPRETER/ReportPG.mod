@@ -1,6 +1,6 @@
 !PDFPRINT
 # REPORTS.MOD This Line Will be ignored!
-[Declare]80/PRE
+[Declare]80/PREV
 VAR PLT C []
 (m->PLT := [This is a small paragraph to be printed inside a rectangular area left aligned.])
 SET SPLASH TO
@@ -25,7 +25,7 @@ SET HPDFDOC PAGEOUTLINE TITLE [Demo image] ;//PARENT "MISC"
 @  12, 10 PRINT IMAGE [hmghpdf.png] WIDTH 190 HEIGHT 46
 @  62, 10 PRINT [This is a JPG Image] COLOR BLUE
 @  64, 10 PRINT IMAGE [hmghpdf.jpg] WIDTH 190 HEIGHT 46
-@ 114, 10 PRINT [This is a BMP Image]
+@ 114, 10 PRINT [This is a BLACK/WHITE BMP Image]
 @ 115, 10 PRINT IMAGE [hmghpdf.BMP] WIDTH 190 HEIGHT 46
 @ 170, 10 PRINT [This is a GIF Image] COLOR FUCSIA
 @ 172, 10 PRINT IMAGE [hmghpdf.GIF] WIDTH 190 HEIGHT 46

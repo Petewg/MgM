@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -51,7 +51,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 FUNCTION _DefineHotKey ( cParentForm , nMod , nKey , bAction )
 *-----------------------------------------------------------------------------*
    LOCAL nParentForm , nId , k , lSuccess
-// BK 22-Apr-2012
+   // BK 22-Apr-2012
    IF _HMG_BeginWindowMDIActive .AND. Empty( _HMG_ActiveFormName )  //JP MDI HotKey
       nParentForm := GetActiveMdiHandle()
       IF nParentForm == 0
@@ -67,13 +67,13 @@ FUNCTION _DefineHotKey ( cParentForm , nMod , nKey , bAction )
       MsgMiniGuiError ( "ON KEY: Parent Window is Not specified." )
    ENDIF
 
-// Check if the window/form is defined.
+   // Check if the window/form is defined.
    IF .NOT. _IsWindowDefined( cParentForm )
       MsgMiniGuiError( "Window " + cParentForm + " is not defined." )
    ENDIF
 
    _ReleaseHotKey ( cParentForm, nMod , nKey )
-// BK 22-Apr-2012
+   // BK 22-Apr-2012
    IF _HMG_BeginWindowMDIActive .AND. Empty( _HMG_ActiveFormName )  //JP MDI HotKey
       nParentForm := GetActiveMdiHandle()
       IF nParentForm == 0

@@ -1,0 +1,43 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+#define IDI_WATCH 1001
+//
+//	Resource name	Resource Type	Resource FileName
+//
+        CLOCK		ICON            res\clock.ico
+        ON		ICON            res\bell.ico
+        OFF		ICON            res\bell_off.ico
+        IDI_WATCH	ICON            res\clock2.ico
+	OPEN		BITMAP		res\open.bmp
+        TEST		BITMAP		res\sound.bmp
+	WATCH		BITMAP		res\watch2.bmp
+
+1 VERSIONINFO
+FILEVERSION 1,3,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "CompanyName", ""
+		VALUE "FileDescription", "Alarm Clock\000"
+		VALUE "FileVersion", "1.3.0.0"
+		VALUE "InternalName", "AlarmClock"
+		VALUE "LegalCopyright", "Copyright © 2003-06 by Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "AlarmClock.exe"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Freeware, but see help file for conditions\000"
+		VALUE "Aditional Notes", "Not for distribution without the authors permission"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

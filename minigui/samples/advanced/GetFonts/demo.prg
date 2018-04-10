@@ -55,7 +55,7 @@ Procedure Main()
 		ITEMS   GetFonts()
 		VALUE   1
 		TOOLTIP 'Fonts'
-                WIDTH   160
+                WIDTH   170
 	END COMBOBOX
 
 	DEFINE BUTTON Btn_1
@@ -76,17 +76,19 @@ Return
 
 
 Function GetFonts()
-   Local aFontList := {}
+   Local aFontList := {}, aTmpList, a
 
-   GetFontList( , , ANSI_CHARSET, , , , @aFontList )
+   aTmpList := GetFontList( , , ANSI_CHARSET )
+
+   FOR EACH a IN aTmpList
+      If a[ 4 ] != 0      /* TrueType fonts only */
+         Aadd( aFontList, a[ 1 ] )
+      EndIf
+   NEXT
 
 Return ( aFontList )
 
-// *-----------------------------------------------------------------------------*
-// DECLARE DLL_TYPE_VOID SwitchToThisWindow( DLL_TYPE_LONG hWnd, DLL_TYPE_BOOL lRestore ) ;
-	// IN USER32.DLL
-// *-----------------------------------------------------------------------------*
-#include "hbdll32.ch"
 *-----------------------------------------------------------------------------*
-DECLARE SwitchToThisWindow( hWnd, lRestore ) IN USER32.DLL
+DECLARE DLL_TYPE_VOID SwitchToThisWindow( DLL_TYPE_LONG hWnd, DLL_TYPE_BOOL lRestore ) ;
+	IN USER32.DLL
 *-----------------------------------------------------------------------------*

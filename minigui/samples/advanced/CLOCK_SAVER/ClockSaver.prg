@@ -178,7 +178,6 @@ FUNCTION DegToRad(x); RETURN x*PI()/180.0
 FUNCTION Signo(nValue); RETURN if(nValue<0, -1.0, 1.0)
 /*
 */
-/*
 FUNCTION Sin(nAngle,lRad)
    Local nHalfs:=0, nDouble, nFact:=1, nPower, nSquare, nCont, lMinus
    Local nSin, nSin0, nQuadrant
@@ -211,16 +210,13 @@ FUNCTION Sin(nAngle,lRad)
       nSin:=2*nSin*(1-nSin^2)^(1/2)
    next
 RETURN Round(if(nQuadrant>=3,-1.0,1.0)*nSin,6)
-*/
 /*
 */
-/*
 FUNCTION Cos(nAngle,lRad)
    Local nQuadrant, lMinus
    Angle360(nAngle,lRad,@nQuadrant)
    lMinus:=(nQuadrant=2) .or. (nQuadrant=3)
 RETURN Round(if(lMinus,-1.0,1.0)*(1.0-Sin(nAngle,lRad)^2)^0.5,6)
-*/
 /*
 */
 FUNCTION Angle360(nAngle,lRad,nQuadrant)

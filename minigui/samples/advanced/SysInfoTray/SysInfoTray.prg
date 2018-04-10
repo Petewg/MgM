@@ -97,7 +97,7 @@ Local lWinNT := IsWinNT()
 				NAME CPU CHECKMARK "CHECK"
 			SEPARATOR	
 			ITEM 'About...'		ACTION ShellAbout( "About " + PROGRAM + "#", PROGRAM + VERSION + CRLF + ;
-				Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN") ) IMAGE "INFO"
+				Chr(169) + COPYRIGHT, LoadTrayIcon(GetInstance(), "MAIN", 32, 32) ) IMAGE "INFO"
 			SEPARATOR	
 			ITEM 'Exit'		ACTION Form_1.Release IMAGE "EXIT"
 		END MENU
@@ -333,16 +333,11 @@ Local uuVar := chr(0)
 Return Asc(uVar)
 
 *--------------------------------------------------------*
-/*
 DECLARE DLL_TYPE_INT ;
 	_MyGetFreeSystemResources32@4( DLL_TYPE_INT ResType ) ;
 	IN RSRC32.DLL ;
 	ALIAS GetFreeSystemResources
-*/
 *--------------------------------------------------------*
-#include "hbdll32.ch"
-DECLARE _MyGetFreeSystemResources32@4( ResType ) IN RSRC32.DLL ALIAS GetFreeSystemResources
-
 
 #pragma BEGINDUMP
 
@@ -364,7 +359,7 @@ typedef struct
 {
 	LARGE_INTEGER Value;
 	LARGE_INTEGER Timer;
-}_VALUE ;
+}_VALUE;
 
 void GetCPUCounterValue(_VALUE* value)
 {
@@ -442,14 +437,14 @@ HB_FUNC( GETCPUUSAGE )
 	double DeltaValue;
 	double Value;
 
-	(VOID) GetCPUCounterValue(&newValue);
+	GetCPUCounterValue(&newValue);
 
-	DeltaTimer = (double) newValue.Timer.QuadPart - (double) oldValue.Timer.QuadPart;
-	DeltaValue = (double) newValue.Value.QuadPart - (double) oldValue.Value.QuadPart;
+	DeltaTimer = (double)newValue.Timer.QuadPart - (double)oldValue.Timer.QuadPart;
+	DeltaValue = (double)newValue.Value.QuadPart - (double)oldValue.Value.QuadPart;
 
 	oldValue = newValue;
 
-	Value = ( 1.0 - DeltaValue / DeltaTimer ) * 100;
+	Value = (1.0 - DeltaValue/DeltaTimer)*100;
 	if(Value<0)
 		Value = 0;
 

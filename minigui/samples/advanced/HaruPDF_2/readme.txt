@@ -80,7 +80,7 @@ Methods
 
 :DrawImage( cJPEGFile, nRow, nCol, nWitdh, nHeight )
 
-:DrawRetangle( nTop, nLeft, nWidth, nHeight, nPenSize, nFillType, anRGB )
+:DrawRectangle( nTop, nLeft, nWidth, nHeight, nPenSize, nFillType, anRGB )
 
 :DrawText( nRow, nCol, xValue, [ xPicture ], [ nFontSize ], [ cFontName ], [ nAngle ], [ anRGB ] )
 

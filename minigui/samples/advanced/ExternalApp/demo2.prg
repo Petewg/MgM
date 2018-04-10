@@ -27,7 +27,8 @@ FUNCTION Main()
 		TITLE "Minimize/Maximize Notepad Demo" ;
 		MAIN ;
 		TOPMOST ;
-		ON INIT StartIt()
+		ON INIT StartIt() ;
+		ON RELEASE CloseIt()
 
 		DEFINE BUTTON Button_1
 			ROW	10
@@ -54,8 +55,9 @@ FUNCTION Main()
 
 RETURN Nil
 
+
 FUNCTION StartIt()
-Local aTitles := GetTitles( Application.Handle )
+Local aTitles := GetTitles( This.Handle )
 
 	IF EMPTY( aScan( aTitles, {|e| APP_TITLE_EN $ e[1] } ) )
 
@@ -64,6 +66,22 @@ Local aTitles := GetTitles( Application.Handle )
 	ENDIF
 
 RETURN Nil
+
+
+FUNCTION CloseIt()
+Local aTitles := GetTitles( This.Handle )
+#define WM_CLOSE          16
+
+	IF ( n := aScan( aTitles, {|e| APP_TITLE_EN $ e[1] } ) ) > 0
+
+		hWnd := aTitles[ n ][ 2 ]
+
+		PostMessage ( hWnd, WM_CLOSE, 0, 0 )
+
+	ENDIF
+
+RETURN Nil
+
 
 FUNCTION MinimizeIt()
 Local aTitles := GetTitles( Application.Handle )
@@ -75,11 +93,11 @@ Local hWnd, n
 
 		IF IsIconic( hWnd )
 
-			Maximize( hWnd )
+			_Maximize( hWnd )
 
 		ELSE
 
-			Minimize( hWnd )
+			_Minimize( hWnd )
 
 		ENDIF
 

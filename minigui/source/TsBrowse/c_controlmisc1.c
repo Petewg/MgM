@@ -5,13 +5,6 @@
 #include <mgdefs.h>
 #include <commctrl.h>
 
-#include "item.api"
-
-#if defined( __BORLANDC__ ) && ! defined( HB_ARCH_64BIT )
-   #undef MAKELONG
-   #define MAKELONG( a, b )   ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
-#endif
-
 extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
                                 HB_BOOL bAlphaFormat, int iAlpfaConstant );
 
@@ -120,20 +113,7 @@ HB_FUNC( GETCLASSINFO )
       hb_retclen( ( char * ) &WndClass, sizeof( WNDCLASS ) );
    }
 }
-/*
-HB_FUNC( _GETCLIENTRECT )
-{
-   RECT     rc;
-   PHB_ITEM aMetr;
 
-   GetClientRect( ( HWND ) HB_PARNL( 1 ), &rc );
-
-   aMetr = Rect2Array( &rc );
-
-   _itemReturn( aMetr );
-   _itemRelease( aMetr );
-}
-*/
 HB_FUNC( ISICONIC )
 {
    hb_retl( IsIconic( ( HWND ) HB_PARNL( 1 ) ) );

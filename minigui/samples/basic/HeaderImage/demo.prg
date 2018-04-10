@@ -26,7 +26,7 @@ Function Main
 			ITEMS		aItems
 			VALUE		1
 			ALLOWSORT	.T.
-			ONGOTFOCUS	iif( lInit, NIL, ( HMG_SortColumn( 1 ), lInit := .T. ) )
+			ONGOTFOCUS	iif( lInit, , ( HMG_SortColumn( 1 ), lInit := .T. ) )
 		END GRID
 
 	END WINDOW

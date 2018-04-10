@@ -9,12 +9,14 @@
 
 Function Main
 
+   Local hSplitWnd
+
    DEFINE WINDOW Form_1 ;
       AT 0,0 ;
       WIDTH 640 HEIGHT 480 ;
       TITLE 'MiniGUI SplitBox Demo' ;
       MAIN ;
-      ON PAINT SPLITBOX_RESIZE()
+      ON PAINT SplitBox_Resize (hSplitWnd)
 
       DEFINE STATUSBAR
          STATUSITEM 'HMG Power Ready - Resize SplitBox And Enjoy !' 
@@ -26,7 +28,7 @@ Function Main
          END POPUP
       END MENU
 
-      DEFINE SPLITBOX 
+      DEFINE SPLITBOX HANDLE hSplitWnd
 
          DEFINE TOOLBAR ToolBar_1 BUTTONSIZE 95,30 FLAT RIGHTTEXT CAPTION 'ToolBar 1'
 
@@ -113,69 +115,22 @@ Function Main
 Return Nil
 
 *---------------------------------------------*
-PROCEDURE SPLITBOX_RESIZE
+PROCEDURE SplitBox_Resize (SplitBoxHandle)
 *---------------------------------------------*
-LOCAL Height    := GetFormClientHeight ("Form_1") - GetStatusbarHeight ("Form_1")
-LOCAL DifHeight := Height - REBAR_GETHEIGHT (GetSplitBoxHandle("Form_1"))
-LOCAL aRect     := REBAR_GETBANDINFO (GetSplitBoxHandle("Form_1"), 1)   // SplitChild_1
+LOCAL Height    := Form_1.ClientHeight - Form_1.Statusbar.Height
+LOCAL DifHeight := Height - REBAR_GETHEIGHT (SplitBoxHandle)
+LOCAL aRect     := REBAR_GETBANDINFO (SplitBoxHandle, 1)  // SplitChild_1
 LOCAL NewHeight := aRect [2] + DifHeight
 
-   REBAR_SETMINCHILDSIZE (GetSplitBoxHandle("Form_1"), 1, NewHeight)   // SplitChild_1
+   REBAR_SETMINCHILDSIZE (SplitBoxHandle, 1, NewHeight)   // SplitChild_1
 
 RETURN
-
-*---------------------------------------------*
-FUNCTION GetFormClientHeight (cForm)
-*---------------------------------------------*
-LOCAL aRect := { 0, 0, 0, 0 }
-LOCAL nValue := 0
-
-   if _IsWindowDefined (cForm)
-      GetClientRect (GetFormHandle(cForm), aRect)
-      nValue := aRect[4]
-   Endif
-
-RETURN (nValue)
-
-*---------------------------------------------*
-FUNCTION GetStatusbarHeight (cForm)
-*---------------------------------------------*
-RETURN GetControlHeight (cForm, "STATUSBAR")
-
-*---------------------------------------------*
-FUNCTION GetControlHeight (cForm, cControl)
-*---------------------------------------------*
-LOCAL aRect := { 0, 0, 0, 0 }
-LOCAL nValue := 0
-
-   if _IsControlDefined (cControl, cForm)
-      if GetProperty (cForm, cControl, "Visible")
-         GetClientRect (GetControlHandle (cControl, cForm), aRect)
-         nValue := aRect[4]
-      Endif
-   Endif
-
-RETURN (nValue)
-
-*---------------------------------------------*
-FUNCTION GetSplitBoxHandle (cParentForm)
-*---------------------------------------------*
-LOCAL i := GetFormIndex (cParentForm)
-
-   if i > 0 .AND. _HMG_aFormReBarHandle [i] <> 0
-      Return _HMG_aFormReBarHandle [i]
-   EndIf
-
-RETURN 0
 
 
 #pragma BEGINDUMP
 
 #include <mgdefs.h>
-#include <windows.h>
 #include <commctrl.h>
-
-#include "hbapi.h"
 
 //*********************************************
 //    by Dr. Claudio Soto (July 2014)

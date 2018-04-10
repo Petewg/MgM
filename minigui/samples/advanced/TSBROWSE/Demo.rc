@@ -1,0 +1,24 @@
+// Using a resource file like this, you can include bitmaps, icons and sounds
+// inside EXE.
+//
+//	Resource name	Resource Type   Resource FileName
+//
+ 	CAKE 		BITMAP		BITMAPS\Cake.bmp
+ 	CANCEL 		BITMAP		BITMAPS\Cancel.bmp
+ 	CLIV		BITMAP		BITMAPS\Clipv.bmp
+ 	HEAD 		BITMAP		BITMAPS\Head.bmp
+ 	LEVEL1 		BITMAP		BITMAPS\Level1.bmp
+ 	LEVEL2		BITMAP		BITMAPS\Level2.bmp
+ 	LEVEL3		BITMAP		BITMAPS\Level3.bmp
+ 	LOGO		BITMAP		BITMAPS\Logo.bmp
+ 	MARK		BITMAP		BITMAPS\Mark.bmp
+ 	OK 		BITMAP		BITMAPS\Ok.bmp
+ 	POINT 		BITMAP		BITMAPS\Point.bmp
+ 	REPORT		BITMAP		BITMAPS\Print16.bmp
+	Excel16 	BITMAP 		BitMaps\Excel16.bmp
+	Exitb16 	BITMAP 		BitMaps\Exitb16.bmp
+	TICK		BITMAP		BitMaps\Tick.bmp
+	br_ok		BITMAP		BitMaps\BR_OK.BMP
+	br_no		BITMAP		BitMaps\BR_NO.BMP
+	br_em		BITMAP		BitMaps\BR_EM.BMP
+	PAPER		BITMAP		BitMaps\Paper.bmp

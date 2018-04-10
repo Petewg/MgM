@@ -32,10 +32,10 @@
 	"Harbour GUI framework for Win32"
  	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -247,7 +247,13 @@
 #define WS_SIZEBOX      WS_THICKFRAME
 #define WS_TILEDWINDOW  WS_OVERLAPPEDWINDOW
 
-// Extendend Window Styles
+/*
+ * Common Window Styles
+ */
+#define WS_OVERLAPPEDWINDOW     (WS_OVERLAPPED + WS_CAPTION + WS_SYSMENU + WS_THICKFRAME + WS_MINIMIZEBOX + WS_MAXIMIZEBOX)
+/*
+ * Extended Window Styles
+ */
 #define WS_EX_DLGMODALFRAME     0x00000001
 #define WS_EX_NOPARENTNOTIFY    0x00000004
 #define WS_EX_TOPMOST           0x00000008
@@ -271,8 +277,8 @@
 #define WS_EX_STATICEDGE        0x00020000
 #endif
 #define WS_EX_APPWINDOW         0x00040000
-#define WS_EX_OVERLAPPEDWINDOW  ( WS_EX_WINDOWEDGE + WS_EX_CLIENTEDGE )
-#define WS_EX_PALETTEWINDOW     ( WS_EX_WINDOWEDGE + WS_EX_TOOLWINDOW + WS_EX_TOPMOST )
+#define WS_EX_OVERLAPPEDWINDOW  (WS_EX_WINDOWEDGE + WS_EX_CLIENTEDGE)
+#define WS_EX_PALETTEWINDOW     (WS_EX_WINDOWEDGE + WS_EX_TOOLWINDOW + WS_EX_TOPMOST)
 
 // r_commctrl
 #define RBS_TOOLTIPS        256

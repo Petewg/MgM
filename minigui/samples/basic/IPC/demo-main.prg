@@ -1,11 +1,13 @@
 /*
  * MINIGUI - Harbour Win32 GUI library Demo
  *
- * Reception data from another program 
+ * Reception data from another program / Прием данных из другой программы 
  *
  * Copyright 2016 Verchenko Andrey <verchenkoag@gmail.com>
  *
  * Transmission of messages between applications / processes using the WM_COPYDATA
+ * Передача сообщений между приложениями/процессами при помощи сообщения WM_COPYDATA 
+ *
 */
 
 ANNOUNCE RDDSYS

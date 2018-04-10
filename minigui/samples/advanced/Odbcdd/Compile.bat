@@ -1,0 +1,1 @@
+call ..\..\..\batch\compile.bat demo /o /l hbsqldd /l sddodbc %1 %2 %3 %4 %5 %6 %7 %8 %9

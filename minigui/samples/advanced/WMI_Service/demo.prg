@@ -240,10 +240,3 @@ Static Function IsWinXPHome()
   Local aVer := WinVersion()
 
 Return "Home" $ aVer[4]
-
-
-STATIC FUNCTION IsVistaOrLater()
-
-   Local cOSName := WindowsVersion() [1]
-
-RETURN ( 'Vista' $ cOSName .Or. '7' $ cOSName )

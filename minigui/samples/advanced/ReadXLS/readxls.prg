@@ -1,256 +1,295 @@
 /*
- * HMG ReadXLS Demo
- * Contributed by Isma Elias <farfa890@gmail.Com>
+ * HMG Read XLS Demo
+ * Contributed by Ismael Elias <farfa890@gmail.com>
  */
 
 #include "MiniGUI.ch"
 
-#define NTrim( n ) LTRIM( STR( n, IF( n == INT( n ), 0, 2 ) ) )
+STATIC aNamis   := {}
+STATIC aWitis   := {}
+STATIC aHojita  := {}
+STATIC aTypes
 
-Static aNamis   := {}
-Static aFila    := {}
-Static aWitis   := {}
-Static aHojita  := {}
+FUNCTION Main()
 
-Function Main()
-    Local nWcrt
-    Local nHcrt
+   DEFINE WINDOW winmain ;
+      TITLE 'LEER UN EXCEL !!!! ' ;
+      MAIN
 
-    SET FONT TO "Ms Sans Serif", 9
+   @050, 003 GRID Grid_1 ;
+      WIDTH winmain.Width - 20 ;
+      HEIGHT winmain.Height - 90 ;
+      HEADERS { "" } ;
+      WIDTHS { 100 } ;
+      ITEMS  { { "" } } ;
+      VALUE  1 ;
+      FONT "Helv" SIZE 10 ;
+      PAINTDOUBLEBUFFER
 
-    DEFINE WINDOW winmain ;
-        TITLE 'LEER UN EXCEL !!!! ' ;
-        MAIN
+   DEFINE BUTTON cmdxls
+      ROW 015
+      COL 005
+      WIDTH  98
+      HEIGHT 24
+      CAPTION "&Abrir XLS"
+      FONTNAME "Ms Sans Serif"
+      FONTSIZE 9
+      ACTION FAR_OpenXLS()
+      FLAT .T.
+   END BUTTON
 
-        nWcrt    := winmain.Width-20
-        nHcrt    := winmain.Height-90
+   DEFINE BUTTON cmdxls2dbf
+      ROW 015
+      COL 120
+      WIDTH  98
+      HEIGHT 24
+      CAPTION "&Export To DBF"
+      FONTNAME "Ms Sans Serif"
+      FONTSIZE 9
+      ACTION FAR_XLS2DBF()
+      FLAT .T.
+   END BUTTON
 
-        @050,003 GRID Grid_1 ;
-                 WIDTH nWcrt ;
-                 HEIGHT nHcrt ;
-                 HEADERS { "" } ;
-                 WIDTHS { 100 } ;
-                 ITEMS  { { "" } } ;
-                 VALUE  1
+   END WINDOW
 
-        DEFINE BUTTON cmdxls
-            ROW 015
-            COL 005
-            WIDTH  98
-            HEIGHT 24
-            CAPTION "&Abrir XLS"
-            ACTION FAR_OpenXLS()
-            FLAT .T.
-        END BUTTON
+   winmain.cmdxls2dbf.Enabled := FALSE
 
-    END WINDOW
+   ACTIVATE WINDOW winmain
 
-    ACTIVATE WINDOW winmain
-
-Return Nil
-
-
-Static Function FAR_OpenXLS()
-
-     LOCAL ccFile
-
-     if EMPTY(ccFile) .or. ccFile==NIL .or. LEN(ccFile)==0
-        ccFile := getfile({{"Archivos excel  (*.xls)","*.xls"}},"Seleccione un archivo excel",GetCurrentFolder(),.f.)
-     endif
-
-     if EMPTY(ccFile) .or. ccFile==NIL .or. LEN(ccFile)==0
-        return nil
-     endif
-
-     Load_XLS_CLI( ccFile )
+RETURN NIL
 
 
-Return Nil
+STATIC FUNCTION FAR_OpenXLS()
+
+   LOCAL ccFile
+
+   ccFile := GetFile( { { "Archivos excel (*.xls)", "*.xls" } }, "Seleccione un archivo excel", GetCurrentFolder(), .F. )
+
+   IF Empty( ccFile )
+      RETURN NIL
+   ENDIF
+
+   Load_XLS_CLI( ccFile )
+
+RETURN NIL
 
 
-Static Function Load_XLS_CLI( cArchivo )
+STATIC FUNCTION Load_XLS_CLI( cArchivo )
 
-     LOCAL nFilas   := 0
-     LOCAL nColumns := 0
-     LOCAL nnColumn := 0
-     LOCAL nuColumn
-     LOCAL ccValue
-     LOCAL i        := 0
-     LOCAL j        := 0
+   LOCAL nFilas
+   LOCAL nColumns
+   LOCAL nnColumn
+   LOCAL ccValue
+   LOCAL i
+   LOCAL j
 
-     LOCAL oExcel   as Object
-     LOCAL oWorkBook
-     LOCAL oHoja
-     LOCAL ccNameIs := ""
+   LOCAL oExcel   AS OBJECT
+   LOCAL oWorkBook
+   LOCAL oHoja
+   LOCAL ccNameIs
 
-     LOCAL NoSale  := TRUE
-     LOCAL nnWiti  := 0
-     LOCAL aTypes  AS ARRAY
+   LOCAL nnWiti
+   LOCAL aFila, aCellTypes  /*AS ARRAY*/
 
-     SET DECIMALS  TO 0
+   SET DECIMALS  TO 0
+   SET DATE FORMAT "YYYY-MM-DD"
 
-     oExcel := TOleAuto():New( "Excel.Application" )
-	  msgdebug( oExcel )
-     IF  oExcel == NIL
-          MsgStop('Excel no está instalado!','Error')
-          RETURN Nil
-     Endif
+   oExcel := CreateObject( "Excel.Application" )
+   IF Ole2TxtError() != "S_OK"
+      MsgStop( 'Excel no está instalado!', 'Error' )
+      RETURN NIL
+   ENDIF
 
-     oWorkBook := oExcel:WorkBooks:Open( cArchivo )
+   oWorkBook := oExcel:WorkBooks:Open( cArchivo )
 
-     oExcel:Sheets(1):Select()
-     oHoja := oExcel:ActiveSheet()
-     oExcel:Visible       := .F.     // <---- No Mostrar
-     oExcel:DisplayAlerts := .F.     // <---- esta elimina mensajes
-     //
-     ************** LOOP LECTURA PLANILLA EXCEL ******************
-     //
-     //------------ Averiguo Cantida de Filas    ------------------
-     //
-     nFilas    := oHoja:UsedRange:Rows:Count()
-     //
-     //------------ Averiguo Cantida de Columnas ------------------
-     //
-     nnColumn := 0
-     //
-     aNamis  := {}
-     //
-     i := 0
-     nuColumn := 0
+   oExcel:Sheets( 1 ):Select()
+   oHoja := oExcel:ActiveSheet()
+   oExcel:Visible       := .F.     // <---- No Mostrar
+   oExcel:DisplayAlerts := .F.     // <---- esta elimina mensajes
+   //
+   // ************** LOOP LECTURA PLANILLA EXCEL *****************
+   //
+   // ------------ Averiguo Cantida de Filas    ------------------
+   //
+   nFilas := oHoja:UsedRange:Rows:Count()
+   //
+   // ------------ Averiguo Cantida de Columnas ------------------
+   //
+   nnColumn := oHoja:UsedRange:Columns:Count
+   //
+   aNamis  := {}
+   //
+   nColumns := Len( GetProperty( "winmain", "Grid_1", "Item", 1 ) )
 
-     nColumns := Len( getProperty( "winmain", "Grid_1", "Item", 1 ) )
+   DO WHILE nColumns > 0
+      winmain.Grid_1.DeleteColumn( nColumns )
+      nColumns--
+   ENDDO
+   //
+   // ------------------------------------------------------------
+   //
+   FOR i = 1 TO nnColumn STEP 1
 
-     DO WHILE nColumns != 0
-         winmain.Grid_1.DeleteColumn( nColumns )
-         nColumns--
-     ENDDO
+      ccValue := AnyToString( oHoja:cells( 2, i ):value )
+      nnWiti := GetLenColumn( Len( ccValue ) )
 
-     Do While NoSale
+      ccNameIs := AnyToString( oHoja:cells( 1, i ):value )
+      winmain.Grid_1.AddColumn( i, ccNameIs, nnWiti, LToN( ValType( oHoja:cells( 2, i ):value ) == "N" ) )
+      DO EVENTS
 
-        i++
+      AAdd( aNamis, ccNameIs )
+      AAdd( aWitis, nnWiti )
 
-        ccValue := AnyToString( oHoja:cells(2,i):value )
-        nnWiti := GetLenColumn( LEN( ccValue )  )
+   NEXT i
+   //
+   winmain.Grid_1.SetFocus
+   //
+   // ------------------------------------------------------------
+   //
+   aFila  := {}
+   aCellTypes := {}
+   //
+   FOR i = 2 TO nFilas STEP 1
 
-	ccNameIs := AnyToString( oHoja:cells(01, i):value )
-        IF EMPTY( ccNameIs ) .or. LEN( ccNameIs ) == 0 .or. ccNameIs = ' '
+      FOR j = 1 TO nnColumn STEP 1
 
-           nuColumn := i - 1
-           NoSale := FALSE
+         ccValue := oHoja:cells( i, j ):value
+         AAdd( aFila, ccValue )
+         AAdd( aCellTypes, ValType( oHoja:cells( i, j ):value ) )
 
-        ELSE
+      NEXT j
 
-           winmain.Grid_1.AddColumn( i, ccNameIs, nnWiti, iif(Valtype( oHoja:cells(2,i):value ) == "N", 1, 0) )
-           DoEvents()
+      winmain.Grid_1.addItem( ItemChar( aFila, aCellTypes ) )
+      winmain.Grid_1.Value := ( winmain.Grid_1.ItemCount )
+      InkeyGUI()
 
-           AADD(aNamis, ccNameIs )
-           AADD(aWitis, 120)
-           nnColumn := i
-        ENDIF
+      AAdd( aHojita, aFila )
+      IF Valtype( aTypes ) != "A"
+         aTypes := aCellTypes
+      ENDIF
+      aFila  := {}
+      aCellTypes := {}
 
-     EndDo
-     //
-     IF  nuColumn <> nnColumn
-         MsgInfo("nuColumn " + str(nuColumn) +  " nnColumn " + str(nnColumn))
-     ENDIF
-     //
-     //------------------------------------------------------------
-     //
-     aFila  := {}
-     aTypes := {}
-     //
-     FOR i=2 TO nFilas Step 1
+   NEXT i
+   //
+   winmain.Grid_1.Value := 1
+   //
+   // ------------------------------------------------------------
+   //
+   FOR j = 1 TO nnColumn - 1 STEP 1
 
-          FOR j=1 TO nnColumn Step 1
+      ccNameIs := AnyToString( oHoja:cells( 1, j ):value )
+      ccValue := AnyToString( oHoja:cells( 2, j ):value )
+      IF Len( ccNameIs ) < Len( ccValue )
+         DoMethod( 'winmain', 'Grid_1', "ColumnAutoFit", j )
+      ELSE
+         DoMethod( 'winmain', 'Grid_1', "ColumnAutoFitH", j )
+      ENDIF
 
-             ccValue := AnyToString( oHoja:cells(i,j):value )
-             AADD(aFila, ccValue )
-             AADD(aTypes, "C")
+   NEXT j
+   winmain.Grid_1.ColumnWidth( nnColumn ) := GetProperty( 'winmain', 'Grid_1', "ColumnWidth", nnColumn ) - 12
+   //
+   // ------------------------------------------------------------
+   //
+   oExcel:DisplayAlerts := .F.   // <---- esta elimina mensajes
+   oWorkBook:Close()
+   oExcel:Quit()
 
-          NEXT j
+   oWorkBook := NIL
+   oHoja := NIL
+   oExcel := NIL
 
-          winmain.Grid_1.addItem( ItemChar(aFila, aTypes) )
+   winmain.title := cArchivo
+   winmain.cmdxls2dbf.Enabled := TRUE
 
-          AADD(aHojita, aFila )
-          aFila  := {}
-          aTypes := {}
-          DoEvents()
-
-     Next i
-
-     oExcel:DisplayAlerts := .F. // <---- esta elimina mensajes
-     oWorkBook:Close()
-     oExcel:Quit()
-
-     oWorkBook := NIL
-     oHoja := NIL
-     oExcel := NIL
-
-     winmain.title := cArchivo
-
-RETURN Nil
+RETURN NIL
 
 *----------------------------------------------------------------------*
-FUNCTION ItemChar(aLine, aType)
+STATIC FUNCTION ItemChar( aLine, aType )
 *----------------------------------------------------------------------*
 
-    LOCAL aRet:={}, x:=0, l:=0
+   LOCAL aRet, x, l
 
-    aRet:=array( len(aLine) )
-    l:=len(aRet)
+   aRet := Array( Len( aLine ) )
+   l := Len( aRet )
 
-    FOR x:=1 TO l
-        do case
-        case aType[x]=="N"
-             aRet[x]:=NTrim(aLine[x])
-        case aType[x]=="D"
-             aRet[x]:=dtoc(aLine[x])
-        case aType[x]=="L"
-             aRet[x]:=iif(aLine[x], "TRUE", "FALSE")
-        otherwise
-             aRet[x]:=aLine[x]
-        endcase
-    NEXT
+   FOR x := 1 TO l
+      DO CASE
+      CASE aType[ x ] == "N"
+         aRet[ x ] := hb_ntos( aLine[ x ] )
+      CASE aType[ x ] $ "DT"
+         aRet[ x ] := DToC( aLine[ x ] )
+      CASE aType[ x ] == "L"
+         aRet[ x ] := iif( aLine[ x ], "TRUE", "FALSE" )
+      OTHERWISE
+         aRet[ x ] := aLine[ x ]
+      ENDCASE
+   NEXT
 
 RETURN aRet
 
 
-STATIC FUNCTION AnyToString(csValue)
+#ifndef __XHARBOUR__
+   #xcommand TRY              => BEGIN SEQUENCE WITH {|__o| break(__o) }
+   #xcommand CATCH [<!oErr!>] => RECOVER [USING <oErr>] <-oErr->
+#endif
+
+*----------------------------------------------------------------------*
+STATIC FUNCTION FAR_XLS2DBF()
+*----------------------------------------------------------------------*
+
+   LOCAL i, aStruct := {}, cAlias, lOK := .T.
+
+   FOR i := 1 TO Len( aNamis )
+	AAdd( aStruct, { aNamis[i], iif(aTypes[i]=="T", "D", aTypes[i]), iif(aTypes[i]=="T", 8, aWitis[i]/10), 0 } )
+   NEXT
+
+   TRY
+	DbCreate( "EXPORT", aStruct, , .T., cAlias := "TEMP" + hb_ntos( _GetId() ) )
+   CATCH
+	MsgAlert( "Can not create an export database.", "Warning" )
+	lOK := .F.
+   END
+
+   IF lOK
+	IF ( cAlias )->( HMG_ArrayToDBF( aHojita ) )
+		( cAlias )->( DbCloseArea() )
+		MsgInfo( "Export to DBF was done." )
+	ENDIF
+   ENDIF
+
+RETURN lOK
+
+
+STATIC FUNCTION AnyToString( csValue )
 
    LOCAL ccValor
    LOCAL cdate
 
    DO CASE
-   CASE Valtype(csValue) == "N"
-        ccValor := hb_ntos(csValue)
+   CASE ValType( csValue ) == "N"
+      ccValor := hb_ntos( csValue )
 
-   CASE Valtype(csValue) == "D"
-        IF !Empty(csValue)
-           cdate := dtos(csValue)
-           ccValor := substr(cDate,1,4) + "-" + substr(cDate,5,2) + "-" + substr(cDate,7,2)
-        ELSE
-           ccValor := ""
-        ENDIF
-   CASE Valtype(csValue) == "T"
-        IF !Empty(csValue)
-           cdate := dtos(csValue)
-           ccValor := substr(cDate,1,4) + "-" + substr(cDate,5,2) + "-" + substr(cDate,7,2)
-        ELSE
-           ccValor := ""
-        ENDIF
+   CASE ValType( csValue ) $ "DT"
+      IF !Empty( csValue )
+         cdate := DToS( csValue )
+         ccValor := SubStr( cDate, 1, 4 ) + "-" + SubStr( cDate, 5, 2 ) + "-" + SubStr( cDate, 7, 2 )
+      ELSE
+         ccValor := ""
+      ENDIF
 
-   CASE Valtype(csValue) $ "CM"
-        IF Empty( csValue)
-           ccValor=""
-        ELSE
-           ccValor := "" + csValue+ ""
-        ENDIF
+   CASE ValType( csValue ) $ "CM"
+      IF Empty( csValue )
+         ccValor = ""
+      ELSE
+         ccValor := "" + csValue + ""
+      ENDIF
 
-   CASE Valtype(csValue) == "L"
-        ccValor := AllTrim(Str(iif(csValue == .F., 0, 1)))
+   CASE ValType( csValue ) == "L"
+      ccValor := hb_ntos( lton( csValue ) )
 
    OTHERWISE
-        ccValor := ""       // NOTE: Here we lose csValues we cannot convert
+      ccValor := ""       // NOTE: Here we lose csValues we cannot convert
 
    ENDCASE
 
@@ -259,18 +298,23 @@ RETURN( ccValor )
 
 STATIC FUNCTION GetLenColumn( nnLen )
 
-    LOCAL nnValor := 120
+   LOCAL nnValor
 
-    IF nnLen < 6
-       nnValor := 70
-    ELSEIF nnLen < 10
-       nnValor := 110
-    ELSEIF nnLen < 20
-       nnValor := 140
-    ELSEIF nnLen < 40
-       nnValor := 240
-    ELSE
-       nnValor := 380
-    ENDIF
+   IF nnLen < 6
+      nnValor := 70
+
+   ELSEIF nnLen < 11
+      nnValor := 110
+
+   ELSEIF nnLen < 21
+      nnValor := 180
+
+   ELSEIF nnLen < 41
+      nnValor := 300
+
+   ELSE
+      nnValor := 380
+
+   ENDIF
 
 RETURN( nnValor )

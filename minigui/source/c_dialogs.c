@@ -32,10 +32,10 @@
     "Harbour GUI framework for Win32"
     Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2018, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -45,11 +45,11 @@
 
    ---------------------------------------------------------------------------*/
 
-#define _WIN32_IE     0x0501
+#define _WIN32_IE      0x0501
 #ifdef __POCC__
-#define _WIN32_WINNT  0x0500
+# define _WIN32_WINNT  0x0500
 #else
-#define _WIN32_WINNT  0x0400
+# define _WIN32_WINNT  0x0400
 #endif
 
 #include <mgdefs.h>

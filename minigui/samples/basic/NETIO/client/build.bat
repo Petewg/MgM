@@ -1,2 +1,1 @@
-
-@call %~d0\miniguim\batch\buildapp.bat client
+call ..\..\..\..\batch\hbmk2.bat %* client.hbp client.hbc

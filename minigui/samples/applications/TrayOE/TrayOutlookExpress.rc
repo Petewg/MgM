@@ -1,0 +1,31 @@
+
+MAIN ICON "main.ico"
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Tray Icon for Outlook Express\000"
+		VALUE "FileVersion", "1.1.0.0"
+		VALUE "InternalName", "TrayOE\000"
+		VALUE "LegalCopyright", "Freeware 2005-2009"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "TrayOE.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

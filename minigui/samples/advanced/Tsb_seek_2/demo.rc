@@ -1,0 +1,14 @@
+
+AddRec        Bitmap  Images\AddRec.bmp
+Delete        Bitmap  Images\Delete.bmp
+Exit          Bitmap  Images\Exit.bmp  
+First         Bitmap  Images\First.bmp 
+Last          Bitmap  Images\Last.bmp  
+NewDok        Bitmap  Images\NewDok.bmp
+next          Bitmap  Images\next.bmp  
+Open          Bitmap  Images\Open.bmp  
+OpenNo        Bitmap  Images\OpenNo.bmp
+prior         Bitmap  Images\prior.bmp 
+Save          Bitmap  Images\Save.bmp  
+edit          Bitmap  Images\edit.bmp
+editNo        Bitmap  Images\editNo.bmp

@@ -1,0 +1,20 @@
+It appears you are connected to the Internet. 
+I see that you have been using your mouse. 
+Your computer seems to be turned on. 
+It looks like your keyboard is working correctly. 
+Your productivity has been decreasing lately. I hope everything is ok. 
+Sometimes I just popup for no particular reason, like now. 
+I have detected a mouse move, this was normal. 
+Your posture seems to be degrading, please reposition yourself now. 
+Your Windows Desktop icons are still there. 
+Your monitor is operational. 
+Power to your computer is constant, to protect from data loss you should install a power strip. 
+I have detected your F1 key (help) to be working correctly. 
+If you ever need any help, just ask me. 
+Background processing has rated your typing speed to be below normal. 
+Your mouse is dirty. Please clean it to restore optimal performance. 
+Unable to follow your instructions. 
+It is time to play a game, lets play hide-and-seek. 
+Would you like me to go away? 
+I thought you should know that today is [date]. 
+I noticed you have Internet Explorer installed on your system. You can use that to find things on the Internet.

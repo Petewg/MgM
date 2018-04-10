@@ -1,9 +1,18 @@
+/*
+  MINIGUI - Harbour Win32 GUI library Demo
+
+  Author: S.Rathinagiri <srgiri@dataone.in>
+
+  Revised by Grigory Filatov <gfilatov@inbox.ru>
+*/
+
 #include <hmg.ch>
 #include "hmg_hpdf.ch"
 
 Function Main
 
    define window main at 0, 0 width 300 height 300 main title 'HMG HPDF Document'
+
       define button create
          row 100
          col 90
@@ -12,8 +21,11 @@ Function Main
          action pdf_create()
          default .t.
       end button
+
       on key escape action thiswindow.release
+
    end window
+
    main.center
    main.activate
 
@@ -24,7 +36,7 @@ function pdf_create
    local cContent, cSyntax
    local cLB := chr( 10 )
 
-   SELECT HPDFDOC 'HMG_HPDF_Doc.pdf' TO lSuccess papersize HPDF_PAPER_A4
+   SELECT HPDFDOC 'HMG_HPDF_Doc.pdf' TO lSuccess PAPERSIZE HPDF_PAPER_A4
    SET HPDFDOC COMPRESS ALL
    SET HPDFDOC PAGEMODE TO OUTLINE
    SET HPDFINFO AUTHOR      TO 'S. Rathinagiri'
@@ -33,11 +45,16 @@ function pdf_create
    SET HPDFINFO SUBJECT     TO 'Documentation of LibHaru/HPDF Library in HMG'
    SET HPDFINFO KEYWORDS    TO 'HMG, HPDF, Documentation, LibHaru, Harbour, MiniGUI'
    SET HPDFINFO DATECREATED TO date() TIME time()
+
+   SET HPDFDOC FONT NAME TO 'Times-Roman'
+   SET HPDFDOC FONT SIZE TO 14
+
    if lSuccess
       START HPDFDOC
          START HPDFPAGE
             @ 126,  10 HPDFPRINT IMAGE "hmghpdf.jpg" WIDTH 190 HEIGHT 46
          END HPDFPAGE   
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "Introduction" 
             Draw_HeaderBox()
@@ -60,6 +77,7 @@ function pdf_create
                         '#include "hmg_hpdf.ch"'
             Print_Content( cContent )
          END HPDFPAGE
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "General Points" 
             Draw_HeaderBox()
@@ -70,9 +88,9 @@ function pdf_create
                         "2. The maximum page length/width is 5080 mm." 
             Print_Content( cContent )
          END HPDFPAGE
+
          SET HPDFDOC ROOTOUTLINE TITLE "Document Handling" NAME "DOC"
 
-        
          // Document Handling
          
          START HPDFPAGE
@@ -100,6 +118,7 @@ function pdf_create
             @ 215,  10 HPDFPRINT 'SELECT HPDFDOC "sample.pdf" PAPERLENGTH 300 PAPERWIDTH 300'
 
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "START HPDFDOC" PARENT "DOC"
             Draw_HeaderBox()
@@ -111,6 +130,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'START HPDFDOC'
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "END HPDFDOC" PARENT "DOC"
             Draw_HeaderBox()
@@ -123,6 +143,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'END HPDFDOC'
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "ABORT HPDFDOC" PARENT "DOC"
             Draw_HeaderBox()
@@ -135,6 +156,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'ABORT HPDFDOC'
          END HPDFPAGE
+
          SET HPDFDOC ROOTOUTLINE TITLE "HPDFINFO" NAME "HPDFINFO" PARENT "DOC"
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "SET HPDFINFO" PARENT "HPDFINFO"
@@ -168,6 +190,7 @@ function pdf_create
             @ 235,  10 HPDFPRINT 'SET HPDFINFO DATECREATED TO date() TIME time()'
             @ 240,  10 HPDFPRINT 'SET HPDFINFO DATEMODIFIED TO date() TIME time()'
          END HPDFPAGE
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "GET HPDFINFO" PARENT "HPDFINFO"
             Draw_HeaderBox()
@@ -198,7 +221,9 @@ function pdf_create
             @ 225,  10 HPDFPRINT 'GET HPDFINFO DATECREATED TO cDateTime'
             @ 230,  10 HPDFPRINT 'GET HPDFINFO DATEMODIFIED TO cDateTime'
          END HPDFPAGE
+
          SET HPDFDOC ROOTOUTLINE TITLE "Miscelleaneous" NAME "MISC" PARENT "DOC"
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "SET HPDFDOC COMPRESS" PARENT "MISC"
             Draw_HeaderBox()
@@ -214,6 +239,7 @@ function pdf_create
             @ 215,  10 HPDFPRINT 'SET HPDFDOC COMPRESS METADATA'
             @ 220,  10 HPDFPRINT 'SET HPDFDOC COMPRESS ALL'
          END HPDFPAGE
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "SET HPDFDOC PERMISSION" PARENT "MISC"
             Draw_HeaderBox()
@@ -229,6 +255,7 @@ function pdf_create
             @ 215,  10 HPDFPRINT 'SET HPDFDOC PERMISSION TO COPY'
             @ 220,  10 HPDFPRINT 'SET HPDFDOC PERMISSION TO EDIT_ALL'
          END HPDFPAGE
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "SET HPDFDOC PAGEMODE" PARENT "MISC"
             Draw_HeaderBox()
@@ -243,6 +270,7 @@ function pdf_create
             @ 210,  10 HPDFPRINT 'SET HPDFDOC PAGEMODE TO THUMBS'
             @ 215,  10 HPDFPRINT 'SET HPDFDOC PAGEMODE TO FULL_SCREEN'
          END HPDFPAGE
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "SET HPDFDOC PASSWORD" PARENT "MISC"
             Draw_HeaderBox()
@@ -255,6 +283,7 @@ function pdf_create
             @ 200,  10 HPDFPRINT 'SET HPDFDOC PASSWORD TO OWNER "Password_1"'
             @ 205,  10 HPDFPRINT 'SET HPDFDOC PASSWORD TO OWNER "Password_1" USER "Password_2"'
          END HPDFPAGE
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "SET HPDFDOC PAGENUMBERING" PARENT "MISC"
             Draw_HeaderBox()
@@ -272,10 +301,10 @@ function pdf_create
             Print_Syntax( cSyntax )
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING'
-            @ 205,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM PAGE 2'
-            @ 210,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM PAGE 2 STYLE ROMAN'
-            @ 215,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM PAGE 2 STYLE LETTERS LOWER'
-            @ 220,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM PAGE 2 STYLE ROMAN PREFIX "Page: "'
+            @ 205,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM 2'
+            @ 210,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM 2 STYLE ROMAN'
+            @ 215,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM 2 STYLE LETTERS LOWER'
+            @ 220,  10 HPDFPRINT 'SET HPDFDOC PAGENUMBERING FROM 2 STYLE ROMAN PREFIX "Page: "'
          END HPDFPAGE
 
          // Encoding
@@ -304,6 +333,7 @@ function pdf_create
 
          // Outline
          SET HPDFDOC ROOTOUTLINE TITLE "Outline" NAME "OUTLINE" 
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "ROOTOUTLINE" PARENT "OUTLINE"
             Draw_HeaderBox()
@@ -322,6 +352,7 @@ function pdf_create
             @ 200,  10 HPDFPRINT 'SET HPDFDOC ROOTOUTLINE TITLE "Index" NAME "INDEX"'
             @ 205,  10 HPDFPRINT 'SET HPDFDOC ROOTOUTLINE TITLE "Sub Index" NAME "SUBINDEX" PARENT "INDEX"'
          END HPDFPAGE
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "PAGEOUTLINE" PARENT "OUTLINE"
             Draw_HeaderBox()
@@ -363,6 +394,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'START HPDFPAGE'
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "END HPDFPAGE" PARENT "PAGE"
             Draw_HeaderBox()
@@ -374,6 +406,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'END HPDFPAGE'
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "INSERT HPDFPAGE" PARENT "PAGE"
             Draw_HeaderBox()
@@ -385,6 +418,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'INSERT HPDFPAGE BEFORE PAGE 3'
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "SELECT HPDFPAGE" PARENT "PAGE"
             Draw_HeaderBox()
@@ -396,6 +430,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'SELECT HPDFPAGE 3'
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "HMG_HPDF_PAGENO()" PARENT "PAGE"
             Draw_HeaderBox()
@@ -407,6 +442,7 @@ function pdf_create
             @ 190,  10 HPDFPRINT "Examples:" SIZE 15
             @ 200,  10 HPDFPRINT 'nCurrentPage := HMG_HPDF_PageNo()'
          END HPDFPAGE         
+
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "HMG_HPDF_PAGECOUNT()" PARENT "PAGE"
             Draw_HeaderBox()
@@ -803,37 +839,36 @@ function pdf_create
             && Print_Header( "Error Messages" )
          && END HPDFPAGE
 
-
-         // links          
+         // Links
          START HPDFPAGE
             SET HPDFDOC PAGEOUTLINE TITLE "Links" 
             Draw_HeaderBox()
             Print_Header( "Links" )
             @  70,  10 HPDFURLLINK "1. http://www.hmgforum.com" TO "http://www.hmgforum.com" size 15 color { 0, 0, 255 }
-            @  80,  10 HPDFURLLINK "2. http://harbour-project.org" TO "http://harbour-project.org" size 15 color { 0, 0, 255 }
+            @  80,  10 HPDFURLLINK "2. https://harbour.github.io" TO "https://harbour.github.io" size 15 color { 0, 0, 255 }
             @  90,  10 HPDFURLLINK "3. http://libharu.org" TO "http://libharu.org" size 15 color { 0, 0, 255 }
          END HPDFPAGE
-         
-         
+
       END HPDFDOC
    endif   
-   execute file 'HMG_HPDF_Doc.pdf'
+
+   EXECUTE FILE 'HMG_HPDF_Doc.pdf'
    
 return nil
 
 static function Draw_HeaderBox
-   @  10,  10 HPDFPRINT RECTANGLE TO  40, 200 COLOR { 50, 50, 255 } FILLED
+   @  10,  10 HPDFPRINT RECTANGLE TO 40, 200 COLOR { 50, 50, 255 } FILLED
 return nil
 
-static function Print_Header( cHeader )   
+static function Print_Header( cHeader )
    @  30, 105 HPDFPRINT cHeader SIZE 30 COLOR { 255, 255, 0 } CENTER
 return nil
 
-static function Print_Content( cContent) 
-   @  50,  10 HPDFPRINT  cContent TO 120, 200 //JUSTIFY
+static function Print_Content( cContent )
+   @  50,  10 HPDFPRINT cContent TO 120, 200 //JUSTIFY
 return nil
 
-static function Print_Syntax( cSyntax ) 
-   @ 125,  10 HPDFPRINT "Syntax:" FONT "Courier-Bold" size 18 
+static function Print_Syntax( cSyntax )
+   @ 125,  10 HPDFPRINT "Syntax:" FONT "Courier-Bold" size 16
    @ 130,  10 HPDFPRINT cSyntax TO 180, 200 FONT "Courier-Bold" size 15 //JUSTIFY 
 return nil

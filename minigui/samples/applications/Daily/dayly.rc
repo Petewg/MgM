@@ -1,0 +1,54 @@
+
+MAIN            ICON        RES\dayly.ico
+TRAY            ICON        RES\tray.ico
+
+RG1             BITMAP       RES\rg2a.bmp
+RG2             BITMAP       RES\rg2r.bmp
+RG3             BITMAP       RES\rg2g.bmp
+RG4             BITMAP       RES\rg2b.bmp
+
+TP1           BITMAP       RES\tp_1.bmp
+TP2           BITMAP       RES\tp_2.bmp
+TP3           BITMAP       RES\tp_3.bmp
+TP4           BITMAP       RES\tp_4.bmp
+TP5           BITMAP       RES\tp_5.bmp
+TP6           BITMAP       RES\tp_6.bmp
+TP7           BITMAP       RES\tp_7.bmp
+
+FOLDER          BITMAP       RES\folder.bmp
+
+M_INFO          BITMAP       RES\info.bmp
+M_WND           BITMAP       RES\wnd.bmp
+M_HELP          BITMAP       RES\help.bmp
+M_SET           BITMAP       RES\set.bmp
+M_DLG           BITMAP       RES\dlg.bmp
+M_EXIT          BITMAP       RES\exit.bmp
+
+
+1 VERSIONINFO
+FILEVERSION 2,0,0,0
+PRODUCTVERSION 2,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+
+		VALUE "FileDescription", "Reminder program \000"
+		VALUE "LegalCopyright", "Copyright © 2007-2012 Sergey Logoshny \000"
+		VALUE "CompanyName", "S.Logoshny http://minisoft.tora.ru \000"
+		VALUE "FileVersion", "2.0.0.0"
+		VALUE "InternalName", "Dayly-SL\000"
+		VALUE "OriginalFilename", "Dayly.exe\000"
+		VALUE "Comments", "Freeware 2012"
+
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

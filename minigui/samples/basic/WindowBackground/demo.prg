@@ -4,41 +4,43 @@
  * Make Your Project Look Great!
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
-Function Main()
+#define COLOR_WINDOW	5
+
+PROCEDURE Main()
 
    DEFINE WINDOW Form_Main ;
-      AT 0,0 ;
-      WIDTH 640 HEIGHT 480 ;
-      TITLE 'Window Background Demo' ;
-      MAIN 
+      CLIENTAREA 640, 480 ;
+      TITLE 'How to set a Window background' ;
+      BKBRUSH iif(IsThemed(), nRGB2Arr( GetSysColor( COLOR_WINDOW ) ), ) ;
+      MAIN
 
       DEFINE MAIN MENU
 
-         DEFINE POPUP "&Create Window Background Brush"
+         DEFINE POPUP "&Create BKBrush"
 
             POPUP "&SOLID"
-               ITEM '&RED' ACTION SetBrush( 1 )
-               ITEM '&GREEN' ACTION SetBrush( 2 )
-               ITEM '&BLUE' ACTION SetBrush( 3 )
+               ITEM '&RED' ACTION SetBKBrush( 1 )
+               ITEM '&GREEN' ACTION SetBKBrush( 2 )
+               ITEM '&BLUE' ACTION SetBKBrush( 3 )
+               ITEM 'LightGoldenrod&3' ACTION SetBKBrush( 13 )
             END POPUP
 
             POPUP "&HATCHED"
-               ITEM '&VERTICAL' ACTION SetBrush( 4 )
-               ITEM '&HORIZONTAL' ACTION SetBrush( 5 )
-               ITEM '&FDIAGONAL' ACTION SetBrush( 6 )
-               ITEM '&BDIAGONAL' ACTION SetBrush( 7 )
-               ITEM '&CROSS' ACTION SetBrush( 8 )
-               ITEM '&DIAGCROS' ACTION SetBrush( 9 )
-                           END POPUP
+               ITEM '&VERTICAL' ACTION SetBKBrush( 4 )
+               ITEM '&HORIZONTAL' ACTION SetBKBrush( 5 )
+               ITEM '&FDIAGONAL' ACTION SetBKBrush( 6 )
+               ITEM '&BDIAGONAL' ACTION SetBKBrush( 7 )
+               ITEM '&CROSS' ACTION SetBKBrush( 8 )
+               ITEM '&DIAGCROS' ACTION SetBKBrush( 9 )
+            END POPUP
 
             POPUP "&PATTERN"
-               ITEM '&HEARTS' ACTION SetBrush( 10 )
-               ITEM '&WALL' ACTION SetBrush( 11 )
-               ITEM 'S&TEEL' ACTION SetBrush( 12 )
-               ITEM 'S&QUARE' ACTION SetBrush( 13 )
-               ITEM '&SMILES' ACTION SetBrush( 14 )
+               ITEM '&HEARTS' ACTION SetBKBrush( 10 )
+               ITEM '&WALL' ACTION SetBKBrush( 11 )
+               ITEM 'S&TEEL' ACTION SetBKBrush( 12 )
+               ITEM '&SMILES' ACTION SetBKBrush( 14 )
             END POPUP
 
             SEPARATOR
@@ -49,81 +51,65 @@ Function Main()
 
       END MENU
 
+      ThisWindow.Height := ( ThisWindow.Height ) + GetMenuBarHeight()
+
    END WINDOW
 
    CENTER WINDOW Form_Main
 
    ACTIVATE WINDOW Form_Main
 
-Return Nil
+RETURN
 
 
-/*
-*/
-Function SetBrush( style )
-   Local newBrush 
-   
-   HB_SYMBOL_UNUSED( newBrush )
+STATIC PROCEDURE SetBKBrush( nBrushStyle )
 
-  SWITCH style
-   CASE 1   
-   DEFINE BKGBRUSH newBrush SOLID IN WINDOW Form_Main COLOR RED
-   EXIT
-      
-   CASE 2
-   DEFINE BKGBRUSH newBrush SOLID IN Form_Main COLOR GREEN
-   EXIT
-   
-   CASE 3
-   DEFINE BKGBRUSH newBrush SOLID IN Form_Main COLOR BLUE
-   EXIT
+   LOCAL hBrush
 
-   CASE 4
-   DEFINE BKGBRUSH newBrush HATCHED IN WINDOW Form_Main ;
-      HATCHSTYLE HS_VERTICAL COLOR {0,200,0}
-   EXIT
-      
-   CASE 5
-   DEFINE BKGBRUSH newBrush HATCHED IN Form_Main HS_HORIZONTAL 
-   EXIT
-      
-   CASE 6
-   DEFINE BKGBRUSH newBrush HATCHED IN Form_Main HS_FDIAGONAL
-   EXIT
+   SWITCH nBrushStyle
+   CASE  1 ; ADD BKBRUSH hBrush SOLID COLOR RED   TO FORM Form_Main 
+      EXIT
 
-   CASE 7
-   DEFINE BKGBRUSH newBrush HATCHED IN Form_Main HS_BDIAGONAL
-   EXIT
+   CASE  2 ; ADD BKBRUSH hBrush SOLID COLOR GREEN TO Form_Main
+      EXIT
 
-   CASE 8
-   DEFINE BKGBRUSH newBrush HATCHED IN Form_Main HS_CROSS
-   EXIT
+   CASE  3 ; ADD BKBRUSH hBrush SOLID COLOR BLUE TO Form_Main
+      EXIT
 
-   CASE 9
-   DEFINE BKGBRUSH newBrush HATCHED IN Form_Main HS_DIAGCROSS
-   EXIT
+   CASE 13 ; ADD BKBRUSH hBrush SOLID COLOR { 205, 190, 112 } TO Form_Main
+      EXIT
 
-   CASE 10
-   DEFINE BKGBRUSH newBrush PATTERN IN WINDOW Form_Main BITMAP hearts.bmp
-   EXIT
+   CASE  4 ; ADD BKBRUSH hBrush HATCHED HATCHSTYLE HS_VERTICAL COLOR { 0, 200, 0 } TO Form_Main
+      EXIT
 
-   CASE 11
-   DEFINE BKGBRUSH newBrush PATTERN IN Form_Main BITMAP WALL
-   EXIT
+   CASE  5 ; ADD BKBRUSH hBrush HATCHED HS_HORIZONTAL TO Form_Main
+      EXIT
 
-   CASE 12
-   DEFINE BKGBRUSH newBrush PATTERN IN Form_Main BITMAP WALL2
-   EXIT
+   CASE  6 ; ADD BKBRUSH hBrush HATCHED HS_FDIAGONAL TO Form_Main
+      EXIT
 
-   CASE 13
-   DEFINE BKGBRUSH newBrush PATTERN IN Form_Main BITMAP WALL3
-   EXIT
+   CASE  7 ; ADD BKBRUSH hBrush HATCHED HS_BDIAGONAL TO Form_Main
+      EXIT
 
-   CASE 14
-   DEFINE BKGBRUSH newBrush PATTERN IN Form_Main PICTURE smiles.jpg
+   CASE  8 ; ADD BKBRUSH hBrush HATCHED HS_CROSS TO Form_Main
+      EXIT
 
-  END SWITCH
+   CASE  9 ; ADD BKBRUSH hBrush HATCHED HS_DIAGCROSS TO Form_Main
+      EXIT
 
-  ERASE WINDOW Form_Main
- 
-Return Nil
+   CASE 10 ; ADD BKBRUSH hBrush PATTERN PICTURE hearts.bmp TO Form_Main
+      EXIT
+
+   CASE 11 ; ADD BKBRUSH hBrush PATTERN PICTURE WALL TO Form_Main
+      EXIT
+
+   CASE 12 ; ADD BKBRUSH hBrush PATTERN PICTURE WALL2 TO Form_Main
+      EXIT
+
+   CASE 14 ; ADD BKBRUSH hBrush PATTERN PICTURE smiles.gif TO Form_Main
+
+   END SWITCH
+
+   ERASE WINDOW Form_Main
+
+RETURN

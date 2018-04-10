@@ -1,11 +1,11 @@
 /*
-  Get file from Internet via HTTP - MiniGUI DEMO
-  (C)2005 Jacek Kubica <kubica@wssk.wroc.pl>
+  Get file from Internet via HTTP - MiniGUI Demo
+  (c) 2005 Jacek Kubica <kubica@wssk.wroc.pl>
 */
 
 #include "minigui.ch"
 #include "fileio.ch"
-#include "hbsocket.ch"
+
 FUNCTION Main()
 
    DEFINE WINDOW Form_1 ;
@@ -16,9 +16,9 @@ FUNCTION Main()
       BACKCOLOR { 212, 208, 200 } ;
       NOSIZE NOMAXIMIZE
 
-   @ 19 + 25, 110 TEXTBOX ServerURL VALUE "harbour.github.io" ;
+   @ 19 + 25, 110 TEXTBOX ServerURL VALUE "hmgextended.com" ;
       WIDTH 175 HEIGHT 20
-   @ 44 + 25, 110 TEXTBOX FileURL VALUE "/art/harbour-logo.jpg" ;
+   @ 44 + 25, 110 TEXTBOX FileURL VALUE "/miniguilogo.jpg" ;
       WIDTH 175 HEIGHT 20
    @ 69 + 25, 110 TEXTBOX LocalName VALUE "MyPicture.jpg" ;
       WIDTH 120 HEIGHT 20

@@ -1,0 +1,7 @@
+$   $ - symbol of comments in begin of string
+$   format of string
+$   group#Name#phone number
+
+Family#Brother#555555
+Job#Boss#555555
+Friends#Peter#55555

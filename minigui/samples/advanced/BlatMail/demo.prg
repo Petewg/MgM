@@ -31,7 +31,7 @@ Memvar _autentica
 Procedure Main()
   Private _usuario   := ""
   Private _senha     := ""
-  Private _smtp      := "smtp.mail.yahoo.com"
+  Private _smtp      := ""
   Private _ident     := ""
   Private _de        := ""
   Private _autentica := .F.

@@ -6,163 +6,179 @@
 
 #include "minigui.ch"
 
-#define SRCCOPY		0x00CC0020
-
-static hWnd
-static nZoom := 3 // Zoom default
+#define SRCCOPY  0x00CC0020
 
 **************
-Procedure Main
+PROCEDURE Main
 **************
 
-Define Window Form_1 ;
-	At 0, 0 ;
-	Width 600 ;
-	Height 400 ;
-	Title 'Zoom' ;
-	Main ;
-	Nosize ;
-   On Init hWnd := This.Handle
+   DEFINE WINDOW Form_1 ;
+      MAIN ;
+      CLIENTAREA 550, 350 ;
+      TITLE 'Zoom' ;
+      NOMAXIMIZE NOSIZE
 
-	DEFINE LABEL Label_1
-		ROW 5
-		COL 5
-		WIDTH 120
-		HEIGHT 40
-		VALUE ""
-		CLIENTEDGE .T.
-	END LABEL
+      DEFINE LABEL Label_1
+         ROW 5
+         COL 5
+         WIDTH 120
+         HEIGHT 40
+         VALUE ""
+         CLIENTEDGE .T.
+      END LABEL
 
-	DEFINE LABEL Label_2
-		ROW 50
-		COL 5
-		WIDTH 120
-		HEIGHT 30
-		VALUE ""
-		FONTNAME "Courier New"
-		FONTSIZE 12
-		FONTBOLD .T.
-		FONTCOLOR {255,255,255}
-		BACKCOLOR {000,105,000}
-		CENTERALIGN .T.
-		CLIENTEDGE .T.
-	END LABEL
+      DEFINE LABEL Label_2
+         ROW 50
+         COL 5
+         WIDTH 120
+         HEIGHT 30
+         VALUE ""
+         FONTNAME "Courier New"
+         FONTSIZE 12
+         FONTBOLD .T.
+         FONTCOLOR { 255, 255, 255 }
+         BACKCOLOR { 000, 105, 000 }
+         CENTERALIGN .T.
+         CLIENTEDGE .T.
+      END LABEL
 
-	Define Main Menu
-		Popup 'Zoom'
-			Item 'Factor 1' name Factor1 Action check_menu( 1 )
-			Item 'Factor 2' name Factor2 Action check_menu( 2 )
-			Item 'Factor 3' name Factor3 Action check_menu( 3 ) Checked
-			Item 'Factor 4' name Factor4 Action check_menu( 4 )
-			Item 'Factor 5' name Factor5 Action check_menu( 5 )
-			Separator
-			Item 'Exit' Action Form_1.Release
+      DEFINE MAIN MENU
 
-		End Popup
-	End Menu
+         POPUP 'Zoom'
 
-	On Key Escape Action thiswindow.Release
+         ITEM 'Factor 1' NAME Factor1 ACTION check_menu( 1 )
+         ITEM 'Factor 2' NAME Factor2 ACTION check_menu( 2 )
+         ITEM 'Factor 3' NAME Factor3 ACTION check_menu( 3 ) CHECKED
+         ITEM 'Factor 4' NAME Factor4 ACTION check_menu( 4 )
+         ITEM 'Factor 5' NAME Factor5 ACTION check_menu( 5 )
+         SEPARATOR
+         ITEM 'Exit' ACTION Form_1.Release
 
-	Define Timer oTimer Interval 40 Action ZoomImage()
+         END POPUP
 
-End Window
+      END MENU
 
-Center window Form_1
+      ON KEY ESCAPE ACTION ThisWindow.Release()
 
-Activate window Form_1
+      DEFINE TIMER oTimer INTERVAL 40 ACTION ZoomImage()
 
-Return
+   END WINDOW
 
-**************************
-static function check_menu( nFactor )
-**************************
+   CENTER WINDOW Form_1
 
-local n
+   ACTIVATE WINDOW Form_1
 
-	nZoom := nFactor
+RETURN
 
-	for n := 1 to 5
-		SetProperty( "Form_1", "Factor" + str(n, 1), "Checked", ( n == nFactor ) )
-	next
+*************************************
+STATIC FUNCTION check_menu( nFactor )
+*************************************
 
-return NIL
+   LOCAL n
+
+   FOR n := 1 TO 5
+      SetProperty( "Form_1", "Factor" + Str( n, 1 ), "Checked", ( n == nFactor ) )
+   NEXT
+
+RETURN NIL
 
 *************************
-static function ZoomImage
+STATIC FUNCTION GetZoom()
 *************************
 
-local hDeskTop
-local aPos
-local hDC
-local hPen
-local hOldPen, aColor
-local nTop, nLeft, nWidth, nHeight
+   LOCAL n
+   LOCAL nZoom := 3
 
-	hDeskTop := GetDC(0)
-	aPos := GetCursorPos()
+   FOR n := 1 TO 5
+      IF GetProperty( "Form_1", "Factor" + Str( n, 1 ), "Checked" ) == .T.
+         nZoom := n
+         EXIT
+      ENDIF
+   NEXT
 
-	aColor := nRGB2Arr( GetPixel( hDeskTop, aPos[2], aPos[1] ) )
-	Form_1.Label_1.Backcolor := aColor
-	Form_1.Label_2.Value := StrZero( aColor[1], 3 ) + "," + StrZero( aColor[2], 3 ) + "," + StrZero( aColor[3], 3 )
+RETURN nZoom
 
-	nTop := 10
-	nLeft := 130
-	nWidth := 400
-	nHeight := 300
+***************************
+STATIC FUNCTION ZoomImage()
+***************************
 
-	hDC := GetDC( hWnd )
-	hPen := CreatePen( 0, 1, 255 )
+   LOCAL nZoom
+   LOCAL hDeskTop
+   LOCAL aPos
+   LOCAL hWnd
+   LOCAL hDC
+   LOCAL hPen
+   LOCAL hOldPen, aColor
+   LOCAL nTop, nLeft, nWidth, nHeight
 
-	Moveto( hDC, nLeft-1, nTop-1 )
-	Lineto( hDC, nLeft + nWidth, nTop-1 )
-	Lineto( hDC, nLeft + nWidth, nTop+nHeight )
-	Lineto( hDC, nLeft -1, nTop+nHeight )
-	Lineto( hDC, nLeft-1, nTop-1 )
+   nZoom := GetZoom()
 
-	StretchBlt( hDC, nLeft, nTop, nWidth, nHeight, hDeskTop, aPos[2]-nWidth/(nZoom*2), aPos[1]-nHeight/(2*nZoom), nWidth/nZoom, nHeight/nZoom, SRCCOPY )
+   hDeskTop := GetDC( 0 )
 
-	hOldPen := SelectObject( hDC, hPen )
+   aPos := GetCursorPos()
 
-	Moveto( hDC, nLeft+nWidth/2+1, nTop-1 )
-	Lineto( hDC, nLeft+nWidth/2+1, nTop+nHeight+1 )
+   aColor := nRGB2Arr( GetPixel( hDeskTop, aPos[ 2 ], aPos[ 1 ] ) )
+   Form_1.Label_1.Backcolor := aColor
+   Form_1.Label_2.Value := StrZero( aColor[ 1 ], 3 ) + "," + StrZero( aColor[ 2 ], 3 ) + "," + StrZero( aColor[ 3 ], 3 )
 
-	Moveto( hDC, nLeft+1, nTop+nHeight/2+1 )
-	Lineto( hDC, nLeft+nWidth+1, nTop+nHeight/2+1 )
+   hWnd := ThisWindow.Handle
+   hDC := GetDC( hWnd )
+   hPen := CreatePen( 0, 1, 255 )
 
-	SelectObject( hDC, hOldPen )
-	DeleteObject( hPen )
+   nTop := 10
+   nLeft := 130
+   nWidth := 400
+   nHeight := 300
 
-	ReleaseDC( hWnd, hDC )
+   Moveto( hDC, nLeft - 1, nTop - 1 )
+   Lineto( hDC, nLeft + nWidth, nTop - 1 )
+   Lineto( hDC, nLeft + nWidth, nTop + nHeight )
+   Lineto( hDC, nLeft - 1, nTop + nHeight )
+   Lineto( hDC, nLeft - 1, nTop - 1 )
 
-	ReleaseDC( 0, hDeskTop )
+   StretchBlt( hDC, nLeft, nTop, nWidth, nHeight, hDeskTop, aPos[ 2 ] - nWidth / ( 2 * nZoom ), aPos[ 1 ] - nHeight / ( 2 * nZoom ), nWidth / nZoom, nHeight / nZoom, SRCCOPY )
 
-return nil
+   hOldPen := SelectObject( hDC, hPen )
+
+   Moveto( hDC, nLeft + nWidth / 2 + 1, nTop - 1 )
+   Lineto( hDC, nLeft + nWidth / 2 + 1, nTop + nHeight + 1 )
+
+   Moveto( hDC, nLeft + 1, nTop + nHeight / 2 + 1 )
+   Lineto( hDC, nLeft + nWidth + 1, nTop + nHeight / 2 + 1 )
+
+   SelectObject( hDC, hOldPen )
+   DeleteObject( hPen )
+
+   ReleaseDC( hWnd, hDC )
+
+   ReleaseDC( 0, hDeskTop )
+
+RETURN NIL
 
 
 #pragma BEGINDUMP
 
-#include "windows.h"
-#include "hbapi.h"
+#include "mgdefs.h"
 
 HB_FUNC( STRETCHBLT )
 {
-   hb_retl( StretchBlt( (HDC) hb_parnl( 1 ) ,
-			hb_parni( 2 ) ,
-			hb_parni( 3 ) ,
-			hb_parni( 4 ) ,
-			hb_parni( 5 ) ,
-			(HDC) hb_parnl( 6 ) ,
-			hb_parni( 7 ) ,
-			hb_parni( 8 ) ,
-			hb_parni( 9 ) ,
-			hb_parni( 10 ) ,
-			(DWORD) hb_parnl( 11 )
-			) );
+   hb_retl( StretchBlt( ( HDC ) HB_PARNL( 1 ) ,
+                        hb_parni( 2 ) ,
+                        hb_parni( 3 ) ,
+                        hb_parni( 4 ) ,
+                        hb_parni( 5 ) ,
+                        ( HDC ) HB_PARNL( 6 ) ,
+                        hb_parni( 7 ) ,
+                        hb_parni( 8 ) ,
+                        hb_parni( 9 ) ,
+                        hb_parni( 10 ) ,
+                        ( DWORD ) hb_parnl( 11 )
+                        ) );
 }
 
 HB_FUNC( GETPIXEL )
 {
-   hb_retnl( GetPixel( ( HDC ) hb_parnl( 1 ), hb_parni( 2 ), hb_parni( 3 ) ) );
+   hb_retnl( GetPixel( ( HDC ) HB_PARNL( 1 ), hb_parni( 2 ), hb_parni( 3 ) ) );
 }
 
 #pragma ENDDUMP

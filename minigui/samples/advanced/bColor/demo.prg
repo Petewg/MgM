@@ -3,7 +3,7 @@
  * bColor('R'), bColor('R+'), bColor('R++'), bColor('R-'), bColor('R--')
 */
 
-#include "hmg.ch"
+#include "minigui.ch"
 
 #ifdef __XHARBOUR__
    #define ENUMINDEX hb_EnumIndex()

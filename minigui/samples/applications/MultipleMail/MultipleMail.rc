@@ -1,0 +1,37 @@
+MAIN ICON "RES\MAIN.ICO"
+STOP ICON "RES\STOP.ICO"
+
+SEND BITMAP "RES\MAIL.BMP"
+ADD BITMAP "RES\ATTACH.BMP"
+DELREC BITMAP "RES\CUT.BMP"
+DELETE BITMAP "RES\DELETE.BMP"
+CONFIG BITMAP "RES\CONFIG.BMP"
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Send many messages with attachment from the one mailbox\000"
+		VALUE "FileVersion", "1.0.0.0"
+		VALUE "InternalName", "MultipleMail\000"
+		VALUE "LegalCopyright", "Copyright © 2007 Grigory Filatov\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "MultipleMail.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

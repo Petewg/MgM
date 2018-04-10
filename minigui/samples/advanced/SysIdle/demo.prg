@@ -71,6 +71,5 @@ Function MyEvents ( hWnd, nMsg, wParam, lParam )
    if !Empty(nMsg) .and. nMsg != WM_TIMER
       n_Secs := SECONDS()
    endif
-   
 
 Return Events( hWnd, nMsg, wParam, lParam )

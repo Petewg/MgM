@@ -12,7 +12,7 @@ function _HMG_HPDF_INIT ( cPDFFile, nOrientation, nPaperSize, nPaperLength, nPap
    default nOrientation := 1
    default nPaperSize   := 1
 
-   Public _HMG_HPDFDATA := Array( 1 )
+   //Public _HMG_HPDFDATA := Array( 1 )
 
    if valtype( _HMG_HPDFDATA[ 1 ] ) == 'U'
       _HMG_HPDFDATA[ 1 ] := { ;

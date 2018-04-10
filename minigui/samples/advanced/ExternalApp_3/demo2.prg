@@ -1,7 +1,8 @@
 /*
  * MINIGUI - Harbour Win32 GUI library Demo
  *
- * Read a text from another program
+ * Read a text from another program / Прочитать текст из другой программы
+ *
  * Copyright 2015 Verchenko Andrey <verchenkoag@gmail.com>
  * Copyright 2015 Sidorov Aleksandr <aksidorov@mail.ru>
  *
@@ -115,10 +116,7 @@ RETURN If( GetClassName( hChild ) == "Edit", MyGetEditText( hChild ), "" )
 #pragma BEGINDUMP
 
 #include <mgdefs.h>
-#include "hbapi.h"
 #include "hbapiitm.h"
-
-static BOOL CALLBACK EnumChildProc( HWND hWnd, LPARAM lParam );
 
 HB_FUNC( MYGETEDITTEXT )
 {
@@ -143,6 +141,7 @@ HB_FUNC( MYGETEDITTEXT )
    }
 }
 
+static BOOL CALLBACK EnumChildProc( HWND hWnd, LPARAM lParam );
 ///////////////////////////////////////////////////////////////
 // based on http://forums.fivetechsupport.com/viewtopic.php?p=57503
 HB_FUNC( ENUMCHILDWINDOWS )
@@ -168,7 +167,7 @@ static BOOL CALLBACK EnumChildProc( HWND hWnd, LPARAM lParam )
 
    hb_itemRelease( pHWnd );
 
-   return ( ( BOOL ) hb_parl( -1 ) );
+   return( ( BOOL ) hb_parl( -1 ) );
 }
 
 #pragma ENDDUMP

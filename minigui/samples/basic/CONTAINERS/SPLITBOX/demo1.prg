@@ -9,6 +9,8 @@
 
 Function Main
 
+	Local hSplitWnd
+
 	DEFINE WINDOW Form_1 ;
 		AT 0,0 ;
 		WIDTH 800 HEIGHT 600 ;
@@ -31,28 +33,31 @@ Function Main
 				ITEM 'Get List Value'		ACTION MsgInfo ( Str ( Form_1.SplitBox.List_1.Value ) ) 
 				SEPARATOR	
 				ITEM 'Set EditBox Value'	ACTION Form_1.SplitBox.Edit_1.Value := 'New Value'
-				ITEM 'Set Grid Value'	ACTION Form_1.SplitBox.Grid_1.Value := 2
-				ITEM 'Set List Value'	ACTION Form_1.SplitBox.List_1.Value := 5
+				ITEM 'Set Grid Value'		ACTION Form_1.SplitBox.Grid_1.Value := 2
+				ITEM 'Set List Value'		ACTION Form_1.SplitBox.List_1.Value := 5
 				SEPARATOR	
-				ITEM 'Disable EditBox'	ACTION Form_1.SplitBox.Edit_1.Enabled := .f.
-				ITEM 'Disable Grid'	ACTION Form_1.SplitBox.Grid_1.Enabled := .f.
-				ITEM 'Disable List'	ACTION Form_1.SplitBox.List_1.Enabled := .f.
+				ITEM 'Disable EditBox'		ACTION Form_1.SplitBox.Edit_1.Enabled := .F.
+				ITEM 'Disable Grid'		ACTION Form_1.SplitBox.Grid_1.Enabled := .F.
+				ITEM 'Disable List'		ACTION Form_1.SplitBox.List_1.Enabled := .f.
 				SEPARATOR	
-				ITEM 'Enable EditBox'	ACTION Form_1.SplitBox.Edit_1.Enabled := .t.
-				ITEM 'Enable Grid'	ACTION Form_1.SplitBox.Grid_1.Enabled := .t.
-				ITEM 'Enable List'	ACTION Form_1.SplitBox.List_1.Enabled := .t.
+				ITEM 'Enable EditBox'		ACTION Form_1.SplitBox.Edit_1.Enabled := .T.
+				ITEM 'Enable Grid'		ACTION Form_1.SplitBox.Grid_1.Enabled := .T.
+				ITEM 'Enable List'		ACTION Form_1.SplitBox.List_1.Enabled := .T.
 				SEPARATOR	
-				ITEM 'Hide EditBox'	ACTION Form_1.SplitBox.Edit_1.Hide()
-				ITEM 'Show EditBox'	ACTION Form_1.SplitBox.Edit_1.Show()
+				ITEM 'Hide EditBox'		ACTION Form_1.SplitBox.Edit_1.Hide()
+				ITEM 'Show EditBox'		ACTION Form_1.SplitBox.Edit_1.Show()
 				SEPARATOR	
-				ITEM 'Exit'		ACTION Form_1.Release
+				ITEM 'Hide SplitBox'		ACTION iif(IsWindowVisible( hSplitWnd ), HideWindow ( hSplitWnd ), )
+				ITEM 'Show SplitBox'		ACTION iif(IsWindowVisible( hSplitWnd ), , ShowWindow ( hSplitWnd ) )
+				SEPARATOR	
+				ITEM 'Exit'			ACTION Form_1.Release
 			END POPUP
 			POPUP '&Help'
-				ITEM 'About'		ACTION MsgInfo ("MiniGUI SplitBox Demo","A COOL Feature ;)") 
+				ITEM 'About'			ACTION MsgInfo ("MiniGUI SplitBox Demo","A COOL Feature ;)") 
 			END POPUP
 		END MENU
 	
-		DEFINE SPLITBOX 
+		DEFINE SPLITBOX HANDLE hSplitWnd
 
 			DEFINE TOOLBAR ToolBar_1 BUTTONSIZE 85,85 FLAT
 
@@ -95,4 +100,3 @@ Function Main
 	ACTIVATE WINDOW Form_1
 
 Return Nil
-

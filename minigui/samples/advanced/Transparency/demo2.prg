@@ -7,7 +7,7 @@
 
 #include "hmg.ch" 
 
-Function Main() 
+FUNCTION Main() 
 	LOCAL nTra := 128
 
 	DEFINE WINDOW Win_1 ;

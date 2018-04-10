@@ -1,0 +1,19 @@
+# Incremental-Mode compilation
+-inc
+
+# Folder where are placed all * .obj
+-workdir=obj
+
+# Name of the generated EXE-module
+-oTsb_Config
+
+# List of all *.prg in project
+Tsb_Config.prg
+IniSavePosWinCfg.prg
+IniSaveTbrwsCfg.prg
+Form_color.prg
+Form_fonts.prg
+Form_memo.prg
+Form_operat.prg
+Form_About.prg
+dbase_use.prg

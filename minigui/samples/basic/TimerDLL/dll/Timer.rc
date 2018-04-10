@@ -1,0 +1,73 @@
+#include "..\resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON		ICON			"icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG DIALOG  0, 0, 219, 144
+STYLE DS_ABSALIGN | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_VISIBLE
+CAPTION "Timer Settings"
+FONT 10, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Apply",IDOK,7,123,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,65,123,50,14
+    PUSHBUTTON      "Exit",IDC_QUIT,162,123,50,14
+    EDITTEXT        IDC_TIME,148,12,52,14,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,200,12,12,14
+    EDITTEXT        IDC_DESCRIPTION,7,46,205,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_BROWSE,108,91,50,14
+    PUSHBUTTON      "Test",IDC_TEST,162,91,50,14
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,7,7,205,25
+    ICON            IDI_ICON,IDC_STATIC,20,10,20,20
+    LTEXT           "Timer interval (min):",IDC_STATIC,74,15,68,8
+    LTEXT           "Message:",IDC_STATIC,7,35,42,8
+    LTEXT           "Sound:",IDC_STATIC,7,64,26,8
+    EDITTEXT        IDC_FILE,7,75,205,14,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,113,205,1
+END
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Simple Timer\000"
+		VALUE "FileVersion", "1.1.0.0"
+		VALUE "InternalName", "Timer"
+		VALUE "LegalCopyright", "Freeware 2005-2008\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "Timer.exe"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409, 0x04B0
+}
+}

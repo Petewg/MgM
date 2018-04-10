@@ -232,10 +232,10 @@ FUNCTION _HMG_HPDF_PRINT ( nRow, nCol, cFontName, nFontSize, nRColor, nGColor, n
    LOCAL nyPos := nHeight - _HMG_HPDF_MM2Pixel( nRow )
    LOCAL oFont := Nil
    LOCAL cFont
-   LOCAL nRad
+   LOCAL nRad := 0
 
    DEFAULT cFontName := ''
-   DEFAULT nFontSize := 12
+   DEFAULT nFontSize := _HMG_HPDFDATA[ 1 ][ 9 ]
    DEFAULT nRColor := 0
    DEFAULT nGColor := 0
    DEFAULT nBColor := 0
@@ -266,19 +266,25 @@ FUNCTION _HMG_HPDF_PRINT ( nRow, nCol, cFontName, nFontSize, nRColor, nGColor, n
    ENDIF
 
    // set font
-   cFont := _HMG_HPDF_SetFont( cFontName, lBold, lItalic )
-   IF Len( AllTrim( cFont ) ) == 0
-      _HMG_HPDF_Error( 6, cFontName )
-      RETURN NIL
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName, lBold, lItalic ) )
+
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+
+      cFont := HPDF_LoadTTFontFromFile( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
    ELSE
-      IF Upper( AllTrim( cFont ) ) == "SYMBOL" .OR. Upper( AllTrim( cFont ) ) == "ZAPFDINGBATS"
-         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, Nil )
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, Nil )
       ELSE
-         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
       ENDIF
    ENDIF
    IF oFont == Nil
-      _HMG_HPDF_Error( 6 )
+      _HMG_HPDF_Error( 6, cFontName )
       RETURN NIL
    ELSE
       HPDF_Page_SetFontAndSize( _HMG_HPDFDATA[ 1 ][ 7 ], oFont, nFontSize )
@@ -306,16 +312,14 @@ FUNCTION _HMG_HPDF_PRINT ( nRow, nCol, cFontName, nFontSize, nRColor, nGColor, n
       HPDF_PAGE_TEXTOUT( _HMG_HPDFDATA[ 1 ][ 7 ], nxPos, nyPos, cText )
       HPDF_Page_EndText( _HMG_HPDFDATA[ 1 ][ 7 ] )
       IF lStrikeout .OR. lUnderline
-         HPDF_Page_SetLineWidth( _HMG_HPDFDATA[ 1 ][ 7 ], 1 )
-         IF lColor
-            HPDF_Page_SetRGBStroke( _HMG_HPDFDATA[ 1 ][ 7 ], nRColor / 255, nGColor / 255, nBColor / 255 )
-         ELSE
-            HPDF_Page_SetRGBStroke( _HMG_HPDFDATA[ 1 ][ 7 ], 0.0, 0.0, 0.0 )
+         IF lUnderline  // simulate underline
+            _HMG_HPDF_LINE( _HMG_HPDF_Pixel2MM( nHeight - nyPos ), _HMG_HPDF_Pixel2MM( nxPos ), _HMG_HPDF_Pixel2MM( nHeight - nyPos + ( nTextWidth * -sin( nRad ) ) ), _HMG_HPDF_Pixel2MM( nxPos + ( nTextWidth * cos( nRad ) ) ), _HMG_HPDF_Pixel2MM( .5 ), nRColor, nGColor, nBColor, .T., lColor )
          ENDIF
-         nyPos += IF( lUnderline, -1, _HMG_HPDF_Pixel2MM( nFontSize ) / 2 + 1 )
-         HPDF_Page_MoveTo( _HMG_HPDFDATA[ 1 ][ 7 ], nxPos, nyPos )
-         HPDF_Page_LineTo( _HMG_HPDFDATA[ 1 ][ 7 ], nxPos + nTextWidth, nyPos )
-         HPDF_Page_Stroke( _HMG_HPDFDATA[ 1 ][ 7 ] )
+         IF lStrikeout  // simulate strikeout
+            nyPos += ( ( nFontSize / 2.5 ) * cos( nRad ) )
+            nxPos -= ( ( nFontSize / 2.5 ) * sin( nRad ) )
+            _HMG_HPDF_LINE( _HMG_HPDF_Pixel2MM( nHeight - nyPos ), _HMG_HPDF_Pixel2MM( nxPos ), _HMG_HPDF_Pixel2MM( nHeight - nyPos + ( nTextWidth * -sin( nRad ) ) ), _HMG_HPDF_Pixel2MM( nxPos + ( nTextWidth * cos( nRad ) ) ), _HMG_HPDF_Pixel2MM( .5 ), nRColor, nGColor, nBColor, .T., lColor )
+         ENDIF
       ENDIF
    ENDIF
 
@@ -339,7 +343,7 @@ FUNCTION _HMG_HPDF_MULTILINE_PRINT ( nRow, nCol, nToRow, nToCol, cFontName, nFon
    LOCAL hLin
 
    DEFAULT cFontName := ''
-   DEFAULT nFontSize := 12
+   DEFAULT nFontSize := _HMG_HPDFDATA[ 1 ][ 9 ]
    DEFAULT nRColor := 0
    DEFAULT nGColor := 0
    DEFAULT nBColor := 0
@@ -369,19 +373,25 @@ FUNCTION _HMG_HPDF_MULTILINE_PRINT ( nRow, nCol, nToRow, nToCol, cFontName, nFon
    ENDIF
 
    // set font
-   cFont := _HMG_HPDF_SetFont( cFontName, lBold, lItalic )
-   IF Len( AllTrim( cFont ) ) == 0
-      _HMG_HPDF_Error( 6 )
-      RETURN NIL
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName, lBold, lItalic ) )
+
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+
+      cFont := HPDF_LoadTTFontFromFile( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
    ELSE
-      IF Upper( AllTrim( cFont ) ) == "SYMBOL" .OR. Upper( AllTrim( cFont ) ) == "ZAPFDINGBATS"
-         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, Nil )
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, Nil )
       ELSE
-         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
       ENDIF
    ENDIF
    IF oFont == Nil
-      _HMG_HPDF_Error( 6 )
+      _HMG_HPDF_Error( 6, cFontName )
       RETURN NIL
    ELSE
       IF nAngle != 0
@@ -431,7 +441,7 @@ FUNCTION _HMG_HPDF_MULTILINE_PRINT ( nRow, nCol, nToRow, nToCol, cFontName, nFon
 
             WHILE  ( nLLen := HPDF_Page_MeasureText ( _HMG_HPDFDATA[ 1 ][ 7 ], cText, _HMG_HPDF_MM2Pixel( nToCol - nCol ), HPDF_TRUE ) ) > 1
                nyPosLin := nyPos - nLin * hLin
-               nTextWidth := HPDF_Page_TextWidth( _HMG_HPDFDATA[ 1 ][ 7 ], SubStr( cText, 1, nLLen - 1 ) )
+               nTextWidth := HPDF_Page_TextWidth( _HMG_HPDFDATA[ 1 ][ 7 ], SubStr( cText, 1, nLLen -1 ) )
                cText := LTrim( SubStr( cText, nLLen ) )
                DO CASE
                CASE Upper( AllTrim( cAlign ) ) == 'CENTER'
@@ -1093,27 +1103,25 @@ FUNCTION _HMG_HPDF_SetPageLink( nRow, nCol, cText, nPage, cFontName, nFontSize, 
    ENDIF
 
    // set font
-   IF Len( AllTrim( cFontName ) ) == 0
-      oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], _HMG_HPDFDATA[ 1 ][ 8 ], _HMG_HPDFDATA[ 1 ][ 10 ] )
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName ) )
+
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+
+      cFont := HPDF_LoadTTFontFromFile( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
    ELSE
-      cFontName := AllTrim( cFontName )
-      IF Upper( SubStr( cFontName, Len( cFontName ) - 3 ) ) == '.TTF' // load ttf font
-         cFont := HPDF_LOADTTFONTFROMFILE( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, .T. )
-         IF Len( AllTrim( cFont ) ) == 0
-            _HMG_HPDF_Error( 6 )
-            RETURN NIL
-         ENDIF
-         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, Nil )
       ELSE
-         IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
-            oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, Nil )
-         ELSE
-            oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
-         ENDIF
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
       ENDIF
    ENDIF
    IF oFont == Nil
-      _HMG_HPDF_Error( 6 )
+      _HMG_HPDF_Error( 6, cFontName )
       RETURN NIL
    ELSE
       HPDF_Page_SetFontAndSize( _HMG_HPDFDATA[ 1 ][ 7 ], oFont, nFontSize )
@@ -1126,7 +1134,7 @@ FUNCTION _HMG_HPDF_SetPageLink( nRow, nCol, cText, nPage, cFontName, nFontSize, 
       ENDCASE
       HPDF_Page_BeginText( _HMG_HPDFDATA[ 1 ][ 7 ] )
       HPDF_PAGE_TEXTOUT( _HMG_HPDFDATA[ 1 ][ 7 ], nxPos, nyPos, cText )
-      aRect := { nxPos - 4, nyPos + nFontsize + 4, nxPos + nTextWidth + 4, nyPos - 4 }
+      aRect := { nxPos -4, nyPos + nFontsize + 4, nxPos + nTextWidth + 4, nyPos -4 }
       oAnnot := HPDF_Page_CreateLinkAnnot( _HMG_HPDFDATA[ 1 ][ 7 ], aRect, oDest )
       IF lBorder
          IF nBorderWidth == 0
@@ -1143,7 +1151,7 @@ FUNCTION _HMG_HPDF_SetPageLink( nRow, nCol, cText, nPage, cFontName, nFontSize, 
 
 RETURN NIL
 
-FUNCTION _HMG_HPDF_SetURLLink( nRow, nCol, cText, cLink, cFontName, nFontSize, nRColor, nGColor, nBColor, cAlign, lColor, lFont, lSize  )
+FUNCTION _HMG_HPDF_SetURLLink( nRow, nCol, cText, cLink, cFontName, nFontSize, nRColor, nGColor, nBColor, cAlign, lColor, lFont, lSize )
 
    LOCAL nHeight := _HMG_HPDFDATA[ 1 ][ 5 ]
    LOCAL nTextWidth
@@ -1181,27 +1189,25 @@ FUNCTION _HMG_HPDF_SetURLLink( nRow, nCol, cText, cLink, cFontName, nFontSize, n
    ENDIF
 
    // set font
-   IF Len( AllTrim( cFontName ) ) == 0
-      oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], _HMG_HPDFDATA[ 1 ][ 8 ], _HMG_HPDFDATA[ 1 ][ 10 ] )
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName ) )
+
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+
+      cFont := HPDF_LoadTTFontFromFile( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
    ELSE
-      cFontName := AllTrim( cFontName )
-      IF Upper( SubStr( cFontName, Len( cFontName ) - 3 ) ) == '.TTF' // load ttf font
-         cFont := HPDF_LOADTTFONTFROMFILE( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, .T. )
-         IF Len( AllTrim( cFont ) ) == 0
-            _HMG_HPDF_Error( 6 )
-            RETURN NIL
-         ENDIF
-         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, Nil )
       ELSE
-         IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
-            oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, Nil )
-         ELSE
-            oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
-         ENDIF
+         oFont := HPDF_GetFont( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
       ENDIF
    ENDIF
    IF oFont == Nil
-      _HMG_HPDF_Error( 6 )
+      _HMG_HPDF_Error( 6, cFontName )
       RETURN NIL
    ELSE
       HPDF_Page_SetFontAndSize( _HMG_HPDFDATA[ 1 ][ 7 ], oFont, nFontSize )
@@ -1214,7 +1220,7 @@ FUNCTION _HMG_HPDF_SetURLLink( nRow, nCol, cText, cLink, cFontName, nFontSize, n
       ENDCASE
       HPDF_Page_BeginText( _HMG_HPDFDATA[ 1 ][ 7 ] )
       HPDF_PAGE_TEXTOUT( _HMG_HPDFDATA[ 1 ][ 7 ], nxPos, nyPos, cText )
-      aRect := { nxPos - 4, nyPos + nFontsize + 4, nxPos + nTextWidth + 4, nyPos - 4 }
+      aRect := { nxPos -4, nyPos + nFontsize + 4, nxPos + nTextWidth + 4, nyPos -4 }
       HPDF_Page_CreateURILinkAnnot( _HMG_HPDFDATA[ 1 ][ 7 ], aRect, cLink )
       HPDF_Page_EndText( _HMG_HPDFDATA[ 1 ][ 7 ] )
    ENDIF
@@ -1313,7 +1319,7 @@ FUNCTION _HMG_HPDF_GetInfo( cAttrib )
       SET DATE german
       cRetValue := DToC( SToD( SubStr( cRetValue, 3, 8 ) ) ) + " " + SubStr( cRetValue, 11, 2 ) + ":" + SubStr( cRetValue, 13, 2 ) + ":" + SubStr( cRetValue, 15, 2 )
       __SetCentury( bc )
-      SET( _SET_DATEFORMAT, bd )
+      Set( _SET_DATEFORMAT, bd )
    ENDIF
 
 RETURN cRetValue
@@ -1779,86 +1785,182 @@ FUNCTION _HMG_HPDF_INIT_PAPERSIZE( nPaperSize )
 
 RETURN NIL
 
-FUNCTION _HMG_HPDF_SetFont( cFontName, lBold, lItalic )
+FUNCTION _HMG_HPDF_SetFont( cFntName, lBold, lItalic )
 
-   LOCAL nPos, cFont
-   LOCAL aHpdf_Font := { 'Courier', ;
-      'Courier-Bold', ;
-      'Courier-Oblique', ;
-      'Courier-BoldOblique', ;
-      'Helvetica', ;
-      'Helvetica-Bold', ;
-      'Helvetica-Oblique', ;
-      'Helvetica-BoldOblique', ;
-      'Times-Roman', ;
-      'Times-Bold', ;
-      'Times-Italic', ;
-      'Times-BoldItalic', ;
-      'Symbol', ;
-      'ZapfDingbats' }
+   LOCAL cFntTmp, cFnt, cFntNoExt
 
    DEFAULT lBold := .F., lItalic := .F.
-   IF Len( AllTrim( cFontName ) ) == 0
-      cFont := _HMG_HPDFDATA[ 1 ][ 8 ]
-      IF lBold .AND. lItalic
-         cFont += '-BoldOblique'
-      ELSEIF lBold
-         cFont += '-Bold'
-      ELSEIF lItalic
-         cFont += '-Oblique'
-      ENDIF
-   ELSEIF ( nPos := AScan( aHpdf_Font, {| cFont| At( cFontName, cFont ) > 0 } ) ) > 0
-      cFont := aHpdf_Font[ nPos ]
-      IF ( nPos := At( '-', cFont ) ) > 0 .AND. At( '-', cFontName ) == 0
-         cfont := SubStr( cFont, 1, nPos - 1 )
-      ENDIF
-      IF SubStr( cFont, 1, 5 ) == 'Times'
-         IF lBold .AND. lItalic
-            cFont += '-BoldItalic'
-         ELSEIF lBold
-            cFont += '-Bold'
-         ELSEIF lItalic
-            cFont += '-Italic'
-         ELSE
-            IF At( '-', cFontName ) != 0
-               cFont := cFontName
-            ELSE
-               cFont := 'Times-Roman'
-            ENDIF
-         ENDIF
-      ELSEIF AllTrim( cFontName ) == "Symbol" .OR. AllTrim( cFontName ) == "ZapfDingbats"
 
-      ELSE
-         IF lBold .AND. lItalic
-            cFont += '-BoldOblique'
-         ELSEIF lBold
-            cFont += '-Bold'
-         ELSEIF lItalic
-            cFont += '-Oblique'
-         ELSE
-            IF At( '-', cFontName ) != 0
-               cFont := cFontName
-            ENDIF
-         ENDIF
-      ENDIF
-   ELSEIF Upper( SubStr( cFontName, Len( cFontName ) - 3 ) ) == '.TTF' // load ttf font
-      cFont := SubStr( cFontName, 1, Len( cFontName ) - 4 )
-      IF lBold .AND. lItalic
-         cFontName := cFont + 'bi.ttf'
-      ELSEIF lBold
-         cFontName := cFont + 'bd.ttf'
-      ELSEIF lItalic
-         cFontName := cFont + 'i.ttf'
-      ENDIF
-      cFont := HPDF_LOADTTFONTFROMFILE( _HMG_HPDFDATA[ 1 ][ 1 ], cFontName, .T. )
-      IF Len( AllTrim( cFont ) ) == 0
-         RETURN ''
-      ENDIF
-   ELSE
-      cFont := cFontName
+   IF Len( AllTrim( cFntName ) ) == 0
+      cFntName := _HMG_HPDFDATA[ 1 ][ 8 ]
    ENDIF
 
-RETURN cFont
+   IF Upper ( cFileExt ( cFntName ) ) == '.TTF' // load ttf font
+      cFnt := _HMG_HPDF_ExistInLocal( cFntName )
+      IF !Empty( cFnt )
+         RETURN cFnt
+      ENDIF
+   ENDIF
+
+   cFntTmp := cFileNoExt( cFntName )
+   cFntNoExt := cFntTmp
+   cFnt := _HMG_HPDF_SeekHaruFonts( cFntTmp, lBold, lItalic )
+   IF !Empty( cFnt )
+      RETURN cFnt
+   ENDIF
+
+   cFnt := _HMG_HPDF_SeekEquivalences( cFntNoExt, lBold, lItalic )
+   IF !Empty( cFnt )
+      RETURN cFnt
+   ENDIF
+
+   cFnt := _HMG_HPDF_SeekInLocalOptions( cFntNoExt, lBold, lItalic )
+   IF !Empty( cFnt )
+      cFntTmp := _HMG_HPDF_ExistInLocal( cFnt )
+      IF !Empty( cFntTmp )
+         RETURN cFntTmp
+      ENDIF
+   ENDIF
+
+RETURN "Helvetica"
+
+FUNCTION _HMG_HPDF_SeekHaruFonts( cFontName, lBold, lItalic )
+
+   LOCAL aHpdf_Font := { "Courier", ;
+      "Courier-Bold", ;
+      "Courier-Oblique", ;
+      "Courier-BoldOblique", ;
+      "Helvetica", ;
+      "Helvetica-Bold", ;
+      "Helvetica-Oblique", ;
+      "Helvetica-BoldOblique", ;
+      "Times-Roman", ;
+      "Times-Bold", ;
+      "Times-Italic", ;
+      "Times-BoldItalic", ;
+      "Symbol", ;
+      "ZapfDingbats" }
+   LOCAL nPos, cFntHaru
+
+   IF ( nPos := AScan( aHpdf_Font, {| cFnt| Upper( cFnt ) == Upper( cFontName ) } ) ) > 0
+      cFntHaru := aHpdf_Font[ nPos ]
+
+      DO CASE
+      CASE "SYMBOL" $ Upper( cFntHaru )
+         cFntHaru := "Symbol"
+      CASE "ZAPFDINGBATS" $ Upper( cFntHaru )
+         cFntHaru := "ZapfDingbats"
+      CASE Upper( hb_USubStr( cFntHaru, 1, 5 ) ) == 'TIMES'
+         cFntHaru := "Times"
+         IF lBold .AND. lItalic
+            cFntHaru := cFntHaru + '-BoldItalic'
+         ELSEIF lBold
+            cFntHaru := cFntHaru + '-Bold'
+         ELSEIF lItalic
+            cFntHaru := cFntHaru + '-Italic'
+         ELSE
+            cFntHaru := cFntHaru + '-Roman'
+         ENDIF
+      OTHERWISE
+         IF ( nPos := hb_UAt( '-', cFntHaru ) ) > 0
+            cFntHaru := hb_USubStr( cFntHaru, 1, nPos -1 )
+         ENDIF
+         IF lBold .AND. lItalic
+            cFntHaru := cFntHaru + '-BoldOblique'
+         ELSEIF lBold
+            cFntHaru := cFntHaru + '-Bold'
+         ELSEIF lItalic
+            cFntHaru := cFntHaru + '-Oblique'
+         ENDIF
+      ENDCASE
+      RETURN cFntHaru
+   ENDIF
+
+RETURN ""
+
+FUNCTION _HMG_HPDF_SeekEquivalences( FontName, lBold, lItalic )
+
+   LOCAL cFldWindows := GetSpecialFolder( CSIDL_FONTS )
+   LOCAL cRet := ""
+
+   DEFAULT lBold := .F., lItalic := .F.
+
+   DO CASE
+   CASE "COUR" $ Upper( FontName )
+      cRet := "cour"
+   CASE "TIMES" $ Upper( FontName )
+      cRet := "times"
+   CASE "ARIAL NARROW" $ Upper( FontName )
+      cRet := "arialn"
+   CASE "ARIAL" $ Upper( FontName )
+      cRet := "arial"
+   CASE "VERDANA" $ Upper( FontName )
+      cRet := "verdana"
+   ENDCASE
+
+   IF !Empty( cRet )
+      IF lBold .AND. lItalic
+         cRet := cRet + 'bi.ttf'
+      ELSEIF lBold
+         IF cRet = "arialn"
+            cRet := cRet + 'b.ttf'
+         ELSE
+            cRet := cRet + 'bd.ttf'
+         ENDIF
+      ELSEIF lItalic
+         cRet := cRet + 'i.ttf'
+      ELSE
+         cRet := cRet + '.ttf'
+      ENDIF
+      cRet := cFldWindows + "\" + cRet
+      cRet := _HMG_HPDF_ExistInLocal( cRet )
+   ENDIF
+
+RETURN cRet
+
+FUNCTION _HMG_HPDF_ExistInLocal( FontName )
+
+   LOCAL cFldWindows := GetSpecialFolder( CSIDL_FONTS )
+   LOCAL cFileTTF := cFileNoExt( FontName ) + ".ttf"
+   LOCAL cFldLocal := GetCurrentFolder()
+   LOCAL cFntTmp := ""
+
+   IF File( FontName )
+      RETURN FontName
+   ENDIF
+   IF File( cFldWindows + "\" + cFileTTF )
+      cFntTmp := cFldWindows + "\" + cFileTTF
+   ENDIF
+   IF File( cFldLocal + "\" + cFileTTF )
+      cFntTmp := cFldLocal + "\" + cFileTTF
+   ENDIF
+
+RETURN cFntTmp
+
+FUNCTION _HMG_HPDF_SeekInLocalOptions( FontName, lBold, lItalic )
+
+   LOCAL aDirFnts, cRet := ""
+   LOCAL cFldWindows, cFileTTF
+
+   DEFAULT lBold := .F., lItalic := .F.
+
+   cFldWindows := GetSpecialFolder( CSIDL_FONTS )
+   cFileTTF := cFileNoExt( FontName )
+   aDirFnts := ASort( Directory( cFldWindows + "\" + hb_USubStr( cFileTTF, 1, 4 ) + "*.ttf" ),,, {| x, y| Len( x[ 1 ] ) < Len( y[ 1 ] ) } )
+   IF Len( aDirFnts ) > 0
+      cRet := cFldWindows + "\" + cFileNoExt( aDirFnts[ 1, 1 ] )
+      IF lBold .AND. lItalic
+         cRet := cRet + 'bi.ttf'
+      ELSEIF lBold
+         cRet := cRet + 'bd.ttf'
+      ELSEIF lItalic
+         cRet := cRet + 'i.ttf'
+      ELSE
+         cRet := cRet + '.ttf'
+      ENDIF
+   ENDIF
+
+RETURN IF( File( cRet ), cRet, "" )
 
 FUNCTION _HMG_HPDF_SetDash( nMode )
 
@@ -1904,3 +2006,473 @@ FUNCTION _HMG_HPDF_SetOrientation( nMode )
    ENDIF
 
 RETURN NIL
+
+FUNCTION _HMG_HPDF_SetFontSize( nFontSize )
+
+   DEFAULT nFontSize := 12
+   IF _HMG_HPDFDATA[ 1 ][ 1 ] == NIL // PDF object not found!
+      _HMG_HPDF_Error( 3 )
+      RETURN NIL
+   ENDIF
+   _HMG_HPDFDATA[ 1 ][ 9 ] := nFontSize
+
+RETURN NIL
+
+FUNCTION _HMG_HPDF_SetFontName( cFontName )
+
+   DEFAULT cFontName := 'Helvetica'
+   IF _HMG_HPDFDATA[ 1 ][ 1 ] == NIL // PDF object not found!
+      _HMG_HPDF_Error( 3 )
+      RETURN NIL
+   ENDIF
+   _HMG_HPDFDATA[ 1 ][ 8 ] := cFontName
+
+RETURN NIL
+
+FUNCTION HPDF_SkewText( nRow, nCol, cFontName, nFontSize, nRColor, nGColor, nBColor, cText, lBold, lItalic, lColor, lFont, lSize, cAlign, nAngle1, nAngle2 )
+   // Skewing text
+   LOCAL nRad1, nRad2, nTextWidth
+   LOCAL oFont := Nil
+   LOCAL cFont
+
+   LOCAL hPdf        := _HMG_HPDFDATA[ 1 ][ 1 ]
+   LOCAL hPage       := _HMG_HPDFDATA[ 1 ][ 7 ]
+
+   LOCAL nHeight     := _HMG_HPDFDATA[ 1 ][ 5 ]
+   LOCAL nxPos       := _HMG_HPDF_MM2Pixel( nCol )
+   LOCAL nyPos       := nHeight - _HMG_HPDF_MM2Pixel( nRow )
+
+   DEFAULT cFontName := ''
+   DEFAULT nFontSize := _HMG_HPDFDATA[ 1 ][ 9 ]
+   DEFAULT nRColor := 0
+   DEFAULT nGColor := 0
+   DEFAULT nBColor := 0
+   DEFAULT lBold := .F.
+   DEFAULT lItalic := .F.
+   DEFAULT lColor := .F.
+   DEFAULT lFont := .F.
+   DEFAULT lSize := .F.
+   DEFAULT cAlign := ''
+   DEFAULT nAngle1 := 0
+   DEFAULT nAngle2 := 0
+
+   IF !HB_ISNUMERIC( nAngle1 )
+      nAngle1 := 0
+   ENDIF
+
+   IF !HB_ISNUMERIC( nAngle2 )
+      nAngle2 := 0
+   ENDIF
+
+   nRad1 := nAngle1 / 180 * 3.141592  // radian value
+   nRad2 := nAngle2 / 180 * 3.141592  // radian value
+
+   IF hPdf == NIL // PDF object not found!
+      _HMG_HPDF_Error( 3 )
+      RETURN NIL
+   ENDIF
+   IF hPage == NIL // PDF Page object not found!
+      _HMG_HPDF_Error( 5 )
+      RETURN NIL
+   ENDIF
+
+   // set color
+   IF lColor
+      HPDF_Page_SetRGBFill( hPage, nRColor / 255, nGColor / 255, nBColor / 255 )
+   ELSE
+      HPDF_Page_SetRGBFill( hPage, 0.0, 0.0, 0.0 )
+   ENDIF
+
+   // set font
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName, lBold, lItalic ) )
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+      cFont := HPDF_LoadTTFontFromFile( hPdf, cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( hPdf, cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+   ELSE
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( hPdf, cFontName, Nil )
+      ELSE
+         oFont := HPDF_GetFont( hPdf, cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
+      ENDIF
+   ENDIF
+
+   IF oFont == Nil
+      _HMG_HPDF_Error( 6, cFontName )
+      RETURN NIL
+   ENDIF
+
+   HPDF_Page_SetFontAndSize( hPage, oFont, nFontSize )
+   nTextWidth := HPDF_Page_TextWidth( hPage, cText )
+
+   SWITCH Upper( AllTrim( cAlign ) )
+   CASE "RIGHT"   ; nxPos := nxPos - nTextWidth; EXIT
+   CASE "CENTER"  ; nxPos := nxPos - ( nTextWidth / 2 ); EXIT
+   ENDSWITCH
+
+   nyPos -= nFontSize
+
+   HPDF_Page_BeginText( hPage )
+   HPDF_Page_SetTextMatrix ( hPage, 1, tan ( nRad1 ), tan ( nRad2 ), 1, nxPos, nyPos )
+   HPDF_Page_ShowText( hPage, cText )
+   HPDF_Page_EndText( hPage )
+
+RETURN NIL
+
+FUNCTION HPDF_ScaleText( nRow, nCol, cFontName, nFontSize, nRColor, nGColor, nBColor, cText, lBold, lItalic, lColor, lFont, lSize, cAlign, nxScale, nyScale )
+   // Scaling text
+   LOCAL nTextWidth
+   LOCAL oFont := Nil
+   LOCAL cFont
+
+   LOCAL hPdf        := _HMG_HPDFDATA[ 1 ][ 1 ]
+   LOCAL hPage       := _HMG_HPDFDATA[ 1 ][ 7 ]
+
+   LOCAL nHeight     := _HMG_HPDFDATA[ 1 ][ 5 ]
+   LOCAL nxPos       := _HMG_HPDF_MM2Pixel( nCol )
+   LOCAL nyPos       := nHeight - _HMG_HPDF_MM2Pixel( nRow )
+
+   DEFAULT cFontName := ''
+   DEFAULT nFontSize := _HMG_HPDFDATA[ 1 ][ 9 ]
+   DEFAULT nRColor := 0
+   DEFAULT nGColor := 0
+   DEFAULT nBColor := 0
+   DEFAULT lBold := .F.
+   DEFAULT lItalic := .F.
+   DEFAULT lColor := .F.
+   DEFAULT lFont := .F.
+   DEFAULT lSize := .F.
+   DEFAULT cAlign := ''
+   DEFAULT nxScale := 1
+   DEFAULT nyScale := 1
+
+   IF !HB_ISNUMERIC( nxScale )
+      nxScale := 1
+   ENDIF
+
+   IF !HB_ISNUMERIC( nyScale )
+      nyScale := 0
+   ENDIF
+
+   IF hPdf == NIL // PDF object not found!
+      _HMG_HPDF_Error( 3 )
+      RETURN NIL
+   ENDIF
+   IF hPage == NIL // PDF Page object not found!
+      _HMG_HPDF_Error( 5 )
+      RETURN NIL
+   ENDIF
+
+   // set color
+   IF lColor
+      HPDF_Page_SetRGBFill( hPage, nRColor / 255, nGColor / 255, nBColor / 255 )
+   ELSE
+      HPDF_Page_SetRGBFill( hPage, 0.0, 0.0, 0.0 )
+   ENDIF
+
+   // set font
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName, lBold, lItalic ) )
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+      cFont := HPDF_LoadTTFontFromFile( hPdf, cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( hPdf, cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+   ELSE
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( hPdf, cFontName, Nil )
+      ELSE
+         oFont := HPDF_GetFont( hPdf, cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
+      ENDIF
+   ENDIF
+
+   IF oFont == Nil
+      _HMG_HPDF_Error( 6, cFontName )
+      RETURN NIL
+   ENDIF
+
+   HPDF_Page_SetFontAndSize( hPage, oFont, nFontSize )
+   nTextWidth := HPDF_Page_TextWidth( hPage, cText )
+
+   SWITCH Upper( AllTrim( cAlign ) )
+   CASE "RIGHT"   ; nxPos := nxPos - nTextWidth; EXIT
+   CASE "CENTER"  ; nxPos := nxPos - ( nTextWidth / 2 ); EXIT
+   ENDSWITCH
+
+   nyPos -= nFontSize
+
+   HPDF_Page_BeginText( hPage )
+   HPDF_Page_SetTextMatrix ( hPage, nxScale, 0, 0, nyScale, nxPos, nyPos )
+   HPDF_Page_ShowText( hPage, cText )
+   HPDF_Page_EndText( hPage )
+
+RETURN NIL
+
+FUNCTION HPDF_RenderText( nRow, nCol, cFontName, nFontSize, nRColor, nGColor, nBColor, cText, lBold, lItalic, lColor, lFont, lSize, cAlign, nMode, nLineW )
+
+   // Rendering text
+   // Modes:
+   // HPDF_FILL
+   // HPDF_STROKE
+   // HPDF_FILL_THEN_STROKE
+   // HPDF_FILL_CLIPPING
+   // HPDF_STROKE_CLIPPING
+   // HPDF_FILL_STROKE_CLIPPING
+
+   LOCAL nTextWidth
+   LOCAL oFont := Nil
+   LOCAL cFont
+
+   LOCAL hPdf        := _HMG_HPDFDATA[ 1 ][ 1 ]
+   LOCAL hPage       := _HMG_HPDFDATA[ 1 ][ 7 ]
+
+   LOCAL nHeight     := _HMG_HPDFDATA[ 1 ][ 5 ]
+   LOCAL nxPos       := _HMG_HPDF_MM2Pixel( nCol )
+   LOCAL nyPos       := nHeight - _HMG_HPDF_MM2Pixel( nRow )
+
+   DEFAULT nLineW := 0.5
+   DEFAULT cFontName := ''
+   DEFAULT nFontSize := _HMG_HPDFDATA[ 1 ][ 9 ]
+   DEFAULT nRColor := 0
+   DEFAULT nGColor := 0
+   DEFAULT nBColor := 0
+   DEFAULT lBold := .F.
+   DEFAULT lItalic := .F.
+   DEFAULT lColor := .F.
+   DEFAULT lFont := .F.
+   DEFAULT lSize := .F.
+   DEFAULT cAlign := ''
+   DEFAULT nMode := HPDF_FILL
+
+   IF !HB_ISNUMERIC( nMode )
+      nMode := HPDF_FILL
+   ENDIF
+
+   IF !HB_ISNUMERIC( nLineW )
+      nLineW := 0.5
+   ENDIF
+
+   IF hPdf == NIL // PDF object not found!
+      _HMG_HPDF_Error( 3 )
+      RETURN NIL
+   ENDIF
+   IF hPage == NIL // PDF Page object not found!
+      _HMG_HPDF_Error( 5 )
+      RETURN NIL
+   ENDIF
+
+   // set color
+   IF lColor
+      HPDF_Page_SetRGBFill( hPage, nRColor / 255, nGColor / 255, nBColor / 255 )
+   ELSE
+      HPDF_Page_SetRGBFill( hPage, 0.0, 0.0, 0.0 )
+   ENDIF
+
+   // set font
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName, lBold, lItalic ) )
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+      cFont := HPDF_LoadTTFontFromFile( hPdf, cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( hPdf, cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+   ELSE
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( hPdf, cFontName, Nil )
+      ELSE
+         oFont := HPDF_GetFont( hPdf, cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
+      ENDIF
+   ENDIF
+
+   IF oFont == Nil
+      _HMG_HPDF_Error( 6, cFontName )
+      RETURN NIL
+   ENDIF
+
+   HPDF_Page_SetFontAndSize( hPage, oFont, nFontSize )
+   HPDF_Page_SetLineWidth ( hPage, nLineW )
+   HPDF_Page_GSave ( hPage )
+   HPDF_Page_SetTextRenderingMode ( hPage, nMode )
+   nTextWidth := HPDF_Page_TextWidth( hPage, cText )
+
+   SWITCH Upper( AllTrim( cAlign ) )
+   CASE "RIGHT"   ; nxPos := nxPos - nTextWidth; EXIT
+   CASE "CENTER"  ; nxPos := nxPos - ( nTextWidth / 2 ); EXIT
+   ENDSWITCH
+
+   nyPos -= nFontSize
+
+   HPDF_Page_BeginText ( hPage )
+   HPDF_Page_TextOut ( hPage, nxPos, nyPos, cText )
+   HPDF_Page_EndText ( hPage )
+   IF nMode = HPDF_FILL_CLIPPING .OR. nMode = HPDF_STROKE_CLIPPING .OR. nMode = HPDF_FILL_STROKE_CLIPPING
+      show_stripe_pattern ( hPage, nxPos, nyPos, nTextWidth )
+   ENDIF
+   HPDF_Page_GRestore ( hPage )
+
+   /* Reset text attributes */
+   HPDF_Page_SetTextRenderingMode ( hPage, HPDF_FILL )
+   HPDF_Page_SetRGBFill ( hPage, 0, 0, 0 )
+   HPDF_Page_SetFontAndSize( hPage, HPDF_GetFont( hPdf, "Helvetica", NIL ), 12 )
+   HPDF_Page_SetLineWidth ( hPage, 0.1 )
+   HPDF_Page_BeginText ( hPage )
+   HPDF_Page_EndText ( hPage )
+
+RETURN NIL
+
+FUNCTION show_stripe_pattern ( hPage, x, y, nTxtW )
+
+   LOCAL iy := 0
+
+   DO WHILE iy < 50
+      HPDF_Page_SetRGBStroke ( hPage, 0.0, 0.0, 0.5 )
+      HPDF_Page_SetLineWidth ( hPage, 1 )
+      HPDF_Page_MoveTo ( hPage, x, y + iy )
+      HPDF_Page_LineTo ( hPage, x + nTxtW, y + iy )
+      HPDF_Page_Stroke ( hPage )
+      iy += 3
+   ENDDO
+   HPDF_Page_SetLineWidth ( hPage, 2 )
+
+RETURN NIL
+
+FUNCTION HPDF_CircleText( nRow, nCol, cFontName, nFontSize, nRColor, nGColor, nBColor, cText, lBold, lItalic, lColor, lFont, lSize, nRadial, lCircle, cAlign )
+   /* text along a circle */
+   /* nRow, nCol wspolrzedne srodka */
+   LOCAL /*nAngle1,*/ nAngle2, nRlen
+   LOCAL i, nRad1, nRad2, x, y
+   LOCAL oFont := Nil
+   LOCAL cFont
+
+   LOCAL hPdf        := _HMG_HPDFDATA[ 1 ][ 1 ]
+   LOCAL hPage       := _HMG_HPDFDATA[ 1 ][ 7 ]
+
+   LOCAL nHeight     := _HMG_HPDFDATA[ 1 ][ 5 ]
+   LOCAL nxPos       := _HMG_HPDF_MM2Pixel( nCol )
+   LOCAL nyPos       := nHeight - _HMG_HPDF_MM2Pixel( nRow )
+   LOCAL nPxAng
+   LOCAL nRange     := 360
+
+   DEFAULT lCircle     := .F.
+   DEFAULT nRadial     := 15
+   DEFAULT cFontName := ''
+   DEFAULT nFontSize := _HMG_HPDFDATA[ 1 ][ 9 ]
+   DEFAULT nRColor := 0
+   DEFAULT nGColor := 0
+   DEFAULT nBColor := 0
+   DEFAULT lBold := .F.
+   DEFAULT lItalic := .F.
+   DEFAULT lColor := .F.
+   DEFAULT lFont := .F.
+   DEFAULT lSize := .F.
+   DEFAULT cText := ""
+
+   IF !HB_ISNUMERIC( nRadial )
+      nRadial := 15
+   ENDIF
+
+   IF !HB_ISSTRING( cAlign )
+      cAlign := ""
+   ENDIF
+
+   nRLen := _HMG_HPDF_MM2Pixel( nRadial )
+
+   // set color
+   IF lColor
+      HPDF_Page_SetRGBFill( hPage, nRColor / 255, nGColor / 255, nBColor / 255 )
+   ELSE
+      HPDF_Page_SetRGBFill( hPage, 0.0, 0.0, 0.0 )
+   ENDIF
+
+   IF lCircle
+      IF lColor
+         HPDF_Page_SetRGBSTROKE( hPage, nRColor / 255, nGColor / 255, nBColor / 255 )
+      ELSE
+         HPDF_Page_SetRGBSTROKE( hPage, 0.0, 0.0, 0.0 )
+      ENDIF
+      HPDF_Page_SetLineWidth ( hPage, 1.5 )
+      HPDF_Page_Circle ( hPage, nxPos, nyPos, nRlen + nFontSize )
+      HPDF_Page_Circle ( hPage, nxPos, nyPos, nRlen - ( nFontSize / 3 ) )
+      HPDF_Page_Stroke ( hPage )
+      HPDF_Page_SetLineWidth ( hPage, 1 )
+   ENDIF
+
+   // set font
+   cFontName := AllTrim( _HMG_HPDF_SetFont( cFontName, lBold, lItalic ) )
+   IF Upper ( cFileExt ( cFontName ) ) == '.TTF' // load ttf font
+      cFont := HPDF_LoadTTFontFromFile( hPdf, cFontName, .T. )
+      IF Len( AllTrim( cFont ) ) == 0
+         _HMG_HPDF_Error( 6, cFontName )
+         RETURN NIL
+      ENDIF
+      oFont := HPDF_GetFont( hPdf, cFont, _HMG_HPDFDATA[ 1 ][ 10 ] )
+   ELSE
+      IF Upper( AllTrim( cFontName ) ) == "SYMBOL" .OR. Upper( AllTrim( cFontName ) ) == "ZAPFDINGBATS"
+         oFont := HPDF_GetFont( hPdf, cFontName, Nil )
+      ELSE
+         oFont := HPDF_GetFont( hPdf, cFontName, _HMG_HPDFDATA[ 1 ][ 10 ] )
+      ENDIF
+   ENDIF
+
+   IF oFont == Nil
+      _HMG_HPDF_Error( 6, cFontName )
+      RETURN NIL
+   ENDIF
+   HPDF_Page_SetFontAndSize( hPage, oFont, nFontSize )
+
+   SWITCH Upper( AllTrim( cAlign ) )
+   CASE "TOP"   ; nRange := 180 ; EXIT      // Uppper
+   CASE "BOTTOM"  ; nRange := 180 ; EXIT    // Bottom
+   ENDSWITCH
+
+   // nAngle1 := nRange / Len( cText ) // monospaced fonts
+   nAngle2 := 180
+
+   // A better solution for non monospaced fonts.
+   nPxAng := nRange / HPDF_Page_TextWidth( hPage, cText )
+
+   HPDF_Page_BeginText ( hPage )
+   FOR i = 1 TO Len( cText )
+      nRad1 := ( nAngle2 - Int( ( HPDF_Page_TextWidth( hPage, SubStr( cText, i, 1 ) ) * nPxAng ) / 2 ) -90 ) / 180 * 3.141592
+      nRad2 := nAngle2 / 180 * 3.141592
+
+      SWITCH Upper( AllTrim( cAlign ) )
+      CASE "BOTTOM"
+         x := nxPos + cos( nRad2 ) * ( nRlen + nFontSize * ( 2 / 3 ) )
+         y := nyPos - sin( nRad2 ) * ( nRlen + nFontSize * ( 2 / 3 ) )
+
+         HPDF_Page_SetTextMatrix( hPage, cos( nRad1 ), -sin( nRad1 ), sin( nRad1 ), cos( nRad1 ), x, y )
+         EXIT
+
+      OTHERWISE
+         x := nxPos + cos( nRad2 ) * nRlen
+         y := nyPos + sin( nRad2 ) * nRlen
+
+         HPDF_Page_SetTextMatrix( hPage, cos( nRad1 ), sin( nRad1 ), -sin( nRad1 ), cos( nRad1 ), x, y )
+
+      ENDSWITCH
+
+      HPDF_Page_ShowText ( hPage, SubStr( cText, i, 1 ) )
+
+      // nAngle2 -= nAngle1  //monospaced fonts
+
+      // A better solution for non monospaced fonts.
+      nAngle2 -= ( HPDF_Page_TextWidth( hPage, SubStr( cText, i, 1 ) ) * nPxAng )
+
+   NEXT i
+   HPDF_Page_EndText ( hPage )
+
+RETURN NIL
+
+FUNCTION cFileExt( cPathMask )
+
+   LOCAL cExt
+
+   hb_FNameSplit( cPathMask, , , @cExt )
+
+RETURN cExt

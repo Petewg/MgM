@@ -1,16 +1,23 @@
+#
+# socket.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/socket
+-inc
+-o../../harbour/lib/socket
 
 -I../../include
 
--hbx=../../include/${hb_name}.hbx
+-warn=yes
 
--w2 -es2 -ko 
+-w2 -es2 -ko -q0
 
--D_WINSOCK_DEPRECATED_NO_WARNINGS
+-cflag=-D_WINSOCK_DEPRECATED_NO_WARNINGS
+{bcc}-cflag=-w-8057
+{bcc}-cflag=-w-8008
+{bcc}-cflag=-w-8066
+
+-hbx=../../include/socket.hbx
 
 tftp.prg
 tpair.prg

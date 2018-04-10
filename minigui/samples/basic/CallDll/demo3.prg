@@ -4,34 +4,31 @@
 *
 */
 
-#include "hmg.ch"
-
-
+#include "minigui.ch"
 
 Procedure Main
 
-	Local Buffer
+	Local Buffer := Space (128)
 
 	DEFINE WINDOW Win_1 ;
-      AT 0,0 ;
-      WIDTH 400 ;
-      HEIGHT 400 ;
-      TITLE 'Hello World!' ;
-      MAIN ;
-      ON RELEASE HMG_UnloadAllDll()
+		AT 0,0 ;
+		WIDTH 400 ;
+		HEIGHT 400 ;
+		TITLE 'Hello World!' ;
+		MAIN ;
+		ON RELEASE UnloadAllDll()
 
 		DEFINE MAIN MENU
 			DEFINE POPUP 'Test'
-				MENUITEM 'Get Title' ACTION ( CallDll32( "GetWindowTextA", "USER32.DLL", GetFormHandle('Win_1'), @Buffer, Len( Buffer ) ), ;
-				                              MsgInfo( Buffer, 'Title' ) )
+				MENUITEM 'Get Title' ACTION ( ;
+					HMG_CallDLL ( "USER32.DLL" , , "GetWindowText" , GetFormHandle ('Win_1') , @Buffer , 128 ) , ;
+					MsgInfo ( Buffer , 'Title' ) ;
+								)
 			END POPUP
 		END MENU
 
 	END WINDOW
-   
-   Buffer := Space( Len( Win_1.title ) )
 
-   CENTER WINDOW Win_1
 	ACTIVATE WINDOW Win_1
 
 Return

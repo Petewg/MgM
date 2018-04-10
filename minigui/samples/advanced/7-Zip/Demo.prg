@@ -1,10 +1,10 @@
 /*
  * MINIGUI - Harbour Win32 GUI library Demo
  *
- * Access to 7z archives by 7-zip32.dll demo
+ * Access to 7z archives by 7-zip32.dll
  * (c) 2008 Vladimir Chumachenko <ChVolodymyr@yandex.ru>
  *
- * Revised by Grigory Filatov <gfilatov@inbox.ru>
+ * Last Revised by Grigory Filatov 03/10/2017
 */
 
 // Complementary libraries:
@@ -12,18 +12,17 @@
 
 // Complementary header files
 
-#include "CStruct.ch"                      // from Harbour\Contrib\xHB 
+#include "CStruct.ch"                      // from Harbour\Contrib\xHB
 #include "HBCTypes.ch"                     // from Harbour\Contrib\xHB
 #include "WinTypes.ch"                     // from Harbour\Contrib\xHB
 
-#include "hmg.ch"
-#include "hbdll32.ch"
+#include "MiniGUI.ch"
 
 
 #define ALONE_7Z          '7za.exe'        // console variant of 7-Zip archiver
 
 
-Static cPath7z := ''      // Full path to installed 7-Zip archiver
+STATIC cPath7z := ''      // Full path to installed 7-Zip archiver
 
 
 // C-structure, used in SevenZipFindFirst(), SevenZipFindNext()
@@ -33,19 +32,19 @@ pragma pack( 4 )
 #define FNAME_MAX32       512
 
 typedef struct { ;
-  DWORD	dwOriginalSize;
-  DWORD	dwCompressedSize;
-  DWORD	dwCRC;
-  UINT	uFlag;
-  UINT	uOSType;
-  WORD	wRatio;
-  WORD	wDate;
-  WORD	wTime;
-  char	szFileName[FNAME_MAX32 + 1];
-  char	dummy1[3];
-  char	szAttribute[8];
-  char	szMode[8];
-} INDIVIDUALINFO, *PINDIVIDUALINFO;
+      DWORD dwOriginalSize;
+      DWORD dwCompressedSize;
+      DWORD dwCRC;
+      UINT uFlag;
+      UINT uOSType;
+      WORD wRatio;
+      WORD wDate;
+      WORD wTime;
+      char szFileName[ FNAME_MAX32 + 1 ];
+      char dummy1[ 3 ];
+      char szAttribute[ 8 ];
+      char szMode[ 8 ];
+      } INDIVIDUALINFO, * PINDIVIDUALINFO;
 
 
 
@@ -55,252 +54,238 @@ typedef struct { ;
 *       библиотеки 7-zip32.dll (Japanese http://www.csdinc.co.jp/archiver/lib/
 *       English http://www.csdinc.co.jp/archiver/lib/main-e.html)
 *
-* Access to archives 7z, zip using dynamic libraries 
-* 7-zip32.dll (Japanese http://www.csdinc.co.jp/archiver/lib/ 
-* English http://www.csdinc.co.jp/archiver/ lib / main-e.html)
 */
 
-Procedure Main
+PROCEDURE Main
+LOCAL oReg
 
-// Формируем полное имя установленного 7-Zip. Для упрощения, принимем
-// что программа установлена в каталог по умолчанию
+// Формируем полное имя установленного 7-Zip через запись в реестре
 
-// Form the full name of the installed 7-Zip. For simplification, taking
-// That the program is installed in the default directory
+OPEN REGISTRY oReg KEY HKEY_CURRENT_USER Section 'Software\7-Zip'
 
-cPath7z := GetProgramFilesFolder() + '\7-zip\7z.exe'
+   GET VALUE cPath7z NAME 'Path' OF oReg
 
-// Можно поступить иначе - через запись в реестре
-// You can do otherwise - through a registry entry
-/*
-Open registry oReg key HKEY_LOCAL_MACHINE Section 'Software\7-Zip'
-Get value cPath7z Name 'Path' of oReg 
-Close registry oReg
+CLOSE REGISTRY oReg
 
-If !Empty( cPath7z )
-   cPath7z += '\7z.exe'
-Else
-   // Ошибка - нет соответвующей записи в реестре
-Endif
-*/
+IF !Empty( cPath7z )
+   cPath7z := hb_DirSepAdd( cPath7z )
+   cPath7z += '7z.exe'
+ELSE
+   // Ошибка - нет соответствующей записи в реестре
+   MsgAlert( 'The 7-Zip archiver is not found.', 'Alert' )
+ENDIF
 
-If ( !File( cPath7z  ) .and. ;
-     !File( ALONE_7Z )       ;
-   )
-   
-   // Если нет установленного 7-Zip и консольного варианта архиватора,
-   // то и дальнейшие действия запрещаем.
-   // Хотя здесь есть нюанс: использование одной 7-zip32.dll без 7-Zip
-   // позволяет просматривать архив, но не позволяет создавать или
-   // извлекать из него файлы.
-  
-  // If it is not installed 7-Zip archiver and console version,
-  // And then further action is prohibited.
-  // While there is nuance: the use of one 7-zip32.dll without 7-Zip
-  // Allows you to view the archive, but can not create or
-  // extract the files from it.   
-  
+IF ( !File( cPath7z  ) .AND. ;
+         !File( ALONE_7Z )   ;
+         )
+
+// Если нет установленного 7-Zip и консольного варианта архиватора,
+// то и дальнейшие действия запрещаем.
+// Хотя здесь есть нюанс: использование одной 7-zip32.dll без 7-Zip
+// позволяет просматривать архив, но не позволяет создавать или
+// извлекать из него файлы.
+
    MsgStop( 'The required programs are not found.', 'Error' )
-   Quit
-   
-Endif
+   QUIT
 
-Set font to 'Tahoma', 9
+ENDIF
 
-Define window wMain                   ;
-       At 0, 0                        ;
-       Width 553                      ;
-       Height 432                     ;
-       Title 'Demo 7-Zip interaction' ;
-       Icon 'main.ico'                ;
-       Main                           ;
-       NoMaximize
+SET FONT TO 'Tahoma', 9
 
-  Define tab tbMain ;
-          at 5, 5   ;
-          Width 535 ;
-          Height 370
+DEFINE WINDOW wMain                                         ;
+      At 0, 0                                               ;
+      Width 553 + iif( IsSeven(), GetBorderWidth() -2, 0 )  ;
+      Height 432 + iif( IsSeven(), GetBorderHeight() -2, 0 );
+      Title 'Demo 7-Zip interaction'                        ;
+      Icon 'main.ico'                                       ;
+      Main                                                  ;
+      NoMaximize
 
-    Define page 'Archive'
+   DEFINE TAB tbMain ;
+      at 5, 5   ;
+      Width 535 ;
+      Height 370
 
-      // Отображаем содержимое выбранного архива. 
-      // Display the contents of the archive.
-      @ 30, 5 Grid grdContent            ;
-              Width 520                  ;
-              Height 285                 ;
-              Headers { 'Name' }         ;
-              Widths { 400 }             ;
-              Multiselect
+   DEFINE PAGE 'Archive'
 
-      // Операции открытия архива, извлечения и создания
-      // Operations: open the archive, extract and create
-      @ 330, 15 ButtonEx btnCreate  ;
-                Caption 'Create'    ;
-                Action RunTest( 1 ) ;
-                Tooltip 'Create archive'
+// Отображаем содержимое выбранного архива.
 
-      @ 330, 220 ButtonEx btnView    ;
-                 Caption 'View'      ;
-                 Action RunTest( 2 ) ;
-                 Tooltip 'View 7z/zip archive'
+   @ 30, 5 Grid grdContent            ;
+      Width 520                  ;
+      Height 285                 ;
+      Headers { 'Name' }         ;
+      Widths { 400 }             ;
+      Multiselect
 
-      @ 330, 415 ButtonEx btnExtract ;
-                 Caption 'Extract'   ;
-                 Action RunTest( 3 ) ;
-                 Tooltip 'Extract file(s) from archive'
+// Операции открытия архива, извлечения и создания
 
-    End page
+   @ 330, 15 ButtonEx btnCreate  ;
+      Caption 'Create'    ;
+      Action RunTest( 1 ) ;
+      Tooltip 'Create archive'
 
-    // Некоторые установки обработки
+   @ 330, 220 ButtonEx btnView    ;
+      Caption 'View'      ;
+      Action RunTest( 2 ) ;
+      Tooltip 'View 7z/zip archive'
 
-    Define page 'Options'
+   @ 330, 415 ButtonEx btnExtract ;
+      Caption 'Extract'   ;
+      Action RunTest( 3 ) ;
+      Tooltip 'Extract file(s) from archive'
 
-      // Выбор варианта демонстрации
+   END PAGE
 
-      @ 30, 5 Frame frmSelectTest   ;
-              Caption 'Select test' ;
-              Width 520             ;
-              Height 65             ;
-              Bold                  ;
-              FontColor BLUE
+// Некоторые установки обработки
 
-      @ 55, 15 RadioGroup rdgSelectTest                      ;
-               Options { '7-zip32.dll', '7-Zip', '7za.exe' } ;
-               Width 100                                     ;
-               Spacing 20                                    ;
-               On Change wMain.btnExtract.Enabled := .F.     ;
-               Horizontal
+   DEFINE PAGE 'Options'
 
-      // Общие параметры
+// Выбор варианта демонстрации
 
-      @ 110, 5 Frame frmCommon  ;
-               Caption 'Common' ;
-               Width 520        ;
-               Height 65        ;
-               Bold             ;
-               FontColor BLUE
+   @ 30, 5 Frame frmSelectTest   ;
+      Caption 'Select test' ;
+      Width 520             ;
+      Height 65             ;
+      Bold                  ;
+      FontColor BLUE
 
-      // Отображение процесса обработки
+   @ 55, 15 RadioGroup rdgSelectTest                      ;
+      Options { '7-zip32.dll', '7-Zip', '7za.exe' } ;
+      Width 100                                     ;
+      Spacing 20                                    ;
+      ON Change wMain.btnExtract.Enabled := .F.     ;
+      Horizontal
 
-      @ 135, 15 CheckBox cbxHide           ;
-                Caption 'Hide progressbar' ;
-                Width 124                  ;
-                Value .T.
+// Общие параметры
 
-      // Параметры извлечения
+   @ 110, 5 Frame frmCommon  ;
+      Caption 'Common' ;
+      Width 520        ;
+      Height 65        ;
+      Bold             ;
+      FontColor BLUE
 
-      @ 185, 5 Frame frmExtract  ;
-               Caption 'Extract' ;
-               Width 520         ;
-               Height 65         ;
-               Bold              ;
-               FontColor BLUE
+// Отображение процесса обработки
 
-      // Сохранять структуру каталогов при извлечении
+   @ 135, 15 CheckBox cbxHide           ;
+      Caption 'Hide progressbar' ;
+      Width 124                  ;
+      Value .T.
 
-      @ 210, 15 CheckBox cbxExtract                     ;
-                Caption 'Extract files with full paths' ;
-                Width 176                               ;
-                Value .T.
+// Параметры извлечения
 
-      // Отвечать Yes на все вопросы в процессе обработки
+   @ 185, 5 Frame frmExtract  ;
+      Caption 'Extract' ;
+      Width 520         ;
+      Height 65         ;
+      Bold              ;
+      FontColor BLUE
 
-      @ 210, 200 CheckBox cbxYesAll                    ;
-                 Caption 'Assume (Yes) on all queries' ;
-                 Width 190
+// Сохранять структуру каталогов при извлечении
 
-      // Полезные ссылки 
+   @ 210, 15 CheckBox cbxExtract                     ;
+      Caption 'Extract files with full paths' ;
+      Width 176                               ;
+      Value .T.
 
-      @ 260, 5 Frame frmLinks  ;
-               Caption 'Links' ;
-               Width 520       ;
-               Height 100      ;
-               Bold            ;
-               FontColor BLUE
-      @ 285, 15 Label lbl7z   ;
-                Value '7-Zip' ;
-                Width 120     ;
-                Height 15
-      @ 285, 140 Hyperlink hl7z                 ;
-                 Value 'http://www.7-zip.org'   ;
-                 Address 'http://www.7-zip.org' ;
-                 HandCursor
-      @ 305, 15 Label lblDLL_JA                ;
-                Value '7-Zip32.dll (Japanese)' ;
-                Width 120                      ;
-                Height 15
-      @ 305, 140 Hyperlink hlDLL_JA                              ;
-                 Value 'http://www.csdinc.co.jp/archiver/lib/'   ;
-                 Address 'http://www.csdinc.co.jp/archiver/lib/' ;
-                 Width 270 HandCursor
-      @ 325, 15 Label lblDLL_EN               ;
-                Value '7-Zip32.dll (English)' ;
-                Width 120                     ;
-                Height 15
-      @ 325, 140 Hyperlink hlDLL_EN                                         ;
-                 Value 'http://www.csdinc.co.jp/archiver/lib/main-e.html'   ;
-                 Address 'http://www.csdinc.co.jp/archiver/lib/main-e.html' ;
-                 Width 270 HandCursor
+// Отвечать Yes на все вопросы в процессе обработки
 
-    End page
+   @ 210, 200 CheckBox cbxYesAll                    ;
+      Caption 'Assume (Yes) on all queries' ;
+      Width 190
 
-  End tab
+// Полезные ссылки
 
-  Define statusbar
-     StatusItem ''
-     StatusItem '' Width 120
-     StatusItem '' Width 40
-     StatusItem '' Width 130
-  End statusbar
+   @ 260, 5 Frame frmLinks  ;
+      Caption 'Links' ;
+      Width 520       ;
+      Height 100      ;
+      Bold            ;
+      FontColor BLUE
+   @ 285, 15 LABEL lbl7z   ;
+      Value '7-Zip' ;
+      Width 120     ;
+      Height 15
+   @ 285, 140 Hyperlink hl7z                 ;
+      Value 'http://www.7-zip.org'   ;
+      Address 'http://www.7-zip.org' ;
+      HandCursor
+   @ 305, 15 LABEL lblDLL_JA                ;
+      Value '7-Zip32.dll (Japanese)' ;
+      Width 120                      ;
+      Height 15
+   @ 305, 140 Hyperlink hlDLL_JA                              ;
+      Value 'http://www.csdinc.co.jp/archiver/lib/'   ;
+      Address 'http://www.csdinc.co.jp/archiver/lib/' ;
+      Width 270 HandCursor
+   @ 325, 15 LABEL lblDLL_EN               ;
+      Value '7-Zip32.dll (English)' ;
+      Width 120                     ;
+      Height 15
+   @ 325, 140 Hyperlink hlDLL_EN                                         ;
+      Value 'http://www.csdinc.co.jp/archiver/lib/main-e.html'   ;
+      Address 'http://www.csdinc.co.jp/archiver/lib/main-e.html' ;
+      Width 270 HandCursor
 
-End window
+   END PAGE
+
+   END TAB
+
+   DEFINE STATUSBAR
+      StatusItem ''
+      StatusItem '' Width 120
+      StatusItem '' Width 40
+      StatusItem '' Width 130
+   END STATUSBAR
+
+END WINDOW
 
 // Устанавливаем доступ к вариантам теста
 
-If !File( cPath7z )
+IF !File( cPath7z )
 
-   // Доступен только запуск консольной версии архиватора
+// Доступен только запуск консольной версии архиватора
 
    wMain.rdgSelectTest.Enabled( 1 ) := .F.
    wMain.rdgSelectTest.Enabled( 2 ) := .F.
    wMain.rdgSelectTest.Value := 3
 
-   If !File( ALONE_7Z )
+   IF !File( ALONE_7Z )
 
-      // Нет нужных файлов. Запрещаем всё
+// Нет нужных файлов. Запрещаем всё
 
       wMain.rdgSelectTest.Enabled := .F.
       wMain.rdgSelectTest.Value   := 0
 
-   Endif
+   ENDIF
 
-Else
+ELSE
 
-   // При отсутствии динамической библиотеки и консольной версии
-   // архиватора посмотреть можно только действие установочной версии 7-Zip
+// При отсутствии динамической библиотеки и консольной версии
+// архиватора посмотреть можно только действие установочной версии 7-Zip
 
    wMain.rdgSelectTest.Value := 2
 
-   If !File( '7-zip32.dll' )
+   IF !File( '7-zip32.dll' )
       wMain.rdgSelectTest.Enabled( 1 ) := .F.
-   Else
+   ELSE
       wMain.rdgSelectTest.Value := 1
-   Endif
+   ENDIF
 
-   If !File( ALONE_7Z )
+   IF !File( ALONE_7Z )
       wMain.rdgSelectTest.Enabled( 3 ) := .F.
-   Endif
+   ENDIF
 
-Endif
+ENDIF
 
 wMain.btnExtract.Enabled := .F.
 
-Center window wMain
-Activate window wMain
+CENTER WINDOW wMain
+ACTIVATE WINDOW wMain
 
-Return
+RETURN
 
-****** End of Main ******
+***** End of Main ******
 
 
 /******
@@ -308,44 +293,45 @@ Return
 *       RunTest( nChoice )
 *
 *       Запуск обработки. Чем будет выполнятся обработка
-*       устанавливается селектором rdgSelectTest 
+*       устанавливается селектором rdgSelectTest
 */
 
-Static Procedure RunTest( nChoice )
-Local nSelected := wMain.rdgSelectTest.Value
+STATIC PROCEDURE RunTest( nChoice )
 
-Do case
-   Case ( nChoice == 1 )        // Создание архива
+   LOCAL nSelected := wMain.rdgSelectTest.Value
 
-      If ( nSelected == 1 )
+   DO CASE
+   CASE ( nChoice == 1 )        // Создание архива
+
+      IF ( nSelected == 1 )
          // Обработать 7-zip32.dll
          CreateArc()
-      Else
+      ELSE
          // Запустить 7z.exe или 7za.exe
          CreateArcExternal()
-      Endif
+      ENDIF
 
-   Case ( nChoice == 2 )        // Просмотр содержимого
+   CASE ( nChoice == 2 )        // Просмотр содержимого
 
-      If ( nSelected == 1 )
+      IF ( nSelected == 1 )
          ViewArc()
-      Else
+      ELSE
          ViewArcExternal()
-      Endif
+      ENDIF
 
-   Case ( nChoice == 3 )        // Извлечение файлов
+   CASE ( nChoice == 3 )        // Извлечение файлов
 
-      If ( nSelected == 1 )
+      IF ( nSelected == 1 )
          ExtractArc()
-      Else
+      ELSE
          ExtractArcExternal()
-      Endif
+      ENDIF
 
-Endcase
+   ENDCASE
 
-Return
+RETURN
 
-****** End of RunTest ******
+***** End of RunTest ******
 
 
 /******
@@ -356,21 +342,21 @@ Return
 *
 */
 
-Static Procedure ShowStatus( cFile, cCount, cType, cVersion )
+STATIC PROCEDURE ShowStatus( cFile, cCount, cType, cVersion )
 
-wMain.StatusBar.Item( 1 ) := cFile      // Обрабатываемый файл
-wMain.StatusBar.Item( 2 ) := cCount     // Файлов в архиве
-wMain.StatusBar.Item( 3 ) := cType      // Тип архива
-wMain.StatusBar.Item( 4 ) := cVersion   // Информация о процедуре 
+   wMain.StatusBar.Item( 1 ) := cFile      // Обрабатываемый файл
+   wMain.StatusBar.Item( 2 ) := cCount     // Файлов в архиве
+   wMain.StatusBar.Item( 3 ) := cType      // Тип архива
+   wMain.StatusBar.Item( 4 ) := cVersion   // Информация о процедуре
 
-Return
+RETURN
 
-****** End of ShowStatus ******
+***** End of ShowStatus ******
 
 
-//--------------------------------------------------------------
-// Блок процедур для 7-zip32.dll  
-//--------------------------------------------------------------
+// --------------------------------------------------------------
+// Блок процедур для 7-zip32.dll
+// --------------------------------------------------------------
 
 /******
 *
@@ -380,16 +366,17 @@ Return
 *
 */
 
-Static Function Version7zip
-Local nVersion    := SevenZipGetVersion()   , ;    // 7-zip 
-      nSubversion := SevenZipGetSubVersion(), ;    // 7-zip32.dll
+STATIC FUNCTION Version7zip
+
+   LOCAL nVersion := SevenZipGetVersion(), ;    // 7-zip
+      nSubversion := SevenZipGetSubVersion(), ; // 7-zip32.dll
       cVersion    := 'Version '
 
-cVersion += ( Str( ( nVersion / 100 ), 5, 2 ) + '.' + StrZero( ( nSubversion / 100 ), 5, 2 ) )
+   cVersion += ( Str( ( nVersion / 100 ), 5, 2 ) + '.' + StrZero( ( nSubversion / 100 ), 5, 2 ) )
 
-Return cVersion
+RETURN cVersion
 
-****** End of Version7zip ******
+***** End of Version7zip ******
 
 
 /******
@@ -400,70 +387,71 @@ Return cVersion
 *
 */
 
-Static Procedure CreateArc
-Local aSource := GetFile( { { 'All files', '*.*' } }     , ;
-                             'Select file(s)'            , ;
-                             GetCurrentFolder(), .T., .T.  ;
-                           )                             , ;
-     cArcFile                                            , ;
-     cType     := ''                                     , ;
-     cCommand  := 'A '                                   , ;
-     nDLLHandle
-     
-If !Empty( aSource )
+STATIC PROCEDURE CreateArc
 
-   cArcFile := PutFile ( { { '7-zip', '*.7z' }, { 'Zip', '*.zip' } }, ;
-                         'Create archive'                           , ;
-                         GetCurrentFolder()                         , ;
-                         .T.                                          ;
-                       )                     
+   LOCAL aSource := GetFile( { { 'All files', '*.*' } }, ;
+      'Select file(s)', ;
+      GetCurrentFolder(), .T., .T.  ;
+      ), ;
+      cArcFile, ;
+      cType     := '', ;
+      cCommand  := 'A ', ;
+      nDLLHandle
 
-   If !Empty( cArcFile )
+   IF !Empty( aSource )
 
-      // Определяем тип архива. По умолчанию используется 7z, поэтому
-      // запоминаем только в случае изменения в диалоговом окне.  
+      cArcFile := PutFile ( { { '7-zip', '*.7z' }, { 'Zip', '*.zip' } }, ;
+         'Create archive', ;
+         GetCurrentFolder(), ;
+         .T.                                          ;
+         )
 
-      If ( Upper( Right( cArcFile, 3 ) ) == 'ZIP' )
-         cType := 'zip'
-      Endif
+      IF !Empty( cArcFile )
 
-      // Строим строку команды для передачи в DLL
+         // Определяем тип архива. По умолчанию используется 7z, поэтому
+         // запоминаем только в случае изменения в диалоговом окне.
 
-      If wMain.cbxHide.Value
-         cCommand += '-hide '       // Не отображать процесс
-      Endif
+         IF ( Upper( Right( cArcFile, 3 ) ) == 'ZIP' )
+            cType := 'zip'
+         ENDIF
 
-      If !Empty( cType )
-         cCommand += '-tzip '       // В формате ZIP
-      Endif
+         // Строим строку команды для передачи в DLL
 
-      cCommand += ( cArcFile + ' ' )
+         IF wMain.cbxHide.Value
+            cCommand += '-hide '       // Не отображать процесс
+         ENDIF
 
-      // Указываем файлы для обработки
+         IF !Empty( cType )
+            cCommand += '-tzip '       // В формате ZIP
+         ENDIF
 
-      AEval( aSource, { | elem | cCommand += ( '"' + elem + '" ' ) } )
+         cCommand += ( cArcFile + ' ' )
 
-      cCommand := RTrim( cCommand )
+         // Указываем файлы для обработки
 
-      If !( ( nDLLHandle := WIN_P2N( WAPI_LOADLIBRARY( '7-zip32.dll' ) )  > 0 ) )
-         MsgStop( "Can't load 7-zip32.dll.", 'Error' )
-      Else
-         DllCall( nDLLHandle, DC_CALL_STD, 'SevenZip', _HMG_MainHandle, cCommand )
-         wapi_FreeLibrary( nDLLHandle )
+         AEval( aSource, {| elem | cCommand += ( '"' + elem + '" ' ) } )
 
-         // Заполнить строку состояния
+         cCommand := RTrim( cCommand )
 
-         ShowStatus( cArcFile, '', Iif( Empty( cType ), '7z', 'zip' ), Version7zip() )
+         IF !( ( nDLLHandle := LoadLibrary( '7-zip32.dll' ) ) > 0 )
+            MsgStop( "Can't load 7-zip32.dll.", 'Error' )
+         ELSE
+            DllCall( nDLLHandle, DC_CALL_STD, 'SevenZip', _HMG_MainHandle, cCommand )
+            FreeLibrary( nDLLHandle )
 
-      Endif
+            // Заполнить строку состояния
 
-   Endif
+            ShowStatus( cArcFile, '', iif( Empty( cType ), '7z', 'zip' ), Version7zip() )
 
-Endif
+         ENDIF
 
-Return
+      ENDIF
 
-****** End of CreateArc ******
+   ENDIF
+
+RETURN
+
+***** End of CreateArc ******
 
 
 /******
@@ -474,121 +462,122 @@ Return
 *
 */
 
-Static Procedure ViewArc
-Local cFile      := GetFile( { { '7-zip', '*.7z' }, { 'Zip', '*.zip' } }, ;
-                             'Select archive'                           , ;
-                             GetCurrentFolder()                         , ;
-                             .F., .T.                                     ;
-                           )                                            , ;
-      nDLLHandle                                                        , ;
-      nArcHandle                                                        , ;
-      nResult                                                           , ;
-      cValue                                                            , ;
-      nCount    := 0                                                    , ;
-      cType     := ''                                                   , ;
-      oInfo                                                             , ;
-      pInfo                                                             , ;
+STATIC PROCEDURE ViewArc
+
+   LOCAL cFile      := GetFile( { { '7-zip', '*.7z' }, { 'Zip', '*.zip' } }, ;
+      'Select archive', ;
+      GetCurrentFolder(), ;
+      .F., .T.                                     ;
+      ), ;
+      nDLLHandle, ;
+      nArcHandle, ;
+      nResult, ;
+      cValue, ;
+      nCount    := 0, ;
+      cType     := '', ;
+      oInfo, ;
+      pInfo, ;
       aFiles    := {}
 
-If Empty( cFile )
-   Return
-Endif
+   IF Empty( cFile )
+      RETURN
+   ENDIF
 
-If !( ( nDLLHandle := WIN_P2N( WAPI_LOADLIBRARY( '7-zip32.dll' ) ) ) > 0 )
-   MsgStop( "Can't load 7-zip32.dll.", 'Error' )
-   Return
-Endif
+   IF !( ( nDLLHandle := LoadLibrary( '7-zip32.dll' ) ) > 0 )
+      MsgStop( "Can't load 7-zip32.dll.", 'Error' )
+      RETURN
+   ENDIF
 
-nArcHandle := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipOpenArchive', _HMG_MainHandle, cFile, 0 )   // Открыть архив
+   nArcHandle := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipOpenArchive', _HMG_MainHandle, cFile, 0 )   // Открыть архив
 
-If Empty( nArcHandle )
-   MsgStop( cFile + ' not opened.', 'Error' )
-   Return
-Endif 
+   IF Empty( nArcHandle )
+      MsgStop( cFile + ' not opened.', 'Error' )
+      RETURN
+   ENDIF
 
-nCount  := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetFileCount'  , cFile )  // Количество элементов в архиве
-nResult := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetArchiveType', cFile )  // Тип архива
+   nCount  := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetFileCount', cFile )  // Количество элементов в архиве
+   nResult := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetArchiveType', cFile )  // Тип архива
 
-Do case
-   Case ( nResult == 1 )
-     cType := 'ZIP'
+   DO CASE
+   CASE ( nResult == 1 )
+      cType := 'ZIP'
 
-   Case ( nResult == 2 )
-     cType := '7Z'
+   CASE ( nResult == 2 )
+      cType := '7Z'
 
-   Case ( nResult == -1 )
-     // Ошибка обработки
-     cType := 'Error'
+   CASE ( nResult == -1 )
+      // Ошибка обработки
+      cType := 'Error'
 
-   Case ( nResult == 0 )
-     // Не поддерживаемый тип. Хотя при попытке открыть что-нибудь
-     // кроме 7z и Zip функция SevenZipOpenArchive() будет
-     // возвращать ошибку.
-     cType := '???'
+   CASE ( nResult == 0 )
+      // Не поддерживаемый тип. Хотя при попытке открыть что-нибудь
+      // кроме 7z и Zip функция SevenZipOpenArchive() будет
+      // возвращать ошибку.
+      cType := '???'
 
-Endcase
+   ENDCASE
 
-// Инициализация структуры, необходимой для обработки элементов архива и
-// указателя (для передачи в DLL)
+   // Инициализация структуры, необходимой для обработки элементов архива и
+   // указателя (для передачи в DLL)
 
-oInfo := ( struct INDIVIDUALINFO )
-pInfo := oInfo : GetPointer()
+   oInfo := ( STRUCT INDIVIDUALINFO )
+   pInfo := oInfo : GetPointer()
 
-// Ищем 1-й файл. Если результат поиска не имеет значения, передачу pInfo
-// можно опустить.
+   // Ищем 1-й файл. Если результат поиска не имеет значения, передачу pInfo
+   // можно опустить.
 
-DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipFindFirst', nArcHandle, '*', pInfo )
+   DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipFindFirst', nArcHandle, '*', pInfo )
 
-// Переустанавливаем указатель
+   // Переустанавливаем указатель
 
-oInfo := oInfo : Pointer( pInfo )
+   oInfo := oInfo : Pointer( pInfo )
 
-cValue := Space( FNAME_MAX32 )
-DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetFileName', nArcHandle, @cValue, FNAME_MAX32 )
+   cValue := Space( FNAME_MAX32 )
+   DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetFileName', nArcHandle, @cValue, FNAME_MAX32 )
 
-If !Empty( cValue )
+   IF !Empty( cValue )
 
-   // Заполняем таблицу формы. Вначале значения заносим в массив,
-   // сортируем и передаём Grid
-
-   AAdd( aFiles, { cValue } )
-
-   Do while ( ( nResult := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipFindNext', nArcHandle, pInfo ) ) == 0 )
-
-      cValue := Space( FNAME_MAX32 )
-      DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetFileName', nArcHandle, @cValue, FNAME_MAX32 )
+      // Заполняем таблицу формы. Вначале значения заносим в массив,
+      // сортируем и передаём Grid
 
       AAdd( aFiles, { cValue } )
 
-   Enddo
+      DO WHILE ( ( nResult := DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipFindNext', nArcHandle, pInfo ) ) == 0 )
 
-   wMain.grdContent.DeleteAllItems
+         cValue := Space( FNAME_MAX32 )
+         DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipGetFileName', nArcHandle, @cValue, FNAME_MAX32 )
 
-   ASort( aFiles,,, { | x, y | x[ 1 ] < y[ 1 ] } )
+         AAdd( aFiles, { cValue } )
 
-   wMain.grdContent.DisableUpdate
-   AEval( aFiles, { | elem | wMain.grdContent.AddItem( elem ) } )
-   wMain.grdContent.EnableUpdate
-   wMain.grdContent.Value := { 1 }
+      ENDDO
 
-Endif
+      wMain.grdContent.DeleteAllItems
 
-// Закрыть архивный файл, выгрузить библиотеку
+      ASort( aFiles,,, {| x, y | x[ 1 ] < y[ 1 ] } )
 
-DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipCloseArchive', nArcHandle )
-wapi_FreeLibrary( nDLLHandle )
+      wMain.grdContent.DisableUpdate
+      AEval( aFiles, {| elem | wMain.grdContent.AddItem( elem ) } )
+      wMain.grdContent.EnableUpdate
+      wMain.grdContent.Value := { 1 }
 
-// Заполнить строку состояния
-         
-ShowStatus( cFile, ( 'Count files: ' + LTrim( Str( nCount ) ) ), cType, Version7zip() )
+   ENDIF
 
-If ( wMain.grdContent.ItemCount > 0 )
-   wMain.btnExtract.Enabled := .T.
-Endif
+   // Закрыть архивный файл, выгрузить библиотеку
 
-Return
+   DllCall( nDLLHandle, DC_CALL_STD, 'SevenZipCloseArchive', nArcHandle )
+   FreeLibrary( nDLLHandle )
 
-****** End of ViewArc ******
+   // Заполнить строку состояния
+
+   ShowStatus( cFile, ( 'Count files: ' + LTrim( Str( nCount ) ) ), cType, Version7zip() )
+
+   IF ( wMain.grdContent.ItemCount > 0 )
+      wMain.btnExtract.Enabled := .T.
+   ENDIF
+
+RETURN
+
+***** End of ViewArc ******
 
 
 /******
@@ -599,101 +588,100 @@ Return
 *
 */
 
-Static Procedure ExtractArc
-Local aPos      := wMain.grdContent.Value, ;
-      cDir                               , ;
-      cCommand                           , ;
-      nPos                               , ;
-      cFile                              , ;
+STATIC PROCEDURE ExtractArc
+
+   LOCAL aPos := wMain.grdContent.Value, ;
+      cDir, ;
+      cCommand, ;
+      nPos, ;
+      cFile, ;
       nDLLHandle
 
-If Empty( aPos )
-   MsgStop( 'Select item(s), please!', 'Error' )
-   Return
-Endif
+   IF Empty( aPos )
+      MsgStop( 'Select item(s), please!', 'Error' )
+      RETURN
+   ENDIF
 
-If !Empty( cDir := GetFolder( 'Extract file(s) to' ) )
+   IF !Empty( cDir := GetFolder( 'Extract file(s) to' ) )
 
-   // Извлекать с сохранением стуктуры каталогов или нет
+      // Извлекать с сохранением стуктуры каталогов или нет
 
-   cCommand := ( Iif( wMain.cbxExtract.Value, 'x', 'e' ) + ' ' )
+      cCommand := ( iif( wMain.cbxExtract.Value, 'x', 'e' ) + ' ' )
 
-   If wMain.cbxHide.Value
+      IF wMain.cbxHide.Value
 
-      // Не отображать процесс. Но если потребуется перезапись
-      // существующих файлов, соответсвующий запрос всё равно
-      // будет выведен.
+         // Не отображать процесс. Но если потребуется перезапись
+         // существующих файлов, соответсвующий запрос всё равно
+         // будет выведен.
 
-      cCommand += '-hide '
+         cCommand += '-hide '
 
-   Endif
+      ENDIF
 
-   // Перезаписывать существующие файлы без предупреждения
+      // Перезаписывать существующие файлы без предупреждения
 
-   If wMain.cbxYesAll.Value
-      cCommand += '-y '
-   Endif
+      IF wMain.cbxYesAll.Value
+         cCommand += '-y '
+      ENDIF
 
-   cCommand += ( '-o' + cDir + ' ' )    // Куда извлечь
+      cCommand += ( '-o' + cDir + ' ' )    // Куда извлечь
 
-   // Не забыть добавить имя архива, содержащего извлекаемые файлы
+      // Не забыть добавить имя архива, содержащего извлекаемые файлы
 
-   //cCommand += ( '"' + AllTrim( wMain.Statusbar.Item( 1 ) ) + '" ' )
-   cCommand += ( AllTrim( wMain.Statusbar.Item( 1 ) ) + ' ' )
+      // cCommand += ( '"' + AllTrim( wMain.Statusbar.Item( 1 ) ) + '" ' )
+      cCommand += ( AllTrim( wMain.Statusbar.Item( 1 ) ) + ' ' )
 
-   // Добавляем извлекаемые файлы. Для упрощения обработки:
-   // если количество отмеченных элементов равно общему
-   // количеству, то нет смысла выполнять перебор.
+      // Добавляем извлекаемые файлы. Для упрощения обработки:
+      // если количество отмеченных элементов равно общему
+      // количеству, то нет смысла выполнять перебор.
 
-   If ( Len( aPos ) == wMain.grdContent.ItemCount )
-      cCommand += '*.*'
-   Else
+      IF ( Len( aPos ) == wMain.grdContent.ItemCount )
+         cCommand += '*.*'
+      ELSE
 
-      For Each nPos In aPos
+         FOR EACH nPos In aPos
 
-         // Позиции, содержащие только имя каталога, пропускаем
+            // Позиции, содержащие только имя каталога, пропускаем
 
-         cFile := AllTrim( wMain.grdContent.Item( nPos )[ 1 ] )
+            cFile := AllTrim( wMain.grdContent.Item( nPos )[ 1 ] )
 
-         If !( Right( cFile, 1 ) == '\' )
-            //cCommand += ( '"' + cFile + '" ' )
-            cCommand += ( cFile + ' ' )
-         Endif
+            IF !( Right( cFile, 1 ) == '\' )
+               // cCommand += ( '"' + cFile + '" ' )
+               cCommand += ( cFile + ' ' )
+            ENDIF
 
-      Next
+         NEXT
 
-      cCommand := RTrim( cCommand )
+         cCommand := RTrim( cCommand )
 
-   Endif
+      ENDIF
 
-   If !( ( nDLLHandle := WIN_P2N( WAPI_LOADLIBRARY( '7-zip32.dll' ) ) ) > 0 )
-      MsgStop( "Can't load 7-zip32.dll.", 'Error' )
-   Else
-      DllCall( nDLLHandle, DC_CALL_STD, 'SevenZip', _HMG_MainHandle, cCommand )
-      wapi_FreeLibrary( nDLLHandle )
-      MsgInfo( "Extraction is successfully.", 'Result' )
-   Endif
+      IF !( ( nDLLHandle := LoadLibrary( '7-zip32.dll' ) ) > 0 )
+         MsgStop( "Can't load 7-zip32.dll.", 'Error' )
+      ELSE
+         DllCall( nDLLHandle, DC_CALL_STD, 'SevenZip', _HMG_MainHandle, cCommand )
+         FreeLibrary( nDLLHandle )
+         MsgInfo( "Extraction is successfully.", 'Result' )
+      ENDIF
 
-Endif
+   ENDIF
 
-Return
+RETURN
 
-****** End of ExtractArc ******
+***** End of ExtractArc ******
 
 
 // Процедуры в 7-zip32.dll
 
 // Версия и подверсия библиотеки
 
-// Declare DLL_TYPE_WORD SevenZipGetVersion() in 7-zip32.dll
-// Declare DLL_TYPE_WORD SevenZipGetSubVersion() in 7-zip32.dll
+DECLARE DLL_TYPE_WORD SevenZipGetVersion() in 7-zip32.dll
+DECLARE DLL_TYPE_WORD SevenZipGetSubVersion() in 7-zip32.dll
 
- Declare SevenZipGetVersion() in 7-zip32.dll
- Declare SevenZipGetSubVersion() in 7-zip32.dll
 
-//--------------------------------------------------------------
-// Блок процедур для 7-zip 7za.exe  
-//--------------------------------------------------------------
+// --------------------------------------------------------------
+// Блок процедур для 7-zip 7za.exe
+// --------------------------------------------------------------
 
 /******
 *
@@ -703,96 +691,97 @@ Return
 *
 */
 
-Static Procedure CreateArcExternal
-Local aSource := GetFile( { { 'All files', '*.*' } }     , ;
-                             'Select file(s)'            , ;
-                             GetCurrentFolder(), .T., .T.  ;
-                          )                              , ;
-     cArcFile                                            , ;
-     nPos                                                , ;
-     cExt                                                , ;
-     cType     := ''                                     , ;
-     cCommand  := ' A '
-     
-If !Empty( aSource )
+STATIC PROCEDURE CreateArcExternal
 
-   // Обращение непосредственно к самому 7-Zip позволяет создавать
-   // большее количество типов архивов
+   LOCAL aSource := GetFile( { { 'All files', '*.*' } }, ;
+      'Select file(s)', ;
+      GetCurrentFolder(), .T., .T.  ;
+      ), ;
+      cArcFile, ;
+      nPos, ;
+      cExt, ;
+      cType     := '', ;
+      cCommand  := ' A '
 
-   cArcFile := PutFile ( { { '7-zip', '*.7z'    }, ;
-                           { 'Zip'  , '*.zip'   }, ;
-                           { 'GZip' , '*.gzip'  }, ;
-                           { 'BZip2', '*.bzip2' }, ;
-                           { 'Tar'  , '*.tar'   }  ;
-                         }                       , ;
-                         'Create archive'        , ;
-                         GetCurrentFolder()      , ;
-                         .T.                       ;
-                       )                     
+   IF !Empty( aSource )
 
-   If !Empty( cArcFile )
+      // Обращение непосредственно к самому 7-Zip позволяет создавать
+      // большее количество типов архивов
 
-      // Определяем тип архива. По умолчанию используется 7z, поэтому
-      // запоминаем только в случае изменения в диалоговом окне.  
+      cArcFile := PutFile ( { { '7-zip', '*.7z'    }, ;
+         { 'Zip', '*.zip'   }, ;
+         { 'GZip', '*.gzip'  }, ;
+         { 'BZip2', '*.bzip2' }, ;
+         { 'Tar', '*.tar'   }  ;
+         }, ;
+         'Create archive', ;
+         GetCurrentFolder(), ;
+         .T.                       ;
+         )
 
-      nPos := RAt( '.', cArcFile )
-      cExt := Upper( Right( cArcFile, ( Len( cArcFile ) - nPos ) ) )
+      IF !Empty( cArcFile )
 
-      If !( cExt == '7Z' )
-         cType := cExt
-      Endif
+         // Определяем тип архива. По умолчанию используется 7z, поэтому
+         // запоминаем только в случае изменения в диалоговом окне.
 
-      // Строим строку команды
+         nPos := RAt( '.', cArcFile )
+         cExt := Upper( Right( cArcFile, ( Len( cArcFile ) - nPos ) ) )
 
-      If !Empty( cType )
-         cCommand += ( '-t' + cType + ' ' )
-      Endif
+         IF !( cExt == '7Z' )
+            cType := cExt
+         ENDIF
 
-      cCommand += ( cArcFile + ' ' )
+         // Строим строку команды
 
-      // Указываем файлы для обработки
+         IF !Empty( cType )
+            cCommand += ( '-t' + cType + ' ' )
+         ENDIF
 
-      AEval( aSource, { | elem | cCommand += ( '"' + elem + '" ' ) } )
+         cCommand += ( cArcFile + ' ' )
 
-      // Запускаем или установленный архиватор или консольную
-      // версию, ноходящуюся в папке с демонстрационной программой
+         // Указываем файлы для обработки
 
-      If ( wMain.rdgSelectTest.Value == 2 )
-         cCommand := ( cPath7z + cCommand )
-      Else
-         cCommand := ( ALONE_7Z + cCommand )
-      Endif
+         AEval( aSource, {| elem | cCommand += ( '"' + elem + '" ' ) } )
 
-      cCommand := RTrim( cCommand )
+         // Запускаем или установленный архиватор или консольную
+         // версию, ноходящуюся в папке с демонстрационной программой
 
-      // Запускаем в режиме ожидания окончания обработки. Если
-      // при этом само окно архиватора скрыто (для эстетики, т.к. окно
-      // консольное), для отображения о том, что работа выполняется (если
-      // архив большой), можно вывести какое-нибудь информационное окно, 
-      // например с таймером.
+         IF ( wMain.rdgSelectTest.Value == 2 )
+            cCommand := ( cPath7z + cCommand )
+         ELSE
+            cCommand := ( ALONE_7Z + cCommand )
+         ENDIF
 
-      // Есть ещё вариант: для 7-Zip запускать не %ProgramFiles%\7-Zip\7z.exe,
-      // а %ProgramFiles%\7-Zip\7zG.exe - графический интерфейс архиватора.
-      // Получим на экране чудненький индикатор процесса обработки. 
-            
-      If wMain.cbxHide.Value
-         Execute file ( cCommand ) Wait Hide
-      Else
-         Execute file ( cCommand ) Wait
-      Endif
+         cCommand := RTrim( cCommand )
 
-      // Заполнить строку состояния
+         // Запускаем в режиме ожидания окончания обработки. Если
+         // при этом само окно архиватора скрыто (для эстетики, т.к. окно
+         // консольное), для отображения о том, что работа выполняется (если
+         // архив большой), можно вывести какое-нибудь информационное окно,
+         // например с таймером.
 
-      ShowStatus( cArcFile, '', Iif( Empty( cType ), '7Z', cType ), ;
-                  Iif( ( wMain.rdgSelectTest.Value == 2 ), '7-Zip', '7za' ) )
+         // Есть ещё вариант: для 7-Zip запускать не %ProgramFiles%\7-Zip\7z.exe,
+         // а %ProgramFiles%\7-Zip\7zG.exe - графический интерфейс архиватора.
+         // Получим на экране чудненький индикатор процесса обработки.
 
-   Endif
+         IF wMain.cbxHide.Value
+            Execute File ( cCommand ) WAIT Hide
+         ELSE
+            Execute File ( cCommand ) Wait
+         ENDIF
 
-Endif
+         // Заполнить строку состояния
 
-Return
+         ShowStatus( cArcFile, '', iif( Empty( cType ), '7Z', cType ), ;
+            iif( ( wMain.rdgSelectTest.Value == 2 ), '7-Zip', '7za' ) )
 
-****** End of CreateArcExternal ******
+      ENDIF
+
+   ENDIF
+
+RETURN
+
+***** End of CreateArcExternal ******
 
 
 /******
@@ -803,146 +792,146 @@ Return
 *
 */
 
-Static Procedure ViewArcExternal
-// aFiles - набор поддерживаемых типов архивов. Базовым принимаем набор для 
-// консольной версии (7za.exe), т.к. её возможности скромнее.
-Local aFilters := { { '7-zip', '*.7z'   }, ;
-                    { 'Zip'  , '*.zip'  }, ;
-                    { 'Cab'  , '*.cab'  }, ;
-                    { 'GZip' , '*.gzip' }, ;
-                    { 'Tar'  , '*.tar'  }  ;
-                  }                      , ;
-        cFile                            , ;
-        aFiles    := {}                  , ;
-        cCommand                         , ;
-        cTmpFile  := '_Arc_.lst'         , ;     // Или GetTempFolder() + '\_Arc_.lst' 
-        oFile                            , ;
-        cString
+STATIC PROCEDURE ViewArcExternal
+   // aFiles - набор поддерживаемых типов архивов. Базовым принимаем набор для
+   // консольной версии (7za.exe), т.к. её возможности скромнее.
+   LOCAL aFilters := { { '7-zip', '*.7z'   }, ;
+      { 'Zip', '*.zip'  }, ;
+      { 'Cab', '*.cab'  }, ;
+      { 'GZip', '*.gzip' }, ;
+      { 'Tar', '*.tar'  } ;
+      }, ;
+      cFile, ;
+      aFiles    := {}, ;
+      cCommand, ;
+      cTmpFile  := '_Arc_.lst', ;     // Или GetTempFolder() + '\_Arc_.lst'
+      oFile, ;
+      cString
 
-// Добавим типы архивов, с которыми может работать полная версия (не все, 
-// указанные в документации, конечно)
+   // Добавим типы архивов, с которыми может работать полная версия (не все,
+   // указанные в документации, конечно)
 
-If ( wMain.rdgSelectTest.Value == 2 )
-   AAdd( aFilters, { 'Rar', '*.rar' } )
-   AAdd( aFilters, { 'Arj', '*.arj' } )
-   AAdd( aFilters, { 'Chm', '*.chm' } )
-   AAdd( aFilters, { 'Lzh', '*.lzh' } )
-Endif
+   IF ( wMain.rdgSelectTest.Value == 2 )
+      AAdd( aFilters, { 'Rar', '*.rar' } )
+      AAdd( aFilters, { 'Arj', '*.arj' } )
+      AAdd( aFilters, { 'Chm', '*.chm' } )
+      AAdd( aFilters, { 'Lzh', '*.lzh' } )
+   ENDIF
 
-If Empty( cFile := GetFile( aFilters, 'Select archive', GetCurrentFolder(), .F., .T. ) )
-   Return
-Endif
+   IF Empty( cFile := GetFile( aFilters, 'Select archive', GetCurrentFolder(), .F., .T. ) )
+      RETURN
+   ENDIF
 
-// Оглавление архива выводим во временный файл и далее считываем для показа в
-// программе.
+   // Оглавление архива выводим во временный файл и далее считываем для показа в
+   // программе.
 
-// Можно, конечно, вместо GetEnv( 'COMSPEC' ) употребить просто cmd.exe, но 
-// имя командного процессора может отличаться в старых версиях Windows
+   // Можно, конечно, вместо GetEnv( 'COMSPEC' ) употребить просто cmd.exe, но
+   // имя командного процессора может отличаться в старых версиях Windows
 
-cCommand := GetEnv( 'COMSPEC' ) + ' /C '
+   cCommand := GetEnv( 'COMSPEC' ) + ' /C '
 
-If ( wMain.rdgSelectTest.Value == 2 )
-   // Кавычки не помешают, т.к. Program Files имеет пробел в имени.
-   // Здесь нужно использовать именно %ProgramFiles%\7-Zip\7z.exe, т.к.
-   // графический вариант 7zG.exe не поддерживает перенаправление вывода в файл
-   cCommand := ( cCommand + '"' + cPath7z + '"' )
-Else
-   cCommand := ( cCommand + ALONE_7Z )
-Endif
+   IF ( wMain.rdgSelectTest.Value == 2 )
+      // Кавычки не помешают, т.к. Program Files имеет пробел в имени.
+      // Здесь нужно использовать именно %ProgramFiles%\7-Zip\7z.exe, т.к.
+      // графический вариант 7zG.exe не поддерживает перенаправление вывода в файл
+      cCommand := ( cCommand + '"' + cPath7z + '"' )
+   ELSE
+      cCommand := ( cCommand + ALONE_7Z )
+   ENDIF
 
-// А информацию будем выводить не в табличном, а в техническом режиме (переключатель
-// -slt). Тогда каждый файл файл будет описываться в несколько строчек примерно так
-// (варируется в зависиомости от типа архива):
-// Path = Наш файл архива
-// Size = 
-// Packed Size = 
-// Modified = 
-// Attributes = 
-// CRC =
-// Method =
-// Block =
-// а имя элемента архива будет выводиться в строке маркированой Path = 
+   // А информацию будем выводить не в табличном, а в техническом режиме (переключатель
+   // -slt). Тогда каждый файл файл будет описываться в несколько строчек примерно так
+   // (варируется в зависиомости от типа архива):
+   // Path = Наш файл архива
+   // Size =
+   // Packed Size =
+   // Modified =
+   // Attributes =
+   // CRC =
+   // Method =
+   // Block =
+   // а имя элемента архива будет выводиться в строке маркированой Path =
 
-// Временный файл содержания лучше, конечно бы создавать в
-// системной папке временных файлов ( GetTempFolder() + '\' + cTmpFile ) 
+   // Временный файл содержания лучше, конечно бы создавать в
+   // системной папке временных файлов ( GetTempFolder() + '\' + cTmpFile )
 
-cCommand += ( ' L -slt ' + cFile + ' > ' + cTmpFile )
+   cCommand += ( ' L -slt ' + cFile + ' > ' + cTmpFile )
 
-Execute File ( cCommand ) Wait Hide
+   Execute File ( cCommand ) WAIT Hide
 
-// Более изысканным решением было бы перенаправить вывод консольной программы
-// функцией WinAPI (использовать CreatePipe и работать с ним как с обычным 
-// файлом), а не создавать временный файл, но я не такой тонкий знаток.
+   // Более изысканным решением было бы перенаправить вывод консольной программы
+   // функцией WinAPI (использовать CreatePipe и работать с ним как с обычным
+   // файлом), а не создавать временный файл, но я не такой тонкий знаток.
 
-If File( cTmpFile )
+   IF File( cTmpFile )
 
-   // Временный файл может и не создаться, например, вследствии ошибок
-   // в строке команды. Дополнительно не мешало бы проверить и его размер.
-   // Если нулевой - то в нём нет ничего.
+      // Временный файл может и не создаться, например, вследствии ошибок
+      // в строке команды. Дополнительно не мешало бы проверить и его размер.
+      // Если нулевой - то в нём нет ничего.
 
-   // Заполняем массив
+      // Заполняем массив
 
-   oFile := TFileRead() : New( cTmpFile )
-   oFile : Open()
+      oFile := TFileRead() : New( cTmpFile )
+      oFile : Open()
 
-   If !oFile : Error()
+      IF !oFile : Error()
 
-      Do While oFile : MoreToRead()
+         DO WHILE oFile : MoreToRead()
 
-         If !Empty( cString := oFile : ReadLine() )
+            IF !Empty( cString := oFile : ReadLine() )
 
-            // Несколько упрщённая обработка. Просто проверяем, не начинается
-            // ли строка с "Path =" и, если да - то это имя файла. При
-            // необходимости, можно сделать посложнее. Например, игнорировать
-            // имена каталогов (строка "Attributes = D...." для файлов .7z)
+               // Несколько упрщённая обработка. Просто проверяем, не начинается
+               // ли строка с "Path =" и, если да - то это имя файла. При
+               // необходимости, можно сделать посложнее. Например, игнорировать
+               // имена каталогов (строка "Attributes = D...." для файлов .7z)
 
-            If ( Left( cString, 7 ) == 'Path = ' )
-               cString := AllTrim( Substr( cString, 8 ) )
-               AAdd( aFiles, { cString } )
-            Endif
+               IF ( Left( cString, 7 ) == 'Path = ' )
+                  cString := AllTrim( SubStr( cString, 8 ) )
+                  AAdd( aFiles, { cString } )
+               ENDIF
 
-         Endif
+            ENDIF
 
-      Enddo
+         ENDDO
 
-      oFile : Close()
+         oFile : Close()
 
-      If !Empty( aFiles )
+         IF !Empty( aFiles )
 
-         wMain.grdContent.DeleteAllItems
+            wMain.grdContent.DeleteAllItems
 
-         ASort( aFiles,,, { | x, y | x[ 1 ] < y[ 1 ] } )
+            ASort( aFiles,,, {| x, y | x[ 1 ] < y[ 1 ] } )
 
-         wMain.grdContent.DisableUpdate
-         AEval( aFiles, { | elem | wMain.grdContent.AddItem( elem ) } )
-         wMain.grdContent.EnableUpdate
-         wMain.grdContent.Value := { 1 }
+            wMain.grdContent.DisableUpdate
+            AEval( aFiles, {| elem | wMain.grdContent.AddItem( elem ) } )
+            wMain.grdContent.EnableUpdate
+            wMain.grdContent.Value := { 1 }
 
-         // Заполнить строку состояния (в ней будет храниться имя считанного
-         // архива, необходимое для извлечения файлов)
+            // Заполнить строку состояния (в ней будет храниться имя считанного
+            // архива, необходимое для извлечения файлов)
 
-         ShowStatus( cFile, ( 'Count files: ' + LTrim( Str( Len( aFiles ) ) ) )   , ;
-                     Upper( Right( cFile, ( Len( cFile ) - RAt( '.', cFile ) ) ) ), ;
-                     Iif( ( wMain.rdgSelectTest.Value == 2 ), '7-Zip', '7za' ) )
+            ShowStatus( cFile, ( 'Count files: ' + LTrim( Str( Len( aFiles ) ) ) ), ;
+               Upper( Right( cFile, ( Len( cFile ) - RAt( '.', cFile ) ) ) ), ;
+               iif( ( wMain.rdgSelectTest.Value == 2 ), '7-Zip', '7za' ) )
 
-      Endif
+         ENDIF
 
-   Endif
+      ENDIF
 
-   If ( wMain.grdContent.ItemCount > 0 )
-      wMain.btnExtract.Enabled := .T.
-   Endif
+      IF ( wMain.grdContent.ItemCount > 0 )
+         wMain.btnExtract.Enabled := .T.
+      ENDIF
 
-Endif
+   ENDIF
 
-// Временный файл сыграл свою роль и м.б. удалён. Команда не
-// вызывает ошибку и в том случае, когда удаляемый файл не существует.
+   // Временный файл сыграл свою роль и м.б. удалён. Команда не
+   // вызывает ошибку и в том случае, когда удаляемый файл не существует.
 
-FErase ( cTmpFile )
- 
-Return
+   FErase ( cTmpFile )
 
-****** End of ViewArcExternal ******
+RETURN
+
+***** End of ViewArcExternal ******
 
 
 /******
@@ -953,78 +942,79 @@ Return
 *
 */
 
-Static Procedure ExtractArcExternal
-Local aPos      := wMain.grdContent.Value, ;
-      cDir                               , ;
-      cCommand                           , ;
-      nPos                               , ;
+STATIC PROCEDURE ExtractArcExternal
+
+   LOCAL aPos := wMain.grdContent.Value, ;
+      cDir, ;
+      cCommand, ;
+      nPos, ;
       cFile
 
-If Empty( aPos )
-   MsgStop( 'Select item(s), please!', 'Error' )
-   Return
-Endif
+   IF Empty( aPos )
+      MsgStop( 'Select item(s), please!', 'Error' )
+      RETURN
+   ENDIF
 
-If !Empty( cDir := GetFolder( 'Extract file(s) to' ) )
+   IF !Empty( cDir := GetFolder( 'Extract file(s) to' ) )
 
-   // Извлекать с сохранением структуры каталогов или нет
-    
-   cCommand := ( Iif( wMain.cbxExtract.Value, 'X', 'E' ) + ' ' )
-   
-   // Перезаписывать существующие файлы без предупреждения
-   
-   If wMain.cbxYesAll.Value
-      cCommand += '-y '
-   Endif
-   
-   cCommand += ( '-o' + cDir + ' ' )    // Куда извлечь
-   
-   cCommand += ( AllTrim( wMain.Statusbar.Item( 1 ) ) + ' ' )
-   
-   If ( Len( aPos ) == wMain.grdContent.ItemCount )
+      // Извлекать с сохранением структуры каталогов или нет
 
-      cCommand += '*.*'
+      cCommand := ( iif( wMain.cbxExtract.Value, 'X', 'E' ) + ' ' )
 
-   Else
-   
-      For Each nPos In aPos
-           
-         // Позиции, содержащие только имя каталога, пропускаем
-           
-         cFile := AllTrim( wMain.grdContent.Item( nPos )[ 1 ] )
-           
-         If !( Right( cFile, 1 ) == '\' )
-            cCommand += ( cFile + ' ' )
-         Endif
-           
-      Next
-    
-      cCommand := RTrim( cCommand )
+      // Перезаписывать существующие файлы без предупреждения
 
-   Endif
+      IF wMain.cbxYesAll.Value
+         cCommand += '-y '
+      ENDIF
 
-   If ( wMain.rdgSelectTest.Value == 2 )
-      
-      // Если вместо 7z.exe использовать 7zG.exe, то будет отображаться
-      // индикатор работы
+      cCommand += ( '-o' + cDir + ' ' )    // Куда извлечь
 
-      cCommand := ( cPath7z + ' ' + cCommand )
-   Else
-      cCommand := ( ALONE_7Z + ' ' + cCommand )
-   Endif
+      cCommand += ( AllTrim( wMain.Statusbar.Item( 1 ) ) + ' ' )
 
-   // Выполняем.
+      IF ( Len( aPos ) == wMain.grdContent.ItemCount )
 
-   If wMain.cbxHide.Value .and. !wMain.cbxYesAll.Value
-      Execute File ( cCommand ) Wait Hide
-   Else
-      Execute File ( cCommand ) Wait
-   Endif
+         cCommand += '*.*'
 
-   MsgInfo( 'Extraction is successfully.', 'Result' )
+      ELSE
 
-Endif
+         FOR EACH nPos In aPos
 
-Return
+            // Позиции, содержащие только имя каталога, пропускаем
 
-****** End of ExtractArcExternal ******
+            cFile := AllTrim( wMain.grdContent.Item( nPos )[ 1 ] )
+
+            IF !( Right( cFile, 1 ) == '\' )
+               cCommand += ( cFile + ' ' )
+            ENDIF
+
+         NEXT
+
+         cCommand := RTrim( cCommand )
+
+      ENDIF
+
+      IF ( wMain.rdgSelectTest.Value == 2 )
+
+         // Если вместо 7z.exe использовать 7zG.exe, то будет отображаться
+         // индикатор работы
+
+         cCommand := ( cPath7z + ' ' + cCommand )
+      ELSE
+         cCommand := ( ALONE_7Z + ' ' + cCommand )
+      ENDIF
+
+      // Выполняем.
+
+      IF wMain.cbxHide.Value .AND. !wMain.cbxYesAll.Value
+         Execute File ( cCommand ) WAIT Hide
+      ELSE
+         Execute File ( cCommand ) Wait
+      ENDIF
+
+      MsgInfo( 'Extraction is successfully.', 'Result' )
+
+   ENDIF
+
+RETURN
+
+***** End of ExtractArcExternal ******

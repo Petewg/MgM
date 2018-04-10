@@ -1,0 +1,951 @@
+* Harbour MiniGUI IDE Two-Way Form Designer Generated Code
+* (c)2004-2006 Roberto Lopez <roblez@ciudad.com.ar>
+
+DEFINE WINDOW TEMPLATE AT 100 , 348 WIDTH 557 HEIGHT 351 TITLE "Web Button Tool" ICON "ProgramICO" MAIN NOMAXIMIZE NOSIZE CURSOR NIL ON INIT NIL ON RELEASE Nil ON INTERACTIVECLOSE Nil ON MOUSECLICK fChildLocation() ON MOUSEDRAG Nil ON MOUSEMOVE Nil ON SIZE Nil ON MAXIMIZE Nil ON MINIMIZE Nil ON PAINT Nil BACKCOLOR {214,214,235} NOTIFYICON NIL NOTIFYTOOLTIP NIL ON NOTIFYCLICK Nil ON GOTFOCUS Nil ON LOSTFOCUS Nil ON SCROLLUP Nil ON SCROLLDOWN Nil ON SCROLLLEFT Nil ON SCROLLRIGHT Nil ON HSCROLLBOX Nil ON VSCROLLBOX Nil
+
+    DEFINE MAIN MENU
+        DEFINE POPUP "&File"
+            MENUITEM "&Save Button" ACTION fSave()
+            MENUITEM "E&xit" ACTION fExit()
+        END POPUP
+        DEFINE POPUP "&Edit"
+            MENUITEM "&Refresh" ACTION fRefresh()
+        END POPUP
+        DEFINE POPUP "&Help"
+            MENUITEM "About" ACTION fAbout()
+        END POPUP
+    END MENU
+
+    DEFINE TOOLBAR ToolBar_1 BUTTONSIZE 32,32 FONT "Arial" SIZE 9 BORDER
+        BUTTON Reset   PICTURE "BTNUndo"    ACTION fCreateSampleButton() TOOLTIP "Reset sample button"
+        BUTTON Refresh PICTURE "BTNRefresh" ACTION fRefresh()            TOOLTIP "Refresh the sample button"
+        BUTTON Save    PICTURE "BTNSave"    ACTION fSave()               TOOLTIP "Save the sample button"
+        BUTTON Exit    PICTURE "BTNExit"    ACTION fExit()               TOOLTIP "Close this Application"
+    END TOOLBAR
+
+    DEFINE CONTEXT MENU
+        MENUITEM "Change Icon" ACTION fSelectIcon()
+        MENUITEM "Back color" ACTION fBackColor()
+        MENUITEM "Font options" ACTION fFontName()
+    SEPARATOR
+        MENUITEM "Refresh button" ACTION fRefresh()
+        MENUITEM "Save button" ACTION fSave()
+    SEPARATOR
+        MENUITEM "About..." ACTION fAbout()
+        MENUITEM "Exit" ACTION fExit()
+    END MENU
+
+    DEFINE STATUSBAR FONT "Arial" SIZE 8
+        STATUSITEM "® Roberto Sánchez, 2008 ( jrsancheze@gmail.com )" RAISED
+    END STATUSBAR
+
+    DEFINE TAB Tab_1 AT 50 , 10 WIDTH 530 HEIGHT 220 VALUE 1 FONT "Arial" SIZE 9 BACKCOLOR {214,214,235} TOOLTIP "" ON CHANGE Nil
+
+        PAGE "Button Settings"
+
+            DEFINE FRAME Frame_1
+                ROW    30
+                COL    10
+                WIDTH  350
+                HEIGHT 160
+                FONTNAME "Arial"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                CAPTION NIL
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                OPAQUE .T.
+            END FRAME
+
+            DEFINE FRAME Frame_2
+                ROW    30
+                COL    370
+                WIDTH  145
+                HEIGHT 160
+                FONTNAME "Arial"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                CAPTION NIL
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                OPAQUE .T.
+            END FRAME
+
+            DEFINE LABEL Label_Width
+                ROW    40
+                COL    20
+                WIDTH  100
+                HEIGHT 20
+                VALUE "Width:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_Height
+                ROW    70
+                COL    20
+                WIDTH  100
+                HEIGHT 20
+                VALUE "Height:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_Icon
+                ROW    100
+                COL    20
+                WIDTH  100
+                HEIGHT 20
+                VALUE "Icon:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_BackColor
+                ROW    130
+                COL    20
+                WIDTH  100
+                HEIGHT 20
+                VALUE "Back Color:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_Flat
+                ROW    40
+                COL    380
+                WIDTH  100
+                HEIGHT 20
+                VALUE "Flat:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_Transparent
+                ROW    70
+                COL    380
+                WIDTH  100
+                HEIGHT 24
+                VALUE "NO Transparent:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_NoHotLight
+                ROW    100
+                COL    380
+                WIDTH  100
+                HEIGHT 20
+                VALUE "NO Hot Light:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_NoXPStyle
+                ROW    130
+                COL    380
+                WIDTH  100
+                HEIGHT 20
+                VALUE "NO XP Style:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_Sinc
+                ROW    160
+                COL    20
+                WIDTH  250
+                HEIGHT 20
+                VALUE "Click here to allocate sample button window >>"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                CENTERALIGN .T. 
+            END LABEL
+
+            DEFINE SPINNER Spinner_Width
+                ROW    40
+                COL    130
+                WIDTH  50
+                HEIGHT 20
+                RANGEMIN 1
+                RANGEMAX 300
+                VALUE 110
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                WRAP .F.
+                READONLY .F.
+                INCREMENT 1
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END SPINNER
+
+            DEFINE SPINNER Spinner_Height
+                ROW    70
+                COL    130
+                WIDTH  50
+                HEIGHT 20
+                RANGEMIN 1
+                RANGEMAX 200
+                VALUE 35
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                WRAP .F.
+                READONLY .F.
+                INCREMENT 1
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END SPINNER
+
+            DEFINE TEXTBOX TXB_IconFile
+                ROW    100
+                COL    130
+                WIDTH  200
+                HEIGHT 20
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONENTER Nil
+                HELPID Nil
+                TABSTOP .F.
+                VISIBLE .T.
+                READONLY .T.
+                RIGHTALIGN .F.
+                BACKCOLOR {{0,0,0},{244,244,244}}
+                FONTCOLOR NIL
+                INPUTMASK Nil
+                FORMAT Nil
+                VALUE ""
+            END TEXTBOX
+
+            DEFINE BUTTON BTN_IconFile
+                ROW    98
+                COL    330
+                WIDTH  22
+                HEIGHT 22
+                CAPTION ""
+                ACTION fSelectIcon()
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                FLAT .F.
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .F.
+                PICTURE "BTNDown"
+            END BUTTON
+
+            DEFINE BUTTON Button_BackColor
+                ROW    128
+                COL    130
+                WIDTH  22
+                HEIGHT 22
+                CAPTION ""
+                ACTION fBackColor()
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                FLAT .F.
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .F.
+                PICTURE "BTNDown"
+            END BUTTON
+
+            DEFINE CHECKBOX Check_Flat
+                ROW    40
+                COL    490
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+            DEFINE CHECKBOX Check_Transparent
+                ROW    70
+                COL    490
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+            DEFINE CHECKBOX Check_HotLight
+                ROW    100
+                COL    490
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+            DEFINE CHECKBOX Check_XPStyle
+                ROW    130
+                COL    490
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+            DEFINE LABEL Label_Adjust
+                ROW    160
+                COL    380
+                WIDTH  100
+                HEIGHT 20
+                VALUE "Adjust:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE CHECKBOX Check_Adjust
+                ROW    160
+                COL    490
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+        END PAGE 
+
+        PAGE "Text Settings"
+
+            DEFINE FRAME Frame_3
+                ROW    30
+                COL    10
+                WIDTH  320
+                HEIGHT 160
+                FONTNAME "Arial"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                CAPTION NIL
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                OPAQUE .T.
+            END FRAME
+
+            DEFINE FRAME Frame_4
+                ROW    30
+                COL    340
+                WIDTH  110
+                HEIGHT 160
+                FONTNAME "Arial"
+                FONTSIZE 9
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                CAPTION NIL
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                OPAQUE .T.
+            END FRAME
+
+            DEFINE LABEL Label_Caption
+                ROW    40
+                COL    20
+                WIDTH  70
+                HEIGHT 20
+                VALUE "Caption:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_FontName
+                ROW    140
+                COL    20
+                WIDTH  70
+                HEIGHT 20
+                VALUE "Font Values:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_Vertical
+                ROW    40
+                COL    349
+                WIDTH  70
+                HEIGHT 20
+                VALUE "Vertical:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_LeftText
+                ROW    70
+                COL    349
+                WIDTH  70
+                HEIGHT 20
+                VALUE "Left Text:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE LABEL Label_UpperText
+                ROW    100
+                COL    349
+                WIDTH  70
+                HEIGHT 20
+                VALUE "Upper Text:"
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                HELPID Nil
+                VISIBLE .T.
+                TRANSPARENT .T.
+                ACTION Nil
+                AUTOSIZE .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+            END LABEL
+
+            DEFINE TEXTBOX TXB_Caption1
+                ROW    40
+                COL    100
+                WIDTH  200
+                HEIGHT 20
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONENTER fRefresh()
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                READONLY .F.
+                RIGHTALIGN .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                INPUTMASK Nil
+                FORMAT Nil
+                VALUE ""
+            END TEXTBOX
+
+            DEFINE TEXTBOX TXB_Caption2
+                ROW    62
+                COL    100
+                WIDTH  200
+                HEIGHT 20
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONENTER Nil
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                READONLY .F.
+                RIGHTALIGN .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                INPUTMASK Nil
+                FORMAT Nil
+                VALUE ""
+            END TEXTBOX
+
+            DEFINE TEXTBOX TXB_Caption3
+                ROW    84
+                COL    100
+                WIDTH  200
+                HEIGHT 20
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONENTER Nil
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                READONLY .F.
+                RIGHTALIGN .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                INPUTMASK Nil
+                FORMAT Nil
+                VALUE ""
+            END TEXTBOX
+
+            DEFINE TEXTBOX TXB_Caption4
+                ROW    106
+                COL    100
+                WIDTH  200
+                HEIGHT 20
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONENTER Nil
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                READONLY .F.
+                RIGHTALIGN .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                INPUTMASK Nil
+                FORMAT Nil
+                VALUE ""
+            END TEXTBOX
+
+            DEFINE TEXTBOX TXB_FontValues
+                ROW    140
+                COL    100
+                WIDTH  200
+                HEIGHT 20
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONENTER Nil
+                HELPID Nil
+                TABSTOP .F.
+                VISIBLE .T.
+                READONLY .T.
+                RIGHTALIGN .F.
+                BACKCOLOR {{0,0,0},{244,244,244}}
+                FONTCOLOR NIL
+                INPUTMASK Nil
+                FORMAT Nil
+                VALUE ""
+            END TEXTBOX
+
+            DEFINE BUTTON Button_FontName
+                ROW    138
+                COL    300
+                WIDTH  22
+                HEIGHT 22
+                CAPTION ""
+                ACTION fFontName()
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                HELPID Nil
+                FLAT .F.
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .F.
+                PICTURE "BTNDown"
+            END BUTTON
+
+            DEFINE CHECKBOX Check_Vertical
+                ROW    40
+                COL    426
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+            DEFINE CHECKBOX Check_LeftText
+                ROW    70
+                COL    426
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+            DEFINE CHECKBOX Check_UpperText
+                ROW    100
+                COL    426
+                WIDTH  20
+                HEIGHT 20
+                CAPTION ""
+                VALUE .F.
+                FONTNAME "Arial"
+                FONTSIZE 9
+                TOOLTIP ""
+                ONCHANGE Nil
+                ONGOTFOCUS Nil
+                ONLOSTFOCUS Nil
+                FONTBOLD .F.
+                FONTITALIC .F.
+                FONTUNDERLINE .F.
+                FONTSTRIKEOUT .F.
+                BACKCOLOR NIL
+                FONTCOLOR NIL
+                HELPID Nil
+                TABSTOP .T.
+                VISIBLE .T.
+                TRANSPARENT .T.
+            END CHECKBOX
+
+        END PAGE 
+
+    END TAB 
+
+END WINDOW
+
+

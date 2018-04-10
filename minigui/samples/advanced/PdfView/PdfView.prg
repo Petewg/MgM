@@ -13,15 +13,17 @@
 
 */
 
-#define PDFVIEW_VERSION "2017-05-28"
+#define PDFVIEW_VERSION "2017-09-11"
 
 #include "Directry.ch"
 #include "hmg.ch"
 #include "PdfView.ch"
 #include "i_winuser.ch"
 
+
 STATIC snHFocusMenu
 STATIC snHMenuMain
+STATIC slFileRefresh
 
 STATIC saTab
 STATIC saPanel
@@ -72,6 +74,8 @@ FUNCTION Main()
     QUIT
   ENDIF
 
+  slFileRefresh := .T.
+
   DEFINE WINDOW PdfView;
     ROW    snPdfView_R;
     COL    snPdfView_C;
@@ -80,7 +84,7 @@ FUNCTION Main()
     TITLE  "PdfView";
     MAIN;
     ON INIT      ((lSessionOnInit := (SessionOpen(1) .or. SessionOpen(3))), FileListRefresh(scFileLast), (lSessionOnInit := .F.));
-    ON GOTFOCUS  ((lOnGotFocus := .T.), FileListRefresh(PdfView.Files.Cell(PdfView.Files.VALUE, F_NAME)), (lOnGotFocus := .F.), TabCloseAllEmpty());
+    ON GOTFOCUS  ((lOnGotFocus := .T.), If(slFileRefresh, (FileListRefresh(PdfView.Files.Cell(PdfView.Files.VALUE, F_NAME)), TabCloseAllEmpty()), NIL ), (lOnGotFocus := .F.));
     ON SIZE      PdfViewResize(.T.);
     ON MAXIMIZE  PdfViewResize(.T.);
     ON RELEASE   (SettingsWrite(), DestroyMenu(snHMenuMain))
@@ -94,6 +98,7 @@ FUNCTION Main()
       CELLNAVIGATION .F.
       ONDBLCLICK     FileOpen(NIL, (GetKeyState(VK_CONTROL) < 0), (GetKeyState(VK_SHIFT) < 0))
       ONCHANGE       If(slOpenAtOnce .and. (! lSessionOnInit) .and. (! lOnGotFocus) .and. (! ("D" $ PdfView.Files.Cell(PdfView.Files.VALUE, F_ATTR))), FileOpen(), NIL)
+      ONHEADCLICK    { { || FileChooseDir()} }
     END GRID
 
     DEFINE TAB Tabs;
@@ -160,7 +165,9 @@ FUNCTION SetLangInterface(cNewLang)
         MENUITEM LangStr("OpenPageTab") + e"...\tCtrlt+Shift+Enter" NAME OpenPageTab  ACTION FileOpen(NIL, .T., .T.)
         SEPARATOR
         MENUITEM LangStr("OpenSession")                             NAME FileSession  ACTION SessionOpen(4)
-        MENUITEM LangStr("RecentFiles") + "..."                     NAME FileRecent   ACTION RecentFiles()
+        MENUITEM LangStr("RecentFiles") + e"...\tCtrlt+Shift+R"     NAME FileRecent   ACTION RecentFiles()
+        SEPARATOR
+        MENUITEM LangStr("ChooseDir") + e"...\tCtrlt+Shift+D"       NAME FileDir      ACTION FileChooseDir()
         SEPARATOR
         MENUITEM LangStr("RefreshList") + e"\tF5"                   NAME FileRefresh  ACTION FileListRefresh(PdfView.Files.Cell(PdfView.Files.VALUE, F_NAME))
         SEPARATOR
@@ -202,7 +209,7 @@ FUNCTION SetLangInterface(cNewLang)
       DEFINE POPUP LangStr("Rotate")
         MENUITEM LangStr("Left") + e"\tCtrl+Shift+Minus"            NAME RotateLeft   ACTION Sumatra_Rotate(PanelName(), -1)
         MENUITEM LangStr("Right") + e"\tCtrl+Shift+Plus"            NAME RotateRight  ACTION Sumatra_Rotate(PanelName(),  1)
-        MENUITEM e"&180°\tCtrl+Shift+Num*"                          NAME Rotate180    ACTION Sumatra_Rotate(PanelName())
+        MENUITEM e"&180�\tCtrl+Shift+Num*"                          NAME Rotate180    ACTION Sumatra_Rotate(PanelName())
       END POPUP
       DEFINE POPUP LangStr("View")
         MENUITEM LangStr("MenuBar") + e"\tF9"                       NAME MenuBar      ACTION SetMenu(PdfView.HANDLE, If((slMenuBar := ! slMenuBar), snHMenuMain, 0))
@@ -244,7 +251,7 @@ FUNCTION SetLangInterface(cNewLang)
     ENDIF
 
     IF ! Empty(cNewLang)
-      //PdfView.REDRAW
+      PdfView.REDRAW
       SessionReopen()
     ENDIF
   ENDIF
@@ -320,7 +327,9 @@ FUNCTION SetOnKey(lSet)
     ON KEY CONTROL+S              OF PdfView ACTION Sumatra_FileSaveAs(PanelName())
     ON KEY CONTROL+P              OF PdfView ACTION Sumatra_FilePrint(PanelName())
     ON KEY CONTROL+D              OF PdfView ACTION Sumatra_FileProperties(PanelName())
+    ON KEY CONTROL+SHIFT+D        OF PdfView ACTION FileChooseDir()
     ON KEY CONTROL+SHIFT+F        OF PdfView ACTION FileGoTo()
+    ON KEY CONTROL+SHIFT+R        OF PdfView ACTION RecentFiles()
     ON KEY F5                     OF PdfView ACTION FileListRefresh(PdfView.Files.Cell(PdfView.Files.VALUE, F_NAME))
     ON KEY CONTROL+G              OF PdfView ACTION Sumatra_PageGoTo(PanelName())
     ON KEY CONTROL+F              OF PdfView ACTION Sumatra_FindText(PanelName())
@@ -389,7 +398,9 @@ FUNCTION SetOnKey(lSet)
     RELEASE KEY CONTROL+S              OF PdfView
     RELEASE KEY CONTROL+P              OF PdfView
     RELEASE KEY CONTROL+D              OF PdfView
+    RELEASE KEY CONTROL+SHIFT+D        OF PdfView
     RELEASE KEY CONTROL+SHIFT+F        OF PdfView
+    RELEASE KEY CONTROL+SHIFT+R        OF PdfView
     RELEASE KEY F5                     OF PdfView
     RELEASE KEY CONTROL+G              OF PdfView
     RELEASE KEY CONTROL+F              OF PdfView
@@ -518,6 +529,9 @@ FUNCTION FileMenu(nRow, nCol)
       FileOpen(NIL, .T., .T.)
       EXIT
     CASE 7
+      FileChooseDir()
+      EXIT
+    CASE 8
       FileListRefresh(PdfView.Files.Cell(PdfView.Files.VALUE, F_NAME))
       EXIT
   ENDSWITCH
@@ -767,6 +781,10 @@ FUNCTION TabClose(nTab)
     PdfView.Tabs.VALUE := nTabCurr
 
     PanelShow(saTab[nTabCurr], .T.)
+
+    IF slTabGoToFile
+      FileGoTo()
+    ENDIF
   ENDIF
 
   PdfView.Tabs.VISIBLE := (Len(saTab) > 1)
@@ -791,6 +809,23 @@ FUNCTION TabCloseAllEmpty()
       TabClose(n)
     ENDIF
   NEXT
+
+RETURN NIL
+
+
+FUNCTION FileChooseDir()
+  LOCAL cDir
+
+  cDir := BrowseForFolder(NIL, HB_BitOr(BIF_NEWDIALOGSTYLE, BIF_NONEWFOLDERBUTTON), CRLF + LangStr("ChooseDir", .T.) + ":", scFileDir)
+
+  IF ! Empty(cDir)
+    cDir := DirSepAdd(cDir)
+
+    IF HMG_StrCmp(cDir, scFileDir, .F.) != 0
+      scFileDir := cDir
+      FileListRefresh("")
+    ENDIF
+  ENDIF
 
 RETURN NIL
 
@@ -880,6 +915,7 @@ FUNCTION FileGoTo()
   LOCAL cFile
   LOCAL cDir
   LOCAL nCount
+  LOCAL lOpenAtOnce
   LOCAL n
 
   IF ! saPanel[saTab[PdfView.Tabs.VALUE]]
@@ -888,6 +924,9 @@ FUNCTION FileGoTo()
     IF HB_FileExists(cFile)
       cDir  := HB_fNameDir(cFile)
       cFile := HB_fNameNameExt(cFile)
+
+      lOpenAtOnce  := slOpenAtOnce
+      slOpenAtOnce := .F.
 
       IF HMG_StrCmp(cDir, scFileDir, .F.) == 0
         nCount := PdfView.Files.ITEMCOUNT
@@ -903,6 +942,8 @@ FUNCTION FileGoTo()
         scFileDir := cDir
         FileListRefresh(cFile)
       ENDIF
+
+      slOpenAtOnce := lOpenAtOnce
     ENDIF
   ENDIF
 
@@ -1125,6 +1166,8 @@ FUNCTION SessionOpen(nAction, aFiles)
 
   IF (nAction > 2) .and. (nCount > 0) .and. (nTabCurr != PdfView.Tabs.VALUE)
     TabChange(nTabCurr)
+  ELSEIF slTabGoToFile
+    FileGoTo()
   ENDIF
 
   IF (nAction == 2) .or. (nAction == 4)
@@ -1328,7 +1371,11 @@ FUNCTION InputPageNum()
   C_Center(InputPage.HANDLE, .T.)
   ON KEY ESCAPE OF InputPage ACTION InputPage.RELEASE
 
+  slFileRefresh := .F.
+
   InputPage.ACTIVATE
+
+  slFileRefresh := .T.
 
   IF HB_IsNumeric(nPage) .and. (nPage < 1)
     nPage := 1
@@ -1390,7 +1437,11 @@ FUNCTION InputSumatraDir()
   C_Center(InputDir.HANDLE, .T.)
   ON KEY ESCAPE OF InputDir ACTION InputDir.RELEASE
 
+  slFileRefresh := .F.
+
   InputDir.ACTIVATE
+
+  slFileRefresh := .T.
 
   IF HB_IsString(cDir)
     scSumatraDir := DirSepAdd(cDir)
@@ -1503,8 +1554,12 @@ FUNCTION AboutPdfView()
 
   HMG_ChangeWindowStyle(About.Label4.HANDLE, 0x0001 /*SS_CENTER*/, NIL, .F., .F.)
 
+  slFileRefresh := .F.
+
   About.Center()
   About.ACTIVATE
+
+  slFileRefresh := .T.
 
 RETURN NIL
 
@@ -1573,9 +1628,12 @@ FUNCTION MsgWin(aMsg)
   MsgWnd.OK.COL := Int((nCAW - 80) / 2)
 
   C_Center(MsgWnd.HANDLE, .T.)
-  //EventCreate({ || If(LoWord(EventWPARAM()) == 2 /*IDCANCEL*/, MsgWnd.RELEASE, NIL) }, MsgWnd.HANDLE, 273 /*WM_COMMAND*/)
+
+  slFileRefresh := .F.
 
   MsgWnd.ACTIVATE
+
+  slFileRefresh := .T.
 
 RETURN NIL
 
@@ -1603,7 +1661,6 @@ FUNCTION RecentFiles()
       CELLNAVIGATION .F.
       ONDBLCLICK     RecentFileOpen((GetKeyState(VK_CONTROL) < 0), (GetKeyState(VK_SHIFT) < 0))
       ONCHANGE       RecentCount()
-      //ONKEY          RecentFilesOnKey()
     END GRID
 
     DEFINE CHECKBOX Names
@@ -1672,8 +1729,13 @@ FUNCTION RecentFiles()
   RecentCount()
   RecentButtonsEnable()
   RecentResize()
+
+  slFileRefresh := .F.
+
   Recent.Center()
   Recent.ACTIVATE
+
+  slFileRefresh := .T.
 
   SetFocus(If(lFileFocus, PdfView.Files.HANDLE, Sumatra_FrameHandle(PanelName())))
 
@@ -1839,6 +1901,10 @@ FUNCTION RecentFileOpen(lAtPage, lNewTab)
 
     FileOpen(cFile, lAtPage, lNewTab)
 
+    IF slTabGoToFile
+      FileGoTo()
+    ENDIF
+
     EnableWindowRedraw(Recent.Files.HANDLE, .F.)
 
     IF Recent.Files.ITEMCOUNT < Len(saRecent)
@@ -1940,7 +2006,7 @@ FUNCTION MainEventHandler(nHWnd, nMsg, nWParam, nLParam)
     ENDIF
   ENDIF
 
-  IF PdfView.Tabs.VISIBLE
+  IF IsControlDefined(Tabs, PdfView) .and. PdfView.Tabs.VISIBLE
     IF nMsg == 517 /*WM_RBUTTONUP*/
       TabChange(Tab_HitTest(nHWnd, nLParam))
       TabMenu(.T.)
@@ -1951,7 +2017,7 @@ FUNCTION MainEventHandler(nHWnd, nMsg, nWParam, nLParam)
     ENDIF
   ENDIF
 
-  IF nHWnd == PdfView.HANDLE
+  IF IsWindowDefined(PdfView) .and. nHWnd == PdfView.HANDLE
     SWITCH nMsg
       CASE 36 /*WM_GETMINMAXINFO*/
         SetMinMaxTrackSize(nLParam, 550, 300)
@@ -2028,6 +2094,11 @@ FUNCTION MainEventHandler(nHWnd, nMsg, nWParam, nLParam)
               PanelShow(saTab[PdfView.Tabs.VALUE], .T.)
               PdfViewResize(.F.)
               StatusSetFile()
+
+              IF slTabGoToFile
+                FileGoTo()
+              ENDIF
+
               EXIT
             CASE -552 /*TCN_SELCHANGING*/
               PanelShow(saTab[PdfView.Tabs.VALUE], .F.)
@@ -2049,7 +2120,7 @@ FUNCTION MainEventHandler(nHWnd, nMsg, nWParam, nLParam)
         EXIT
     ENDSWITCH
 
-  ELSEIF nHWnd == GetFormHandle(cPanel := PanelName())
+  ELSEIF IsControlDefined(Tabs, PdfView) .and. PdfView.Tabs.VALUE > 0 .and. nHWnd == GetFormHandle(cPanel := PanelName())
     SWITCH nMsg
       CASE 36 /*WM_GETMINMAXINFO*/
         nMaxY := GetProperty("PdfView", "CLIENTAREAHEIGHT") - If(PdfView.Tabs.VISIBLE, PdfView.Tabs.HEIGHT, 0) - GetWindowHeight(PdfView.STATUSBAR.HANDLE)
@@ -2336,6 +2407,21 @@ FUNCTION SettingsWrite()
 RETURN NIL
 
 
+FUNCTION ChangeWindowMessageFilter(nHWnd, nMsg, nAction)
+  LOCAL nMajorVer := WinMajorVersionNumber()
+  LOCAL nRetVal
+
+  IF nMajorVer >= 6
+    IF (nMajorVer == 6) .and. (WinMinorVersionNumber() == 0)
+      nRetVal := HMG_CallDLL("User32", NIL, "ChangeWindowMessageFilter", nMsg, nAction)
+    ELSE
+      nRetVal := HMG_CallDLL("User32", NIL, "ChangeWindowMessageFilterEx", nHWnd, nMsg, nAction, 0)
+    ENDIF
+  ENDIF
+
+RETURN nRetVal
+
+
 FUNCTION DirSepAdd(cDir)
 
   IF (! Empty(cDir)) .and. (! (HB_URight(cDir, 1) == "\"))
@@ -2388,6 +2474,7 @@ FUNCTION LangStr(cStr, lRemoveAmpersand)
         CASE "RecentFiles"   ; cText := "Ostatnio otwarte &pliki"             ; EXIT
         CASE "GoToSubDir"    ; cText := "Przejdź do podkatalogu"              ; EXIT
         CASE "GoToParentDir" ; cText := "Przejdź do katalogu nadrzędnego"     ; EXIT
+        CASE "ChooseDir"     ; cText := "&Wybierz katalog"                       ; EXIT
         CASE "RefreshList"   ; cText := "Odśwież &listę"                      ; EXIT
         CASE "Exit"          ; cText := "&Zakończ"                            ; EXIT
         CASE "Document"      ; cText := "&Dokument"                           ; EXIT
@@ -2471,6 +2558,7 @@ FUNCTION LangStr(cStr, lRemoveAmpersand)
           CASE "RecentFiles"   ; cText := "Recent &files"                    ; EXIT
           CASE "GoToSubDir"    ; cText := "Go to subdirectory"               ; EXIT
           CASE "GoToParentDir" ; cText := "Go to parent directory"           ; EXIT
+          CASE "ChooseDir"     ; cText := "Choose &directory"                ; EXIT
         CASE "RefreshList"   ; cText := "Atualizar"                        ; EXIT
         CASE "Exit"          ; cText := "Sair"                             ; EXIT
           CASE "Document"      ; cText := "&Document"                        ; EXIT
@@ -2553,6 +2641,7 @@ FUNCTION LangStr(cStr, lRemoveAmpersand)
         CASE "RecentFiles"   ; cText := "Недавние файлы"                          ; EXIT
         CASE "GoToSubDir"    ; cText := "Перейти в подкаталог"                    ; EXIT
         CASE "GoToParentDir" ; cText := "Перейти в родительский каталог"          ; EXIT
+        CASE "ChooseDir"     ; cText := "Выберите каталог"                          ; EXIT
         CASE "RefreshList"   ; cText := "Обновить список"                         ; EXIT
         CASE "Exit"          ; cText := "Выход"                                   ; EXIT
         CASE "Document"      ; cText := "Документ"                                ; EXIT
@@ -2636,6 +2725,7 @@ FUNCTION LangStr(cStr, lRemoveAmpersand)
           CASE "RecentFiles"   ; cText := "Recent &files"                    ; EXIT
           CASE "GoToSubDir"    ; cText := "Go to subdirectory"               ; EXIT
           CASE "GoToParentDir" ; cText := "Go to parent directory"           ; EXIT
+          CASE "ChooseDir"     ; cText := "Choose &directory"                ; EXIT
         CASE "RefreshList"   ; cText := "Actualizar"                       ; EXIT
         CASE "Exit"          ; cText := "Salir"                            ; EXIT
           CASE "Document"      ; cText := "&Document"                        ; EXIT
@@ -2719,6 +2809,7 @@ FUNCTION LangStr(cStr, lRemoveAmpersand)
       CASE "RecentFiles"   ; cText := "Recent &files"                  ; EXIT
       CASE "GoToSubDir"    ; cText := "Go to subdirectory"             ; EXIT
       CASE "GoToParentDir" ; cText := "Go to parent directory"         ; EXIT
+      CASE "ChooseDir"     ; cText := "Choose &directory"              ; EXIT
       CASE "RefreshList"   ; cText := "&Refresh list"                  ; EXIT
       CASE "Exit"          ; cText := "E&xit"                          ; EXIT
       CASE "Document"      ; cText := "&Document"                      ; EXIT

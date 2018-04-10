@@ -199,11 +199,9 @@ Local cHarbVers:="",cHarbDecVers:="",cOs:="",cHarbBuildDate:="",cPcodeVer:=""
 cCompVer:=HB_COMPILER()
 cHarbVers:=VERSION()
 cOs:=OS()
-// cHarbBuildDate:=HB_BUILDDATE()
-cHarbBuildDate:="??"
+cHarbBuildDate:=HB_BUILDDATE()
 cHarbDecVers:="Harbour Decompiler Alpha 0.1"
-// cPcodeVer:=HB_PCODEVER()
-cPcodeVer:="??"
+cPcodeVer:=HB_PCODEVER()
 cString:="/*"+CRLF+;
          " * "+cHarbDecVers+" "+CRLF+;
          " * "+cHarbVers+" "+CRLF+;

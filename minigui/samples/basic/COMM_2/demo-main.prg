@@ -225,7 +225,7 @@ RETURN NIL
 
 #pragma BEGINDUMP
 
-// #define _WIN32_WINNT 0x0600
+#define _WIN32_WINNT 0x0600
 
 #include <windows.h>
 
@@ -233,7 +233,7 @@ RETURN NIL
 #include "hbapicdp.h"
 
 #include <commctrl.h>
-/*
+
 typedef struct _tagEDITBALLOONTIP
 {
     DWORD   cbStruct;
@@ -241,7 +241,6 @@ typedef struct _tagEDITBALLOONTIP
     LPCWSTR pszText;
     INT     ttiIcon; // From TTI_*
 } EDITBALLOONTIP, *PEDITBALLOONTIP;
-*/
 #define EM_SHOWBALLOONTIP   (ECM_FIRST + 3)     // Show a balloon tip associated to the edit control
 #define Edit_ShowBalloonTip(hwnd, peditballoontip) \
         (BOOL)SNDMSG((hwnd), EM_SHOWBALLOONTIP, 0, (LPARAM)(peditballoontip))
@@ -254,11 +253,11 @@ typedef struct _tagEDITBALLOONTIP
 #define TTI_INFO                1
 #define TTI_WARNING             2
 #define TTI_ERROR               3
-//#if (_WIN32_WINNT >= 0x0600)
+#if (_WIN32_WINNT >= 0x0600)
 #define TTI_INFO_LARGE          4
 #define TTI_WARNING_LARGE       5
 #define TTI_ERROR_LARGE         6
-//#endif  // (_WIN32_WINNT >= 0x0600)
+#endif  // (_WIN32_WINNT >= 0x0600)
 
 #define ECM_FIRST               0x1500      // Edit control messages
 

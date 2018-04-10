@@ -1,0 +1,40 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN ICON "res\brush.ico"
+
+CHECK BITMAP "res\checked.bmp"
+
+UNCHECK BITMAP "res\unchecked.bmp"
+
+HARBOUR GIF "res\harbour.gif"
+
+LOGO AVI "res\compress.avi"
+
+1 VERSIONINFO
+FILEVERSION 1,1,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "MSConfig Cleanup\000"
+		VALUE "FileVersion", "1.1.0.0"
+		VALUE "InternalName", "MSConfigCleanUp\000"
+		VALUE "LegalCopyright", "Freeware 2006-2014\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "MSConfigCleanUp.exe"
+		VALUE "CompanyName", ""
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

@@ -10,6 +10,7 @@ ANNOUNCE RDDSYS
 
 PROCEDURE Main()
 
+   LOCAL cForm := "Form_1"
    LOCAL nClr1 := RGB ( 0, 200, 0 )
    LOCAL nClr2 := RGB ( 0,   0, 0 )
 
@@ -20,12 +21,12 @@ PROCEDURE Main()
       NOMAXIMIZE NOSIZE ;
       ON PAINT ( FillGreen( This.Handle, nClr1, nClr2 ) )
 
-      DRAW TEXT IN WINDOW Form_1 AT 10, 14 ;
+      DRAW TEXT IN cForm AT 10, 14 ;
          VALUE "Program Setup" ;
          FONT "Verdana" SIZE 24 BOLD ITALIC ;
          FONTCOLOR WHITE TRANSPARENT
 
-      DRAW TEXT IN WINDOW Form_1 AT Form_1.Height - 54, Form_1.Width - 250 ;
+      DRAW TEXT IN cForm AT Form_1.Height - 54, Form_1.Width - 250 ;
          VALUE "Copyright (c) 2007-2017 by P.Chornyj" ;
          FONT "Tahoma" SIZE 10 ITALIC ;
          FONTCOLOR WHITE TRANSPARENT

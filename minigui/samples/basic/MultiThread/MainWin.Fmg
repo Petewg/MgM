@@ -1,0 +1,111 @@
+*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+*OPEN SOURCE PROJECT 2005-2015 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
+
+DEFINE WINDOW TEMPLATE AT 197 , 437 WIDTH 550 HEIGHT 350 TITLE "Multi threads Sample" MAIN
+
+     DEFINE FRAME Frame_1
+            ROW    10
+            COL    200
+            WIDTH  315
+            HEIGHT 278
+            CAPTION "Threads"
+     END FRAME
+
+     DEFINE LABEL Label_1
+            ROW    60
+            COL    290
+            WIDTH  120
+            HEIGHT 24
+            VALUE "Clock Here!"
+     END LABEL  
+
+     DEFINE PROGRESSBAR ProgressBar_1
+            ROW    150
+            COL    290
+            WIDTH  150
+            HEIGHT 30
+            RANGEMIN 1
+            RANGEMAX 10
+     END PROGRESSBAR  
+
+     DEFINE BUTTON Button_1
+            ROW    10
+            COL    10
+            WIDTH  160
+            HEIGHT 28
+            ACTION main_button_1_action( @pClockThread )
+            CAPTION "Start Clock Thread"
+     END BUTTON  
+
+     DEFINE BUTTON Button_2
+            ROW    50
+            COL    10
+            WIDTH  160
+            HEIGHT 28
+            ACTION main_button_2_action( @pProgThread )
+            CAPTION "Start ProgressBar Thread"
+     END BUTTON  
+
+     DEFINE BUTTON Button_3
+            ROW    90
+            COL    10
+            WIDTH  160
+            HEIGHT 28
+            ACTION main_button_3_action( @pClockThread, @pProgThread )
+            CAPTION "Stop All Threads"
+     END BUTTON  
+
+     DEFINE BUTTON Button_31
+            ROW    130
+            COL    10
+            WIDTH  160
+            HEIGHT 28
+            ACTION main_button_31_action( @pClockThread, @pProgThread )
+            CAPTION "Start All Threads"
+     END BUTTON  
+
+     DEFINE BUTTON Button_4
+            ROW    220
+            COL    220
+            WIDTH  260
+            HEIGHT 28
+            ACTION main_button_4_action( pClockThread, pProgThread )
+            CAPTION "Main Thread Button"
+     END BUTTON  
+
+     DEFINE BUTTON Button_5
+            ROW    250
+            COL    10
+            WIDTH  160
+            HEIGHT 28
+            ACTION {|| hb_threadTerminateAll(), DoMethod( "MainWin", "Release") }
+            CAPTION "Exit (closing all threads)"
+     END BUTTON  
+
+     DEFINE FRAME Frame_2
+            ROW    30
+            COL    220
+            WIDTH  272
+            HEIGHT 75
+            FONTNAME 'Arial'
+            FONTSIZE 10
+            FONTBOLD .T.
+            CAPTION "Clock Thread - ID:"
+            OPAQUE .T.
+     END FRAME  
+
+     DEFINE FRAME Frame_3
+            ROW    120
+            COL    220
+            WIDTH  272
+            HEIGHT 75
+            FONTNAME 'Arial'
+            FONTSIZE 10
+            FONTBOLD .T.
+            CAPTION "Progressbar Thread - ID:"
+            OPAQUE .T.
+     END FRAME  
+
+END WINDOW
+
+

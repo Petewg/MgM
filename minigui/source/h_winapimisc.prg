@@ -32,10 +32,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -64,3 +64,17 @@ FUNCTION _Execute( hWnd , cOperation , cFile , cParameters , cDirectory , nState
 RETURN ShellExecute( hb_defaultValue( hWnd, GetActiveWindow() ) , ;
    cOperation /* possible values are 'edit', 'explore', 'find', 'open', 'print' */ , ;
    hb_defaultValue( cFile, "" ) , cParameters , cDirectory , hb_defaultValue( nState, SW_SHOWNORMAL ) )
+
+*-----------------------------------------------------------------------------*
+PROCEDURE ShellAbout( cTitle, cMsg, hIcon )
+*-----------------------------------------------------------------------------*
+    STATIC nCount := 0
+
+    IF nCount == 0
+       nCount ++
+       IF c_ShellAbout( GetActiveWindow(), cTitle, cMsg, hIcon )
+          nCount --
+       ENDIF
+    ENDIF
+
+RETURN

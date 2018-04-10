@@ -7,8 +7,6 @@
 
 #include "minigui.ch"
 
-#define ISVISTAORLATER()	( ISVISTA() .Or. ISSEVEN() )
-
 Function Main
 	Local ctrl
 

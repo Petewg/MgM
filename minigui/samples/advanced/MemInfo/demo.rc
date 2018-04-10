@@ -1,6 +1,5 @@
 #define		IDB_ICONFONT	1001
 #define		IDB_ICONFONT2	1002
 
-MAIN		ICON		demo.ico
 IDB_ICONFONT	BITMAP		iconfont.bmp
 IDB_ICONFONT2	BITMAP		iconfont2.bmp

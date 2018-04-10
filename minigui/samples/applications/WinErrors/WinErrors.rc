@@ -1,0 +1,33 @@
+MAINICON ICON "main.ico"
+
+LOGO BITMAP "logo.bmp"
+HELP BITMAP "help.bmp"
+
+1 VERSIONINFO
+FILEVERSION 1,0,1,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Windows Errors\000"
+		VALUE "FileVersion", "1.0.1.0"
+		VALUE "InternalName", "WinErrors"
+		VALUE "LegalCopyright", "Freeware 2006\000"
+		VALUE "LegalTrademarks", "Harbour"
+		VALUE "OriginalFilename", "WinErrors.exe"
+		VALUE "CompanyName", "\000"
+		VALUE "ProductName", "MiniGUI Utility\000"
+		VALUE "ProductVersion", "1.0.0.0"
+		VALUE "Comments", "Created by Grigory Filatov <gfilatov@inbox.ru>\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

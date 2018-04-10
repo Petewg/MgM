@@ -50,10 +50,7 @@ Return
 
 #pragma BEGINDUMP
 
-#define HB_OS_WIN_USED
-#define _WIN32_WINNT 0x0400
-#include <windows.h>
-#include "hbapi.h"
+#include <mgdefs.h>
 
 HB_FUNC (GETDESKTOPREALTOP) 
 {

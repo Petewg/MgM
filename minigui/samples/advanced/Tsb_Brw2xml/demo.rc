@@ -1,0 +1,8 @@
+1MAIN_ICO       ICON         res\1MiniGui.ico
+iColor32x1      ICON         res\iColor32x1.ico
+iColor32x2      ICON         res\iColor32x2.ico
+iExit32x1       ICON         res\iExit32x1.ico
+iExit32x2       ICON         res\iExit32x2.ico
+iXls32x1        ICON         res\iXls32x1.ico
+iXls32x2        ICON         res\iXls32x2.ico
+

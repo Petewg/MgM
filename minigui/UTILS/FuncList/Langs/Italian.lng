@@ -1,0 +1,113 @@
+[HEADER]
+Language=Italian
+NativeLanguage=Italiano
+
+[MAIN_FORM]
+Title=Stock
+btnNew=Crea nuova lista
+btnOpen=Apri file dalla lista
+btnSave=Salva
+btnEdit=Apri in Editor Esterno
+btnOptions=Settaggi
+NameColumn=Nome
+TypeColumn=Tipo
+CommentColumn=Commenti
+lblSearch=Cerca
+msgSearch=Stringa di ricerca
+btnSearch=Cerca ancora
+btnFindAll=Cerca tutto
+
+[MAINMENU]
+File=File
+New=Nuovo
+msgNew=Crea nuova lista
+Open=Apri
+msgOpen=Apre una lista esistente
+Save=Salva
+msgSave=Salva la lista in un file
+Exit=Esci
+msgExit=Uscita dal programma
+Edit=Edita
+SetTitle=Descrizione
+msgSetTitle=Setta la descrizione del catalogo attuale
+OpenEditor=Apri nell'editor
+msgOpenEditor=Apre il modulo in un Editor esterno
+CopyName=Copia nome
+msgCopyName=Copia il nome nel buffer di Windows
+Tools=Strumenti
+CodeFormat=Formattazione Codice
+msgCodeFormat=Formattazione del codice sorgente
+CallsTable=Chiamate alle Funzioni
+msgCallsTable=Tavola delle chiamate alle Procedure e funzioni
+Service=Servizio
+Language=Lingua
+SelectLang=Scegli la lingua
+msgLanguage=Seleziona la lingua
+TemplateLang=Crea Template
+msgTemplate=Crea il file di template per la lingua
+Options=Opzioni
+msgOptions=Setta le opzioni del programma
+About=About
+msgAbout=About Stock
+
+[OPTIONS_FORM]
+Title=Opzioni
+frmOnStart=All'inizio
+rdgOnStart1=Niente
+rdgOnStart2=carica ultima lista
+frmSearch=Modalita ricerca
+rdgSearch1=Esatta
+rdgSearch2=Approssimativa
+Editor=Editor esterno
+rdgParameters1=Semplice
+rdgParameters2=Vai alla linea %N
+rdgParameters3=Vai alla procedura %P
+
+[SELECTLANG_FORM]
+Title=Scelta Linguaggio
+
+[SETTITLE_FORM]
+Title=Titolo catalogo
+lblName=Nome
+[FINDALL_FORM]
+Title=Risultato ricerca
+lblName=Entrata
+NameColumn=Nome
+FileColumn=File
+TypeColumn=Tipo
+btnGoto=Vai
+
+[SYSDIALOGS_FORM]
+FromFile=Carica da file
+ChoiceEditor=Scegli Editor
+TextFiles=Testo
+AppFiles=Eseguibile
+AllFiles=Tutti i file
+SourceDir=directory sorgente
+ToFile=Salva nel file
+Warning=Avviso
+FileExist=il File %N esiste. Riscrivo ?
+Inform=Informazioni
+Created=Creato il file %N
+
+[FORMATTER_FORM]
+Title=Formattazione codice sorgente
+frmFiles=Eseguire per
+rdgFiles1=Solo file corrente
+rdgFiles2=Tutti i files
+frmCase=Modalit. Parola Chiave
+rdgCase1=Minuscolo
+rdgCase2=MAIUSCOLO
+rdgCase3=Capitale
+btnGoto=Inizio
+Console=Formattazione in corso.....
+Started=Iniziata
+Skipped=Scartato
+Finished=Finita
+Elapsed=Tempo Trascorsco
+KeyLoad=Caricamento Lista Parola Chiave
+KeyEmpty=Lista Parola Chiave vuota
+PhLoad=Caricamento Lista della Frasi
+PhEmpty=Lista delle frasi vuota
+OpenError=Errore in Apertura
+CreateError=Errore nella Creazione

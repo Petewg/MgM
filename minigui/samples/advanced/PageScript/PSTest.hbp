@@ -1,0 +1,17 @@
+#
+# PSTest.hbp
+#
+ 
+-lpscript
+-lhbxpp
+ 
+-hbexe
+-inc
+ 
+-o${hb_name}
+ 
+-w2
+-es2
+
+PSTest.prg
+PSTest.rc

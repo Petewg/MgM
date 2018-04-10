@@ -1,0 +1,247 @@
+   DEFINE WINDOW frmDBAMain ; 
+      AT 0,0 ;
+      WIDTH  nMainWWid ;
+      HEIGHT nMainWHig ;
+      TITLE  "HMG Data Base Assistant" ;
+      MAIN ;
+      ICON "DBAICO" ;
+      ON INIT InitProg() ;
+      ON INTERACTIVECLOSE ShutDown() ;
+      ON RELEASE  ShutDown( 1 ); 
+      ON SIZE     DBA_Refr()  ; 
+      ON MAXIMIZE DBA_Refr()   // ON SIZE, ON MAXIMIZE'ý þamil deðil.
+
+      ON KEY ESCAPE ACTION ShutDown()
+            
+      ON KEY CONTROL+O ACTION OpenTabl() 
+      ON KEY CONTROL+C ACTION { || IF( EMPTY( aOpnDatas ), ,  ClosData(,"C") ) } 
+      
+      ON KEY F3        ACTION T_ListRecs()
+      ON KEY F5        ACTION { || IF( CDIsTable(), DispStru(), ) }
+      ON KEY F6        ACTION DBStatus() // cdc.DispStat()
+      ON KEY F8        ACTION { || IF( CDIsTable(), T_DispEdit( 1 ), ) }
+      ON KEY F9        ACTION { || IF( CDIsTable(), T_AppeReco(),    ) }
+      ON KEY F10       ACTION { || IF( CDIsTable(), T_DispEdit( 2 ), ) }
+      ON KEY F7        ACTION TC_Continue()
+      
+      DEFINE MAIN MENU
+      
+         POPUP "&File"
+         
+            POPUP "&New"      NAME mitNew
+               POPUP "&Table"       
+                  ITEM "By &Defining"          NAME mitNewTBDef   ACTION NewTableBD() 
+                  ITEM "From Stru &Extended"   NAME mitNewTStEx   ACTION NewTableSE() 
+                  ITEM "Empty Stru &Extended"  NAME mitNewTEStEx  ACTION NewTableES() 
+               END POPUP // Table 
+            END POPUP  // Open
+         
+            POPUP "&Open"    NAME mitOpen
+               ITEM "&Table     (^O)"	    NAME mitOpenTable  ACTION OpenTabl()
+               SEPARATOR                   
+               ITEM "&Recents"             NAME mitRecents  ACTION Recents()
+            END POPUP  // Open
+            
+            POPUP "&Close"    NAME mitClose
+            
+               POPUP "&Table" NAME mitClosTable
+                  ITEM "&Current  (^C)"    NAME mitClosCurT ACTION ClosData("T","C") 
+                  ITEM "&Selective"        NAME mitClosMulT ACTION ClosData("T","M") 
+                  ITEM "&All"              NAME mitClosAllT ACTION ClosData("T","A")
+               END POPUP // Table    
+               SEPARATOR                   
+               ITEM "&Selective"           NAME mitClosMulA ACTION ClosData("A","M") 
+               ITEM "&All"                 NAME mitClosAllD ACTION ClosData("A","A")
+            END POPUP  // Close
+            
+            SEPARATOR
+         
+            ITEM "&Quit    ( Esc )" NAME mitQuit ACTION ShutDown() 
+            
+         END POPUP  // File
+         
+         POPUP  "&Update" NAME mitUpdate
+         
+            POPUP "&Append"    NAME mitAppend   
+               ITEM "&Record    ( F9 )"  NAME mitAppReco ACTION T_AppeReco() 
+               ITEM "&From"              NAME mitAppFrom ACTION T_AppeFrom() 
+            END POPUP // Append
+            
+            ITEM "&Edit          ( F10 )"  NAME mitEdit      ACTION T_DispEdit( 2 ) 
+            ITEM "&Replace"                NAME mitReplace   ACTION T_Replace() 
+            ITEM "&Insert       ( ^Ins )"  NAME mitInseReco  ACTION T_InseReco() 
+            
+            POPUP "&Delete"     NAME mitDelete   
+               ITEM "&Current      ( ^Del )"  NAME mitDeleCur  ACTION T_DeleReca( 1, 1 )
+               ITEM "&Selective"              NAME mitDeleMult ACTION T_DeleReca( 1, 2 )
+               ITEM "&All"                    NAME mitDeleAll  ACTION T_DeleReca( 1, 3 )
+            END POPUP // Delete    
+            
+            POPUP "&Re&call"    NAME mitReCall
+               ITEM "&Current      ( ^Del )"  NAME mitRecaCur  ACTION T_DeleReca( 2, 1 )
+               ITEM "&Selective"              NAME mitRecaMult ACTION T_DeleReca( 2, 2 )
+               ITEM "&All"                    NAME mitRecaAll  ACTION T_DeleReca( 2, 3 )
+            END POPUP // Delete    
+            
+            ITEM "&Pack"     NAME mitPack     ACTION T_Pack()    
+            ITEM "&Zap"      NAME mitZap      ACTION T_Zap()    
+            
+         END POPUP  // Update
+         
+         POPUP "&Position" NAME mitPosition
+            POPUP "&Go"         NAME mitGo
+               ITEM "&Top"      NAME mitGoTop     ACTION { || DBGOTOP(),    RefrBrow() }
+               ITEM "&Bottom"   NAME mitGoBottom  ACTION { || DBGOBOTTOM(), RefrBrow() }
+               ITEM "&Record"   NAME mitGotoReco  ACTION T_GotoReco()
+            END POPUP // Go
+            POPUP "&Search"     NAME mitSearch    
+               ITEM "Locate"    NAME mitLocate    ACTION T_Locate()  
+               ITEM "Continue   ( F7 )"  NAME mitContinue  ACTION TC_Continue()
+            END POPUP // Search"     
+            ITEM "&Seek"        NAME mitSeek      ACTION T_Seek()        
+            ITEM "S&kip"        NAME mitSkip      ACTION T_Skip()  
+         END POPUP // Position
+         
+         POPUP "&Retrieve" NAME mitRetrieve
+            POPUP "&Display"    NAME mitDisplay  
+               ITEM "&Records    ( F8 )" NAME mitDispEdit ACTION T_DispEdit( 1 ) 
+               SEPARATOR 
+               ITEM "&Structure  ( F5 )" NAME mitDispStruct ACTION DispStru()
+               ITEM "S&tatus     ( F6 )" NAME mitDispStatus ACTION DBStatus() // cdc.DispStat()
+            END POPUP // Display 
+            ITEM "&List       ( F3 )" NAME mitListRecs ACTION T_ListRecs()
+            SEPARATOR                                   
+            ITEM "&Sum"         NAME mitSum      ACTION T_Arithm( 1 )    
+            ITEM "&Average"     NAME mitAverage  ACTION T_Arithm( 2 )
+            ITEM "&Count"       NAME mitCount    ACTION T_Arithm( 3 )  
+         END POPUP // Retrieve
+
+         POPUP "&Organize"  NAME mitOrganize
+            POPUP "&Index"     NAME mitOrgIndex 
+               ITEM "&Set"     NAME mitInxSet     ACTION T_SetIndex()
+               ITEM "Re&lease" NAME mitInxRelease ACTION T_ReleIndex()
+               ITEM "&Build"   NAME mitInxBuild   ACTION T_NewIndex()
+               ITEM "&ReIndex" NAME mitInxReBui   ACTION T_Re_Index()
+               ITEM "&Order"   NAME mitInxOrder   ACTION T_SetOrder()     
+            END POPUP // Index
+            ITEM "&Sort"       NAME mitOrgSort    ACTION T_Sort()
+            ITEM "&Total"      NAME mitOrgTotl    ACTION T_Total()
+            SEPARATOR                       
+            POPUP "&Copy To..."    NAME mitCopyTo
+               POPUP "&Records"   
+                  ITEM "&Exactly"      NAME mitCopyClone   ACTION T_Copy_To( 1 ) 
+                  ITEM "&Selective"    NAME mitCopyClone   ACTION T_Copy_To( 2 ) 
+                  ITEM "S&pecial"      NAME mitCopySpecl   ACTION T_Copy_Spec( 2 ) 
+               END POPUP // Records   
+               ITEM "&Structure Only"       NAME mitCopyStOnly  ACTION T_Copy_To( 3 ) 
+               ITEM "&Structure Extended"   NAME mitCopyStExt   ACTION T_Copy_To( 4 ) 
+            END POPUP // Copy To...            
+         END POPUP // Organize
+
+         POPUP "&Modify"     NAME mitModify       
+            ITEM "&Table"       NAME mitMdfTable  ACTION T_MdfTable()
+         END POPUP // Modify
+         
+         POPUP "&Tools"      NAME mitTools
+            ITEM "&Preferences"     NAME mitPreferns     ACTION GFUUPrefers()
+            SEPARATOR                                             
+            ITEM "&Find String"     NAME mitFindStrg     ACTION FindStrg()
+         END POPUP // Tools
+         
+         POPUP "&?"
+            ITEM "&What is this ?"  NAME mitDescrp ACTION DBAbout()
+            ITEM "&How to ... ?"    NAME mitHowTo  ACTION DBA_HowTo()
+         END POPUP  // Help
+         
+      END MENU // MAIN
+      
+      #include "FloaBtns.pen"
+      
+      DEFINE STATUSBAR FONT 'Verdana' SIZE 8   
+         STATUSITEM ""
+         STATUSITEM "" WIDTH 100
+         STATUSITEM "" WIDTH 22
+         STATUSDATE    WIDTH 80 FONTCOLOR BLACK
+         CLOCK
+      END STATUSBAR
+      
+      @ 140, 40 LABEL lblPages WIDTH 300 AUTOSIZE 
+            
+   END WINDOW // frmDBAMain
+
+   
+   
+**** ÝBG'ler   
+
+/*               
+   UnKnown'lar 
+   
+   Close :
+               POPUP "&UnKnown"            NAME mitClosUnKnw
+                  ITEM "&Current  (^C)"    NAME mitClosCurU ACTION ClosData("U","C") 
+                  ITEM "&Selective"        NAME mitClosMulU ACTION ClosData("U","M") 
+                  ITEM "&All"              NAME mitClosAllU ACTION ClosData("U","A")
+               END POPUP // UnKnown
+  New :
+               
+               ITEM "&UnKnown"     NAME mitNewUnKnw  ACTION NewOther()          
+  Open :
+               
+               ITEM "&UnKnown"             NAME mitOpenUnKnw  // ACTION OpenText()          
+               
+*/               
+   
+   
+/*          
+    News   
+               ITEM "&Catalog"   NAME mitNewCatal  // ACTION NewCatal()
+               ITEM "&View"      NAME mitNewView   // ACTION NewView()          
+               ITEM "&Query"     NAME mitNewQuery  // ACTION NewQuery()
+               ITEM "&Format"    NAME mitNewFormat // ACTION NewFormat()
+               ITEM "&Report"    NAME mitNewReport // ACTION NewReport()          
+               ITEM "&Label"     NAME mitNewLabel  // ACTION NewLabel()
+*/               
+/*      
+    Opens         
+               ITEM "&Catalog"             NAME mitOpenCatal  // ACTION OpenCatal()
+               ITEM "&View"                NAME mitOpenView   // ACTION OpenView()          
+               ITEM "&Query"               NAME mitOpenQuery  // ACTION OpenQuery()
+               ITEM "&Format"              NAME mitOpenFormat // ACTION OpenFormat()
+               ITEM "&Report"              NAME mitOpenReport // ACTION OpenReport()          
+               ITEM "&Label"               NAME mitOpenLabel  // ACTION OpenLabel()
+*/               
+/*       
+    Closes        
+               ITEM "&Catalog"             NAME mitClosCatal   // ACTION ClosCatal()
+               ITEM "&View"                NAME mitClosView    // ACTION ClosView()          
+               ITEM "&Query"               NAME mitClosQuery   // ACTION ClosQuery()
+               ITEM "&Format"              NAME mitClosFormat  // ACTION ClosFormat()
+               ITEM "&Report"              NAME mitClosReport  // ACTION ClosReport()          
+               ITEM "&Label"               NAME mitClosLabel   // ACTION ClosLabel()
+*/               
+/*        
+   Retrieves    
+            ITEM "&Report"      NAME mitReport   // ACTION T_Report()
+            ITEM "&Label"       NAME mitLabel    // ACTION T_Label()  
+*/            
+/*          
+   Modifies  
+            ITEM "&Format"      NAME mitMdfFormat // ACTION T_MdfFormat()
+            ITEM "&View"        NAME mitMdfView   // ACTION T_MdfView()
+            ITEM "&Query"       NAME mitMdfQuery  // ACTION T_MdfQuery()
+            ITEM "&Report"      NAME mitMdfReport // ACTION T_MdfReport()
+            ITEM "&Label"       NAME mitMdfLabel  // ACTION T_MdfLabel()
+*/
+            
+/*
+   Tools :   
+           ITEM "&Directory"       NAME mitDirectory    // ACTION F_Directory()
+           ITEM "&Files"     NAME mitDispFiles
+            ITEM "&Copy file"       NAME mitCopyFile     // ACTION F_CopyFile()
+            ITEM "&Rename"          NAME mitRename       // ACTION F_Rename()
+            ITEM "&Erase"           NAME mitErase        // ACTION F_Erase()
+            SEPARATOR                                             
+            ITEM "&Import"          NAME mitImport       // ACTION F_Import()
+            ITEM "&Export"          NAME mitExport       // ACTION F_Export()
+            SEPARATOR                                             
+*/           

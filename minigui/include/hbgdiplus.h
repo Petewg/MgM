@@ -18,7 +18,14 @@
 #  endif /* __MINGW32__ */
 # endif /* __BORLANDC__ */
 
+# if defined( _MSC_VER )
+#  pragma warning(push)
+#  pragma warning(disable:4201)  /* warning C4201: nonstandard extension used: nameless struct/union */
+# endif 
 # include "fGdiPlusFlat.h"
+# if defined( _MSC_VER )
+#  pragma warning(pop)
+# endif
 
 # define _GDI_GRAPHICS 1
 # define _GDI_PEN      2

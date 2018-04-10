@@ -1,23 +1,21 @@
 /*******************************************************************************
-   Filename       : Indici.prg
+   Filename			: Indici.prg
 
-   Created        : 05 April 2012 (10:50:55)
-   Created by     : Pierpaolo Martinello
+   Created			: 05 April 2012 (10:50:55)
+   Created by		: Pierpaolo Martinello
 
-   Last Updated      : 01/06/2013 15:39:30
-   Updated by     : Pierpaolo
+   Last Updated		: 01/06/2013 15:39:30
+   Updated by		: Pierpaolo
 
-   Comments       : Freeware
-****************************************************************************** 
-*/
+   Comments			: Freeware
+*******************************************************************************/
 
 
 *-----------------------------------------------------------------------------*
 Procedure Opentable()
 *-----------------------------------------------------------------------------*
-   local aarq //, dbd :="."+right(oFatt:Dbf_driver,3), error :=.f. 
-   local lf 
-   local archivio // := oFatt:DataPath+"Presa.DbF"
+   local aarq, dbd :="."+right(oFatt:Dbf_driver,3), error :=.f. , lf:={}
+   local archivio := oFatt:DataPath+"Presa.DbF"
    Local aMsg := {"Archive Bookings unavailable try again?"," Archivio Prenotazioni non disponibile Riprovo?"} [alng]
 
    CLEAN MEMORY
@@ -45,7 +43,7 @@ Procedure Opentable()
       DbCreate((Archivio), aarq, oFatt:Dbf_driver)
       MSGT(1.5,[Archivio Prenotazioni creato!],,.t.)
 
-      aarq:=NIL //{}
+      aarq:={}
    Endif
    dbSelectArea( "1" )
    if net_use( Archivio,"PRESA",.t.,2,.F.,aMsg )

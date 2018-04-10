@@ -1,0 +1,17 @@
+MemStat 1.1
+for Windows 9x/ME/2k/XP/Vista/Se7en
+----------------------------------------
+**Description**
+A desktop tray accessory which provides the
+user with a pop-up screen showing the PC's
+current memory statistics. Has information
+for Physical, Virtual, and Page-File sizes.
+
+**Installation**
+UnZip the archive MEMSTAT.ZIP into a
+directory of your choice.  Make a shortcut
+in your startup folder to make the
+'MemStat.exe' program run automatically
+whenever the computer is started.
+Enjoy!
+----------------------------------------

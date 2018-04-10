@@ -44,7 +44,7 @@ win_KillProcess( nProcessID )  -> .T. on success, .F. otherwise
 
 mgm_WaitWindow( cMessage, lNoWait, aBackColor, aForeColor ) -> NIL
       displays a wait waindow with more than 1 line if cMessage contains EOLs
-      TODO: add icon & sound & timeout (optional)
+      TODO: add icon & sound (optional)
 
 mgm_CenterWin2Win( <FormHandle>, <ParentHandle> ) -> lSuccess
 Centers window with handle <FormHandle> into window <ParentHandle>.

@@ -88,7 +88,7 @@ FUNCTION toolWin()
 
    If IsWindowActive ( Form_Fl )
       Form_Fl.Release
-       DoEvents()
+      do events
    endif
 
       DEFINE WINDOW Form_Fl ;
@@ -105,92 +105,92 @@ FUNCTION toolWin()
             BUTTON Button_1 ;
                PICTURE "NEW.bmp" ;
                TOOLTIP 'New file';
-               ACTION MsgInfo( This.ToolTip )
+               ACTION MsgInfo('Click 1! ')
 
             BUTTON Button_2 ;
                PICTURE "OPEN.bmp" ;
                TOOLTIP 'File open';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 2! ')
 
             BUTTON Button_3 ;
                PICTURE "SAVE.bmp" ;
                TOOLTIP 'Save file';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click 3! ');
 
             BUTTON Button_4 ;
                PICTURE "PREVIEW.bmp" ;
                TOOLTIP 'Print Preview';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 4! ')
 
             BUTTON Button_5 ;
                PICTURE "PRINTER.bmp" ;
                TOOLTIP 'Print';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click 5! ');
 
             BUTTON Button_6 ;
                PICTURE "Find2.bmp" ;
                TOOLTIP 'Find';
-               ACTION MsgInfo(This.ToolTip) ;
+               ACTION MsgInfo('Click 6! ') ;
 
             BUTTON Button_7 ;
                PICTURE "COPY.bmp";
                TOOLTIP 'Copy';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 7! ')
 
             BUTTON Button_8 ;
                PICTURE "CUT.bmp" ;
                TOOLTIP 'Cut';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 8! ')
 
             BUTTON Button_9 ;
                PICTURE "PASTE.bmp" ;
                TOOLTIP 'Paste';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 9! ')
 
             BUTTON Button_1b ;
                PICTURE "NEW.bmp" ;
                TOOLTIP 'New file';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 1! ')
 
             BUTTON Button_2b ;
                PICTURE "OPEN.bmp" ;
                TOOLTIP 'File open';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 2! ')
 
             BUTTON Button_3b ;
                PICTURE "SAVE.bmp" ;
                TOOLTIP 'Save file';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click 3! ');
 
             BUTTON Button_4b ;
                PICTURE "PREVIEW.bmp" ;
                TOOLTIP 'Print Preview';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 4! ')
 
             BUTTON Button_5b ;
                PICTURE "PRINTER.bmp" ;
                TOOLTIP 'Print';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click 5! ');
 
             BUTTON Button_6b ;
                PICTURE "Find2.bmp" ;
                TOOLTIP 'Find';
-               ACTION MsgInfo(This.ToolTip) ;
+               ACTION MsgInfo('Click 6! ') ;
 
             BUTTON Button_7b ;
                PICTURE "COPY.bmp";
                TOOLTIP 'Copy';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 7! ')
 
             BUTTON Button_8b ;
                PICTURE "CUT.bmp" ;
                TOOLTIP 'Cut';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 8! ')
 
             BUTTON Button_9b ;
                PICTURE "PASTE.bmp" ;
                TOOLTIP 'Paste';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click 9! ')
 
          END TOOLBAR
 
@@ -207,7 +207,7 @@ FUNCTION toolWin1()
 
    If IsWindowActive ( Form_Fl )
       Form_Fl.Release
-       DoEvents()
+      do events
    endif
 
       DEFINE WINDOW Form_Fl ;
@@ -223,72 +223,72 @@ FUNCTION toolWin1()
             BUTTON Button_1 ;
                PICTUREINDEX STD_FILENEW ;
                TOOLTIP 'New file';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_2 ;
                PICTUREINDEX STD_FILEOPEN ;
                TOOLTIP 'File open';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_3 ;
                PICTUREINDEX STD_FILESAVE ;
                TOOLTIP 'Save file';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_4 ;
                PICTUREINDEX STD_PRINTPRE ;
                TOOLTIP 'Print Preview';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_5 ;
                PICTUREINDEX STD_PRINT ;
                TOOLTIP 'Print ';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_6 ;
                PICTUREINDEX STD_PROPERTIES ;
                TOOLTIP 'Properties';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_7 ;
                PICTUREINDEX STD_REPLACE ;
                TOOLTIP 'Replace';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_8 ;
                PICTUREINDEX STD_FIND ;
                TOOLTIP 'Find';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_9 ;
                PICTUREINDEX STD_CUT ;
                TOOLTIP 'Cut';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_10 ;
                PICTUREINDEX STD_DELETE ;
                TOOLTIP 'Delete';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_11 ;
                PICTUREINDEX STD_PASTE ;
                TOOLTIP 'Paste';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_12 ;
                PICTUREINDEX STD_UNDO ;
                TOOLTIP 'Undo';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_13 ;
                PICTUREINDEX STD_REDOW ;
                TOOLTIP 'Redo';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_14 ;
                PICTUREINDEX STD_HELP ;
                TOOLTIP 'Help';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
 
          END TOOLBAR
@@ -306,7 +306,7 @@ FUNCTION toolWin2()
 
    If IsWindowActive ( Form_Fl )
       Form_Fl.Release
-       DoEvents()
+      do events
    endif
 
       DEFINE WINDOW Form_Fl ;
@@ -323,72 +323,72 @@ FUNCTION toolWin2()
             BUTTON Button_1 ;
                PICTUREINDEX STD_FILENEW ;
                TOOLTIP 'New file';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_2 ;
                PICTUREINDEX STD_FILEOPEN ;
                TOOLTIP 'File open';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_3 ;
                PICTUREINDEX STD_FILESAVE ;
                TOOLTIP 'Save file';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_4 ;
                PICTUREINDEX STD_PRINTPRE ;
                TOOLTIP 'Print Preview';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_5 ;
                PICTUREINDEX STD_PRINT ;
                TOOLTIP 'Print ';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_6 ;
                PICTUREINDEX STD_PROPERTIES ;
                TOOLTIP 'Properties';
-               ACTION MsgInfo(This.ToolTip)
+               ACTION MsgInfo('Click! ')
 
             BUTTON Button_7 ;
                PICTUREINDEX STD_REPLACE ;
                TOOLTIP 'Replace';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_8 ;
                PICTUREINDEX STD_FIND ;
                TOOLTIP 'Find';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_9 ;
                PICTUREINDEX STD_CUT ;
                TOOLTIP 'Cut';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_10 ;
                PICTUREINDEX STD_DELETE ;
                TOOLTIP 'Delete';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_11 ;
                PICTUREINDEX STD_PASTE ;
                TOOLTIP 'Paste';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_12 ;
                PICTUREINDEX STD_UNDO ;
                TOOLTIP 'Undo';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_13 ;
                PICTUREINDEX STD_REDOW ;
                TOOLTIP 'Redo';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
             BUTTON Button_14 ;
                PICTUREINDEX STD_HELP ;
                TOOLTIP 'Help';
-               ACTION MsgInfo(This.ToolTip);
+               ACTION MsgInfo('Click! ');
 
          END TOOLBAR
 

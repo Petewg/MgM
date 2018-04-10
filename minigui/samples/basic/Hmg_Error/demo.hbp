@@ -1,10 +1,2 @@
--w0
--es1 
-
--ldflag+=--allow-multiple-definition
-
-
 Main.Prg
 Hmg_Error.Prg
-
-demo.hbc

@@ -328,10 +328,7 @@ Return
 
 #pragma BEGINDUMP
 
-#define HB_OS_WIN_USED
-#define _WIN32_WINNT 0x0400
-#include <windows.h>
-#include "hbapi.h"
+#include <mgdefs.h>
 
 
 /******
@@ -345,7 +342,7 @@ HB_FUNC_STATIC( GETDESKTOPREALWIDTH )
    RECT rect;
    SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
 
-   hb_retni(rect.right - rect.left);
+   hb_retni( rect.right - rect.left );
 
 }
 
@@ -360,7 +357,7 @@ HB_FUNC_STATIC( GETDESKTOPREALHEIGHT )
    RECT rect;
    SystemParametersInfo( SPI_GETWORKAREA, 1, &rect, 0 );
 
-   hb_retni(rect.bottom - rect.top);
+   hb_retni( rect.bottom - rect.top );
 }
 
 #pragma ENDDUMP

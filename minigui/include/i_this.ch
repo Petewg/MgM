@@ -32,10 +32,10 @@
 	"Harbour GUI framework for Win32"
  	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -55,8 +55,8 @@
 #xtranslate This . <c> . <p:ClientHeight> => _GetClientRect ( GetControlHandle ( <"c"> , _HMG_THISFORMNAME ) ) \[4]
 #xtranslate This . <c> . <p:Value,Name,Handle,Type,Index,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop> => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> )
 #xtranslate This . <c> . <p:Value,Name,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <n> )
-#xtranslate This . <c> . <p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner,Object> => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> )
-#xtranslate This . <c> . <p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,Blink,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <n> )
+#xtranslate This . <c> . <p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner,Alignment,GradientFill,GradientOver,Object> => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> )
+#xtranslate This . <c> . <p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,Blink,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,AutoFont,RichValue,CueBanner,Alignment,GradientFill,GradientOver> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <n> )
 #xtranslate This . <c> . <p:Caption,Header,Image,Item,Icon,ToolTip,Width,ColumnWidth,Enabled,RichValue,HeaderImage,CheckboxItem> (<arg>) => GetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <arg> )
 #xtranslate This . <c> . <p:Velocity> := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , "Velocity" , <n> )
 #xtranslate This . <c> . <p:Caption,Header,Image,Item,Icon,ToolTip,Width,ColumnWidth,Enabled,RichValue,CheckboxItem> (<arg>) := <n> => SetProperty ( _HMG_THISFORMNAME, <"c"> , <"p"> , <arg> , <n> )
@@ -118,8 +118,8 @@
 
 * Property without arguments
 
-#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,HBitmap,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,Displayvalue,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Length,Position,CaretPos,CueBanner> => GetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> )
-#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,HBitmap,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,DisplayValue,Visible,Enabled,Checked,RangeMin,RangeMax,Repeat,Speed,Volume,Zoom,Position,CaretPos,Action,Blink,CueBanner> := <arg> => SetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> , <arg> )
+#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,Icon,HBitmap,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,Displayvalue,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Length,Position,CaretPos,CueBanner,Alignment,GradientFill,GradientOver> => GetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> )
+#xtranslate This . <p:FontColor,ForeColor,Value,ReadOnly,DisableEdit,Address,Picture,Icon,HBitmap,Tooltip,FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeout,Caption,DisplayValue,Visible,Enabled,Checked,RangeMin,RangeMax,Repeat,Speed,Volume,Zoom,Position,CaretPos,Action,Blink,Alignment,CueBanner,GradientFill,GradientOver> := <arg> => SetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> , <arg> )
 
 * Property with 1 argument
 

@@ -34,10 +34,10 @@
     "Harbour GUI framework for Win32"
     Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2018, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -50,13 +50,13 @@
  */
 
 #include <mgdefs.h>
+
 #include "hbapierr.h"
 #include "hbapistr.h"
 
 #ifdef __XHARBOUR__
-#define hb_storclen_buffer  hb_storclenAdopt
+# define hb_storclen_buffer  hb_storclenAdopt
 #endif
-
 
 BOOL _isValidCtrlClassA( HWND hwndTip, const char * ClassName ); /* P.Ch. 16.10. */
 
@@ -176,7 +176,7 @@ HB_FUNC( SETWINDOWSTYLE )
       LONG_PTR nOldStyle = GetWindowLongPtr( hwnd, GWL_STYLE );
       LONG_PTR nNewStyle = ( LONG_PTR ) HB_PARNL( 2 );
 
-      HB_RETNL( SetWindowLongPtr( hwnd, GWL_STYLE, ( ( BOOL ) hb_parl( 3 ) ) ? nOldStyle | nNewStyle : nOldStyle & ( ~nNewStyle ) ) );
+      HB_RETNL( SetWindowLongPtr( hwnd, GWL_STYLE, ( ( BOOL ) hb_parl( 3 ) ) ? nOldStyle | nNewStyle : nOldStyle& ( ~nNewStyle ) ) );
    }
    else
       hb_errRT_BASE_SubstR( EG_ARG, 3012, "MiniGUI Error", HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );

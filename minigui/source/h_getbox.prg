@@ -37,10 +37,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    "Harbour GUI framework for Win32"
    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2018, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -82,8 +82,8 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
    LOCAL aControlHandle := {}
    LOCAL mVar, lDialogInMemory
    LOCAL FontHandle, nMaxLength
-   LOCAL WorkArea, blInit, cBmp, cTTip
-   LOCAL lBtns := .F., lBtn2 := .F.
+   LOCAL WorkArea, blInit, cBmp, tmp
+   LOCAL lBtns := ISBLOCK( ProcedureName ), lBtn2 := ISBLOCK( ProcedureName2 )
    LOCAL k, Style, aPicData, oGet
 
    IF Empty( field ) .AND. ValType( Value ) == "U"
@@ -129,17 +129,10 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
       aBitmap[1] := cBmp
    ENDIF
 
-   IF ProcedureName != Nil
-      lBtns := .T.
-   ENDIF
-   IF ProcedureName2 != Nil
-      lBtn2 := .T.
-   ENDIF
-
    IF ValType ( aToolTip ) != 'A'
-      cTTip := aToolTip
+      tmp := aToolTip
       aToolTip := Array( 3 )
-      aToolTip[1] := cTTip
+      aToolTip[1] := tmp
    ELSE
       IF Len( aToolTip ) < 3
          aToolTip := ASize( aToolTip, 3 )
@@ -229,7 +222,7 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
 
       ParentFormHandle  := GetFormHandle( ParentFormName )
 
-      aControlHandle := InitGetBox( ParentFormHandle, 0, x, y, w, h, '', 0, nMaxLength, ;
+      aControlHandle := InitGetBox ( ParentFormHandle, 0, x, y, w, h, '', 0, nMaxLength, ;
          .F. , .F. , .F. , lPassword , right , readonly , invisible , notabstop, abitmap[1], BtnWidth, lBtns, abitmap[2], lBtn2, noborder )
 
       ControlHandle := aControlHandle[1]
@@ -251,15 +244,11 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
          AAdd ( _HMG_ActiveTabCurrentPageMap , ControlHandle )
       ENDIF
 
-      IF ValType( aToolTip[1] ) != "U"
-         SetToolTip( aControlHandle[1], aToolTip[1], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[2] ) != "U"
-         SetToolTip( aControlHandle[2], aToolTip[2], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[3] ) != "U"
-         SetToolTip( aControlHandle[3], aToolTip[3], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
+      FOR tmp := 1 TO 3
+         IF ValType( aToolTip[tmp] ) != "U"
+            SetToolTip ( aControlHandle[tmp], aToolTip[tmp], GetFormToolTipHandle ( ParentFormName ) )
+         ENDIF
+      NEXT
 
    ENDIF
 
@@ -289,7 +278,7 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
 
    Public &mVar. := k
 
-   _HMG_aControlType [k] := "GETBOX"
+   _HMG_aControlType  [k] := "GETBOX"
    _HMG_aControlNames  [k] :=  ControlName
    _HMG_aControlHandles  [k] :=  ControlHandle
    _HMG_aControlParenthandles  [k] :=  ParentFormHandle
@@ -303,12 +292,12 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
    _HMG_aControlChangeProcedure  [k] :=  uChange
    _HMG_aControlDeleted  [k] :=  .F.
    _HMG_aControlBkColor  [k] :=  backcolor
-   _HMG_aControlFontColor [k] :=  fontcolor
+   _HMG_aControlFontColor  [k] :=  fontcolor
    _HMG_aControlDblClick  [k] :=  iif( readonly, NIL, ProcedureName2 )
    _HMG_aControlHeadClick  [k] :=  oGet
    _HMG_aControlRow  [k] :=  y
    _HMG_aControlCol  [k] :=  x
-   _HMG_aControlWidth   [k] :=  w
+   _HMG_aControlWidth  [k] :=  w
    _HMG_aControlHeight  [k] :=  h
    _HMG_aControlSpacing  [k] :=  cValidMessage
    _HMG_aControlContainerRow  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameRow [_HMG_FrameLevel] , -1 )
@@ -319,16 +308,16 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
    _HMG_aControlFontSize  [k] :=  FontSize
    _HMG_aControlFontAttributes  [k] :=  { bold, italic, underline, strikeout }
    _HMG_aControlToolTip  [k] :=  aToolTip
-   _HMG_aControlRangeMin [k] :=  aControlHandle
-   _HMG_aControlRangeMax [k] :=  nMaxLength
+   _HMG_aControlRangeMin  [k] :=  aControlHandle
+   _HMG_aControlRangeMax  [k] :=  nMaxLength
    _HMG_aControlCaption  [k] :=  ''
    _HMG_aControlVisible  [k] :=  .NOT. invisible
-   _HMG_aControlHelpId   [k] :=  HelpId
+   _HMG_aControlHelpId  [k] :=  HelpId
    _HMG_aControlFontHandle  [k] :=  FontHandle
-   _HMG_aControlBrushHandle [k] :=  0
+   _HMG_aControlBrushHandle  [k] :=  0
    _HMG_aControlEnabled  [k] :=  .T.
-   _HMG_aControlMiscData1 [k] :=  { 0, readonly, 0, ProcedureName, ProcedureName2, BtnWidth, lBtn2, lNoMinus }
-   _HMG_aControlMiscData2 [k] :=  ''
+   _HMG_aControlMiscData1  [k] :=  { 0, readonly, 0, ProcedureName, ProcedureName2, BtnWidth, lBtn2, lNoMinus }
+   _HMG_aControlMiscData2  [k] :=  ''
 
    IF _HMG_lOOPEnabled
       Eval ( _HMG_bOnControlInit, k, mVar )

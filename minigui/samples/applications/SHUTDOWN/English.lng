@@ -1,0 +1,33 @@
+; Language File for Shutdown Utility
+
+[Data]
+RadioButtonTime=Shut down computer at a specified time
+RadioButtonTimeLeft=Shut down computer after a specified delay
+CheckBoxWindow=or shut down if this window disappears
+LabelWindowTitle=Window title:
+LabelClock=
+LabelProcess=What action should I do?
+RadioButtonShutdown=Shut down
+RadioButtonReboot=Reboot
+RadioButtonLogOff=Log off user
+CheckBoxPowerOff=Turn off computer after shutdown
+CheckBoxForceMode=Force action if a program is blocking
+CheckBoxStayOnTop=Window stays on top
+LabelLanguage=Language:
+
+WaitTitle=The Shutdown Utility is active!
+LabelWindowInfo=or if the following window title disappears:
+LabelTopShutdown=Time left for shutting down the computer:
+LabelTopReboot=Time left for rebooting the computer:
+LabelTopLogOff=Time left for logging off the user:
+
+TitleError=Error
+TitleWarning=Warning
+TitleInformation=Information
+TitleAbout=About...
+
+ButtonStart=Start!!!
+ButtonExit=Exit
+ButtonAbout=About...
+ButtonOk=OK
+ButtonCancel=Cancel

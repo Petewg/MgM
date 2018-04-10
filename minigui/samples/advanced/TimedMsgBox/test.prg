@@ -32,17 +32,16 @@
 	"Harbour GUI framework for Win32"
  	Copyright 2001 Alexander S.Kresin <alex@belacy.belgorod.su>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io
 
 	"Harbour Project"
-	Copyright 1999-2008, http://harbour-project.org/
+	Copyright 1999-2018, https://harbour.github.io/
 ---------------------------------------------------------------------------
      THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
      ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
      THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
      PARTICULAR PURPOSE.
-*-----------------------------------------------------------------------------
-*/
+*-----------------------------------------------------------------------------*/
 
 #include <minigui.ch>
 

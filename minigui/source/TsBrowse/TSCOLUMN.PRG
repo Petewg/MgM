@@ -666,6 +666,11 @@ Function BiffRec( nOpCode, uData, nRow, nCol, lBorder, nAlign, nPic, nFont )
                   Chr( nCol ) + ;       // last column
                   I2BIN( uData * 256 )  // column width in 1/256ths of a character
 
+       Case nOpCode == 37 // 25h ROWHEIGHT record
+         cHead := I2Bin( 37 ) + ;       // opCode
+                  I2Bin( 2 )            // body length
+         cBody := I2BIN( uData )        // row height in units of 1/20th of a point
+
       Case nOpCode == 31 // 1Fh FORMATCOUNT record
          cHead := I2Bin( 31 ) + ; // opCode
                   I2Bin( 2 )      // body length

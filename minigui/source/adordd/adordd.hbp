@@ -1,13 +1,17 @@
+#
+# adordd.hbp
+#
 
 -hblib
--warn=max
--inc-
--o../../lib/adordd
+-inc
+-o../../harbour/lib/adordd
 
 -I../../include
 
--hbx=../../include/adordd.hbx
+-warn=max
 
--w2 -es2 -ko 
+-w2 -es2 -ko -q0
+
+-hbx=../../include/adordd.hbx
 
 adordd.prg

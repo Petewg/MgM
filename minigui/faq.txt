@@ -46,3 +46,21 @@ Where are the HMG EE forums ?
 - Brazilian at http://br.groups.yahoo.com/group/miniguibrasil/
 
 - Spanish at http://es.groups.yahoo.com/group/harbourminigui_es/
+
+Addendum about Borland C++ Compiler 5.5
+"""""""""""""""""""""""""""""""""""""""
+The free Borland C++ Command Line Tools includes:
+
+- Borland C++ Compiler v5.5 (bcc32)
+- Borland Turbo Incremental Linker (tlink32)
+- Borland Resource Compiler / Binder (brc32, brcc32)
+- C++ Win32 Preprocessor (cpp32)
+- ANSI/OEM character set file conversion utility (fconvert)
+- Import Definitions utility to provide information about DLLs (impdef)
+- Import Library utility to create import libraries from DLLs (implib)
+- Borland Turbo Dump to structurally analyse EXE, OBJ and LIB files (tdump)
+- Librarian for symbol case-conversion, creating extended libraries and modifying page size (tlib)
+
+Included Libraries
+- Borland C/C++ Runtime Library
+- ANSI/ISO Standard Template Library (STL)

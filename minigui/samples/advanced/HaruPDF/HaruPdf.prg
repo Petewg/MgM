@@ -266,7 +266,7 @@ Function DesignHaruPDF( cFileToSave )
 Static Function Page_Lines( pdf )
 *------------------------------------------------------------------------*
    Local page_title := "Line Example"
-   Local font,  page, fname
+   Local font, page
 
    Local DASH_MODE1 := {3}
    Local DASH_MODE2 := {3, 7}
@@ -747,7 +747,7 @@ Static Function Page_Text( pdf, grid )
    HPDF_Page_EndText(page)
 
    Return nil
-*------------------------------------------------------------------------*
+/*------------------------------------------------------------------------*
 Static Function PrintText( page )
 *------------------------------------------------------------------------*
    Local buf, pos := HPDF_Page_GetCurrentTextPos( page )
@@ -758,7 +758,7 @@ Static Function PrintText( page )
    buf := ltrim( str( no ) )+ ' '+ltrim(str(pos[1]))+' '+ltrim(str(pos[2]))
 
    HPDF_Page_ShowText(page, buf)
-   Return nil
+   Return nil */
 *------------------------------------------------------------------------*
 Static Function Page_TextScaling( pdf, grid )
 *------------------------------------------------------------------------*
@@ -1061,7 +1061,7 @@ static function show_description( page, x, y, text )
 
 Static function Page_CodePages( pdf )
 *------------------------------------------------------------------------*
-   Local page, outline, font2, font_name, root, i, font, dst, fname
+   Local page, outline, font2, font_name, root, i, font, dst
    Local cResPath := "files" + hb_OSPathSeparator()
    Local cAfm := cResPath+"a010013l.afm"
    Local cPfb := cResPath+"a010013l.pfb"
@@ -1540,7 +1540,7 @@ Static function show_description_1( page, x, y, text , addline)
 Static function Print_jpg( pdf )
 *------------------------------------------------------------------------*
     Local cImagePath := "files" + hb_OSPathSeparator(), font, dst, page
-    Local image, image1, image2, x, y, iw, ih
+    Local image1, image2, x, y, iw, ih
     
     font = HPDF_GetFont (pdf, "Helvetica", Nil);
     /* add a new page object. */
@@ -1698,8 +1698,8 @@ Return Nil
 *------------------------------------------------------------------------*
 Static Function Page_Link_Annotation( pdf )
 *------------------------------------------------------------------------*
-   Local index_page, Font, i, Tp, Dst, annot, rect := array(4), page:={},;
-   Uri:= "http://www.hmgextended.com" ,pagex
+   Local index_page, Font, /*i,*/ Tp, Dst, annot, rect := array(4), page:={},;
+   Uri:= "http://www.hmgextended.com" //,pagex
 /*
    #define rLEFT   1
    #define rTOP    2
@@ -1880,7 +1880,7 @@ Static Function Page_Link_Annotation( pdf )
 
     HPDF_Page_EndText (index_page)
 Return Nil
-*------------------------------------------------------------------------*
+/*------------------------------------------------------------------------*
 Static Function Print_page  (page, font,page_num)
 *------------------------------------------------------------------------*
 
@@ -1894,7 +1894,7 @@ Static Function Print_page  (page, font,page_num)
     HPDF_Page_EndText (page)
 
 return nil
-
+*/
 *------------------------------------------------------------------------*
 Static Function Print_TTFont ( pdf , TTName , emb )
 *------------------------------------------------------------------------*
@@ -2121,7 +2121,7 @@ Static Function Slide_page (page, caption, font, style, prev, next)
 Return Nil
 
 *------------------------------------------------------------------------*
-Static Function Page_Zebra( pdf )
+Static Procedure Page_Zebra( pdf )
 *------------------------------------------------------------------------*
    Local page := HPDF_AddPage( pdf ), tw
 
@@ -2171,7 +2171,7 @@ RETURN
 *------------------------------------------------------------------------*
 PROCEDURE DrawBarcode( page, nY, nLineWidth, cType, cCode, nFlags )
 *------------------------------------------------------------------------*
-   LOCAL hZebra, nLineHeight, cTxt, tw
+   LOCAL hZebra, nLineHeight, cTxt
 
    nY := HPDF_Page_GetHeight( page ) - nY
 

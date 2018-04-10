@@ -96,12 +96,11 @@ LOCAL aMetrics := {;
 { "WIN_SM_SHUTTINGDOWN", "8192", "Nonzero if the current session is shutting down; otherwise, 0. Windows 2000:  This value is not supported." }, ;
 { "WIN_SM_REMOTECONTROL", "8193", "This system metric is used in a Terminal Services environment. Its value is nonzero if the current session is remotely controlled; otherwise, 0." } ;
 }
-LOCAL nI := 0, nLen := 0 
-LOCAL aRet := {}, ele := {} 
-nLen := len(aMetrics)
+LOCAL nI, nLen
+LOCAL aRet := {}, ele
+nLen := LEN(aMetrics)
 FOR nI := 1 to nLen
-	// ele := { PADL(nI-1,2,"0"), aMetrics[nI,1],  PADL( WAPI_GetSystemMetrics( VAL( aMetrics[nI,2] ) ), 5 ), aMetrics[nI,3] }
-	ele := { Padl( aMetrics[nI,2], 5 ), aMetrics[nI,1],  PADL( WAPI_GetSystemMetrics( VAL( aMetrics[nI,2] ) ), 5 ), aMetrics[nI,3] }
+	ele := { PADL(nI,2,"0"), aMetrics[nI,1],  PADL( WAPI_GetSystemMetrics( VAL( aMetrics[nI,2] ) ), 5 ), aMetrics[nI,3] }
 	AADD( aRet, ele )
 NEXT
 RETURN aRet

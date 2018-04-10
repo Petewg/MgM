@@ -114,7 +114,7 @@ Procedure OnComboAction
 
 	Static hShellWnd
 
-  if nIndex > 0
+        if nIndex > 0
 		hShellWnd := FindWindow( "Shell_TrayWnd", NIL )
 		if hShellWnd != 0
 			PostMessage( hShellWnd, WM_COMMAND, anEventIds[nIndex], 0 )
@@ -125,7 +125,8 @@ Procedure OnComboAction
 
 Return
 
-
-#include "hbdll32.ch"
-DECLARE ANSI FindWindow( lpClassName, lpWindowName ) IN USER32.DLL 
-
+*--------------------------------------------------------*
+DECLARE DLL_TYPE_LONG ;
+	FindWindow ( DLL_TYPE_LPSTR lpClassName, DLL_TYPE_LPSTR lpWindowName ) ;
+	IN USER32.DLL
+*--------------------------------------------------------*

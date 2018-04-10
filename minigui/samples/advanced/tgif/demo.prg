@@ -12,16 +12,27 @@
 
 #include "minigui.ch"
 
-Function Main()
-Local oGif, cFile := "santa.gif"
+#define IDR_DEMO	1001 
 
-	SET MULTIPLE OFF WARNING
+*--------------------------------------------------------*
+Function Main()
+*--------------------------------------------------------*
+Local oGif, cFile := hb_dirTemp() + "\" + "hmgdemo.gif"
+Local aPictInfo
+
+   SET MULTIPLE OFF WARNING
+
+   IF RCDataToFile( IDR_DEMO, cFile ) > 0
+
+	aPictInfo := GetGIFSize( cFile )
 
 	DEFINE WINDOW Form_Main ;
 		AT 0,0 ;
 		WIDTH 0 HEIGHT 0 ;
 		TITLE 'Gif89 Demo' ;
-		MAIN NOMAXIMIZE NOSIZE BACKCOLOR SILVER
+		MAIN NOMAXIMIZE NOSIZE ;
+		BACKCOLOR SILVER ;
+		ON RELEASE FErase( cFile )
 
 		DEFINE MAIN MENU
 
@@ -29,13 +40,10 @@ Local oGif, cFile := "santa.gif"
 
 				MENUITEM '&Play' ACTION IIF( !oGif:IsRunning(), oGif:Play(), )
 				MENUITEM '&Stop' ACTION IIF( oGif:IsRunning(), oGif:Stop(), )
-				MENUITEM '&Restart' ACTION ( ;
-                                          oGif:cFilename := "hmgdemo.gif", ;
-                                          oGif:nDelay := 12, oGif:nWidth := GifSize( oGif:cFilename )[1], ;
-                                          oGif:nHeight := GifSize( oGif:cFilename )[2], oGif:Update(), ;
-                                          EraseWindow( "Form_Main" ), FormReSize( oGif ), ;
-                                          oGif:Restart() ;
-                                       )
+				MENUITEM '&Restart' ACTION ( oGif:cFilename := 'ani-search.gif', ;
+					oGif:nDelay := 12, oGif:nWidth := GetGIFSize( oGif:cFilename )[1], ;
+					oGif:nHeight := GetGIFSize( oGif:cFilename )[2], oGif:Update(), ;
+					EraseWindow( "Form_Main" ), FormReSize( oGif ), oGif:Restart() )
 				SEPARATOR
 				MENUITEM "E&xit" ACTION ThisWindow.Release()
 
@@ -57,7 +65,7 @@ Local oGif, cFile := "santa.gif"
 		END MENU
 
 		@ 25, 10 ANIGIF Gif_1 OBJ oGif PARENT Form_Main PICTURE cFile ;
-			WIDTH GifSize( cFile )[1] HEIGHT GifSize( cFile )[2] DELAY 50 BACKGROUNDCOLOR {0,0,0} 
+			WIDTH aPictInfo [1] HEIGHT aPictInfo [2]
 
 	END WINDOW
 
@@ -67,12 +75,13 @@ Local oGif, cFile := "santa.gif"
 
 	ACTIVATE WINDOW Form_Main
 
+   ENDIF
+
 Return Nil
 
-/*
-*/
+*--------------------------------------------------------*
 Function FormReSize( oGif )
-
+*--------------------------------------------------------*
 	Form_Main.Width := Max( 180, oGif:nWidth + 2 * GetBorderWidth() + 40 )
 	Form_Main.Height := GetTitleHeight() + oGif:nHeight + 2 * GetBorderHeight() + 60
 	oGif:nLeft := ( Form_Main.Width - oGif:nWidth - GetBorderWidth() ) / 2 + 1
@@ -85,6 +94,6 @@ Function FormReSize( oGif )
 Return Nil
 
 *--------------------------------------------------------*
-Function GifSize( cGIFfile )
+Function GetGIFSize( cGIFfile )
 *--------------------------------------------------------*
 Return hb_GetImageSize( cGIFfile )
