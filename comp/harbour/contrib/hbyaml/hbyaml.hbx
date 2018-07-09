@@ -1,0 +1,58 @@
+/* --------------------------------------------------------------------
+ * NOTE: You can add manual override which functions to include or
+ *       exclude from automatically generated EXTERNAL/DYNAMIC list.
+ *          Syntax: // HB_FUNC_INCLUDE <func>
+ *                  // HB_FUNC_EXCLUDE <func>
+ */
+
+/* --------------------------------------------------------------------
+ * WARNING: Automatically generated code below. DO NOT EDIT! (except casing)
+ *          Regenerate using hbmk2 '-hbx=' option.
+ */
+
+#ifndef __HBEXTERN_CH__HBYAML__
+#define __HBEXTERN_CH__HBYAML__
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBYAML__ANNOUNCE )
+   ANNOUNCE __HBEXTERN__HBYAML__
+#endif
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBYAML__REQUEST )
+   #command DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+DYNAMIC hb_yaml_decode
+DYNAMIC hb_yaml_emitter_get_output
+DYNAMIC hb_yaml_encode
+DYNAMIC yaml_document_add_mapping
+DYNAMIC yaml_document_add_scalar
+DYNAMIC yaml_document_add_sequence
+DYNAMIC yaml_document_append_mapping_pair
+DYNAMIC yaml_document_append_sequence_item
+DYNAMIC yaml_document_initialize
+DYNAMIC yaml_emitter_close
+DYNAMIC yaml_emitter_dump
+DYNAMIC yaml_emitter_flush
+DYNAMIC yaml_emitter_initialize
+DYNAMIC yaml_emitter_open
+DYNAMIC yaml_emitter_set_break
+DYNAMIC yaml_emitter_set_canonical
+DYNAMIC yaml_emitter_set_encoding
+DYNAMIC yaml_emitter_set_indent
+DYNAMIC yaml_emitter_set_output_string
+DYNAMIC yaml_emitter_set_unicode
+DYNAMIC yaml_emitter_set_width
+DYNAMIC yaml_get_version
+DYNAMIC yaml_get_version_string
+DYNAMIC yaml_parser_initialize
+DYNAMIC yaml_parser_load
+DYNAMIC yaml_parser_parse
+DYNAMIC yaml_parser_scan
+DYNAMIC yaml_parser_set_encoding
+DYNAMIC yaml_parser_set_input_string
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBYAML__REQUEST )
+   #uncommand DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+#endif

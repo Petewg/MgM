@@ -1,0 +1,23 @@
+description=libcurl wrapper (IP communication)
+
+incpaths=.
+
+headers=${hb_name}.ch
+
+libs=${_HB_DYNPREF}${hb_name}${_HB_DYNSUFF}
+
+libpaths=/usr/local/opt/curl/lib{darwin}
+libpaths=${HBMK_DIR_CURL}/../lib{allwinar&HBMK_HAS_CURL}
+
+{!allwin|allwinar}libs=curl
+{allwin&!allwinar}libs=libcurl
+
+# NOTE: Static lib may require additional libs to be linked:
+#       e.g. OpenSSL, nghttp2 or else, depending on which
+#       TLS backend and other optional dependencies were
+#       enabled during the build of libcurl itself.
+#{allwin&static&!hbdyn&allwinar}libs=ssh2 nghttp2 ssl crypto brotli
+{allwin&static&!hbdyn&allwinar}libs=libssh2 libnghttp2 libssl libcrypto
+#{allwin&static&!hbdyn&allwinar}libs=brotli
+libs=${HB_CURL_LIBS_EXTRA}
+{allwin}libs=crypt32 wldap32

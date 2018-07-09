@@ -1,0 +1,32 @@
+#define IDI_MAIN 1001
+
+IDI_MAIN ICON "res\main.ico"
+
+1 VERSIONINFO
+FILEVERSION 1,2,0,0
+PRODUCTVERSION 1,2,0,0
+FILEOS 0x4
+FILETYPE 0x1
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "040904b0"
+	{
+		VALUE "FileDescription", "Quickly terminate applications\000"
+		VALUE "FileVersion", "1.2.0.0\000"
+		VALUE "InternalName", "ProcessKiller\000"
+		VALUE "LegalCopyright", "Pierpaolo Martinello -Freeware 2018\000"
+		VALUE "LegalTrademarks", "Harbour Minigui Extrended"
+		VALUE "OriginalFilename", "ProcessKiller.exe\000"
+		VALUE "CompanyName", "http://hmgextended.com\000"
+		VALUE "ProductName", "MiniGUI Utility"
+		VALUE "ProductVersion", "1.2.0.0"
+		VALUE "Comments", "Created by Pierpaolo Martinello - 2018\000"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0409 0x04B0
+}
+}

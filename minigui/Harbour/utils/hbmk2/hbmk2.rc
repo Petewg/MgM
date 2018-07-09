@@ -1,0 +1,7 @@
+/*
+ * $Id: hbmk2.rc 17634 2012-06-13 13:26:25Z vszakats $
+ */
+
+1 ICON DISCARDABLE "harb_win.ico"
+#include "harb_win.rc"
+__HB_CREATEPROCESS_MANIFEST_RESOURCE_ID __HB_RT_MANIFEST "harb_win.mft"

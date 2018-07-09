@@ -1,0 +1,11 @@
+Last UpDate at : 05/05/2018
+
+Change of view and new colors,
+changed Function to Procedure,
+add local decimal info,
+add hotkey for C and CE action,
+add history,
+patched input for negative numbers,
+group separator,
+limited input at 14 digits,
+Add action for clear last number entered.

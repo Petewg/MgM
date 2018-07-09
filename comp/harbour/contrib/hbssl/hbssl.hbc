@@ -1,0 +1,19 @@
+description=OpenSSL wrapper (encryption)
+
+incpaths=.
+
+headers=${hb_name}.ch
+
+skip={dos}
+
+{!HB_DYNBIND_OPENSSL}libs=${_HB_DYNPREF}${hb_name}${_HB_DYNSUFF}
+
+libpaths=/usr/local/opt/openssl@1.1/lib{darwin}
+libpaths=/usr/local/opt/openssl/lib{darwin}
+libpaths=/usr/local/opt/libressl/lib{darwin}
+libpaths=${HBMK_DIR_OPENSSL}/../lib{allwinar&HBMK_HAS_OPENSSL}
+
+{!HB_DYNBIND_OPENSSL&(unix|allwinar)}libs=ssl crypto
+{!HB_DYNBIND_OPENSSL&os2}libs=libssl_s libcrypto_s
+{!HB_DYNBIND_OPENSSL&allwin&!allwinar}libs=ssleay32 libeay32
+{!HB_DYNBIND_OPENSSL&allwin}libs=crypt32

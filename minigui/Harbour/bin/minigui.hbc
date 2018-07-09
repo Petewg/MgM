@@ -1,0 +1,40 @@
+# hrb paths
+incpaths=..\include
+
+# hmg paths
+incpaths=..\..\include
+{!xhb}libpaths=..\..\lib
+{xhb}libpaths=..\..\xLib
+
+# app resources
+incpaths=${hb_curdir}
+sources=${hb_curdir}*.rc
+
+# hmg resources
+sources=..\..\resources\minigui.res
+# hbprint resources
+sources=..\..\resources\hbprinter.res
+# miniprint resources
+sources=..\..\resources\miniprint.res
+
+# win98 unicode support
+# libs=unicows
+
+# core
+libs=minigui hbprinter miniprint
+
+# core additional binary
+libs=dll cputype propgrid propsheet tsbrowse WinReport
+{xhb}libs=calldll
+
+# winxp MS Agent support (obsolete)
+# libs=TMsAgent
+
+# Harbour needed contribs
+libs=hbct hbtip hbvpdf
+
+# Harbour additional contribs
+libs=hbwin hbmisc hbziparc hbmzip minizip hbmemio hbxml xhb
+
+# system
+libs=vfw32 msvfw32
