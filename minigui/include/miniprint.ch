@@ -287,12 +287,19 @@ _HMG_PRINTER_ABORTDOC ( _hmg_printer_hdc )
 	=> ;
 	_HMG_PRINTER_H_IMAGE ( _hmg_printer_hdc , <cImage> , <nRow> , <nCol> , <nheight> , <nWidth> , <.stretch.> , <.transparent.> )
 
+* Pen Styles
+
+#define DOTTED     1
+#define DASHED     2
+#define DASHDOT    3
+#define DASHDOTDOT 4
+
 #xcommand @ <Row> , <Col> PRINT LINE TO <ToRow> , <ToCol> ;
 	[ <lwidth : PENWIDTH> <Width> ] ;
 	[ <lcolor : COLOR> <aColor> ] ;
-	[ <ldotted: DOTTED> ] ;
+	[ STYLE <nStyle> ] ;
 	=> ;
-	_HMG_PRINTER_H_LINE ( _hmg_printer_hdc , <Row> , <Col> , <ToRow> , <ToCol> , <Width> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <.lwidth.> , <.lcolor.> , <.ldotted.> )
+	_HMG_PRINTER_H_LINE ( _hmg_printer_hdc , <Row> , <Col> , <ToRow> , <ToCol> , <Width> , <aColor>\[1\] , <aColor>\[2\] , <aColor>\[3\] , <.lwidth.> , <.lcolor.> , <nStyle> )
 
 #xcommand @ <Row> , <Col> PRINT RECTANGLE TO <ToRow> , <ToCol> ;
 	[ <lwidth : PENWIDTH> <Width> ] ;

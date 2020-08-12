@@ -30,20 +30,22 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
+
+* Standard Syntax
 
 #xcommand DEFINE TREE <name> ;
     [ID <nId>];
@@ -68,11 +70,48 @@
 	[ ON CHANGE <change> ] ;
 	[ ON LOSTFOCUS <lostfocus> ] ;
 	[ ON DBLCLICK <dblclick> ] ;
-	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]];
+	[ ON INIT <bInit> ] ;
+	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]] ;
 	[ <itemids : ITEMIDS> ] ;
-	[ HELPID <helpid> ] 		;
+	[ HELPID <helpid> ] ;
 =>;
-_DefineTree ( <"name"> , <"parent"> , <row> , <col> , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId> )
+_DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit> )
+
+* Alternate Syntax
+
+#xcommand DEFINE TREE <name> ;
+        [ ID <nId> ];
+	[ PARENT <parent> ] ;
+	ROW <row> ;
+	COL <col> ;
+	[ WIDTH <width> ] ;
+	[ HEIGHT <height> ] ;
+	[ VALUE <value> ] ;
+	[ FONTNAME <fontname> ] ;
+	[ FONTSIZE <fontsize> ] ;
+	[ FONTBOLD <bold> ] ;
+	[ FONTITALIC <italic> ] ;
+	[ FONTUNDERLINE <underline> ] ;
+	[ FONTSTRIKEOUT <strikeout> ] ;
+	[ TOOLTIP <tooltip> ] ;
+	[ ONGOTFOCUS <gotfocus> ] ;
+	[ ONCHANGE <change> ] ;
+	[ ONLOSTFOCUS <lostfocus> ] ;
+	[ ONDBLCLICK <dblclick> ] ;
+	[ ONINIT <bInit> ] ;
+	[ NODEIMAGES <aImgNode> ] ;
+	[ ITEMIMAGES <aImgItem> ] ;
+	[ ROOTBUTTON <rootbutton> ] ;
+	[ ITEMIDS <itemids> ] ;
+	[ HELPID <helpid> ] ;
+	[ BACKCOLOR <backcolor> ] ;
+	[ FONTCOLOR <fontcolor> ] ;
+	[ LINECOLOR <linecolor> ] ;
+	[ INDENT    <indent> ] ;
+	[ ITEMHEIGHT <itemheight> ];
+=>;
+_DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.rootbutton.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit> )
+
 
 #xcommand REDEFINE TREE <name> ;
     ID <nId>;
@@ -94,28 +133,29 @@ _DefineTree ( <"name"> , <"parent"> , <row> , <col> , <width> , <height> , <{cha
 	[ ON CHANGE <change> ] ;
 	[ ON LOSTFOCUS <lostfocus> ] ;
 	[ ON DBLCLICK <dblclick> ] ;
-	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]];
+	[ ON INIT <bInit> ] ;
+	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]] ;
 	[ <itemids : ITEMIDS> ] ;
-	[ HELPID <helpid> ] 		;
+	[ HELPID <helpid> ] ;
 =>;
-_DefineTree ( <"name"> , <"parent"> , 0 , 0 , 0 , 0 , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId> )
+_DefineTree ( <(name)> , <(parent)> , 0 , 0 , 0 , 0 , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit> )
 
 
-#xcommand NODE <text> [ IMAGES <aImage> ] [ ID <id> ];
+#xcommand NODE <text> [ IMAGES <aImage> ] [ ID <id> ] [ CARGO <Cargo> ] ;
 =>;
-_DefineTreeNode (<text>, <aImage> , <id> )
+_DefineTreeNode ( <text> , <aImage> , <id> , <Cargo> )
 
-#xcommand DEFINE NODE <text> [ IMAGES <aImage> ] [ ID <id> ] ;
+#xcommand DEFINE NODE <text> [ IMAGES <aImage> ] [ ID <id> ] [ CARGO <Cargo> ] ;
 =>;
-_DefineTreeNode (<text>, <aImage> , <id> )
+_DefineTreeNode ( <text> , <aImage> , <id> , <Cargo> )
 
 #xcommand END NODE ;
 =>;
 _EndTreeNode()
 
-#xcommand TREEITEM <text> [ IMAGES <aImage> ]  [ ID <id> ] ;
+#xcommand TREEITEM <text> [ IMAGES <aImage> ] [ ID <id> ] [ CARGO <Cargo> ] ;
 => ;
-_DefineTreeItem (<text>, <aImage> , <id> )
+_DefineTreeItem ( <text> , <aImage> , <id> , <Cargo> )
 
 #xcommand END TREE ;
 => ;
@@ -146,12 +186,13 @@ _EndTree()
 	[ ON CHANGE <change> ] ;
 	[ ON LOSTFOCUS <lostfocus> ] ;
 	[ ON DBLCLICK <dblclick> ] ;
+	[ ON INIT <bInit> ] ;
 	[ <itemids : ITEMIDS> ] ;
 	[ HELPID <helpid> ] 		;
 	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]];
 	[ <break: BREAK> ] ;                             
 =>;
-_DefineTree ( <"name"> , <"parent"> ,  ,  , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , <.break.> , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, 0 )
+_DefineTree ( <(name)> , <(parent)> , , , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , <.break.> , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, 0, <bInit> )
 
 #ifndef TV_FIRST
 #define TV_FIRST           0x1100

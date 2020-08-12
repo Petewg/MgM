@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -52,28 +52,35 @@
 #define WINVER 0x0500
 #endif /* WINVER */
 
-// WM_* definitions
-#define WM_CREATE	   1
-#define WM_DESTROY         2
-#define WM_MOVE            3
-#define WM_SIZE		   5
-#define WM_ACTIVATE	   6
-#define WM_SETFOCUS	   7
-#define WM_KILLFOCUS	   8
-#define WM_GETTEXT        13
-#define WM_PAINT	  15
-#define WM_CLOSE          16
-#define WM_QUERYENDSESSION   17 // 0x0011
-#define WM_QUIT		  18
-#define WM_ERASEBKGND     20
-#define WM_SHOWWINDOW	  24
-#define WM_ACTIVATEAPP	  28
-#define WM_MOUSEACTIVATE  33
-#define WM_GETMINMAXINFO  36 // 0x024
-#define WM_NEXTDLGCTL	  40
-#define WM_DRAWITEM       43
-#define WM_MEASUREITEM    44
-#define WM_VKEYTOITEM	  46
+/*
+ * Window Messages
+ */
+
+#define WM_CREATE	       1
+#define WM_DESTROY             2
+#define WM_MOVE                3
+#define WM_SIZE		       5
+#define WM_ACTIVATE	       6
+#define WM_SETFOCUS	       7
+#define WM_KILLFOCUS	       8
+#define WM_ENABLE             10 // 0x000A
+#define WM_SETREDRAW          11 // 0x000B
+#define WM_SETTEXT            12 // 0x000C
+#define WM_GETTEXT            13 // 0x000D
+#define WM_GETTEXTLENGTH      14 // 0x000E
+#define WM_PAINT	      15 // 0x000F
+#define WM_CLOSE              16 // 0x0010
+#define WM_QUERYENDSESSION    17 // 0x0011
+#define WM_QUIT		      18
+#define WM_ERASEBKGND         20
+#define WM_SHOWWINDOW	      24
+#define WM_ACTIVATEAPP	      28
+#define WM_MOUSEACTIVATE      33
+#define WM_GETMINMAXINFO      36 // 0x024
+#define WM_NEXTDLGCTL	      40
+#define WM_DRAWITEM           43
+#define WM_MEASUREITEM        44
+#define WM_VKEYTOITEM	      46
 
 #define WM_WINDOWPOSCHANGING  70
 #define WM_WINDOWPOSCHANGED   71
@@ -93,13 +100,15 @@
 #define WM_INITDIALOG	 272
 #define WM_COMMAND       273 // 0x0111
 //#define WM_SYSCOMMAND	 274
-#define WM_TIMER	 275
-#define WM_HSCROLL	 276
+#define WM_TIMER	 275 // 0x0113
+#define WM_HSCROLL	 276 // 0x0114
 #define WM_VSCROLL       277 // 0x0115
-#define WM_MENUSELECT           287
-#define WM_MENUCHAR             0x0120
+
 #define WM_INITMENUPOPUP        279 // 0x0117
+#define WM_MENUSELECT           287 // 0x011F
+#define WM_MENUCHAR             288 // 0x0120
 #define WM_UNINITMENUPOPUP      293 // 0x0125
+
 #define WM_CTLCOLORMSGBOX       306
 #define WM_CTLCOLOREDIT	        307
 #define WM_CTLCOLORLISTBOX	308
@@ -107,22 +116,22 @@
 #define WM_CTLCOLORDLG	        310
 #define WM_CTLCOLORSCROLLBAR    311
 #define WM_CTLCOLORSTATIC       312
-#define WM_MOUSEMOVE     512 // 0x0200
-#define WM_LBUTTONDOWN   513 // 0x0201
-#define WM_LBUTTONUP     514 // 0x0202
-#define WM_LBUTTONDBLCLK 515 // 0x0203
-#define WM_RBUTTONDOWN   516 // 0x0204
-#define WM_RBUTTONUP     517 // 0x0205
-#define WM_MBUTTONDOWN   519 // 0x0207
-#define WM_MBUTTONUP     520 // 0x0208
-#define WM_MOUSEWHEEL    522 // 0x020a
-#define WM_MOUSEHOVER    673 // 0x02A1
-#define WM_MOUSELEAVE    675 // 0x02A3
-#define WM_SIZING	 532
-#define WM_MOVING	 534
-#define WM_ENTERSIZEMOVE 561
-#define WM_EXITSIZEMOVE	 562
-#define WM_DROPFILES     563 // 0x0233
+#define WM_MOUSEMOVE            512 // 0x0200
+#define WM_LBUTTONDOWN          513 // 0x0201
+#define WM_LBUTTONUP            514 // 0x0202
+#define WM_LBUTTONDBLCLK        515 // 0x0203
+#define WM_RBUTTONDOWN          516 // 0x0204
+#define WM_RBUTTONUP            517 // 0x0205
+#define WM_MBUTTONDOWN          519 // 0x0207
+#define WM_MBUTTONUP            520 // 0x0208
+#define WM_MOUSEWHEEL           522 // 0x020a
+#define WM_MOUSEHOVER           673 // 0x02A1
+#define WM_MOUSELEAVE           675 // 0x02A3
+#define WM_SIZING	        532
+#define WM_MOVING	        534
+#define WM_ENTERSIZEMOVE        561
+#define WM_EXITSIZEMOVE	        562
+#define WM_DROPFILES            563 // 0x0233
 
 #define WM_CUT           768
 #define WM_COPY          769
@@ -140,6 +149,12 @@
 #define WM_TASKBAR      (WM_USER+1043)
 #define WM_WND_LAUNCH   (WM_USER+1044)
 #define WM_CTL_LAUNCH   (WM_USER+1045)
+#define WM_APP_LAUNCH   (WM_USER+1046)
+
+#ifndef LWA_ALPHA
+#define LWA_COLORKEY            0x00000001
+#define LWA_ALPHA               0x00000002
+#endif
 
 #if(WINVER >= 0x0400)
 /* Value for rolling one detent */
@@ -247,7 +262,13 @@
 #define WS_SIZEBOX      WS_THICKFRAME
 #define WS_TILEDWINDOW  WS_OVERLAPPEDWINDOW
 
-// Extendend Window Styles
+/*
+ * Common Window Styles
+ */
+#define WS_OVERLAPPEDWINDOW     (WS_OVERLAPPED + WS_CAPTION + WS_SYSMENU + WS_THICKFRAME + WS_MINIMIZEBOX + WS_MAXIMIZEBOX)
+/*
+ * Extended Window Styles
+ */
 #define WS_EX_DLGMODALFRAME     0x00000001
 #define WS_EX_NOPARENTNOTIFY    0x00000004
 #define WS_EX_TOPMOST           0x00000008
@@ -271,8 +292,8 @@
 #define WS_EX_STATICEDGE        0x00020000
 #endif
 #define WS_EX_APPWINDOW         0x00040000
-#define WS_EX_OVERLAPPEDWINDOW  ( WS_EX_WINDOWEDGE + WS_EX_CLIENTEDGE )
-#define WS_EX_PALETTEWINDOW     ( WS_EX_WINDOWEDGE + WS_EX_TOOLWINDOW + WS_EX_TOPMOST )
+#define WS_EX_OVERLAPPEDWINDOW  (WS_EX_WINDOWEDGE + WS_EX_CLIENTEDGE)
+#define WS_EX_PALETTEWINDOW     (WS_EX_WINDOWEDGE + WS_EX_TOOLWINDOW + WS_EX_TOPMOST)
 
 // r_commctrl
 #define RBS_TOOLTIPS        256
@@ -308,8 +329,9 @@
 #define LVM_GETIMAGELIST   ( LVM_FIRST + 2 )
 #define LVM_SETIMAGELIST   ( LVM_FIRST + 3 )
 #define LVM_GETITEMCOUNT   ( LVM_FIRST + 4 )
-#define LVM_GETTOPINDEX     (LVM_FIRST + 39)
-#define LVM_GETCOUNTPERPAGE (LVM_FIRST + 40)
+#define LVM_GETTOPINDEX          (LVM_FIRST + 39)
+#define LVM_GETCOUNTPERPAGE      (LVM_FIRST + 40)
+#define LVM_APPROXIMATEVIEWRECT  (LVM_FIRST + 64)
 
 #define LVSIL_NORMAL       0
 #define LVSIL_SMALL        1
@@ -763,6 +785,8 @@
 #define CCS_NOMOVEX             ( CCS_VERT + CCS_NOMOVEY )
 
 #define HDN_FIRST               -300
+#define HDN_ITEMCHANGING        ( HDN_FIRST - 0 )
+#define HDN_ITEMCHANGED         ( HDN_FIRST - 1 )
 #define HDN_BEGINDRAG           ( HDN_FIRST - 10 )
 #define HDN_ENDDRAG             ( HDN_FIRST - 11 )
 #define HDN_BEGINTRACK          ( HDN_FIRST - 26 )

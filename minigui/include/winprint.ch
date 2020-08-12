@@ -75,6 +75,8 @@
 #xcommand SET PREVIEW SCALE <scale> => hbprn:previewscale:=<scale>
 #xcommand SET PREVIEW ON  => hbprn:PreviewMode:=.T.
 #xcommand SET PREVIEW OFF => hbprn:PreviewMode:=.F.
+#xcommand SET SAVEBUTTONS ON  => hbprn:SaveButtons :=.T.
+#xcommand SET SAVEBUTTONS OFF => hbprn:SaveButtons :=.F.
 
 #xcommand DEFINE IMAGELIST <cimglist> PICTURE <cpicture> [ICONCOUNT <nicons>] ;
                             => hbprn:defineimagelist(<cimglist>,<cpicture>,<nicons>)

@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+     Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -65,7 +65,7 @@
       [ <custom : CUSTOMIZE> ] ;
       [ <break: BREAK> ] ;
    => ;
-   _BeginToolBar ( <"name">, <"parent">, , , <w>, <h>, <caption>, , <f>, <s>, <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.border.>, <.wrap.>, <.custom.> )
+   _BeginToolBar ( <(name)>, <(parent)>, , , <w>, <h>, <caption>, , <f>, <s>, <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.border.>, <.wrap.>, <.custom.> )
 
 
 #xcommand  DEFINE TOOLBAREX  <name> ;
@@ -93,7 +93,7 @@
       [ <mixedbuttons: MIXEDBUTTONS> ] ;
       [ <break: BREAK> ] ;
    => ;
-   _BeginToolBarEx ( <"name">, <"parent">, , , <w>, <h>, <caption>, , <f>, <s>, <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.border.>, <.mixedbuttons.>, <r>, <tbsize>, <imagelst>, <hotimagelst>, <.wrap.>, <.custom.> )
+   _BeginToolBarEx ( <(name)>, <(parent)>, , , <w>, <h>, <caption>, , <f>, <s>, <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.border.>, <.mixedbuttons.>, <r>, <tbsize>, <imagelst>, <hotimagelst>, <.wrap.>, <.custom.> )
 
 
 #xcommand  END TOOLBAR ;
@@ -114,7 +114,7 @@
       [ <check: CHECK> ] ;
       [ <group: GROUP> ] ;
    =>;
-   _DefineToolButton ( <"name">, _HMG_ActiveToolBarName, , , <caption> , <{action}> , , , <bitmap> , <tooltip> , , , .f. , <.separator.> , <.autosize.> , <.check.> , <.group.> , <.dropdown.> , <.wholedropdown.> , <.adjust.>, -1 )
+   _DefineToolButton ( <(name)>, _HMG_ActiveToolBarName, , , <caption> , <{action}> , , , <bitmap> , <tooltip> , , , .f. , <.separator.> , <.autosize.> , <.check.> , <.group.> , <.dropdown.> , <.wholedropdown.> , <.adjust.>, -1 )
 
 
 #xcommand BUTTON <name> ;
@@ -130,7 +130,7 @@
       [ <check: CHECK> ] ;
       [ <group: GROUP> ] ;
    =>;
-   _DefineToolButton ( <"name">, _HMG_ActiveToolBarName, , , <caption> , <{action}> , , , '' , <tooltip> , , , .f. , <.separator.> , <.autosize.> , <.check.> , <.group.> , <.dropdown.> , <.wholedropdown.> , <.adjust.> , <bitmapinx> )
+   _DefineToolButton ( <(name)>, _HMG_ActiveToolBarName, , , <caption> , <{action}> , , , '' , <tooltip> , , , .f. , <.separator.> , <.autosize.> , <.check.> , <.group.> , <.dropdown.> , <.wholedropdown.> , <.adjust.> , <bitmapinx> )
 
 
 #define TB_ENABLEBUTTON   (WM_USER + 1)
