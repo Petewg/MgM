@@ -15,15 +15,17 @@
 :: but if you wish so, feel free to uncomment next line.
    :: SET STRIP=-strip
 
-:: we use a 'flag' file named <warnlev.max> 
-:: you should either delete or create it, 
-:: in order to define a lower or elevated warning level
+:: we use a 'flag' file named <warnlev.max> .You should either delete it or create it, 
+:: to specify, respectively, a moderate or pedantic warning level for Harbour compiler
    IF EXIST %MGROOT%\batch\warnlev.max (
       SET WARNLEV=-w3
       SET EXITLEV=-es2
+		SET PPO=-p
       ) ELSE (
       SET WARNLEV=-w2
       SET EXITLEV=-es0
+      ::SET PPO=-p
+		SET PPO=
       )
 
 :: Compile Resources
@@ -52,8 +54,8 @@ IF "%2"=="-norun" SET RUNEXE=-run-
 IF "%2"=="-norun" SHIFT /2
 
 :Gui
-   hbmk2 -n -mt -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
-   :: hbmk2 -n -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%               %1 %2 %3 %4 %5 %6 %7 %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
+   hbmk2 -n -mt -cpu=x86 -lang=en %PPO% %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%  -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %8 %9 %MGROOT%\minigui\minigui.hbc 2>>_BuildLog.txt
+   :: hbmk2 -n -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%  %1 %2 %3 %4 %5 %6 %7 %8 %9  %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
    GOTO Check
 
 :Console
@@ -61,14 +63,14 @@ IF "%2"=="-norun" SHIFT /2
    IF "%2"=="-norun" SET RUNEXE=-run-
    IF "%2"=="-norun" SHIFT /2
    ::hbmk2 -n -cpu=x86 -lang=en %RUNEXE% -ql -info -exitstr %STRIP% -D__CALLDLL__ %1 _temp.o %2 %3 %4 %5 %6 %7 2>> _BuildLog.txt
-   hbmk2 -n -mt -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
+   hbmk2 -n -mt -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %8 %9  %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
    
 :Check
    IF ERRORLEVEL 1 GOTO Err
    GOTO Run
 
 :Err
-   ECHO 
+   REM ECHO 
    ECHO Build Error(s) occured. Inspect _BuildLog.txt to see what failed..
    START _BuildLog.txt
    PAUSE > NUL
@@ -77,9 +79,9 @@ IF "%2"=="-norun" SHIFT /2
 :Run
    IF "%2"=="-norun" GOTO Quit
    IF "%RUNEXE%"=="-run-" GOTO Quit
-   ECHO  
-   ECHO running %1.exe ... when end running, press a key to delete it.
+   REM ECHO  
    ECHO(
+   ECHO running %1.exe ... when end running, press a key to delete it.
    PAUSE > NUL
    IF EXIST %1.exe DEL %1.exe && ECHO sample %1.exe removed from disk...
    ECHO(
@@ -90,6 +92,7 @@ IF "%2"=="-norun" SHIFT /2
    DEL _temp.* > NUL
    DEL _BuildLog.txt > NUL
    IF EXIST %1.ppo DEL %1.ppo > NUL
+   IF EXIST %1.ppt DEL %1.ppt > NUL
    IF EXIST ErrorLog.htm DEL ErrorLog.htm > NUL
    
 :: restore path
