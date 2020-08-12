@@ -30,31 +30,31 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
 // HTTP
 
-#xcommand OPEN CONNECTION <con> SERVER <server> PORT <port> HTTP ;
-	=> ;
-	httpconnect( <"con"> , <server> , <port> )
+#xcommand OPEN CONNECTION [<obj: OBJ>] <con> SERVER <server> PORT <port> HTTP ;
+   => ;
+   httpconnect( iif( <.obj.>, @<con>, <(con)>), <server>, <port> )
 
 #xcommand CLOSE CONNECTION <con> ;
-	=> ;
-	<con>:Close()
+   => ;
+   <con>:Close()
 
-#xcommand GET URL <url> TO <response> CONNECTION <con> ;
-	=> ;
-	<response> := <con>:Get( <url> )
+#xcommand GET URL <url> TO <response> CONNECTION <con> [ <data: NOHEADERS, HEADERS> ];
+   => ;
+   <response> := httpgeturl( <con>, <url>, iif( upper( #<data> ) == "HEADERS", .F., iif( upper( #<data> ) == "NOHEADERS", NIL, .T. ) ) )

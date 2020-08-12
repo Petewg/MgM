@@ -34,18 +34,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -101,6 +101,7 @@
         [ ON GOTFOCUS <gotfocus> ]      ;
         [ ON LOSTFOCUS <lostfocus> ]    ;
         [ ON CHANGE <uChange> ]         ;
+        [ ON INIT <bInit> ]             ;
         [ MESSAGE <cMessage> ]          ;
         [ <RightAlign: RIGHTALIGN> ]    ;
         [ <invisible: INVISIBLE> ]      ;
@@ -109,10 +110,10 @@
         [ <noborder: NOBORDER> ]	;
         [ HELPID <helpid> ]             ;
    => ;
-        [ <oGet> := ] _DefineGetBox( <"name">, <"parent">, <col>, <row>, <width>, <height>, <value>, ;
+        [ <oGet> := ] _DefineGetBox( <(name)>, <(parent)>, <col>, <row>, <width>, <height>, <value>, ;
             <fontname>, <fontsize>, <tooltip>, <.password.>, <{lostfocus}>, <{gotfocus}>, <{uChange}>, ;
             <.RightAlign.>, <helpid>, <.readonly.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
-            <"field">, <backcolor>, <fontcolor>, <.invisible.>, <.notabstop.>, <nId>, ;
+            <(field)>, <backcolor>, <fontcolor>, <.invisible.>, <.notabstop.>, <nId>, ;
             <{valid}>, <cPicture>, <cMessage>, <cValidMessage>, <{when}>, <{action}>, ;
-            <{action2}>, <abitmap>, <btnwidth>, <.nominus.>, <.noborder.> )
+            <{action2}>, <abitmap>, <btnwidth>, <.nominus.>, <.noborder.>, <bInit> )
 

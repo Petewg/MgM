@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -62,7 +62,9 @@
 		[ ID <nId> ]			;
 		[ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
 		[ WIDTH <w> ] 			;
+		[ AUTOSIZEWIDTH <autosizeW> ]	;
 		[ HEIGHT <h> ] 			;
+		[ AUTOSIZEHEIGHT <autosizeH> ]	;
 		[ HEADERS <headers> ] 		;
 		[ WIDTHS <widths> ] 		;
 		[ ITEMS <rows> ] 		;
@@ -101,15 +103,18 @@
 		[ HELPID <helpid> ] 		;
 		[ <break : BREAK> ] 		;
 		[ COLUMNSORT <columnsort> ]	;
+		[ COLUMNWIDTHLIMITS <aLimitColumns> ] ;
+		[ ON DRAGHEADERITEMS <OnDragItems> ] ;
 		[ HEADERIMAGE <aImageHeader> ]  ;
 		[ <notabstop: NOTABSTOP> ]	;
 		[ <checkboxes: CHECKBOXES> ]	;
 		[ ON CHECKBOXCLICKED <OnCheckBoxClicked> ] ;
 		[ LOCKCOLUMNS <lockcolumns> ]	;
 		[ <doublebuffer: PAINTDOUBLEBUFFER> ] ;
+		[ ON INIT <bInit> ] ;
 	=>;
-   _DefineGrid ( <"name"> , 	;
-		<"parent"> , 	;
+   _DefineGrid ( <(name)> , 	;
+		<(parent)> , 	;
 		<col> ,		;
 		<row> ,		;
 		<w> , 		;
@@ -157,7 +162,9 @@
 		<lockcolumns> , ;
 		<{OnCheckBoxClicked}> , ;
 		<.doublebuffer.> , ;
-		<.nosortheaders.> , <columnsort> )
+		<.nosortheaders.> , ;
+                <columnsort> , ;
+                <aLimitColumns> , <{OnDragItems}> , <bInit> , <autosizeH>, <.autosizeW.> )
 
 #command REDEFINE GRID <name> 		;
 		[ ID <nId> ]		;
@@ -200,15 +207,20 @@
 		[ HELPID <helpid> ] 		;
 		[ <break: BREAK> ] 		;
 		[ COLUMNSORT <columnsort> ]	;
+		[ COLUMNWIDTHLIMITS <aLimitColumns> ] ;
+		[ ON DRAGHEADERITEMS <OnDragItems> ] ;
 		[ HEADERIMAGE <aImageHeader> ]  ;
 		[ <notabstop: NOTABSTOP> ]	;
 		[ <checkboxes: CHECKBOXES> ]    ;
 		[ ON CHECKBOXCLICKED <OnCheckBoxClicked> ] ;
 		[ LOCKCOLUMNS <lockcolumns> ]	;
 		[ <doublebuffer: PAINTDOUBLEBUFFER> ] ;
+		[ AUTOSIZEWIDTH <autosizeW> ]	;
+		[ AUTOSIZEHEIGHT <autosizeH> ]	;
+		[ ON INIT <bInit> ] ;
 	=>;
-   _DefineGrid ( <"name"> , 	;
-		<"parent"> , 	;
+   _DefineGrid ( <(name)> , 	;
+		<(parent)> , 	;
  		0 ,		;
 		0 ,		;
 		0 , 		;
@@ -253,7 +265,12 @@
 		<.notabstop.> ,;
 		<.cell.> ,;
 		<.checkboxes.> ,;
-		<lockcolumns> , <{OnCheckBoxClicked}> , <.doublebuffer.> , <.nosortheaders.> , <columnsort> )
+		<lockcolumns> ,;
+                <{OnCheckBoxClicked}> ,;
+                <.doublebuffer.> ,;
+                <.nosortheaders.> ,;
+                <columnsort> ,;
+                <aLimitColumns> , <{OnDragItems}> , <bInit> , <autosizeH>, <.autosizeW.> )
 
 ///////////////////////////////////////////////////////////////////////////////
 // GRID (SPLITBOX VERSION)
@@ -261,7 +278,9 @@
 #command GRID <name> 		;
 		[ <dummy1: OF, PARENT> <parent> ] ;
 		[ WIDTH <w> ] 			;
+		[ AUTOSIZEWIDTH <autosizeW> ]	;
 		[ HEIGHT <h> ] 			;
+		[ AUTOSIZEHEIGHT <autosizeH> ]	;
 		[ HEADERS <headers> ] 		;
 		[ WIDTHS <widths> ] 		;
 		[ ITEMS <rows> ] 		;
@@ -300,15 +319,18 @@
 		[ HELPID <helpid> ] 		;
 		[ <break: BREAK> ] 		;
 		[ COLUMNSORT <columnsort> ]	;
+		[ COLUMNWIDTHLIMITS <aLimitColumns> ] ;
+		[ ON DRAGHEADERITEMS <OnDragItems> ] ;
 		[ HEADERIMAGE <aImageHeader> ] 	;
 		[ <notabstop: NOTABSTOP> ]	;
 		[ <checkboxes: CHECKBOXES> ]    ;
 		[ ON CHECKBOXCLICKED <OnCheckBoxClicked> ] ;
 		[ LOCKCOLUMNS <lockcolumns> ]	;
 		[ <doublebuffer: PAINTDOUBLEBUFFER> ] ;
+		[ ON INIT <bInit> ] ;
 	=>;
-   _DefineGrid ( <"name"> , 	;
-		<"parent"> , 	;
+   _DefineGrid ( <(name)> , 	;
+		<(parent)> , 	;
 		,		;
 		,		;
 		<w> , 		;
@@ -353,7 +375,12 @@
 		<.notabstop.> ,;
 		<.cell.> ,;
 		<.checkboxes.> ,;
-		<lockcolumns> , <{OnCheckBoxClicked}> , <.doublebuffer.> , <.nosortheaders.> , <columnsort> )
+		<lockcolumns> ,;
+                <{OnCheckBoxClicked}> ,;
+                <.doublebuffer.> ,;
+                <.nosortheaders.> ,;
+                <columnsort> ,;
+                <aLimitColumns> , <{OnDragItems}> , <bInit> , <autosizeH>, <.autosizeW.> )
 
 ///////////////////////////////////////////////////////////////////////////////
 // GRID (STANDARD VERSION)
@@ -361,7 +388,9 @@
 #command @ <row>,<col> GRID <name> 		;
 		[ <dummy1: OF, PARENT> <parent> ] ;
 		[ WIDTH <w> ] 			;
+		[ AUTOSIZEWIDTH <autosizeW> ]	;
 		[ HEIGHT <h> ] 			;
+		[ AUTOSIZEHEIGHT <autosizeH> ]	;
 		[ HEADERS <headers> ] 		;
 		[ WIDTHS <widths> ] 		;
 		[ ITEMS <rows> ] 		;
@@ -400,15 +429,18 @@
 		[ HELPID <helpid> ] 		;
 		[ <break: BREAK> ] 		;
 		[ COLUMNSORT <columnsort> ]	;
+		[ COLUMNWIDTHLIMITS <aLimitColumns> ] ;
+		[ ON DRAGHEADERITEMS <OnDragItems> ] ;
 		[ HEADERIMAGE <aImageHeader> ]	;
 		[ <notabstop: NOTABSTOP> ]	;
 		[ <checkboxes: CHECKBOXES> ]    ;
 		[ ON CHECKBOXCLICKED <OnCheckBoxClicked> ] ;
 		[ LOCKCOLUMNS <lockcolumns> ]	;
 		[ <doublebuffer: PAINTDOUBLEBUFFER> ] ;
+		[ ON INIT <bInit> ] ;
 	=>;
-   _DefineGrid ( <"name"> , 	;
-		<"parent"> , 	;
+   _DefineGrid ( <(name)> , 	;
+		<(parent)> , 	;
 		<col> ,		;
 		<row> ,		;
 		<w> , 		;
@@ -453,7 +485,12 @@
 		<.notabstop.> ,;
 		<.cell.> ,;
 		<.checkboxes.> ,;
-		<lockcolumns> , <{OnCheckBoxClicked}> , <.doublebuffer.> , <.nosortheaders.> , <columnsort> )
+		<lockcolumns> ,;
+                <{OnCheckBoxClicked}> ,;
+                <.doublebuffer.> ,;
+                <.nosortheaders.> ,;
+                <columnsort> ,;
+                <aLimitColumns> , <{OnDragItems}> , <bInit> , <autosizeH>, <.autosizeW.> )
 
 ///////////////////////////////////////////////////////////////////////////////
 // GRID (SPLITBOX VERSION)
@@ -461,7 +498,9 @@
 #command GRID <name> 		;
 		[ <dummy1: OF, PARENT> <parent> ] ;
 		[ WIDTH <w> ] 			;
+		[ AUTOSIZEWIDTH <autosizeW> ]	;
 		[ HEIGHT <h> ] 			;
+		[ AUTOSIZEHEIGHT <autosizeH> ]	;
 		[ HEADERS <headers> ] 		;
 		[ WIDTHS <widths> ] 		;
 		[ ITEMS <rows> ] 		;
@@ -500,15 +539,18 @@
 		[ HELPID <helpid> ] 		;
 		[ <break: BREAK> ] 		;
 		[ COLUMNSORT <columnsort> ]	;
+		[ COLUMNWIDTHLIMITS <aLimitColumns> ] ;
+		[ ON DRAGHEADERITEMS <OnDragItems> ] ;
 		[ HEADERIMAGE <aImageHeader> ]	;
 		[ <notabstop: NOTABSTOP> ]	;
 		[ <checkboxes: CHECKBOXES> ]    ;
 		[ ON CHECKBOXCLICKED <OnCheckBoxClicked> ] ;
 		[ LOCKCOLUMNS <lockcolumns> ]	;
 		[ <doublebuffer: PAINTDOUBLEBUFFER> ] ;
+		[ ON INIT <bInit> ] ;
 	=>;
-   _DefineGrid ( <"name"> , 	;
-	        <"parent"> , 	;
+   _DefineGrid ( <(name)> , 	;
+	        <(parent)> , 	;
 		,		;
 		,		;
 		<w> , 		;
@@ -553,7 +595,12 @@
 		<.notabstop.> ,;
 		<.cell.> ,;
 		<.checkboxes.> ,;
-		<lockcolumns> , <{OnCheckBoxClicked}> , <.doublebuffer.> , <.nosortheaders.> , <columnsort> )
+		<lockcolumns> ,;
+                <{OnCheckBoxClicked}> ,;
+                <.doublebuffer.> ,;
+                <.nosortheaders.> ,;
+                <columnsort> ,;
+                <aLimitColumns> , <{OnDragItems}> , <bInit> , <autosizeH>, <.autosizeW.> )
 
 #xcommand SET [GRID] CELLNAVIGATIONMODE <x:VERTICAL,HORIZONTAL> => _HMG_GridNavigationMode := ( Upper(<(x)>) == "VERTICAL" )
 #xcommand SET [GRID] CELLNAVIGATION MODE <x:VERTICAL,HORIZONTAL> => _HMG_GridNavigationMode := ( Upper(<(x)>) == "VERTICAL" )
@@ -586,3 +633,12 @@ ListView_SetColumnWidth ( <h>, <nColumn>, LVSCW_AUTOSIZE )
 #xtranslate ListView_SetColumnWidthAutoH ( <h>, <nColumn> ) ;
 => ;
 ListView_SetColumnWidth ( <h>, <nColumn>, LVSCW_AUTOSIZE_USEHEADER )
+
+
+#define _GRID_COLUMN_JUSTIFY_            3
+#define _GRID_COLUMN_DYNAMICFORECOLOR_   11
+#define _GRID_COLUMN_DYNAMICBACKCOLOR_   12
+#define _GRID_COLUMN_CONTROL_            13
+#define _GRID_COLUMN_VALID_              14
+#define _GRID_COLUMN_WHEN_               15
+#define _GRID_COLUMN_VALIDMESSAGE_       16

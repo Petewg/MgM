@@ -30,38 +30,36 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
 #ifndef _REGISTRY_CH
 #define _REGISTRY_CH
 
-
-/* Predefined Keys */
-// #define HKEY_CLASSES_ROOT         2147483648
-// #define HKEY_CURRENT_USER         2147483649
-// #define HKEY_LOCAL_MACHINE        2147483650
-// #define HKEY_USERS                2147483651
-// #define HKEY_PERFORMANCE_DATA     2147483652
-// #define HKEY_CURRENT_CONFIG       2147483653
-// #define HKEY_DYN_DATA             2147483654
+/* Predefined Keys
+#define HKEY_CLASSES_ROOT         2147483648
+#define HKEY_CURRENT_USER         2147483649
+#define HKEY_LOCAL_MACHINE        2147483650
+#define HKEY_USERS                2147483651
+#define HKEY_PERFORMANCE_DATA     2147483652
+#define HKEY_CURRENT_CONFIG       2147483653
+#define HKEY_DYN_DATA             2147483654
+*/
 
 /* Error Codes */
 #define ERROR_SUCCESS                0
-#define ERROR_FILE_NOT_FOUND         2
-#define ERROR_ACCESS_DENIED          5
 #define ERROR_OUTOFMEMORY           14
 #define ERROR_NOT_SUPPORTED         50
 #define ERROR_INVALID_PARAMETER     87
@@ -77,21 +75,23 @@
 #define ERROR_REGISTRY_IO_FAILED  1016
 #define ERROR_KEY_DELETED         1018
 
-/* Security Masks */
-// #define KEY_QUERY_VALUE             1
-// #define KEY_SET_VALUE               2
-// #define KEY_CREATE_SUB_KEY          4
-// #define KEY_ENUMERATE_SUB_KEYS      8
-// #define KEY_NOTIFY                 16
-// #define KEY_CREATE_LINK            32
-#define KEY_ALL                    63
+/* Security Masks
+#define KEY_QUERY_VALUE             1
+#define KEY_SET_VALUE               2
+#define KEY_CREATE_SUB_KEY          4
+#define KEY_ENUMERATE_SUB_KEYS      8
+#define KEY_NOTIFY                 16
+#define KEY_CREATE_LINK            32
+*/
 
 /* Registery Information Type */
 #define REG_NONE                    0 // No value type
-// #define REG_SZ                      1 // nul terminated string
-// #define REG_EXPAND_SZ               2 // nul terminated string with ref
-// #define REG_BINARY                  3 // Free form binary
-// #define REG_DWORD                   4 // 32-bit number
+/*
+#define REG_SZ                      1 // nul terminated string
+#define REG_EXPAND_SZ               2 // nul terminated string with ref
+#define REG_BINARY                  3 // Free form binary
+#define REG_DWORD                   4 // 32-bit number
+*/
 #define REG_DWORD_BIG_ENDIAN        5 // 32-bit number
 #define REG_LINK                    6 // Symbolic Link
 #define REG_MULTI_SZ                7 // Multiple strings
@@ -105,11 +105,6 @@
 #xcommand OPEN REGISTRY <oReg> KEY <hKey> ;
             SECTION <cKey> ;
             => ;
-            <oReg>:=TReg32():Create(<hKey>,<cKey>)
-
-#xcommand OPEN REGISTRY <oReg> KEY <hKey> ;
-            SECTION <cKey> OLD ;
-            => ;
             <oReg>:=TReg32():New(<hKey>,<cKey>)
 
 #xcommand CREATE REGISTRY <oReg> KEY <hKey> ;
@@ -118,10 +113,10 @@
             <oReg>:=TReg32():Create(<hKey>,<cKey>)
 
 #xcommand GET VALUE <uVar> ;
-            [NAME <cVar> ];
+            [ NAME <cVar> ];
             <of: OF, REGISTRY> <oReg> ;
             => ;
-            <uVar> := <oReg>:Get(<cVar>,<uVar>)
+            <uVar>:=<oReg>:Get(<cVar>,<uVar>)
 
 #xcommand SET VALUE <cVar> ;
             <of: OF, REGISTRY> <oReg> ;
@@ -134,13 +129,12 @@
             => ;
             <oReg>:Delete(<cVar>)
 
-#xcommand DELETE KEY <cKey> ;
-            <of: OF, REGISTRY> <oReg> ;
-            => ;
-            <oReg>:KeyDelete(<cKey>)
-
 #xcommand CLOSE REGISTRY <oReg> ;
             => ;
             <oReg>:Close()
+
+#xcommand DELETE [REGISTRY] SECTION <cKey> FROM [KEY] <hKey> ;
+            => ;
+            DeleteRegistryKey(<hKey>,<cKey>)
 
 #endif

@@ -30,41 +30,41 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
 #xtranslate SET REGION OF <name> RECTANGULAR <row>,<col>,<w>,<h> ;
     =>;
-    _SetWindowRgn(<"name">, <col>, <row>, <w>, <h>, 1)
+    _SetWindowRgn(<(name)>, <col>, <row>, <w>, <h>, 1)
 
 #xtranslate SET REGION OF <name> ELLIPTIC <row>,<col>,<w>,<h> ;
     =>;
-    _SetWindowRgn(<"name">, <col>, <row>, <w>, <h>, 2)
+    _SetWindowRgn(<(name)>, <col>, <row>, <w>, <h>, 2)
 
 #xtranslate SET REGION OF <name> ROUNDRECT <rect1>,<rect2>,<w>,<h> ;
     =>;
-    _SetWindowRgn(<"name">, <rect1>, <rect2>, <w>, <h>, 3)
+    _SetWindowRgn(<(name)>, <rect1>, <rect2>, <w>, <h>, 3)
 
 #xtranslate SET REGION OF <name> BITMAP <file> TRANSPARENT COLOR <color> [ TO <region> ] ;
     =>;
-    [ <region> := ] _SetWindowRgn ( <"name">, <"file">, <color>, 0, 0, 4 )
+    [ <region> := ] _SetWindowRgn ( <(name)>, <(file)>, <color>, 0, 0, 4 )
 
-#xtranslate SET REGION OF <name> POLYGONAL <apoints> [WINDING] => _SetPolyWindowRgn(<"name">,<apoints>,1)
+#xtranslate SET REGION OF <name> POLYGONAL <apoints> [WINDING] => _SetPolyWindowRgn(<(name)>,<apoints>,1)
 
-#xtranslate SET REGION OF <name> POLYGONAL <apoints> ALTERNATE => _SetPolyWindowRgn(<"name">,<apoints>,2)
+#xtranslate SET REGION OF <name> POLYGONAL <apoints> ALTERNATE => _SetPolyWindowRgn(<(name)>,<apoints>,2)
 
 #xtranslate SET REGION OF <name> RESET ;
     =>;
-    _SetWindowRgn(<"name">,0,0,0,0,0)
+    _SetWindowRgn(<(name)>,0,0,0,0,0)

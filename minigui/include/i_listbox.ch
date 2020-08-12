@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+     Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -75,7 +75,7 @@
       [ <multitabs : MULTITAB> ] ;
       [ TABSWIDTH <aWidth> ] ;
    => ;
-   _DefineListBox ( <"name">, <"parent">, <col>, <row>, <w>, <h>, <aRows>, <value>, ;
+   _DefineListBox ( <(name)>, <(parent)>, <col>, <row>, <w>, <h>, <aRows>, <value>, ;
       <fontname>, <fontsize>, <tooltip>, <{change}>, <{dblclick}>, <{gotfocus}>, <{lostfocus}>, .f., ;
       <helpid>, <.invisible.>, <.notabstop.>, <.sort.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.> ,;
       <backcolor> , <fontcolor> , <.multiselect.> , <.dragitems.>, <.multicolumn.>, <.multitabs.>, <aWidth>, <nId> )
@@ -109,7 +109,7 @@
       [ <multitabs : MULTITAB> ] ;
       [ TABSWIDTH <aWidth> ] ;
    => ;
-   _DefineListBox ( <"name">, <"parent">, 0, 0, 0, 0, <aRows>, <value>, ;
+   _DefineListBox ( <(name)>, <(parent)>, 0, 0, 0, 0, <aRows>, <value>, ;
       <fontname>, <fontsize>, <tooltip>, <{change}>, <{dblclick}>, <{gotfocus}>, <{lostfocus}>, .f., ;
       <helpid>, <.invisible.>, <.notabstop.>, <.sort.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.> ,;
       <backcolor> , <fontcolor> , <.multiselect.> , <.dragitems.>, <.multicolumn.>, <.multitabs.>, <aWidth>, <nId> )
@@ -147,7 +147,7 @@
       [ <multitabs : MULTITAB> ] ;
       [ TABSWIDTH <aWidth> ] ;
    => ;
-   _DefineListBox ( <"name">, <"parent">, , , <w>, <h>, <aRows>, <value>, ;
+   _DefineListBox ( <(name)>, <(parent)>, , , <w>, <h>, <aRows>, <value>, ;
       <fontname>, <fontsize>, <tooltip>, <{change}>, <{dblclick}>, ;
       <{gotfocus}>, <{lostfocus}>, <.break.>, <helpid>, ;
       <.invisible.>, <.notabstop.>, <.sort.> ,<.bold.>, ;
@@ -185,7 +185,7 @@
       [ CHECKBOXITEM <aCheck> ] ;
       [ ITEMHEIGHT <nItemHeight> ] ;
    => ;
-   _DefineChkListBox ( <"name">, <"parent">, <col>, <row>, <w>, <h>, <aRows>, <value>, ;
+   _DefineChkListBox ( <(name)>, <(parent)>, <col>, <row>, <w>, <h>, <aRows>, <value>, ;
       <fontname>, <fontsize>, <tooltip>, <{change}>, <{dblclick}>, <{gotfocus}>, <{lostfocus}>, .f., ;
       <helpid>, <.invisible.>, <.notabstop.>, <.sort.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
       <backcolor> , <fontcolor> , <.multiselect.> , <aCheck>, <nItemHeight>, <nId> )
@@ -216,7 +216,7 @@
       [ CHECKBOXITEM <aCheck> ] ;
       [ ITEMHEIGHT <nItemHeight> ] ;
    => ;
-   _DefineChkListBox ( <"name">, <"parent">, 0, 0, 0, 0, <aRows>, <value>, ;
+   _DefineChkListBox ( <(name)>, <(parent)>, 0, 0, 0, 0, <aRows>, <value>, ;
       <fontname>, <fontsize>, <tooltip>, <{change}>, <{dblclick}>, <{gotfocus}>, <{lostfocus}>, .f., ;
       <helpid>, <.invisible.>, <.notabstop.>, <.sort.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.> ,;
       <backcolor> , <fontcolor> , <.multiselect.> , <aCheck>, <nItemHeight>, <nId> )
@@ -252,7 +252,7 @@
       [ CHECKBOXITEM <aCheck> ] ;
       [ ITEMHEIGHT <nItemHeight> ] ;
    => ;
-   _DefineChkListBox ( <"name">, <"parent">, , , <w>, <h>, <aRows>, <value>, ;
+   _DefineChkListBox ( <(name)>, <(parent)>, , , <w>, <h>, <aRows>, <value>, ;
       <fontname>, <fontsize>, <tooltip>, <{change}>, <{dblclick}>, ;
       <{gotfocus}>, <{lostfocus}>, <.break.>, <helpid>, ;
       <.invisible.>, <.notabstop.>, <.sort.> ,<.bold.>, ;

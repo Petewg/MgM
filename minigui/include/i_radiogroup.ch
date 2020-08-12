@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -52,6 +52,7 @@
 		[ VALUE <value> ]	;
 		[ WIDTH <width> ] 	;
 		[ SPACING <spacing> ] 	;
+		[ <autosize : AUTOSIZE> ] ;
 		[ FONT <fontname> ] 	;
 		[ SIZE <fontsize> ]	;
 		[ <bold : BOLD> ] ;
@@ -62,6 +63,7 @@
 		[ BACKCOLOR <backcolor> ] ;
 		[ FONTCOLOR <fontcolor> ] ;
 		[ ON CHANGE <change> ]	;
+		[ ON INIT <bInit> ] ;
 		[ <transparent: TRANSPARENT> ] ;
 		[ HELPID <helpid> ] 		;
 		[ <invisible : INVISIBLE> ] ;
@@ -70,7 +72,8 @@
 		[ <horizontal : HORIZONTAL> ] ;
 		[ <leftjustify : LEFTJUSTIFY> ] ;
 	=>;
-	_DefineradioGroup ( <"name">, <"parent">, <col>, <row>, <aOptions>, <value> , <fontname> , <fontsize> , <tooltip> , <{change}> , <width> , <spacing> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <backcolor> , <fontcolor> , <.transparent.> , <.horizontal.> , <.leftjustify.> , <aReadOnly> , <aId> )
+	_DefineRadioGroup ( <(name)>, <(parent)>, <col>, <row>, <aOptions>, <value> , <fontname> , <fontsize> , <tooltip> , <{change}> , <width> , <spacing> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <backcolor> , <fontcolor> , <.transparent.> , <.horizontal.> , <.leftjustify.> , <aReadOnly> , <.autosize.> , <aId> , <bInit> )
+
 
 #command REDEFINE RADIOGROUP <name>	;
 		ID <aId>		;
@@ -88,6 +91,7 @@
 		[ BACKCOLOR <backcolor> ] ;
 		[ FONTCOLOR <fontcolor> ] ;
 		[ ON CHANGE <change> ]	;
+		[ ON INIT <bInit> ] ;
 		[ <transparent: TRANSPARENT> ] ;
 		[ HELPID <helpid> ] 		;
 		[ <invisible : INVISIBLE> ] ;
@@ -96,5 +100,4 @@
 		[ <horizontal : HORIZONTAL> ] ;
 		[ <leftjustify : LEFTJUSTIFY> ] ;
 	=>;
-	_DefineradioGroup ( <"name">, <"parent">, 0, 0, <aOptions>, <value> , <fontname> , <fontsize> , <tooltip> , <{change}> , 0 , <spacing> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <backcolor> , <fontcolor> , <.transparent.> , <.horizontal.> , <.leftjustify.> , <aReadOnly> , <aId> )
-
+	_DefineRadioGroup ( <(name)>, <(parent)>, 0, 0, <aOptions>, <value> , <fontname> , <fontsize> , <tooltip> , <{change}> , 0 , <spacing> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <backcolor> , <fontcolor> , <.transparent.> , <.horizontal.> , <.leftjustify.> , <aReadOnly> , .f. , <aId> , <bInit> )

@@ -34,18 +34,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -63,7 +63,7 @@
       [ <underline : UNDERLINE> ] ;
       [ <strikeout : STRIKEOUT> ] ;
       [ TOOLTIP <tooltip> ] ;
-      [ TIMEFORMAT <cTimeFormat> ] ;
+      [ <dummy2: TIMEFORMAT, FORMAT> <cTimeFormat> ] ;
       [ < shownone: SHOWNONE > ] ;
       [ ON GOTFOCUS <gotfocus> ] ;
       [ ON CHANGE <change> ] ;
@@ -73,8 +73,8 @@
       [ <invisible: INVISIBLE> ] ;
       [ <notabstop: NOTABSTOP> ] ;
    => ;
-   _DefineTimePick ( <"name"> , ;
-                     <"parent"> , ;
+   _DefineTimePick ( <(name)> , ;
+                     <(parent)> , ;
                      <col> , ;
                      <row> , ;
                      <w> , ;
@@ -89,7 +89,7 @@
                      <.shownone.> , ;
                      <helpid> , <.invisible.>, <.notabstop.>, ;
                      <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
-                     <"field"> , <{enter}>, <cTimeFormat>, ;
+                     <(field)> , <{enter}>, <cTimeFormat>, ;
                      <nId> )
 
 
@@ -112,7 +112,7 @@
       [ TITLEBACKCOLOR <titlebkclr> ] ;
       [ TITLEFONTCOLOR <titlefrclr> ] ;
       [ TRAILINGFONTCOLOR <trlfontclr> ] ;
-      [ DATEFORMAT <cDateFormat> ] ;
+      [ <dummy2: DATEFORMAT, FORMAT>  <cDateFormat> ] ;
       [ RANGE <lo> , <hi> ] ;
       [ < shownone: SHOWNONE > ] ;
       [ < updown: UPDOWN > ] ;
@@ -124,9 +124,10 @@
       [ HELPID <helpid> ]       ;
       [ <invisible: INVISIBLE> ] ;
       [ <notabstop: NOTABSTOP> ] ;
+      [ ON INIT <bInit> ] ;
    => ;
-   _DefineDatePick ( <"name"> , ;
-                     <"parent"> , ;
+   _DefineDatePick ( <(name)> , ;
+                     <(parent)> , ;
                      <col> , ;
                      <row> , ;
                      <w> , ;
@@ -142,7 +143,7 @@
                      <.updown.> , ;
                      <.rightalign.>  , <helpid> , <.invisible.>, <.notabstop.>, ;
                      <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
-                     <"field"> , <{enter}>, ;
+                     <(field)> , <{enter}>, ;
                      [ <backcolor> ], ;
                      [ <fontcolor> ], ;
                      [ <titlebkclr> ], ;
@@ -150,7 +151,7 @@
                      [ <trlfontclr> ], ;
                      <cDateFormat>, ;
                      <lo> , <hi> , ;
-                     <nId> )
+                     <nId>, <bInit> )
 
 
 #command REDEFINE DATEPICKER <name> ;
@@ -182,9 +183,10 @@
       [ HELPID <helpid> ]       ;
       [ <invisible: INVISIBLE> ] ;
       [ <notabstop: NOTABSTOP> ] ;
+      [ ON INIT <bInit> ] ;
    => ;
-   _DefineDatePick ( <"name"> , ;
-                     <"parent"> , ;
+   _DefineDatePick ( <(name)> , ;
+                     <(parent)> , ;
                      0 , ;
                      0 , ;
                      0 , ;
@@ -200,7 +202,7 @@
                      <.updown.> , ;
                      <.rightalign.>  , <helpid> , <.invisible.>, <.notabstop.>, ;
                      <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
-                     <"field"> , <{enter}>, ;
+                     <(field)> , <{enter}>, ;
                      [ <backcolor> ], ;
                      [ <fontcolor> ], ;
                      [ <titlebkclr> ], ;
@@ -208,7 +210,7 @@
                      [ <trlfontclr> ], ;
                      <cDateFormat>, ;
                      <lo> , <hi> , ;
-                     <nId> )
+                     <nId>, <bInit> )
 
 
 #ifndef DTM_FIRST

@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+     Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -72,15 +72,18 @@
    [ <transparent: TRANSPARENT> ]   ;
    [ <rightalign: RIGHTALIGN> ]   ;
    [ <centeralign: CENTERALIGN> ]   ;
+   [ <vcenteralign: VCENTERALIGN> ] ;
    [ <leftcheck: LEFTCHECK> ]   ;
    [ <lchecked: CHECKED> ]   ;
+   [ FIELD <field> ] ;
    [ <blink: BLINK> ]  ;
    [ HELPID <helpid> ] ;
    [ <invisible: INVISIBLE> ] ;
+   [ ON INIT <bInit> ] ;
 => ;
    _DefineChkLabel ( ;
-   <"name">,         ;
-   <"parent">,       ;
+   <(name)>,         ;
+   <(parent)>,       ;
    <col>,            ;
    <row>,            ;
    <value>,          ;
@@ -103,6 +106,7 @@
    <.italic.>,       ;
    <.underline.>,    ;
    <.strikeout.> ,   ;
+   <(field)> ,       ;
    <.autosize.> ,    ;
    <.rightalign.> ,  ;
    <.centeralign.> , ;
@@ -112,23 +116,24 @@
    <acbitmap> ,      ;
    <.leftcheck.> ,   ;
    <.lchecked.> ,    ;
-        <nId> )
+   <.vcenteralign.>, ;
+   <nId> , <bInit> )
 
 #command REDEFINE CHECKLABEL <name>  ;
-    ID <nId> ;
-    [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
-    [ VALUE <value> ]   ;
-    [ <dummy2: ACTION, ON CLICK, ONCLICK> <action> ] ;
-    [ <autosize : AUTOSIZE> ] ;
-    [ FONT <fontname> ] ;
-    [ SIZE <fontsize> ] ;
-    [ <bold : BOLD> ] ;
-    [ <italic : ITALIC> ] ;
-    [ <underline : UNDERLINE> ] ;
-    [ <strikeout : STRIKEOUT> ] ;
-    [ TOOLTIP <tooltip> ] ;
-    [ BACKCOLOR <backcolor> ] ;
-    [ FONTCOLOR <fontcolor> ] ;
+   ID <nId> ;
+   [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
+   [ VALUE <value> ]   ;
+   [ <dummy2: ACTION, ON CLICK, ONCLICK> <action> ] ;
+   [ <autosize : AUTOSIZE> ] ;
+   [ FONT <fontname> ] ;
+   [ SIZE <fontsize> ] ;
+   [ <bold : BOLD> ] ;
+   [ <italic : ITALIC> ] ;
+   [ <underline : UNDERLINE> ] ;
+   [ <strikeout : STRIKEOUT> ] ;
+   [ TOOLTIP <tooltip> ] ;
+   [ BACKCOLOR <backcolor> ] ;
+   [ FONTCOLOR <fontcolor> ] ;
    [ <dummy3: IMAGE,PICTURE> <acbitmap> ] ;
    [ <border: BORDER> ]  ;
    [ <clientedge: CLIENTEDGE> ] ;
@@ -137,16 +142,98 @@
    [ <transparent: TRANSPARENT> ]   ;
    [ <rightalign: RIGHTALIGN> ]   ;
    [ <centeralign: CENTERALIGN> ]   ;
+   [ <vcenteralign: VCENTERALIGN> ] ;
    [ <leftcheck: LEFTCHECK> ]   ;
    [ <lcheck: CHECKED> ]   ;
+   [ FIELD <field> ] ;
    [ <blink: BLINK> ]  ;
    [ HELPID <helpid> ] ;
    [ <invisible: INVISIBLE> ] ;
-    => ;
-   _DefineChkLabel ( <"name">, <"parent">, 0, 0, <value>, ;
+   [ ON INIT <bInit> ] ;
+=> ;
+   _DefineChkLabel ( <(name)>, <(parent)>, 0, 0, <value>, ;
       0, 0, <fontname>, <fontsize>, <.bold.>, ;
-      <.border.> , <.clientedge.> , <.hscroll.> , <.vscroll.> ,;
+      <.border.> , <.clientedge.> , <.hscroll.> , <.vscroll.> , ;
       <.transparent.> , [ <backcolor> ], [ <fontcolor> ], ;
       <{action}>, <tooltip>, <helpid>, <.invisible.>, <.italic.>, ;
-      <.underline.> , <.strikeout.> , <.autosize.> , <.rightalign.> , ;
-      <.centeralign.> , <.blink.> , , , <acbitmap>, <.leftcheck.>, <.lcheck.>, <nId> )
+      <.underline.> , <.strikeout.> , <(field)> , <.autosize.> , <.rightalign.> , ;
+      <.centeralign.> , <.blink.> , , , <acbitmap>, <.leftcheck.>, <.lcheck.>, <.vcenteralign.>, ;
+      <nId> , <bInit> )
+
+/*-------------------------------------------------------------------------
+Switcher pseudo-control
+---------------------------------------------------------------------------*/
+
+#command @ <row>,<col> SWITCHER <name> ;
+   [ID <nId>] ;
+   [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
+   [ VALUE <value> ] ;
+   [ <dummy2: ACTION, ON CLICK, ONCLICK> <action> ] ;
+   [ <dummy3: ON MOUSEHOVER, ONMOUSEHOVER> <overproc> ] ;
+   [ <dummy4: ON MOUSELEAVE, ONMOUSELEAVE> <leaveproc> ] ;
+   [ WIDTH <width> ] ;
+   [ HEIGHT <height> ] ;
+   [ <autosize : AUTOSIZE> ] ;
+   [ FONT <fontname> ] ;
+   [ SIZE <fontsize> ] ;
+   [ <bold : BOLD> ] ;
+   [ <italic : ITALIC> ] ;
+   [ <underline : UNDERLINE> ] ;
+   [ <strikeout : STRIKEOUT> ] ;
+   [ TOOLTIP <tooltip> ] ;
+   [ BACKCOLOR <backcolor> ] ;
+   [ FONTCOLOR <fontcolor> ] ;
+   [ <dummy5: IMAGE,PICTURE> <acbitmap> ] ;
+   [ <border: BORDER> ] ;
+   [ <clientedge: CLIENTEDGE> ] ;
+   [ <hscroll: HSCROLL> ] ;
+   [ <vscroll: VSCROLL> ] ;
+   [ <transparent: TRANSPARENT> ]   ;
+   [ <rightalign: RIGHTALIGN> ]   ;
+   [ <centeralign: CENTERALIGN> ]   ;
+   [ <vcenteralign: VCENTERALIGN> ] ;
+   [ <leftcheck: LEFTCHECK> ]   ;
+   [ <lchecked: CHECKED> ]   ;
+   [ FIELD <field> ] ;
+   [ <blink: BLINK> ]  ;
+   [ HELPID <helpid> ] ;
+   [ <invisible: INVISIBLE> ] ;
+   [ ON INIT <bInit> ] ;
+=> ;
+   _DefineChkLabel ( ;
+   <(name)>,         ;
+   <(parent)>,       ;
+   <col>,            ;
+   <row>,            ;
+   <value>,          ;
+   <width>,          ;
+   <height>,         ;
+   <fontname> ,      ;
+   <fontsize> ,      ;
+   <.bold.>,         ;
+   <.border.> ,      ;
+   <.clientedge.> ,  ;
+   <.hscroll.> ,     ;
+   <.vscroll.> ,     ;
+   <.transparent.> , ;
+   [ <backcolor> ],  ;
+   [ <fontcolor> ],  ;
+   <{action}>,       ;
+   <tooltip>,        ;
+   <helpid>,         ;
+   <.invisible.>,    ;
+   <.italic.>,       ;
+   <.underline.>,    ;
+   <.strikeout.> ,   ;
+   <(field)> ,       ;
+   .T. ,             ;
+   <.rightalign.> ,  ;
+   <.centeralign.> , ;
+   <.blink.> ,       ;
+   <{overproc}> ,    ;
+   <{leaveproc}> ,   ;
+   <acbitmap> ,      ;
+   <.leftcheck.> ,   ;
+   <.lchecked.> ,    ;
+   .T. ,             ;
+   <nId> , <bInit> )

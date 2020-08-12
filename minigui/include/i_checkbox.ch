@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -74,8 +74,9 @@
 		[ <notabstop: NOTABSTOP> ] ;
 		[ <leftjustify: LEFTJUSTIFY> ] ;
 		[ <threestate : THREESTATE> ] ;
+		[ ON INIT <bInit> ] ;
 	=>;
-	_DefineCheckBox ( <"name">, <"parent">, <col>, <row>, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <"field"> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , <.autosize.> , <.multiline.> , <nId> )
+	_DefineCheckBox ( <(name)>, <(parent)>, <col>, <row>, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <(field)> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , <.autosize.> , <.multiline.> , <nId> , <bInit> )
 
 
 #command REDEFINE CHECKBOX <name> ;
@@ -103,8 +104,9 @@
 	[ <notabstop: NOTABSTOP> ] ;
 	[ <leftjustify: LEFTJUSTIFY> ] ;
 	[ <threestate : THREESTATE> ] ;
+	[ ON INIT <bInit> ] ;
     =>;
-	_DefineCheckBox ( <"name">, <"parent">, 0, 0, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <"field"> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , .f. , .f. , <nId> )
+	_DefineCheckBox ( <(name)>, <(parent)>, 0, 0, <caption>, <value> , <f> , <n> , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <(field)> , <backcolor> , <fontcolor> , <.transparent.> , <.leftjustify.> , <.threestate.> , <{enter}> , .f. , .f. , <nId> , <bInit> )
 
 
 #command @ <row>,<col> CHECKBUTTON <name> ;
@@ -128,7 +130,7 @@
 		[ <invisible: INVISIBLE> ] ;
 		[ <notabstop: NOTABSTOP> ] ;
 	=>;
-	_DefineCheckButton ( <"name">, <"parent">, <col>, <row>, <caption>, <value> ,<f> ,<n> , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <nId> )
+	_DefineCheckButton ( <(name)>, <(parent)>, <col>, <row>, <caption>, <value> ,<f> ,<n> , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <nId> )
 
 
 #command REDEFINE CHECKBUTTON <name> ;
@@ -150,7 +152,7 @@
     [ <invisible: INVISIBLE> ] ;
     [ <notabstop: NOTABSTOP> ] ;
     =>;
-	_DefineCheckButton ( <"name">, <"parent">, 0, 0, <caption>, <value> ,<f> ,<n> , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <nId>)
+	_DefineCheckButton ( <(name)>, <(parent)>, 0, 0, <caption>, <value> ,<f> ,<n> , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}>  , <helpid>, <.invisible.>, <.notabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <nId>)
 
 
 
@@ -169,7 +171,7 @@
 		[ <invisible: INVISIBLE> ] ;
 		[ <notabstop: NOTABSTOP> ] ;
 	=>;
-	_DefineImageCheckButton ( <"name">, <"parent">, <col>, <row>, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId> )
+	_DefineImageCheckButton ( <(name)>, <(parent)>, <col>, <row>, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId> )
 
 
 #command REDEFINE CHECKBUTTON <name> ;
@@ -185,4 +187,4 @@
     [ <invisible: INVISIBLE> ] ;
     [ <notabstop: NOTABSTOP> ] ;
     =>;
-	_DefineImageCheckButton ( <"name">, <"parent">, 0, 0, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId> )
+	_DefineImageCheckButton ( <(name)>, <(parent)>, 0, 0, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId> )

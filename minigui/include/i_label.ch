@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -50,6 +50,7 @@
 	[ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
 	[ VALUE <value> ] ;
 	[ <dummy2: ACTION, ON CLICK, ONCLICK> <action> ] ;
+	[ ON DBLCLICK <dblclick> ] ;
 	[ <dummy3: ON MOUSEHOVER, ONMOUSEHOVER> <overproc> ] ;
 	[ <dummy4: ON MOUSELEAVE, ONMOUSELEAVE> <leaveproc> ] ;
 	[ WIDTH <width> ] ;
@@ -76,10 +77,11 @@
 	[ HELPID <helpid> ] ;
 	[ <invisible: INVISIBLE> ] ;
 	[ <noprefix: NOPREFIX> ] ;
+	[ ON INIT <bInit> ] ;
 => ;
 	_DefineLabel (    ;
-	<"name">,         ;
-	<"parent">,       ;
+	<(name)>,         ;
+	<(parent)>,       ;
 	<col>,            ;
 	<row>,            ;
 	<value>,          ;
@@ -110,13 +112,14 @@
 	<{leaveproc}>,	  ;
 	<.vcenteralign.>, ;
 	<.noprefix.>, ;
-        <nId> )
+        <nId> , <bInit> , <{dblclick}> )
 
 #command REDEFINE LABEL <name>  ;
 	ID <nId> ;
 	[ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
 	[ VALUE <value> ]   ;
 	[ <dummy2: ACTION, ON CLICK, ONCLICK> <action> ] ;
+	[ ON DBLCLICK <dblclick> ] ;
 	[ <autosize : AUTOSIZE> ] ;
 	[ FONT <fontname> ] ;
 	[ SIZE <fontsize> ] ;
@@ -139,11 +142,12 @@
 	[ HELPID <helpid> ] ;
 	[ <invisible: INVISIBLE> ] ;
 	[ <noprefix: NOPREFIX> ] ;
+	[ ON INIT <bInit> ] ;
     => ;
-	_DefineLabel ( <"name">, <"parent">, 0, 0, <value>, ;
+	_DefineLabel ( <(name)>, <(parent)>, 0, 0, <value>, ;
 		0, 0, <fontname>, <fontsize>, <.bold.>, ;
 		<.border.> , <.clientedge.> , <.hscroll.> , <.vscroll.> ,;
 		<.transparent.> , [ <backcolor> ], [ <fontcolor> ], ;
 		<{action}>, <tooltip>, <helpid>, <.invisible.>, <.italic.>, ;
 		<.underline.> , <.strikeout.> , <.autosize.> , <.rightalign.> , ;
-		<.centeralign.> , <.blink.> , , , <.vcenteralign.> , <.noprefix.> , <nId> )
+		<.centeralign.> , <.blink.> , , , <.vcenteralign.> , <.noprefix.> , <nId> , <bInit> , <{dblclick}> )

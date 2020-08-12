@@ -30,28 +30,28 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
 #xcommand ITEMSOURCE <itemsource>;
    =>;
-   _HMG_ActiveControlItemSource := <"itemsource">
+   _HMG_ActiveControlItemSource := <(itemsource)>
 
 #xcommand VALUESOURCE <valuesource>;
    =>;
-   _HMG_ActiveControlValueSource := <"valuesource">
+   _HMG_ActiveControlValueSource := <(valuesource)>
 
 #xcommand ID <nId> ;
    =>;
@@ -59,11 +59,11 @@
 
 #xcommand WORKAREA <workarea>;
    =>;
-   _HMG_ActiveControlWorkArea    := <"workarea">
+   _HMG_ActiveControlWorkArea    := <(workarea)>
 
 #xcommand FIELD        <field>;
    =>;
-   _HMG_ActiveControlField       := <"field">
+   _HMG_ActiveControlField       := <(field)>
 
 #xcommand FIELDS   <fields>;
    =>;
@@ -225,13 +225,21 @@
    =>;
    _HMG_ActiveControlImageList   := <ImageList>
 
+#xcommand ONINIT <oninit> ;
+   =>;
+   _HMG_ActiveControlShowAll     := <{oninit}>
+
+#xcommand ON INIT <oninit> ;
+   =>;
+   _HMG_ActiveControlShowAll     := <{oninit}>
+
 /*----------------------------------------------------------------------------
 Frame
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE FRAME <name> ;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlRow      := Nil      ;;
@@ -246,6 +254,7 @@ Frame
    _HMG_ActiveControlTransparent   := .f.      ;;
    _HMG_ActiveControlOpaque      := .f.      ;;
    _HMG_ActiveControlInvisible      := .f.      ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
    _HMG_ActiveControlFontBold      := .f.      ;;
    _HMG_ActiveControlFontItalic   := .f.      ;;
    _HMG_ActiveControlFontStrikeOut   := .f.      ;;
@@ -276,7 +285,8 @@ Frame
       _HMG_ActiveControlFontColor,;
       _HMG_ActiveControlTransparent,;
       _HMG_ActiveControlInvisible,;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlId,;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 List Box
@@ -285,7 +295,7 @@ List Box
 #xcommand DEFINE LISTBOX <name>;
    =>;
    _HMG_ActiveControlDef        := .T.      ;;
-   _HMG_ActiveControlName       := <"name"> ;;
+   _HMG_ActiveControlName       := <(name)> ;;
    _HMG_ActiveControlOf         := Nil      ;;
    _HMG_ActiveControlId         := Nil      ;;
    _HMG_ActiveControlCol        := Nil      ;;
@@ -381,7 +391,7 @@ Check List Box
 #xcommand DEFINE CHECKLISTBOX <name>;
    =>;
    _HMG_ActiveControlDef           := .T. ;;
-   _HMG_ActiveControlName     := <"name"> ;;
+   _HMG_ActiveControlName     := <(name)> ;;
    _HMG_ActiveControlOf            := Nil ;;
    _HMG_ActiveControlId            := Nil ;;
    _HMG_ActiveControlCol           := Nil ;;
@@ -454,13 +464,13 @@ Check List Box
       _HMG_ActiveControlFormat,;
       _HMG_ActiveControlId )
 
-///////////////////////////////////////////////////////////////////////////////
-// ANIMATEBOX COMMANDS
-///////////////////////////////////////////////////////////////////////////////
+/*----------------------------------------------------------------------------
+Animate Box
+---------------------------------------------------------------------------*/
 
 #xcommand DEFINE ANIMATEBOX <name>;
    =>;
-   _HMG_ActiveControlName   := <"name">   ;;
+   _HMG_ActiveControlName   := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil       ;;
    _HMG_ActiveControlId      := Nil       ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -470,6 +480,7 @@ Check List Box
    _HMG_ActiveControlAutoPlay      := .f. ;;
    _HMG_ActiveControlCenter      := .f.   ;;
    _HMG_ActiveControlTransparent   := .f. ;;
+   _HMG_ActiveControlInvisible     := .f. ;;
    _HMG_ActiveControlBackColor     := Nil ;;
    _HMG_ActiveControlBorder        := .t. ;;
    _HMG_ActiveControlFile      := Nil     ;;
@@ -503,11 +514,13 @@ Check List Box
       _HMG_ActiveControlHelpId,;
       _HMG_ActiveControlBorder,;
       _HMG_ActiveControlBackColor,;
+      _HMG_ActiveControlInvisible,;
       _HMG_ActiveControlId )
+
 
 #xcommand DEFINE PLAYER <name> ;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlFile      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -594,7 +607,7 @@ Progress Bar
 
 #xcommand DEFINE PROGRESSBAR <name>;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -607,10 +620,11 @@ Progress Bar
    _HMG_ActiveControlVertical      := .f.      ;;
    _HMG_ActiveControlSmooth      := .f.      ;;
    _HMG_ActiveControlHelpId      := Nil      ;;
-   _HMG_ActiveControlInvisible      := .f.      ;;
-   _HMG_ActiveControlBackColor      := Nil      ;;
-   _HMG_ActiveControlForeColor      := Nil      ;;
-   _HMG_ActiveControlShowMode      := .f.      ;;
+   _HMG_ActiveControlInvisible      := .f. ;;
+   _HMG_ActiveControlBackColor      := Nil ;;
+   _HMG_ActiveControlForeColor      := Nil ;;
+   _HMG_ActiveControlShowMode      := .f.  ;;
+   _HMG_ActiveControlShowAll       := Nil  ;;
    _HMG_ActiveControlFile      := Nil      ;;
    _HMG_ActiveControlValue      := Nil
 
@@ -659,7 +673,8 @@ Progress Bar
       _HMG_ActiveControlForeColor,;
       _HMG_ActiveControlShowMode,;
       _HMG_ActiveControlFile,;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlId,;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Radio Group
@@ -667,7 +682,7 @@ Radio Group
 
 #xcommand DEFINE RADIOGROUP <name>;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -688,9 +703,11 @@ Radio Group
    _HMG_ActiveControlFontBold   := .f.      ;;
    _HMG_ActiveControlFontItalic   := .f.      ;;
    _HMG_ActiveControlFontStrikeOut   := .f.      ;;
+   _HMG_ActiveControlAutoSize    := .f.   ;;
    _HMG_ActiveControlTransparent   := .f.      ;;
    _HMG_ActiveControlReadOnly  := Nil      ;;
    _HMG_ActiveControlFontUnderLine   := .f.      ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
    _HMG_ActiveControlHorizontal    := .f.      ;;
    _HMG_ActiveControlLeftJustify   := .f.
 
@@ -738,7 +755,9 @@ Radio Group
       _HMG_ActiveControlHorizontal,;
       _HMG_ActiveControlLeftJustify,;
       _HMG_ActiveControlReadOnly,;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlAutoSize,;
+      _HMG_ActiveControlId,;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Slider
@@ -746,7 +765,7 @@ Slider
 
 #xcommand DEFINE SLIDER <name>;
    =>;
-   _HMG_ActiveControlName      := <"name"> ;;
+   _HMG_ActiveControlName      := <(name)> ;;
    _HMG_ActiveControlOf        := Nil      ;;
    _HMG_ActiveControlId        := Nil      ;;
    _HMG_ActiveControlCol       := Nil      ;;
@@ -770,6 +789,7 @@ Slider
    _HMG_ActiveControlBorder    := .f.      ;;
    _HMG_ActiveControlInvisible := .F.      ;;
    _HMG_ActiveControlNoTabStop := .F.      ;;
+   _HMG_ActiveControlShowAll   := Nil      ;;
    _HMG_ActiveControlHelpId    := Nil
 
 #xcommand NOTICKS   <noticks>;
@@ -839,7 +859,8 @@ Slider
       _HMG_ActiveControlId,;
       _HMG_ActiveControlBorder,;
       _HMG_ActiveControlFontColor,;
-      _HMG_ActiveControlFormat )
+      _HMG_ActiveControlFormat,;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Text Box
@@ -847,7 +868,7 @@ Text Box
 
 #xcommand DEFINE TEXTBOX <name>;
    =>;
-   _HMG_ActiveControlName     := <"name"> ;;
+   _HMG_ActiveControlName     := <(name)> ;;
    _HMG_ActiveControlOf            := Nil ;;
    _HMG_ActiveControlId            := Nil ;;
    _HMG_ActiveControlCol           := Nil ;;
@@ -875,6 +896,7 @@ Text Box
    _HMG_ActiveControlHelpId        := Nil ;;
    _HMG_ActiveControlInputMask     := Nil ;;
    _HMG_ActiveControlFormat        := Nil ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
    _HMG_ActiveControlBackColor     := Nil ;;
    _HMG_ActiveControlFontColor     := Nil ;;
    _HMG_ActiveControlFontBold      := .f. ;;
@@ -966,7 +988,7 @@ Text Box
          _HMG_ActiveControlNoTabStop,;
          .NOT. _HMG_ActiveControlBorder,;
          _HMG_ActiveControlOptions,;
-         _HMG_ActiveControlId ),;
+         _HMG_ActiveControlId, _HMG_ActiveControlShowAll ),;
       iif ( _HMG_ActiveControlNumeric == .T., _DefineMaskedTextBox (;
          _HMG_ActiveControlName,;
          _HMG_ActiveControlOf,;
@@ -998,7 +1020,8 @@ Text Box
          _HMG_ActiveControlNoTabStop,;
          .NOT. _HMG_ActiveControlBorder,;
          _HMG_ActiveControlOptions,;
-         _HMG_ActiveControlId ) , _DefineCharMaskTextBox ( _HMG_ActiveControlName ,;
+         _HMG_ActiveControlId, _HMG_ActiveControlShowAll ),;
+      _DefineCharMaskTextBox ( _HMG_ActiveControlName ,;
          _HMG_ActiveControlOf,;
          _HMG_ActiveControlCol,;
          _HMG_ActiveControlRow,;
@@ -1028,7 +1051,7 @@ Text Box
          _HMG_ActiveControlNoTabStop,;
          .NOT. _HMG_ActiveControlBorder,;
          _HMG_ActiveControlOptions,;
-         _HMG_ActiveControlId ) ) )
+         _HMG_ActiveControlId, _HMG_ActiveControlShowAll ) ) )
 
 /*----------------------------------------------------------------------------
 Button Text Box
@@ -1036,7 +1059,7 @@ Button Text Box
 
 #xcommand DEFINE BTNTEXTBOX <name>;
    =>;
-   _HMG_ActiveControlName   := <"name">   ;;
+   _HMG_ActiveControlName   := <(name)>   ;;
    _HMG_ActiveControlOf   := Nil      ;;
    _HMG_ActiveControlId   := Nil      ;;
    _HMG_ActiveControlCol   := Nil      ;;
@@ -1071,9 +1094,10 @@ Button Text Box
    _HMG_ActiveControlNoTabStop    := .f.      ;;
    _HMG_ActiveControlInvisible    := .f.      ;;
    _HMG_ActiveControlFontItalic   := .f.      ;;
-   _HMG_ActiveControlFontStrikeOut   := .f.   ;;
-   _HMG_ActiveControlFontUnderLine   := .f.   ;;
-   _HMG_ActiveControlFormat       := .t. ;;
+   _HMG_ActiveControlFontStrikeOut   := .f. ;;
+   _HMG_ActiveControlFontUnderLine   := .f. ;;
+   _HMG_ActiveControlFormat          := .t. ;;
+   _HMG_ActiveControlShowAll         := Nil ;;
    _HMG_ActiveControlDefault         := .f.
 
 #xcommand BUTTONWIDTH <width> ;
@@ -1129,7 +1153,8 @@ Button Text Box
          _HMG_ActiveControlReadOnly,;
          _HMG_ActiveControlDefault,;
          _HMG_ActiveControlOptions,;
-         _HMG_ActiveControlFormat )
+         _HMG_ActiveControlFormat,;
+         _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Get Box
@@ -1137,7 +1162,7 @@ Get Box
 
 #xcommand DEFINE GETBOX <name>;
    =>;
-   _HMG_ActiveControlName   := <"name">   ;;
+   _HMG_ActiveControlName   := <(name)>   ;;
    _HMG_ActiveControlOf            := Nil ;;
    _HMG_ActiveControlId            := Nil ;;
    _HMG_ActiveControlCol           := Nil ;;
@@ -1177,6 +1202,7 @@ Get Box
    _HMG_ActiveControlAction        := Nil ;;
    _HMG_ActiveControlOnHeadClick   := Nil ;; 
    _HMG_ActiveControlImage         := Nil ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
    _HMG_ActiveControlButtonWidth   := Nil
 
 #xcommand PICTURE <inputmask> ;
@@ -1235,7 +1261,8 @@ Get Box
          _HMG_ActiveControlImage,;
          _HMG_ActiveControlButtonWidth,;
          _HMG_ActiveControlWrap,;
-         .NOT. _HMG_ActiveControlBorder )
+         .NOT. _HMG_ActiveControlBorder,;
+         _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Month Calendar
@@ -1243,43 +1270,44 @@ Month Calendar
 
 #xcommand DEFINE MONTHCALENDAR <name> ;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
-   _HMG_ActiveControlOf      := Nil      ;;
-   _HMG_ActiveControlId      := Nil      ;;
+   _HMG_ActiveControlName     := <(name)> ;;
+   _HMG_ActiveControlOf       := Nil      ;;
+   _HMG_ActiveControlId       := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
    _HMG_ActiveControlRow      := Nil      ;;
-   _HMG_ActiveControlValue      := Nil      ;;
-   _HMG_ActiveControlFont      := Nil      ;;
-   _HMG_ActiveControlSize      := Nil      ;;
-   _HMG_ActiveControlTooltip      := Nil      ;;
-   _HMG_ActiveControlNoToday      := .f.      ;;
-   _HMG_ActiveControlNoTodayCircle   := .f.      ;;
-   _HMG_ActiveControlWeekNumbers   := .f.      ;;
-   _HMG_ActiveControlOnChange      := Nil      ;;
-   _HMG_ActiveControlOnSelect    := Nil      ;;
-   _HMG_ActiveControlOnGotFocus        := Nil      ;;
-   _HMG_ActiveControlOnLostFocus       := Nil      ;;
-   _HMG_ActiveControlHelpId      := Nil      ;;
-   _HMG_ActiveControlInvisible      := .f.      ;;
-   _HMG_ActiveControlNoTabStop      := .f.      ;;
-   _HMG_ActiveControlFontBold      := .f.      ;;
-   _HMG_ActiveControlFontItalic   := .f.      ;;
-   _HMG_ActiveControlFontStrikeOut   := .f.      ;;
-   _HMG_ActiveControlFontUnderLine   := .f.      ;;
-   _HMG_ActiveControlBackColor   := Nil      ;;
-   _HMG_ActiveControlFontColor     := Nil      ;;
-   _HMG_ActiveControlTitleBackColor     := Nil      ;;
-   _HMG_ActiveControlTitleFontColor     := Nil      ;;
-   _HMG_ActiveControlBackgroundColor    := Nil      ;;
+   _HMG_ActiveControlValue    := Nil      ;;
+   _HMG_ActiveControlFont     := Nil      ;;
+   _HMG_ActiveControlSize     := Nil      ;;
+   _HMG_ActiveControlTooltip  := Nil      ;;
+   _HMG_ActiveControlNoToday  := .f.      ;;
+   _HMG_ActiveControlNoTodayCircle := .f. ;;
+   _HMG_ActiveControlWeekNumbers   := .f. ;;
+   _HMG_ActiveControlOnChange      := Nil ;;
+   _HMG_ActiveControlOnSelect      := Nil ;;
+   _HMG_ActiveControlOnGotFocus    := Nil ;;
+   _HMG_ActiveControlOnLostFocus   := Nil ;;
+   _HMG_ActiveControlHelpId        := Nil ;;
+   _HMG_ActiveControlInvisible     := .f. ;;
+   _HMG_ActiveControlNoTabStop     := .f. ;;
+   _HMG_ActiveControlFontBold      := .f. ;;
+   _HMG_ActiveControlFontItalic    := .f. ;;
+   _HMG_ActiveControlFontStrikeOut := .f. ;;
+   _HMG_ActiveControlFontUnderLine := .f. ;;
+   _HMG_ActiveControlBackColor     := Nil ;;
+   _HMG_ActiveControlFontColor     := Nil ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
+   _HMG_ActiveControlTitleBackColor     := Nil ;;
+   _HMG_ActiveControlTitleFontColor     := Nil ;;
+   _HMG_ActiveControlBackgroundColor    := Nil ;;
    _HMG_ActiveControlTrailingFontColor  := Nil
 
 #xcommand NOTODAY   <notoday>;
    =>;
-   _HMG_ActiveControlNoToday      := <notoday>
+   _HMG_ActiveControlNoToday       := <notoday>
 
 #xcommand NOTODAYCIRCLE   <notodaycircle>;
    =>;
-   _HMG_ActiveControlNoTodayCircle   := <notodaycircle>
+   _HMG_ActiveControlNoTodayCircle := <notodaycircle>
 
 #xcommand WEEKNUMBERS   <weeknumbers>;
    =>;
@@ -1295,11 +1323,11 @@ Month Calendar
 
 #xcommand BKGNDCOLOR   <color>;
    =>;
-   _HMG_ActiveControlBackgroundColor      := <color>
+   _HMG_ActiveControlBackgroundColor     := <color>
 
 #xcommand TRAILINGFONTCOLOR   <color>;
    =>;
-   _HMG_ActiveControlTrailingFontColor      := <color>
+   _HMG_ActiveControlTrailingFontColor   := <color>
 
 #xcommand END MONTHCALENDAR;
    =>;
@@ -1334,7 +1362,8 @@ Month Calendar
       _HMG_ActiveControlOnSelect,;
       _HMG_ActiveControlOnGotFocus,;
       _HMG_ActiveControlOnLostFocus,;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlId,;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Button
@@ -1342,7 +1371,7 @@ Button
 
 #xcommand DEFINE BUTTON <name> ;
         =>;
-        _HMG_ActiveControlName              := <"name"> ;;
+        _HMG_ActiveControlName              := <(name)> ;;
         _HMG_ActiveControlOf                := Nil      ;;
         _HMG_ActiveControlId                := Nil      ;;
         _HMG_ActiveControlCol               := Nil      ;;
@@ -1370,6 +1399,7 @@ Button
         _HMG_ActiveControlFontStrikeOut     := .f.      ;;
         _HMG_ActiveControlFontUnderLine     := .f.      ;;
 	_HMG_ActiveControlBorder            := .f.      ;;
+        _HMG_ActiveControlShowAll           := Nil      ;;
         _HMG_ActiveControlBackColor         := Nil      ;;
         _HMG_ActiveControlFontColor         := Nil      ;;
 	_HMG_ActiveControlFormat            := Nil      ;;
@@ -1385,7 +1415,7 @@ Button
 
 #xcommand PARENT <of> ;
         =>;
-        _HMG_ActiveControlOf := <"of">
+        _HMG_ActiveControlOf := <(of)>
 
 #xcommand CAPTION  <caption> ;
         =>;
@@ -1555,12 +1585,12 @@ Button
           _HMG_ActiveControlId ) )
 
 /*----------------------------------------------------------------------------
-ButtonEx
+Button Extended
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE BUTTONEX <name> ;
         =>;
-        _HMG_ActiveControlName           := <"name"> ;;
+        _HMG_ActiveControlName           := <(name)> ;;
         _HMG_ActiveControlOf             := Nil      ;;
         _HMG_ActiveControlCol            := Nil      ;;
         _HMG_ActiveControlRow            := Nil      ;;
@@ -1597,6 +1627,8 @@ ButtonEx
         _HMG_ActiveControlShowNone       := -1       ;;
         _HMG_ActiveControlOptions        := Nil      ;;
         _HMG_ActiveControlHorizontal     := .f.      ;;
+        _HMG_ActiveControlShowAll        := Nil      ;;
+	_HMG_ActiveControlFormat         := Nil      ;;
         _HMG_ActiveControlStringFormat   := -1
 
 #xcommand NOXPSTYLE <noxpstyle> ;
@@ -1679,15 +1711,17 @@ ButtonEx
           _HMG_ActiveControlShowNone,;
           _HMG_ActiveControlStringFormat,;
           _HMG_ActiveControlOptions,;
-          _HMG_ActiveControlHorizontal )
+          _HMG_ActiveControlHorizontal,;
+          _HMG_ActiveControlShowAll,;
+          _HMG_ActiveControlFormat )
 
 /*----------------------------------------------------------------------------
-CLButton
+Command Link Button
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE CLBUTTON <name> ;
         =>;
-        _HMG_ActiveControlName              := <"name"> ;;
+        _HMG_ActiveControlName              := <(name)> ;;
         _HMG_ActiveControlOf                := Nil      ;;
         _HMG_ActiveControlRow               := Nil      ;;
         _HMG_ActiveControlCol               := Nil      ;;
@@ -1724,7 +1758,7 @@ Split Button
 
 #xcommand DEFINE SPLITBUTTON <name> ;
         =>;
-        _HMG_ActiveControlName              := <"name"> ;;
+        _HMG_ActiveControlName              := <(name)> ;;
         _HMG_ActiveControlOf                := Nil      ;;
         _HMG_ActiveControlRow               := Nil      ;;
         _HMG_ActiveControlCol               := Nil      ;;
@@ -1767,7 +1801,7 @@ Image
 
 #xcommand DEFINE IMAGE <name> ;
    =>;
-   _HMG_ActiveControlName        := <"name"> ;;
+   _HMG_ActiveControlName        := <(name)> ;;
    _HMG_ActiveControlOf          := Nil      ;;
    _HMG_ActiveControlId          := Nil      ;;
    _HMG_ActiveControlCol         := Nil      ;;
@@ -1782,9 +1816,11 @@ Image
    _HMG_ActiveControlWhiteBack   := Nil      ;;
    _HMG_ActiveControlTransparent := .F.      ;;
    _HMG_ActiveControlJustify     := .F.      ;;
+   _HMG_ActiveControlBorder      := Nil      ;;
    _HMG_ActiveControlOnGotFocus  := Nil      ;;
    _HMG_ActiveControlOnLostFocus := Nil      ;;
    _HMG_ActiveControlOnDblClick  := Nil      ;;
+   _HMG_ActiveControlShowAll     := Nil      ;;
    _HMG_ActiveControlInvisible   := .F.
 
 #xcommand END IMAGE ;
@@ -1807,8 +1843,10 @@ Image
       _HMG_ActiveControlJustify,;
       _HMG_ActiveControlOnGotFocus,;
       _HMG_ActiveControlOnLostFocus,;
-      _HMG_ActiveControlOnDblClick,;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlBorder,;
+      _HMG_ActiveControlId,;
+      _HMG_ActiveControlShowAll,;
+      _HMG_ActiveControlOnDblClick )
 
 #xcommand STRETCH         <stretch>;
    =>;
@@ -1828,7 +1866,7 @@ Image
 
 #xcommand ALPHALEVEL      <alpha>;
    =>;
-   _HMG_ActiveControlOnDblClick := <alpha>
+   _HMG_ActiveControlBorder     := <alpha>
 
 /*----------------------------------------------------------------------------
 Check Box/Button
@@ -1836,7 +1874,7 @@ Check Box/Button
 
 #xcommand DEFINE CHECKBOX <name> ;
    =>;
-   _HMG_ActiveControlName       := <"name"> ;;
+   _HMG_ActiveControlName       := <(name)> ;;
    _HMG_ActiveControlOf         := Nil      ;;
    _HMG_ActiveControlId         := Nil      ;;
    _HMG_ActiveControlCol        := Nil      ;;
@@ -1866,12 +1904,13 @@ Check Box/Button
    _HMG_ActiveControlField         := Nil   ;;
    _HMG_ActiveControlLeftJustify   := .f.   ;;
    _HMG_ActiveControlBorder        := .f.   ;;
+   _HMG_ActiveControlShowAll       := Nil   ;;
    _HMG_ActiveControlThreeState    := .f.
 
 
 #xcommand DEFINE CHECKBUTTON <name> ;
    =>;
-   _HMG_ActiveControlName       := <"name"> ;;
+   _HMG_ActiveControlName       := <(name)> ;;
    _HMG_ActiveControlOf         := Nil      ;;
    _HMG_ActiveControlId         := Nil      ;;
    _HMG_ActiveControlCaption      := Nil    ;;
@@ -1962,7 +2001,8 @@ Check Box/Button
       _HMG_ActiveControlOnEnter,;
       _HMG_ActiveControlAutoSize,;
       _HMG_ActiveControlBorder,;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlId,;
+      _HMG_ActiveControlShowAll )
 
 
 #xcommand END CHECKBUTTON ;
@@ -2016,7 +2056,7 @@ Combo Box
 #xcommand DEFINE COMBOBOX <name>;
    =>;
    _HMG_ActiveControlDef   := .T.      ;;
-   _HMG_ActiveControlName       := <"name">   ;;
+   _HMG_ActiveControlName       := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -2057,6 +2097,7 @@ Combo Box
    _HMG_ActiveControlDefault := Nil ;;
    _HMG_ActiveControlFormat  := Nil ;;
    _HMG_ActiveControlOnListDisplay := Nil ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
    _HMG_ActiveControlOnListClose := Nil
 
 #xcommand LISTWIDTH <nListWidth> ;
@@ -2188,15 +2229,16 @@ Combo Box
       _HMG_ActiveControlDefault, ;
       _HMG_ActiveControlWrap, ;
       _HMG_ActiveControlPassword, ;
-      _HMG_ActiveControlFormat )
+      _HMG_ActiveControlFormat, ;
+      _HMG_ActiveControlShowAll )
 
 /* ------------------------------------------------------------------------
-Combo extend Style
+Combo Extended Style
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE COMBOBOXEX <name>;
    =>;
-   _HMG_ActiveControlName       := <"name"> ;;
+   _HMG_ActiveControlName       := <(name)> ;;
    _HMG_ActiveControlOf         := Nil      ;;
    _HMG_ActiveControlCol        := Nil      ;;
    _HMG_ActiveControlRow        := Nil      ;;
@@ -2231,6 +2273,7 @@ Combo extend Style
    _HMG_ActiveControlFontUnderLine := .f.   ;;
    _HMG_ActiveControlSpacing     := NIL     ;;
    _HMG_ActiveControlFormat      := Nil     ;;
+   _HMG_ActiveControlShowAll     := Nil     ;;
    _HMG_ActiveControlOnListDisplay := NIL   ;;
    _HMG_ActiveControlOnListClose := NIL
 
@@ -2253,7 +2296,7 @@ Combo extend Style
       _HMG_ActiveControlOnLostFocus,;
       _HMG_ActiveControlOnEnter,;
       _HMG_ActiveControlHelpId,;
-      _HMG_ActiveControlInvisible ,;
+      _HMG_ActiveControlInvisible,;
       _HMG_ActiveControlNoTabStop,;
       _HMG_ActiveControlSort,;
       _HMG_ActiveControlFontBold,;
@@ -2273,15 +2316,16 @@ Combo extend Style
       _HMG_ActiveControlBackColor, ;
       _HMG_ActiveControlFontColor, ;
       _HMG_ActiveControlImageList, ;
-      _HMG_ActiveControlFormat )
+      _HMG_ActiveControlFormat, ;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
-Timepicker
+Time Picker
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE TIMEPICKER <name> ;
    => ;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId        := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -2345,12 +2389,12 @@ Timepicker
       _HMG_ActiveControlId )
 
 /*----------------------------------------------------------------------------
-Datepicker
+Date Picker
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE DATEPICKER <name> ;
    => ;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId        := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -2383,6 +2427,7 @@ Datepicker
    _HMG_ActiveControlTrailingFontColor  := Nil ;;
    _HMG_ActiveControlRangeLow      := Nil      ;;
    _HMG_ActiveControlRangeHigh     := Nil      ;;
+   _HMG_ActiveControlShowAll       := Nil      ;;
    _HMG_ActiveControlStringFormat := NIL
 
 #xcommand SHOWNONE  <shownone> ;
@@ -2433,7 +2478,8 @@ Datepicker
       _HMG_ActiveControlStringFormat, ;
       _HMG_ActiveControlRangeLow, ;
       _HMG_ActiveControlRangeHigh, ;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlId, ;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Edit Box
@@ -2442,7 +2488,7 @@ Edit Box
 #xcommand DEFINE EDITBOX <name> ;
    =>;
    _HMG_ActiveControlDef   := .T.      ;;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -2469,6 +2515,7 @@ Edit Box
    _HMG_ActiveControlBackColor      := Nil      ;;
    _HMG_ActiveControlFontColor      := Nil      ;;
    _HMG_ActiveControlField             := Nil ;;
+   _HMG_ActiveControlShowAll           := Nil ;;
    _HMG_ActiveControlNoVScroll         := .f.          ;;
    _HMG_ActiveControlNoHScroll         := .f.
 
@@ -2505,18 +2552,19 @@ Edit Box
          _HMG_ActiveControlReadOnly,;
          _HMG_ActiveControlBreak,;
          _HMG_ActiveControlHelpId,;
-         _HMG_ActiveControlInvisible , ;
-         _HMG_ActiveControlNoTabStop ,;
-         _HMG_ActiveControlFontBold , ;
-         _HMG_ActiveControlFontItalic , ;
-         _HMG_ActiveControlFontUnderLine , ;
-         _HMG_ActiveControlFontStrikeOut ,;
-         _HMG_ActiveControlField, ;
-         _HMG_ActiveControlBackColor, ;
-         _HMG_ActiveControlFontColor, ;
-         _HMG_ActiveControlNoVScroll, ;
+         _HMG_ActiveControlInvisible,;
+         _HMG_ActiveControlNoTabStop,;
+         _HMG_ActiveControlFontBold,;
+         _HMG_ActiveControlFontItalic,;
+         _HMG_ActiveControlFontUnderLine,;
+         _HMG_ActiveControlFontStrikeOut,;
+         _HMG_ActiveControlField,;
+         _HMG_ActiveControlBackColor,;
+         _HMG_ActiveControlFontColor,;
+         _HMG_ActiveControlNoVScroll,;
          _HMG_ActiveControlNoHScroll,;
-         _HMG_ActiveControlId )
+         _HMG_ActiveControlId,;
+         _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
 Rich Edit Box
@@ -2525,7 +2573,7 @@ Rich Edit Box
 #xcommand DEFINE RICHEDITBOX <name> ;
    =>;
    _HMG_ActiveControlDef   := .T.      ;;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
    _HMG_ActiveControlRow      := Nil      ;;
@@ -2609,7 +2657,7 @@ Label
 
 #xcommand DEFINE LABEL <name> ;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -2639,8 +2687,10 @@ Label
    _HMG_ActiveControlIncrement   := .f.   ;;
    _HMG_ActiveControlOnGotFocus  := Nil   ;;
    _HMG_ActiveControlOnLostFocus := Nil   ;;
+   _HMG_ActiveControlOnDblClick  := Nil   ;;
    _HMG_ActiveControlVertical    := .f.   ;;
    _HMG_ActiveControlDefault     := .f.   ;;
+   _HMG_ActiveControlShowAll     := Nil   ;;
    _HMG_ActiveControlCenterAlign := .F.
 
 #xcommand BACKCOLOR   <color> ;
@@ -2754,19 +2804,21 @@ Label
       _HMG_ActiveControlAction,;
       _HMG_ActiveControlTooltip,;
       _HMG_ActiveControlHelpId,;
-      _HMG_ActiveControlInvisible, ;
-      _HMG_ActiveControlFontItalic, ;
-      _HMG_ActiveControlFontUnderLine, ;
-      _HMG_ActiveControlFontStrikeOut, ;
-      _HMG_ActiveControlAutoSize , ;
-      _HMG_ActiveControlRightAlign , ;
-      _HMG_ActiveControlCenterAlign, ;
-      _HMG_ActiveControlIncrement, ;
-      _HMG_ActiveControlOnGotFocus, ;
-      _HMG_ActiveControlOnLostFocus, ;
-      _HMG_ActiveControlVertical, ;
-      _HMG_ActiveControlDefault, ;
-      _HMG_ActiveControlId )
+      _HMG_ActiveControlInvisible,;
+      _HMG_ActiveControlFontItalic,;
+      _HMG_ActiveControlFontUnderLine,;
+      _HMG_ActiveControlFontStrikeOut,;
+      _HMG_ActiveControlAutoSize,;
+      _HMG_ActiveControlRightAlign,;
+      _HMG_ActiveControlCenterAlign,;
+      _HMG_ActiveControlIncrement,;
+      _HMG_ActiveControlOnGotFocus,;
+      _HMG_ActiveControlOnLostFocus,;
+      _HMG_ActiveControlVertical,;
+      _HMG_ActiveControlDefault,;
+      _HMG_ActiveControlId,;
+      _HMG_ActiveControlShowAll,;
+      _HMG_ActiveControlOnDblClick )
 
 /*----------------------------------------------------------------------------
 Check Label
@@ -2774,7 +2826,7 @@ Check Label
 
 #xcommand DEFINE CHECKLABEL <name> ;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
@@ -2803,11 +2855,14 @@ Check Label
    _HMG_ActiveControlAutoSize      := .f. ;;
    _HMG_ActiveControlIncrement     := .f. ;;
    _HMG_ActiveControlLeftJustify   := .f. ;;
-   _HMG_ActiveControlDefault       := .f.     ;;
-   _HMG_ActiveControlImage       := Nil      ;;
-   _HMG_ActiveControlOnGotFocus  := Nil      ;;
-   _HMG_ActiveControlOnLostFocus := Nil      ;;
-   _HMG_ActiveControlCenterAlign := .F.
+   _HMG_ActiveControlDefault       := .f. ;;
+   _HMG_ActiveControlImage       := Nil ;;
+   _HMG_ActiveControlOnGotFocus  := Nil ;;
+   _HMG_ActiveControlOnLostFocus := Nil ;;
+   _HMG_ActiveControlCenterAlign := .F. ;;
+   _HMG_ActiveControlField       := Nil ;;
+   _HMG_ActiveControlShowAll     := Nil ;;
+   _HMG_ActiveControlVertical    := .F.
 
 #xcommand LEFTCHECK <leftjustify> ;
    =>;
@@ -2844,6 +2899,7 @@ Check Label
       _HMG_ActiveControlFontItalic , ;
       _HMG_ActiveControlFontUnderLine , ;
       _HMG_ActiveControlFontStrikeOut , ;
+      _HMG_ActiveControlField , ;
       _HMG_ActiveControlAutoSize , ;
       _HMG_ActiveControlRightAlign , ;
       _HMG_ActiveControlCenterAlign, ;
@@ -2853,15 +2909,100 @@ Check Label
       _HMG_ActiveControlImage, ;
       _HMG_ActiveControlLeftJustify, ;
       _HMG_ActiveControlDefault, ;
+      _HMG_ActiveControlVertical, ;
+      _HMG_ActiveControlId, ;
+      _HMG_ActiveControlShowAll )
+
+/*----------------------------------------------------------------------------
+Switcher pseudo-control
+---------------------------------------------------------------------------*/
+
+#xcommand DEFINE SWITCHER <name> ;
+   =>;
+   _HMG_ActiveControlName      := <(name)>   ;;
+   _HMG_ActiveControlOf      := Nil      ;;
+   _HMG_ActiveControlId      := Nil      ;;
+   _HMG_ActiveControlCol      := Nil      ;;
+   _HMG_ActiveControlRow      := Nil      ;;
+   _HMG_ActiveControlValue      := Nil      ;;
+   _HMG_ActiveControlWidth      := Nil      ;;
+   _HMG_ActiveControlHeight      := 46      ;;
+   _HMG_ActiveControlFont      := Nil      ;;
+   _HMG_ActiveControlSize      := Nil      ;;
+   _HMG_ActiveControlBorder      := .f.      ;;
+   _HMG_ActiveControlClientEdge   := .f.      ;;
+   _HMG_ActiveControlHScroll      := .f.      ;;
+   _HMG_ActiveControlVScroll      := .f.      ;;
+   _HMG_ActiveControlTransparent   := .f.      ;;
+   _HMG_ActiveControlBackColor      := Nil      ;;
+   _HMG_ActiveControlFontColor      := Nil      ;;
+   _HMG_ActiveControlAction      := Nil      ;;
+   _HMG_ActiveControlHelpId      := Nil      ;;
+   _HMG_ActiveControlInvisible      := .f.      ;;
+   _HMG_ActiveControlFontBold      := .f.      ;;
+   _HMG_ActiveControlFontItalic   := .f.      ;;
+   _HMG_ActiveControlFontStrikeOut   := .f.      ;;
+   _HMG_ActiveControlFontUnderLine   := .f.      ;;
+   _HMG_ActiveControlTooltip           := Nil          ;;
+   _HMG_ActiveControlRightAlign   := .F.      ;;
+   _HMG_ActiveControlAutoSize      := .T. ;;
+   _HMG_ActiveControlIncrement     := .f. ;;
+   _HMG_ActiveControlLeftJustify   := .f. ;;
+   _HMG_ActiveControlDefault       := .f. ;;
+   _HMG_ActiveControlImage       := { 'MINIGUI_SWITCH_ON', 'MINIGUI_SWITCH_OFF' } ;;
+   _HMG_ActiveControlOnGotFocus  := Nil   ;;
+   _HMG_ActiveControlOnLostFocus := Nil   ;;
+   _HMG_ActiveControlField       := Nil   ;;
+   _HMG_ActiveControlCenterAlign := .F.   ;;
+   _HMG_ActiveControlVertical    := .T.
+
+#xcommand END SWITCHER ;
+   =>;
+   _DefineChkLabel(;
+      _HMG_ActiveControlName,;
+      _HMG_ActiveControlOf,;
+      _HMG_ActiveControlCol,;
+      _HMG_ActiveControlRow,;
+      _HMG_ActiveControlValue,;
+      _HMG_ActiveControlWidth,;
+      _HMG_ActiveControlHeight,;
+      _HMG_ActiveControlFont,;
+      _HMG_ActiveControlSize,;
+      _HMG_ActiveControlFontBold,;
+      _HMG_ActiveControlBorder,;
+      _HMG_ActiveControlClientEdge,;
+      _HMG_ActiveControlHScroll,;
+      _HMG_ActiveControlVScroll,;
+      _HMG_ActiveControlTransparent,;
+      _HMG_ActiveControlBackColor,;
+      _HMG_ActiveControlFontColor,;
+      _HMG_ActiveControlAction,;
+      _HMG_ActiveControlTooltip,;
+      _HMG_ActiveControlHelpId,;
+      _HMG_ActiveControlInvisible , ;
+      _HMG_ActiveControlFontItalic , ;
+      _HMG_ActiveControlFontUnderLine , ;
+      _HMG_ActiveControlFontStrikeOut , ;
+      _HMG_ActiveControlField , ;
+      _HMG_ActiveControlAutoSize , ;
+      _HMG_ActiveControlRightAlign , ;
+      _HMG_ActiveControlCenterAlign, ;
+      _HMG_ActiveControlIncrement, ;
+      _HMG_ActiveControlOnGotFocus, ;
+      _HMG_ActiveControlOnLostFocus, ;
+      _HMG_ActiveControlImage, ;
+      _HMG_ActiveControlLeftJustify, ;
+      _HMG_ActiveControlDefault, ;
+      _HMG_ActiveControlVertical, ;
       _HMG_ActiveControlId )
 
 /*----------------------------------------------------------------------------
-IP address
+IP Address
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE IPADDRESS <name> ;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
    _HMG_ActiveControlRow      := Nil      ;;
@@ -2913,7 +3054,7 @@ Grid
 #xcommand DEFINE GRID <name> ;
    =>;
    _HMG_ActiveControlDef   := .T.      ;;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol               := Nil          ;;
@@ -2949,8 +3090,11 @@ Grid
    _HMG_ActiveControlItemCount      := Nil      ;;
    _HMG_ActiveControlBackColor      := Nil      ;;
    _HMG_ActiveControlFontColor      := Nil      ;;
-   _HMG_ActiveControlDynamicBackColor   := Nil   ;;
-   _HMG_ActiveControlDynamicForeColor   := Nil   ;;
+   _HMG_ActiveControlDynamicBackColor   := Nil  ;;
+   _HMG_ActiveControlDynamicForeColor   := Nil  ;;
+   _HMG_ActiveControlBackgroundColor    := Nil  ;;
+   _HMG_ActiveControlNoAutoSizeWindow   := .f.  ;;
+   _HMG_ActiveControlAutoSize      := Nil ;;
    _HMG_ActiveControlReadOnly      := Nil ;;
    _HMG_ActiveControlInPlaceEdit   := .f. ;;
    _HMG_ActiveControlValid         := Nil ;;
@@ -2964,15 +3108,37 @@ Grid
    _HMG_ActiveControlTransparent   := .f. ;;
    _HMG_ActiveControlOptions       := .f. ;;
    _HMG_ActiveControlSort          := Nil ;;
+   _HMG_ActiveControlOnSelect      := Nil ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
    _HMG_ActiveControlBorder        := .f.
 
 #xcommand ALLOWSORT <sort> ;
    =>;
    _HMG_ActiveControlSort       := iif( <sort>, {}, Nil )
 
+#xcommand AUTOSIZEHEIGHT    <h>;
+   =>;
+   _HMG_ActiveControlAutoSize    := <h>
+
+#xcommand AUTOSIZEWIDTH     <w>;
+   =>;
+   _HMG_ActiveControlNoAutoSizeWindow := <w>
+
 #xcommand COLUMNSORT <aSortColumns> ;
    =>;
    _HMG_ActiveControlSort       := <aSortColumns>
+
+#xcommand COLUMNWIDTHLIMITS <aLimitColumns> ;
+   =>;
+   _HMG_ActiveControlBackgroundColor := <aLimitColumns>
+
+#xcommand ONDRAGHEADERITEMS <ondragitems> ;
+   =>;
+   _HMG_ActiveControlOnSelect   := <{ondragitems}>
+
+#xcommand ON DRAGHEADERITEMS <ondragitems> ;
+   =>;
+   _HMG_ActiveControlOnSelect   := <{ondragitems}>
 
 #xcommand SHOWHEADERS <showheaders> ;
    =>;
@@ -3079,16 +3245,21 @@ _DefineGrid ( _HMG_ActiveControlName ,    ;
       _HMG_ActiveControlRangeHigh, ;
       _HMG_ActiveControlTransparent, ;
       _HMG_ActiveControlOptions, ;
-      _HMG_ActiveControlSort )
+      _HMG_ActiveControlSort, ;
+      _HMG_ActiveControlBackgroundColor, ;
+      _HMG_ActiveControlOnSelect, ;
+      _HMG_ActiveControlShowAll, ;
+      _HMG_ActiveControlAutoSize, ;
+      _HMG_ActiveControlNoAutoSizeWindow )
 
 /*----------------------------------------------------------------------------
-BROWSE
+Browse
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE BROWSE <name> ;
    =>;
    _HMG_ActiveControlDef   := .T.      ;;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlId      := Nil      ;;
    _HMG_ActiveControlCol               := Nil          ;;
@@ -3136,6 +3307,7 @@ BROWSE
    _HMG_ActiveControlBorder        := Nil ;;
    _HMG_ActiveControlTransparent   := .f. ;;
    _HMG_ActiveControlSort          := Nil ;;
+   _HMG_ActiveControlShowAll       := Nil ;;
    _HMG_ActiveControlNoTabStop     := .f.
 
 #xcommand PAINTDOUBLEBUFFER <buffer> ;
@@ -3193,16 +3365,16 @@ _DefineBrowse ( _HMG_ActiveControlName ,    ;
       _HMG_ActiveControlHandCursor , ;
       _HMG_ActiveControlBorder , ;
       _HMG_ActiveControlTransparent , ;
-      _HMG_ActiveControlSort )
+      _HMG_ActiveControlSort , ;
+      _HMG_ActiveControlShowAll )
 
 /*----------------------------------------------------------------------------
-Hyperlink
- - 2016/10/06 added FontUnderLine attribute - p.d. 
+Hyper Link
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE HYPERLINK <name> ;
    =>;
-   _HMG_ActiveControlName              := <"name"> ;;
+   _HMG_ActiveControlName              := <(name)> ;;
    _HMG_ActiveControlOf                := Nil      ;;
    _HMG_ActiveControlCol               := Nil      ;;
    _HMG_ActiveControlRow               := Nil      ;;
@@ -3215,7 +3387,6 @@ Hyperlink
    _HMG_ActiveControlSize              := Nil      ;;
    _HMG_ActiveControlFontBold          := .f.      ;;
    _HMG_ActiveControlFontItalic        := .f.      ;;
-   _HMG_ActiveControlFontUnderLine     := Nil      ;;
    _HMG_ActiveControlTooltip           := Nil      ;;
    _HMG_ActiveControlBackColor         := Nil      ;;
    _HMG_ActiveControlFontColor         := Nil      ;;
@@ -3262,7 +3433,7 @@ Hyperlink
         _HMG_ActiveControlHelpId,;
         _HMG_ActiveControlInvisible,;
         _HMG_ActiveControlFontItalic,;
-	     _HMG_ActiveControlFontUnderLine, ; // was: .t. - changed by p.d. 2016/10/06
+	.t., ;
 	.f., ;
         _HMG_ActiveControlAutosize,;
         _HMG_ActiveControlRightAlign,;
@@ -3272,12 +3443,12 @@ Hyperlink
 	_setaddress(_HMG_ActiveControlName, iif(hb_IsString(_HMG_ActiveControlOf), _HMG_ActiveControlOf, _HMG_ActiveFormName), _HMG_ActiveControlAddress)
 
 /*----------------------------------------------------------------------------
-HotKeyBox
+HotKey Box
 ---------------------------------------------------------------------------*/
 
 #xcommand DEFINE HOTKEYBOX <name> ;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
    _HMG_ActiveControlRow      := Nil      ;;
@@ -3324,7 +3495,7 @@ Spinner
 
 #xcommand DEFINE SPINNER <name>;
    =>;
-   _HMG_ActiveControlName      := <"name">   ;;
+   _HMG_ActiveControlName      := <(name)>   ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlCol      := Nil      ;;
    _HMG_ActiveControlRow      := Nil      ;;
@@ -3352,6 +3523,7 @@ Spinner
    _HMG_ActiveControlReadOnly      := .F.      ;;
    _HMG_ActiveControlIncrement      := Nil      ;;
    _HMG_ActiveControlinvisible         := .f.   ;;
+   _HMG_ActiveControlShowAll        := Nil ;;
    _HMG_ActiveControlNoTabStop      := .f.
 
 #xcommand WRAP      <wrap>;
@@ -3393,7 +3565,37 @@ Spinner
       _HMG_ActiveControlIncrement,;
       _HMG_ActiveControlBackColor,;
       _HMG_ActiveControlFontColor,;
-      _HMG_ActiveControlOptions )
+      _HMG_ActiveControlOptions,;
+      _HMG_ActiveControlShowAll )
+
+/*----------------------------------------------------------------------------
+Timer
+---------------------------------------------------------------------------*/
+
+#xcommand DEFINE TIMER <name>;
+   =>;
+   _HMG_ActiveControlName      := <(name)> ;;
+   _HMG_ActiveControlOf        := Nil      ;;
+   _HMG_ActiveControlIncrement := Nil      ;;
+   _HMG_ActiveControlAction    := Nil      ;;
+   _HMG_ActiveControlWrap      := .F.
+
+#xcommand INTERVAL <interval>;
+   =>;
+   _HMG_ActiveControlIncrement := <interval>
+
+#xcommand ONCE     <once>;
+   =>;
+   _HMG_ActiveControlWrap      := <once>
+
+#xcommand END TIMER ;
+   =>;
+   _DefineTimer(;
+      _HMG_ActiveControlName,;
+      _HMG_ActiveControlOf,;
+      _HMG_ActiveControlIncrement,;
+      _HMG_ActiveControlAction,;
+      _HMG_ActiveControlWrap )
 
 /*----------------------------------------------------------------------------
 Graph
@@ -3401,7 +3603,7 @@ Graph
 
 #xcommand DEFINE GRAPH IN WINDOW <name>;
    =>;
-   _HMG_ActiveControlOf         := <"name"> ;;
+   _HMG_ActiveControlOf         := <(name)> ;;
    _HMG_ActiveControlRow        := Nil      ;;
    _HMG_ActiveControlCol        := Nil      ;;
    _HMG_ActiveControlRangeLow   := Nil      ;;
@@ -3558,7 +3760,7 @@ Graph
 
 #xcommand DEFINE PIE IN WINDOW <name>;
    =>;
-   _HMG_ActiveControlOf         := <"name"> ;;
+   _HMG_ActiveControlOf         := <(name)> ;;
    _HMG_ActiveControlRow        := Nil      ;;
    _HMG_ActiveControlCol        := Nil      ;;
    _HMG_ActiveControlRangeLow   := Nil      ;;
@@ -3601,7 +3803,7 @@ Animated GIF
 
 #xcommand DEFINE ANIGIF <name> ;
    =>;
-   _HMG_ActiveControlName    := <"name"> ;;
+   _HMG_ActiveControlName    := <(name)> ;;
    _HMG_ActiveControlOf      := Nil      ;;
    _HMG_ActiveControlCol     := Nil      ;;
    _HMG_ActiveControlRow     := Nil      ;;

@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -85,7 +85,7 @@
              [PENCOLOR <penrgb>] ;
              [PENWIDTH <pnwidth>];
           =>;
-          drawline(<"windowname">,<frow>,<fcol>,<trow>,<tcol>,[<penrgb>],<pnwidth>)
+          drawline(<(windowname)>,<frow>,<fcol>,<trow>,<tcol>,[<penrgb>],<pnwidth>)
 
 #xcommand DRAW RECTANGLE IN WINDOW <windowname> AT <frow>,<fcol> ;
              TO <trow>,<tcol> ;
@@ -93,7 +93,7 @@
              [PENWIDTH <pnwidth>];
              [FILLCOLOR <fillrgb>];
           =>;
-          drawrect(<"windowname">,<frow>,<fcol>,<trow>,<tcol>,[<penrgb>],<pnwidth>,[<fillrgb>])
+          drawrect(<(windowname)>,<frow>,<fcol>,<trow>,<tcol>,[<penrgb>],<pnwidth>,[<fillrgb>])
 
 #xcommand DRAW ROUNDRECTANGLE IN WINDOW <windowname> AT <frow>,<fcol> ;
              TO <trow>,<tcol> ;
@@ -103,7 +103,7 @@
              [PENWIDTH <pnwidth>];
              [FILLCOLOR <fillrgb>];
           =>;
-          drawroundrect(<"windowname">,<frow>,<fcol>,<trow>,<tcol>,<width>,<height>,[<penrgb>],<pnwidth>,[<fillrgb>])
+          drawroundrect(<(windowname)>,<frow>,<fcol>,<trow>,<tcol>,<width>,<height>,[<penrgb>],<pnwidth>,[<fillrgb>])
         
 #xcommand DRAW ELLIPSE IN WINDOW <windowname> AT <frow>,<fcol> ;
              TO <trow>,<tcol> ;
@@ -111,7 +111,7 @@
              [PENWIDTH <pnwidth>];
              [FILLCOLOR <fillrgb>];
           =>;
-          drawellipse(<"windowname">,<frow>,<fcol>,<trow>,<tcol>,[<penrgb>],<pnwidth>,[<fillrgb>])
+          drawellipse(<(windowname)>,<frow>,<fcol>,<trow>,<tcol>,[<penrgb>],<pnwidth>,[<fillrgb>])
 
 #xcommand DRAW ARC IN WINDOW <windowname> AT <frow>,<fcol> ;
              TO <trow>,<tcol> ;
@@ -120,7 +120,7 @@
              [PENCOLOR <penrgb>] ;
              [PENWIDTH <pnwidth>];
           =>;
-          drawarc(<"windowname">,<frow>,<fcol>,<trow>,<tcol>,<rrow>,<rcol>,<rrow1>,<rcol1>,[<penrgb>],<pnwidth>)
+          drawarc(<(windowname)>,<frow>,<fcol>,<trow>,<tcol>,<rrow>,<rcol>,<rrow1>,<rcol1>,[<penrgb>],<pnwidth>)
 
 #xcommand DRAW PIE IN WINDOW <windowname> AT <frow>,<fcol> ;
              TO <trow>,<tcol> ;
@@ -130,7 +130,7 @@
              [PENWIDTH <pnwidth>];
              [FILLCOLOR <fillrgb>];
           =>;
-          drawpie(<"windowname">,<frow>,<fcol>,<trow>,<tcol>,<rrow>,<rcol>,<rrow1>,<rcol1>,[<penrgb>],<pnwidth>,[<fillrgb>])
+          drawpie(<(windowname)>,<frow>,<fcol>,<trow>,<tcol>,<rrow>,<rcol>,<rrow1>,<rcol1>,[<penrgb>],<pnwidth>,[<fillrgb>])
           
 // Points should be in the format {{row1,col1},{row2,col2},{row3,col3},{row4,col4}.....}                
 #xcommand DRAW POLYGON IN WINDOW <windowname> ;
@@ -139,14 +139,14 @@
             [PENWIDTH <penwidth>] ;
             [FILLCOLOR <fillrgb>] ;
          =>;
-         drawpolygon(<"windowname">,[<pointsarr>],[<penrgb>],<penwidth>,[<fillrgb>])          
+         drawpolygon(<(windowname)>,[<pointsarr>],[<penrgb>],<penwidth>,[<fillrgb>])          
 
 #xcommand DRAW POLYBEZIER IN WINDOW <windowname> ;
             points <pointsarr> ;
             [PENCOLOR <penrgb>] ;
             [PENWIDTH <penwidth>] ;
          =>;
-         drawpolybezier(<"windowname">,[<pointsarr>],[<penrgb>],<penwidth>)          
+         drawpolybezier(<(windowname)>,[<pointsarr>],[<penrgb>],<penwidth>)          
 
 
 #xcommand DRAW ICON IN WINDOW <windowname> AT <row>,<col> ;
@@ -156,14 +156,14 @@
           [ COLOR <rgb> ] ; 
           [ <transparent: TRANSPARENT> ] ;
           => ;
-          hmg_drawicon(<"windowname">,<icon>,<row>,<col>,[<w>],[<h>],[<rgb>],<.transparent.>)
+          hmg_drawicon(<(windowname)>,<icon>,<row>,<col>,[<w>],[<h>],[<rgb>],<.transparent.>)
 
 
 #xcommand ERASE WINDOW <windowname> ;
           => ;
-         EraseBarGraph(<"windowname">) ;;
-         ErasePieGraph(<"windowname">) ;;
-         EraseWindow(<"windowname">)
+         EraseBarGraph(<(windowname)>) ;;
+         ErasePieGraph(<(windowname)>) ;;
+         EraseWindow(<(windowname)>)
 
 
 /* Default parameters management */
@@ -194,7 +194,7 @@
       [ DATAMASK <mask> ]		;
       [ <lNoborder : NOBORDER> ]	;
 => ;
-      DrawPieGraph(<"window">,;
+      DrawPieGraph(<(window)>,;
 			<nT>,;
 			<nL>,;
 			<nB>,;
@@ -242,7 +242,7 @@
 		[ LEGENDSWIDTH <nLegendsWidth> ];
 		[ <lNoborder : NOBORDER> ]	; 
 => ;
-	GraphShow(<"window">,			;
+	GraphShow(<(window)>,			;
 		<nT>,				;
 		<nL>,				;
 		<nB>,				;
@@ -297,7 +297,7 @@
 		[ LEGENDSWIDTH <nLegendsWidth> ];
 		[ LIBRARY <clib> ]		; 
 => ;
-	_GraphPrint(<"window">,			;
+	_GraphPrint(<(window)>,			;
 		<nT>,				;
 		<nL>,				;
 		<nB>,				;
@@ -340,7 +340,7 @@
       [ DATAMASK <mask> ]		;
       [ LIBRARY <clib> ]		;
 => ;
-      _PiePrint(<"window">,;
+      _PiePrint(<(window)>,;
 		<nT>,;
 		<nL>,;
 		<nB>,;
