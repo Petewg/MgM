@@ -1,7 +1,5 @@
 =======================================================================
-
-             MiniGUI Extended Edition Common Commands list
-
+              MiniGUI Extended Edition Common Commands list
 =======================================================================
 
 CLEAN MEMORY | RELEASE MEMORY
@@ -12,21 +10,26 @@ CLEAN MEMORY | RELEASE MEMORY
 
 SET MULTIPLE [ON | OFF]
 
-SET EVENTS FUNCTION TO <funcname>
+SET EVENTS FUNCTION TO <FuncName>
 
-SET DEFAULT ICON TO <iconname>
+SET DEFAULT ICON TO <IconName>
 
 SET INTERACTIVECLOSE [ON | OFF | QUERY | QUERY MAIN]
 
-SET LANGUAGE TO <lang>
+SET LANGUAGE TO <LangName>
 
-SET CODEPAGE TO <lang>
+SET CODEPAGE TO <LangName>
 
-SET HELPFILE TO <file>
+SET HELPFILE TO <FileName>
+DISPLAY HELP MAIN
+DISPLAY HELP CONTEXT <nTopic>
+DISPLAY HELP POPUP <nTopic>
 
-SET LOGFILE TO <name>
+SET LOGFILE TO <FileName>
 
 SET GLOBAL HOTKEYS [ON | OFF]
+
+SET RESOURCES TO [<cDLL>]
 
 SET OOP [SUPPORT] ON
 
@@ -38,23 +41,51 @@ SET WINDOW MAIN [ON | OFF]
 
 SET CENTERWINDOW RELATIVE [DESKTOP | PARENT]
 
-RESET MINMAXINFO [OF | WINDOW] <name> TO DEFAULT
+[SET | GET] WINDOWPROPERTY <name> ;
+  [ OF <parent> ] ;
+  VALUE <value> ;
+  [ <direct: DIRECT> ]
+
+RELEASE WINDOWPROPERTY <name> ;
+  [ OF <parent> ] ;
+  [ VALUE <value> ] ;
+  [ NOFREE ]
+
+SET WINDOW THIS TO [<FormName>]
+
+RESET MINMAXINFO [OF | WINDOW] <FormName> TO DEFAULT
 
 SET AUTOSCROLL [ON | OFF]
 
 SET SCROLLSTEP TO <step>
 SET SCROLLPAGE TO <step>
 
-SET RESOURCES TO [<cDLL>]
+INIT SPLASH WINDOW
+SHOW SPLASH WINDOW PICTURE <image> [DELAY <delay>] [ON INIT <OnInit>] [ON RELEASE <OnRelease>]
 
-ON APPEVENT [ID] <nId> ACTION <bAction> OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
+FLASH WINDOW <FormName> [CAPTION | TASKBAR | ALL] COUNT <nTimes> INTERVAL <nMilliseconds>
+
+ANIMATE WINDOW <FormName> [INTERVAL <nMilliseconds>] MODE <nFlags>
+
+SET DIALOGBOX [POSITION] ROW <nRow> COL <nCol>
+SET DIALOGBOX [POSITION] CENTER OF [PARENT | <hWnd> | DESKTOP]
+SET DIALOGBOX [POSITION] DISABLE
+
+DISABLE [WINDOW] EVENT OF <FormName>
+ENABLE  [WINDOW] EVENT OF <FormName>
+
+ON APPEVENT [ID] <nId> ACTION <bAction> OF <window> [NOACTIVE] [ONCE] [RESULT] TO <lResult>
 EMIT [EVENT] [ID] <nId> OF <window>
-REMOVE APPEVENT [[ID] [<nId>] | ALL] OF <window> [ONCE>] [RESULT] TO <lResult>
-UPDATE APPEVENT [ID] <nId> [ACTION <bAction>] OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
+REMOVE APPEVENT [[ID] [<nId>] | ALL] OF <window> [ONCE] [RESULT] TO <lResult>
+UPDATE APPEVENT [ID] <nId> [ACTION <bAction>] OF <window> [NOACTIVE] [ONCE] [RESULT] TO <lResult>
 
-ON WINEVENT [ID] <nId> ACTION <bAction> OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
-REMOVE WINEVENT [[ID] [<nId>] | ALL] OF <window> [ONCE>] [RESULT] TO <lResult>
-UPDATE WINEVENT [ID] <nId> [ACTION <bAction>] OF <window> [NOACTIVE>] [ONCE>] [RESULT] TO <lResult>
+ON WINEVENT [ID] <nId> ACTION <bAction> OF <window> [NOACTIVE] [ONCE] [RESULT] TO <lResult>
+REMOVE WINEVENT [[ID] [<nId>] | ALL] OF <window> [ONCE] [RESULT] TO <lResult>
+UPDATE WINEVENT [ID] <nId> [ACTION <bAction>] OF <window> [NOACTIVE] [ONCE] [RESULT] TO <lResult>
+
+///////////////////////////////
+// Strongly Typed commands
+///////////////////////////////
 
 // This command replaces the traditional := assignment for strongly typed behavior
 
@@ -63,16 +94,18 @@ ASSIGN <cVar> := <cExp>
 // declare your variables as strongly typed
 
 LOCAL <cVar> AS <xtype:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY> ;
-       [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
+    [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
 
 STATIC <cVar> AS <xtype:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY> ;
-       [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
+     [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
 
 PUBLIC <cVar> AS <xtype:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY> ;
-       [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
+     [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
 
 PRIVATE <cVar> AS <xtype:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY> ;
-       [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
+      [,<cVarn> AS <xtypen:STRING,NUMERIC,LOGICAL,DATE,BLOCK,ARRAY>]
+
+CHECK TYPE [SOFT] <var> AS <type> [,<varN> AS <typeN>]
 
 ///////////////////////////////
 // ErrorLog related commands
@@ -85,14 +118,41 @@ SET LOGERROR [ON | OFF]
 SET SHOWDETAILERROR [ON | OFF]
 
 ///////////////////////////////
-// Menu related commands
+// Set NON CLIENT attributes
 ///////////////////////////////
 
-SET MENUSTYLE [EXTENDED | STANDARD]
+SET WINDOW BORDER TO <nPixels>
+SET SCROLLBAR [SIZES] TO <nPixels>
+SET TITLEBAR [ WIDTH | HEIGHT ] TO <nPixels>
+SET [STANDARD] MENU [SIZES] TO <nPixels>
+
+SET TITLEBAR FONT TO <fontname>, <fontsize> [BOLD] [CHARSET <n>]
+SET [STANDARD] MENU FONT TO <fname>,<fsize> [BOLD] [CHARSET <n>]
+SET STATUSBAR FONT TO <fontname>, <fontsize> [BOLD] [CHARSET <n>]
+SET MESSAGEBOX FONT TO <fontname>, <fontsize> [BOLD] [CHARSET <n>]
+
+///////////////////////////////
+// Menu related commands
+///////////////////////////////
 
 SET CONTEXT MENU [ON | OFF]
 
 SET CONTEXT MENU CONTROL <control> OF <parent> [ON | OFF]
+
+SHOW CONTEXT MENU OF <parent> [AT <nRow>, <nCol>]
+
+SET MENUSTYLE [EXTENDED | STANDARD]
+
+SET MENUCURSOR [FULL | SHORT]
+SET MENUSEPARATOR [SINGLE | DOUBLE] [LEFTALIGN | CENTERALIGN | RIGHTALIGN]
+SET MENUITEM BORDER [3DSTYLE | FLAT]
+
+SET DEFAULT MENUITEM <control> OF <form>
+
+RELEASE MAIN MENU OF <form>
+RELEASE CONTEXT MENU OF <form>
+RELEASE NOTIFY MENU OF <form>
+RELEASE DROPDOWN MENU BUTTON <button> OF <form>
 
 ///////////////////////////////
 // ToolTip related commands
@@ -114,17 +174,60 @@ SET AUTOADJUST [ON | OFF]
 
 SET AUTOZOOMING [ON | OFF]
 
-SET FONT TO <name> , <size>
+SET FONT TO <name>, <size>
+
+DEFINE FONT <name> FONTNAME <fontname> ;
+  [ SIZE <fontsize> ]                  ;
+  [ BOLD ] [ ITALIC ]                  ;
+  [ UNDERLINE ] [ STRIKEOUT ]          ;
+  [ CHARSET <charset> ]	               ;
+  [ ANGLE <Angle> ]	               ;
+  [ DEFAULT> ]
+
+RELEASE FONT <name>
 
 SET NAVIGATION [EXTENDED | STANDARD]
 
 SET PROGRAMMATICCHANGE [ON | OFF]
 
 SET BROWSESYNC [ON | OFF]
+SET BROWSEUPDATEONCLICK [ON | OFF]
 
 SET [GRID] CELLNAVIGATION MODE [VERTICAL | HORIZONTAL]
 
 SET GETBOX FOCUS BACKCOLOR [TO <backcolor>]
 SET GETBOX FOCUS FONTCOLOR TO <fontcolor>
+
+SET MSGALERT BACKCOLOR TO <aBackColor> [STOREIN <aPrev>]
+SET MSGALERT FONTCOLOR TO <aFontColor> [STOREIN <aPrev>]
+
+DISABLE [CONTROL] EVENT <ControlName> OF <FormName>
+ENABLE  [CONTROL] EVENT <ControlName> OF <FormName>
+
+SET CONTROL <ControlName> OF <FormName> ;
+  [ CLIENTEDGE | STATICEDGE | WINDOWEDGE | NOTEDGE ]
+
+EDIT EXTENDED				;
+  [ WORKAREA <cWorkArea> ]		;
+  [ TITLE <cTitle> ]			;
+  [ FIELDNAMES <acFieldNames> ]		;
+  [ FIELDMESSAGES <acFieldMessages> ]	;
+  [ FIELDENABLED <alFieldView> ]	;
+  [ TABLEVIEW <alTableView> ]		;
+  [ OPTIONS <aOptions> ]		;
+  [ ON SAVE <bSave> ]			;
+  [ ON FIND <bFind> ]			;
+  [ ON PRINT <bPrint> ]
+
+EXECUTE					;
+  [ OPERATION <operation> ]		;
+  FILE <file>				;
+  [ PARAMETERS <parameters> ]		;
+  [ DEFAULT <default> ]			;
+  [ MAXIMIZE | MINIMIZE | HIDE ]
+
+TREESORT <tree> OF <form> [ITEM nItem]	;
+  [RECURSIVE lRecursive] [CASESENSITIVE lCaseSensitive] ;
+  [ASCENDINGORDER lAscendingOrder] [NODEPOSITION nNodePosition]
 
 =======================================================================

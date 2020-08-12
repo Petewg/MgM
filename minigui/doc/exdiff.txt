@@ -68,6 +68,17 @@ Example:
       TOOLTIP 'Checked Label'
    END CHECKLABEL
 
+Example 2:
+   DEFINE SWITCHER Chk_Label_2
+      ROW	10
+      COL	10
+      VALUE	'On / Off switcher'
+      CHECKED	.T.
+      FONTNAME	'Arial'
+      FONTSIZE 12
+      ONMOUSEHOVER RC_CURSOR( "MINIGUI_FINGER" )
+   END SWITCHER
+
 --------------------------------------------------------------------------------
 
 CHECKLISTBOX control - extended LISTBOX control with inserted checkboxes.
@@ -503,7 +514,7 @@ MONTHCALENDAR - 'BackColor', 'FontColor' and others color clauses (for Win 9x/2k
 
 PROGRESSBAR - [ STYLE ] MARQUEE clause and VELOCITY property.
 
-RADIOGROUP - 'LeftJustify' clause.
+RADIOGROUP - AUTOSIZE and 'LeftJustify' clauses.
 
 RICHEDIT - method 'Save', event ON SELECT, drag/drop/paste events, NOVSCROL, NOHSCROLL, FILE and FIELD clauses, 'RichValue' and 'AutoFont' properties.
 
@@ -687,7 +698,7 @@ The Context menu and Notify menu supports Multistaged submenu.
 
 The Browse and Grid controls supports an optional NOTABSTOP clause.
 
-The Grid control supports an optional VALIDMESSAGES clause.
+The Grid control supports an optional VALIDMESSAGES, COLUMNWIDTHLIMITS clauses and ON DRAGHEADERITEMS event.
 
 The Browse and Grid controls supports the code-blocks with an input Value as parameter in the VALIDMESSAGES array.
 
