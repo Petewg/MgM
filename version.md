@@ -1,7 +1,7 @@
   
  
-###           MiniguiM Package 20.06 (build date: 12/08/2020 - 20200812)               
-         GitHub project: https://github.com/Petewg/MgM
+### MiniguiM Package 20.06 (build date: 12/08/2020 - 20200812)               
+   - GitHub project: https://github.com/Petewg/MgM
   
 ###                Components   
 
