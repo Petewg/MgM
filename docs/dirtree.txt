@@ -2,6 +2,14 @@ This is the minigui-mingw package folder tree:
 
 MiniguiM (root folder -preferable location, C:\)
   |
+  |--batch                    (batch files used to build libs & build/run samples)
+  |    |
+  |    |--buildAllLibs.bat    (batch file used to build all libs minigui+supplemental libs)
+  |    |--buildApp.bat        (batch file used to build samples)
+  |    |--buildMiniguiLib.bat (batch file used to build minigui lib)
+  |    |--buildOtherLibs.bat  (batch file used to build supplemental libs)
+  |    |--SetPaths.bat        (sef-explanatory batch file)
+  |
   |--comp                (compilers folder)
   |    |
   |    |--\harbour       (harbour compiler)
@@ -35,14 +43,6 @@ MiniguiM (root folder -preferable location, C:\)
   |    |--\source             (all minigui sources plus supplemental libs sources)
   |    |
   |    |--\utils              (miscellaneous utilities)
-  |
-  |--batch                    (batch files used to build libs & build/run samples)
-  |    |
-  |    |--buildAllLibs.bat    (batch file used to build all libs minigui+supplemental libs)
-  |    |--buildApp.bat        (batch file used to build samples)
-  |    |--buildMiniguiLib.bat (batch file used to build minigui lib)
-  |    |--buildOtherLibs.bat  (batch file used to build supplemental libs)
-  |    |--SetPaths.bat        (sef-explanatory batch file)
   |
   |--dirtree.txt             (this file)
   |--license.txt
