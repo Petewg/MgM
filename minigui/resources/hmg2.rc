@@ -1,0 +1,16 @@
+#include "_hmg_resconfig.h"
+
+// MINIPRINT2 PRINT PREVIEW IMAGE BUTTONS
+
+HP_END2         BITMAP  HMGRPATH\go_last_page_24.bmp
+HP_TOP2         BITMAP  HMGRPATH\go_first_page_24.bmp
+HP_NEXT2        BITMAP  HMGRPATH\go_next_page_24.bmp
+HP_BACK2        BITMAP  HMGRPATH\go_previous_page_24.bmp
+HP_PRINT2       BITMAP  HMGRPATH\print_24.bmp
+HP_ZOOM2        BITMAP  HMGRPATH\Zoom_24.bmp
+HP_GOPAGE2      BITMAP  HMGRPATH\go_to_page_24.bmp
+// HP_CLOSE2       BITMAP  HMGRPATH\Exit_24.bmp
+HP_SAVE2        BITMAP  HMGRPATH\save_24.bmp
+HP_THUMBNAIL2   BITMAP  HMGRPATH\ThumNails.bmp
+
+HP_CLOSE2       BITMAP  HMGRPATH\application_exit2.bmp
