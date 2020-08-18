@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+     Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -55,7 +55,7 @@
       [ <underline : UNDERLINE> ] ;
       [ <strikeout : STRIKEOUT> ] ;
    => ;
-   _BeginMessageBar( "StatusBar", <"parent">, <.kbd.>, <fontname>, <fontsize>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> )
+   _BeginMessageBar( "StatusBar", <(parent)>, <.kbd.>, <fontname>, <fontsize>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.> )
 
 #xcommand  END STATUSBAR ;
    => ;
@@ -122,14 +122,15 @@
           POSITION TO ;
           [ [ VALUE ] <v> ] ;
    => ;
-   _SetStatusProgressPos ( <"parent"> , <v> )
+   _SetStatusProgressPos ( <(parent)> , <v> )
 
 #xtranslate SET [ STATUSBAR ] PROGRESSITEM ;
           <dummy1: OF, PARENT> <parent> ;
           RANGE TO ;
           [ <lo> , <hi> ] ;
    => ;
-   _SetStatusProgressRange ( <"parent"> , <lo> , <hi> )
+   _SetStatusProgressRange ( <(parent)> , <lo> , <hi> )
+
 
 /* for using with _SetStatusItemProperty() */
 #define STATUS_ITEM_WIDTH      1
@@ -145,3 +146,28 @@
 #xtranslate _SetStatusItemAction( <item>, <value>, <ParentHandle> ) ;
    => ;
    _SetStatusItemProperty( <item>, <value>, <ParentHandle>, STATUS_ITEM_ACTION )
+
+
+#command SET STATUSITEM <n> ;
+         OF <Form> ;
+         FONTCOLOR [ TO ] <acolor> ;
+      => ;
+	_SetStatusItemProperty( <n>, <acolor>, GetFormHandle(<(Form)>), STATUS_ITEM_FONTCOLOR )
+
+#command SET STATUSITEM <n> ;
+         OF <Form> ;
+         BACKCOLOR [ TO ] <acolor> ;
+      => ;
+	_SetStatusItemProperty( <n>, <acolor>, GetFormHandle(<(Form)>), STATUS_ITEM_BACKCOLOR )
+
+#command SET STATUSITEM <n> ;
+         OF <Form> ;
+         ALIGN [ TO ] [ <c: CENTER> ] [ <r: RIGHT> ] [ LEFT ];
+      => ;
+	_SetStatusItemProperty( <n>, iif( <.r.> == .t., 2, iif( <.c.> == .t., 1, 0 ) ), GetFormHandle(<(Form)>), STATUS_ITEM_ALIGN )
+
+#command SET STATUSITEM <n> ;
+         OF <Form> ;
+         ACTION [ TO ] <action> ;
+      => ;
+	_SetStatusItemAction( <n>, <{action}>, GetFormHandle(<(Form)>) )

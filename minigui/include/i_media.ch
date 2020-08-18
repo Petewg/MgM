@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -56,12 +56,13 @@
 	[ FILE <file> ] ;
 	[ <autoplay: AUTOPLAY> ] ;
 	[ <center : CENTER> ] ;
+	[ <invisible: INVISIBLE> ] ;
 	[ <transparent: TRANSPARENT> ] ;
 	[ BACKCOLOR <backcolor> ] ;
 	[ <noborder: NOBORDER> ] ;
 	[ HELPID <helpid> ] ;
 	=>;
-	_DefineAnimateBox( <"name">, <"parent">, <col>, <row>, <w>, <h>, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <backcolor>, <nId> )
+	_DefineAnimateBox( <(name)>, <(parent)>, <col>, <row>, <w>, <h>, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <backcolor>, <.invisible.>, <nId> )
 
 #command REDEFINE ANIMATEBOX <name> ;
     ID <nId>;
@@ -69,12 +70,13 @@
     [ FILE <file> ] ;
     [ <autoplay: AUTOPLAY> ] ;
     [ <center : CENTER> ] ;
+    [ <invisible: INVISIBLE> ] ;
     [ <transparent: TRANSPARENT> ] ;
     [ BACKCOLOR <backcolor> ] ;
     [ <noborder: NOBORDER> ] ;
     [ HELPID <helpid> ]         ;
     =>;
-    _DefineAnimateBox( <"name">, <"parent">, 0, 0, 0, 0, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <backcolor>, <nId> )
+    _DefineAnimateBox( <(name)>, <(parent)>, 0, 0, 0, 0, <.autoplay.>, <.center.>, <.transparent.>, <file>, <helpid>, !<.noborder.>, <backcolor>, <.invisible.>, <nId> )
 
 
 #command OPEN ANIMATEBOX <ControlName> OF <ParentForm> FILE <FileName> ;
@@ -145,84 +147,84 @@ _DestroyAnimateBox ( <"ControlName"> , <"ParentForm"> )
 			[ <showposition: SHOWPOSITION> ] ;                             
 			[ HELPID <helpid> ] 		;
 	=>;
-    _DefinePlayer( <"name">,<"parent">,<file>,<col>, <row>, <w>, <h>, <.noautosizewindow.>, <.noautosizemovie.>, <.noerrordlg.>,<.nomenu.>,<.noopen.>,<.noplaybar.>,<.showall.>,<.showmode.>,<.showname.>,<.showposition.>, <helpid> )
+    _DefinePlayer( <(name)>, <(parent)>, <file>, <col>, <row>, <w>, <h>, <.noautosizewindow.>, <.noautosizemovie.>, <.noerrordlg.>,<.nomenu.>,<.noopen.>,<.noplaybar.>,<.showall.>,<.showmode.>,<.showname.>,<.showposition.>, <helpid> )
 
 #command PLAY PLAYER <name> OF <parent> ;
 	=> ;
-	_PlayPlayer ( <"name"> , <"parent"> )
+	_PlayPlayer ( <(name)> , <(parent)> )
 
 #xcommand PLAY PLAYER <name> OF <parent> REVERSE ;
 	=> ;
-	_PlayPlayerReverse ( <"name"> , <"parent"> )	
+	_PlayPlayerReverse ( <(name)> , <(parent)> )	
 
 #command STOP PLAYER <name> OF <parent> ;
 	=> ;
-	_StopPlayer ( <"name"> , <"parent"> )	
+	_StopPlayer ( <(name)> , <(parent)> )	
 
 #command PAUSE PLAYER <name> OF <parent> ;
 	=> ;
-	_PausePlayer ( <"name"> , <"parent"> )	
+	_PausePlayer ( <(name)> , <(parent)> )	
 
 #command CLOSE PLAYER <name> OF <parent> ;
 	=> ;
-	_ClosePlayer ( <"name"> , <"parent"> )	
+	_ClosePlayer ( <(name)> , <(parent)> )	
 
 #command DESTROY PLAYER <name> OF <parent> ;
 	=> ;
-	_DestroyPlayer ( <"name"> , <"parent"> )	
+	_DestroyPlayer ( <(name)> , <(parent)> )	
 
 #command EJECT PLAYER <name> OF <parent> ;
 	=> ;
-	_EjectPlayer ( <"name"> , <"parent"> )	
+	_EjectPlayer ( <(name)> , <(parent)> )	
 
 #command OPEN PLAYER <name> OF <parent> FILE <file> ;
 	=> ;
-	_OpenPlayer ( <"name"> , <"parent"> , <file> )	
+	_OpenPlayer ( <(name)> , <(parent)> , <file> )	
 
 #command OPEN PLAYER <name> OF <parent> DIALOG ;
 	=> ;
-	_OpenPlayerDialog ( <"name"> , <"parent"> )	
+	_OpenPlayerDialog ( <(name)> , <(parent)> )	
 
 #command RESUME PLAYER <name> OF <parent> ;
 	=> ;
-	_ResumePlayer ( <"name"> , <"parent"> )	
+	_ResumePlayer ( <(name)> , <(parent)> )	
 
 #command SET PLAYER <name> OF <parent> POSITION HOME ;
 	=> ;
-	_SetPlayerPositionHome ( <"name"> , <"parent"> )	
+	_SetPlayerPositionHome ( <(name)> , <(parent)> )	
 
 #command SET PLAYER <name> OF <parent> POSITION END ;
 	=> ;
-	_SetPlayerPositionEnd ( <"name"> , <"parent"> )	
+	_SetPlayerPositionEnd ( <(name)> , <(parent)> )	
 
 #command SET PLAYER <name> OF <parent> REPEAT ON ;
 	=> ;
-	_SetPlayerRepeatOn ( <"name"> , <"parent"> )	
+	_SetPlayerRepeatOn ( <(name)> , <(parent)> )	
 
 #command SET PLAYER <name> OF <parent> REPEAT OFF ;
 	=> ;
-	_SetPlayerRepeatOff ( <"name"> , <"parent"> )	
+	_SetPlayerRepeatOff ( <(name)> , <(parent)> )	
 
 #command SET PLAYER <name> OF <parent> SPEED <speed> ;
 	=> ;
-	_SetPlayerSpeed ( <"name"> , <"parent"> , <speed> )	
+	_SetPlayerSpeed ( <(name)> , <(parent)> , <speed> )	
 
 #command SET PLAYER <name> OF <parent> VOLUME <volume> ;
 	=> ;
-	_SetPlayerVolume ( <"name"> , <"parent"> , <volume> )	
+	_SetPlayerVolume ( <(name)> , <(parent)> , <volume> )	
 
 #command SET PLAYER <name> OF <parent> ZOOM <zoom> ;
 	=> ;
-	_SetPlayerZoom ( <"name"> , <"parent"> , <zoom> )	
+	_SetPlayerZoom ( <(name)> , <(parent)> , <zoom> )	
 
 //////////////////////////////////////////////////////////////////////////////
 // WAVE COMMANDS
 //////////////////////////////////////////////////////////////////////////////
-#command PLAY WAVE  <wave>  [<r:  FROM RESOURCE>] ;
-                            [<s:  SYNC>] ;
-                            [<ns: NOSTOP>] ;
-                            [<l:  LOOP>] ;
-                            [<nd: NODEFAULT>] ;
+#command PLAY WAVE <wave> [<r:  FROM RESOURCE>] ;
+                          [<s:  SYNC>] ;
+                          [<ns: NOSTOP>] ;
+                          [<l:  LOOP>] ;
+                          [<nd: NODEFAULT>] ;
 	=> playwave(<wave>,<.r.>,<.s.>,<.ns.>,<.l.>,<.nd.>)
 
 #command STOP WAVE [ NODEFAULT ] => stopwave()

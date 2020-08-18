@@ -34,18 +34,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -73,17 +73,17 @@
        [ <nodelete: NODELETE> ] ; 
        [ IN [ <dummy2: FORM,WINDOW> ] <window> ] ;
    =>;
-       <brush> := _SetWindowBKBrush( <"window">, <.nodelete.>, <"style">, <hatch>, <aColor>, <"bitmap"> )
+       <brush> := _SetWindowBKBrush( <(window)>, <.nodelete.>, <"style">, <hatch>, <aColor>, <(bitmap)> )
 
 #xtranslate ADD <dummy1: BKBRUSH,BKGBRUSH> <brush> ;
        [ STYLE ] <style: SOLID,HATCHED,PATTERN> ;
        [ [ HATCHSTYLE ] <hatch> ] ;
        [ <dummy3: BITMAP,IMAGE,PICTURE> <bitmap> ] ;
        [ COLOR <aColor> ] ; 
-       [ <nodelete: NODELETE> ] ; 
+       [ <nodelete: NODELETE> ] ;
        TO [ <dummy2: FORM,WINDOW> ] <window> ;
    =>;
-       <brush> := _SetWindowBKBrush( <"window">, <.nodelete.>, <"style">, <hatch>, <aColor>, <"bitmap"> )
+       <brush> := _SetWindowBKBrush( <(window)>, <.nodelete.>, <"style">, <hatch>, <aColor>, <(bitmap)> )
 
 #xtranslate DELETE BRUSH <brush> ;
    =>;

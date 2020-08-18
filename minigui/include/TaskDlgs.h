@@ -39,7 +39,7 @@ static BOOL TD_objSendMsg( PHB_ITEM pObject, const char * sMsgName, HRESULT * hR
 // ===================== Task Dialog =========================
 #ifndef NOTASKDIALOG
 // Task Dialog is only available starting Windows Vista
-#if ( NTDDI_VERSION >= 0x06000000 )
+#if ( NTDDI_VERSION >= NTDDI_VISTA )
 #ifdef _WIN32
 #include <pshpack1.h>
 #endif

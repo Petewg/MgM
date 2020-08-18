@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -71,12 +71,13 @@
       [ <readonly : READONLY> ] ;
       [ INCREMENT <inc> ] ;
       [ <cuebanner : CUEBANNER, PLACEHOLDER> <CueText> ] ;
+      [ ON INIT <bInit> ] ;
    =>;
-   _DefineSpinner ( <"name">, <"parent">, <col>, <row>, <w>, <value>, ;
+   _DefineSpinner ( <(name)>, <(parent)>, <col>, <row>, <w>, <value>, ;
                     <fontname>, <fontsize>, <rl>, <rh>, <tooltip>, <{change}>, ;
                     <{lostfocus}>, <{gotfocus}>, <h>, <helpid>, <.horizontal.>, <.invisible.>, ;
                     <.notabstop.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
-                    <.wrap.>, <.readonly.>, <inc> , <backcolor> , <fontcolor> , [<CueText>] )
+                    <.wrap.>, <.readonly.>, <inc> , <backcolor> , <fontcolor> , [<CueText>] , <bInit> )
 
 
 #define UDM_SETRANGE32          (WM_USER+111)

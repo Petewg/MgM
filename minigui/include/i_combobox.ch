@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -76,6 +76,7 @@
       [ <ondropdown: ON LISTDISPLAY, ON DROPDOWN> <onListdisplayprocedure> ] ;
       [ <oncloseup: ON LISTCLOSE, ON CLOSEUP> <onListcloseprocedure> ] ;
       [ ON CANCEL <OnCancel> ] ;
+      [ ON INIT <bInit> ] ;
       [ <notabstop : NOTABSTOP> ] ;
       [ HELPID <helpid> ] ;
       [ <invisible : INVISIBLE> ] ;
@@ -83,15 +84,16 @@
       [ <cuebanner : CUEBANNER, PLACEHOLDER> <CueText> ] ;
       [ <AutoComplete : AUTOCOMPLETE> [ SHOWDROPDOWN <showdd> ] ] ;
    =>;
-   _DefineCombo ( <"name">, <"parent">, <col>, <row>, <w>, <aRows> , <value>, ;
+   _DefineCombo ( <(name)>, <(parent)>, <col>, <row>, <w>, <aRows> , <value>, ;
                   <f>, <n>, <tooltip>, <{changeprocedure}>, <h>, ;
                   <{gotfocus}>, <{lostfocus}>, <{enter}>, <helpid>, ;
                   <.invisible.>, <.notabstop.>, <.sort.> ,<.bold.>, ;
-      <.italic.>, <.underline.>, <.strikeout.> , <"itemsource"> , ;
-      <"valuesource"> , <.displaychange.> , ;
-      <{ondisplaychangeprocedure}> ,  .f. , "" , <nValue>, <nId>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
-      <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , <nItemHeight> )
+                  <.italic.>, <.underline.>, <.strikeout.> , <(itemsource)> , ;
+                  <(valuesource)> , <.displaychange.> , ;
+                  <{ondisplaychangeprocedure}> ,  .f. , "" , <nValue>, <nId>, ;
+                  <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
+                  <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , ;
+                  <nItemHeight> , <bInit> )
 
 
 #xcommand REDEFINE COMBOBOX <name> ;
@@ -123,6 +125,7 @@
       [ ON LISTDISPLAY <onListdisplayprocedure> ] ;
       [ ON LISTCLOSE <onListcloseprocedure> ] ;
       [ ON CANCEL <OnCancel> ] ;
+      [ ON INIT <bInit> ] ;
       [ <notabstop : NOTABSTOP> ] ;
       [ HELPID <helpid> ]       ;
       [ <invisible : INVISIBLE> ] ;
@@ -130,15 +133,16 @@
       [ <cuebanner : CUEBANNER, PLACEHOLDER> <CueText> ] ;
       [ <AutoComplete : AUTOCOMPLETE> [ SHOWDROPDOWN <showdd> ] ] ;
     =>;
-   _DefineCombo ( <"name">, <"parent">, 0, 0, 0, <aRows> , <value>, ;
+   _DefineCombo ( <(name)>, <(parent)>, 0, 0, 0, <aRows> , <value>, ;
                   <f>, <n>, <tooltip>, <{changeprocedure}>, 0, ;
                   <{gotfocus}>, <{lostfocus}>, <{enter}>, <helpid>, ;
                   <.invisible.>, <.notabstop.>, <.sort.> ,<.bold.>, ;
-      <.italic.>, <.underline.>, <.strikeout.> , ;
-      <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
-      <{ondisplaychangeprocedure}> ,  .f. , "", <nValue>, <nId>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
-      <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , <nItemHeight> )
+                  <.italic.>, <.underline.>, <.strikeout.> , ;
+                  <(itemsource)> , <(valuesource)> , <.displaychange.> , ;
+                  <{ondisplaychangeprocedure}> ,  .f. , "", <nValue>, <nId>, ;
+                  <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
+                  <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , ;
+                  <nItemHeight> , <bInit> )
 
 
 // SPLITBOX VERSION
@@ -173,6 +177,7 @@
       [ <ondropdown: ON LISTDISPLAY, ON DROPDOWN> <onListdisplayprocedure> ] ;
       [ <oncloseup: ON LISTCLOSE, ON CLOSEUP> <onListcloseprocedure> ] ;
       [ ON CANCEL <OnCancel> ] ;
+      [ ON INIT <bInit> ] ;
       [ <notabstop : NOTABSTOP> ] ;
       [ HELPID <helpid> ]       ;
       [ GRIPPERTEXT <grippertext> ] ;
@@ -182,14 +187,15 @@
       [ <cuebanner : CUEBANNER, PLACEHOLDER> <CueText> ] ;
       [ <AutoComplete : AUTOCOMPLETE> [ SHOWDROPDOWN <showdd> ] ] ;
    =>;
-   _DefineCombo ( <"name">, <"parent">, , , <w>, <aRows> , <value>, ;
+   _DefineCombo ( <(name)>, <(parent)>, , , <w>, <aRows> , <value>, ;
                   <f>, <n>, <tooltip>, <{changeprocedure}>, <h>, ;
                   <{gotfocus}>, <{lostfocus}>, <{enter}>, <helpid>, ;
                   <.invisible.>, <.notabstop.>, <.sort.>, <.bold.>, <.italic.>, <.underline.>, ;
-                  <.strikeout.> , <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
+                  <.strikeout.> , <(itemsource)> , <(valuesource)> , <.displaychange.> , ;
                   <{ondisplaychangeprocedure}> , <.break.> , <grippertext> , <nValue>, 0, ;
                   <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor> , ;
-                  <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , <nItemHeight> )
+                  <.upper.> , <.lower.> , [<CueText>] , <{OnCancel}> , <.AutoComplete.> , [<.showdd.>] , ;
+                  <nItemHeight>, <bInit> )
 
 
 /*----------------------------------------------------------------------------
@@ -227,14 +233,15 @@ ComboBox Extend Style
       [ IMAGELIST <imagelist> ]       ;
       [ HELPID <helpid> ]       ;
       [ <invisible : INVISIBLE> ] ;
+      [ ON INIT <bInit> ] ;
    =>;
-   _DefineComboEx ( <"name">, <"parent">, <col>, <row>, <w>, <aRows> , <value>, ;
+   _DefineComboEx ( <(name)>, <(parent)>, <col>, <row>, <w>, <aRows> , <value>, ;
       <f>, <n>, <tooltip>, <{changeprocedure}>, <h>, ;
       <{gotfocus}>, <{lostfocus}>, <{enter}>, <helpid>, ;
       <.invisible.>, <.notabstop.>, .f. , <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
-      <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
+      <(itemsource)> , <(valuesource)> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> ,  .f. , "", <aImage>, <nValue>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight> )
+      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight>, <bInit> )
 
 
 // SPLITBOX VERSION
@@ -273,14 +280,15 @@ ComboBox Extend Style
       [ GRIPPERTEXT <grippertext> ] ;
       [ <break: BREAK> ] ;
       [ <invisible : INVISIBLE> ] ;
+      [ ON INIT <bInit> ] ;
    =>;
-   _DefineComboEx ( <"name">, <"parent">, , , <w>, <aRows> , <value>, ;
+   _DefineComboEx ( <(name)>, <(parent)>, , , <w>, <aRows> , <value>, ;
       <f>, <n>, <tooltip>, <{changeprocedure}>, <h>, ;
       <{gotfocus}>, <{lostfocus}>, <{enter}>, <helpid>, ;
       <.invisible.>, <.notabstop.>, .f. ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
-      <"itemsource"> , <"valuesource"> , <.displaychange.> , ;
+      <(itemsource)> , <(valuesource)> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> , <.break.> , <grippertext> , <aImage> , <nValue>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight> )
+      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight>, <bInit> )
 
 
 /*

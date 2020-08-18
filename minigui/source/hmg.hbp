@@ -2,34 +2,27 @@
 # hmg.hbp
 #
 
-# -exitstr 
-# -info    
-# -strip
-# -jobs=<n> start n compilation threads (multiprocess platforms only)
-# -jobs=2
-
-# -prgflag=/l
-# -cflag=-Ofast
-# -cflag=-mtune=native
-
-
-# -warn=<level> set C compiler warning level. <level> can be: max, yes, low, no, def (default: yes)
--warn=yes 
-
--hbx=../include/hmg.hbx
-
 -hblib
 
-# we never do incremental build
--inc-
+-inc
+
 
 -o../lib/minigui
 
 -I../include
 
--w3 -es2 -ko -l -ql
+-w3 -es2 -ko -ql
 
-#-cflag=-DWIN32_LEAN_AND_MEAN
+{mingw|mingw64|msvc|msvc64}-l
+
+-warn=max
+
+#{mingw|mingw64}-cflag=-Wno-cast-function-type
+
+#{msvc|msvc64}-cflag=-D_CRT_SECURE_NO_WARNINGS
+
+-hbx=../include/hmg.hbx
+
 
 c_bitmap.c
 c_browse.c
@@ -40,15 +33,15 @@ c_chklabel.c
 c_chklistbox.c
 c_combo.c
 c_controlmisc.c
-# c_crypt.c
+#c_crypt.c
 c_cuebanner.c
 c_cursor.c
 c_datepicker.c
 c_dialog.c
 c_dialogs.c
 c_draw.c
-c_editbox.c
 c_error.c
+c_editbox.c
 c_folder.c
 c_font.c
 c_frame.c
@@ -71,6 +64,7 @@ c_menu.c
 c_monitors.c
 c_monthcal.c
 c_msgbox.c
+c_nonclient.c
 c_pager.c
 c_progressbar.c
 c_radio.c
@@ -95,22 +89,27 @@ c_windowsCLS.c
 c_windowsMDI.c
 c_winprop.c
 c_winxp.c
+dbinsert.c
 hbgdiplus.c
 
 ErrorSys.prg
 h_activex.prg
+h_alert.prg
 h_animate.prg
 h_browse.prg
 h_btntextbox.prg
 h_button.prg
+h_buttonex.prg
 h_checkbox.prg
 h_chklabel.prg
 h_chklistbox.prg
 h_clbutton.prg
 h_combo.prg
+h_comboex.prg
 h_controlmisc.prg
 h_crypt.prg
 h_datepicker.prg
+h_dbf_aux.prg
 h_dialog.prg
 h_dialogs.prg
 h_draw.prg
@@ -119,6 +118,7 @@ h_edit_ex.prg
 h_editbox.prg
 h_error.prg
 h_events.prg
+h_filename.prg
 h_folder.prg
 h_font.prg
 h_frame.prg
@@ -126,6 +126,7 @@ h_getbox.prg
 h_Gif89.prg
 h_gradient.prg
 h_graph.prg
+h_GraphBitmap.prg
 h_grid.prg
 h_help.prg
 h_hotkey.prg
@@ -140,17 +141,20 @@ h_label.prg
 h_listbox.prg
 h_media.prg
 h_menu.prg
+h_misc.prg
 h_monthcal.prg
 h_mru.prg
 h_msgbox.prg
 h_objects.prg
 h_objmisc.prg
+h_owntab.prg
 h_pager.prg
 h_progressbar.prg
 h_radio.prg
 h_registry.prg
 h_report.prg
 h_richeditbox.prg
+h_rptgen.prg
 h_scrsaver.prg
 h_slider.prg
 h_socket.prg
@@ -169,6 +173,3 @@ h_winapimisc.prg
 h_windows.prg
 h_windowsMDI.prg
 h_winprop.prg
-
-hbwin.hbc
-

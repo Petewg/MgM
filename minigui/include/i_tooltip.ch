@@ -31,62 +31,76 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts of this code  is contributed and used here under permission of his
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
    ----------------------------------------------------------------------*/
 
-#ifndef WM_USER
-#define WM_USER                 0x0400
+#undef NTDDI_VERSION
+#define NTDDI_VERSION           0x06000000
+#ifndef NTDDI_VISTA
+#define NTDDI_VISTA             0x06000000
 #endif
-#define TTM_SETDELAYTIME        (WM_USER + 3)
-#define TTM_SETTIPBKCOLOR       (WM_USER + 19)
-#define TTM_SETTIPTEXTCOLOR     (WM_USER + 20)
-#define TTM_SETMAXTIPWIDTH      (WM_USER + 24)
-#define TTM_SETTITLE            (WM_USER + 32)
 
-#define TTI_NONE                0
-#define TTI_INFO                1
-#define TTI_WARNING             2
-#define TTI_ERROR               3
-#define TTI_INFO_LARGE          4
-#define TTI_WARNING_LARGE       5
-#define TTI_ERROR_LARGE         6
+// Tool Tip Styles
+#define TTS_ALWAYSTIP           0x01
+#define TTS_NOPREFIX            0x02
+#define TTS_NOANIMATE           0x10
+#define TTS_NOFADE              0x20
+#define TTS_BALLOON             0x40
+#define TTS_CLOSE               0x80
+#if (NTDDI_VERSION >= NTDDI_VISTA)
+#define TTS_USEVISUALSTYLE      0x100
+#endif  // (NTDDI_VERSION >= NTDDI_VISTA)
+
+#define TTF_IDISHWND            0x0001
+#define TTF_CENTERTIP           0x0002
+#define TTF_RTLREADING          0x0004
+#define TTF_SUBCLASS            0x0010
+#define TTF_TRACK               0x0020
+#define TTF_ABSOLUTE            0x0080
+#define TTF_TRANSPARENT         0x0100
+#define TTF_PARSELINKS          0x1000
+#define TTF_DI_SETITEM          0x8000
 
 #define TTDT_AUTOMATIC          0
 #define TTDT_RESHOW             1
 #define TTDT_AUTOPOP            2
 #define TTDT_INITIAL            3
 
-#define TTS_ALWAYSTIP           0x1
-#define TTS_NOPREFIX            0x2
-#define TTS_NOANIMATE           0x10
-#define TTS_NOFADE              0x20
-#define TTS_BALLOON             0x40
-#define TTS_CLOSE               0x80
-#define TTS_USEVISUALSTYLE      0x100
+// ToolTip Icons
+#define TTI_NONE                0
+#define TTI_INFO                1
+#define TTI_WARNING             2
+#define TTI_ERROR               3
+#if (NTDDI_VERSION >= NTDDI_VISTA)
+#define TTI_INFO_LARGE          4
+#define TTI_WARNING_LARGE       5
+#define TTI_ERROR_LARGE         6
+#endif  // (NTDDI_VERSION >= NTDDI_VISTA)
 
-#define TTF_IDISHWND            0x1
-#define TTF_CENTERTIP           0x2
-#define TTF_RTLREADING          0x4
-#define TTF_SUBCLASS            0x10
-#define TTF_TRACK               0x20
-#define TTF_ABSOLUTE            0x80
-#define TTF_TRANSPARENT         0x100
-#define TTF_PARSELINKS          0x1000
-#define TTF_DI_SETITEM          0x8000
+#ifndef WM_USER
+#define WM_USER                 0x0400
+#endif
+// Tool Tip Messages
+#define TTM_SETDELAYTIME        (WM_USER + 3)
+#define TTM_SETTIPBKCOLOR       (WM_USER + 19)
+#define TTM_SETTIPTEXTCOLOR     (WM_USER + 20)
+#define TTM_SETMAXTIPWIDTH      (WM_USER + 24)
+#define TTM_SETTITLE            (WM_USER + 32)
+
 
 #xcommand SET TOOLTIP [ACTIVATE] <x:ON,OFF> => SetToolTipActivate ( Upper(<(x)>) == "ON" )
 

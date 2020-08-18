@@ -14,11 +14,21 @@
 #ifndef _GDIPLUS_H
 #define _GDIPLUS_H
 
-#if __POCC__ >= 500
+#if defined( __POCC__ ) && ( __POCC__ >= 500 )
 #pragma once
+#endif /* __POCC__ */
+
+#ifndef OUT
+#define OUT
 #endif
 
-//#pragma comment (linker, "GdiPlus.lib")
+#ifndef EXTERN_C
+#ifdef __cplusplus
+#define EXTERN_C    extern "C"
+#else
+#define EXTERN_C    extern
+#endif
+#endif
 
 #ifndef IStream
 typedef struct IStream IStream;
@@ -793,7 +803,7 @@ typedef enum
     StringFormatFlagsLineLimit                   = 0x00002000,
 
     StringFormatFlagsNoClip                      = 0x00004000,
-    StringFormatFlagsBypassGDI                   = (int) 0x80000000
+    StringFormatFlagsBypassGDI                   = (int)0x80000000
 } StringFormatFlags;
 
 typedef enum
@@ -1069,7 +1079,7 @@ typedef enum
 typedef VOID (WINAPI *DebugEventProc)(DebugEventLevel level, CHAR *message);
 
 //! Notification functions which the user must call appropriately if "SuppressBackgroundThread" (below) is set.
-typedef Status (WINAPI *NotificationHookProc)(ULONG_PTR *token);
+typedef Status (WINAPI *NotificationHookProc)(OUT ULONG_PTR *token);
 typedef VOID (WINAPI *NotificationUnhookProc)(ULONG_PTR token);
 
 // Input structure for GdiplusStartup()
@@ -1133,7 +1143,7 @@ typedef struct
  * \par   input  - may not be NULL
  * \par   output - may be NULL only if input->SuppressBackgroundThread is FALSE.
  */
-Status WINAPI GdiplusStartup(ULONG_PTR *token, const GdiplusStartupInput *input, GdiplusStartupOutput *output);
+Status WINAPI GdiplusStartup(OUT ULONG_PTR *token, const GdiplusStartupInput *input, OUT GdiplusStartupOutput *output);
 
 /*!
  * \brief GDI+ termination. Must be called before GDI+ is unloaded. 
@@ -1331,147 +1341,147 @@ typedef struct
 // Common color constants
 typedef enum
 {
-    AliceBlue            = (int) 0xFFF0F8FF,
-    AntiqueWhite         = (int) 0xFFFAEBD7,
-    Aqua                 = (int) 0xFF00FFFF,
-    Aquamarine           = (int) 0xFF7FFFD4,
-    Azure                = (int) 0xFFF0FFFF,
-    Beige                = (int) 0xFFF5F5DC,
-    Bisque               = (int) 0xFFFFE4C4,
-    Black                = (int) 0xFF000000,
-    BlanchedAlmond       = (int) 0xFFFFEBCD,
-    Blue                 = (int) 0xFF0000FF,
-    BlueViolet           = (int) 0xFF8A2BE2,
-    Brown                = (int) 0xFFA52A2A,
-    BurlyWood            = (int) 0xFFDEB887,
-    CadetBlue            = (int) 0xFF5F9EA0,
-    Chartreuse           = (int) 0xFF7FFF00,
-    Chocolate            = (int) 0xFFD2691E,
-    Coral                = (int) 0xFFFF7F50,
-    CornflowerBlue       = (int) 0xFF6495ED,
-    Cornsilk             = (int) 0xFFFFF8DC,
-    Crimson              = (int) 0xFFDC143C,
-    Cyan                 = (int) 0xFF00FFFF,
-    DarkBlue             = (int) 0xFF00008B,
-    DarkCyan             = (int) 0xFF008B8B,
-    DarkGoldenrod        = (int) 0xFFB8860B,
-    DarkGray             = (int) 0xFFA9A9A9,
-    DarkGreen            = (int) 0xFF006400,
-    DarkKhaki            = (int) 0xFFBDB76B,
-    DarkMagenta          = (int) 0xFF8B008B,
-    DarkOliveGreen       = (int) 0xFF556B2F,
-    DarkOrange           = (int) 0xFFFF8C00,
-    DarkOrchid           = (int) 0xFF9932CC,
-    DarkRed              = (int) 0xFF8B0000,
-    DarkSalmon           = (int) 0xFFE9967A,
-    DarkSeaGreen         = (int) 0xFF8FBC8B,
-    DarkSlateBlue        = (int) 0xFF483D8B,
-    DarkSlateGray        = (int) 0xFF2F4F4F,
-    DarkTurquoise        = (int) 0xFF00CED1,
-    DarkViolet           = (int) 0xFF9400D3,
-    DeepPink             = (int) 0xFFFF1493,
-    DeepSkyBlue          = (int) 0xFF00BFFF,
-    DimGray              = (int) 0xFF696969,
-    DodgerBlue           = (int) 0xFF1E90FF,
-    Firebrick            = (int) 0xFFB22222,
-    FloralWhite          = (int) 0xFFFFFAF0,
-    ForestGreen          = (int) 0xFF228B22,
-    Fuchsia              = (int) 0xFFFF00FF,
-    Gainsboro            = (int) 0xFFDCDCDC,
-    GhostWhite           = (int) 0xFFF8F8FF,
-    Gold                 = (int) 0xFFFFD700,
-    Goldenrod            = (int) 0xFFDAA520,
-    Gray                 = (int) 0xFF808080,
-    Green                = (int) 0xFF008000,
-    GreenYellow          = (int) 0xFFADFF2F,
-    Honeydew             = (int) 0xFFF0FFF0,
-    HotPink              = (int) 0xFFFF69B4,
-    IndianRed            = (int) 0xFFCD5C5C,
-    Indigo               = (int) 0xFF4B0082,
-    Ivory                = (int) 0xFFFFFFF0,
-    Khaki                = (int) 0xFFF0E68C,
-    Lavender             = (int) 0xFFE6E6FA,
-    LavenderBlush        = (int) 0xFFFFF0F5,
-    LawnGreen            = (int) 0xFF7CFC00,
-    LemonChiffon         = (int) 0xFFFFFACD,
-    LightBlue            = (int) 0xFFADD8E6,
-    LightCoral           = (int) 0xFFF08080,
-    LightCyan            = (int) 0xFFE0FFFF,
-    LightGoldenrodYellow = (int) 0xFFFAFAD2,
-    LightGray            = (int) 0xFFD3D3D3,
-    LightGreen           = (int) 0xFF90EE90,
-    LightPink            = (int) 0xFFFFB6C1,
-    LightSalmon          = (int) 0xFFFFA07A,
-    LightSeaGreen        = (int) 0xFF20B2AA,
-    LightSkyBlue         = (int) 0xFF87CEFA,
-    LightSlateGray       = (int) 0xFF778899,
-    LightSteelBlue       = (int) 0xFFB0C4DE,
-    LightYellow          = (int) 0xFFFFFFE0,
-    Lime                 = (int) 0xFF00FF00,
-    LimeGreen            = (int) 0xFF32CD32,
-    Linen                = (int) 0xFFFAF0E6,
-    Magenta              = (int) 0xFFFF00FF,
-    Maroon               = (int) 0xFF800000,
-    MediumAquamarine     = (int) 0xFF66CDAA,
-    MediumBlue           = (int) 0xFF0000CD,
-    MediumOrchid         = (int) 0xFFBA55D3,
-    MediumPurple         = (int) 0xFF9370DB,
-    MediumSeaGreen       = (int) 0xFF3CB371,
-    MediumSlateBlue      = (int) 0xFF7B68EE,
-    MediumSpringGreen    = (int) 0xFF00FA9A,
-    MediumTurquoise      = (int) 0xFF48D1CC,
-    MediumVioletRed      = (int) 0xFFC71585,
-    MidnightBlue         = (int) 0xFF191970,
-    MintCream            = (int) 0xFFF5FFFA,
-    MistyRose            = (int) 0xFFFFE4E1,
-    Moccasin             = (int) 0xFFFFE4B5,
-    NavajoWhite          = (int) 0xFFFFDEAD,
-    Navy                 = (int) 0xFF000080,
-    OldLace              = (int) 0xFFFDF5E6,
-    Olive                = (int) 0xFF808000,
-    OliveDrab            = (int) 0xFF6B8E23,
-    Orange               = (int) 0xFFFFA500,
-    OrangeRed            = (int) 0xFFFF4500,
-    Orchid               = (int) 0xFFDA70D6,
-    PaleGoldenrod        = (int) 0xFFEEE8AA,
-    PaleGreen            = (int) 0xFF98FB98,
-    PaleTurquoise        = (int) 0xFFAFEEEE,
-    PaleVioletRed        = (int) 0xFFDB7093,
-    PapayaWhip           = (int) 0xFFFFEFD5,
-    PeachPuff            = (int) 0xFFFFDAB9,
-    Peru                 = (int) 0xFFCD853F,
-    Pink                 = (int) 0xFFFFC0CB,
-    Plum                 = (int) 0xFFDDA0DD,
-    PowderBlue           = (int) 0xFFB0E0E6,
-    Purple               = (int) 0xFF800080,
-    Red                  = (int) 0xFFFF0000,
-    RosyBrown            = (int) 0xFFBC8F8F,
-    RoyalBlue            = (int) 0xFF4169E1,
-    SaddleBrown          = (int) 0xFF8B4513,
-    Salmon               = (int) 0xFFFA8072,
-    SandyBrown           = (int) 0xFFF4A460,
-    SeaGreen             = (int) 0xFF2E8B57,
-    SeaShell             = (int) 0xFFFFF5EE,
-    Sienna               = (int) 0xFFA0522D,
-    Silver               = (int) 0xFFC0C0C0,
-    SkyBlue              = (int) 0xFF87CEEB,
-    SlateBlue            = (int) 0xFF6A5ACD,
-    SlateGray            = (int) 0xFF708090,
-    Snow                 = (int) 0xFFFFFAFA,
-    SpringGreen          = (int) 0xFF00FF7F,
-    SteelBlue            = (int) 0xFF4682B4,
-    Tan                  = (int) 0xFFD2B48C,
-    Teal                 = (int) 0xFF008080,
-    Thistle              = (int) 0xFFD8BFD8,
-    Tomato               = (int) 0xFFFF6347,
-    Transparent          = (int) 0x00FFFFFF,
-    Turquoise            = (int) 0xFF40E0D0,
-    Violet               = (int) 0xFFEE82EE,
-    Wheat                = (int) 0xFFF5DEB3,
-    White                = (int) 0xFFFFFFFF,
-    WhiteSmoke           = (int) 0xFFF5F5F5,
-    Yellow               = (int) 0xFFFFFF00,
-    YellowGreen          = (int) 0xFF9ACD32
+    AliceBlue            = (int)0xFFF0F8FF,
+    AntiqueWhite         = (int)0xFFFAEBD7,
+    Aqua                 = (int)0xFF00FFFF,
+    Aquamarine           = (int)0xFF7FFFD4,
+    Azure                = (int)0xFFF0FFFF,
+    Beige                = (int)0xFFF5F5DC,
+    Bisque               = (int)0xFFFFE4C4,
+    Black                = (int)0xFF000000,
+    BlanchedAlmond       = (int)0xFFFFEBCD,
+    Blue                 = (int)0xFF0000FF,
+    BlueViolet           = (int)0xFF8A2BE2,
+    Brown                = (int)0xFFA52A2A,
+    BurlyWood            = (int)0xFFDEB887,
+    CadetBlue            = (int)0xFF5F9EA0,
+    Chartreuse           = (int)0xFF7FFF00,
+    Chocolate            = (int)0xFFD2691E,
+    Coral                = (int)0xFFFF7F50,
+    CornflowerBlue       = (int)0xFF6495ED,
+    Cornsilk             = (int)0xFFFFF8DC,
+    Crimson              = (int)0xFFDC143C,
+    Cyan                 = (int)0xFF00FFFF,
+    DarkBlue             = (int)0xFF00008B,
+    DarkCyan             = (int)0xFF008B8B,
+    DarkGoldenrod        = (int)0xFFB8860B,
+    DarkGray             = (int)0xFFA9A9A9,
+    DarkGreen            = (int)0xFF006400,
+    DarkKhaki            = (int)0xFFBDB76B,
+    DarkMagenta          = (int)0xFF8B008B,
+    DarkOliveGreen       = (int)0xFF556B2F,
+    DarkOrange           = (int)0xFFFF8C00,
+    DarkOrchid           = (int)0xFF9932CC,
+    DarkRed              = (int)0xFF8B0000,
+    DarkSalmon           = (int)0xFFE9967A,
+    DarkSeaGreen         = (int)0xFF8FBC8B,
+    DarkSlateBlue        = (int)0xFF483D8B,
+    DarkSlateGray        = (int)0xFF2F4F4F,
+    DarkTurquoise        = (int)0xFF00CED1,
+    DarkViolet           = (int)0xFF9400D3,
+    DeepPink             = (int)0xFFFF1493,
+    DeepSkyBlue          = (int)0xFF00BFFF,
+    DimGray              = (int)0xFF696969,
+    DodgerBlue           = (int)0xFF1E90FF,
+    Firebrick            = (int)0xFFB22222,
+    FloralWhite          = (int)0xFFFFFAF0,
+    ForestGreen          = (int)0xFF228B22,
+    Fuchsia              = (int)0xFFFF00FF,
+    Gainsboro            = (int)0xFFDCDCDC,
+    GhostWhite           = (int)0xFFF8F8FF,
+    Gold                 = (int)0xFFFFD700,
+    Goldenrod            = (int)0xFFDAA520,
+    Gray                 = (int)0xFF808080,
+    Green                = (int)0xFF008000,
+    GreenYellow          = (int)0xFFADFF2F,
+    Honeydew             = (int)0xFFF0FFF0,
+    HotPink              = (int)0xFFFF69B4,
+    IndianRed            = (int)0xFFCD5C5C,
+    Indigo               = (int)0xFF4B0082,
+    Ivory                = (int)0xFFFFFFF0,
+    Khaki                = (int)0xFFF0E68C,
+    Lavender             = (int)0xFFE6E6FA,
+    LavenderBlush        = (int)0xFFFFF0F5,
+    LawnGreen            = (int)0xFF7CFC00,
+    LemonChiffon         = (int)0xFFFFFACD,
+    LightBlue            = (int)0xFFADD8E6,
+    LightCoral           = (int)0xFFF08080,
+    LightCyan            = (int)0xFFE0FFFF,
+    LightGoldenrodYellow = (int)0xFFFAFAD2,
+    LightGray            = (int)0xFFD3D3D3,
+    LightGreen           = (int)0xFF90EE90,
+    LightPink            = (int)0xFFFFB6C1,
+    LightSalmon          = (int)0xFFFFA07A,
+    LightSeaGreen        = (int)0xFF20B2AA,
+    LightSkyBlue         = (int)0xFF87CEFA,
+    LightSlateGray       = (int)0xFF778899,
+    LightSteelBlue       = (int)0xFFB0C4DE,
+    LightYellow          = (int)0xFFFFFFE0,
+    Lime                 = (int)0xFF00FF00,
+    LimeGreen            = (int)0xFF32CD32,
+    Linen                = (int)0xFFFAF0E6,
+    Magenta              = (int)0xFFFF00FF,
+    Maroon               = (int)0xFF800000,
+    MediumAquamarine     = (int)0xFF66CDAA,
+    MediumBlue           = (int)0xFF0000CD,
+    MediumOrchid         = (int)0xFFBA55D3,
+    MediumPurple         = (int)0xFF9370DB,
+    MediumSeaGreen       = (int)0xFF3CB371,
+    MediumSlateBlue      = (int)0xFF7B68EE,
+    MediumSpringGreen    = (int)0xFF00FA9A,
+    MediumTurquoise      = (int)0xFF48D1CC,
+    MediumVioletRed      = (int)0xFFC71585,
+    MidnightBlue         = (int)0xFF191970,
+    MintCream            = (int)0xFFF5FFFA,
+    MistyRose            = (int)0xFFFFE4E1,
+    Moccasin             = (int)0xFFFFE4B5,
+    NavajoWhite          = (int)0xFFFFDEAD,
+    Navy                 = (int)0xFF000080,
+    OldLace              = (int)0xFFFDF5E6,
+    Olive                = (int)0xFF808000,
+    OliveDrab            = (int)0xFF6B8E23,
+    Orange               = (int)0xFFFFA500,
+    OrangeRed            = (int)0xFFFF4500,
+    Orchid               = (int)0xFFDA70D6,
+    PaleGoldenrod        = (int)0xFFEEE8AA,
+    PaleGreen            = (int)0xFF98FB98,
+    PaleTurquoise        = (int)0xFFAFEEEE,
+    PaleVioletRed        = (int)0xFFDB7093,
+    PapayaWhip           = (int)0xFFFFEFD5,
+    PeachPuff            = (int)0xFFFFDAB9,
+    Peru                 = (int)0xFFCD853F,
+    Pink                 = (int)0xFFFFC0CB,
+    Plum                 = (int)0xFFDDA0DD,
+    PowderBlue           = (int)0xFFB0E0E6,
+    Purple               = (int)0xFF800080,
+    Red                  = (int)0xFFFF0000,
+    RosyBrown            = (int)0xFFBC8F8F,
+    RoyalBlue            = (int)0xFF4169E1,
+    SaddleBrown          = (int)0xFF8B4513,
+    Salmon               = (int)0xFFFA8072,
+    SandyBrown           = (int)0xFFF4A460,
+    SeaGreen             = (int)0xFF2E8B57,
+    SeaShell             = (int)0xFFFFF5EE,
+    Sienna               = (int)0xFFA0522D,
+    Silver               = (int)0xFFC0C0C0,
+    SkyBlue              = (int)0xFF87CEEB,
+    SlateBlue            = (int)0xFF6A5ACD,
+    SlateGray            = (int)0xFF708090,
+    Snow                 = (int)0xFFFFFAFA,
+    SpringGreen          = (int)0xFF00FF7F,
+    SteelBlue            = (int)0xFF4682B4,
+    Tan                  = (int)0xFFD2B48C,
+    Teal                 = (int)0xFF008080,
+    Thistle              = (int)0xFFD8BFD8,
+    Tomato               = (int)0xFFFF6347,
+    Transparent          = (int)0x00FFFFFF,
+    Turquoise            = (int)0xFF40E0D0,
+    Violet               = (int)0xFFEE82EE,
+    Wheat                = (int)0xFFF5DEB3,
+    White                = (int)0xFFFFFFFF,
+    WhiteSmoke           = (int)0xFFF5F5F5,
+    Yellow               = (int)0xFFFFFF00,
+    YellowGreen          = (int)0xFF9ACD32
 }GdipColorsList;
 
 //! Shift count and bit mask for A, R, G, B components
@@ -1485,7 +1495,7 @@ typedef enum
 
 typedef enum
 {
-    AlphaMask   = (int) 0xff000000,
+    AlphaMask   = (int)0xff000000,
     RedMask     = 0x00ff0000,
     GreenMask   = 0x0000ff00,
     BlueMask    = 0x000000ff
@@ -1695,9 +1705,9 @@ static __forceinline const ENHMETAHEADER3 * GdipMetafileGetEmfHeader(MetafileHea
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  GdiplusImaging.h
 #ifdef GDIP_DEFINE_IMAGING    //<!Define this to instanziate effects guids
-#define DEFINE_GDIP_IMAGING_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  extern const GUID name = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
+#define DEFINE_GDIP_IMAGING_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  EXTERN_C const GUID name = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
 #else /* !GDIP_DEFINE_EFFECTS */
-#define DEFINE_GDIP_IMAGING_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  extern const GUID name
+#define DEFINE_GDIP_IMAGING_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  EXTERN_C const GUID name
 #endif /* !GDIP_DEFINE_EFFECTS */
 
 DEFINE_GDIP_IMAGING_GUID(ImageFormatUndefined, 0xb96b3ca9,0x0728,0x11d3,0x9d,0x7b,0x00,0x00,0xf8,0x1e,0xf3,0x2e);
@@ -2179,9 +2189,9 @@ typedef struct
 #if (GDIPVER >= 0x0110)
 
 #ifdef GDIP_DEFINE_EFFECTS    //<!Define this to instanziate effects guids
-#define DEFINE_GDIP_EFFECT_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  extern const GUID name = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
+#define DEFINE_GDIP_EFFECT_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  EXTERN_C const GUID name = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
 #else /* !GDIP_DEFINE_EFFECTS */
-#define DEFINE_GDIP_EFFECT_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  extern const GUID name
+#define DEFINE_GDIP_EFFECT_GUID(name,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8)  EXTERN_C const GUID name
 #endif /* !GDIP_DEFINE_EFFECTS */
 
 const DEFINE_GDIP_EFFECT_GUID (BlurEffectGuid, 0x633c80a4, 0x1843, 0x482b, 0x9e, 0xf2, 0xbe, 0x28, 0x34, 0xc5, 0xfd, 0xd4);
@@ -3021,7 +3031,7 @@ GpStatus WINGDIPAPI GdipDrawCachedBitmap(GpGraphics *graphics,GpCachedBitmap *ca
 UINT     WINGDIPAPI GdipEmfToWmfBits(HENHMETAFILE hemf,UINT cbData16,LPBYTE pData16,INT iMapMode,INT eFlags);
 GpStatus WINGDIPAPI GdipSetImageAttributesCachedBackground(GpImageAttributes *imageattr,BOOL enableFlag);
 GpStatus WINGDIPAPI GdipTestControl(GpTestControlEnum control,void * param);
-GpStatus WINAPI     GdiplusNotificationHook(ULONG_PTR *token);
+GpStatus WINAPI     GdiplusNotificationHook(OUT ULONG_PTR *token);
 VOID     WINAPI     GdiplusNotificationUnhook(ULONG_PTR token);
 #if (GDIPVER >= 0x0110)
 GpStatus WINGDIPAPI GdipConvertToEmfPlus(const GpGraphics* refGraphics,GpMetafile* metafile,INT* conversionFailureFlag,EmfType emfType,const WCHAR* description,GpMetafile** out_metafile);

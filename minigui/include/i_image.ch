@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+     Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -50,6 +50,7 @@
    [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
    PICTURE <filename> ;
    [ <dummy2: ACTION,ON CLICK,ONCLICK> <action> ] ;
+   [ ON DBLCLICK <dblclick> ] ;
    [ <dummy3: ON MOUSEHOVER, ONMOUSEHOVER> <overproc> ] ;
    [ <dummy4: ON MOUSELEAVE, ONMOUSELEAVE> <leaveproc> ] ;
    [ WIDTH <w> ] ;
@@ -62,14 +63,17 @@
    [ TOOLTIP <tooltip> ] ;
    [ HELPID <helpid> ] ;
    [ <invisible: INVISIBLE> ] ;
+   [ ON INIT <bInit> ] ;
  =>;
- _DefineImage ( <"name">, <"parent">, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, <backgroundcolor>, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nAlpha>, <nId> )
+ _DefineImage ( <(name)>, <(parent)>, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, <backgroundcolor>, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nAlpha>, <nId>, <bInit>, <{dblclick}> )
+
 
 #xcommand @ <row>,<col> IMAGE <name> ;
    [ID <nId>] ;
    [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
    PICTURE <filename> ;
    [ <dummy2: ACTION,ON CLICK,ONCLICK> <action> ] ;
+   [ ON DBLCLICK <dblclick> ] ;
    [ <dummy3: ON MOUSEHOVER, ONMOUSEHOVER> <overproc> ] ;
    [ <dummy4: ON MOUSELEAVE, ONMOUSELEAVE> <leaveproc> ] ;
    [ WIDTH <w> ] ;
@@ -82,18 +86,22 @@
    [ ALPHALEVEL <nAlpha> ] ;
    [ HELPID <helpid> ] ;
    [ <invisible: INVISIBLE> ] ;
+   [ ON INIT <bInit> ] ;
  =>;
- _DefineImage ( <"name">, <"parent">, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, { 255 , 255 , 255 }, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nAlpha>, <nId> )
+ _DefineImage ( <(name)>, <(parent)>, <col>, <row>, <filename>, <w>, <h>, <{action}>, <tooltip>, <helpid>, <.invisible.>, <.stretch.>, { 255 , 255 , 255 }, <.transparent.>, <.adjustimage.>, <{overproc}>, <{leaveproc}>, <nAlpha>, <nId>, <bInit>, <{dblclick}> )
+
 
 #xcommand REDEFINE IMAGE <name> ;
-    ID <nId> ;
-    [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
-    PICTURE <filename> ;
-    [ <dummy2: ACTION,ON CLICK,ONCLICK> <action> ] ;
-    [ <stretch: STRETCH> ] ;
-    [ <whitebg: WHITEBACKGROUND> ] ;
-    [ <transparent: TRANSPARENT> ] ;
-    [ HELPID <helpid> ] ;
-    [ <invisible: INVISIBLE> ] ;
+   ID <nId> ;
+   [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
+   PICTURE <filename> ;
+   [ <dummy2: ACTION,ON CLICK,ONCLICK> <action> ] ;
+   [ ON DBLCLICK <dblclick> ] ;
+   [ <stretch: STRETCH> ] ;
+   [ <whitebg: WHITEBACKGROUND> ] ;
+   [ <transparent: TRANSPARENT> ] ;
+   [ HELPID <helpid> ] ;
+   [ <invisible: INVISIBLE> ] ;
+   [ ON INIT <bInit> ] ;
  =>;
- _DefineImage ( <"name">, <"parent">, 0, 0, <filename>, 0, 0, <{action}>, , <helpid>, <.invisible.>, <.stretch.>, iif( <.whitebg.>, { 255 , 255 , 255 }, ), <.transparent.>, , , , , <nId> )
+ _DefineImage ( <(name)>, <(parent)>, 0, 0, <filename>, 0, 0, <{action}>, , <helpid>, <.invisible.>, <.stretch.>, iif( <.whitebg.>, { 255 , 255 , 255 }, ), <.transparent.>, , , , , <nId> , <bInit> , <{dblclick}> )

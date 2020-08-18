@@ -8,16 +8,16 @@ style and WinAPI.
 All GUI objects are public and can be created and managed with very simple
 code.
 
-The basic components of HMG Extended Edition are:
+The basic components of HMG Extended Edition **in this repository** are:
 
-* Harbour (or xHarbour) Compiler (generates C code from xBase code).
+* Harbour Compiler (generates C code from xBase code)
 
 * Harbour MiniGUI Extended library (functions and preprocessor directives
-  to handle GUI).
+  to handle GUI)
 
-* Borland C++ (most often used), MinGW, Open Watcom or Pelles C compilers.
+* MinGW32
 
-* Harbour MiniGUI IDE (optional tool for two-way visual design).
+* Harbour MiniGUI IDE (optional tool for two-way visual design)
 
 What are the main project goals ?
 """""""""""""""""""""""""""""""""
@@ -41,8 +41,8 @@ http://hmgextended.com/download.html
 
 Where are the HMG EE forums ?
 """""""""""""""""""""""""""""
-- English at http://groups.yahoo.com/group/harbourminigui/
+- English at https://groups.google.com/forum/#!forum/minigui-forum
 
-- Brazilian at http://br.groups.yahoo.com/group/miniguibrasil/
+- Brazilian at http://br.groups.yahoo.com/group/miniguibrasil/ (not sure whether it's available anymore)
 
-- Spanish at http://es.groups.yahoo.com/group/harbourminigui_es/
+- Spanish at http://es.groups.yahoo.com/group/harbourminigui_es/ (not sure whether it's available anymore)

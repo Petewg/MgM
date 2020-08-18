@@ -30,21 +30,33 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
+
+/*
+ * Some Error codes
+ */
+#define NO_ERROR                    0
+#define ERROR_INVALID_FUNCTION      1
+#define ERROR_FILE_NOT_FOUND        2
+#define ERROR_PATH_NOT_FOUND        3
+#define ERROR_TOO_MANY_OPEN_FILES   4
+#define ERROR_ACCESS_DENIED         5
+#define ERROR_INVALID_HANDLE        6
+#define ERROR_ALREADY_EXISTS        183
 
 /*
  * Success codes
@@ -147,6 +159,12 @@ SetResCursor( LoadCursor( NIL, IDC_SIZEWE ) )
 => ;
 SetResCursor( LoadCursor( NIL, IDC_UPARROW ) )
 
+// Alert icons
+#define ICON_EXCLAMATION      1  // default value
+#define ICON_QUESTION         2
+#define ICON_INFORMATION      3
+#define ICON_STOP             4
+
 // System metrics
 #define SM_CXSCREEN             0
 #define SM_CYSCREEN             1
@@ -182,47 +200,47 @@ SetResCursor( LoadCursor( NIL, IDC_UPARROW ) )
 
 #command SETFOCUS <n> OF <w>;
    =>;
-   DoMethod ( <"w"> , <"n"> , 'SetFocus' )
+   DoMethod ( <(w)> , <(n)> , 'SetFocus' )
 
 #command ADD ITEM <i> TO <n> OF <p> ;
    =>;
-   DoMethod ( <"p"> , <"n"> , 'AddItem' , <i> )
+   DoMethod ( <(p)> , <(n)> , 'AddItem' , <i> )
 
 #command ADD COLUMN [ INDEX <index> ] [ CAPTION <caption> ] [ WIDTH <width> ] [ JUSTIFY <justify> ] TO <control> OF <parent> ;
    =>;
-   DoMethod ( <"parent"> , <"control"> , 'AddColumn' , <index> , <caption> , <width> , <justify> )
+   DoMethod ( <(parent)> , <(control)> , 'AddColumn' , <index> , <caption> , <width> , <justify> )
 
 #command DELETE COLUMN [ INDEX ] <index> FROM <control> OF <parent> ;
    =>;
-   DoMethod ( <"parent"> , <"control"> , 'DeleteColumn' , <index> )
+   DoMethod ( <(parent)> , <(control)> , 'DeleteColumn' , <index> )
 
 #command DELETE ITEM <i> FROM <n> OF <p>;
    =>;
-   DoMethod ( <"p"> , <"n"> , 'DeleteItem' , <i> )
+   DoMethod ( <(p)> , <(n)> , 'DeleteItem' , <i> )
 
 #command DELETE ITEM ALL FROM <n> OF <p>;
    =>;
-   DoMethod ( <"p"> , <"n"> , 'DeleteAllItems' )
+   DoMethod ( <(p)> , <(n)> , 'DeleteAllItems' )
 
 #command ENABLE CONTROL <control> OF <form>;
    =>;
-   SetProperty ( <"form"> , <"control"> , 'Enabled' , .T. )
+   SetProperty ( <(form)> , <(control)> , 'Enabled' , .T. )
 
 #command SHOW CONTROL <control> OF <form>;
    =>;
-   DoMethod ( <"form"> , <"control"> , 'Show' )
+   DoMethod ( <(form)> , <(control)> , 'Show' )
 
 #command HIDE CONTROL <control> OF <form>;
    =>;
-   DoMethod ( <"form"> , <"control"> , 'Hide' )
+   DoMethod ( <(form)> , <(control)> , 'Hide' )
 
 #command DISABLE CONTROL <control> OF <form>;
    =>;
-   SetProperty ( <"form"> , <"control"> , 'Enabled' , .F. )
+   SetProperty ( <(form)> , <(control)> , 'Enabled' , .F. )
 
 #command RELEASE CONTROL <control> OF <form>;
    =>;
-   DoMethod ( <"form"> , <"control"> , 'Release' )
+   DoMethod ( <(form)> , <(control)> , 'Release' )
 
 #translate MODIFY [ PROPERTY ] [ CONTROL ] <Arg2> OF <Arg1> <Arg3> <Arg4> ;
 => ;
@@ -256,13 +274,20 @@ SetProperty ( <"Arg1"> , <"Arg2"> , <"Arg3"> , \{<Arg4>\} )
 => ;
 _HMG_lMultiple := ( Upper(<(x)>) == "ON" ) ; iif ( _HMG_lMultiple == .F. .AND. _HMG_IsMultiple == .T. , ( iif ( <.warning.> , MsgStop( _HMG_MESSAGE\[4\] ) , ) , ExitProcess() ) , )
 
-#translate CRLF => hb_OsNewLine()
+#if ( __HARBOUR__ - 0 > 0x030200 )
+  #translate hb_OsNewLine() => Chr(13) + Chr(10)
+#endif
+
 #ifndef __XHARBOUR__
-  #define hb_OsNewLine()   hb_eol()
+  #translate CRLF => hb_eol()
+#else
+  #translate CRLF => hb_OsNewLine()
 #endif
 
 #translate SET OOP [SUPPORT] <x:ON,OFF> => _HMG_lOOPEnabled := ( Upper(<(x)>) == "ON" )
 #translate SET OOP [SUPPORT] TO <x>     => _HMG_lOOPEnabled := IFLOGICAL( <x>, <x>, .F. )
+
+#xtranslate SET WINDOW THIS TO [<w>] => _SetThisFormInfo( [<w>] )
 
 #xtranslate SET SCROLLSTEP TO <step> => _HMG_aScrollStep \[1\] := <step>
 #xtranslate SET SCROLLPAGE TO <step> => _HMG_aScrollStep \[2\] := <step>
@@ -298,23 +323,23 @@ _HMG_lMultiple := ( Upper(<(x)>) == "ON" ) ; iif ( _HMG_lMultiple == .F. .AND. _
       [ DELAY <nDelay> ] ;
       [ BACKGROUNDCOLOR <backgroundcolor> ] ;
 =>;
-      [ <oGif> := ] _DefineAniGif ( <"ControlName">, <"parent">, <filename>, <row>, <col>, <nWidth>, <nHeight>, <nDelay>, <backgroundcolor> )
+      [ <oGif> := ] _DefineAniGif ( <(ControlName)>, <(parent)>, <filename>, <row>, <col>, <nWidth>, <nHeight>, <nDelay>, <backgroundcolor> )
 
 #command RELEASE ANIGIF <name> OF <parent> ;
 =>;
-      _ReleaseAniGif ( <"name">, <"parent"> )
+      _ReleaseAniGif ( <(name)>, <(parent)> )
 
 #xcommand DRAW PANEL IN WINDOW <parent> ;
       AT <frow>,<fcol> ;
       TO <trow>,<tcol> ;
 =>;
-      DrawWindowBoxRaised( <"parent">, <frow>, <fcol>, <trow>, <tcol> )
+      DrawWindowBoxRaised( <(parent)>, <frow>, <fcol>, <trow>, <tcol> )
 
 #xcommand DRAW BOX IN WINDOW <parent> ;
       AT <frow>,<fcol> ;
       TO <trow>,<tcol> ;
 =>;
-      DrawWindowBoxIn( <"parent">, <frow>, <fcol>, <trow>, <tcol> )
+      DrawWindowBoxIn( <(parent)>, <frow>, <fcol>, <trow>, <tcol> )
 
 #xcommand DRAW GRADIENT IN WINDOW <parent> ;
       AT <frow>,<fcol> ;
@@ -324,8 +349,18 @@ _HMG_lMultiple := ( Upper(<(x)>) == "ON" ) ; iif ( _HMG_lMultiple == .F. .AND. _
       [ <vertical: VERTICAL> ] ;
       [ BORDER <border> ] ;
 =>;
-      DrawGradient( <"parent">, <frow>, <fcol>, <trow>, <tcol>,;
+      DrawGradient( <(parent)>, <frow>, <fcol>, <trow>, <tcol>,;
                     <aColor1>, <aColor2>, <.vertical.>, <border> )
+
+// HMG_ALERT
+
+#command SET MSGALERT BACKCOLOR TO <backcolor> [STOREIN <aColors>] ;
+=> ;
+      [ <aColors> := ] _SetMsgAlertColors( <backcolor>, NIL )
+
+#command SET MSGALERT FONTCOLOR TO <fontcolor> [STOREIN <aColors>] ;
+=> ;
+      [ <aColors> := ] _SetMsgAlertColors( NIL, <fontcolor> )
 
 /*
  * Virtual keys wrappers
@@ -365,3 +400,25 @@ GetWindowRect( <hWnd>, 3 )
 #xtranslate GetWindowHeight ( <hWnd> ) ;
 => ;
 GetWindowRect( <hWnd>, 4 )
+
+// Set Window non client attributes
+
+#command SET WINDOW BORDER TO <nPixels> ;
+   => ;
+   SetNonClient( 1 , <nPixels> )
+
+#command SET SCROLLBAR [SIZES] TO <nPixels> ;
+   => ;
+   SetNonClient( 2 , <nPixels> )
+
+#command SET TITLEBAR WIDTH TO <nPixels> ;
+   => ;
+   SetNonClient( 3 , <nPixels> )
+
+#command SET TITLEBAR HEIGHT TO <nPixels> ;
+   => ;
+   SetNonClient( 4 , <nPixels> )
+
+#command SET [STANDARD] MENU [SIZES] TO <nPixels> ;
+   => ;
+   SetNonClient( 5 , <nPixels> )

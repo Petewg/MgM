@@ -1,16 +1,15 @@
   
  
-###           MiniguiM Package 18.01 (build date: 03/03/2018)               
-         GitHub project: https://github.com/Petewg/MgM
+### MiniguiM Package 20.06 (build date: 12/08/2020 - 20200812)               
+   - GitHub project: https://github.com/Petewg/MgM
   
-###                Components versions:   
+###                Components   
 
-   
-* Harbour MiniGUI Extended (MinGW) release 18.01  
-   
-* Harbour 3.4.0dev () 
-   
-* Harbour Make (hbmk2) 3.4.0dev () 
-   
-* MinGW (i686-win32-sjlj-rev0, Built by MinGW-W64 project) 7.2.0 rev.1
-  
+- Harbour MiniGUI Extended Edition 20.06 (Update 5)
+
+- Harbour 3.2.0dev (r2006301601)
+
+- Harbour Make (hbmk2) 3.2.0dev (r2020-06-30 16:01)
+
+- MinGW32 10.2.0-1 (Rev1, Built by MSYS2 project) 
+

@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -72,9 +72,10 @@
 		[ ON LOSTFOCUS <lostfocus> ] ;
 		[ ON SELECT <select> ] ;
 		[ HELPID <helpid> ] ;
+		[ ON INIT <bInit> ] ;
 	=>;
-	_DefineMonthCal ( <"name"> , ;
-			<"parent"> , ;
+	_DefineMonthCal ( <(name)> , ;
+			<(parent)> , ;
 			<col> , ;
 			<row> , ;
 			0 , ;
@@ -94,7 +95,8 @@
 			[ <titlefrclr> ], ;
 			[ <background> ], ;
 			[ <trlfontclr> ], ;
-			<{select}> , <{gotfocus}> , <{lostfocus}> , <nId> )
+			<{select}> , <{gotfocus}> , <{lostfocus}> , <nId> , <bInit> )
+
 
 #command REDEFINE MONTHCALENDAR <name> ;
 		ID <nId> ;
@@ -123,9 +125,10 @@
 		[ ON LOSTFOCUS <lostfocus> ] ;
 		[ ON SELECT <select> ] ;
 		[ HELPID <helpid> ] ;
+		[ ON INIT <bInit> ] ;
 	=>;
-	_DefineMonthCal ( <"name"> , ;
-			<"parent"> , ;
+	_DefineMonthCal ( <(name)> , ;
+			<(parent)> , ;
 			0 , ;
 			0 , ;
 			0 , ;
@@ -145,17 +148,17 @@
 			[ <titlefrclr> ], ;
 			[ <background> ], ;
 			[ <trlfontclr> ], ;
-			<{select}> , <{gotfocus}> , <{lostfocus}> , <nId> )
+			<{select}> , <{gotfocus}> , <{lostfocus}> , <nId> , <bInit> )
 
 // set MonthCal colors
-#define MCSC_BACKGROUND   0   // the background color (between months)
-#define MCSC_TEXT         1   // the dates
-#define MCSC_TITLEBK      2   // background of the title
-#define MCSC_TITLETEXT    3
-#define MCSC_MONTHBK      4   // background within the month cal
-#define MCSC_TRAILINGTEXT 5   // the text color of header & trailing days
+#define MCSC_BACKGROUND       0  // the background color (between months)
+#define MCSC_TEXT             1  // the dates
+#define MCSC_TITLEBK          2  // background of the title
+#define MCSC_TITLETEXT        3
+#define MCSC_MONTHBK          4  // background within the month cal
+#define MCSC_TRAILINGTEXT     5  // the text color of header & trailing days
 
-#define MCM_FIRST         0x1000
+#define MCM_FIRST             0x1000
 
 #define MCM_SETCOLOR          (MCM_FIRST + 10)
 #define MCM_GETCOLOR          (MCM_FIRST + 11)

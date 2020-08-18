@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -81,12 +81,14 @@
         [ <dummy4: DISABLEEDIT, READONLY> <disableedit> ] ;
         [ HELPID <helpid> ]             ;
         [ <cuebanner : CUEBANNER, PLACEHOLDER> <CueText> ] ;
+	[ ON INIT <bInit> ] ;
      => ;
-     _DefineBtnTextBox( <"name">, <"parent">, <col>, <row>, <width>, <height>, <value>, ;
+     _DefineBtnTextBox( <(name)>, <(parent)>, <col>, <row>, <width>, <height>, <value>, ;
             <{action}>,<{action2}>, <abitmap>, <btnwidth>, <fontname>, <fontsize>, <tooltip>, <maxlenght>, ;
             <.upper.>, <.lower.>, <.numeric.>, <.password.>, <{lostfocus}>, <{gotfocus}>, <{change}>, <{enter}>, ;
-            <.RightAlign.>, <helpid>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <"field">, ;
-            <backcolor>, <fontcolor>, <.invisible.>, <.notabstop.>, <nId>, <.disableedit.>, <.default.>, [<CueText>], !<.nokeepfocus.> )
+            <.RightAlign.>, <helpid>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <(field)>, ;
+            <backcolor>, <fontcolor>, <.invisible.>, <.notabstop.>, <nId>, <.disableedit.>, <.default.>, ;
+            [<CueText>], !<.nokeepfocus.>, <bInit> )
 
 
 #command REDEFINE BTNTEXTBOX <name>	;
@@ -123,10 +125,11 @@
         [ <dummy4: DISABLEEDIT, READONLY> <disableedit> ] ;
         [ HELPID <helpid> ]		;
         [ <cuebanner : CUEBANNER, PLACEHOLDER> <CueText> ] ;
+	[ ON INIT <bInit> ] ;
      => ;
-     _DefineBtnTextBox( <"name">, <"parent">, 0, 0, 0, 0, <value>, ;
+     _DefineBtnTextBox( <(name)>, <(parent)>, 0, 0, 0, 0, <value>, ;
             <{action}>, <{action2}>, <abitmap>, <btnwidth>, <fontname>, <fontsize>, <tooltip>, <maxlenght>, ;
             <.upper.>, <.lower.>, <.numeric.>, <.password.>, <{lostfocus}>, <{gotfocus}>, <{change}>, <{enter}>, ;
             <.RightAlign.>, <helpid>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
-            <"field">, <backcolor>, <fontcolor>, <.invisible.>, <.notabstop.>, <nId>, <.disableedit.>, ;
-            <.default.>, [<CueText>], !<.nokeepfocus.> )
+            <(field)>, <backcolor>, <fontcolor>, <.invisible.>, <.notabstop.>, <nId>, <.disableedit.>, ;
+            <.default.>, [<CueText>], !<.nokeepfocus.>, <bInit> )

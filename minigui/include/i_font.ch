@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -137,9 +137,16 @@
 #define FONT_RASTER_TYPE      2
 #define FONT_TRUE_TYPE        3
 
-#command SET FONT TO <fontname> , <fontsize>;
-   => ;
-	_HMG_DefaultFontName := <fontname> ; _HMG_DefaultFontSize := <fontsize>
+
+#ifdef _OBJECT_
+  #command SET FONT TO <fontname> , <fontsize> ;
+    => ;
+         _HMG_DefaultFontName := <fontname> ; _HMG_DefaultFontSize := <fontsize> ; oDlu2Pixel( , , <fontsize> )
+#else
+  #command SET FONT TO <fontname> , <fontsize> ;
+    => ;
+         _HMG_DefaultFontName := <fontname> ; _HMG_DefaultFontSize := <fontsize>
+#endif
 
 /* HMG 1.1 Experimental Build 11a */
 
@@ -155,7 +162,7 @@
 	[ <default : DEFAULT> ] ;
    => ;
 	_DefineFont (  ;
-	<"name">,      ;
+	<(name)>,      ;
 	<fontname>,    ;
 	<fontsize>,    ;
 	<.bold.>,      ;
@@ -167,10 +174,12 @@
         <charset> )
 
 
-#command RELEASE FONT <name>  ;
+#command RELEASE FONT <name1> [, <nameN> ] ;
    => ;
-	_ReleaseFont ( <"name"> )
+	_ReleaseFont ( <(name1)> ) ;
+	[; _ReleaseFont ( <(nameN)> ) ]
 
+///////////////////////////////////////////////////////////////////////////////
 
 #xtranslate GetDefaultFontName () ;
    => ;
@@ -179,3 +188,29 @@
 #xtranslate GetDefaultFontSize () ;
    => ;
 	GetSystemFont() \[2\]
+
+///////////////////////////////////////////////////////////////////////////////
+
+#command SET TITLEBAR FONT TO <fontname> , <fontsize> ;
+	[ <bold : BOLD> ] ;
+	[ CHARSET <charset> ]	;
+   => ;
+	SetNonClientFont( 1 , <fontname> , <fontsize> , <.bold.> , <charset> )
+
+#command SET [STANDARD] MENU FONT TO <fontname> , <fontsize> ;
+	[ <bold : BOLD> ] ;
+	[ CHARSET <charset> ]	;
+   => ;
+	SetNonClientFont( 2 , <fontname> , <fontsize> , <.bold.> , <charset> )
+
+#command SET STATUSBAR FONT TO <fontname> , <fontsize> ;
+	[ <bold : BOLD> ] ;
+	[ CHARSET <charset> ]	;
+   => ;
+	SetNonClientFont( 3 , <fontname> , <fontsize> , <.bold.> , <charset> )
+
+#command SET MESSAGEBOX FONT TO <fontname> , <fontsize> ;
+	[ <bold : BOLD> ] ;
+	[ CHARSET <charset> ]	;
+   => ;
+	SetNonClientFont( 4 , <fontname> , <fontsize> , <.bold.> , <charset> )

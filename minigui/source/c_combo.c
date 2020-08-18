@@ -30,30 +30,32 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #define _WIN32_IE    0x0501
 
 #include <mgdefs.h>
-
 #include <commctrl.h>
 
 #ifndef WC_COMBOBOX
 #define WC_COMBOBOX  "ComboBox"
 #endif
+
+HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transparent, int * nWidth, int * nHeight );
+void HMG_ImageListAdd( HIMAGELIST himl, char * FileName, int Transparent );
 
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
@@ -108,18 +110,14 @@ HB_FUNC( INITCOMBOBOX )
 
 HB_FUNC( INITCOMBOBOXEX )
 {
-   char * caption;
-
-   HWND       hwnd;
+   HWND       hwnd = ( HWND ) HB_PARNL( 1 );
    HWND       hCombo;
    PHB_ITEM   hArray;
    HIMAGELIST himl = ( HIMAGELIST ) NULL;
-   HBITMAP    hbmp;
+   char *     FileName;
 
-   int l;
+   int nCount;
    int s;
-   int cx;
-   int cy;
    int Style;
 
    INITCOMMONCONTROLSEX icex;
@@ -127,8 +125,6 @@ HB_FUNC( INITCOMBOBOXEX )
    icex.dwSize = sizeof( INITCOMMONCONTROLSEX );
    icex.dwICC  = ICC_USEREX_CLASSES;
    InitCommonControlsEx( &icex );
-
-   hwnd = ( HWND ) HB_PARNL( 1 );
 
    Style = WS_CHILD | WS_VSCROLL;
 
@@ -159,43 +155,22 @@ HB_FUNC( INITCOMBOBOXEX )
       NULL
             );
 
-   //  create ImageList (only *.bmp are allowed here !) from aImage array
+   // create ImageList from aImage array
 
-   l = hb_parinfa( 14, 0 ) - 1;
+   nCount = ( int ) hb_parinfa( 14, 0 );
 
-   if( l != 0 )
+   if( nCount > 0 )
    {
       hArray = hb_param( 14, HB_IT_ARRAY );
 
-      caption = ( char * ) hb_arrayGetCPtr( hArray, 1 );
-
-      himl = ImageList_LoadImage
-             (
-         GetResources(),
-         caption,
-         0,
-         l,
-         CLR_DEFAULT,
-         IMAGE_BITMAP,
-         LR_LOADTRANSPARENT | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-             );
-
-      if( himl == NULL )
-         himl = ImageList_LoadImage( GetResources(), caption, 0, l, CLR_NONE, IMAGE_BITMAP, LR_LOADFROMFILE | LR_LOADTRANSPARENT );
-
-      ImageList_GetIconSize( himl, &cx, &cy );
-
-      for( s = 1; s <= l; s = s + 1 )
+      for( s = 1; s <= nCount; s++ )
       {
-         caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
+         FileName = ( char * ) hb_arrayGetCPtr( hArray, s );
 
-         hbmp = ( HBITMAP ) LoadImage( GetResources(), caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
-         if( hbmp == NULL )
-            hbmp = ( HBITMAP ) LoadImage( NULL, caption, IMAGE_BITMAP, cx, cy, LR_LOADFROMFILE | LR_LOADTRANSPARENT );
-
-         ImageList_Add( himl, hbmp, NULL );
-
-         DeleteObject( hbmp );
+         if( himl == NULL )
+            himl = HMG_ImageListLoadFirst( FileName, nCount, 1, NULL, NULL );
+         else
+            HMG_ImageListAdd( himl, FileName, 1 );
       }
    }
 
@@ -234,14 +209,14 @@ HB_FUNC( COMBOSHOWDROPDOWN )
 
 HB_FUNC( COMBOEDITSETSEL )
 {
-   hb_retni( SendMessage( ( HWND ) HB_PARNL( 1 ), CB_SETEDITSEL, ( WPARAM ) 0, ( LPARAM ) MAKELPARAM( hb_parni( 2 ), hb_parni( 3 ) ) ) );
+   hb_retni( ( int ) SendMessage( ( HWND ) HB_PARNL( 1 ), CB_SETEDITSEL, ( WPARAM ) 0, ( LPARAM ) MAKELPARAM( hb_parni( 2 ), hb_parni( 3 ) ) ) );
 }
 
 HB_FUNC( COMBOGETEDITSEL )
 {
    DWORD pos;
 
-   pos = SendMessage( ( HWND ) HB_PARNL( 1 ), CB_GETEDITSEL, ( WPARAM ) NULL, ( LPARAM ) NULL );
+   pos = ( DWORD ) SendMessage( ( HWND ) HB_PARNL( 1 ), CB_GETEDITSEL, ( WPARAM ) NULL, ( LPARAM ) NULL );
 
    hb_reta( 2 );
 
@@ -251,7 +226,7 @@ HB_FUNC( COMBOGETEDITSEL )
 
 HB_FUNC( COMBOSELECTSTRING )
 {
-   hb_retni( SendMessage( ( HWND ) HB_PARNL( 1 ), CB_SELECTSTRING, ( WPARAM ) -1, ( LPARAM ) hb_parc( 2 ) ) );
+   hb_retni( ( int ) SendMessage( ( HWND ) HB_PARNL( 1 ), CB_SELECTSTRING, ( WPARAM ) -1, ( LPARAM ) hb_parc( 2 ) ) );
 }
 
 /* Added by P.Ch. 16.10. */
@@ -268,7 +243,7 @@ HB_FUNC( COMBOFINDSTRINGEXACT )
 /* Modified by P.Ch. 16.10. */
 HB_FUNC( COMBOGETSTRING )
 {
-   int    iLen = SendMessage( ( HWND ) HB_PARNL( 1 ), CB_GETLBTEXTLEN, ( WPARAM ) hb_parni( 2 ) - 1, ( LPARAM ) 0 );
+   int    iLen = ( int ) SendMessage( ( HWND ) HB_PARNL( 1 ), CB_GETLBTEXTLEN, ( WPARAM ) hb_parni( 2 ) - 1, ( LPARAM ) 0 );
    char * cString;
 
    if( iLen > 0 && NULL != ( cString = ( char * ) hb_xgrab( ( iLen + 1 ) * sizeof( TCHAR ) ) ) )
@@ -291,7 +266,7 @@ HB_FUNC( COMBOADDSTRINGEX )
    cbei.mask           = CBEIF_TEXT | CBEIF_INDENT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_OVERLAY;
    cbei.iItem          = -1;
    cbei.pszText        = ( LPTSTR ) hb_parc( 2 );            /* P.Ch. 16.10. */
-   cbei.cchTextMax     = hb_parclen( 2 );
+   cbei.cchTextMax     = ( int ) hb_parclen( 2 );
    cbei.iImage         = ( nImage - 1 ) * 3;
    cbei.iSelectedImage = ( nImage - 1 ) * 3 + 1;
    cbei.iOverlay       = ( nImage - 1 ) * 3 + 2;
@@ -308,7 +283,7 @@ HB_FUNC( COMBOINSERTSTRINGEX )
    cbei.mask           = CBEIF_TEXT | CBEIF_INDENT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_OVERLAY;
    cbei.iItem          = hb_parni( 4 ) - 1;
    cbei.pszText        = ( LPTSTR ) hb_parc( 2 );            /* P.Ch. 16.10. */
-   cbei.cchTextMax     = hb_parclen( 2 );
+   cbei.cchTextMax     = ( int ) hb_parclen( 2 );
    cbei.iImage         = ( nImage - 1 ) * 3;
    cbei.iSelectedImage = ( nImage - 1 ) * 3 + 1;
    cbei.iOverlay       = ( nImage - 1 ) * 3 + 2;
@@ -324,7 +299,7 @@ HB_FUNC( COMBOADDDATASTRINGEX )
    cbei.mask           = CBEIF_TEXT | CBEIF_INDENT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_OVERLAY;
    cbei.iItem          = -1;
    cbei.pszText        = ( LPTSTR ) hb_parc( 2 );            /* P.Ch. 16.10. */
-   cbei.cchTextMax     = hb_parclen( 2 );
+   cbei.cchTextMax     = ( int ) hb_parclen( 2 );
    cbei.iImage         = 0;
    cbei.iSelectedImage = 1;
    cbei.iOverlay       = 2;

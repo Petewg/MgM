@@ -34,18 +34,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -84,6 +84,13 @@
 #define MNUCLR_CHECKMARKBACKGROUND  26
 #define MNUCLR_CHECKMARKSQUARE      27
 #define MNUCLR_CHECKMARKGRAYED      28
+
+
+#define MNUCLR_THEME_DEFAULT      0
+#define MNUCLR_THEME_XP           1
+#define MNUCLR_THEME_2000         2
+#define MNUCLR_THEME_DARK         3
+#define MNUCLR_THEME_USER_DEFINED 99
 
 #xcommand SET MENUSTYLE EXTENDED ;
 => ;
@@ -141,97 +148,106 @@ SetMenuSelectedItem3d( .T. )
 => ;
 SetMenuSelectedItem3d( .F. )
 
+
 #xcommand DEFINE MAIN MENU [ OF <parent> ] ;
 =>;
-_DefineMainMenu( <"parent"> )
+_DefineMainMenu( <(parent)> )
 
 #xcommand DEFINE MAINMENU [ <dummy1: OF, PARENT> <parent> ] ;
 =>;
-_DefineMainMenu( <"parent"> )
+_DefineMainMenu( <(parent)> )
 
 #xcommand DEFINE CONTEXT MENU [ OF <parent> ] ;
 =>;
-_DefineContextMenu( <"parent"> )
+_DefineContextMenu( <(parent)> )
 
 #xcommand DEFINE CONTEXTMENU [ <dummy1: OF, PARENT> <parent> ] ;
 =>;
-_DefineContextMenu( <"parent"> )
+_DefineContextMenu( <(parent)> )
+
+#xcommand SHOW CONTEXT MENU <dummy1: OF, PARENT> <parent> [ AT <nRow>, <nCol> ] ;
+=> ;
+_ShowContextMenu( <(parent)>, <nRow>, <nCol> )
+
+#xcommand SHOW CONTEXTMENU <dummy1: OF, PARENT> <parent> [ AT <nRow>, <nCol> ] ;
+=> ;
+_ShowContextMenu( <(parent)>, <nRow>, <nCol> )
 
 #xcommand DEFINE CONTEXT MENU CONTROL <control> [ OF <parent> ] ;
 => ;
-_DefineControlContextMenu( <"control"> , <"parent"> )
+_DefineControlContextMenu( <(control)> , <(parent)> )
 
 #xcommand DEFINE CONTEXTMENU CONTROL <control> [ <dummy1: OF, PARENT> <parent> ] ;
 => ;
-_DefineControlContextMenu( <"control"> , <"parent"> )
+_DefineControlContextMenu( <(control)> , <(parent)> )
 
 #xcommand DEFINE CONTEXT MENU CONTROLS <control1> [,<controln>] [ OF <parent> ] ;
 => ;
-_DefineControlContextMenu( { <"control1"> [,<"controln">] }, <"parent"> )
+_DefineControlContextMenu( { <(control1)> [, <(controln)>] }, <(parent)> )
 
 #xcommand DEFINE CONTEXTMENU CONTROLS <control1> [,<controln>] [<dummy1: OF, PARENT> <parent> ] ;
 => ;
-_DefineControlContextMenu( { <"control1"> [,<"controln">] }, <"parent"> )
+_DefineControlContextMenu( { <(control1)> [, <(controln)>] }, <(parent)> )
 
 #xcommand SET CONTEXT MENU CONTROL <control> OF <parent> ON ;
 => ;
-_ShowControlContextMenu( <"control"> , <"parent"> , .T. )
+_ShowControlContextMenu( <(control)> , <(parent)> , .T. )
 
 #xcommand SET CONTEXTMENU CONTROL <control> OF <parent> ON ;
 => ;
-_ShowControlContextMenu( <"control"> , <"parent"> , .T. )
+_ShowControlContextMenu( <(control)> , <(parent)> , .T. )
 
 #xcommand SET CONTEXT MENU CONTROL <control> OF <parent> OFF ;
 => ;
-_ShowControlContextMenu( <"control"> , <"parent"> , .F. )
+_ShowControlContextMenu( <(control)> , <(parent)> , .F. )
 
 #xcommand SET CONTEXTMENU CONTROL <control> OF <parent> OFF ;
 => ;
-_ShowControlContextMenu( <"control"> , <"parent"> , .F. )
+_ShowControlContextMenu( <(control)> , <(parent)> , .F. )
 
 #xcommand DEFINE NOTIFY MENU [ OF <parent> ] ;
 =>;
-_DefineNotifyMenu( <"parent"> )
+_DefineNotifyMenu( <(parent)> )
 
 #xcommand DEFINE NOTIFYMENU [ <dummy1: OF, PARENT> <parent> ] ;
 =>;
-_DefineNotifyMenu( <"parent"> )
+_DefineNotifyMenu( <(parent)> )
 
 #xcommand POPUP <caption> [ NAME <name> ] [ IMAGE <image> ] [ FONT <font> ] ;
 => ;
-_DefineMenuPopup( <caption> , <"name"> , <image> , <font> )
+_DefineMenuPopup( <caption> , <(name)> , <image> , <font> )
 
 #xcommand DEFINE POPUP <caption> [ NAME <name> ] [ IMAGE <image> ] [ FONT <font> ] ;
 => ;
-_DefineMenuPopup( <caption> , <"name"> , <image> , <font> )
+_DefineMenuPopup( <caption> , <(name)> , <image> , <font> )
 
 #xcommand DEFINE MENU POPUP <caption> [ NAME <name> ] [ IMAGE <image> ] [ FONT <font> ] ;
 => ;
-_DefineMenuPopup( <caption> , <"name"> , <image> , <font> )
+_DefineMenuPopup( <caption> , <(name)> , <image> , <font> )
 
 #xcommand ITEM <caption> [ ACTION <action> ] [ NAME <name> ] [ IMAGE <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
    [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.>, , <.default.> )
+_DefineMenuItem ( <caption> , <{action}> , <(name)> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.>, , <.default.> )
 
 #xcommand MENUITEM <caption> [ <dummy1: ACTION, ONCLICK> <action> ] [ NAME <name> ] [ IMAGE <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
    [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.>, , <.default.> )
+_DefineMenuItem ( <caption> , <{action}> , <(name)> , <image> , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.>, , <.default.> )
 
 #xcommand ITEM <caption> [ ACTION <action> ] [ NAME <name> ] [ ICON <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
    [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image>, <.default.> )
+_DefineMenuItem ( <caption> , <{action}> , <(name)> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image>, <.default.> )
 
 #xcommand MENUITEM <caption> [ <dummy1: ACTION, ONCLICK> <action> ] [ NAME <name> ] [ ICON <image> ] [ CHECKMARK <image1> ] [ FONT <font> ] ;
    [ <checked : CHECKED> ] [ MESSAGE <message> ] [ <disabled : DISABLED> ] [ <breakmenu : BREAKMENU> [ <separator : SEPARATOR> ] ] ;
    [ <default : DEFAULT> ] ;
 => ;
-_DefineMenuItem ( <caption> , <{action}> , <"name"> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image>, <.default.> )
+_DefineMenuItem ( <caption> , <{action}> , <(name)> , , <.checked.> , <.disabled.> , <message>, <font>, <image1>, <.breakmenu.>, <.separator.> , <image>, <.default.> )
 
 #xcommand SEPARATOR ;
 => ;
@@ -247,31 +263,31 @@ _EndMenu()
 
 #xcommand DEFINE DROPDOWN MENU BUTTON <button> [ OF <parent> ] ;
 =>;
-_DefineDropDownMenu( <"button"> , <"parent"> )
+_DefineDropDownMenu( <(button)> , <(parent)> )
 
 #xcommand DEFINE DROPDOWNMENU OWNERBUTTON <button> [ PARENT <parent> ] ;
 => ;
-_DefineDropDownMenu( <"button"> , <"parent"> )
+_DefineDropDownMenu( <(button)> , <(parent)> )
 
 #command ENABLE MENUITEM <control> OF <form>;
 => ;
-_EnableMenuItem ( <"control"> , <"form"> )
+_EnableMenuItem ( <(control)> , <(form)> )
 
 #command DISABLE MENUITEM <control> OF <form>;
 => ;
-_DisableMenuItem ( <"control"> , <"form"> )
+_DisableMenuItem ( <(control)> , <(form)> )
 
 #command CHECK MENUITEM <control> OF <form>;
 => ;
-_CheckMenuItem ( <"control"> , <"form"> )
+_CheckMenuItem ( <(control)> , <(form)> )
 
 #command UNCHECK MENUITEM <control> OF <form>;
 => ;
-_UnCheckMenuItem ( <"control"> , <"form"> )
+_UnCheckMenuItem ( <(control)> , <(form)> )
 
 #command SET DEFAULT MENUITEM <control> OF <form>;
 => ;
-_DefaultMenuItem ( <"control"> , <"form"> )
+_DefaultMenuItem ( <(control)> , <(form)> )
 
 #xcommand MRU [ <caption> ] ;
 	[ <Ini: INI, FILENAME, FILE, DISK> <cIniFile> ] ;
@@ -280,7 +296,7 @@ _DefaultMenuItem ( <"control"> , <"form"> )
 	[ ACTION <Action> ] ;
 	[ NAME <name> ] ;
 => ;
-_DefineMruItem ( <caption>, <cIniFile>, <cSection>, <nItems>, <"Action">, <"name"> )
+_DefineMruItem ( <caption>, <cIniFile>, <cSection>, <nItems>, <"Action">, <(name)> )
 
 #xcommand MRUITEM [ <caption> ] ;
 	[ <Ini: INI, FILENAME, FILE, DISK> <cIniFile> ] ;
@@ -289,4 +305,4 @@ _DefineMruItem ( <caption>, <cIniFile>, <cSection>, <nItems>, <"Action">, <"name
 	[ ACTION <Action> ] ;
 	[ NAME <name> ] ;
 => ;
-_DefineMruItem ( <caption>, <cIniFile>, <cSection>, <nItems>, <"Action">, <"name"> )
+_DefineMruItem ( <caption>, <cIniFile>, <cSection>, <nItems>, <"Action">, <(name)> )

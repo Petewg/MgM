@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -86,7 +86,7 @@
   #command ?? [<explist,...>] => _LogFile( .F., <explist> )
 #endif
 
-#command ?a [<arr>] => aEval( <arr>, { |xv, ne| _LogFile( (ne==1), ne, xv ), _LogFile() } )
-#command ?v [<arr>] => aEval( <arr>, { |xv, ne| _LogFile( (ne==1), ne, iif( Valtype(xv) == "A", hb_valtoexp(xv), xv ) ), _LogFile() } )
+#command ?a [<arr>] => If( <arr> == NIL, , aEval( <arr>, { |xv, ne| _LogFile( ( ne==1 ), ne, xv ), _LogFile() } ) )
+#command ?v [<arr>] => If( <arr> == NIL, , aEval( <arr>, { |xv, ne| _LogFile( ( ne==1 ), ne, iif( ValType( xv ) == "A", hb_ValToExp( xv ), xv ) ), _LogFile() } ) )
 
 #endif

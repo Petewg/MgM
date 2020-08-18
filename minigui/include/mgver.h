@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -52,11 +52,18 @@
   #undef __HMG__
 #endif
 
-#define MG_VER_MAJOR    2        /* Major version number */
-#define MG_VER_MINOR    8        /* Minor version number */
-#define MG_VER_RELEASE  1        /* Release number */
-#define MG_VER_STATUS   "stable" /* Build status (all lowercase) */
+#define MG_VER_MAJOR    3        /* Major version number */
+#define MG_VER_MINOR    0        /* Minor version number */
+#define MG_VER_RELEASE  4        /* Release number */
 
-#define __HMG__         0x020801 /* Three bytes: Major + Minor + Build. */
+#define __HMG__         0x030004 /* Three bytes: Major + Minor + Build. */
+
+#define __RELEASE__
+
+#if defined(__RELEASE__)
+  #define MG_VER_STATUS "stable" /* Build status (all lowercase) */
+#else
+  #define MG_VER_STATUS "beta"
+#endif
 
 #endif /* MG_VER_H_ */

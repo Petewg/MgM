@@ -30,34 +30,168 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
-
 #include <commctrl.h>
 
 #include "hbapiitm.h"
 #include "hbapierr.h"
 
+#ifdef __XHARBOUR__
+typedef wchar_t HB_WCHAR;
+#endif
+
 extern BOOL _isValidCtrlClass( HWND, LPCTSTR );
+
+HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transparent, int * nWidth, int * nHeight );
+void HMG_ImageListAdd( HIMAGELIST himl, char * FileName, int Transparent );
 
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
+
+#if ( ( defined( __BORLANDC__ ) && __BORLANDC__ < 1410 ) )
+
+typedef struct tagLVITEMA2
+{
+   UINT   mask;
+   int    iItem;
+   int    iSubItem;
+   UINT   state;
+   UINT   stateMask;
+   LPSTR  pszText;
+   int    cchTextMax;
+   int    iImage;
+   LPARAM lParam;
+   int    iIndent;
+#if ( NTDDI_VERSION >= NTDDI_WINXP )
+   int   iGroupId;
+   UINT  cColumns; // tile view columns
+   PUINT puColumns;
+#endif
+#if ( NTDDI_VERSION >= NTDDI_VISTA ) // Will be unused downlevel, but sizeof(LVITEMA) must be equal to sizeof(LVITEMW)
+   int * piColFmt;
+   int   iGroup;                     // readonly. only valid for owner data.
+#endif
+} LVITEMA2, * LPLVITEMA2;
+
+typedef struct tagLVITEMW2
+{
+   UINT   mask;
+   int    iItem;
+   int    iSubItem;
+   UINT   state;
+   UINT   stateMask;
+   LPWSTR pszText;
+   int    cchTextMax;
+   int    iImage;
+   LPARAM lParam;
+   int    iIndent;
+#if ( NTDDI_VERSION >= NTDDI_WINXP )
+   int   iGroupId;
+   UINT  cColumns; // tile view columns
+   PUINT puColumns;
+#endif
+#if ( NTDDI_VERSION >= NTDDI_VISTA )
+   int * piColFmt;
+   int   iGroup; // readonly. only valid for owner data.
+#endif
+} LVITEMW2, * LPLVITEMW2;
+
+#ifdef UNICODE
+#define _LVITEM                 LVITEMW2
+#define _LPLVITEM               LPLVITEMW2
+#else
+#define _LVITEM                 LVITEMA2
+#define _LPLVITEM               LPLVITEMA2
+#endif
+
+#define LVGF_NONE               0x00000000
+#define LVGF_HEADER             0x00000001
+#define LVGF_FOOTER             0x00000002
+#define LVGF_STATE              0x00000004
+#define LVGF_ALIGN              0x00000008
+#define LVGF_GROUPID            0x00000010
+
+#define LVGS_NORMAL             0x00000000
+#define LVGS_COLLAPSED          0x00000001
+#define LVGS_HIDDEN             0x00000002
+#define LVGS_NOHEADER           0x00000004
+#define LVGS_COLLAPSIBLE        0x00000008
+#define LVGS_FOCUSED            0x00000010
+#define LVGS_SELECTED           0x00000020
+#define LVGS_SUBSETED           0x00000040
+#define LVGS_SUBSETLINKFOCUSED  0x00000080
+
+#define LVGA_HEADER_LEFT        0x00000001
+#define LVGA_HEADER_CENTER      0x00000002
+#define LVGA_HEADER_RIGHT       0x00000004 // Don't forget to validate exclusivity
+#define LVGA_FOOTER_LEFT        0x00000008
+#define LVGA_FOOTER_CENTER      0x00000010
+#define LVGA_FOOTER_RIGHT       0x00000020 // Don't forget to validate exclusivity
+
+#define LVIF_GROUPID            0x100
+#define LVIF_COLUMNS            0x200
+
+typedef struct tagLVGROUP
+{
+   UINT   cbSize;
+   UINT   mask;
+   LPWSTR pszHeader;
+   int    cchHeader;
+   LPWSTR pszFooter;
+   int    cchFooter;
+   int    iGroupId;
+   UINT   stateMask;
+   UINT   state;
+   UINT   uAlign;
+} LVGROUP, * PLVGROUP;
+
+#define LVM_ENABLEGROUPVIEW     ( LVM_FIRST + 157 )
+#define ListView_EnableGroupView( hwnd, fEnable ) \
+   SNDMSG( ( hwnd ), LVM_ENABLEGROUPVIEW, ( WPARAM ) ( fEnable ), 0 )
+
+#define LVM_REMOVEALLGROUPS     ( LVM_FIRST + 160 )
+#define ListView_RemoveAllGroups( hwnd ) \
+   SNDMSG( ( hwnd ), LVM_REMOVEALLGROUPS, 0, 0 )
+
+#define LVM_HASGROUP            ( LVM_FIRST + 161 )
+#define ListView_HasGroup( hwnd, dwGroupId ) \
+   SNDMSG( ( hwnd ), LVM_HASGROUP, dwGroupId, 0 )
+
+#define LVM_ISGROUPVIEWENABLED  ( LVM_FIRST + 175 )
+#define ListView_IsGroupViewEnabled( hwnd ) \
+   ( BOOL ) SNDMSG( ( hwnd ), LVM_ISGROUPVIEWENABLED, 0, 0 )
+
+#define LVM_INSERTGROUP         ( LVM_FIRST + 145 )
+#define ListView_InsertGroup( hwnd, index, pgrp )      SNDMSG( ( hwnd ), LVM_INSERTGROUP, ( WPARAM ) index, ( LPARAM ) pgrp )
+#define LVM_SETGROUPINFO        ( LVM_FIRST + 147 )
+#define ListView_SetGroupInfo( hwnd, iGroupId, pgrp )  SNDMSG( ( hwnd ), LVM_SETGROUPINFO, ( WPARAM ) iGroupId, ( LPARAM ) pgrp )
+#define LVM_GETGROUPINFO        ( LVM_FIRST + 149 )
+#define ListView_GetGroupInfo( hwnd, iGroupId, pgrp )  SNDMSG( ( hwnd ), LVM_GETGROUPINFO, ( WPARAM ) iGroupId, ( LPARAM ) pgrp )
+#define LVM_REMOVEGROUP         ( LVM_FIRST + 150 )
+#define ListView_RemoveGroup( hwnd, iGroupId )         SNDMSG( ( hwnd ), LVM_REMOVEGROUP, ( WPARAM ) iGroupId, 0 )
+#define LVM_MOVEGROUP           ( LVM_FIRST + 151 )
+#define ListView_MoveGroup( hwnd, iGroupId, toIndex )  SNDMSG( ( hwnd ), LVM_MOVEGROUP, ( WPARAM ) iGroupId, ( LPARAM ) toIndex )
+#define LVM_GETGROUPCOUNT       ( LVM_FIRST + 152 )
+#define ListView_GetGroupCount( hwnd )                 SNDMSG( ( hwnd ), LVM_GETGROUPCOUNT, ( WPARAM ) 0, ( LPARAM ) 0 )
+
+#endif
 
 HB_FUNC( INITLISTVIEW )
 {
@@ -116,44 +250,30 @@ HB_FUNC( LISTVIEW_SETITEMCOUNT )
    ListView_SetItemCount( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ) );
 }
 
-HB_FUNC( ADDLISTVIEWBITMAP )        // Grid+
+HB_FUNC( ADDLISTVIEWBITMAP )       // Grid+
 {
-   HWND       hbutton;
-   HIMAGELIST himl;
-   HBITMAP    hbmp;
+   HWND       hbutton = ( HWND ) HB_PARNL( 1 );
+   HIMAGELIST himl    = ( HIMAGELIST ) NULL;
    PHB_ITEM   hArray;
-   char *     caption;
-   int        l9;
+   char *     FileName;
+   int        nCount;
    int        s;
-   int        cx;
-   int        cy;
+   int        cx = 0;
 
-   hbutton = ( HWND ) HB_PARNL( 1 );
-   l9      = hb_parinfa( 2, 0 ) - 1;
-   hArray  = hb_param( 2, HB_IT_ARRAY );
+   nCount = ( int ) hb_parinfa( 2, 0 );
 
-   cx = 0;
-   if( l9 != 0 )
+   if( nCount > 0 )
    {
-      caption = ( char * ) hb_arrayGetCPtr( hArray, 1 );
+      hArray = hb_param( 2, HB_IT_ARRAY );
 
-      himl = ImageList_LoadImage( GetResources(), caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT );
-
-      if( himl == NULL )
-         himl = ImageList_LoadImage( GetResources(), caption, 0, l9, CLR_NONE, IMAGE_BITMAP, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
-
-      ImageList_GetIconSize( himl, &cx, &cy );
-
-      for( s = 1; s <= l9; s = s + 1 )
+      for( s = 1; s <= nCount; s++ )
       {
-         caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
+         FileName = ( char * ) hb_arrayGetCPtr( hArray, s );
 
-         hbmp = ( HBITMAP ) LoadImage( GetResources(), caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT );
-         if( hbmp == NULL )
-            hbmp = ( HBITMAP ) LoadImage( NULL, caption, IMAGE_BITMAP, cx, cy, LR_LOADTRANSPARENT | LR_LOADFROMFILE );
-
-         ImageList_Add( himl, hbmp, NULL );
-         DeleteObject( hbmp );
+         if( himl == NULL )
+            himl = HMG_ImageListLoadFirst( FileName, nCount, 1, &cx, NULL );
+         else
+            HMG_ImageListAdd( himl, FileName, 1 );
       }
 
       if( himl != NULL )
@@ -167,81 +287,29 @@ HB_FUNC( ADDLISTVIEWBITMAPHEADER )  // Grid+
 {
    HWND       hheader;
    HIMAGELIST himl = ( HIMAGELIST ) NULL;
-   HBITMAP    hbmp;
    PHB_ITEM   hArray;
-   char *     caption;
-   int        l9;
+   char *     FileName;
+   int        nCount;
    int        s;
-   int        cx;
-   int        cy;
 
    hheader = ListView_GetHeader( ( HWND ) HB_PARNL( 1 ) );
 
    if( hheader )
    {
-      l9     = hb_parinfa( 2, 0 ) - 1;
-      hArray = hb_param( 2, HB_IT_ARRAY );
+      nCount = ( int ) hb_parinfa( 2, 0 );
 
-      if( l9 != 0 )
+      if( nCount > 0 )
       {
-         caption = ( char * ) hb_arrayGetCPtr( hArray, 1 );
+         hArray = hb_param( 2, HB_IT_ARRAY );
 
-         // Determine Image Size Based Upon First Image
-         himl = ImageList_LoadImage
-                (
-            GetInstance(),
-            caption,
-            0,
-            l9,
-            CLR_DEFAULT,
-            IMAGE_BITMAP,
-            LR_LOADTRANSPARENT | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-                );
-
-         if( himl == NULL )
-            himl = ImageList_LoadImage
-                   (
-               GetResources(),
-               caption,
-               0,
-               l9,
-               CLR_DEFAULT,
-               IMAGE_BITMAP,
-               LR_LOADTRANSPARENT | LR_LOADFROMFILE | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-                   );
-
-         ImageList_GetIconSize( himl, &cx, &cy );
-
-         ImageList_Destroy( himl );
-
-         himl = ImageList_Create( cx, cy, ILC_COLOR8 | ILC_MASK, l9 + 1, l9 + 1 );
-
-         for( s = 0; s <= l9; s++ )
+         for( s = 1; s <= nCount; s++ )
          {
-            caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
+            FileName = ( char * ) hb_arrayGetCPtr( hArray, s );
 
-            hbmp = ( HBITMAP ) LoadImage
-                   (
-               GetInstance(),
-               caption,
-               IMAGE_BITMAP,
-               cx,
-               cy,
-               LR_LOADTRANSPARENT | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-                   );
-            if( hbmp == NULL )
-               hbmp = ( HBITMAP ) LoadImage
-                      (
-                  0,
-                  caption,
-                  IMAGE_BITMAP,
-                  cx,
-                  cy,
-                  LR_LOADTRANSPARENT | LR_LOADFROMFILE | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-                      );
-
-            ImageList_AddMasked( himl, hbmp, CLR_DEFAULT );
-            DeleteObject( hbmp );
+            if( himl == NULL )
+               himl = HMG_ImageListLoadFirst( FileName, nCount, 1, NULL, NULL );
+            else
+               HMG_ImageListAdd( himl, FileName, 1 );
          }
 
          if( himl != NULL )
@@ -272,7 +340,7 @@ HB_FUNC( INITLISTVIEWCOLUMNS )
 
    hc = ( HWND ) HB_PARNL( 1 );
 
-   iLen   = hb_parinfa( 2, 0 ) - 1;
+   iLen   = ( int ) hb_parinfa( 2, 0 ) - 1;
    hArray = hb_param( 2, HB_IT_ARRAY );
    wArray = hb_param( 3, HB_IT_ARRAY );
    jArray = hb_param( 4, HB_IT_ARRAY );
@@ -311,7 +379,7 @@ HB_FUNC( ADDLISTVIEWITEMS )
    int      c;
 
    h      = ( HWND ) HB_PARNL( 1 );
-   l      = hb_parinfa( 2, 0 ) - 1;
+   l      = ( int ) hb_parinfa( 2, 0 ) - 1;
    hArray = hb_param( 2, HB_IT_ARRAY );
    c      = ListView_GetItemCount( h );
 
@@ -345,7 +413,7 @@ HB_FUNC( LISTVIEWGETMULTISEL )
    int  n;
    int  j;
 
-   n = SendMessage( hwnd, LVM_GETSELECTEDCOUNT, 0, 0 );
+   n = ( int ) SendMessage( hwnd, LVM_GETSELECTEDCOUNT, 0, 0 );
 
    hb_reta( n );
 
@@ -377,9 +445,9 @@ HB_FUNC( LISTVIEWSETMULTISEL )
 
    wArray = hb_param( 2, HB_IT_ARRAY );
 
-   l = hb_parinfa( 2, 0 ) - 1;
+   l = ( int ) hb_parinfa( 2, 0 ) - 1;
 
-   n = SendMessage( hwnd, LVM_GETITEMCOUNT, 0, 0 );
+   n = ( int ) SendMessage( hwnd, LVM_GETITEMCOUNT, 0, 0 );
 
    // CLEAR CURRENT SELECTIONS
    for( i = 0; i < n; i++ )
@@ -394,15 +462,12 @@ HB_FUNC( LISTVIEWSETITEM )
 {
    PHB_ITEM hArray;
    char *   caption;
-   HWND     h;
-   int      l;
+   HWND     h = ( HWND ) HB_PARNL( 1 );
+   int      l = ( int ) hb_parinfa( 2, 0 ) - 1;
+   int      c = hb_parni( 3 ) - 1;
    int      s;
-   int      c;
 
-   h      = ( HWND ) HB_PARNL( 1 );
-   l      = hb_parinfa( 2, 0 ) - 1;
    hArray = hb_param( 2, HB_IT_ARRAY );
-   c      = hb_parni( 3 ) - 1;
 
    for( s = 0; s <= l; s = s + 1 )
    {
@@ -411,26 +476,43 @@ HB_FUNC( LISTVIEWSETITEM )
    }
 }
 
+static LPTSTR GetLVItemText( HWND hListView, int i, int iSubItem_ )
+{
+   LPTSTR  pszRet = TEXT( '\0' );
+   int     nLen   = 64;
+   int     nRes;
+   LV_ITEM lvi;
+
+   lvi.iSubItem = iSubItem_;
+
+   do
+   {
+      nLen          *= 2;
+      pszRet         = ( TCHAR * ) hb_xrealloc( pszRet, sizeof( TCHAR ) * nLen );
+      lvi.cchTextMax = nLen;
+      lvi.pszText    = pszRet;
+      nRes           = ( int ) SendMessage( hListView, LVM_GETITEMTEXT, ( WPARAM ) i, ( LPARAM ) ( LV_ITEM FAR * ) &lvi );
+   }
+   while( nRes >= nLen - 1 );
+
+   return pszRet;
+}
+
 HB_FUNC( LISTVIEWGETITEM )
 {
-   char string[ 1024 ] = "";
-   HWND h;
+   HWND h = ( HWND ) HB_PARNL( 1 );
+   int  c = hb_parni( 2 ) - 1;
+   int  l = hb_parni( 3 );
    int  s;
-   int  c;
-   int  l;
-
-   h = ( HWND ) HB_PARNL( 1 );
-
-   c = hb_parni( 2 ) - 1;
-
-   l = hb_parni( 3 );
+   LPTSTR pszRet;
 
    hb_reta( l );
 
    for( s = 0; s <= l - 1; s++ )
    {
-      ListView_GetItemText( h, c, s, string, 1024 );
-      HB_STORC( string, -1, s + 1 );
+      pszRet = GetLVItemText( h, c, s );
+      HB_STORC( pszRet, -1, s + 1 );
+      hb_xfree( pszRet );
    }
 }
 
@@ -446,6 +528,16 @@ HB_FUNC( LISTVIEWGETITEMROW )
 HB_FUNC( LISTVIEWGETITEMCOUNT )
 {
    hb_retnl( ListView_GetItemCount( ( HWND ) HB_PARNL( 1 ) ) );
+}
+
+HB_FUNC( SETGRIDCOLUMNJUSTIFY )
+{
+   LV_COLUMN COL;
+
+   COL.mask = LVCF_FMT;
+   COL.fmt  = hb_parni( 3 );
+
+   ListView_SetColumn( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ) - 1, &COL );
 }
 
 HB_FUNC( SETGRIDCOLUMNHEADER )
@@ -641,6 +733,30 @@ HB_FUNC( LISTVIEW_GETBKCOLOR )
    hb_retnl( ListView_GetBkColor( ( HWND ) HB_PARNL( 1 ) ) );
 }
 
+HB_FUNC( LISTVIEW_GETHEADER )
+{
+   HWND hGrid = ( HWND ) HB_PARNL( 1 );
+
+   HB_RETNL( ( LONG_PTR ) ListView_GetHeader( hGrid ) );
+}
+
+HB_FUNC( GETHEADERLISTVIEWITEM )
+{
+   LPNMHEADER lpnmheader = ( LPNMHEADER ) HB_PARNL( 1 );
+
+   hb_retni( lpnmheader->iItem );
+}
+
+HB_FUNC( GETHEADERLISTVIEWITEMCX )
+{
+   LPNMHEADER lpnmheader = ( LPNMHEADER ) HB_PARNL( 1 );
+
+   if( lpnmheader->pitem->mask == HDI_WIDTH )
+      hb_retni( lpnmheader->pitem->cxy );
+   else
+      hb_retni( -1 );
+}
+
 HB_FUNC( LISTVIEW_ADDCOLUMN )
 {
    LV_COLUMN COL;
@@ -732,6 +848,52 @@ HB_FUNC( LISTVIEW_GETCOLUMNCOUNT )  // Dr. Claudio Soto 2016/APR/07
    else
    {
       hb_errRT_BASE_SubstR( EG_ARG, 0, "MiniGUI Err.", HB_ERR_FUNCNAME, 1, hb_paramError( 1 ) );
+   }
+}
+
+HB_FUNC( LISTVIEW_GETCOLUMNORDERARRAY )
+{
+   int iCols = hb_parni( 2 );
+
+   if( iCols )
+   {
+      int      i;
+      int *    iArray = ( int * ) hb_xgrab( iCols * sizeof( int ) );
+      PHB_ITEM pArray = hb_itemArrayNew( ( HB_SIZE ) iCols );
+
+      ListView_GetColumnOrderArray( ( HWND ) HB_PARNL( 1 ), iCols, ( int * ) iArray );
+
+      for( i = 0; i < iCols; i++ )
+         hb_arraySetNI( pArray, ( HB_SIZE ) i + 1, iArray[ i ] + 1 );
+
+      hb_xfree( iArray );
+
+      hb_itemReturnRelease( pArray );
+   }
+   else
+      hb_reta( 0 );
+}
+
+HB_FUNC( LISTVIEW_SETCOLUMNORDERARRAY )
+{
+   PHB_ITEM pOrder = hb_param( 3, HB_IT_ARRAY );
+
+   if( NULL != pOrder )
+   {
+      int iColumn = hb_parni( 2 );
+
+      if( iColumn )
+      {
+         int   i;
+         int * iArray = ( int * ) hb_xgrab( iColumn * sizeof( int ) );
+
+         for( i = 0; i < iColumn; i++ )
+            iArray[ i ] = HB_PARNI( 3, i + 1 ) - 1;
+
+         ListView_SetColumnOrderArray( ( HWND ) HB_PARNL( 1 ), iColumn, ( int * ) iArray );
+
+         hb_xfree( iArray );
+      }
    }
 }
 
@@ -833,4 +995,182 @@ HB_FUNC( LISTVIEW_SETSORTHEADER )
 
       SendMessage( hWndHD, HDM_SETITEM, nItem, ( LPARAM ) &hdItem );
    }
+}
+
+#define MAX_GROUP_BUFFER  2048
+
+//        ListView_GroupItemSetID ( hWnd, nRow, nGroupID )
+HB_FUNC( LISTVIEW_GROUPITEMSETID )
+{
+   HWND hWnd    = ( HWND ) HB_PARNL( 1 );
+   INT  nRow    = ( INT ) hb_parni( 2 );
+   INT  GroupID = ( INT ) hb_parni( 3 );
+
+#if ( ( defined( __BORLANDC__ ) && __BORLANDC__ < 1410 ) )
+   _LVITEM LVI;
+#else
+   LVITEM LVI;
+#endif
+   LVI.mask     = LVIF_GROUPID;
+   LVI.iItem    = nRow;
+   LVI.iSubItem = 0;
+   LVI.iGroupId = GroupID;
+
+   hb_retl( ( BOOL ) ListView_SetItem( hWnd, &LVI ) );
+}
+
+//        ListView_GroupItemGetID ( hWnd, nRow )
+HB_FUNC( LISTVIEW_GROUPITEMGETID )
+{
+   HWND hWnd = ( HWND ) HB_PARNL( 1 );
+   INT  nRow = ( INT ) hb_parni( 2 );
+
+#if ( ( defined( __BORLANDC__ ) && __BORLANDC__ < 1410 ) )
+   _LVITEM LVI;
+#else
+   LVITEM LVI;
+#endif
+   LVI.mask     = LVIF_GROUPID;
+   LVI.iItem    = nRow;
+   LVI.iSubItem = 0;
+   ListView_GetItem( hWnd, &LVI );
+
+   hb_retni( ( INT ) LVI.iGroupId );
+}
+
+//        ListView_IsGroupViewEnabled ( hWnd )
+HB_FUNC( LISTVIEW_ISGROUPVIEWENABLED )
+{
+   HWND hWnd = ( HWND ) HB_PARNL( 1 );
+
+   hb_retl( ( BOOL ) ListView_IsGroupViewEnabled( hWnd ) );
+}
+
+//        ListView_EnableGroupView ( hWnd, lEnable )
+HB_FUNC( LISTVIEW_ENABLEGROUPVIEW )
+{
+   HWND hWnd   = ( HWND ) HB_PARNL( 1 );
+   BOOL Enable = ( BOOL ) hb_parl( 2 );
+
+   ListView_EnableGroupView( hWnd, Enable );
+}
+
+//        ListView_GroupDeleteAll ( hWnd )
+HB_FUNC( LISTVIEW_GROUPDELETEALL )
+{
+   HWND hWnd = ( HWND ) HB_PARNL( 1 );
+
+   ListView_RemoveAllGroups( hWnd );
+}
+
+//        ListView_GroupDelete ( hWnd, nGroupID )
+HB_FUNC( LISTVIEW_GROUPDELETE )
+{
+   HWND hWnd    = ( HWND ) HB_PARNL( 1 );
+   INT  GroupID = ( INT ) hb_parni( 2 );
+
+   hb_retni( ( INT ) ListView_RemoveGroup( hWnd, GroupID ) );
+}
+
+//        ListView_GroupAdd ( hWnd, nGroupID, [ nIndex ] )
+HB_FUNC( LISTVIEW_GROUPADD )
+{
+   HWND hWnd    = ( HWND ) HB_PARNL( 1 );
+   INT  GroupID = ( INT ) hb_parni( 2 );
+   INT  nIndex  = ( INT ) ( HB_ISNUM( 3 ) ? hb_parni( 3 ) : -1 );
+
+   LVGROUP LVG;
+
+   LVG.cbSize    = sizeof( LVGROUP );
+   LVG.stateMask = LVM_SETGROUPINFO;
+   LVG.mask      = LVGF_GROUPID | LVGF_HEADER | LVGF_FOOTER | LVGF_ALIGN | LVGF_STATE;
+   LVG.iGroupId  = GroupID;
+   LVG.pszHeader = L"";
+   LVG.pszFooter = L"";
+   LVG.uAlign    = LVGA_HEADER_LEFT | LVGA_FOOTER_LEFT;
+   LVG.state     = LVGS_NORMAL;
+
+   hb_retni( ( INT ) ListView_InsertGroup( hWnd, nIndex, &LVG ) );
+}
+
+//        ListView_GroupSetInfo ( hWnd, nGroupID, cHeader, nAlignHeader, cFooter, nAlingFooter, nState )
+HB_FUNC( LISTVIEW_GROUPSETINFO )
+{
+   HWND       hWnd         = ( HWND ) HB_PARNL( 1 );
+   INT        GroupID      = ( INT ) hb_parni( 2 );
+   HB_WCHAR * cHeader      = ( HB_WCHAR * ) ( ( hb_parclen( 3 ) == 0 ) ? NULL : hb_mbtowc( hb_parc( 3 ) ) );
+   UINT       nAlignHeader = ( UINT ) hb_parni( 4 );
+   HB_WCHAR * cFooter      = ( ( hb_parclen( 5 ) == 0 ) ? NULL : hb_mbtowc( hb_parc( 5 ) ) );
+   UINT       nAlignFooter = ( UINT ) hb_parni( 6 );
+   UINT       nState       = ( UINT ) hb_parni( 7 );
+
+   HB_WCHAR cHeaderBuffer[ MAX_GROUP_BUFFER ];
+   HB_WCHAR cFooterBuffer[ MAX_GROUP_BUFFER ];
+
+   LVGROUP LVG;
+
+   LVG.cbSize    = sizeof( LVGROUP );
+   LVG.stateMask = LVM_GETGROUPINFO;
+   LVG.mask      = LVGF_HEADER | LVGF_FOOTER | LVGF_ALIGN | LVGF_STATE;
+   LVG.pszHeader = cHeaderBuffer;
+   LVG.cchHeader = sizeof( cHeaderBuffer ) / sizeof( WCHAR );
+   LVG.pszFooter = cFooterBuffer;
+   LVG.cchFooter = sizeof( cFooterBuffer ) / sizeof( WCHAR );
+
+   if( ListView_GetGroupInfo( hWnd, GroupID, &LVG ) != -1 )
+   {
+      UINT nAlign = 0;
+      LVG.stateMask = LVM_SETGROUPINFO;
+      LVG.pszHeader = ( cHeader != NULL ) ? cHeader : cHeaderBuffer;
+      LVG.pszFooter = ( cFooter != NULL ) ? cFooter : cFooterBuffer;
+      nAlign        = nAlign | ( ( nAlignHeader != 0 ) ?  nAlignHeader       : ( LVG.uAlign & 0x07 ) );
+      nAlign        = nAlign | ( ( nAlignFooter != 0 ) ? ( nAlignFooter << 3 ) : ( LVG.uAlign & 0x38 ) );
+      LVG.uAlign    = nAlign;
+      LVG.state     = ( ( nState != 0 ) ? ( nState >> 1 ) : LVG.state );
+
+      hb_retni( ( INT ) ListView_SetGroupInfo( hWnd, GroupID, &LVG ) );
+   }
+   else
+      hb_retni( -1 );
+}
+
+//        ListView_GroupGetInfo ( hWnd, nGroupID, @cHeader, @nAlignHeader, @cFooter, @nAlingFooter, @nState )
+HB_FUNC( LISTVIEW_GROUPGETINFO )
+{
+   HWND hWnd    = ( HWND ) HB_PARNL( 1 );
+   INT  GroupID = ( INT ) hb_parni( 2 );
+
+   INT      nRet;
+   HB_WCHAR cHeaderBuffer[ MAX_GROUP_BUFFER ];
+   HB_WCHAR cFooterBuffer[ MAX_GROUP_BUFFER ];
+
+   LVGROUP LVG;
+
+   LVG.cbSize    = sizeof( LVGROUP );
+   LVG.stateMask = LVM_GETGROUPINFO;
+   LVG.mask      = LVGF_HEADER | LVGF_FOOTER | LVGF_ALIGN | LVGF_STATE;
+   LVG.pszHeader = cHeaderBuffer;
+   LVG.cchHeader = sizeof( cHeaderBuffer ) / sizeof( WCHAR );
+   LVG.pszFooter = cFooterBuffer;
+   LVG.cchFooter = sizeof( cFooterBuffer ) / sizeof( WCHAR );
+
+   if( ( nRet = ( INT ) ListView_GetGroupInfo( hWnd, GroupID, &LVG ) ) != -1 )
+   {
+      HB_STORC(   hb_wctomb( cHeaderBuffer ), 3 );
+      hb_storni( ( LVG.uAlign & 0x07 ), 4 );
+      HB_STORC(   hb_wctomb( cFooterBuffer ), 5 );
+      hb_storni( ( ( LVG.uAlign & 0x38 ) >> 3 ), 6 );
+      hb_storni( ( ( LVG.state != 0 ) ? ( LVG.state << 1 ) : 1 ), 7 );
+   }
+
+   hb_retni( nRet );
+}
+
+//        ListView_HasGroup ( hWnd, nGroupID )
+HB_FUNC( LISTVIEW_HASGROUP )
+{
+   HWND hWnd    = ( HWND ) HB_PARNL( 1 );
+   INT  GroupID = ( INT ) hb_parni( 2 );
+
+   hb_retl( ( BOOL ) ListView_HasGroup( hWnd, GroupID ) );
 }

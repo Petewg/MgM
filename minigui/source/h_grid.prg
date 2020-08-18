@@ -30,37 +30,49 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
----------------------------------------------------------------------------*/
+----------------------------------------------------------------------------*/
 
 #include 'minigui.ch'
 #include "i_winuser.ch"
 
-STATIC _lTabKeyPressed := .F.
+STATIC _lTabKeyPressed := .F., _lShiftTabKeyPressed := .F.
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidths, aRows, value, ;
-      fontname, fontsize, tooltip, change, dblclick, aHeadClick, gotfocus, lostfocus, nogrid, ;
-      aImage, aJust, break, HelpId , bold, italic, underline, strikeout, ownerdata, ondispinfo, ;
-      itemcount, editable, dynamicforecolor, dynamicbackcolor, multiselect, editcontrols, ;
-      backcolor, fontcolor, nId, columnvalid, columnwhen, validmessages, showheaders, aImageHeader, ;
-      NoTabStop, celled, lCheckboxes, lockcolumns, OnCheckBoxClicked, doublebuffer, nosortheaders, columnsort )
+FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidths, ;
+      aRows, value, fontname, fontsize, tooltip, change, dblclick, aHeadClick, ;
+      gotfocus, lostfocus, nogrid, aImage, aJust, break, HelpId, ;
+      bold, italic, underline, strikeout, ownerdata, ondispinfo, itemcount, editable, ;
+      dynamicforecolor, dynamicbackcolor, multiselect, editcontrols, backcolor, fontcolor, ;
+      nId, columnvalid, columnwhen, validmessages, showheaders, aImageHeader, NoTabStop, ;
+      celled, lCheckboxes, lockcolumns, OnCheckBoxClicked, doublebuffer, nosortheaders, ;
+      columnsort, aWidthLimits, ondragitems, bInit, autosizeH, autosizeW )
 *-----------------------------------------------------------------------------*
-   LOCAL i , ParentFormHandle , blInit , mVar, k , Style , inplace , lsort
-   LOCAL ControlHandle , FontHandle , nHeaderImageListHandle := 0
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL nHeaderImageListHandle := 0
+   LOCAL blInit
+   LOCAL mVar
+   LOCAL Style
+   LOCAL i , k
+   LOCAL inplace
+   LOCAL lsort
    LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    hb_default( @w, 240 )
    hb_default( @h, 120 )
@@ -75,31 +87,35 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
    hb_default( @lockcolumns, 0 )
    hb_default( @doublebuffer, .F. )
    hb_default( @lcheckboxes, .F. )
+   hb_default( @autosizeW, .F. )
 
    IF ( FontHandle := GetFontHandle( FontName ) ) != 0
       GetFontParamByRef( FontHandle, @FontName, @FontSize, @bold, @italic, @underline, @strikeout )
    ENDIF
-
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
       ParentFormName := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
       __defaultNIL( @FontName, _HMG_ActiveFontName )
       __defaultNIL( @FontSize, _HMG_ActiveFontSize )
    ENDIF
-
    IF _HMG_FrameLevel > 0 .AND. !_HMG_ParentWindowActive
       x := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
       y := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
       ParentFormName := _HMG_ActiveFrameParentFormName [_HMG_FrameLevel]
    ENDIF
-
    lDialogInMemory := _HMG_DialogInMemory
 
    IF .NOT. _IsWindowDefined ( ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError ( _HMG_BRWLangError[1] + IFNIL( ParentFormName, "Parent", ParentFormName ) + _HMG_BRWLangError[2], .F. )
    ENDIF
-
    IF _IsControlDefined ( ControlName, ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError ( _HMG_BRWLangError[4] + ControlName + _HMG_BRWLangError[5] + ParentFormName + _HMG_BRWLangError[6], .F. )
+   ENDIF
+   IF Len( aHeadClick ) > 0
+      FOR EACH mVar IN aHeadClick
+         IF !( mVar == NIL ) .AND. !ISBLOCK ( mVar )
+            MsgMiniGuiError ( "Control: " + ControlName + " Of " + ParentFormName + ": ON HEADCLICK event must be defined as array of the codeblocks." )
+         ENDIF
+      NEXT
    ENDIF
    /* Dr. Claudio Soto, April 2016 */
    #define DEFAULT_COLUMNHEADER  "Column "
@@ -136,16 +152,14 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
       ENDIF
    ENDIF
    /* end code borrowed */
-   IF showheaders == .F.
-      aHeaders := Array ( Len ( aWidths ) )
-      AFill ( aHeaders , '' )
-   ENDIF
+   __defaultNIL( @aRows, {} )
 
+   IF showheaders == .F.
+      aHeaders := AFill( Array( Len( aWidths ) ), '' )
+   ENDIF
    IF ValType( value ) == "U" .AND. ! MultiSelect
       value := 0
    ENDIF
-
-   __defaultNIL( @aRows, {} )
    /* code borrowed from ooHG project */
    IF !HB_ISARRAY( aJust )
       aJust := AFill( Array( Len( aHeaders ) ), 0 )
@@ -156,6 +170,10 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
    /* end code borrowed */
    inplace := ISARRAY( editcontrols )
    lsort := ( ISARRAY( columnsort ) .AND. nosortheaders == .F. .AND. ownerdata == .F. )
+
+   IF !HB_ISARRAY( aWidthLimits )
+      aWidthLimits := Array( Len( aWidths ) )
+   ENDIF
 
    mVar := '_' + ParentFormName + '_' + ControlName
    k := _GetControlFree()
@@ -240,16 +258,6 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
    ENDIF
 
    IF .NOT. lDialogInMemory
-
-      IF ValType ( backcolor ) != 'U'
-         ListView_SetBkColor ( ControlHandle , backcolor[1] , backcolor[2] , backcolor[3] )
-         ListView_SetTextBkColor ( ControlHandle , backcolor[1] , backcolor[2] , backcolor[3] )
-      ENDIF
-
-      IF ValType ( fontcolor ) != 'U'
-         ListView_SetTextColor ( ControlHandle , fontcolor[1] , fontcolor[2] , fontcolor[3] )
-      ENDIF
-
       IF lsort
          aImageHeader := { 'MINIGUI_GRID_ASC', 'MINIGUI_GRID_DSC' }
          aHeadClick := Array( Len( aHeaders ) )
@@ -269,13 +277,14 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF ValType( tooltip ) != "U"
          SetToolTip ( ControlHandle , tooltip , GetFormToolTipHandle ( ParentFormName ) )
       ENDIF
-
    ENDIF
 
    Public &mVar. := k
@@ -318,17 +327,22 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
    _HMG_aControlFontHandle   [k] :=  FontHandle
    _HMG_aControlBrushHandle   [k] :=  0
    _HMG_aControlEnabled  [k] :=  .T.
-   _HMG_aControlMiscData1 [k] := { 0, aWidths, aJust, aRows, ownerdata, itemcount, nogrid, ;
-      backcolor, fontcolor, multiselect, dynamicforecolor, dynamicbackcolor, editcontrols, ;
-      columnvalid, columnwhen, validmessages, 1, lcheckboxes, lockcolumns, inplace, NIL, NIL, ;
-      OnCheckBoxClicked, doublebuffer }
+   _HMG_aControlMiscData1 [k] := { ;
+      0, aWidths, aJust, aRows, ;
+      ownerdata, itemcount, nogrid, ;
+      backcolor, fontcolor, ;
+      multiselect, ;
+      dynamicforecolor, dynamicbackcolor, ;
+      editcontrols, ;
+      columnvalid, columnwhen, validmessages, ;
+      1, lcheckboxes, lockcolumns, ;
+      inplace, NIL, NIL, ;
+      OnCheckBoxClicked, ;
+      doublebuffer, aWidthLimits, ondragitems, ;
+      autosizeH, autosizeW }
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
-   IF Len( _HMG_aDialogTemplate ) == 0    //Dialog Template
+   IF Len( _HMG_aDialogTemplate ) == 0   //Dialog Template
       IF lsort
          AFill( _HMG_aControlRangeMax [k], 1 )
          IF Len( columnsort ) > 0
@@ -339,21 +353,32 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
             NEXT i
          ENDIF
       ENDIF
+
       InitDialogGrid ( ParentFormName, ControlHandle, k )
    ENDIF
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
-   LOCAL ControlName, Value , row , wBitmap
-   LOCAL ownerdata, itemcount, fontcolor, backcolor, aRows, multiselect
+   LOCAL ControlName, Value
    LOCAL aWidths, aJust, nogrid, lcheckboxes, lockcolumns, doublebuffer
+   LOCAL ownerdata, itemcount, fontcolor, backcolor, aRows, multiselect
+   LOCAL row, wBitmap, z, autosizeH, autosizeW
 
    ControlName  := _HMG_aControlNames [k]
    Value        := _HMG_aControlValue [k]
-
    aWidths      := _HMG_aControlMiscData1 [k,2]
    aJust        := _HMG_aControlMiscData1 [k,3]
    aRows        := _HMG_aControlMiscData1 [k,4]
@@ -366,6 +391,8 @@ FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
    lcheckboxes  := _HMG_aControlMiscData1 [k,18]
    lockcolumns  := _HMG_aControlMiscData1 [k,19]
    doublebuffer := _HMG_aControlMiscData1 [k,24]
+   autosizeH    := _HMG_aControlMiscData1 [k,27]
+   autosizeW    := _HMG_aControlMiscData1 [k,28]
 
    IF ownerdata
       LISTVIEW_SETITEMCOUNT ( ControlHandle , itemcount )
@@ -374,13 +401,13 @@ FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
    SendMessage( ControlHandle, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, iif( nogrid, 0, LVS_EX_GRIDLINES ) + iif( doublebuffer, LVS_EX_DOUBLEBUFFER, 0 ) + ;
       LVS_EX_FULLROWSELECT + LVS_EX_INFOTIP + iif( lockcolumns > 0, 0, LVS_EX_HEADERDRAGDROP ) + iif( lcheckboxes, LVS_EX_CHECKBOXES, 0 ) )
 
-   IF ValType ( backcolor ) != 'U'
-      ListView_SetBkColor ( ControlHandle , backcolor[1] , backcolor[2] , backcolor[3] )
-      ListView_SetTextBkColor ( ControlHandle , backcolor[1] , backcolor[2] , backcolor[3] )
+   IF IsArrayRGB ( backcolor )
+      ListView_SetBkColor ( ControlHandle , backcolor [1] , backcolor [2] , backcolor [3] )
+      ListView_SetTextBkColor ( ControlHandle , backcolor [1] , backcolor [2] , backcolor [3] )
    ENDIF
 
-   IF ValType ( fontcolor ) != 'U'
-      ListView_SetTextColor ( ControlHandle , fontcolor[1] , fontcolor[2] , fontcolor[3] )
+   IF IsArrayRGB ( fontcolor )
+      ListView_SetTextColor ( ControlHandle , fontcolor [1] , fontcolor [2] , fontcolor [3] )
    ENDIF
 
    wBitmap := iif ( Len( _HMG_aControlBkColor [k] ) > 0, AddListViewBitmap( ControlHandle, _HMG_aControlBkColor [k] ), 0 ) // Add Bitmap Column
@@ -389,6 +416,29 @@ FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
    InitListViewColumns ( ControlHandle , _HMG_aControlCaption [k] , aWidths , aJust )
 
    AEval ( aRows , { | r | _AddGridRow ( ControlName , ParentName , r ) } )
+
+   IF ISNUMERIC( autosizeH ) .OR. autosizeW
+
+      IF ListView_CalculateSize ( ControlHandle , autosizeH , @z , @row ) > 49
+
+         IF ISNUMERIC( autosizeH )
+            SetProperty( ParentName, ControlName, 'Height', row )
+         ENDIF
+         IF autosizeW
+            SetProperty( ParentName, ControlName, 'Width', z )
+         ENDIF
+
+      ENDIF
+
+   ENDIF
+
+   IF Len( _HMG_aControlPicture [k] ) == Len ( _HMG_aControlPageMap [k] )
+
+      FOR z := 1 TO Len ( _HMG_aControlPageMap [k] )
+         SetGridColumnHeaderImage ( _HMG_aControlHandles [k], z, z, ( aJust [z] == 1 ) )
+      NEXT z
+
+   ENDIF
 
    IF multiselect
 
@@ -414,9 +464,32 @@ FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
+FUNCTION ListView_CalculateSize( hLV, nNumberOfRows, /*@*/nWidth, /*@*/nHeight )
+*-----------------------------------------------------------------------------*
+   LOCAL nResult
+
+   DEFAULT nNumberOfRows := -1
+   // Collect and/or adjust the number of rows
+   IF nNumberOfRows < 0
+      nNumberOfRows := SendMessage( hLV, LVM_GETITEMCOUNT, 0, 0 )
+   ENDIF
+
+   IF nNumberOfRows > 0  // Not zero
+       nNumberOfRows -= 1
+   ENDIF
+   // Calculate size
+   nResult := SendMessage( hLV, LVM_APPROXIMATEVIEWRECT, nNumberOfRows, MAKELONG( -1, -1 ) )
+   // Extract, adjust, and return values
+   nWidth  := LOWORD( nResult ) + 4
+   nHeight := HIWORD( nResult ) + 4
+
+RETURN nHeight
+
+*-----------------------------------------------------------------------------*
 FUNCTION _AddGridRow ( ControlName, ParentForm, aRow )
 *-----------------------------------------------------------------------------*
-   LOCAL i, iIm := 0, aGridRow := AClone ( aRow )
+   LOCAL aGridRow := AClone ( aRow )
+   LOCAL i, iIm := 0
 
    i := GetControlIndex ( ControlName , ParentForm )
 
@@ -429,9 +502,15 @@ FUNCTION _AddGridRow ( ControlName, ParentForm, aRow )
       aGridRow [1] := NIL
    ENDIF
 
+#ifdef _HMG_COMPAT_
+   IF ! ISARRAY ( _HMG_aControlMiscData1 [i] [13] )
+      AEval( aGridRow, {|x, i| iif( ISCHARACTER( x ) .OR. HB_ISNIL( x ), , aGridRow [i] := hb_ValToStr( x ) ) } )
+   ENDIF
+#endif
+
    AddListViewItems ( _HMG_aControlHandles [i] , aGridRow , iIm )
 
-   IF ValType ( _HMG_aControlMiscData1 [i] [13] ) == 'A'
+   IF ISARRAY ( _HMG_aControlMiscData1 [i] [13] )
       _SetItem ( ControlName , ParentForm , ListViewGetItemCount ( _HMG_aControlHandles [i] ) , aGridRow )
    ENDIF
 
@@ -449,9 +528,9 @@ PROCEDURE HMG_SortColumn( nColumnNo )
 
    IF nOrder > 0
 
-      _EnableListViewUpdate( cControlName , cFormName , .F. )
+      _EnableListViewUpdate ( cControlName , cFormName , .F. )
 
-      aImages := Array( Len( _HMG_aControlRangeMax [ix] ) )
+      aImages := Array ( Len ( _HMG_aControlRangeMax [ix] ) )
       nCount := ListViewGetItemCount ( _HMG_aControlHandles [ix] )
 
       FOR i := 1 TO nCount
@@ -477,7 +556,9 @@ PROCEDURE HMG_SortColumn( nColumnNo )
 
       _HMG_aControlRangeMax [ix] [nColumnNo] := iif( lAscend, ++nOrder, 1 )
 
-      _EnableListViewUpdate( cControlName , cFormName , .T. )
+      _UpdateGridColors ( ix )
+
+      _EnableListViewUpdate ( cControlName , cFormName , .T. )
 
    ENDIF
 
@@ -487,18 +568,19 @@ RETURN
 FUNCTION _EditItem ( GridHandle )
 *-----------------------------------------------------------------------------*
    LOCAL a, l, g, IRow, actpos := { 0, 0, 0, 0 }, h := GridHandle
-   LOCAL GRow, GCol, GWidth, Col, LN, TN, i, ControlName, j, FormName, item
+   LOCAL GRow, GCol, GWidth, Col, i, ControlName, j, FormName, item
 
    _HMG_ActiveFormNameBak := _HMG_ActiveFormName
 
    i := AScan ( _HMG_aControlHandles , GridHandle )
 
    a := _HMG_aControlPageMap [i]
+
    ControlName := _HMG_aControlNames [i]
 
-   j := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [ i ] )
+   j := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [i] )
 
-   FormName := _HMG_aFormNames [ j ]
+   FormName := _HMG_aFormNames [j]
 
    item := _GetValue ( ControlName , FormName )
 
@@ -519,31 +601,25 @@ FUNCTION _EditItem ( GridHandle )
    DEFINE WINDOW _EditItem;
       AT GRow, Col;
       WIDTH 260;
-      HEIGHT ( l * 30 ) + 70 + GetTitleHeight();
+      HEIGHT l * 30 + 70 + GetTitleHeight();
       TITLE _HMG_MESSAGE [5];
       MODAL;
       NOSIZE
 
       FOR i := 1 TO l
-         LN := 'Label_' + hb_ntos( i )
-         TN := 'Text_' + hb_ntos( i )
-         @ ( i * 30 ) - 17 , 10 LABEL &LN OF _EditItem VALUE AllTrim( a[i] ) + ":"
-         @ ( i * 30 ) - 20 , 120 TEXTBOX &TN OF _EditItem VALUE g[i]
+         @ i * 30 - 17 , 10 LABEL ( 'Label_' + hb_ntos( i ) ) OF _EditItem VALUE AllTrim( a [i] ) + ":"
+         @ i * 30 - 20 , 120 TEXTBOX ( 'Text_' + hb_ntos( i ) ) OF _EditItem VALUE g [i]
       NEXT i
 
-      @ ( l * 30 ) + 20 , 20 BUTTON BUTTON_1;
-         OF _EDITITEM;
+      @ l * 30 + 20 , 20 BUTTON BUTTON_1;
          CAPTION _HMG_MESSAGE [6];
          ACTION { || _EditItemOk ( ControlName , FormName , Item , l ) }
 
-      @ ( l * 30 ) + 20 , 130 BUTTON BUTTON_2;
-         OF _EDITITEM;
+      @ l * 30 + 20 , 130 BUTTON BUTTON_2;
          CAPTION _HMG_MESSAGE [7];
          ACTION _EditItem.Release
 
    END WINDOW
-
-   _SetFocus ( 'Text_1', '_EditItem' )
 
    ACTIVATE WINDOW _EditItem
 
@@ -574,13 +650,11 @@ PROCEDURE _AddGridColumn ( cControlName , cParentForm , nColIndex , cCaption , n
 
    // Get Control Index
    i := GetControlIndex ( cControlName , cParentForm )
-
    // Set Default Values
    hb_default( @nColIndex, Len ( _HMG_aControlPageMap [i] ) + 1 )
    __defaultNIL( @cCaption, "" )
    hb_default( @nWidth, 120 )
    hb_default( @nJustify, 0 )
-
    // Update Grid Object
    FOR x := 1 TO nColIndex - 1
       AAdd ( atemp , _HMG_aControlPageMap [i] [x] )
@@ -598,6 +672,7 @@ PROCEDURE _AddGridColumn ( cControlName , cParentForm , nColIndex , cCaption , n
    _HMG_aControlPageMap [i] := atemp
    _HMG_aControlCaption [i] := atemp
    _HMG_aControlMiscData1 [i] [3] := atemp2
+   ASize( _HMG_aControlMiscData1 [i] [25], Len( atemp ) )
 
    // Call C-Level Routine
    ListView_AddColumn( _HMG_aControlHandles [i] , nColIndex , nWidth , cCaption , nJustify )
@@ -612,7 +687,6 @@ PROCEDURE _DeleteGridColumn ( cControlName , cParentForm , nColIndex )
 
    // Get Control Index
    i := GetControlIndex ( cControlName , cParentForm )
-
    // Update Grid Object
    FOR x := 1 TO nColIndex - 1
       AAdd ( atemp , _HMG_aControlPageMap [i] [x] )
@@ -627,6 +701,7 @@ PROCEDURE _DeleteGridColumn ( cControlName , cParentForm , nColIndex )
    _HMG_aControlPageMap [i] := atemp
    _HMG_aControlCaption [i] := atemp
    _HMG_aControlMiscData1 [i] [3] := atemp2
+   hb_ADel( _HMG_aControlMiscData1 [i] [25], nColIndex, .T. )
 
    // Call C-Level Routine
    ListView_DeleteColumn ( _HMG_aControlHandles [i] , nColIndex )
@@ -652,7 +727,6 @@ PROCEDURE _UpdateGridColors ( i )
    IF processdbc
       ProcessDynamicArray ( i , Rows , Cols , dBc , 22 )
    ENDIF
-
    IF processdfc
       ProcessDynamicArray ( i , Rows , Cols , dFc , 21 )
    ENDIF
@@ -664,14 +738,14 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE ProcessDynamicArray ( i , Rows , Cols , Arr , item )
 *-----------------------------------------------------------------------------*
-   LOCAL r , c
    LOCAL aValues , aTemp
+   LOCAL r , c
 
    aTemp := Array ( Rows , Cols )
 
    FOR r := 1 TO Rows
 
-      IF _HMG_aControlMiscData1 [ i ] [ 5 ] == .T.
+      IF _HMG_aControlMiscData1 [i] [5] == .T.
 
          aValues := _GetIVirtualItem ( r , i , Cols )
 
@@ -688,20 +762,22 @@ STATIC PROCEDURE ProcessDynamicArray ( i , Rows , Cols , Arr , item )
 
          _HMG_ThisItemCellValue := aValues [c]
 
-         aTemp [r] [c] := iif( ValType ( Arr [c] ) == 'B', _tEval ( Arr [c] , aValues , r ) , -1 )
+         aTemp [r] [c] := iif( ISBLOCK ( Arr [c] ), _tEval ( Arr [c] , aValues , r ) , -1 )
 
       NEXT c
 
    NEXT r
 
-   _HMG_aControlMiscData1 [i, item] := aTemp
+   _HMG_aControlMiscData1 [i] [item] := aTemp
 
 RETURN
 
 *-----------------------------------------------------------------------------*
 FUNCTION _tEval ( bBlock , Par1 , Par2 )
 *-----------------------------------------------------------------------------*
-   LOCAL tEval := Eval ( bBlock , Par1 , Par2 )
+   LOCAL tEval
+
+   tEval := Eval ( bBlock , Par1 , Par2 )
 
    IF IsArrayRGB ( tEval )
       tEval := RGB ( tEval [1] , tEval [2] , tEval [3] )
@@ -712,7 +788,6 @@ RETURN IFNUMERIC( tEval, tEval, 0 )
 *-----------------------------------------------------------------------------*
 FUNCTION _GridInplaceEdit( idx )
 *-----------------------------------------------------------------------------*
-   LOCAL r , c , v, h , aTemp , ri , ci , DH := 0 , DR := 0
    LOCAL FormName := '_hmg_grid_inplaceedit'
    LOCAL AEDITCONTROLS
    LOCAL AEC := 'TEXTBOX'
@@ -724,7 +799,12 @@ FUNCTION _GridInplaceEdit( idx )
    LOCAL CINPUTMASK
    LOCAL CFORMAT
    LOCAL XRES
-   LOCAL CWH, WHEN, abKeyBlocks := {}
+   LOCAL CWH, WHEN
+   LOCAL abKeyBlocks := {}
+   LOCAL aTemp
+   LOCAL DH := 0 , DR := 0
+   LOCAL r , c , v , h , ri , ci
+   LOCAL Save , bChange , bBlock
 
    IF _HMG_ThisEventType == 'GRID_WHEN'
       MsgMiniGuiError( "GRID: Editing within WHEN event procedure is not allowed." )
@@ -749,36 +829,39 @@ FUNCTION _GridInplaceEdit( idx )
       RETURN .F.
    ENDIF
 
-   IF _HMG_aControlMiscData1 [ idx ] [ 5 ] == .F.
-
-      aTemp := This.Item( ri )
-
-      v := aTemp [ci]
-
-   ELSE
-
-      _HMG_ThisQueryRowIndex  := ri
-      _HMG_ThisQueryColIndex  := ci
-
-      Eval( _HMG_aControlProcedures [idx] )
-
-      v := _HMG_ThisQueryData
-
+   IF ci == 1 .AND. Len( _HMG_aControlBkColor [ idx ] ) > 0
+      HMG_PressKey( VK_RIGHT, VK_RETURN )
+      _HMG_IPE_CANCELLED := .F.
+      RETURN .F.
    ENDIF
 
-   CWH := _HMG_aControlMiscData1 [idx] [15]
+   IF _HMG_aControlMiscData1 [ idx ] [ 5 ] == .F.
+      aTemp := This.Item( ri )
+      v := aTemp [ci]
+   ELSE
+      _HMG_ThisQueryRowIndex := ri
+      _HMG_ThisQueryColIndex := ci
+      Eval( _HMG_aControlProcedures [ idx ] )
+      v := _HMG_ThisQueryData
+   ENDIF
 
-   IF ValType ( CWH ) == 'A' .AND. Len ( CWH ) >= ci
+   Save := v
+   
+   CWH := _HMG_aControlMiscData1 [ idx ] [ 15 ]
 
-      IF ValType ( CWH [ci] ) == 'B'
+   IF ISARRAY ( CWH ) .AND. Len ( CWH ) >= ci
+
+      IF ISBLOCK ( CWH [ci] )
 
          _HMG_ThisItemCellValue := v
 
          _HMG_ThisEventType := 'GRID_WHEN'
+
          WHEN := Eval ( CWH [ci] )
+
          _HMG_ThisEventType := ''
 
-         IF WHEN == .F.
+         IF ISLOGICAL( WHEN ) .AND. WHEN == .F.
             _HMG_IPE_CANCELLED := .F.
             RETURN .F.
          ENDIF
@@ -801,18 +884,31 @@ FUNCTION _GridInplaceEdit( idx )
       c -= _HMG_aControlContainerCol [idx]
    ENDIF
 
-   aEditControls := _HMG_aControlMiscData1 [idx] [13]
+   aEditControls := _HMG_aControlMiscData1 [ idx ] [ 13 ]
 
    XRES := _ParseGridControls ( aEditControls , ci , ri )
+   
+   AEC        := XRES [ 1 ]
+   CTYPE      := XRES [ 2 ]
+   CINPUTMASK := XRES [ 3 ]
+   CFORMAT    := XRES [ 4 ]
+   AITEMS     := XRES [ 5 ]
+   ARANGE     := XRES [ 6 ]
+   DTYPE      := XRES [ 7 ]
+   ALABELS    := XRES [ 8 ]
+   bChange    := XRES [ 9 ]
+   bBlock     := XRES [10 ]
 
-   AEC        := XRES [1]
-   CTYPE      := XRES [2]
-   CINPUTMASK := XRES [3]
-   CFORMAT    := XRES [4]
-   AITEMS     := XRES [5]
-   ARANGE     := XRES [6]
-   DTYPE      := XRES [7]
-   ALABELS    := XRES [8]
+   IF ISBLOCK( bBlock )
+      aTemp [ci] :=  ( v := Eval( bBlock, v ) )
+      IF _HMG_aControlMiscData1 [ idx ] [ 5 ] == .F.
+         _SetItem ( , , ri , aTemp , idx )
+      ENDIF     
+      IF Save <> hb_ValToStr( v )
+         Eval ( bChange, v )
+      ENDIF    
+      RETURN .T.
+   ENDIF
 
    IF AEC == 'COMBOBOX'
       DH := 1
@@ -828,11 +924,15 @@ FUNCTION _GridInplaceEdit( idx )
       HEIGHT This.CellHeight + 6 + DH ;
       TITLE '' MODAL ;
       NOSIZE ;
-      NOCAPTION
+      NOCAPTION 
 
-   ON KEY ESCAPE ACTION ( _HMG_IPE_CANCELLED := .T. , ThisWindow.Release )
-   ON KEY RETURN ACTION iif ( _IsWindowActive ( FormName ) , ( _HMG_IPE_CANCELLED := .F. , _GridInplaceEditOK ( IDX , CI , RI , AEC ) ) , NIL )
-   ON KEY TAB    ACTION ( _lTabKeyPressed := .T. , InsertReturn() )
+   ON KEY ESCAPE    ACTION ( _HMG_IPE_CANCELLED := .T. , ThisWindow.Release )
+
+   ON KEY RETURN    ACTION iif ( _IsWindowActive ( FormName ) , ( _HMG_IPE_CANCELLED := .F. , _GridInplaceEditOK ( IDX , CI , RI , AEC ) ) , NIL )
+
+   ON KEY TAB       ACTION ( _lTabKeyPressed := .T. , InsertReturn() )
+
+   ON KEY SHIFT+TAB ACTION iif (_HMG_GridNavigationMode , , ( _lShiftTabKeyPressed := .T. , ThisWindow.Release , InsertReturn() ) )
 
    IF AEC == 'TEXTBOX'
 
@@ -841,25 +941,21 @@ FUNCTION _GridInplaceEdit( idx )
         COL      0
         WIDTH    This.CellWidth
         HEIGHT   This.CellHeight + 6
-
         IF CTYPE == 'NUMERIC'
            NUMERIC .T.
         ELSEIF CTYPE == 'DATE'
            DATE .T.
         ENDIF
-
         VALUE    v
         FONTNAME _hmg_aControlFontName [idx]
         FONTSIZE _hmg_aControlFontSize [idx]
-
         IF ! Empty ( CINPUTMASK )
            INPUTMASK CINPUTMASK
         ENDIF
-
         IF ! Empty ( CFORMAT )
            FORMAT CFORMAT
         ENDIF
-
+        ONCHANGE v := This.Value
       END TEXTBOX
 
       IF Empty ( CINPUTMASK ) .AND. Empty ( CFORMAT )
@@ -875,16 +971,14 @@ FUNCTION _GridInplaceEdit( idx )
         HEIGHT   This.CellHeight + 6
         VALUE    v
         SHOWNONE .T.
-
         FONTNAME _hmg_aControlFontName [idx]
         FONTSIZE _hmg_aControlFontSize [idx]
-
         IF DTYPE == 'DROPDOWN'
            UPDOWN .F.
         ELSEIF DTYPE == 'UPDOWN'
            UPDOWN .T.
         ENDIF
-
+        ONCHANGE v := This.Value
       END DATEPICKER
 
    ELSEIF AEC == 'COMBOBOX'
@@ -903,6 +997,7 @@ FUNCTION _GridInplaceEdit( idx )
            _ReleaseHotKey ( FormName, 0, 13 ) )
         ON LISTCLOSE ( _DefineHotKey( FormName, 0, 27, abKeyBlocks[1] ), ;
            _DefineHotKey( FormName, 0, 13, abKeyBlocks[2] ), abKeyBlocks := {} )
+        ONCHANGE v := This.Value
       END COMBOBOX
 
    ELSEIF AEC == 'SPINNER'
@@ -918,6 +1013,7 @@ FUNCTION _GridInplaceEdit( idx )
         INCREMENT ARANGE [3]
         FONTNAME _hmg_aControlFontName [idx]
         FONTSIZE _hmg_aControlFontSize [idx]
+        ONCHANGE v := This.Value
       END SPINNER
 
    ELSEIF AEC == 'CHECKBOX'
@@ -932,7 +1028,7 @@ FUNCTION _GridInplaceEdit( idx )
         FONTSIZE _hmg_aControlFontSize [idx]
         CAPTION   ALABELS [ iif ( V == .T., 1, 2 ) ]
         BACKCOLOR WHITE
-        ON CHANGE This.Caption := ALABELS [ iif ( This.Value == .T., 1, 2 ) ]
+        ON CHANGE ( v := This.Value, This.Caption := ALABELS [ iif ( This.Value == .T., 1, 2 ) ] )
       END CHECKBOX
 
    ENDIF
@@ -944,6 +1040,10 @@ FUNCTION _GridInplaceEdit( idx )
    _HMG_InplaceParentHandle := 0
 
    SetFocus( _HMG_aControlHandles [idx] )
+  
+   IF Save <> V
+      Eval ( bChange, v )
+   ENDIF
 
 RETURN .T.
 
@@ -959,44 +1059,58 @@ FUNCTION _ParseGridControls ( aEditControls , ci , ri )
    LOCAL CINPUTMASK := ''
    LOCAL CFORMAT := ''
    LOCAL aEdit
+   Local bChange := {|| Nil}, i, bBlock
 
-   IF ValType( aEditControls ) == 'A'
+   IF ISARRAY( aEditControls )
 
       IF Len( aEditControls ) >= ci
 
-         IF ValType( aEditControls [ci] ) == 'A'
+         IF ISARRAY( aEditControls [ci] )
 
             IF Len( aEditControls [ci] ) >= 1
 
                AEC := Upper( aEditControls [ci] [1] )
 
                // check for a new type control defined as { 'DYNAMIC', {|r,c| CodeBlock_Return_Control_Array} }
-               IF Len( aEditControls [ci] ) == 2 .AND. AEC == 'DYNAMIC'
+               IF Len( aEditControls [ci] ) >= 2 .AND. AEC == 'DYNAMIC'
+
                   aEdit := Eval( aEditControls [ci] [2] , ri , ci )
-                  IF ValType( aEdit ) == "A" .AND. Len( aEdit ) >= 1
+                  
+                  // A more generic function to simulate ONCHANGE event
+                  bChange := iif( Len( aEditControls [ci] ) > 2 .AND. ISBLOCK( aEditControls [ci][3] ), aEditControls [ci][3], {|| Nil} )
+                  
+                  IF ISARRAY( aEdit ) .AND. Len( aEdit ) >= 1 .AND. iif( Len( aEdit ) > 1, !ISBLOCK( aEdit [2] ), .T. )
                      AEC := aEdit [1]    // get normal type for this cell
                   ELSE
-                     AEC := 'TEXTBOX'    // default
-                     aEdit := {}         // set as array
+                     IF ISARRAY( aEdit ) .AND. Len( aEdit ) >= 2 .AND. ISBLOCK( aEdit [2] )
+                        AEC := 'CODEBLOCK'
+                        bBlock := aEdit [2]
+                     ELSE
+                        AEC := 'TEXTBOX' // default
+                        aEdit := {}      // set as array
+                     ENDIF
                   ENDIF
+
                ELSE
+
                   aEdit := aEditControls [ci]
+
                ENDIF
 
                IF Len( aEdit ) >= 2 .AND. AEC == 'TEXTBOX'
 
-                  IF ValType( AEDIT [2] ) == 'C'
+                  IF ISCHARACTER( AEDIT [2] )
                      CTYPE := Upper( AEDIT [2] )
                   ENDIF
 
                   IF Len( AEDIT ) >= 3
-                     IF ValType( AEDIT [3] ) == 'C'
+                     IF ISCHARACTER( AEDIT [3] )
                         CINPUTMASK := AEDIT [3]
                      ENDIF
                   ENDIF
 
                   IF Len( AEDIT ) >= 4
-                     IF ValType( AEDIT [4] ) == 'C'
+                     IF ISCHARACTER( AEDIT [4] )
                         CFORMAT := AEDIT [4]
                      ENDIF
                   ENDIF
@@ -1004,35 +1118,46 @@ FUNCTION _ParseGridControls ( aEditControls , ci , ri )
                ENDIF
 
                IF Len( aEdit ) >= 2 .AND. AEC == 'COMBOBOX'
-                  IF ValType( AEDIT [2] ) == 'A'
+                  IF ISARRAY( AEDIT [2] )
                      AITEMS := AEDIT [2]
                   ENDIF
                ENDIF
 
                IF Len( aEdit ) >= 3 .AND. AEC == 'SPINNER'
-                  IF Len( aEdit ) == 3 .AND. ;
-                     ValType( AEDIT [2] ) == 'N' .AND. ;
-                     ValType( AEDIT [3] ) == 'N'
-                     ARANGE := { AEDIT [2] , AEDIT [3] , 1 }
-                  ELSEIF ValType( AEDIT [2] ) == 'N' .AND. ;
-                     ValType( AEDIT [3] ) == 'N' .AND. ;
-                     ValType( AEDIT [4] ) == 'N'
+               
+                  IF Len(aEdit) > 3 .AND.;
+                     ISNUMERIC( AEDIT [2] ) .AND. ;
+                     ISNUMERIC( AEDIT [3] ) .AND. ;
+                     ISNUMERIC( AEDIT [4] )
                      ARANGE := { AEDIT [2] , AEDIT [3] , AEDIT [4] }
+                  ELSEIF ISNUMERIC( AEDIT [2] ) .AND. ;
+                     ISNUMERIC( AEDIT [3] )
+                     ARANGE := { AEDIT [2] , AEDIT [3] , 1 }
                   ENDIF
+                  
                ENDIF
 
                IF Len( aEdit ) >= 2 .AND. AEC == 'DATEPICKER'
-                  IF ValType( AEDIT [2] ) == 'C'
+                  IF ISCHARACTER( AEDIT [2] )
                      DTYPE := Upper( AEDIT [2] )
                   ENDIF
                ENDIF
 
-               IF Len( aEdit ) == 3 .AND. AEC == 'CHECKBOX'
-                  IF ValType( AEDIT [2] ) == 'C' .AND. ;
-                     ValType( AEDIT [3] ) == 'C'
+               IF Len( aEdit ) >= 3 .AND. AEC == 'CHECKBOX'
+
+                  IF ISCHARACTER( AEDIT [2] ) .AND. ;
+                     ISCHARACTER( AEDIT [3] )
                      ALABELS := { AEDIT [2] , AEDIT [3] }
                   ENDIF
+
                ENDIF
+               
+               // An individual function overlapping a generic
+               FOR i := 3 TO Len( aEdit )
+                  IF ISBLOCK( aEdit [i] )
+                     bChange := aEdit [i]
+                  ENDIF
+               NEXT
 
             ENDIF
 
@@ -1042,40 +1167,47 @@ FUNCTION _ParseGridControls ( aEditControls , ci , ri )
 
    ENDIF
 
-RETURN { AEC , CTYPE , CINPUTMASK , CFORMAT , AITEMS , ARANGE , DTYPE , ALABELS }
+RETURN { AEC , CTYPE , CINPUTMASK , CFORMAT , AITEMS , ARANGE , DTYPE , ALABELS , bChange , bBlock }
 
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE _GridInplaceEditOK ( idx , ci , ri , aec )
 *-----------------------------------------------------------------------------*
-   LOCAL CVA , VALID , aValidMessages , aTemp , Cols , z
+   LOCAL CVA
+   LOCAL VALID
+   LOCAL aValidMessages
+   LOCAL aTemp
+   LOCAL Cols
+   LOCAL z
 
    CVA := _HMG_aControlMiscData1 [idx] [14]
 
-   IF ValType ( CVA ) == 'A' .AND. Len ( CVA ) >= ci
+   IF ISARRAY ( CVA ) .AND. Len ( CVA ) >= ci
 
-      IF ValType ( CVA [ci] ) == 'B'
+      IF ISBLOCK ( CVA [ci] )
 
          _HMG_ThisItemCellValue := GetProperty ( "_hmg_grid_inplaceedit", Left ( AEC, 1 ), "value" )
 
-         _HMG_ThisFormName := _HMG_aFormNames [ Ascan ( _HMG_aFormHandles , _HMG_aControlParentHandles [idx] ) ]
+         _HMG_ThisFormName := _HMG_aFormNames [ Ascan ( _HMG_aFormHandles , _HMG_aControlParentHandles [ idx ] ) ]
+         _HMG_ThisControlName := _HMG_aControlNames[ idx ]
          _HMG_ThisEventType := 'GRID_VALID'
 
          VALID := Eval ( CVA [ci] )
 
          _HMG_ThisEventType := ''
          _HMG_ThisFormName := _HMG_aFormNames [ _HMG_ThisFormIndex ]
+         _HMG_ThisControlName := _HMG_aControlNames [ _HMG_ThisIndex ]
 
          IF ISLOGICAL( VALID ) .AND. VALID == .F.
 
             aValidMessages := _HMG_aControlMiscData1 [idx] [16]
 
-            IF ValType ( aValidMessages ) == 'A'
+            IF ISARRAY ( aValidMessages )
 
-               IF ValType ( aValidMessages [ci] ) == 'C'
+               IF ISCHARACTER ( aValidMessages [ci] )
 
                   MsgAlert ( aValidMessages [ci] , _HMG_BRWLangError [10] )
 
-               ELSEIF ValType ( aValidMessages [ci] ) == 'B'
+               ELSEIF ISBLOCK ( aValidMessages [ci] )
 
                   Eval ( aValidMessages [ci], _HMG_ThisItemCellValue )
 
@@ -1112,12 +1244,14 @@ STATIC PROCEDURE _GridInplaceEditOK ( idx , ci , ri , aec )
       aTemp := AFill ( Array ( Cols ) , '' )
 
       FOR z := 1 TO Cols
+
          _HMG_ThisQueryRowIndex  := ri
          _HMG_ThisQueryColIndex  := z
 
          Eval( _HMG_aControlProcedures [idx] )
 
          aTemp [z] := _HMG_ThisQueryData
+
       NEXT
 
    ENDIF
@@ -1172,7 +1306,7 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _GridInplaceKbdEdit( i )
 *-----------------------------------------------------------------------------*
-   LOCAL H := _HMG_aControlHandles [i]
+   LOCAL h := _HMG_aControlHandles [i]
    LOCAL IPE_MAXCOL := ListView_GetColumnCount ( h )
    LOCAL TmpRow
    LOCAL XS
@@ -1184,10 +1318,8 @@ PROCEDURE _GridInplaceKbdEdit( i )
       TmpRow := LISTVIEW_GETFIRSTITEM ( h )
 
       IF TmpRow != _HMG_IPE_ROW
-
          _HMG_IPE_ROW := TmpRow
          _HMG_IPE_COL := iif( Len ( _HMG_aControlBkColor [i] ) > 0, 2, 1 )
-
       ENDIF
 
       _HMG_ThisItemRowIndex := _HMG_IPE_ROW
@@ -1249,13 +1381,9 @@ PROCEDURE _GridInplaceKbdEdit( i )
       IF _HMG_IPE_CANCELLED == .T.
 
          IF _HMG_IPE_COL == IPE_MAXCOL
-
-            _HMG_IPE_COL := iif( Len ( _HMG_aControlBkColor [i] ) > 0, 2, 1 )
-
+            _HMG_IPE_COL := 1
             ListView_Scroll( h , -10000 , 0 )
-
          ENDIF
-
          EXIT
 
       ELSE
@@ -1263,13 +1391,9 @@ PROCEDURE _GridInplaceKbdEdit( i )
          _HMG_IPE_COL++
 
          IF _HMG_IPE_COL > IPE_MAXCOL
-
-            _HMG_IPE_COL := iif( Len ( _HMG_aControlBkColor [i] ) > 0, 2, 1 )
-
+            _HMG_IPE_COL := 1
             ListView_Scroll( h , -10000 , 0 )
-
             EXIT
-
          ENDIF
 
       ENDIF
@@ -1282,10 +1406,8 @@ RETURN
 FUNCTION GetNumFromCellText ( Text )
 *-----------------------------------------------------------------------------*
    LOCAL s As String
-   // LOCAL x , c 
-   LOCAL c // code optimization - p.d. 03/02/2017 
+   LOCAL x , c
 
-   /*
    FOR x := 1 TO Len ( Text )
 
       c := SubStr ( Text, x, 1 )
@@ -1295,16 +1417,7 @@ FUNCTION GetNumFromCellText ( Text )
       ENDIF
 
    NEXT x
-   */
-   
-   // code optimization - p.d. 03/02/2017 
-   FOR EACH c IN Text
-      IF c $ "0123456789.-"
-         s += c
-      ENDIF
-   NEXT
-   // end code optimization - p.d. 03/02/2017 
-   
+
    IF Left ( AllTrim( Text ) , 1 ) == '(' .OR.  Right ( AllTrim( Text ) , 2 ) == 'DB'
       s := '-' + s
    ENDIF
@@ -1315,11 +1428,8 @@ RETURN Val( s )
 FUNCTION GETNumFromCellTextSP ( Text )
 *-----------------------------------------------------------------------------*
    LOCAL s As String
-   // LOCAL x , c
-   LOCAL c // code optimization - p.d. 03/02/2017 
+   LOCAL x , c
 
-   // code optimization - p.d. 03/02/2017 
-   /*
    FOR x := 1 TO Len ( Text )
 
       c := SubStr ( Text, x, 1 )
@@ -1339,21 +1449,7 @@ FUNCTION GETNumFromCellTextSP ( Text )
       ENDIF
 
    NEXT x
-   */
-   
-   // code optimization - p.d. 03/02/2017 
-   FOR EACH c IN Text
-      IF c $ "0123456789,-."
-         IF c == "."
-            c := ""
-         ELSEIF c == ","
-            c := "."
-         ENDIF
-         s += c
-      ENDIF
-   NEXT
-   // end code optimization - p.d. 03/02/2017 
-   
+
    IF Left ( AllTrim( Text ) , 1 ) == '(' .OR.  Right ( AllTrim( Text ) , 2 ) == 'DB'
       s := '-' + s
    ENDIF
@@ -1404,7 +1500,8 @@ RETURN
 FUNCTION _GetColumnWidth( ControlName , ParentForm, nColumnNo )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL nWidth := -1, i, h
+   LOCAL nWidth := -1
+   LOCAL i, h
 
    i := GetControlIndex( ControlName , ParentForm )
    h := _HMG_aControlHandles [i]
@@ -1421,7 +1518,8 @@ RETURN nWidth
 FUNCTION _SetColumnWidth( ControlName , ParentForm , nColumnNo , nWidth )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL i, h, lSuccess := .F.
+   LOCAL lSuccess := .F.
+   LOCAL i, h
 
    i := GetControlIndex( ControlName , ParentForm )
    h := _HMG_aControlHandles [i]
@@ -1438,7 +1536,8 @@ RETURN lSuccess
 FUNCTION _SetColumnWidthAuto( ControlName , ParentForm , nColumnNo )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL i, h, lSuccess := .F.
+   LOCAL lSuccess := .F.
+   LOCAL i, h
 
    i := GetControlIndex( ControlName , ParentForm )
    h := _HMG_aControlHandles [i]
@@ -1455,7 +1554,8 @@ RETURN lSuccess
 FUNCTION _SetColumnWidthAutoH( ControlName , ParentForm , nColumnNo )
 *-----------------------------------------------------------------------------*
    LOCAL z As Numeric
-   LOCAL i, h, lSuccess := .F.
+   LOCAL lSuccess := .F.
+   LOCAL i, h
 
    i := GetControlIndex( ControlName , ParentForm )
    h := _HMG_aControlHandles [i]
@@ -1471,7 +1571,9 @@ RETURN lSuccess
 *-----------------------------------------------------------------------------*
 FUNCTION _SetColumnsWidthAuto( ControlName , ParentForm )
 *-----------------------------------------------------------------------------*
-   LOCAL z, i, h, ColumnCount, lSuccess := .F.
+   LOCAL ColumnCount
+   LOCAL lSuccess := .F.
+   LOCAL z, i, h
 
    i := GetControlIndex( ControlName , ParentForm )
    h := _HMG_aControlHandles [i]
@@ -1487,9 +1589,11 @@ RETURN lSuccess
 *-----------------------------------------------------------------------------*
 FUNCTION _SetColumnsWidthAutoH( ControlName , ParentForm )
 *-----------------------------------------------------------------------------*
-   LOCAL z, i, h, ColumnCount, lSuccess := .F.
+   LOCAL ColumnCount
+   LOCAL lSuccess := .F.
+   LOCAL z, i, h
 
-   i := GetControlIndex ( ControlName , ParentForm )
+   i := GetControlIndex( ControlName , ParentForm )
    h := _HMG_aControlHandles [i]
 
    IF ( ColumnCount := ListView_GetColumnCount( h ) ) > 0
@@ -1653,9 +1757,9 @@ FUNCTION _GetIVirtualItem ( nRow , i , nCols )
 
       _HMG_ThisQueryColIndex := j
 
-      IF ValType ( _HMG_aControlProcedures [ i ] ) == 'B'
+      IF ISBLOCK ( _HMG_aControlProcedures [i] )
 
-         Eval( _HMG_aControlProcedures [ i ] )   // OnQueryData Event
+         Eval( _HMG_aControlProcedures [i] )   // OnQueryData Event
 
       ENDIF
 
@@ -1666,54 +1770,16 @@ FUNCTION _GetIVirtualItem ( nRow , i , nCols )
 RETURN aTemp
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DoGridCustomDraw ( i , a , lParam )
-*-----------------------------------------------------------------------------*
-   LOCAL aTemp
-   LOCAL aTemp2
-
-   IF a[1] >= 1 .AND. a[1] <= ListViewGetItemCount( _HMG_aControlHandles [i] ) .AND. ; // MaxGridRows
-      a[2] >= 1 .AND. a[2] <= ListView_GetColumnCount ( _HMG_aControlHandles [i] )     // MaxGridCols
-      aTemp  := _HMG_aControlMiscData1 [i, 22]
-      aTemp2 := _HMG_aControlMiscData1 [i, 21]
-      IF ValType ( aTemp ) == 'A' .AND. ValType ( aTemp2 ) <> 'A'
-         IF Len ( aTemp ) >= a[1]
-            IF aTemp [a[1]] [a[2]] <> -1
-               RETURN SetBcFc ( lParam , aTemp [a[1]] [a[2]] , RGB( 0, 0, 0 ) )
-            ELSE
-               RETURN SETBRCCD( lParam )
-            ENDIF
-         ENDIF
-      ELSEIF ValType ( aTemp ) <> 'A' .AND. ValType ( aTemp2 ) == 'A'
-         IF Len ( aTemp2 ) >= a[1]
-            IF aTemp2 [a[1]] [a[2]] <> -1
-               RETURN SetBcFc ( lParam , RGB( 255, 255, 255 ) , aTemp2 [a[1]] [a[2]] )
-            ELSE
-               RETURN SETBRCCD( lParam )
-            ENDIF
-         ENDIF
-      ELSEIF ValType ( aTemp ) == 'A' .AND. ValType ( aTemp2 ) == 'A'
-         IF Len ( aTemp ) >= a[1] .AND. Len ( aTemp2 ) >= a[1]
-            IF aTemp [a[1]] [a[2]] <> -1
-               RETURN SetBcFc ( lParam , aTemp [a[1]] [a[2]] , aTemp2 [a[1]] [a[2]] )
-            ELSE
-               RETURN SETBRCCD( lParam )
-            ENDIF
-         ENDIF
-      ENDIF
-   ELSE
-      RETURN SETBRCCD( lParam )
-   ENDIF
-
-RETURN 0
-
-*-----------------------------------------------------------------------------*
 PROCEDURE _GRIDINPLACEKBDEDIT_2( i )
 *-----------------------------------------------------------------------------*
    LOCAL IPE_MAXCOL := ListView_GetColumnCount ( _HMG_aControlHandles [i] )
    LOCAL IPE_MAXROW := ListViewGetItemCount( _HMG_aControlHandles [i] )
    LOCAL ownerdata := _HMG_aControlMiscData1 [i] [5]
    LOCAL aColumnWhen := _HMG_aControlMiscData1 [i] [15]
-   LOCAL r, nStart, nEnd, j, lResult, aTemp
+   LOCAL aTemp
+   LOCAL nStart, nEnd
+   LOCAL lResult
+   LOCAL r, j
 
    _GRID_KBDSCROLL( i )
 
@@ -1740,37 +1806,52 @@ PROCEDURE _GRIDINPLACEKBDEDIT_2( i )
    IF _HMG_IPE_CANCELLED == .F.
 
       IF r == .T. .AND. _HMG_aControlMiscData1 [i] [19] == 0
+
          IF _HMG_aControlMiscData1 [i] [ 17 ] < IPE_MAXCOL
-            IF !_lTabKeyPressed
-               IF _HMG_GridNavigationMode
-                  IF This.CellRowIndex < IPE_MAXROW
-                     InsertDown()
-                     InsertReturn()
-                  ENDIF
+
+            IF _lShiftTabKeyPressed
+               _lShiftTabKeyPressed := .F.
+               IF _HMG_aControlMiscData1 [i] [ 17 ] > 1
+                  _HMG_aControlMiscData1 [i] [ 17 ]--
+                  InsertReturn()
                ELSE
-                  _HMG_aControlMiscData1 [i] [ 17 ]++
+                  _HMG_aControlMiscData1 [i] [ 17 ] := IPE_MAXCOL
                ENDIF
             ELSE
-               _HMG_aControlMiscData1 [i] [ 17 ]++
-               _lTabKeyPressed := .F.
-               InsertReturn()
+               IF _lTabKeyPressed
+                  _lTabKeyPressed := .F.
+                  _HMG_aControlMiscData1 [i] [ 17 ]++
+                  InsertReturn()
+               ELSE
+                  IF _HMG_GridNavigationMode
+                     IF This.CellRowIndex < IPE_MAXROW
+                        InsertDown()
+                        InsertReturn()
+                     ENDIF
+                  ELSE
+                     _HMG_aControlMiscData1 [i] [ 17 ]++
+                  ENDIF
+               ENDIF
             ENDIF
 
-            IF ValType ( aColumnWhen ) == 'A'
+            IF ISARRAY ( aColumnWhen )
+
                IF ownerdata == .F.
                   aTemp := This.Item( This.CellRowIndex )
                ELSE
                   _HMG_ThisQueryRowIndex := This.CellRowIndex
                ENDIF
+
                nStart := _HMG_aControlMiscData1 [i] [ 17 ]
                nEnd := Len ( aColumnWhen )
+
                FOR j := nStart TO nEnd
-                  IF ValType ( aColumnWhen [j] ) == 'B'
+                  IF ISBLOCK ( aColumnWhen [j] )
                      r := Min ( IPE_MAXCOL, j )
                      IF ownerdata == .F.
                         _HMG_ThisItemCellValue := aTemp [r]
                      ELSE
-                        _HMG_ThisQueryColIndex  := r
+                        _HMG_ThisQueryColIndex := r
                         Eval ( _HMG_aControlProcedures [i] )
                         _HMG_ThisItemCellValue := _HMG_ThisQueryData
                      ENDIF
@@ -1786,27 +1867,39 @@ PROCEDURE _GRIDINPLACEKBDEDIT_2( i )
                      EXIT
                   ENDIF
                NEXT j
+
                IF !_HMG_GridNavigationMode
                   IF _HMG_aControlMiscData1 [i] [ 17 ] > nEnd
                      _HMG_aControlMiscData1 [i] [ 17 ] := nStart - 1
                   ENDIF
                ENDIF
+
             ENDIF
+
          ELSEIF _HMG_aControlMiscData1 [i] [ 17 ] == IPE_MAXCOL
-            IF !_lTabKeyPressed
-               IF !_HMG_GridNavigationMode
+
+            IF _lShiftTabKeyPressed
+               _HMG_aControlMiscData1 [i] [ 17 ]--
+               _lShiftTabKeyPressed := .F.
+               InsertReturn()
+            ELSE
+               IF _lTabKeyPressed
+                  _lTabKeyPressed := .F.
                   _HMG_aControlMiscData1 [i] [ 17 ] := 1
                ELSE
-                  IF This.CellRowIndex < IPE_MAXROW
-                     InsertDown()
-                     InsertReturn()
+                  IF _HMG_GridNavigationMode
+                     IF This.CellRowIndex < IPE_MAXROW
+                        InsertDown()
+                        InsertReturn()
+                     ENDIF
+                  ELSE
+                     _HMG_aControlMiscData1 [i] [ 17 ] := 1
                   ENDIF
                ENDIF
-            ELSE
-               _HMG_aControlMiscData1 [i] [ 17 ] := 1
-               _lTabKeyPressed := .F.
             ENDIF
+
          ENDIF
+
       ENDIF
 
       LISTVIEW_REDRAWITEMS ( _HMG_aControlHandles [i] , _HMG_aControlMiscData1 [i] [ 1 ] - 1 , _HMG_aControlMiscData1 [i] [ 1 ] - 1 )
@@ -1849,12 +1942,67 @@ PROCEDURE _GRID_KBDSCROLL( i )
 
    xd := 20
 
-   IF xs > - xd
-      ListView_Scroll( _HMG_aControlHandles [i] , xs + xd , 0 )
+   IF xs > -xd
+      ListView_Scroll ( _HMG_aControlHandles [i] , xs + xd , 0 )
    ELSE
-      IF r [2] < 0
-         ListView_Scroll( _HMG_aControlHandles [i] , r[2] , 0 )
+      IF r[2] < 0
+         ListView_Scroll ( _HMG_aControlHandles [i] , r[2] , 0 )
       ENDIF
    ENDIF
 
 RETURN
+
+#ifdef _HMG_COMPAT_
+*-----------------------------------------------------------------------------*
+FUNCTION _SetGetGridProperty ( ControlName, ParentForm, nControl, nColIndex, Value )
+*-----------------------------------------------------------------------------*
+   LOCAL z As Numeric
+   LOCAL i := GetControlIndex ( ControlName, ParentForm )
+   LOCAL nColumnCount
+   LOCAL nRow
+   LOCAL xCellValue
+   LOCAL RetVal := .T.
+
+   IF 'GRID' $ _HMG_aControlType [i]
+
+      Assign z := nColIndex
+
+      IF z > 0 .AND. z <= ( nColumnCount := ListView_GetColumnCount ( _HMG_aControlHandles [i] ) )
+
+         IF PCount() > 4
+
+            IF Valtype ( _HMG_aControlMiscData1 [i] [nControl] ) <> "A"
+               _HMG_aControlMiscData1 [i] [nControl] := {}
+            ENDIF
+            IF Len ( _HMG_aControlMiscData1 [i] [nControl] ) < nColumnCount           
+               ASize ( _HMG_aControlMiscData1 [i] [nControl], nColumnCount )
+            ENDIF
+
+            _HMG_aControlMiscData1 [i] [nControl] [z] := Value
+
+            IF nControl == _GRID_COLUMN_CONTROL_
+               FOR nRow := 1 TO ListViewGetItemCount ( _HMG_aControlHandles [i] )
+                  xCellValue := _GetGridCellValue ( ControlName, ParentForm, nRow, nColIndex )
+                  _SetGridCellValue ( ControlName, ParentForm, nRow, nColIndex, xCellValue )
+               NEXT
+            ELSEIF nControl == _GRID_COLUMN_JUSTIFY_
+               SetGridColumnJustify ( _HMG_aControlHandles [i], z, Value )
+            ENDIF
+
+            DoMethod ( ParentForm, ControlName, "Refresh" )
+
+         ELSE
+
+            IF Valtype ( _HMG_aControlMiscData1 [i] [nControl] ) == "A"
+               RetVal := _HMG_aControlMiscData1 [i] [nControl] [z]
+            ENDIF
+
+         ENDIF
+
+      ENDIF
+
+   ENDIF
+
+RETURN RetVal
+
+#endif

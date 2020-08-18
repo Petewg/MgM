@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts of this code is contributed and used here under permission of his author:
        Copyright 2005 (C) Jacek Kubica <kubica@wssk.wroc.pl>
@@ -66,8 +66,13 @@
 #endif
 
 static HBRUSH     CreateGradientBrush( HDC hDC, INT nWidth, INT nHeight, COLORREF Color1, COLORREF Color2 );
+
 HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
                          HB_BOOL bAlphaFormat, int iAlpfaConstant );
+
+HIMAGELIST HMG_SetButtonImageList( HWND hButton, const char * FileName, int Transparent, UINT uAlign );
+BOOL bmp_SaveFile( HBITMAP hBitmap, char * FileName );
+
 LRESULT CALLBACK  OwnButtonProc( HWND hbutton, UINT msg, WPARAM wParam, LPARAM lParam );
 
 HINSTANCE GetInstance( void );
@@ -129,7 +134,7 @@ HB_FUNC( INITIMAGEBUTTON )
    HWND  himage;
    HICON hIcon;
    int   Style;
-   int   ImgStyle;
+   int   Transparent = hb_parl( 10 ) ? 0 : 1;
 
    HIMAGELIST       himl;
    BUTTON_IMAGELIST bi;
@@ -164,22 +169,11 @@ HB_FUNC( INITIMAGEBUTTON )
       NULL
              );
 
-   if( hb_parl( 10 ) )
-      ImgStyle = 0;
-   else
-      ImgStyle = LR_LOADTRANSPARENT;
-
    if( hb_parc( 14 ) == NULL )
    {
       if( ! hb_parl( 17 ) )
       {
-         himage = ( HWND ) LoadImage( GetResources(), hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | ImgStyle );
-
-         if( himage == NULL )
-            himage = ( HWND ) LoadImage( NULL, hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | ImgStyle );
-
-         if( himage == NULL )
-            himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwnd, 0, hb_parl( 10 ) ? 0 : 1, -1, 0, HB_FALSE, 255 );
+         himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwnd, 0, Transparent, -1, 0, HB_FALSE, 255 );
 
          SendMessage( hbutton, ( UINT ) BM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) himage );
 
@@ -189,37 +183,7 @@ HB_FUNC( INITIMAGEBUTTON )
       }
       else
       {
-         himl = ImageList_LoadImage
-                (
-            GetResources(),
-            hb_parc( 8 ),
-            0,
-            6,
-            CLR_DEFAULT,
-            IMAGE_BITMAP,
-            LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | ImgStyle
-                );
-
-         if( himl == NULL )
-            himl = ImageList_LoadImage
-                   (
-               GetResources(),
-               hb_parc( 8 ),
-               0,
-               6,
-               CLR_DEFAULT,
-               IMAGE_BITMAP,
-               LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | ImgStyle
-                   );
-
-         bi.himl          = himl;
-         bi.margin.left   = 10;
-         bi.margin.top    = 10;
-         bi.margin.bottom = 10;
-         bi.margin.right  = 10;
-         bi.uAlign        = 4;
-
-         SendMessage( ( HWND ) hbutton, ( UINT ) BCM_SETIMAGELIST, ( WPARAM ) 0, ( LPARAM ) &bi );
+         himl = HMG_SetButtonImageList( hbutton, hb_parc( 8 ), Transparent, BUTTON_IMAGELIST_ALIGN_CENTER );
 
          hb_reta( 2 );
          HB_STORVNL( ( LONG_PTR ) hbutton, -1, 1 );
@@ -393,40 +357,9 @@ HB_FUNC( _GETBTNPICTUREHANDLE )
 
 HB_FUNC( _SETMIXEDBTNPICTURE )
 {
-   HIMAGELIST       himl;
-   BUTTON_IMAGELIST bi;
+   HIMAGELIST himl;
 
-   himl = ImageList_LoadImage
-          (
-      GetResources(),
-      hb_parc( 2 ),
-      0,
-      6,
-      CLR_DEFAULT,
-      IMAGE_BITMAP,
-      LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS
-          );
-
-   if( himl == NULL )
-      himl = ImageList_LoadImage
-             (
-         GetResources(),
-         hb_parc( 2 ),
-         0,
-         6,
-         CLR_DEFAULT,
-         IMAGE_BITMAP,
-         LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS
-             );
-
-   bi.himl          = himl;
-   bi.margin.left   = 10;
-   bi.margin.top    = 10;
-   bi.margin.bottom = 10;
-   bi.margin.right  = 10;
-   bi.uAlign        = 4;
-
-   SendMessage( ( HWND ) HB_PARNL( 1 ), ( UINT ) BCM_SETIMAGELIST, ( WPARAM ) 0, ( LPARAM ) &bi );
+   himl = HMG_SetButtonImageList( ( HWND ) HB_PARNL( 1 ), hb_parc( 2 ), 1, BUTTON_IMAGELIST_ALIGN_CENTER );
 
    HB_RETNL( ( LONG_PTR ) himl );
 }
@@ -717,4 +650,42 @@ static HBRUSH CreateGradientBrush( HDC hDC, INT nWidth, INT nHeight, COLORREF Co
    DeleteObject( hBitmap );
 
    return hBrushPat;
+}
+
+HIMAGELIST HMG_SetButtonImageList( HWND hButton, const char * FileName, int Transparent, UINT uAlign )
+{
+   HBITMAP          hBitmap;
+   HIMAGELIST       hImageList;
+   BITMAP           Bmp;
+   BUTTON_IMAGELIST bi;
+   char TempPathFileName[ MAX_PATH ];
+
+   hBitmap = HMG_LoadPicture( FileName, -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
+   if( hBitmap == NULL )
+      return NULL;
+
+   GetObject( hBitmap, sizeof( BITMAP ), &Bmp );
+
+   GetTempPath( MAX_PATH, TempPathFileName );
+   lstrcat( TempPathFileName, TEXT( "_MG_temp.BMP" ) );
+   bmp_SaveFile( hBitmap, TempPathFileName );
+   DeleteObject( hBitmap );
+
+   if( Transparent == 1 )
+      hImageList = ImageList_LoadImage( GetResources(), TempPathFileName, Bmp.bmWidth, 6, CLR_DEFAULT, IMAGE_BITMAP, LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+   else
+      hImageList = ImageList_LoadImage( GetResources(), TempPathFileName, Bmp.bmWidth, 6, CLR_NONE, IMAGE_BITMAP, LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS );
+
+   DeleteFile( TempPathFileName );
+
+   bi.himl          = hImageList;
+   bi.margin.left   = 10;
+   bi.margin.top    = 10;
+   bi.margin.bottom = 10;
+   bi.margin.right  = 10;
+   bi.uAlign        = uAlign;
+
+   SendMessage( hButton, BCM_SETIMAGELIST, ( WPARAM ) 0, ( LPARAM ) &bi );
+
+   return hImageList;
 }

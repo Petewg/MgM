@@ -25,10 +25,6 @@
 #ifndef MG_SETUP_H_
 #define MG_SETUP_H_
 
-#ifndef MGM_VERSION
-   #define MGM_VERSION   0x0709  /* 1801 */
-#endif
-
 #ifndef WINVER
   #if defined( __WIN98__ )
     #define WINVER   0x0400      /* version 4.0 */
@@ -64,6 +60,17 @@
 #if defined( _WIN64 )
   #define HB_arraySetNL    hb_arraySetNLL
   #define HB_arrayGetNL    hb_arrayGetNLL
+#ifdef __XHARBOUR__
+  #define HB_PARNI         hb_parni
+  #define HB_PARNL         hb_parnll
+  #define HB_PARVNL        hb_parnll
+  #define HB_RETNL         hb_retnll
+  #define HB_STORC         hb_storc
+  #define HB_STORNI        hb_storni
+  #define HB_STORNL        hb_stornll
+  #define HB_STORVNL       hb_stornll
+  #define HB_STORL         hb_storl
+#else
   #define HB_PARNI         hb_parvni
   #define HB_PARNL         hb_parnll
   #define HB_PARVNL        hb_parvnll
@@ -73,6 +80,7 @@
   #define HB_STORNL        hb_stornll
   #define HB_STORVNL       hb_storvnll
   #define HB_STORL         hb_storvl
+#endif /* __XHARBOUR__ */
 #else
   #define HB_arraySetNL    hb_arraySetNL
   #define HB_arrayGetNL    hb_arrayGetNL
@@ -124,5 +132,11 @@
 #endif /* __XHARBOUR__ */
 
 #define _isValidCtrlClass  _isValidCtrlClassA
+
+#if defined( __BORLANDC__ ) && ! defined( HB_ARCH_64BIT )
+  #undef MAKELONG
+  #define MAKELONG( a, b )  ( ( LONG ) ( ( ( WORD ) ( ( DWORD_PTR ) ( a ) & 0xffff ) ) | \
+                                         ( ( ( DWORD ) ( ( WORD ) ( ( DWORD_PTR ) ( b ) & 0xffff ) ) ) << 16 ) ) )
+#endif
 
 #endif /* MG_SETUP_H_ */

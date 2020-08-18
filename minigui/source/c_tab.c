@@ -30,60 +30,33 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #define _WIN32_IE  0x0501
 
 #include <mgdefs.h>
-
 #include <commctrl.h>
-#include <ctype.h>
 
 extern BOOL Array2Point( PHB_ITEM aPoint, POINT * pt );
 
+HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transparent, int * nWidth, int * nHeight );
+void HMG_ImageListAdd( HIMAGELIST himl, char * FileName, int Transparent );
+
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
-
-// JD 11/05/2006
-
-char * strtrim( char * str )
-{
-   #if ! defined( __POCC__ ) && ! defined( __MINGW32__ )
-
-   char * ibuf, * obuf;
-
-   if( str )
-   {
-      for( ibuf = obuf = str; *ibuf; )
-      {
-         while( *ibuf && ( isspace( *ibuf ) ) )
-            ibuf++;
-
-         if( *ibuf && ( obuf != str ) )
-            *( obuf++ ) = ' ';
-
-         while( *ibuf && ( ! isspace( *ibuf ) ) )
-            *( obuf++ ) = *( ibuf++ );
-      }
-
-      *obuf = '\0';
-   }
-   #endif
-   return str;
-}
 
 HB_FUNC( INITTABCONTROL )
 {
@@ -94,7 +67,7 @@ HB_FUNC( INITTABCONTROL )
    int      l;
    int      i;
 
-   int Style = WS_CHILD | WS_VISIBLE | TCS_TOOLTIPS;       //JR
+   int Style = WS_CHILD | WS_VISIBLE | TCS_TOOLTIPS;
 
    if( hb_parl( 11 ) )
       Style = Style | TCS_BUTTONS;
@@ -120,7 +93,7 @@ HB_FUNC( INITTABCONTROL )
    if( ! hb_parl( 18 ) )
       Style = Style | WS_TABSTOP;
 
-   l      = hb_parinfa( 7, 0 ) - 1;
+   l      = ( int ) hb_parinfa( 7, 0 ) - 1;
    hArray = hb_param( 7, HB_IT_ARRAY );
 
    hwnd = ( HWND ) HB_PARNL( 1 );
@@ -214,139 +187,38 @@ HB_FUNC( SETTABCAPTION )
 
 HB_FUNC( ADDTABBITMAP )
 {
-   HWND       hbutton;
-   HIMAGELIST himl = ( HIMAGELIST ) NULL;
-   HBITMAP    hbmp;
-   PHB_ITEM   hArray;
-   char *     caption;
-   int        l;
-   int        s;
-   int        cx = 0;
-   int        cy = 0;
+   HWND       hbutton = ( HWND ) HB_PARNL( 1 );
    TC_ITEM    tie;
+   HIMAGELIST himl = ( HIMAGELIST ) NULL;
+   PHB_ITEM   hArray;
+   char *     FileName;
+   int        nCount, i;
+   int        Transparent = hb_parnidef( 3, 1 );
 
-   // JD 11/05/2006 Significant re-write from original ( logic and additions )
+   nCount = ( int ) hb_parinfa( 2, 0 );
 
-   HDC hDC;
-   int i = 0;
-
-   hbutton = ( HWND ) HB_PARNL( 1 );
-   l       = hb_parinfa( 2, 0 ) - 1;
-   hArray  = hb_param( 2, HB_IT_ARRAY );
-
-   // Determine Image Size Based Upon First Image FOUND
-
-   for( s = 0; s <= l; s++ )
+   if( nCount > 0 )
    {
-      caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
+      hArray = hb_param( 2, HB_IT_ARRAY );
 
-      if( strlen( strtrim( caption ) ) > 0 )
+      for( i = 1; i <= nCount; i++ )
       {
-         i = s + 1;
-         break;
+         FileName = ( char * ) hb_arrayGetCPtr( hArray, i );
+
+         if( himl == NULL )
+            himl = HMG_ImageListLoadFirst( FileName, nCount, Transparent, NULL, NULL );
+         else
+            HMG_ImageListAdd( himl, FileName, Transparent );
       }
-   }
-
-   // We found at least 1 Image to determine size of BitMap
-
-   if( i != 0 )
-   {
-      caption = ( char * ) hb_arrayGetCPtr( hArray, i );
-
-      himl = ImageList_LoadImage
-             (
-         GetResources(),
-         caption,
-         0,
-         l,
-         CLR_DEFAULT,
-         IMAGE_BITMAP,
-         LR_LOADTRANSPARENT | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-             );
-
-      if( himl == NULL )
-         himl = ImageList_LoadImage
-                (
-            GetResources(),
-            caption,
-            0,
-            l,
-            CLR_DEFAULT,
-            IMAGE_BITMAP,
-            LR_LOADTRANSPARENT | LR_LOADFROMFILE | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-                );
 
       if( himl != NULL )
+         SendMessage( hbutton, TCM_SETIMAGELIST, ( WPARAM ) 0, ( LPARAM ) himl );
+
+      for( i = 0; i < nCount; i++ )
       {
-         ImageList_GetIconSize( himl, &cx, &cy );
-
-         ImageList_Destroy( himl );
-      }
-
-      if( ( cx > 0 ) && ( cy > 0 ) )
-      {
-         himl = ImageList_Create( cx, cy, ILC_COLOR8 | ILC_MASK, l + 1, l + 1 );
-
-         if( himl != NULL )
-         {
-            for( s = 0; s <= l; s++ )
-            {
-               caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
-
-               hbmp = NULL;
-
-               if( strlen( strtrim( caption ) ) > 0 )
-               {
-                  hbmp = ( HBITMAP ) LoadImage
-                         (
-                     GetInstance(),
-                     caption,
-                     IMAGE_BITMAP,
-                     cx,
-                     cy,
-                     LR_LOADTRANSPARENT | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-                         );
-
-                  if( hbmp == NULL )
-                     hbmp = ( HBITMAP ) LoadImage
-                            (
-                        0,
-                        caption,
-                        IMAGE_BITMAP,
-                        cx,
-                        cy,
-                        LR_LOADTRANSPARENT | LR_LOADFROMFILE | LR_DEFAULTCOLOR | LR_LOADMAP3DCOLORS
-                            );
-               }
-
-               if( hbmp != NULL )
-               {
-                  ImageList_AddMasked( himl, hbmp, CLR_DEFAULT );
-                  DeleteObject( hbmp );
-               }
-               else
-               {
-                  // Create Compatible Blank BitMap
-
-                  hDC  = GetDC( hbutton );
-                  hbmp = CreateCompatibleBitmap( hDC, cx, cy );
-
-                  ImageList_AddMasked( himl, hbmp, CLR_DEFAULT );
-
-                  DeleteObject( hbmp );
-                  ReleaseDC( hbutton, hDC );
-               }
-            }
-
-            SendMessage( hbutton, TCM_SETIMAGELIST, ( WPARAM ) 0, ( LPARAM ) himl );
-
-            for( s = 0; s <= l; s++ )
-            {
-               tie.mask   = TCIF_IMAGE;
-               tie.iImage = s;
-               TabCtrl_SetItem( ( HWND ) hbutton, s, &tie );
-            }
-         }
+         tie.mask   = TCIF_IMAGE;
+         tie.iImage = i;
+         TabCtrl_SetItem( ( HWND ) hbutton, i, &tie );
       }
    }
 

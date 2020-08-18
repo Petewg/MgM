@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -69,7 +69,7 @@
       [ <multiline: MULTILINE> ] ;
       [ <default: DEFAULT> ] ;
    =>;
-   _DefineButton ( <"name">, <"parent"> , <col>, <row>, <caption>, <{action}>, ;
+   _DefineButton ( <(name)>, <(parent)> , <col>, <row>, <caption>, <{action}>, ;
 		<w>, <h>, <font>, <size>, <tooltip>, <{gotfocus}>, <{lostfocus}>, ;
 		<.flat.>, <.notabstop.>, <helpid>, <.invisible.> , <.bold.>, <.italic.>, ;
 		<.underline.>, <.strikeout.>, <.multiline.>, <.default.>, <"key">, <nId> )
@@ -95,7 +95,7 @@
       [ <multiline: MULTILINE> ] ;
       [ <default: DEFAULT> ] ;
    =>;
-    _DefineButton ( <"name">, <"parent">, 0, 0, <caption>, <{action}>, ;
+    _DefineButton ( <(name)>, <(parent)>, 0, 0, <caption>, <{action}>, ;
 		0, 0, <font>, <size>, <tooltip>, <{gotfocus}>, ;
 		<{lostfocus}>, <.flat.>, <.notabstop.>, <helpid>, <.invisible.>, ;
 		<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.multiline.>, <.default.>, , <nId> )
@@ -121,7 +121,7 @@
       [ <invisible: INVISIBLE> ] ;
       [ <default: DEFAULT> ] ;
    =>;
-   _DefineImageButton ( <"name">, <"parent">, <col>, <row>, "", <{action}>, ;
+   _DefineImageButton ( <(name)>, <(parent)>, <col>, <row>, "", <{action}>, ;
 		<w>, <h>, <bitmap>, <tooltip>, <{gotfocus}>, <{lostfocus}>, ;
 		<.flat.>, <.notrans.>, <helpid>, <.invisible.>, <.notabstop.>, ;
 		<.default.>, <icon>, <.extract.>, <idx>, <.noxpstyle.>, <"key">, <nId> )
@@ -146,7 +146,7 @@
       [ <invisible: INVISIBLE> ] ;
       [ <default: DEFAULT> ] ;
    =>;
-   _DefineImageButton ( <"name">, <"parent">, <col>, <row>, "", <{action}>, ;
+   _DefineImageButton ( <(name)>, <(parent)>, <col>, <row>, "", <{action}>, ;
 		<w>, <h>, <bitmap>, <tooltip>, <{gotfocus}>, <{lostfocus}>, ;
 		<.flat.>, <.notrans.>, <helpid>, <.invisible.>, <.notabstop.>, ;
 		<.default.>, <icon>, <.extract.>, <idx>, <.noxpstyle.>, <"key">, <nId> )
@@ -168,7 +168,7 @@
       [ <invisible: INVISIBLE> ] ;
       [ <default: DEFAULT> ] ;
     =>;
-    _DefineImageButton ( <"name">, <"parent">, 0, 0, "",<{action}>, ;
+    _DefineImageButton ( <(name)>, <(parent)>, 0, 0, "",<{action}>, ;
 		0, 0, <bitmap>, <tooltip>, <{gotfocus}>, <{lostfocus}>, ;
 		<.flat.>, <.notrans.>, <helpid>, <.invisible.>, <.notabstop.>, ;
 		<.default.>, <icon>, <.extract.>, <idx>, <.noxpstyle.>, , <nId> )
@@ -206,12 +206,15 @@
       [ <handcursor: HANDCURSOR> ] ;
       [ <notabstop: NOTABSTOP> ] ;
       [ HELPID <helpid> ] ;
+      [ HOTKEY <key> ] ;
       [ <invisible: INVISIBLE> ] ;
       [ <default: DEFAULT> ] ;
+      [ ON INIT <bInit> ] ;
    =>;
-   _DefineOwnerButton ( <"name">, <"parent">, <col>, <row>, <caption>, <{action}>, ;
+   _DefineOwnerButton ( <(name)>, <(parent)>, <col>, <row>, <caption>, <{action}>, ;
 		<w>, <h>, <bitmap>, <tooltip>, <{gotfocus}>, <{lostfocus}>, <.flat.>, ;
 		<.notrans.>, <helpid>, <.invisible.>, <.notabstop.>, <.default.>, <icon>, ;
 		<font>, <size>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
 		<.vertical.>, <.lefttext.>, <.uptext.>, [ <backcolor> ], [ <fontcolor> ], ;
-		<.nohotlight.>, <.noxpstyle.>, <.adjust.>, <.handcursor.>, <imagewidth>, <imageheight>, <aGradInfo>, <.horizontal.> )
+		<.nohotlight.>, <.noxpstyle.>, <.adjust.>, <.handcursor.>, ;
+		<imagewidth>, <imageheight>, <aGradInfo>, <.horizontal.>, <bInit>, <"key"> )

@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
 	"Harbour GUI framework for Win32"
- 	Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+ 	Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
  	Copyright 2001 Antonio Linares <alinares@fivetech.com>
-	www - http://harbour-project.org
+	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2017, http://harbour-project.org/
+	Copyright 1999-2020, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
 
 	"HWGUI"
-  	Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+  	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -61,10 +61,12 @@
 		[ FORECOLOR <barcolor> ]	;
 		[ STYLE ] [ <style : MARQUEE>	;
 		[ VELOCITY <velocity> ] ]	;
+		[ ON INIT <bInit> ]		;
 	=>;
-	_DefineProgressBar ( <"name">, <"parent">, <col>, <row>, <w>, <h>, ;
+	_DefineProgressBar ( <(name)>, <(parent)>, <col>, <row>, <w>, <h>, ;
                         <lo>, <hi>, <tooltip>, <.vertical.>, <.smooth.>, ;
-                        <helpid>, <.invisible.>, <v>, [ <backcolor> ], [ <barcolor> ], <.style.>, <velocity>, <nId> )
+                        <helpid>, <.invisible.>, <v>, [ <backcolor> ], [ <barcolor> ], <.style.>, <velocity>, <nId>, <bInit> )
+
 
 #command REDEFINE PROGRESSBAR <name>	;
         ID <nId>;
@@ -78,10 +80,11 @@
 		[ <invisible : INVISIBLE> ]	;
 		[ BACKCOLOR <backcolor> ]	;
 		[ FORECOLOR <barcolor> ]	;
+		[ ON INIT <bInit> ]		;
 	=>;
-	_DefineProgressBar ( <"name">, <"parent">, 0, 0, 0, 0, ;
+	_DefineProgressBar ( <(name)>, <(parent)>, 0, 0, 0, 0, ;
                         <lo>, <hi>, <tooltip>, <.vertical.>, <.smooth.>, ;
-                        <helpid>, <.invisible.>, <v>, [ <backcolor> ], [ <barcolor> ], .F. , , <nId> )
+                        <helpid>, <.invisible.>, <v>, [ <backcolor> ], [ <barcolor> ], .F. , , <nId> , <bInit> )
 
 
 // Common control shared messages

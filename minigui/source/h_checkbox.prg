@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2020, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -52,11 +52,19 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
       fontname, fontsize, tooltip, changeprocedure, w, h, lostfocus, gotfocus, ;
       HelpId, invisible, notabstop, bold, italic, underline, strikeout, field, ;
-      backcolor, fontcolor, transparent, leftjustify, threestate, Enter, autosize, multiline, nId )
+      backcolor, fontcolor, transparent, leftjustify, threestate, Enter, autosize, multiline, nId, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , blInit , mVar , k , style
-   LOCAL ControlHandle , FontHandle , WorkArea
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL WorkArea
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
+   LOCAL blInit
    LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    hb_default( @w, 100 )
    hb_default( @h, 28 )
@@ -94,6 +102,7 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
       __defaultNIL( @FontName, _HMG_ActiveFontName )
       __defaultNIL( @FontSize, _HMG_ActiveFontSize )
    ENDIF
+
    IF _HMG_FrameLevel > 0 .AND. !_HMG_ParentWindowActive
       x    := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
       y    := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
@@ -110,11 +119,11 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
    ENDIF
 
    IF transparent .AND. _HMG_FrameLevel == 0 .AND. _HMG_IsThemed // Fixed for transparent problem at themed WinXP and later
-      transparent := FALSE
-      mVar := _HMG_aFormBkColor[ GetFormIndex ( ParentFormName ) ]
-      IF backcolor == NIL .AND. mVar[1] < 0 .AND. mVar[2] < 0 .AND. mVar[3] < 0
-         mVar := GetSysColor( COLOR_BTNFACE )
-         backcolor := nRGB2Arr( mVar )
+      transparent := .F.
+      mVar := _HMG_aFormBkColor [ GetFormIndex ( ParentFormName ) ]
+      IF backcolor == NIL .AND. mVar [1] < 0 .AND. mVar [2] < 0 .AND. mVar [3] < 0
+         k := GetSysColor( COLOR_BTNFACE )
+         backcolor := nRGB2Arr( k )
       ELSE
          backcolor := mVar
       ENDIF
@@ -177,7 +186,13 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
+      ENDIF
+
+      IF _HMG_IsThemed .AND. IsArrayRGB ( fontcolor )
+         SetWindowTheme ( ControlHandle, "", "" )
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -233,10 +248,6 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
    _HMG_aControlMiscData1 [k] :=  0
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF .NOT. lDialogInMemory
       IF threestate .AND. value == NIL
          SendMessage( Controlhandle , BM_SETCHECK , BST_INDETERMINATE , 0 )
@@ -245,8 +256,8 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
       ENDIF
       IF autosize == .T.
          _SetControlWidth ( ControlName , ParentFormName , GetTextWidth( NIL, Caption, FontHandle ) + ;
-            iif( bold == .T. .AND. _HMG_IsThemed, GetTextWidth( NIL, " ", FontHandle ), 0 ) + 20 )
-         _SetControlHeight ( ControlName , ParentFormName , FontSize + iif( FontSize < 12, 12, 16 ) )
+            iif( bold == .T. .OR. italic == .T., GetTextWidth( NIL, " ", FontHandle ), 0 ) + 20 )
+         _SetControlHeight ( ControlName , ParentFormName , FontSize + iif( FontSize < 14, 12, 16 ) )
          RedrawWindow ( ControlHandle )
       ENDIF
    ENDIF
@@ -254,6 +265,16 @@ FUNCTION _DefineCheckBox ( ControlName, ParentFormName, x, y, Caption, Value, ;
    IF ValType ( Field ) != 'U'
       AAdd ( _HMG_aFormBrowseList [ GetFormIndex ( ParentFormName ) ] , k )
    ENDIF
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 
@@ -263,8 +284,11 @@ FUNCTION _DefineCheckButton ( ControlName, ParentFormName, x, y, Caption, Value,
       w, h, lostfocus, gotfocus, HelpId, invisible, ;
       notabstop , bold, italic, underline, strikeout, nId )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , blInit, mVar , k , Style
-   LOCAL ControlHandle , FontHandle
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
+   LOCAL blInit
    LOCAL lDialogInMemory
 
    hb_default( @value, .F. )
@@ -351,7 +375,9 @@ FUNCTION _DefineCheckButton ( ControlName, ParentFormName, x, y, Caption, Value,
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -446,8 +472,13 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
       changeprocedure, w, h, lostfocus, gotfocus, ;
       HelpId, invisible, notabstop, nId )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , blInit , mVar , k , Style
-   LOCAL ControlHandle , nhImage , aRet
+   LOCAL ParentFormHandle , ControlHandle
+   LOCAL aRet
+   LOCAL nhImage
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
+   LOCAL blInit
    LOCAL lDialogInMemory
 
    hb_default( @value, .F. )
@@ -513,7 +544,7 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', 0, bitmap, w, h, invisible, notabstop, _HMG_IsThemed )
+      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', 1, bitmap, w, h, invisible, notabstop, _HMG_IsThemed )
 
       ControlHandle := aRet[1]
       nhImage := aRet[2]

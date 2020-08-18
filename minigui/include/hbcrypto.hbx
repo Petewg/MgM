@@ -1,0 +1,45 @@
+/* --------------------------------------------------------------------
+ * NOTE: You can add manual override which functions to include or
+ *       exclude from automatically generated EXTERNAL/DYNAMIC list.
+ *          Syntax: // HB_FUNC_INCLUDE <func>
+ *                  // HB_FUNC_EXCLUDE <func>
+ */
+
+/* --------------------------------------------------------------------
+ * WARNING: Automatically generated code below. DO NOT EDIT! (except casing)
+ *          Regenerate using hbmk2 '-hbx=' option.
+ */
+
+#ifndef __HBEXTERN_CH__HBCRYPTO__
+#define __HBEXTERN_CH__HBCRYPTO__
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBCRYPTO__ANNOUNCE )
+   ANNOUNCE __HBEXTERN__HBCRYPTO__
+#endif
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBCRYPTO__REQUEST )
+   #command DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+DYNAMIC HB_BCRYPT
+DYNAMIC HB_BLAKE2S
+DYNAMIC HB_ED25519_CREATE_KEYPAIR
+DYNAMIC HB_ED25519_GET_PUBKEY
+DYNAMIC HB_ED25519_SIGN
+DYNAMIC HB_ED25519_VERIFY
+DYNAMIC HB_PBKDF2_SHA256
+DYNAMIC HB_SCRYPT
+DYNAMIC HB_SCRYPT_SETUP
+DYNAMIC HB_SHA3224
+DYNAMIC HB_SHA3256
+DYNAMIC HB_SHA3384
+DYNAMIC HB_SHA3512
+DYNAMIC HB_SHAKE128
+DYNAMIC HB_SHAKE256
+DYNAMIC HB_STRCMPC
+
+#if defined( __HBEXTREQ__ ) .OR. defined( __HBEXTERN__HBCRYPTO__REQUEST )
+   #uncommand DYNAMIC <fncs,...> => EXTERNAL <fncs>
+#endif
+
+#endif

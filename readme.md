@@ -5,16 +5,16 @@
 
 This Harbour MiniGUI package includes these main components:   
    
-   - Harbour MiniGUI Extended version 18.01     
-     ( http://hmgextended.com/home.html/ )   
-     (compiled with Harbour 3.4.0dev & MinGW 7.2.0)   
+   - *Harbour MiniGUI Extended*, version `20.06` (including `update 5` and some  more additions!)    
+     ( https://www.hmgextended.org/ )   
+     (compiled with latest Harbour 3.2.0dev & MinGW32 10.2.0-1)   
 
-   - Harbour 3.4.0dev Harbour compiler and runtime libraries   
-       (https://github.com/vszakats/harbour-core)   
-       (binaries built with MinGW32 7.2.0) 
+   - *Harbour 3.2.0dev*, Harbour compiler and runtime libraries   
+       (https://github.com/harbour/core)   
+       (binaries built with MinGW32 10.2.0-1) 
 
-   - MinGW32 v. 7.2.0 (Built by MinGW-W64 project)   
-     ( http://sourceforge.net/projects/mingw-w64/ )
+   - *MinGW32*, version 10.2.0-1 (Rev1, Built by MSYS2 project)   
+     ( https://packages.msys2.org/package/mingw-w64-i686-gcc?repo=mingw32 )
 
 For details about the above products, please visit their respective sites.   
    
