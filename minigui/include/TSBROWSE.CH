@@ -102,11 +102,11 @@
        [ <{aValidFields}> ], ;
        [ <aValidMessages> ], ;
        [ \{<aColors>\} ], ;
-       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .t. ,;
-       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ],;
-       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}],;
+       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .t., ;
+       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ], ;
+       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}], ;
        [ <.lTransparent.> ],[ <uSelector> ], [ <.lEditable.> ], ;
-       [ <.lAutoCol.> ], [ \{<aColSel>\} ] ;
+       [ <.lAutoCol.> ], [ \{<aColSel>\} ], , ;
        [ <.load.> ], [ <.cur.> ], [ <aNames> ], [ <aFooters> ], ;
        [ <number> ], [ <aBrush> ], [ <aEdit> ], [ <Adjust> ], [ <.ladjust.> ], ;
        [ <.emptyval.> ], [ <.gotfocusel.> ] )
@@ -213,9 +213,9 @@
        [ <{aValidFields}> ], ;
        [ <aValidMessages> ], ;
        [ \{<aColors>\} ], ;
-       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .f. ,;
-       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ],;
-       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}],;
+       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .f., ;
+       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ], ;
+       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}], ;
        [ <.lTransparent.> ],[ <uSelector> ], [ <.lEditable.> ], ;
        [ <.lAutoCol.> ], [ \{<aColSel>\} ],  [ <{bInit}> ], ;
        [ <.load.> ], [ <.cur.> ], [ <aNames> ], [ <aFooters> ], ;
@@ -325,11 +325,11 @@
        [ <{aValidFields}> ], ;
        [ <aValidMessages> ], ;
        [ \{<aColors>\} ], ;
-       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .f. ,;
-       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ],;
-       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}],;
+       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .f., ;
+       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ], ;
+       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}], ;
        [ <.lTransparent.> ],[ <uSelector> ], [ <.lEditable.> ], ;
-       [ <.lAutoCol.> ], [ \{<aColSel>\} ],  [ <{bInit}> ] ;
+       [ <.lAutoCol.> ], [ \{<aColSel>\} ],  [ <{bInit}> ], ;
        [ <.load.> ], [ <.cur.> ], [ <aNames> ], [ <aFooters> ], ;
        [ <number> ], [ <aBrush> ], [ <aEdit> ], [ <Adjust> ], [ <.ladjust.> ], ;
        [ <.emptyval.> ], [ <.gotfocusel.> ] ) ;;
