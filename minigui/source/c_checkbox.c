@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -57,6 +57,11 @@
 # define BCM_FIRST         0x1600
 # define BCM_SETIMAGELIST  ( BCM_FIRST + 0x0002 )
 #endif
+
+HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
+                         HB_BOOL bAlphaFormat, int iAlpfaConstant );
+
+HIMAGELIST HMG_SetButtonImageList( HWND hButton, const char * FileName, int Transparent, UINT uAlign );
 
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
@@ -74,7 +79,9 @@ HB_FUNC( INITCHECKBOX )
 {
    HWND hwnd;
    HWND hbutton;
-   int  Style;
+
+   int Style;
+   int ExStyle = 0;
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
@@ -95,36 +102,23 @@ HB_FUNC( INITCHECKBOX )
    Style |= ( hb_parl( 7 ) ? BS_AUTO3STATE : BS_AUTOCHECKBOX );
 
    if( hb_parl( 13 ) )
-      hbutton = CreateWindowEx
-                (
-         WS_EX_TRANSPARENT,
-         WC_BUTTON,
-         hb_parc( 2 ),
-         Style,
-         hb_parni( 4 ),
-         hb_parni( 5 ),
-         hb_parni( 8 ),
-         hb_parni( 9 ),
-         hwnd,
-         ( HMENU ) HB_PARNL( 3 ),
-         GetInstance(),
-         NULL
-                );
-   else
-      hbutton = CreateWindow
-                (
-         WC_BUTTON,
-         hb_parc( 2 ),
-         Style,
-         hb_parni( 4 ),
-         hb_parni( 5 ),
-         hb_parni( 8 ),
-         hb_parni( 9 ),
-         hwnd,
-         ( HMENU ) HB_PARNL( 3 ),
-         GetInstance(),
-         NULL
-                );
+      ExStyle |= WS_EX_TRANSPARENT;
+
+   hbutton = CreateWindowEx
+             (
+      ExStyle,
+      WC_BUTTON,
+      hb_parc( 2 ),
+      Style,
+      hb_parni( 4 ),
+      hb_parni( 5 ),
+      hb_parni( 8 ),
+      hb_parni( 9 ),
+      hwnd,
+      ( HMENU ) HB_PARNL( 3 ),
+      GetInstance(),
+      NULL
+             );
 
    HB_RETNL( ( LONG_PTR ) hbutton );
 }
@@ -165,13 +159,12 @@ HB_FUNC( INITCHECKBUTTON )
 
 HB_FUNC( INITIMAGECHECKBUTTON )
 {
-   HWND hwnd;
-   HWND hbutton;
-   HWND himage;
-   int  Style;
-
-   HIMAGELIST       himl;
-   BUTTON_IMAGELIST bi;
+   HWND       hwnd;
+   HWND       hbutton;
+   HWND       himage;
+   int        Style;
+   HIMAGELIST himl;
+   int        Transparent = hb_parnidef( 7, 0 );
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
@@ -200,9 +193,7 @@ HB_FUNC( INITIMAGECHECKBUTTON )
 
    if( ! hb_parl( 13 ) )
    {
-      himage = ( HWND ) LoadImage( GetResources(), hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
-      if( himage == NULL )
-         himage = ( HWND ) LoadImage( NULL, hb_parc( 8 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+      himage = ( HWND ) HMG_LoadPicture( hb_parc( 8 ), -1, -1, hwnd, 0, Transparent, -1, 0, HB_FALSE, 255 );
 
       SendMessage( hbutton, ( UINT ) BM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) himage );
 
@@ -212,36 +203,7 @@ HB_FUNC( INITIMAGECHECKBUTTON )
    }
    else
    {
-      himl = ImageList_LoadImage
-             (
-         GetResources(),
-         hb_parc( 8 ),
-         0,
-         6,
-         CLR_DEFAULT,
-         IMAGE_BITMAP,
-         LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT
-             );
-      if( himl == NULL )
-         himl = ImageList_LoadImage
-                (
-            GetResources(),
-            hb_parc( 8 ),
-            0,
-            6,
-            CLR_DEFAULT,
-            IMAGE_BITMAP,
-            LR_LOADFROMFILE | LR_CREATEDIBSECTION | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT
-                );
-
-      bi.himl          = himl;
-      bi.margin.left   = 10;
-      bi.margin.top    = 10;
-      bi.margin.bottom = 10;
-      bi.margin.right  = 10;
-      bi.uAlign        = 4;
-
-      SendMessage( ( HWND ) hbutton, ( UINT ) BCM_SETIMAGELIST, ( WPARAM ) 0, ( LPARAM ) &bi );
+      himl = HMG_SetButtonImageList( hbutton, hb_parc( 8 ), Transparent, BUTTON_IMAGELIST_ALIGN_CENTER );
 
       hb_reta( 2 );
       HB_STORVNL( ( LONG_PTR ) hbutton, -1, 1 );

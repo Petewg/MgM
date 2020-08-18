@@ -32,19 +32,19 @@
 
    Parts of this project are based upon:
 
-   "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    "Harbour GUI framework for Win32"
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+    www - https://harbour.github.io/
 
-   "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+    "Harbour Project"
+    Copyright 1999-2020, https://harbour.github.io/
 
-   "WHAT32"
-   Copyright 2002 AJ Wos <andrwos@aust1.net>
+    "WHAT32"
+    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
-   "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    "HWGUI"
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -52,6 +52,9 @@
 
 #include <mgdefs.h>
 
+#if defined( _MSC_VER )
+#pragma warning ( disable:4996 )
+#endif
 #include <commctrl.h>
 
 #include "hbapiitm.h"
@@ -73,7 +76,8 @@
 
 extern PWORD   CreateDlgTemplate( long lTemplateSize, PHB_ITEM dArray, PHB_ITEM cArray );
 extern long    GetSizeDlgTemp( PHB_ITEM dArray, PHB_ITEM cArray );
-extern char * strtrim( char * str );
+
+extern HB_PTRUINT wapi_GetProcAddress( HMODULE hmodule, LPCTSTR lpProcName );
 
 typedef BOOL ( WINAPI * fnIsAppThemed )( void );
 
@@ -184,11 +188,11 @@ static BOOL FLD_isAppThemed( void )
    BOOL bRet = FALSE;
 
    if( hUxTheme == NULL )
-      hUxTheme = LoadLibraryEx( "uxtheme.dll", NULL, 0 );
+      hUxTheme = LoadLibraryEx( TEXT( "uxtheme.dll" ), NULL, 0 );
 
    if( hUxTheme )
    {
-      fnIsAppThemed pfn = ( fnIsAppThemed ) GetProcAddress( hUxTheme, "IsAppThemed" );
+      fnIsAppThemed pfn = ( fnIsAppThemed ) wapi_GetProcAddress( hUxTheme, "IsAppThemed" );
       if( pfn )
          bRet = ( BOOL ) pfn();
    }
@@ -355,7 +359,7 @@ HB_FUNC( CREATEFOLDERPAGEINDIRECT )
    pfpi->apRes    = ( DLGTEMPLATE * ) pdlgtemplate;
    pfpi->hwndPage = 0;
    pfpi->isDirty  = FALSE;
-   if( strlen( strtrim( ImageName ) ) > 0 )
+   if( strlen( ImageName ) )
    {
       pfpi->hasIcon     = TRUE;
       pfpi->pszTemplate = ImageName;
@@ -392,7 +396,7 @@ HB_FUNC( CREATEFOLDERPAGE )
    pfpi->apRes    = FLD_LockDlgRes( MAKEINTRESOURCE( idRC ) );
    pfpi->hwndPage = 0;
    pfpi->isDirty  = FALSE;
-   if( strlen( strtrim( caption ) ) > 0 )
+   if( strlen( caption ) )
    {
       pfpi->hasIcon     = TRUE;
       pfpi->pszTemplate = caption;
@@ -435,7 +439,7 @@ HB_FUNC( CREATEDLGFOLDER )
    //  _HMG_aFolderTemplate -> {0,ParentHandle,modal,style,styleEx ,x,y,w,h,caption,fontname,fontsize,bold,Italic,lOkBtn,lApplyBtn,lCancelBtn, buttons , flat , hottrack , vertical , bottom, multiline}
    modal = hb_arrayGetL( pArray, 3 );
 
-   nPages = hb_arrayLen( sArray );
+   nPages = ( int ) hb_arrayLen( sArray );
    x      = hb_arrayGetNI( pArray, 6 );      //x
    y      = hb_arrayGetNI( pArray, 7 );      //y
    cx     = hb_arrayGetNI( pArray, 8 );      //w
@@ -509,9 +513,9 @@ HB_FUNC( FOLDERHWNDTOINDEX )
 {
    int iPageIndex;
 
-   iPageIndex = FLD_HwndToIndex( ( HWND ) HB_PARNL( 1 ), ( HWND ) HB_PARNL( 2 ) );
+   iPageIndex = ( int ) FLD_HwndToIndex( ( HWND ) HB_PARNL( 1 ), ( HWND ) HB_PARNL( 2 ) );
 
-   hb_retni( ( int ) iPageIndex );
+   hb_retni( iPageIndex );
 }
 
 /****************************************************************************

@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts of this code are contributed for MiniGUI Project
    used here under permission of authors :
@@ -65,14 +65,14 @@ HINSTANCE GetResources( void );
 
 HB_FUNC( SAVEWINDOWBYHANDLE )
 {
-   HWND     hWnd = ( HWND ) HB_PARNL( 1 );
-   HDC      hDC  = GetDC( hWnd );
-   HDC      hMemDC;
-   RECT     rc;
-   HBITMAP  hBitmap;
-   HBITMAP  hOldBmp;
-   HPALETTE hPal = 0;
-   HANDLE   hDIB;
+   HWND               hWnd = ( HWND ) HB_PARNL( 1 );
+   HDC                hDC  = GetDC( hWnd );
+   HDC                hMemDC;
+   RECT               rc;
+   HBITMAP            hBitmap;
+   HBITMAP            hOldBmp;
+   HPALETTE           hPal = 0;
+   HANDLE             hDIB;
    const char *       File   = hb_parc( 2 );
    int                top    = hb_parni( 3 );
    int                left   = hb_parni( 4 );
@@ -683,7 +683,7 @@ HB_FUNC( LOADBITMAP )
    hBitmap = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
 
    if( hBitmap == NULL )
-      hBitmap = ( HBITMAP ) LoadImage( 0, hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+      hBitmap = ( HBITMAP ) LoadImage( NULL, hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
 
    HB_RETNL( ( LONG_PTR ) hBitmap );
 }
@@ -916,13 +916,12 @@ BOOL GetImageSize( const char * fn, int * x, int * y )
    return FALSE;
 }
 
-HB_FUNC_TRANSLATE( HB_GETIMAGESIZE, HMG_GETIMAGESIZE )
 /*
- * Syntax: hmg_GetImageSize( cPicFile )
+ * Syntax: hb_GetImageSize( cPicFile )
  * Parameter: cPicFile = graphic file (JPG, GIF, PNG)
  * Return: 2 dim array -> array[1] = width, array[2] = height
  */
-HB_FUNC( HMG_GETIMAGESIZE )
+HB_FUNC( HB_GETIMAGESIZE )
 {
    int x = 0, y = 0;
 
@@ -980,7 +979,7 @@ HB_FUNC( GETBITMAPSIZE )
       hBitmap = ( HBITMAP ) LoadImage( GetResources(), pszName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
       if( hBitmap == NULL )
-         hBitmap = ( HBITMAP ) LoadImage( 0, pszName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
+         hBitmap = ( HBITMAP ) LoadImage( NULL, pszName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
    }
    else
    {

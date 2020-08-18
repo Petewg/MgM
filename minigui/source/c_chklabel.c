@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -58,6 +58,8 @@
 LRESULT APIENTRY ChkLabelFunc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 static WNDPROC LabelOldWndProc;
 
+extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
+                                HB_BOOL bAlphaFormat, int iAlpfaConstant );
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -142,7 +144,6 @@ BOOL InsertCheck( HWND hWnd, HBITMAP himage, HBITMAP himage2, int BtnWidth, BOOL
    else
       pbtn->himagemask2 = NULL;
 
-
    // associate our button state structure with the window
 
    SetWindowLongPtr( hWnd, GWLP_USERDATA, ( LONG_PTR ) pbtn );
@@ -225,25 +226,28 @@ HB_FUNC( INITCHKLABEL )
       ExStyle = ExStyle | WS_EX_CLIENTEDGE;
 
    if( hb_parl( 11 ) )
-      Style = Style | WS_BORDER;
+      Style |= WS_BORDER;
 
    if( hb_parl( 13 ) )
-      Style = Style | WS_HSCROLL;
+      Style |= WS_HSCROLL;
 
    if( hb_parl( 14 ) )
-      Style = Style | WS_VSCROLL;
+      Style |= WS_VSCROLL;
 
    if( hb_parl( 15 ) )
       ExStyle = ExStyle | WS_EX_TRANSPARENT;
 
    if( ! hb_parl( 16 ) )
-      Style = Style | WS_VISIBLE;
+      Style |= WS_VISIBLE;
 
    if( hb_parl( 17 ) )
-      Style = Style | ES_RIGHT;
+      Style |= ES_RIGHT;
 
    if( hb_parl( 18 ) )
-      Style = Style | ES_CENTER;
+      Style |= ES_CENTER;
+
+   if( hb_parl( 23 ) )
+      Style |= SS_CENTERIMAGE;
 
    hbutton = CreateWindowEx
              (
@@ -262,24 +266,12 @@ HB_FUNC( INITCHKLABEL )
              );
 
    if( hb_parc( 19 ) != NULL )
-   {
-      himage = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 19 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS );
-
-      if( himage == NULL )
-         himage = ( HBITMAP ) LoadImage( NULL, hb_parc( 19 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS );
-
-   }
+      himage = HMG_LoadPicture( hb_parc( 19 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
    else
       himage = NULL;
 
    if( hb_parc( 20 ) != NULL )
-   {
-      himage2 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 20 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS );
-
-      if( himage2 == NULL )
-         himage2 = ( HBITMAP ) LoadImage( NULL, hb_parc( 20 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS );
-
-   }
+      himage2 = HMG_LoadPicture( hb_parc( 20 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
    else
       himage2 = NULL;
 
@@ -397,6 +389,7 @@ LRESULT APIENTRY ChkLabelFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
          r = hb_parnl( -1 );
 
          return ( r != 0 ) ? r : CallWindowProc( LabelOldWndProc, hWnd, 0, 0, 0 );
+
       case WM_MOUSELEAVE:
          if( ! pSymbol )
             pSymbol = hb_dynsymSymbol( hb_dynsymGet( "OLABELEVENTS" ) );

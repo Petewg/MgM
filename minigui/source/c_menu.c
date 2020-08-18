@@ -31,22 +31,22 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2020, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts of this code  is contributed and used here under permission of his
    author:
-   Copyright 2007 - 2017 (C) P.Chornyj <myorg63@mail.ru>
+   Copyright 2007-2017 (C) P.Chornyj <myorg63@mail.ru>
    ----------------------------------------------------------------------*/
 
 #if ! defined( __WINNT__ )
@@ -67,6 +67,9 @@
 HINSTANCE        GetResources( void );
 extern HBITMAP   Icon2Bmp( HICON hIcon );
 extern BOOL      SetAcceleratorTable( HWND, HACCEL );
+
+HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
+                         HB_BOOL bAlphaFormat, int iAlpfaConstant );
 
 HB_FUNC( SETACCELERATORTABLE )
 {
@@ -121,16 +124,16 @@ HB_FUNC( ACCELERATORTABLE2ARRAY )
 HB_FUNC( ARRAY2ACCELERATORTABLE )
 {
    PHB_ITEM pArray = hb_param( 1, HB_IT_ARRAY );
-   HB_SIZE  nLen;
+   int      nLen;
    HACCEL   hAccel = NULL;
 
-   if( pArray && ( ( nLen = hb_arrayLen( pArray ) ) > 0 ) )
+   if( pArray && ( ( nLen = ( int ) hb_arrayLen( pArray ) ) > 0 ) )
    {
       LPACCEL lpAccel = ( LPACCEL ) hb_xalloc(  nLen * sizeof( ACCEL ) );
 
       if( NULL != lpAccel )
       {
-         HB_SIZE i;
+         int i;
 
          for( i = 0; i < nLen; i++ )
          {
@@ -354,7 +357,7 @@ HB_FUNC( APPENDMENUSTRING )
    if( s_bCustomDraw )
    {
       LPMENUITEM lpMenuItem;
-      UINT       cch = hb_strnlen( hb_parc( 3 ), 255 );
+      UINT       cch = ( UINT ) hb_strnlen( hb_parc( 3 ), 255 );
 
       lpMenuItem = ( LPMENUITEM ) hb_xgrab( ( sizeof( MENUITEM ) ) );
       ZeroMemory( lpMenuItem, sizeof( MENUITEM ) );
@@ -401,7 +404,7 @@ HB_FUNC( APPENDMENUPOPUP )
    if( s_bCustomDraw )
    {
       LPMENUITEM lpMenuItem;
-      UINT       cch = hb_strnlen( hb_parc( 3 ), 255 );
+      UINT       cch = ( UINT ) hb_strnlen( hb_parc( 3 ), 255 );
 
       lpMenuItem = ( LPMENUITEM ) hb_xgrabz( ( sizeof( MENUITEM ) ) );
 
@@ -452,9 +455,7 @@ HB_FUNC( MENUITEM_SETBITMAPS )
 {
    HBITMAP himage1;
 
-   himage1 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
-   if( himage1 == NULL )
-      himage1 = ( HBITMAP ) LoadImage( NULL, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+   himage1 = HMG_LoadPicture( hb_parc( 3 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
 
    if( s_bCustomDraw )
    {
@@ -476,12 +477,12 @@ HB_FUNC( MENUITEM_SETBITMAPS )
    else
    {
       HBITMAP himage2;
-      himage2 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
-      if( himage2 == NULL )
-         himage2 = ( HBITMAP ) LoadImage( NULL, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+
+      himage2 = HMG_LoadPicture( hb_parc( 4 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
 
       SetMenuItemBitmaps( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND, himage1, himage2 );
    }
+
    HB_RETNL( ( LONG_PTR ) himage1 );
 }
 
@@ -493,14 +494,8 @@ HB_FUNC( MENUITEM_SETCHECKMARKS )
       HBITMAP      himage1;
       HBITMAP      himage2;
 
-      himage1 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
-      if( himage1 == NULL )
-         himage1 = ( HBITMAP ) LoadImage( NULL, hb_parc( 3 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
-      {
-         himage2 = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
-         if( himage2 == NULL )
-            himage2 = ( HBITMAP ) LoadImage( NULL, hb_parc( 4 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
-      }
+      himage1 = HMG_LoadPicture( hb_parc( 3 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
+      himage2 = HMG_LoadPicture( hb_parc( 4 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
 
       MenuItemInfo.cbSize = sizeof( MENUITEMINFO );
       MenuItemInfo.fMask  = MIIM_CHECKMARKS;
@@ -553,6 +548,8 @@ HB_FUNC( MENUITEM_SETICON )
    }
    else
       SetMenuItemBitmaps( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND, himage1, himage1 );
+
+   DestroyIcon( hIcon );
 
    HB_RETNL( ( LONG_PTR ) himage1 );
 }
@@ -617,7 +614,7 @@ HB_FUNC( XSETMENUCAPTION )
 
       if( lpMenuItem->caption != NULL )
       {
-         UINT cch = hb_strnlen( hb_parc( 3 ), 255 );
+         UINT cch = ( UINT ) hb_strnlen( hb_parc( 3 ), 255 );
 
          hb_retclen( lpMenuItem->caption, lpMenuItem->cch );
 
@@ -700,7 +697,7 @@ HB_FUNC( _ONDRAWMENUITEM )
 {
    LPDRAWITEMSTRUCT lpdis;
    MENUITEM *       lpMenuItem;
-   INT      iLen;
+   int      iLen;
    COLORREF clrText, clrBackground;
    UINT     bkMode;
    BOOL     fSelected = FALSE;
@@ -824,7 +821,7 @@ HB_FUNC( _ONDRAWMENUITEM )
    }
 
    // draw menu item text
-   iLen = hb_strnlen( lpMenuItem->caption, 255 );
+   iLen = ( int ) hb_strnlen( lpMenuItem->caption, 255 );
 
    if( lpMenuItem->uiItemType == 1 )
       DrawText( lpdis->hDC, lpMenuItem->caption, iLen, &lpdis->rcItem, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_EXPANDTABS );
@@ -1398,4 +1395,34 @@ HB_FUNC( _ONMEASUREMENUITEM )
    {
       hb_errRT_BASE_SubstR( EG_ARG, 0, "MiniGUI Err.", HB_ERR_FUNCNAME, 1, hb_paramError( 1 ) );
    }
+}
+
+HB_FUNC( _COLORMENU )
+{
+   HMENU    iMenu;
+   MENUINFO iMenuInfo;
+   HWND     hWnd = ( HWND ) HB_PARNL( 1 );
+
+   INT  nRed     = HB_PARNI( 2, 1 );
+   INT  nGreen   = HB_PARNI( 2, 2 );
+   INT  nBlue    = HB_PARNI( 2, 3 );
+   BOOL lSubMenu = HB_ISLOG( 3 ) ? hb_parl( 3 ) : FALSE;
+
+   iMenu = GetMenu( hWnd );
+   GetMenuInfo( iMenu, &iMenuInfo );
+   iMenuInfo.cbSize = sizeof( MENUINFO );
+   if( lSubMenu )
+   {
+      iMenuInfo.fMask = MIM_BACKGROUND | MIM_APPLYTOSUBMENUS;
+   }
+   else
+   {
+      iMenuInfo.fMask = MIM_BACKGROUND;
+   }
+
+   iMenuInfo.hbrBack = CreateSolidBrush( RGB( nRed, nGreen, nBlue ) );
+
+   SetMenuInfo( iMenu, &iMenuInfo );
+
+   DrawMenuBar( ( HWND ) hWnd );
 }
