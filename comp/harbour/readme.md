@@ -1,13 +1,19 @@
 ### Complete Harbour package (compiler and runtime libraries)
   
-   Harbour Build Info   
-   \---------------------------   
-   Version: Harbour 3.4.0dev () (2017-12-20 13:40)   
-   Compiler: MinGW GNU C 7.2 (32-bit)   
-   Platform: Windows 7 6.1 SP1   
-   PCode version: 0.3   
-   Commit info: 2017-12-20 13:40 UTC Viktor Szakats (vszakats users.noreply.github.com)   
-   Built on: Feb 27 2018   
+Harbour 3.2.0dev (r2006301601)   
+Copyright (c) 1999-2020, https://harbour.github.io/   
+   
+Harbour Build Info   
+\---------------------------   
+Version: Harbour 3.2.0dev (r2006301601)   
+Compiler: MinGW GNU C 10.2 (32-bit)   
+Platform: Windows 7 6.1 SP1   
+PCode version: 0.3   
+ChangeLog last entry: 2020-06-30 18:01 UTC+0200 Przemyslaw Czerpak (druzus/at/poczta.onet.pl)   
+ChangeLog ID: unknown -1 (source tarball without keyword expanding)   
+Built on: Aug 12 2020 13:17:07   
+Build options: (Clipper 5.3b) (Clipper 5.x undoc)   
+\---------------------------
 
   **Self-extracting archive.**   
      Just run it to unzip.
