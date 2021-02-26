@@ -57,3 +57,13 @@ jobs:
       with:
          name: mingw_1002
          path: c:\temp\mingw_1002_32.7z
+
+    - name: compile
+      env:
+         PATH: c:\temp\harbour\bin;c:\temp\mingw32\bin
+      run: |
+         c:
+         cd \temp\mgm\minigui
+         hbmk2 minigui.hbp
+
+
