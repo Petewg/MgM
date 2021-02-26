@@ -1,0 +1,59 @@
+# create: hg32_1002
+#
+
+name: Harbour 3.2, mingw 10.2
+
+on:
+  push:
+  schedule:
+   - cron: "0 0 1 * *"
+#  workflow_dispatch:
+#    inputs:
+#      name:
+#        description: 'Harbour 3.2 mingw 10.2'
+#        default: 'hb32_1002'
+#        required: true
+
+jobs:
+
+  Build:
+    runs-on: windows-latest
+    steps:
+
+    - name: clone
+      env:
+         REPO: ${{ github.repository }}
+      run: |
+         c:
+         git clone https://github.com/$env:repo c:\temp\mgm --depth 1
+
+    - name: Unzip
+      env:
+         PATH: c:\program files\7-zip
+      run: |
+         7z x -y c:\temp\mgm\comp\harbour\harbour.7z -oc:\temp\harbour
+         c:
+         cd \temp\mgm\comp\mingw32
+         7z x -y c:\temp\mgm\comp\mingw32\mingw32.7z.001 -oc:\temp\mingw32
+         7z x -y c:\temp\mgm\comp\harbour\harbour.7z -oc:\temp\harbour
+         dir c:\temp
+
+    - name: Zip
+      env:
+         PATH: c:\program files\7-zip
+      run: |
+         7z a -r c:\temp\hb32_1002.7z c:\temp\harbour\*.*  -xr'!.git' -xr'!.github' -xr'!.hbmk' -xr'!mgm'
+         7z a -r c:\temp\mingw_1002_32.7z c:\temp\mingw32\ -xr'!.git' -xr'!.github' -xr'!.hbmk' -xr'!mgm'
+         dir c:\temp
+
+    - name: save
+      uses: actions/upload-artifact@v2
+      with:
+         name: hb32_1002
+         path: c:\temp\hb32_1002.7z
+
+    - name: save
+      uses: actions/upload-artifact@v2
+      with:
+         name: mingw_1002
+         path: c:\temp\mingw_1002_32.7z
