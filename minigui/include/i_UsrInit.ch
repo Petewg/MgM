@@ -5,7 +5,7 @@
 		CAPTION <caption> ;
 		ACTION <action> ;
 	=>;
-	_DefineMyButton(<(name)>,<row>,<col>,<caption>,<{action}>,<(parent)>)
+	_DefineMyButton(<"name">,<row>,<col>,<caption>,<{action}>,<"parent">)
 
 #undef BASEDEF_MYBUTTON
 
@@ -22,7 +22,7 @@
 		ACTION <action> ;
 		[ <default: DEFAULT> ] ;
 	=>;
-	_DefineCLButton(<(name)>,<row>,<col>,<caption>,<notes>,<{action}>,<(parent)>,<.default.>,<w>,<h>,<cbitmap>)
+	_DefineCLButton(<"name">,<row>,<col>,<caption>,<notes>,<{action}>,<"parent">,<.default.>,<w>,<h>,<cbitmap>)
 
 #undef BASEDEF_CLBUTTON
 
@@ -44,7 +44,7 @@
 		[ TOOLTIP <tooltip> ] ;
 		[ <default: DEFAULT> ] ;
 	=>;
-	_DefineSplitButton(<(name)>,<row>,<col>,<caption>,<{action}>,<(parent)>,<.default.>,<w>,<h>, ;
+	_DefineSplitButton(<"name">,<row>,<col>,<caption>,<{action}>,<"parent">,<.default.>,<w>,<h>, ;
 		<tooltip>, <font>, <size>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>)
 
 #undef BASEDEF_SPBUTTON
@@ -57,7 +57,7 @@
 		CAPTION <caption> ;
 		ACTION <action> ;
 	=>;
-	_DefineMySysLink(<(name)>,<row>,<col>,<caption>,<{action}>,<(parent)>)
+	_DefineMySysLink(<"name">,<row>,<col>,<caption>,<{action}>,<"parent">)
 
 #undef BASEDEF_MYSYSLINK
 
@@ -74,7 +74,7 @@
 		[ HELPID <helpid> ] ;
 		[ <invisible : INVISIBLE> ] ;
 	=>;
-	_DefineAnimateRes ( <(name)>, <(parent)>, <col>, <row>, <w>, <h>, <file>, <n>, <tooltip>, <helpid>, <.invisible.> )
+	_DefineAnimateRes ( <"name">, <"parent">, <col>, <row>, <w>, <h>, <file>, <n>, <tooltip>, <helpid>, <.invisible.> )
 
 #undef BASEDEF_ANIMATERES
 
@@ -90,7 +90,7 @@
 		[ TOOLTIP <tooltip> ] ;
 		[ HELPID <helpid> ] ;
 	=>;
-	_DefineWebCam ( <(name)>, <(parent)>, <col>, <row>, <w>, <h>, <.lOn.>, <rate>, <tooltip>, <helpid> )
+	_DefineWebCam ( <"name">, <"parent">, <col>, <row>, <w>, <h>, <.lOn.>, <rate>, <tooltip>, <helpid> )
 
 #undef BASEDEF_WEBCAM
 
@@ -102,29 +102,21 @@
 		WIDTH <w>  ;
 		HEIGHT <h>  ;
 		PROGID <progid>  ;
-		[ EVENTMAP <aEvents> ]  ;
-		[ <clientedge: CLIENTEDGE> ] ;
 	=>;
-	_DefineActivex( <(name)>, <(parent)>, <row>, <col>, <w>, <h>, <progid>, <aEvents>, <.clientedge.> )
+	_DefineActivex( <"name">, <"parent">, <row>, <col>, <w>, <h>, <progid> )
 
 #xcommand PROGID <progid> ;
 	=>;
 	_HMG_ActiveControlBorder	:= <progid>
 
-#xcommand EVENTMAP <aEvents> ;
-   =>;
-   _HMG_ActiveControlValue := <aEvents>
-
 #xcommand DEFINE ACTIVEX <name> ;
 	=>;
-	_HMG_ActiveControlName		:= <(name)>	;;
+	_HMG_ActiveControlName		:= <"name">	;;
 	_HMG_ActiveControlOf		:= ""		;;
 	_HMG_ActiveControlRow		:= 0		;;
 	_HMG_ActiveControlCol		:= 0		;;
 	_HMG_ActiveControlWidth		:= 0		;;
 	_HMG_ActiveControlHeight	:= 0		;;
-	_HMG_ActiveControlValue         := Nil		;;
-	_HMG_ActiveControlClientEdge	:= .f.		;;
 	_HMG_ActiveControlBorder	:= 0		
 
 #xcommand END ACTIVEX ;
@@ -136,8 +128,6 @@
 		_HMG_ActiveControlCol , ;
 		_HMG_ActiveControlWidth , ;
 		_HMG_ActiveControlHeight , ;
-		_HMG_ActiveControlBorder , ;
-		_HMG_ActiveControlValue , ;
-		_HMG_ActiveControlClientEdge )
+		_HMG_ActiveControlBorder )
 
 #undef BASEDEF_ACTIVEX

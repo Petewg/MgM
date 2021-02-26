@@ -3,6 +3,7 @@
 #define SOOP_MYBUTTON ;;
 #xtranslate <w> . \<c\> . Disable  => Domethod ( <"w">, \<"c"\> , "Disable" )  ;;
 #xtranslate <w> . \<c\> . Enable  => Domethod ( <"w">, \<"c"\> , "Enable" )  ;;
+#xtranslate <w> . \<c\> . Handle  => GetProperty ( <"w">, \<"c"\> , "Handle" )  ;;
 #xtranslate <w> . \<c\> . Handle  := \<v\> => SetProperty ( <"w">, \<"c"\> , "Handle" , \<v\> ) ;;
 #undef SOOP_MYBUTTON ;;
 #define SOOP_CLBUTTON ;;

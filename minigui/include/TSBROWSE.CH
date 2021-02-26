@@ -51,20 +51,9 @@
         [ <lEditable: EDIT, EDITABLE> ] ;
         [ <lAutoCol: AUTOCOLS> ] ;
         [ <colsel:COLUMNS, INCLUDE> <aColSel,...> ] ;
-        [ <names: NAMES,COLNAMES> <aNames> ] ;
-        [ <foot: FOOT,FOOTER,FOOTERS> <aFooters> ] ;
-        [ <keyno: NUMBER,COLKEYNO,COLNUMBER> <number> ] ;
-        [ <edits: COLEDIT,COLSEDIT,EDITCOL,EDITCOLS> <aEdit> ] ;
-        [ <adjus: COLADJUST,COLSADJUST> <Adjust> ] ;
-        [ <ladjust: ADJUST> ] ;
-        [ BRUSH <aBrush> ] ;
-        [ <load: LOADFIELDS> ] ;
-        [ <cur: DBLCURSOR, DOUBLE CURSOR, FIXED> ] ;
-        [ <emptyval: COLEMPTY,COLSEMPTY,EMPTYVALUE> ] ;
-        [ <gotfocusel: GOTFOCUSSELECT,GOTFOCUSELECT> ] ;
     =>;
-<name> :=_DefineTBrowse (<(name)> ,    ;
-       <(parent)>,      ;
+<name> :=_DefineTBrowse (<"name"> ,    ;
+       <"parent">,      ;
        [ <col> ],       ;
        [ <row> ],       ;
        [ <w> ],         ;
@@ -77,7 +66,7 @@
        [ <fontsize> ],     ;
        [ <tooltip> ],      ;
        [ <{uChange}> ],    ;
-       [ \{|nRow,nCol,nFlags|(nRow,nCol,nFlags),<uLDblClick>\} ], ;
+       [ \{|nRow,nCol,nFlags|<uLDblClick>\} ], ;
        [ <aHeadClick> ],   ;
        [ <{gotfocus}> ],   ;
        [ <{lostfocus}> ],  ;
@@ -102,14 +91,11 @@
        [ <{aValidFields}> ], ;
        [ <aValidMessages> ], ;
        [ \{<aColors>\} ], ;
-       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .t., ;
-       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ], ;
-       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}], ;
+       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .t. ,;
+       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ],;
+       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}],;
        [ <.lTransparent.> ],[ <uSelector> ], [ <.lEditable.> ], ;
-       [ <.lAutoCol.> ], [ \{<aColSel>\} ], , ;
-       [ <.load.> ], [ <.cur.> ], [ <aNames> ], [ <aFooters> ], ;
-       [ <number> ], [ <aBrush> ], [ <aEdit> ], [ <Adjust> ], [ <.ladjust.> ], ;
-       [ <.emptyval.> ], [ <.gotfocusel.> ] )
+       [ <.lAutoCol.> ], [ \{<aColSel>\} ] )
 
 #xcommand DEFINE TBROWSE <name> ;
         AT <row>,<col> ;
@@ -143,7 +129,6 @@
         [ <cell: CELL, CELLED, GRID> ]        ;
         [ STYLE <nStyle> ]             ;
         [ <append : APPEND> ]         ;
-        [ ON INIT <bInit> ] ;
         [ ON HEADCLICK <aHeadClick> ]     ;
         [ WHEN <uWhen> ]        ;
         [ VALID <aValidFields> ]    ;
@@ -162,20 +147,9 @@
         [ <lEditable: EDIT, EDITABLE> ] ;
         [ <lAutoCol: AUTOCOLS> ] ;
         [ <colsel:COLUMNS, INCLUDE> <aColSel,...> ] ;
-        [ <names: NAMES,COLNAMES> <aNames> ] ;
-        [ <foot: FOOT,FOOTER,FOOTERS> <aFooters> ] ;
-        [ <keyno: NUMBER,COLKEYNO,COLNUMBER> <number> ] ;
-        [ <edits: COLEDIT,COLSEDIT,EDITCOL,EDITCOLS> <aEdit> ] ;
-        [ <adjus: COLADJUST,COLSADJUST> <Adjust> ] ;
-        [ <ladjust: ADJUST> ] ;
-        [ BRUSH <aBrush> ] ;
-        [ <load: LOADFIELDS> ] ;
-        [ <cur: DBLCURSOR, DOUBLE CURSOR, FIXED> ] ;
-        [ <emptyval: COLEMPTY,COLSEMPTY,EMPTYVALUE> ] ;
-        [ <gotfocusel: GOTFOCUSSELECT,GOTFOCUSELECT> ] ;
     =>;
-<name> :=_DefineTBrowse (<(name)> ,    ;
-       <(parent)>,      ;
+<name> :=_DefineTBrowse (<"name"> ,    ;
+       <"parent">,      ;
        [ <col> ],       ;
        [ <row> ],       ;
        [ <w> ],         ;
@@ -188,7 +162,7 @@
        [ <fontsize> ],     ;
        [ <tooltip> ],     ;
        [ <{uChange}> ], ;
-       [ \{|nRow,nCol,nFlags|(nRow,nCol,nFlags),<uLDblClick>\} ], ;
+       [ \{|nRow,nCol,nFlags|<uLDblClick>\} ], ;
        [ <aHeadClick> ],  ;
        [ <{gotfocus}> ],    ;
        [ <{lostfocus}> ],     ;
@@ -213,133 +187,17 @@
        [ <{aValidFields}> ], ;
        [ <aValidMessages> ], ;
        [ \{<aColors>\} ], ;
-       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .f., ;
-       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ], ;
-       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}], ;
+       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .f. ,;
+       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ],;
+       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}],;
        [ <.lTransparent.> ],[ <uSelector> ], [ <.lEditable.> ], ;
-       [ <.lAutoCol.> ], [ \{<aColSel>\} ],  [ <{bInit}> ], ;
-       [ <.load.> ], [ <.cur.> ], [ <aNames> ], [ <aFooters> ], ;
-       [ <number> ], [ <aBrush> ], [ <aEdit> ], [ <Adjust> ], [ <.ladjust.> ], ;
-       [ <.emptyval.> ], [ <.gotfocusel.> ] ) ;;
+       [ <.lAutoCol.> ], [ \{<aColSel>\} ] );;
        with object <name>
 
-#xcommand DEFINE TBROWSE <name> OBJ <obrw> ;
-       [ AT <row>,<col> ] ;
-       [ ID <nId> ] ;
-       [ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
-       [ WIDTH <w> ]  ;
-       [ HEIGHT <h> ] ;
-       [ <head: HEAD,HEADER,HEADERS> <aHeaders,...> ] ;
-       [ <sizes: WIDTHS, FIELDSIZES, SIZES, COLSIZES> <aColSizes,...> ] ;
-       [ <format: PICTURE, FORMAT> <aPicture,...> ] ;
-       [ <alias: ALIAS, ITEMS, ARRAY, WORKAREA, RECORDSET, RECSET> <uAlias> ] ;
-       [ FIELDS <Fields,...> ] ;
-       [ <enum: ENUMERATOR> ] ;
-       [ <autosearch: AUTOSEARCH> [ USERSEARCH <uUserSearch> ] ];
-       [ <autofilter: AUTOFILTER> [ USERFILTER <uUserFilter> ] ];
-       [ VALUE <value> ]         ;
-       [ FONT <fontname> ]         ;
-       [ SIZE <fontsize> ]         ;
-       [ <bold : BOLD> ] ;
-       [ <italic : ITALIC> ] ;
-       [ <underline : UNDERLINE> ] ;
-       [ <strikeout : STRIKEOUT> ] ;
-       [ TOOLTIP <tooltip> ]          ;
-       [ BACKCOLOR <backcolor> ] ;
-       [ FONTCOLOR <fontcolor> ] ;
-       [ <color: COLOR, COLORS> <aColors,...> ] ;
-       [ ON GOTFOCUS <gotfocus> ]     ;
-       [ ON CHANGE <uChange> ]      ;
-       [ ON LOSTFOCUS <lostfocus> ]     ;
-       [ ON DBLCLICK <uLDblClick> ]      ;
-       [ <cell: CELL, CELLED, GRID> ]        ;
-       [ STYLE <nStyle> ]             ;
-       [ <append : APPEND> ]         ;
-       [ ON INIT <bInit> ] ;
-       [ ON HEADCLICK <aHeadClick> ]     ;
-       [ WHEN <uWhen> ]        ;
-       [ VALID <aValidFields> ]    ;
-       [ VALIDMESSAGES <aValidMessages> ] ;
-       [ MESSAGE <cMsg> ] ;
-       [ READONLY <aReadOnly> ]     ;
-       [ <lock: LOCK> ]         ;
-       [ <Delete: DELETE> ]        ;
-       [ <style: NOLINES> ]         ;
-       [ IMAGE <aImages,...> ]         ;
-       [ JUSTIFY <aJust> ]         ;
-       [ HELPID <helpid> ]         ;
-       [ <break: BREAK> ]         ;
-       [ <lTransparent: TRANSPARENT> ] ;
-       [ SELECTOR <uSelector> ] ;
-       [ <lEditable: EDIT, EDITABLE> ] ;
-       [ <lAutoCol: AUTOCOLS> ] ;
-       [ <colsel:COLUMNS, INCLUDE> <aColSel,...> ] ;
-       [ <names: NAMES,COLNAMES> <aNames> ] ;
-       [ <foot: FOOT,FOOTER,FOOTERS> <aFooters> ] ;
-       [ <keyno: NUMBER,COLKEYNO,COLNUMBER> <number> ] ;
-       [ <edits: COLEDIT,COLSEDIT,EDITCOL,EDITCOLS> <aEdit> ] ;
-       [ <adjus: COLADJUST,COLSADJUST> <Adjust> ] ;
-       [ <ladjust: ADJUST> ] ;
-       [ BRUSH <aBrush> ] ;
-       [ <load: LOADFIELDS> ] ;
-       [ <cur: DBLCURSOR, DOUBLE CURSOR, FIXED> ] ;
-       [ <emptyval: COLEMPTY,COLSEMPTY,EMPTYVALUE> ] ;
-       [ <gotfocusel: GOTFOCUSSELECT,GOTFOCUSELECT> ] ;
-    =>;
-<obrw> :=_DefineTBrowse (<(name)> ,    ;
-       <(parent)>,      ;
-       [ <col> ],       ;
-       [ <row> ],       ;
-       [ <w> ],         ;
-       [ <h> ],         ;
-       [ \{<aHeaders>\}] ,     ;
-       [ \{<aColSizes>\}]  ,     ;
-       [  \{|| \{ <Fields> \} \} ], ;
-       [ <value> ],    ;
-       [ <fontname> ],     ;
-       [ <fontsize> ],     ;
-       [ <tooltip> ],     ;
-       [ <{uChange}> ], ;
-       [ \{|nRow,nCol,nFlags|(nRow,nCol,nFlags),<uLDblClick>\} ], ;
-       [ <aHeadClick> ],  ;
-       [ <{gotfocus}> ],    ;
-       [ <{lostfocus}> ],     ;
-       [ <uAlias> ],    ;
-       [ <.Delete.> ],      ;
-       [ <.style.> ],    ;
-       [  \{<aImages>\} ],    ;
-       [ <aJust> ], ;
-       [ <helpid> ] , ;
-       [ <.bold.> ], ;
-       [ <.italic.> ], ;
-       [ <.underline.> ], ;
-       [ <.strikeout.> ], ;
-       [ <.break.> ] , ;
-       [ <backcolor> ], ;
-       [ <fontcolor> ], ;
-       [ <.lock.>  ], ;
-       [ <.cell.> ], ;
-       [ <nStyle> ], ;
-       [ <.append.> ], ;
-       [ <aReadOnly> ], ;
-       [ <{aValidFields}> ], ;
-       [ <aValidMessages> ], ;
-       [ \{<aColors>\} ], ;
-       [ <{uWhen}> ],[ <nId> ],[\{<(Fields)>\}],[<cMsg>], .f., ;
-       [ <.enum.> ],[ <.autosearch.> ],[ <{uUserSearch}> ], ;
-       [ <.autofilter.> ], [ <{uUserFilter}> ], [\{<aPicture>\}], ;
-       [ <.lTransparent.> ],[ <uSelector> ], [ <.lEditable.> ], ;
-       [ <.lAutoCol.> ], [ \{<aColSel>\} ],  [ <{bInit}> ], ;
-       [ <.load.> ], [ <.cur.> ], [ <aNames> ], [ <aFooters> ], ;
-       [ <number> ], [ <aBrush> ], [ <aEdit> ], [ <Adjust> ], [ <.ladjust.> ], ;
-       [ <.emptyval.> ], [ <.gotfocusel.> ] ) ;;
-       with object <obrw>
-
 #command END TBROWSE ;
-       [ ON END <bOnEnd> ] ;
    =>;
-       _EndTBrowse ( <{bOnEnd}> );;
-       end with
+_EndTBrowse ();;
+   end with
 
 *=============================================================================
 * Creating Browse From resources
@@ -393,8 +251,8 @@
         [ <lAutoCol: AUTOCOLS> ] ;
         [ <colsel:COLUMNS, INCLUDE> <aColSel,...> ] ;
     =>;
-<name> :=_DefineTBrowse (<(name)> , ;
-       <(parent)> , ;
+<name> :=_DefineTBrowse (<"name"> , ;
+       <"parent"> , ;
        0,        ;
        0,        ;
        0,         ;
@@ -407,7 +265,7 @@
        [ <fontsize> ],     ;
        [ <tooltip> ],     ;
        [ <{uChange}> ], ;
-       [ \{|nRow,nCol,nFlags|(nRow,nCol,nFlags),<uLDblClick>\} ], ;
+       [ \{|nRow,nCol,nFlags|<uLDblClick>\} ], ;
        [ <aHeadClick> ],  ;
        [ <{gotfocus}> ],    ;
        [ <{lostfocus}> ],     ;
@@ -465,11 +323,10 @@
              [ TOOLTIP <cToolTip> ] ;
              [ <total: TOTAL, TOTALIZE> ] ;
              [ NAME <name> ] ;
-             [ ALIAS <alias> ] ;
        => ;
    <oCol> := TSColumn():New( ;
              [ If(<.oem.>, OemToAnsi(<cHead>), <cHead>) ], ;
-             [ If( ValType(<uData>) $ "BC", <uData>, <{uData}> ) ], ;
+             [ If( ValType(<uData>)=="B", <uData>, <{uData}> ) ], ;
              [ <cPicture> ], [ \{<aColors>\} ], [ \{<aAlign>\} ], ;
              [ <nWidth> ], [ Upper(<(bit)>) ], [ <.edit.> ], ;
              [ \{|uVar,This| <uValid> \}], ;
@@ -478,7 +335,7 @@
              [ <{bPrevBlock}> ], [ <{bPostBlock}> ], [ <nMoveDir> ], ;
              [ <.cur.> ], [ \{<a3DLook>\} ], [ <{uWhen}> ],, <(uData)>, ;
              [ <(uWhen)> ], [<(uValid)>], [<(bPrevBlock)>], [<(bPostBlock)>], ;
-             [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, [ <(name)> ], [ <(alias)> ], .T. )
+             [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, [ <"name"> ] )
 
 *=============================================================================
 * Adding Column to Browse( General Data )
@@ -507,7 +364,6 @@
              [ TOOLTIP <cToolTip> ] ;
              [ <total: TOTAL, TOTALIZE> ] ;
              [ NAME <name> ] ;
-             [ ALIAS <alias> ] ;
        => ;
     <oBrw>:AddColumn( TSColumn():New( ;
              [ If(<.oem.>, OemToAnsi(<cHead>), <cHead>) ], ;
@@ -522,8 +378,7 @@
              [ <.cur.> ], [ \{<a3DLook>\} ], ;
              [ If( ValType(<uWhen>)=="B", <uWhen>, <{uWhen}> ) ], <oBrw>, ;
              <(uData)>, [<(uWhen)>], [<(uValid)>], [<(bPrevBlock)>], ;
-             [<(bPostBlock)>], [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, ;
-             [ <(name)> ], [ <(alias)> ] ) )
+             [<(bPostBlock)>], [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, [ <"name"> ] ) )
 
 *=============================================================================
 * Adding Column to Browse ( Array Data )
@@ -551,7 +406,6 @@
              [ TOOLTIP <cToolTip> ] ;
              [ <total: TOTAL, TOTALIZE> ] ;
              [ NAME <name> ] ;
-             [ ALIAS <alias> ] ;
        => ;
     <oBrw>:AddColumn( TSColumn():New( ;
              [ If(<.oem.>, OemToAnsi(<cHead>), <cHead>) ], ;
@@ -566,7 +420,7 @@
              [ <.cur.> ], [ \{<a3DLook>\} ], ;
              [ If( ValType(<uWhen>)=="B", <uWhen>, <{uWhen}> ) ], <oBrw>,, ;
              [<(uWhen)>], [<(uValid)>], [<(bPrevBlock)>], [<(bPostBlock)>], ;
-             [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, [ <(name)> ], [ <(alias)> ] ) )
+             [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, [ <"name"> ] ) )
 
 *=============================================================================
 * Adding Column to Browse ( TDataBase .and. TMultiDBF Classes Data )
@@ -595,7 +449,6 @@
              [ TOOLTIP <cToolTip> ] ;
              [ <total: TOTAL, TOTALIZE> ] ;
              [ NAME <name> ] ;
-             [ ALIAS <alias> ] ;
        => ;
     <oBrw>:AddColumn( TSColumn():New( ;
              [ If(<.oem.>, OemToAnsi(<cHead>), <cHead>) ], ;
@@ -607,8 +460,7 @@
              [ If(<.oem2.>, OemToAnsi(<cFoot>), <cFoot>) ] , ;
              [ <{bPrevBlock}> ], [ <{bPostBlock}> ], [ <nMoveDir> ], ;
              [ <.cur.> ], [ \{<a3DLook>\} ],, <oBrw>,,, [<(uValid)>], ;
-             [ <(bPrevBlock)> ], [<(bPostBlock)>], [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, ;
-             [ <(name)> ], [ <(alias)> ] ) )
+             [ <(bPrevBlock)> ], [<(bPostBlock)>], [<cMsg>], [ <cToolTip> ], [ <.total.> ],,,,,,,,, [ <"name"> ] ) )
 
 *=============================================================================
 * Adding Super Headings to Browse
@@ -958,7 +810,7 @@
 #define WM_TIMECHANGE             30    // 0x001E
 #define WM_SPOOLERSTATUS          42    // 0x002A
 #define WM_COMPACTING             65    // 0x0041
-#define WM_NOTIFY                 78
+#define WM_NOTIFY                   78
 
 #define WM_GETDLGCODE            135    // 0x0087
 #define WM_CHAR                  258    // 0x0102
@@ -1079,7 +931,6 @@
 #define FM_THUMBPOS    WM_USER+1034
 #define FM_THUMBTRACK  WM_USER+1038
 
-#ifndef CLR_BLACK
 //----------------------------------------------------------------------------//
 //                        Low Intensity colors
 //----------------------------------------------------------------------------//
@@ -1107,7 +958,6 @@
 #define CLR_YELLOW        65535               // RGB( 255, 255,   0 )
 #define CLR_WHITE      16777215               // RGB( 255, 255, 255 )
 
-#endif
 //----------------------------------------------------------------------------//
 //                       ADO constants
 //----------------------------------------------------------------------------//
