@@ -1,0 +1,40 @@
+# hmg paths
+{win}incpaths=include
+{win}libpaths=lib
+{win}incpaths=${hb_curdir}
+
+# hmg resources
+{win}sources=${hb_curdir}_temp.o
+
+# gui mode
+{win}gt=gtgui
+
+# allow multiple definition (for bcc compatibility) 
+# Note: hbmk2 warns that the switch below  'is dangerous'. Enable it at your own risk..
+# {win}ldflags=-Wl,--allow-multiple-definition
+
+# MiniGUI Libs 
+   {win}libs=minigui hbprinter socket
+
+# Minigui additional libs (you can comment out if you don't need them)
+   #{win}libs=miniprint2 miniprint adordd bostaurus hbxml qhtm propsheet calldll tmsagent propgrid winreport
+   {win}libs=miniprint2  adordd bostaurus 
+	{win}libs=hbxml hmg_qhtm propsheet calldll tsbrowse hbvpdf
+
+# mgmMisc library 
+  {win}libs=source/mgmMisc/mgmMisc.hbc
+
+# Harbour additional contribs // <hbole> library should be put prior to hbwin, (remark made by Grigory Filatov).
+# {win}libs=hbole
+
+# Harbour contribs
+   {win}libs=hbwin.hbc hbmisc.hbc hbct.hbc hbtip.hbc hbziparc.hbc 
+   {win}libs=hbmzip.hbc minizip hbzebra.hbc hbhpdf.hbc xhb.hbc
+
+# Harbour additional contribs; uncomment if you need it
+# {win}libs=hbmemio
+
+
+# MingW Libs (system)
+{win}libs=msvfw32 vfw32 winmm
+
