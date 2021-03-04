@@ -116,9 +116,9 @@ mgm_InvertRGB( anArray ) -> anInvertedArrayRGB
    Below functions are temporary, for testing purposes, not for real use. 
    (may be altered/deleted in the future).
 */
-EnumWindows() -> aArray filled with handles of all top-level windows
+mgm_EnumWindows() -> aArray filled with handles of all top-level windows
 
-EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows
+mgm_EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows
 
 GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
 
