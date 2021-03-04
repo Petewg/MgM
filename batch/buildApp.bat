@@ -2,21 +2,21 @@
 
    ECHO Compiling %1 
 
-:: preserve current path, to restore it after execution...
+REM preserve current path, to restore it after execution...
    SET OLD_PATH=%PATH%
 
-:: Set paths
+REM Set paths
    CALL %~dp0SetPaths.bat
 
-:: we usually want to run the program
+REM we usually want to run the program
    SET RUNEXE=-run
 
-:: not necessary to strip sample binaries, (normaly it's used on production/release builds)
-:: but if you wish so, feel free to uncomment next line.
-   :: SET STRIP=-strip
+REM not necessary to strip sample binaries, (normaly it's used on production/release builds)
+REM but if you wish so, feel free to uncomment next line.
+   REM SET STRIP=-strip
 
-:: we use a 'flag' file named <warnlev.max> .You should either delete it or create it, 
-:: to specify, respectively, a moderate or pedantic warning level for Harbour compiler
+REM we use a 'flag' file named <warnlev.max> .You should either delete it or create it, 
+REM to specify, respectively, a moderate or pedantic warning level for Harbour compiler
    IF EXIST %MGROOT%\batch\warnlev.max (
       SET WARNLEV=-w3
       SET EXITLEV=-es2
@@ -24,11 +24,11 @@
       ) ELSE (
       SET WARNLEV=-w2
       SET EXITLEV=-es0
-      ::SET PPO=-p
+      REM SET PPO=-p
 		SET PPO=
       )
 
-:: Compile Resources
+REM Compile Resources
    IF NOT EXIST %MGROOT%\minigui\resources\_hmg_resconfig.h (
       ECHO #define HMGRPATH %MGROOT%\minigui\resources > %MGROOT%\minigui\resources\_hmg_resconfig.h
       ) ELSE ( findstr %MGROOT% %MGROOT%\minigui\resources\_hmg_resconfig.h > nul
@@ -54,15 +54,17 @@ IF "%2"=="-norun" SET RUNEXE=-run-
 IF "%2"=="-norun" SHIFT /2
 
 :Gui
-   hbmk2 -n -mt -cpu=x86 -lang=en %PPO% %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%  -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %8 %9 %MGROOT%\minigui\minigui.hbc 2>>_BuildLog.txt
-   :: hbmk2 -n -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%  %1 %2 %3 %4 %5 %6 %7 %8 %9  %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
+
+hbmk2 -n -mt -cpu=x86 -lang=en %PPO% %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%  -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %8 %9 %MGROOT%\minigui\minigui.hbc 2>>_BuildLog.txt
+   REM hbmk2 -n -mt -cpu=x86 -lang=en %PPO% %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%   %1 %2 %3 %4 %5 %6 %7 %8 %9 %MGROOT%\minigui\minigui.hbc 2>>_BuildLog.txt   
+   REM hbmk2 -n -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP%  %1 %2 %3 %4 %5 %6 %7 %8 %9  %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
    GOTO Check
 
 :Console
    SHIFT /2 
    IF "%2"=="-norun" SET RUNEXE=-run-
    IF "%2"=="-norun" SHIFT /2
-   ::hbmk2 -n -cpu=x86 -lang=en %RUNEXE% -ql -info -exitstr %STRIP% -D__CALLDLL__ %1 _temp.o %2 %3 %4 %5 %6 %7 2>> _BuildLog.txt
+   REMhbmk2 -n -cpu=x86 -lang=en %RUNEXE% -ql -info -exitstr %STRIP% -D__CALLDLL__ %1 _temp.o %2 %3 %4 %5 %6 %7 2>> _BuildLog.txt
    hbmk2 -n -mt -cpu=x86 -lang=en %WARNLEV% %EXITLEV% %RUNEXE% -ge1 -ql %STRIP% -jobs=2 -D__CALLDLL__ %1 %2 %3 %4 %5 %6 %7 %8 %9  %MGROOT%\minigui\minigui.hbc 2>> _BuildLog.txt
    
 :Check
@@ -87,7 +89,7 @@ IF "%2"=="-norun" SHIFT /2
    ECHO(
 
 :Quit
-   :: clean up
+   REM clean up
    SET MGROOT=
    DEL _temp.* > NUL
    DEL _BuildLog.txt > NUL
@@ -95,7 +97,7 @@ IF "%2"=="-norun" SHIFT /2
    IF EXIST %1.ppt DEL %1.ppt > NUL
    IF EXIST ErrorLog.htm DEL ErrorLog.htm > NUL
    
-:: restore path
+REM restore path
    SET PATH=%OLD_PATH%
 
    
