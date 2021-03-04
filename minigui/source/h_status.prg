@@ -30,35 +30,38 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
 #include "minigui.ch"
 
+#define ID_STATUSBAR    0
 #define SB_SETTEXT      (WM_USER+1)
 #define SBT_OWNERDRAW   0x1000
 
-#define ITEMTYPENAME	"ITEMMESSAGE"
-#define ITEMNAME	"StatusItem"
-#define PROGRESSNAME	"ProgressMessage"
+#define ITEMTYPENAME    "ITEMMESSAGE"
+#define ITEMNAME        "StatusItem"
+#define PROGRESSNAME    "ProgressMessage"
 
 *-----------------------------------------------------------------------------*
 FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bold, italic, underline, strikeout )
 *-----------------------------------------------------------------------------*
-   LOCAL mVar , k , ParentFormHandle , aRect := { 0, 0, 0, 0 }
-   LOCAL ControlHandle , FontHandle
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL aRect := { 0, 0, 0, 0 }
+   LOCAL mVar
+   LOCAL k
 
    _HMG_ActiveMessageBarName  := ControlName
 
@@ -87,7 +90,7 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
 
    ParentFormHandle := GetFormHandle ( ParentForm )
 
-   ControlHandle := InitMessageBar ( ParentFormHandle, "", 0 )
+   ControlHandle := InitMessageBar ( ParentFormHandle, ID_STATUSBAR )
 
    _HMG_ActiveStatusHandle := ControlHandle // New Public Value JP MDI
 
@@ -96,7 +99,9 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
    ELSE
       __defaultNIL( @FontName, _HMG_DefaultFontName )
       __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-      FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+      IF IsWindowHandle( ControlHandle )
+         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+      ENDIF
    ENDIF
 
    GetClientRect ( ControlHandle, /*@*/aRect )
@@ -105,11 +110,11 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
 
    Public &mVar. := k
 
-   _HMG_aControlType [k] := "MESSAGEBAR"
+   _HMG_aControlType [k] :=  "MESSAGEBAR"
    _HMG_aControlNames  [k] :=  ControlName
    _HMG_aControlHandles  [k] :=  ControlHandle
    _HMG_aControlParenthandles [k] :=  ParentFormHandle
-   _HMG_aControlIds  [k] :=  0
+   _HMG_aControlIds  [k] :=  ID_STATUSBAR
    _HMG_aControlProcedures  [k] :=  ''
    _HMG_aControlPageMap  [k] :=  {}
    _HMG_aControlValue  [k] :=  Nil
@@ -134,7 +139,7 @@ FUNCTION _BeginMessageBar( ControlName, ParentForm, kbd, fontname, fontsize, bol
    _HMG_aControlFontName  [k] :=  fontname
    _HMG_aControlFontSize  [k] :=  fontsize
    _HMG_aControlFontAttributes  [k] :=  { bold, italic, underline, strikeout }
-   _HMG_aControlToolTip   [k] := ''
+   _HMG_aControlToolTip   [k] :=  ''
    _HMG_aControlRangeMin  [k] :=  0
    _HMG_aControlRangeMax  [k] :=  0
    _HMG_aControlCaption  [k] :=  ''
@@ -166,9 +171,11 @@ FUNCTION _EndMessageBar()
    IF _HMG_StatusItemCount == 0  // JD 07/20/2007
       _DefineItemMessage( ITEMNAME, _HMG_ActiveMessageBarName, 0, 0, GetProperty( _HMG_ActiveFormName, "Title" ), , , 0, , , , .F. )
    ENDIF
+
    IF ( i := GetControlIndex( PROGRESSNAME, _HMG_ActiveFormName ) ) != 0
       RefreshProgressItem( _HMG_aControlMiscData1 [i,1], _HMG_aControlHandles [i], _HMG_aControlMiscData1 [i,2] )
    ENDIF
+
    _HMG_ActiveMessageBarName := ""
    _HMG_StatusItemCount      := 0
 
@@ -176,15 +183,21 @@ RETURN Nil
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineItemMessage ( ControlName, ParentControl, x, y, Caption, ProcedureName, w, h, icon, cstyl, tooltip, default, backcolor, fontcolor, align )
 *-----------------------------------------------------------------------------*
-   LOCAL i , cParentForm, mVar, ParentForm, ParentFormHandle, k
-   LOCAL ControlHandle, cCaption
+   LOCAL ControlHandle, ParentFormHandle
+   LOCAL cParentForm, ParentForm
+   LOCAL cCaption
+   LOCAL mVar
+   LOCAL k
+   LOCAL i
 
    IF _HMG_BeginWindowActive
       ParentForm := _HMG_ActiveFormName
    ENDIF
+
    IF .NOT. _IsWindowDefined ( ParentForm )
       MsgMiniGuiError( "Window: " + ParentForm + " is not defined." )
    ENDIF
+
    IF ValType ( ParentControl ) == 'U'
       ParentControl := _HMG_ActiveMessageBarName
    ENDIF
@@ -200,23 +213,19 @@ FUNCTION _DefineItemMessage ( ControlName, ParentControl, x, y, Caption, Procedu
       w := Max( 70, GetTextWidth( NIL, Caption, _HMG_aControlFontHandle[ GetControlIndex( ParentControl, cParentForm ) ] ) + 6 )
    ENDIF
 
-   hb_default( @cStyl, "" )
-   hb_default( @default, .F. )
-   hb_default( @align, 0 )
-
    IF ! Empty( ProcedureName )  // P.D. 24/11/2013
+
       cCaption := Upper ( Caption )
 
-      i := At ( '&', cCaption )
-
-      IF i > 0
+      IF ( i := At ( '&', cCaption ) ) > 0
          _DefineLetterOrDigitHotKey ( cCaption, i, cParentForm, ProcedureName )
       ENDIF
 
       Caption := StrTran ( Caption, '&', '' )
+
    ENDIF
 
-   IF default
+   IF hb_defaultValue( default, .F. )
       _HMG_DefaultStatusBarMessage := Caption
    ENDIF
 
@@ -225,6 +234,8 @@ FUNCTION _DefineItemMessage ( ControlName, ParentControl, x, y, Caption, Procedu
    ELSE
       h := 1
    ENDIF
+
+   hb_default( @cStyl, "" )
 
    ControlHandle := InitItemBar ( ParentForm, Caption, 0, w, h, Icon, ToolTip, iif( Upper( cStyl ) == "RAISED", 1, iif( Upper( cStyl ) == "FLAT", 2, 0 ) ) )
 
@@ -253,7 +264,7 @@ FUNCTION _DefineItemMessage ( ControlName, ParentControl, x, y, Caption, Procedu
    _HMG_aControlCol   [k] := x
    _HMG_aControlWidth  [k] :=  w
    _HMG_aControlHeight   [k] :=  h
-   _HMG_aControlSpacing   [k] :=  align
+   _HMG_aControlSpacing   [k] :=  hb_defaultValue( align, 0 )
    _HMG_aControlContainerRow  [k] :=  -1
    _HMG_aControlContainerCol  [k] :=  -1
    _HMG_aControlPicture  [k] :=  ""
@@ -327,35 +338,42 @@ FUNCTION _SetStatusKeybrd ( BarName , FormName , Width , ToolTip , action )
 
 RETURN Nil
 
-#ifndef __XHARBOUR__
-   /* FOR EACH hb_enumIndex() */
-   #xtranslate hb_enumIndex( <!v!> ) => <v>:__enumIndex()
-#endif
 *-----------------------------------------------------------------------------*
 FUNCTION _IsOwnerDrawStatusBarItem( ParentHandle , ItemID , Value , lSet )
 *-----------------------------------------------------------------------------*
-   LOCAL h, i, nLocID := 0, lOwnerDraw := .F.
+   LOCAL h
+   LOCAL nLocID := 0
+   LOCAL lOwnerDraw := .F.
+   LOCAL i
 
    hb_default( @lSet, .F. )
+
    IF Empty( ItemID ) .OR. ItemID == NIL
       ItemID := 1
    ENDIF
 
    FOR EACH h IN _HMG_aControlContainerHandle
+
       i := hb_enumindex( h )
+
       IF _HMG_aControlType [i] == ITEMTYPENAME .AND. h == ParentHandle
+
          IF ++nLocID == ItemID
-            lOwnerDraw := ( _HMG_aControlBkColor [i] != Nil .OR. _HMG_aControlFontColor [i] != Nil )
-            IF lOwnerDraw
+
+            IF ( lOwnerDraw := ( _HMG_aControlBkColor [i] != Nil .OR. _HMG_aControlFontColor [i] != Nil ) )
                IF lSet
                   _HMG_aControlCaption [i] := Value
                ELSE
                   Value := i
                ENDIF
             ENDIF
+
             EXIT
+
          ENDIF
+
       ENDIF
+
    NEXT
 
 RETURN lOwnerDraw
@@ -386,29 +404,34 @@ FUNCTION _SetStatusBarKbd ( BarName, FormName )
 
    _DefineItemMessage ( ITEMNAME, BarName, 0, 0, GetProperty ( FormName, "Title" ), , , 0, , "RAISED" )
 
-   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, iif( IsCapsLockActive(), "CAP", "" ), , iif( _HMG_IsThemed, 38, 36 ), 0 )
+   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, "CAP", , iif( _HMG_IsThemed, 38, 36 ), 0, , , , , , SILVER )
 
-   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, iif( IsNumLockActive(), "NUM", "" ), , 42, 0 )
+   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, "NUM", , 42, 0, , , , , , SILVER )
 
-   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, iif( IsScrollLockActive(), "SCRL", "" ), , 44, 0 )
+   _DefineItemMessage ( ITEMNAME, BarName, 0, 0, "SCRL", , 44, 0, , , , , , SILVER )
 
    _DefineTimer ( "StatusBarKbd" , FormName , 250 , ;
-      {|| _SetItem ( BarName, FormName, 2, iif( IsCapsLockActive()  , "CAP",  "" ) ), ;
-      _SetItem ( BarName, FormName, 3, iif( IsNumLockActive()   , "NUM",  "" ) ), ;
-      _SetItem ( BarName, FormName, 4, iif( IsScrollLockActive(), "SCRL", "" ) ) } )
+      {|| _SetStatusItemProperty( 2, iif( IsCapsLockActive(), BLACK, SILVER ), GetFormHandle( FormName ), STATUS_ITEM_FONTCOLOR ), ;
+      _SetStatusItemProperty( 3, iif( IsNumLockActive(), BLACK, SILVER ), GetFormHandle( FormName ), STATUS_ITEM_FONTCOLOR ), ;
+      _SetStatusItemProperty( 4, iif( IsScrollLockActive(), BLACK, SILVER ), GetFormHandle( FormName ), STATUS_ITEM_FONTCOLOR ) } )
 
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION _GetStatusItemWidth( hWnd, nItem )
 *-----------------------------------------------------------------------------*
-   LOCAL i, h, aItemWidth := {}
+   LOCAL h
+   LOCAL aItemWidth := {}
+   LOCAL i
 
    FOR EACH h IN _HMG_aControlParentHandles
+
       i := hb_enumindex( h )
+
       IF _HMG_aControlType [i] == ITEMTYPENAME .AND. h == hWnd
          AAdd( aItemWidth, _HMG_aControlWidth [i] )
       ENDIF
+
    NEXT
 
 RETURN iif( PCount() > 1, aItemWidth [nItem], aItemWidth )
@@ -416,12 +439,19 @@ RETURN iif( PCount() > 1, aItemWidth [nItem], aItemWidth )
 *-----------------------------------------------------------------------------*
 FUNCTION _SetStatusItemProperty( nItem, Value, hWnd, nType )
 *-----------------------------------------------------------------------------*
-   LOCAL i, h, nIndex := 0
+   LOCAL h
+   LOCAL FormName
+   LOCAL nIndex := 0
+   LOCAL i
 
    FOR EACH h IN _HMG_aControlParentHandles
+
       i := hb_enumindex( h )
+
       IF _HMG_aControlType [i] == ITEMTYPENAME .AND. h == hWnd
+
          IF ++nIndex == nItem
+
             SWITCH nType
             CASE STATUS_ITEM_WIDTH
                _HMG_aControlWidth [i] := Value
@@ -438,12 +468,18 @@ FUNCTION _SetStatusItemProperty( nItem, Value, hWnd, nType )
             CASE STATUS_ITEM_ALIGN
                _HMG_aControlSpacing [i] := Value
             ENDSWITCH
+
             IF nType > STATUS_ITEM_ACTION
-               InvalidateRect( hWnd, 0 )
+               FormName := GetParentFormName( i )
+               _SetItem ( "StatusBar", FormName, nItem, _GetItem ( "StatusBar", FormName, nItem ) )
             ENDIF
+
             EXIT
+
          ENDIF
+
       ENDIF
+
    NEXT
 
 RETURN Nil
@@ -451,7 +487,9 @@ RETURN Nil
 *-----------------------------------------------------------------------------*
 FUNCTION _SetStatusProgressMessage ( BarName , FormName , Width , ToolTip , Action , nValue , nMin , nMax )
 *-----------------------------------------------------------------------------*
-   LOCAL i, NrItem, HwndStatus, hwndProgress
+   LOCAL hwndStatus, hwndProgress
+   LOCAL nrItem
+   LOCAL i
 
    hb_default( @nValue, 0 )
    hb_default( @nMin, 0 )
@@ -478,10 +516,8 @@ FUNCTION _SetStatusProgressPos ( FormName, nValue )
 *-----------------------------------------------------------------------------*
    LOCAL i
 
-   hb_default( @nValue, 0 )
-
    IF ( i := GetControlIndex ( PROGRESSNAME, FormName ) ) > 0
-      SetPosProgressBarItem ( _HMG_aControlMiscData1 [i,2], nValue )
+      SetPosProgressBarItem ( _HMG_aControlMiscData1 [i, 2], hb_defaultValue( nValue, 0 ) )
    ENDIF
 
 RETURN Nil
@@ -491,11 +527,8 @@ FUNCTION _SetStatusProgressRange ( FormName, nMin, nMax )
 *-----------------------------------------------------------------------------*
    LOCAL i
 
-   hb_default( @nMin, 0 )
-   hb_default( @nMax, 100 )
-
    IF ( i := GetControlIndex ( PROGRESSNAME, FormName ) ) > 0
-      SetProgressBarRange ( _HMG_aControlMiscData1 [i,2], nMin, nMax )
+      SetProgressBarRange ( _HMG_aControlMiscData1 [i, 2], hb_defaultValue( nMin, 0 ), hb_defaultValue( nMax, 100 ) )
    ENDIF
 
 RETURN Nil

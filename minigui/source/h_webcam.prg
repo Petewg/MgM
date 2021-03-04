@@ -1,3 +1,52 @@
+/*----------------------------------------------------------------------------
+MINIGUI - Harbour Win32 GUI library source code
+
+Copyright 2002-2010 Roberto Lopez <harbourminigui@gmail.com>
+http://harbourminigui.googlepages.com/
+
+WEBCAM Control Source Code
+Copyright 2012 Grigory Filatov <gfilatov@inbox.ru>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along with
+   this software; see the file COPYING. If not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA (or
+   visit the web site http://www.gnu.org/).
+
+   As a special exception, you have permission for additional uses of the text
+   contained in this release of Harbour Minigui.
+
+   The exception is that, if you link the Harbour Minigui library with other
+   files to produce an executable, this does not by itself cause the resulting
+   executable to be covered by the GNU General Public License.
+   Your use of that executable is in no way restricted on account of linking the
+   Harbour-Minigui library code into it.
+
+   Parts of this project are based upon:
+
+   "Harbour GUI framework for Win32"
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
+   Copyright 2001 Antonio Linares <alinares@fivetech.com>
+   www - https://harbour.github.io/
+
+   "Harbour Project"
+   Copyright 1999-2021, https://harbour.github.io/
+
+   "WHAT32"
+   Copyright 2002 AJ Wos <andrwos@aust1.net>
+
+   "HWGUI"
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
+
+---------------------------------------------------------------------------*/
 
 #include "minigui.ch"
 
@@ -16,11 +65,13 @@ RETURN
 *------------------------------------------------------------------------------*
 FUNCTION _DefineWebCam ( ControlName, ParentForm, x, y, w, h, lStart, nRate, tooltip, HelpId )
 *------------------------------------------------------------------------------*
-   LOCAL cParentForm, mVar, ControlHandle
+   LOCAL ControlHandle
+   LOCAL cParentForm
+   LOCAL mVar
 
-   DEFAULT w     TO 320
-   DEFAULT h     TO 240
-   DEFAULT nRate TO 30
+   hb_default( @w, 320 )
+   hb_default( @h, 240 )
+   hb_default( @nRate, 30 )
 
    IF _HMG_BeginWindowActive
       ParentForm := _HMG_ActiveFormName
@@ -41,7 +92,7 @@ FUNCTION _DefineWebCam ( ControlName, ParentForm, x, y, w, h, lStart, nRate, too
    ENDIF
 
    mVar := '_' + ParentForm + '_' + ControlName
-   Public &mVar. := Len( _HMG_aControlNames ) + 1
+   Public &mVar. := Len ( _HMG_aControlNames ) + 1
 
    cParentForm := ParentForm
 
@@ -110,27 +161,30 @@ RETURN NIL
 FUNCTION _CreateWebCam ( ParentForm, x, y, w, h )
 *------------------------------------------------------------------------------*
 
-RETURN cap_CreateCaptureWindow( "WebCam", hb_bitOr( WS_CHILD, WS_VISIBLE ), y, x, w, h, ParentForm, 0 )
+RETURN cap_CreateCaptureWindow ( "WebCam", hb_bitOr( WS_CHILD, WS_VISIBLE ), y, x, w, h, ParentForm, 0 )
 
 *------------------------------------------------------------------------------*
 FUNCTION _StartWebCam ( cWindow, cControl )
 *------------------------------------------------------------------------------*
    LOCAL hWnd
+   LOCAL w, h
    LOCAL lSuccess
 
    hWnd := GetControlHandle ( cControl, cWindow )
 
-   IF cap_DriverConnect( hWnd, 0 )
+   IF cap_DriverConnect ( hWnd, 0 )
 
-      lSuccess := cap_PreviewScale( hWnd, .T. )
+      w := _GetControlWidth ( cControl, cWindow )
+      h := _GetControlHeight ( cControl, cWindow )
 
-      lSuccess := lSuccess .AND. cap_PreviewRate( hWnd, GetControlValue ( cControl, cWindow ) )
-
-      lSuccess := lSuccess .AND. cap_Preview( hWnd, .T. )
+      lSuccess := ( cap_SetVideoFormat ( hWnd, Max( w, 320 ), Max( h, 240 ) ) .AND. ;
+         cap_PreviewScale( hWnd, .T. ) .AND. ;
+         cap_PreviewRate( hWnd, GetControlValue ( cControl, cWindow ) ) .AND. ;
+         cap_Preview( hWnd, .T. ) )
 
    ELSE
       // error connecting to video source
-      DestroyWindow( hWnd )
+      DestroyWindow ( hWnd )
 
       lSuccess := .F.
 
@@ -149,11 +203,11 @@ PROCEDURE _ReleaseWebCam ( cWindow, cControl )
 
       hWnd := GetControlHandle ( cControl, cWindow )
 
-      IF !Empty( hWnd )
+      IF !Empty ( hWnd )
 
-         cap_DriverDisconnect( hWnd )
+         cap_DriverDisconnect ( hWnd )
 
-         DestroyWindow( hWnd )
+         DestroyWindow ( hWnd )
 
          _EraseControl ( GetControlIndex ( cControl, cWindow ), GetFormIndex ( cWindow ) )
 
@@ -177,11 +231,22 @@ RETURN
 
 #if defined( __BORLANDC__ )
 #pragma warn -use /* unused var */
+#pragma warn -eff /* no effect */
+#endif
+
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
 #endif
 
 HB_FUNC( CAP_CREATECAPTUREWINDOW )
 {
-   HB_RETNL( ( LONG_PTR ) capCreateCaptureWindow( ( LPCSTR ) hb_parc( 1 ),
+#ifndef UNICODE
+   LPCSTR lpszWindowName = hb_parc( 1 );
+#else
+   LPWSTR lpszWindowName = AnsiToWide( ( char * ) hb_parc( 1 ) );
+#endif
+
+   HB_RETNL( ( LONG_PTR ) capCreateCaptureWindow( lpszWindowName,
                     ( DWORD ) hb_parnl( 2 ),
                     hb_parni( 3 ), hb_parni( 4 ),
                     hb_parni( 5 ), hb_parni( 6 ),
@@ -197,6 +262,25 @@ HB_FUNC( CAP_DRIVERCONNECT )
 HB_FUNC( CAP_DRIVERDISCONNECT )
 {
    hb_retl( capDriverDisconnect( ( HWND ) HB_PARNL( 1 ) ) );
+}
+
+HB_FUNC( CAP_SETVIDEOFORMAT )
+{
+   BITMAPINFO binf;
+   HWND hCapWnd = ( HWND ) HB_PARNL( 1 );
+
+   capGetVideoFormat( hCapWnd, &binf, sizeof( BITMAPINFO ) );
+
+   binf.bmiHeader.biWidth        = hb_parni( 2 );
+   binf.bmiHeader.biHeight       = hb_parni( 3 );
+   binf.bmiHeader.biPlanes       = 1;
+   binf.bmiHeader.biBitCount     = 24;
+   binf.bmiHeader.biCompression  = BI_RGB;
+   binf.bmiHeader.biSizeImage    = 0;
+   binf.bmiHeader.biClrUsed      = 0;
+   binf.bmiHeader.biClrImportant = 0;
+
+   hb_retl( capSetVideoFormat( hCapWnd, &binf, sizeof( BITMAPINFO ) ) );
 }
 
 HB_FUNC( CAP_PREVIEWRATE )

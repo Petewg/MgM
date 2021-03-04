@@ -1,4 +1,5 @@
-/* MINIGUI - Harbour Win32 GUI library source code
+/*
+   MINIGUI - Harbour Win32 GUI library source code
 
    Copyright 2002-2010 Roberto Lopez <harbourminigui@gmail.com>
    http://harbourminigui.googlepages.com/
@@ -31,29 +32,24 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2007-2017 (C) P.Chornyj <myorg63@mail.ru>
  */
 
 #include "minigui.ch"
-
-#ifndef __XHARBOUR__
-  /* SWITCH ... ; CASE ... ; DEFAULT ; ... ; END */
-  #xcommand DEFAULT => OTHERWISE
-#endif
 
 /*
  * HMG 1.3 Extended Build 33
@@ -78,13 +74,14 @@ RETURN
  */
 FUNCTION DrawGradient( window, row, col, rowr, colr, aColor1, aColor2, vertical, border )
 
-   LOCAL i := GetFormIndex ( window )
-   LOCAL FormHandle := _HMG_aFormHandles [i]
+   LOCAL FormHandle
    LOCAL hDC
    LOCAL color1, color2
+   LOCAL i
 
-   IF IsEnabledGradient()
+   IF IsEnabledGradient() .AND. ( i := GetFormIndex( window ) ) > 0
 
+      FormHandle := _HMG_aFormHandles [i]
       hDC := GetDC( FormHandle )
 
       hb_default( @aColor1, { 0, 0, 0 } )
@@ -96,6 +93,7 @@ FUNCTION DrawGradient( window, row, col, rowr, colr, aColor1, aColor2, vertical,
       color2 := RGB ( aColor2[1], aColor2[2], aColor2[3] )
 
       SWITCH border
+
       CASE 1
          EXIT
 
@@ -111,11 +109,13 @@ FUNCTION DrawGradient( window, row, col, rowr, colr, aColor1, aColor2, vertical,
 
       DEFAULT
          FillGradient( hDC, row, col, rowr, colr, vertical, color1, color2 )
+
       END SWITCH
 
       ReleaseDC( FormHandle, hDC )
     
       SWITCH border
+
       CASE 1
          EXIT
  
@@ -135,10 +135,11 @@ FUNCTION DrawGradient( window, row, col, rowr, colr, aColor1, aColor2, vertical,
             ReleaseDC( FormHandle, hDC ) } )
          EXIT
 
-      DEFAULT  // border none
+      DEFAULT // border none
          AAdd( _HMG_aFormGraphTasks [i], ;
             {|| FillGradient( hDC := GetDC( FormHandle ), row, col, rowr, colr, vertical, color1, color2 ), ;
             ReleaseDC( FormHandle, hDC ) } )
+
       END SWITCH
 
    ENDIF
@@ -158,6 +159,8 @@ RETURN NIL
 #define GRADIENT_FILL_TRIANGLE  0x00000002
 #define GRADIENT_FILL_OP_FLAG   0x000000ff
 #endif
+
+extern HB_PTRUINT wapi_GetProcAddress( HMODULE hModule, const char * lpProcName );
 
 BOOL    EnabledGradient( void );
 BOOL    FillGradient( HDC hDC, RECT * rect, BOOL vertical, COLORREF crFrom, COLORREF crTo );
@@ -185,13 +188,13 @@ HB_FUNC( ISENABLEDGRADIENT )
 
 HB_FUNC( _INITGRADIENTFUNC )
 {
-   s_hDLL = LoadLibrary( "gdi32.dll" );
+   s_hDLL = LoadLibrary( TEXT( "gdi32.dll" ) );
 
    if( s_hDLL != NULL )
    {
-      f_AlphaBlend     = ( AlphaBlendPtr ) GetProcAddress( s_hDLL, "GdiAlphaBlend" );
-      f_TransparentBlt = ( TransparentBltPtr ) GetProcAddress( s_hDLL, "GdiTransparentBlt" );
-      f_GradientFill   = ( GradientFillPtr ) GetProcAddress( s_hDLL, "GdiGradientFill" );
+      f_AlphaBlend     = ( AlphaBlendPtr ) wapi_GetProcAddress( s_hDLL, "GdiAlphaBlend" );
+      f_TransparentBlt = ( TransparentBltPtr ) wapi_GetProcAddress( s_hDLL, "GdiTransparentBlt" );
+      f_GradientFill   = ( GradientFillPtr ) wapi_GetProcAddress( s_hDLL, "GdiGradientFill" );
 
       if( ( f_AlphaBlend == NULL ) && ( f_TransparentBlt == NULL ) &&
           ( f_GradientFill == NULL ) )
@@ -203,13 +206,13 @@ HB_FUNC( _INITGRADIENTFUNC )
 
    if( s_hDLL == NULL )
    {
-      s_hDLL = LoadLibrary( "msimg32.dll" );
+      s_hDLL = LoadLibrary( TEXT( "msimg32.dll" ) );
 
       if( s_hDLL != NULL )
       {
-         f_AlphaBlend     = ( AlphaBlendPtr ) GetProcAddress( s_hDLL, "AlphaBlend" );
-         f_TransparentBlt = ( TransparentBltPtr ) GetProcAddress( s_hDLL, "TransparentBlt" );
-         f_GradientFill   = ( GradientFillPtr ) GetProcAddress( s_hDLL, "GradientFill" );
+         f_AlphaBlend     = ( AlphaBlendPtr ) wapi_GetProcAddress( s_hDLL, "AlphaBlend" );
+         f_TransparentBlt = ( TransparentBltPtr ) wapi_GetProcAddress( s_hDLL, "TransparentBlt" );
+         f_GradientFill   = ( GradientFillPtr ) wapi_GetProcAddress( s_hDLL, "GradientFill" );
 
          if( ( f_AlphaBlend == NULL ) && ( f_TransparentBlt == NULL ) &&
              ( f_GradientFill == NULL ) )

@@ -34,18 +34,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -56,13 +56,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineTextBox ( ControlName, ParentFormName, x, y, w, h, ;
-      cValue, FontName, FontSize, ToolTip, nMaxLength, lUpper, lLower, lNumeric, lPassword, ;
-      uLostFocus, uGotFocus, uChange, uEnter, right, HelpId, readonly, bold, italic, underline, ;
-      strikeout, field, backcolor, fontcolor, invisible, notabstop, noborder, cuetext, nId )
+      cValue, FontName, FontSize, ToolTip, nMaxLength, lUpper, lLower, ;
+      lNumeric, lPassword, uLostFocus, uGotFocus, uChange, uEnter, right, ;
+      HelpId, readonly, bold, italic, underline, strikeout, field, ;
+      backcolor, fontcolor, invisible, notabstop, noborder, cuetext, nId, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle, ControlHandle := 0
-   LOCAL mVar, FontHandle
-   LOCAL WorkArea, blInit, k, Style, lDialogInMemory
+   LOCAL ParentFormHandle, ControlHandle := 0, FontHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL WorkArea
+   LOCAL Style
+   LOCAL blInit
+   LOCAL lDialogInMemory
 
    // Assign STANDARD values to optional params.
    hb_default( @w, 120 )
@@ -106,12 +111,12 @@ FUNCTION _DefineTextBox ( ControlName, ParentFormName, x, y, w, h, ;
    ENDIF
    lDialogInMemory := _HMG_DialogInMemory
 
-// Check if the window/form is defined.
+   // Check if the window/form is defined.
    IF .NOT. _IsWindowDefined( ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError( "Window: " + IFNIL( ParentFormName, "Parent", ParentFormName ) + " is not defined." )
    ENDIF
 
-// Check if the control is already defined.
+   // Check if the control is already defined.
    IF _IsControlDefined( ControlName, ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError( "Control: " + ControlName + " of " + ParentFormName + " already defined." )
    ENDIF
@@ -188,7 +193,9 @@ FUNCTION _DefineTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -270,16 +277,23 @@ FUNCTION _DefineTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       ENDIF
    ENDIF
 
+   Do_ControlEventProcedure ( bInit, k )
+
 RETURN nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogTextBox( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
-   LOCAL readonly, nMaxLength, Field, cValue, lNumeric
-   Field       := _HMG_aControlPageMap  [k]
-   nMaxLength  := _HMG_aControlRangeMax  [k]
+   LOCAL Field
+   LOCAL cValue
+   LOCAL nMaxLength
+   LOCAL readonly
+   LOCAL lNumeric
+
+   Field       := _HMG_aControlPageMap [k]
+   nMaxLength  := _HMG_aControlRangeMax [k]
    readonly    := _HMG_aControlMiscData1 [k,2]
-   cValue      := _HMG_aControlValue  [k]
+   cValue      := _HMG_aControlValue [k]
    lNumeric    := ( _HMG_aControlType [k] == "NUMTEXT" )
 
    IF ValType ( readonly ) == 'L'
@@ -312,10 +326,20 @@ FUNCTION InitDialogTextBox( ParentName, ControlHandle, k )
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineMaskedTextbox ( ControlName, ParentFormName, x, y, inputmask, w, value, fontname, fontsize, tooltip, lostfocus, gotfocus, change, h, enter, rightalign, HelpId, Format, bold, italic, underline, strikeout, field, backcolor, fontcolor, readonly, invisible, notabstop, noborder, cuetext, nId )
+FUNCTION _DefineMaskedTextbox ( ControlName, ParentFormName, x, y, inputmask, w, ;
+      value, fontname, fontsize, tooltip, lostfocus, gotfocus, change, h, enter, ;
+      rightalign, HelpId, Format, bold, italic, underline, strikeout, field, ;
+      backcolor, fontcolor, readonly, invisible, notabstop, noborder, cuetext, nId, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL i, ParentFormHandle , c , mVar , WorkArea , k , Style
-   LOCAL ControlHandle, blInit, FontHandle, lDialogInMemory
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL WorkArea
+   LOCAL Style
+   LOCAL blInit
+   LOCAL c
+   LOCAL i
+   LOCAL lDialogInMemory
 
    HB_SYMBOL_UNUSED( RightAlign )
 
@@ -431,8 +455,10 @@ FUNCTION _DefineMaskedTextbox ( ControlName, ParentFormName, x, y, inputmask, w,
       ENDIF
 
    ELSE
+
       ParentFormHandle := GetFormHandle ( ParentFormName )
       ControlHandle := InitMaskedTextBox ( ParentFormHandle, 0, x, y, w , '' , 0 , 255 , .F. , .F. , h , .T. , readonly , invisible , notabstop , noborder )
+
    ENDIF
 
    IF .NOT. lDialogInMemory
@@ -442,7 +468,9 @@ FUNCTION _DefineMaskedTextbox ( ControlName, ParentFormName, x, y, inputmask, w,
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -513,15 +541,20 @@ FUNCTION _DefineMaskedTextbox ( ControlName, ParentFormName, x, y, inputmask, w,
       ENDIF
    ENDIF
 
+   Do_ControlEventProcedure ( bInit, k )
+
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogMaskedTextBox( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
-   LOCAL Field, cValue, date
-   Field  := _HMG_aControlPageMap  [k]
+   LOCAL Field
+   LOCAL cValue
+   LOCAL date
+
+   Field  := _HMG_aControlPageMap [k]
    date   := _HMG_aControlMiscData1 [k,2]
-   cValue := _HMG_aControlValue  [k]
+   cValue := _HMG_aControlValue [k]
 
    IF date == .F.
       SetWindowText ( ControlHandle , cValue  )
@@ -540,10 +573,12 @@ FUNCTION InitDialogMaskedTextBox( ParentName, ControlHandle, k )
 
 RETURN Nil
 
+*-----------------------------------------------------------------------------*
 FUNCTION GetNumFromText ( Text , i )
-
+*-----------------------------------------------------------------------------*
    LOCAL s As String
-   LOCAL x , c
+   LOCAL c
+   LOCAL x
 
    FOR x := 1 TO Len ( Text )
 
@@ -563,10 +598,12 @@ FUNCTION GetNumFromText ( Text , i )
 
 RETURN Val( s )
 
+*-----------------------------------------------------------------------------*
 STATIC FUNCTION GetNumMask ( Text )
-
+*-----------------------------------------------------------------------------*
    LOCAL s As String
-   LOCAL i , c
+   LOCAL c
+   LOCAL i
 
    FOR i := 1 TO Len ( Text )
 
@@ -585,12 +622,19 @@ STATIC FUNCTION GetNumMask ( Text )
 RETURN s
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineCharMaskTextbox ( ControlName, ParentFormName, x, y, inputmask , w , value , ;
-      fontname, fontsize , tooltip , lostfocus , gotfocus , change , h , enter , rightalign , HelpId , ;
-      bold, italic, underline, strikeout, field, backcolor, fontcolor, date, readonly, invisible, notabstop, noborder, cuetext, nId )
+FUNCTION _DefineCharMaskTextbox ( ControlName, ParentFormName, x, y, inputmask , ;
+      w , value , fontname, fontsize , tooltip , lostfocus , gotfocus , change , ;
+      h , enter , rightalign , HelpId , bold, italic, underline, strikeout, field, ;
+      backcolor, fontcolor, date, readonly, invisible, notabstop, noborder, cuetext, nId, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , mVar , WorkArea , dateformat , k , Style
-   LOCAL ControlHandle, blInit, FontHandle, lDialogInMemory
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL WorkArea
+   LOCAL cChar
+   LOCAL Style
+   LOCAL blInit
+   LOCAL lDialogInMemory
 
    IF ValType ( Field ) != 'U'
       IF  At ( '>', Field ) == 0
@@ -615,40 +659,11 @@ FUNCTION _DefineCharMaskTextbox ( ControlName, ParentFormName, x, y, inputmask ,
       Value := iif( date, CToD ( '  /  /  ' ), "" )
    ENDIF
 
-   dateformat := Set ( _SET_DATEFORMAT )
-
    IF date == .T.
-      IF Lower ( Left ( dateformat , 4 ) ) == "yyyy"
-
-         IF '/' $ dateformat
-            Inputmask := '9999/99/99'
-         ELSEIF '.' $ dateformat
-            Inputmask := '9999.99.99'
-         ELSEIF '-' $ dateformat
-            Inputmask := '9999-99-99'
-         ENDIF
-
-      ELSEIF Lower ( Right ( dateformat , 4 ) ) == "yyyy"
-
-         IF '/' $ dateformat
-            Inputmask := '99/99/9999'
-         ELSEIF '.' $ dateformat
-            Inputmask := '99.99.9999'
-         ELSEIF '-' $ dateformat
-            Inputmask := '99-99-9999'
-         ENDIF
-
-      ELSE
-
-         IF '/' $ dateformat
-            Inputmask := '99/99/99'
-         ELSEIF '.' $ dateformat
-            Inputmask := '99.99.99'
-         ELSEIF '-' $ dateformat
-            Inputmask := '99-99-99'
-         ENDIF
-
-      ENDIF
+      InputMask := Set( _SET_DATEFORMAT )
+      FOR EACH cChar IN "yYmMdD"
+         InputMask := StrTran( InputMask, cChar, "9" )
+      NEXT 
    ENDIF
 
    IF ( FontHandle := GetFontHandle( FontName ) ) != 0
@@ -714,9 +729,12 @@ FUNCTION _DefineCharMaskTextbox ( ControlName, ParentFormName, x, y, inputmask ,
          SetWindowStyle ( ControlHandle, Style, .T. )
 
       ENDIF
+
    ELSE
+
       ParentFormHandle := GetFormHandle ( ParentFormName )
       ControlHandle := InitCharMaskTextBox ( ParentFormHandle, 0, x, y, w , '' , 0 , 255 , .F. , .F. , h , rightalign , readonly , invisible , notabstop , noborder )
+
    ENDIF
 
    IF .NOT. lDialogInMemory
@@ -726,7 +744,9 @@ FUNCTION _DefineCharMaskTextbox ( ControlName, ParentFormName, x, y, inputmask ,
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -808,15 +828,24 @@ FUNCTION _DefineCharMaskTextbox ( ControlName, ParentFormName, x, y, inputmask ,
       ENDIF
    ENDIF
 
+   Do_ControlEventProcedure ( bInit, k )
+
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 PROCEDURE ProcessCharMask ( i , d )
 *-----------------------------------------------------------------------------*
-   LOCAL InBuffer , icp , x , CB , CM , InBufferLeft , InBufferRight , Mask , OldChar , BackInbuffer
-   LOCAL BadEntry As Logical , pFlag As Logical , NegativeZero As Logical , OutBuffer As String
+   LOCAL OutBuffer As String
    LOCAL pc As Numeric , fnb As Numeric , dc As Numeric , ol As Numeric
-   LOCAL ncp , Output
+   LOCAL BadEntry As Logical , pFlag As Logical , NegativeZero As Logical
+   LOCAL InBuffer , BackInbuffer , InBufferLeft , InBufferRight
+   LOCAL icp
+   LOCAL CB , CM
+   LOCAL Mask
+   LOCAL OldChar
+   LOCAL Output
+   LOCAL ncp
+   LOCAL x
 
    IF ValType ( _HMG_aControlSpacing [i] ) == 'L'
       IF _HMG_aControlSpacing [i] == .F.
@@ -827,7 +856,7 @@ PROCEDURE ProcessCharMask ( i , d )
    Mask := _HMG_aControlInputMask [i]
 
    // Store Initial CaretPos
-   icp := HiWord ( SendMessage ( _HMG_aControlhandles [i] , EM_GETSEL , 0 , 0 ) )
+   icp := HiWord ( SendMessage ( _HMG_aControlHandles [i] , EM_GETSEL , 0 , 0 ) )
 
    // Get Current Content
    InBuffer := GetWindowText ( _HMG_aControlHandles [i] )
@@ -1031,8 +1060,10 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC FUNCTION CharMaskTekstOK( cString, cMask )
 *-----------------------------------------------------------------------------*
-   LOCAL lPassed := .F. , CB, CM, x
    LOCAL nCount := Min( Len( cString ), Len( cMask ) )
+   LOCAL lPassed := .F.
+   LOCAL CB, CM
+   LOCAL x
 
    FOR x := 1 TO nCount
       CB := SubStr( cString , x , 1 )
@@ -1078,7 +1109,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _DataTextBoxSave ( ControlName, ParentForm )
 *-----------------------------------------------------------------------------*
-   LOCAL Field , i
+   LOCAL Field
+   LOCAL i
 
    i := GetControlIndex ( ControlName , ParentForm )
 
@@ -1098,7 +1130,12 @@ RETURN
 PROCEDURE ProcessNumText ( i )
 *-----------------------------------------------------------------------------*
    LOCAL BadEntry As Logical , OutBuffer As String
-   LOCAL InBuffer , icp , x , CB , BackInBuffer , fnb
+   LOCAL InBuffer
+   LOCAL BackInBuffer
+   LOCAL icp
+   LOCAL x
+   LOCAL CB
+   LOCAL fnb
 
    // Store Initial CaretPos
    icp := HiWord ( SendMessage( _HMG_aControlhandles [i] , EM_GETSEL , 0 , 0 ) )
@@ -1189,55 +1226,69 @@ RETURN Val( s )
 *-----------------------------------------------------------------------------*
 FUNCTION OEDITEVENTS( hWnd, nMsg, wParam, lParam )
 *-----------------------------------------------------------------------------*
-   LOCAL i := AScan ( _HMG_aControlHandles , hWnd ), icp, icpe, inbuffer
+   LOCAL hTextBox
    LOCAL ParentForm
+   LOCAL inbuffer
+   LOCAL icp, icpe
+   LOCAL i
+
+   i := AScan ( _HMG_aControlHandles , hWnd )
 
    SWITCH nMsg
 
    CASE WM_CHAR
 
-      icp :=  HiWord ( SendMessage( _HMG_aControlhandles [ i ] , EM_GETSEL , 0 , 0 ) )
-      icpe := LoWord ( SendMessage( _HMG_aControlhandles [ i ] , EM_GETSEL , 0 , 0 ) )
-      InBuffer := GetWindowText ( _HMG_aControlHandles [ i ] )
+      hTextBox := _HMG_aControlHandles [i]
+      icp  := HiWord ( SendMessage( hTextBox , EM_GETSEL , 0 , 0 ) )
+      icpe := LoWord ( SendMessage( hTextBox , EM_GETSEL , 0 , 0 ) )
+      InBuffer := GetWindowText ( hTextBox )
 
       // simulate overwrite mode
       IF ! IsInsertActive() .AND. wParam <> 13 .AND. wParam <> 8 .AND. SubStr( inBuffer, icp + 1, 1 ) <> Chr( 13 )
 
          IF IsAlpha( Chr( wParam ) ) .OR. IsDigit( Chr( wParam ) )
             IF icp <> icpe
-               SendMessage( _HMG_aControlhandles [ i ] , WM_CLEAR , 0 , 0 )
-               SendMessage( _HMG_aControlhandles [ i ] , EM_SETSEL , icpe , icpe )
+               SendMessage( hTextBox , WM_CLEAR , 0 , 0 )
+               SendMessage( hTextBox , EM_SETSEL , icpe , icpe )
             ELSE
-               SendMessage( _HMG_aControlhandles [ i ] , EM_SETSEL , icp , icp + 1 )
-               SendMessage( _HMG_aControlhandles [ i ] , WM_CLEAR , 0 , 0 )
-               SendMessage( _HMG_aControlhandles [ i ] , EM_SETSEL , icp , icp )
+               SendMessage( hTextBox , EM_SETSEL , icp , icp + 1 )
+               SendMessage( hTextBox , WM_CLEAR , 0 , 0 )
+               SendMessage( hTextBox , EM_SETSEL , icp , icp )
             ENDIF
 
          ELSE
 
             IF wParam == 1
-               SendMessage( _HMG_aControlhandles [ i ] , EM_SETSEL , 0 , -1 )
+               SendMessage( hTextBox , EM_SETSEL , 0 , -1 )
             ENDIF
 
          ENDIF
+
       ELSE
+
          IF wParam == 1
-            SendMessage( _HMG_aControlhandles [ i ] , EM_SETSEL , 0 , -1 )
+            SendMessage( hTextBox , EM_SETSEL , 0 , -1 )
          ENDIF
+
       ENDIF
       EXIT
 
    CASE WM_CONTEXTMENU
 
-      ParentForm := _HMG_aControlParentHandles[i]
-      i := AScan( _HMG_aControlsContextMenu , {|x| x[1] == hWnd } )
-      IF i > 0
-         IF _HMG_aControlsContextMenu[i, 4] == .T.
+      ParentForm := _HMG_aControlParentHandles [i]
+
+      IF ( i := AScan( _HMG_aControlsContextMenu , {|x| x [1] == hWnd } ) ) > 0
+
+         IF _HMG_aControlsContextMenu [i][4] == .T.
             setfocus( wParam )
-            _HMG_xControlsContextMenuID := _HMG_aControlsContextMenu[i, 3]
-            TrackPopupMenu ( _HMG_aControlsContextMenu[i, 2] , LOWORD( lparam ) , HIWORD( lparam ) , ParentForm )
+
+            _HMG_xControlsContextMenuID := _HMG_aControlsContextMenu [i][3]
+
+            TrackPopupMenu ( _HMG_aControlsContextMenu [i][2] , LOWORD( lParam ) , HIWORD( lParam ) , ParentForm )
+
             RETURN 1
          ENDIF
+
       ENDIF
 
    ENDSWITCH

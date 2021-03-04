@@ -1,10 +1,10 @@
 /*
- * Harbour TGif Class v1.2
- * Copyright 2009-2017 Grigory Filatov <gfilatov@inbox.ru>
+ * Harbour TGif Class v1.4
+ * Copyright 2009-2020 Grigory Filatov <gfilatov@inbox.ru>
  *
- * Last revision 22.09.2017
- *
-*/
+ * Revised by Ivanil Marcelino <ivanil/at/linkbr.com.br>
+ * Last revision 30.10.2020
+ */
 
 ANNOUNCE CLASS_TGIF
 
@@ -13,20 +13,16 @@ ANNOUNCE CLASS_TGIF
 *------------------------------------------------------------------------------*
 FUNCTION _DefineAniGif ( cControlName, cParentForm, cFilename, nRow, nCol, nWidth, nHeight, nDelay, aBKColor )
 *------------------------------------------------------------------------------*
-   LOCAL mVar, k, nControlHandle, nParentFormHandle, oGif
+   LOCAL nControlHandle, nParentFormHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL oGif
+   LOCAL cDiskFile
+   Local cResName := ""
 
    // If defined inside DEFINE WINDOW structure, determine cParentForm
-
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
-      cParentForm := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
-   ENDIF
-
-   // If defined inside a Tab structure, adjust position and determine cParentForm
-
-   IF _HMG_FrameLevel > 0
-      nCol += _HMG_ActiveFrameCol[ _HMG_FrameLevel ]
-      nRow += _HMG_ActiveFrameRow[ _HMG_FrameLevel ]
-      cParentForm := _HMG_ActiveFrameParentFormName[ _HMG_FrameLevel ]
+      cParentForm := iif ( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
    ENDIF
 
    IF .NOT. _IsWindowDefined ( cParentForm )
@@ -37,27 +33,28 @@ FUNCTION _DefineAniGif ( cControlName, cParentForm, cFilename, nRow, nCol, nWidt
       MsgMiniGuiError ( "Control: " + cControlName + " Of " + cParentForm + " Already defined." )
    ENDIF
 
-   IF ValType ( cFilename ) <> 'C'
+   IF ! ISCHARACTER ( cFilename )
       MsgMiniGuiError ( "Control: " + cControlName + " Of " + cParentForm + " PICTURE Property Invalid Type." )
    ENDIF
 
    IF Empty ( cFilename )
-      MsgMiniGuiError ( "Control: " + cControlName + " Of " + cParentForm + " PICTURE Can't be empty." )
+      MsgMiniGuiError ( "Control: " + cControlName + " Of " + cParentForm + " PICTURE Can't Be Empty." )
+   ENDIF
+
+   IF ! hb_FileExists ( cFileName )
+      cDiskFile := TempFile ( GetTempFolder(), "gif" )
+      IF RCDataToFile ( cFilename, cDiskFile, "GIF" ) > 0
+         IF hb_FileExists ( cDiskFile )
+            cResName  := cFileName
+            cFilename := cDiskFile
+         ENDIF
+      ENDIF
    ENDIF
 
    // Define public variable associated with control
-
    mVar := '_' + cParentForm + '_' + cControlName
 
    nParentFormHandle := GetFormHandle ( cParentForm )
-
-   oGif := TGif():New( cFilename, nRow, nCol, nHeight, nWidth, nDelay, aBKColor, cControlName, cParentForm )
-
-   nControlHandle := GetControlHandle ( oGif:hGif, cParentForm )
-
-   IF _HMG_BeginTabActive
-      AAdd ( _HMG_ActiveTabCurrentPageMap, nControlHandle )
-   ENDIF
 
    k := _GetControlFree()
 
@@ -65,12 +62,10 @@ FUNCTION _DefineAniGif ( cControlName, cParentForm, cFilename, nRow, nCol, nWidt
 
    _HMG_aControlType[ k ] := "ANIGIF"
    _HMG_aControlNames[ k ] :=  cControlName
-   _HMG_aControlHandles[ k ] :=  nControlHandle
    _HMG_aControlParentHandles[ k ] :=  nParentFormHandle
-   _HMG_aControlIds[ k ] :=  oGif
    _HMG_aControlProcedures[ k ] := ""
    _HMG_aControlPageMap[ k ] :=  {}
-   _HMG_aControlValue[ k ] :=  cFilename
+   _HMG_aControlValue[ k ] :=  0
    _HMG_aControlInputMask[ k ] :=  ""
    _HMG_aControllostFocusProcedure[ k ] :=  ""
    _HMG_aControlGotFocusProcedure[ k ] :=  ""
@@ -85,9 +80,9 @@ FUNCTION _DefineAniGif ( cControlName, cParentForm, cFilename, nRow, nCol, nWidt
    _HMG_aControlWidth[ k ] := nWidth
    _HMG_aControlHeight[ k ] := nHeight
    _HMG_aControlSpacing[ k ] := nDelay
-   _HMG_aControlContainerRow[ k ] :=  iif ( _HMG_FrameLevel > 0, _HMG_ActiveFrameRow[ _HMG_FrameLevel ], -1 )
-   _HMG_aControlContainerCol[ k ] :=  iif ( _HMG_FrameLevel > 0, _HMG_ActiveFrameCol[ _HMG_FrameLevel ], -1 )
-   _HMG_aControlPicture[ k ] :=  ""
+   _HMG_aControlContainerRow[ k ] :=  -1
+   _HMG_aControlContainerCol[ k ] :=  -1
+   _HMG_aControlPicture[ k ] :=  cResName
    _HMG_aControlContainerHandle[ k ] :=  0
    _HMG_aControlFontName[ k ] :=  Nil
    _HMG_aControlFontSize[ k ] :=  Nil
@@ -95,7 +90,7 @@ FUNCTION _DefineAniGif ( cControlName, cParentForm, cFilename, nRow, nCol, nWidt
    _HMG_aControlToolTip[ k ] :=  ''
    _HMG_aControlRangeMin[ k ] :=  0
    _HMG_aControlRangeMax[ k ] :=  0
-   _HMG_aControlCaption[ k ] :=  ''
+   _HMG_aControlCaption[ k ] :=  cFilename
    _HMG_aControlVisible[ k ] :=  .T.
    _HMG_aControlHelpId[ k ] :=  0
    _HMG_aControlFontHandle[ k ] :=  Nil
@@ -104,23 +99,46 @@ FUNCTION _DefineAniGif ( cControlName, cParentForm, cFilename, nRow, nCol, nWidt
    _HMG_aControlMiscData1[ k ] :=  0
    _HMG_aControlMiscData2[ k ] :=  ''
 
+   oGif := TGif():New( cFilename, nRow, nCol, nHeight, nWidth, nDelay, aBKColor, cControlName, cParentForm )
+
+   IF ISOBJECT ( oGif )
+      nControlHandle := GetControlHandle ( oGif:hGif, cParentForm )
+      _HMG_aControlHandles[ k ] := nControlHandle
+      _HMG_aControlIds[ k ] := oGif
+
+      IF _HMG_BeginTabActive
+         AAdd ( _HMG_ActiveTabCurrentPageMap, nControlHandle )
+      ENDIF
+   ENDIF
+
+   IF hb_FileExists ( cDiskFile )
+      FErase ( cDiskFile )
+   ENDIF
+
 RETURN oGif
 
 
 PROCEDURE _ReleaseAniGif ( GifName, FormName )
 
-   LOCAL hWnd, x, oGif
-   LOCAL i := AScan ( _HMG_aControlNames, GifName )
+   LOCAL hWnd
+   LOCAL oGif
+   LOCAL i
 
-   IF i > 0
+   IF AScan ( _HMG_aControlNames, GifName ) > 0
+
       hWnd := GetFormHandle ( FormName )
-      FOR x := 1 TO Len ( _HMG_aControlHandles )
-         IF _HMG_aControlParentHandles [x] == hWnd .AND. _HMG_aControlType [x] == "ANIGIF"
-             oGif := _HMG_aControlIds [x]
-             oGif:End()
-            _EraseGifDef ( FormName, x )
+
+      FOR i := 1 TO Len ( _HMG_aControlHandles )
+
+         IF _HMG_aControlParentHandles [i] == hWnd .AND. _HMG_aControlType [i] == "ANIGIF" 
+            oGif := _HMG_aControlIds [i]
+            oGif:End()
+            _EraseGifDef ( FormName, i )
+            EXIT
          ENDIF
-      NEXT x
+
+      NEXT i
+
    ENDIF
 
 RETURN
@@ -190,78 +208,62 @@ CLASS TGif
 
    DATA  hGif
    DATA  cFilename
-   DATA  nTop
-   DATA  nLeft
-   DATA  nBottom
-   DATA  nRight
    DATA  cParentName
-
+   DATA  cControlName
    DATA  aPictData
    DATA  aImageData
    DATA  nTotalFrames
    DATA  nCurrentFrame
-   DATA  nWidth
-   DATA  nHeight
-   DATA  lLopping
    DATA  nDelay
+   DATA  aDelay
+   Data  cTimer
 
    METHOD New( cFileName, nTop, nLeft, nBottom, nRight, nDelay, aBKColor, cControlName, cParentName )
 
-   METHOD PlayGif( cControlName, cParentName )
+   METHOD PlayGif()
 
-   METHOD Play() INLINE GifPlay( ::hGif, ::cParentName )
-   METHOD Stop() INLINE GifStop( ::hGif, ::cParentName )
+   METHOD Play() INLINE GifPlay( Self )
 
-   METHOD UpdateGif( cControlName, cParentName )
-   METHOD Update() INLINE ::UpdateGif( ::hGif, ::cParentName )
+   METHOD Update()
 
-   METHOD RestartGif( cControlName, cParentName )
-   METHOD Restart() INLINE ::RestartGif( ::hGif, ::cParentName )
+   METHOD Stop() INLINE GifStop( Self )
 
-   METHOD IsRunning() INLINE GifIsRunning( ::hGif, ::cParentName )
+   METHOD RestartGif()
 
-   METHOD DestroyGif( cControlName, cParentName )
-   METHOD End() INLINE ::DestroyGif( ::hGif, ::cParentName )
+   METHOD Restart() INLINE ::RestartGif()
+
+   METHOD IsRunning() INLINE GifIsRunning( Self )
+
+   METHOD End()
 
 ENDCLASS
 
 
 METHOD New( cFileName, nTop, nLeft, nBottom, nRight, nDelay, aBKColor, cControlName, cParentName ) CLASS TGif
 
-   LOCAL aPictInfo := {}, nId, cTimer
+   LOCAL nId
    LOCAL aPictures := {}, aImageInfo := {}
 
-   DEFAULT cParentName := _HMG_ActiveFormName, ;
-      nTop    := 0, ;
-      nLeft   := 0, ;
-      nBottom := 100, ;
-      nRight  := 100, ;
-      nDelay  := 10
+   hb_default( @cParentName, _HMG_ActiveFormName )
+   hb_default( @nTop, 0 )
+   hb_default( @nLeft, 0 )
+   hb_default( @nBottom, 100 )
+   hb_default( @nRight, 100 )
+   hb_default( @nDelay, 10 )
 
-   ::nTop    := nTop
-   ::nLeft   := nLeft
-   ::nBottom := nBottom + nTop
-   ::nRight  := nRight + nLeft
+   ::cParentName  := cParentName
+   ::cControlName := cControlName
+   ::cFileName    := cFileName
 
-   ::cParentName := cParentName
-   ::cFileName   := cFileName
-
-   IF ! Empty( cFileName ) .AND. ! File( cFileName )
-      RETURN NIL
-   ENDIF
-
-   IF ! LoadGif( cFileName, @aPictInfo, @aPictures, @aImageInfo )
-      RETURN NIL
+   IF ! LoadGif( cFileName, @aPictures, @aImageInfo, Self )
+      aPictures := { "" }
+      aImageInfo := { "" }
    ENDIF
 
    ::nTotalFrames := Len( aPictures )
    ::nCurrentFrame := 1
 
-   ::nDelay  := nDelay
-   ::nWidth  := aPictInfo[ 2 ]
-   ::nHeight := aPictInfo[ 3 ]
-
-   ::lLopping := ( ::nWidth <> nRight ) .OR. ( ::nHeight <> nBottom )
+   ::nDelay := nDelay
 
    ::aPictData  := AClone( aPictures )
    ::aImageData := AClone( aImageInfo )
@@ -270,25 +272,23 @@ METHOD New( cFileName, nTop, nLeft, nBottom, nRight, nDelay, aBKColor, cControlN
 
    ::hGif := cControlName + hb_ntos( nId )
 
-   @ nTop, nLeft IMAGE &( ::hGif ) PARENT &cParentName PICTURE cFileName ;
+   @ nTop, nLeft IMAGE ( ::hGif ) PARENT ( cParentName ) PICTURE cFileName ;
       WIDTH nRight HEIGHT nBottom STRETCH BACKGROUNDCOLOR aBKColor TRANSPARENT
 
    IF ::nTotalFrames > 1
-      cTimer := "tgif_tmr_" + hb_ntos( nId )
-      DEFINE TIMER &cTimer ;
-         OF &cParentName ;
-         INTERVAL GetFrameDelay( ::aImageData[ ::nCurrentFrame ], ::nDelay ) ;
-         ACTION ::PlayGif( ::hGif, ::cParentName )
+      ::cTimer := "tgif_tmr_" + hb_ntos( nId )
+      DEFINE TIMER ( ::cTimer ) ;
+         OF (cParentName) ;
+         INTERVAL ::aDelay[ ::nCurrentFrame ] ;
+         ACTION ::PlayGif()
 
-      SetProperty( cParentName, ::hGif, 'Picture', ::aPictData[ ::nCurrentFrame ] )
-      SetProperty( cParentName, ::hGif, 'Cargo', { cTimer, ::aPictData, ::nTotalFrames, cFileName } )
-
+      SetProperty( cParentName, ::hGif, "Picture", ::aPictData[ ::nCurrentFrame ] )
    ENDIF
 
 RETURN Self
 
 
-METHOD PlayGif( cControlName, cParentName ) CLASS TGif
+METHOD PlayGif() CLASS TGif
 
    IF ::nCurrentFrame < ::nTotalFrames
       ::nCurrentFrame++
@@ -296,212 +296,177 @@ METHOD PlayGif( cControlName, cParentName ) CLASS TGif
       ::nCurrentFrame := 1
    ENDIF
 
-   SetProperty( cParentName, cControlName, 'Picture', ::aPictData[ ::nCurrentFrame ] )
-   SetProperty( cParentName, GetProperty( cParentName, cControlName, 'Cargo' )[ 1 ], 'Value', ;
-      GetFrameDelay( ::aImageData[ ::nCurrentFrame ], ::nDelay ) )
-
-   DoMethod( cParentName, cControlName, 'Refresh' )
+   SetProperty( ::cParentName, ::hGif, "Picture", ::aPictData[ ::nCurrentFrame ] )
+   SetProperty( ::cParentName, ::cTimer, "Value", ::aDelay[ ::nCurrentFrame ] )
 
 RETURN NIL
 
 
-METHOD UpdateGif( cControlName, cParentName ) CLASS TGif
+METHOD Update() CLASS TGif
 
-   LOCAL nHeight := iif( ::lLopping, GetProperty( cParentName, cControlName, 'Height' ), ::nHeight )
-   LOCAL nWidth := iif( ::lLopping, GetProperty( cParentName, cControlName, 'Width' ), ::nWidth )
+   IF ! Empty( ::hGif ) .and. _IsControlDefined ( ::hGif, ::cParentName )
 
-   SetProperty( cParentName, cControlName, 'Row', ::nTop )
-   SetProperty( cParentName, cControlName, 'Col', ::nLeft )
-   SetProperty( cParentName, cControlName, 'Height', nHeight )
-   SetProperty( cParentName, cControlName, 'Width', nWidth )
+      IF GetProperty( ::cParentName, ::hGif, "Row" ) <> GetProperty( ::cParentName, ::cControlName, "Row" ) .OR. ;
+         GetProperty( ::cParentName, ::hGif, "Col" ) <> GetProperty( ::cParentName, ::cControlName, "Col" ) .OR. ;
+         GetProperty( ::cParentName, ::hGif, "Width" )  <> GetProperty( ::cParentName, ::cControlName, "Width" ) .OR. ;
+         GetProperty( ::cParentName, ::hGif, "Height" ) <> GetProperty( ::cParentName, ::cControlName, "Height" )
 
-   ::nBottom := nHeight + ::nTop
-   ::nRight  := nWidth + ::nLeft
+         SetProperty( ::cParentName, ::hGif, "Row", GetProperty( ::cParentName, ::cControlName, "Row" ) )
+         SetProperty( ::cParentName, ::hGif, "Col", GetProperty( ::cParentName, ::cControlName, "Col" ) )
+         SetProperty( ::cParentName, ::hGif, "Width", GetProperty( ::cParentName, ::cControlName, "Width" ) )
+         SetProperty( ::cParentName, ::hGif, "Height", GetProperty( ::cParentName, ::cControlName, "Height" ) )
+      ENDIF
+         
+   ENDIF
 
 RETURN NIL
 
 
-METHOD RestartGif( cControlName, cParentName ) CLASS TGif
+METHOD RestartGif() CLASS TGif
 
-   LOCAL aPictInfo := {}, cTimer
    LOCAL aPictures := {}, aImageInfo := {}
-   LOCAL cOldFile := GetProperty( cParentName, cControlName, 'Cargo' )[ 4 ]
 
-   GifStop( cControlName, cParentName )
+   GifStop( Self )
+   
+   AEval( ::aPictData, { |f| FErase( f ) } )
 
-   IF LoadGif( ::cFileName, @aPictInfo, @aPictures, @aImageInfo )
+   IF LoadGif( ::cFileName, @aPictures, @aImageInfo, Self )
 
-      IF cOldFile <> ::cFileName
-         AEval( GetProperty( cParentName, cControlName, 'Cargo' )[ 2 ], { |f| FErase( f ) } )
-         ::nTotalFrames := Len( aPictures )
+      ::nTotalFrames := Len( aPictures )
+      ::aPictData  := AClone( aPictures )
+      ::aImageData := AClone( aImageInfo )
 
-         ::aPictData  := AClone( aPictures )
-         ::aImageData := AClone( aImageInfo )
+      ::nCurrentFrame := 1
+      ::Update()
 
-         cTimer := GetProperty( cParentName, cControlName, 'Cargo' )[ 1 ]
-         SetProperty( cParentName, cControlName, 'Cargo', { cTimer, ::aPictData, ::nTotalFrames, ::cFileName } )
+   ENDIF
+
+   ::Play()
+
+RETURN NIL
+
+
+METHOD End() CLASS TGif
+
+   IF _IsControlDefined ( ::cControlName , ::cParentName )
+
+      AEval( ::aPictData, { |f| FErase( f ) } )
+
+      IF ::nTotalFrames > 1
+         DoMethod( ::cParentName, ::cTimer, 'Release' )
       ENDIF
 
-      ::nWidth  := aPictInfo[ 2 ]
-      ::nHeight := aPictInfo[ 3 ]
+      IF _IsControlDefined ( ::hGif , ::cParentName )
+         _ReleaseControl ( ::hGif, ::cParentName )
+      ENDIF
 
-      ::lLopping := .F.
-      ::nCurrentFrame := 1
-
-      ::UpdateGif( cControlName, cParentName )
-
-   ENDIF
-
-   GifPlay( cControlName, cParentName )
-
-RETURN NIL
-
-
-METHOD DestroyGif( cControlName, cParentName ) CLASS TGif
-
-   LOCAL aPictures := GetProperty( cParentName, cControlName, 'Cargo' )[ 2 ]
-   LOCAL TotalFrames := GetProperty( cParentName, cControlName, 'Cargo' )[ 3 ]
-
-   AEval( aPictures, { |f| FErase( f ) } )
-
-   IF TotalFrames > 1
-      DoMethod( cParentName, GetProperty( cParentName, cControlName, 'Cargo' )[ 1 ], 'Release' )
-   ENDIF
-
-   _ReleaseControl ( cControlName, cParentName )
-
-RETURN NIL
-
-/*
-*/
-STATIC FUNCTION GifPlay( cControlName, cParentName )
-
-   LOCAL TotalFrames := GetProperty( cParentName, cControlName, 'Cargo' )[ 3 ]
-
-   IF TotalFrames > 1
-      SetProperty( cParentName, GetProperty( cParentName, cControlName, 'Cargo' )[ 1 ], 'Enabled', .T. )
    ENDIF
 
 RETURN NIL
 
 /*
-*/
-STATIC FUNCTION GifStop( cControlName, cParentName )
+ *  Auxiliary static functions
+ */
 
-   LOCAL TotalFrames := GetProperty( cParentName, cControlName, 'Cargo' )[ 3 ]
+STATIC FUNCTION GifPlay( oGif )
 
-   IF TotalFrames > 1
-      SetProperty( cParentName, GetProperty( cParentName, cControlName, 'Cargo' )[ 1 ], 'Enabled', .F. )
+   IF oGif:nTotalFrames > 1
+      SetProperty( oGif:cParentName, oGif:cTimer, 'Enabled', .T. )
    ENDIF
 
 RETURN NIL
 
-/*
-*/
-STATIC FUNCTION GifIsRunning( cControlName, cParentName )
+
+STATIC FUNCTION GifStop( oGif )
+
+   IF oGif:nTotalFrames > 1
+      SetProperty( oGif:cParentName, oGif:cTimer, 'Enabled', .F. )
+   ENDIF
+
+RETURN NIL
+
+
+STATIC FUNCTION GifIsRunning( oGif )
 
    LOCAL lRunning := .F.
-   LOCAL TotalFrames := GetProperty( cParentName, cControlName, 'Cargo' )[ 3 ]
 
-   IF TotalFrames > 1
-      lRunning := GetProperty( cParentName, GetProperty( cParentName, cControlName, 'Cargo' )[ 1 ], 'Enabled' )
+   IF oGif:nTotalFrames > 1
+      lRunning := GetProperty( oGif:cParentName, oGif:cTimer, 'Enabled' )
    ENDIF
 
 RETURN lRunning
+
 
 /*
  * h_Gif89.prg
  *
  * Author: P.Chornyj <myorg63@mail.ru>
- *
-*/
+ */
 
 #include "fileio.ch"
 
-#ifndef __XHARBOUR__
-  #xtranslate At(<a>,<b>,[<x,...>]) => hb_At(<a>,<b>,<x>)
-#endif
-
-#define Alert( c ) MsgExclamation( c, "LoadGif", , .f. )
-
 /*
 */
-FUNCTION LoadGif( GIF, aGifInfo, aFrames, aImgInfo, path )
+FUNCTION LoadGif( GIF, aFrames, aImgInfo, oGif )
 
-   LOCAL cGifHeader, cGifEnd := Chr( 0 ) + Chr( 33 ) + Chr( 249 )
-   LOCAL i, j, nImgCount, nFileHandle
-   LOCAL cStream, cFile, cPicBuf, imgHeader
-   LOCAL bLoadGif := TRUE
+   LOCAL path := GetTempFolder()
+   LOCAL cGifHeader
+   LOCAL cGifEnd := Chr( 0 ) + Chr( 33 ) + Chr( 249 )
+   LOCAL cStream
+   LOCAL cFile
+   LOCAL cPicBuf
+   LOCAL imgHeader
+   LOCAL nImgCount
+   LOCAL nFileHandle
+   LOCAL i, j
 
-   aGifInfo := Array( 3 )
-   aFrames := {}
-   aImgInfo := {}
-   DEFAULT path TO GetTempFolder()
+   STATIC nID := 0
 
-   IF ! File( GIF )
-      Alert( "File " + GIF + " is not found!" )
-      RETURN FALSE
-   ENDIF
+   nID++
+
+   oGif:aDelay := {}
+   hb_default( @aFrames, {} )
+   hb_default( @aImgInfo, {} )
 
    IF ! ReadFromStream( GIF, @cStream )
-      Alert( "Error when reading file " + GIF )
       RETURN FALSE
    ENDIF
 
    nImgCount := 0
    i := 1
    j := At( cGifEnd, cStream, i ) + 1
-
    cGifHeader = Left( cStream, j )
-
-   IF  Left( cGifHeader, 3 ) <> "GIF"
-      Alert( "This file is not a GIF file!" )
-      RETURN FALSE
-   ENDIF
-
-   aGifInfo[ 1 ] := SubStr( cGifHeader, 4, 3 )          // GifVersion
-   aGifInfo[ 2 ] := Bin2W( SubStr( cGifHeader, 7, 2 ) ) // LogicalScreenWidth
-   aGifInfo[ 3 ] := Bin2W( SubStr( cGifHeader, 9, 2 ) ) // LogicalScreenHeight
 
    i := j + 2
 
    /* Split GIF Files at separate pictures and load them into ImageList */
 
    DO WHILE .T.
+
       nImgCount++
+
       j := At( cGifEnd, cStream, i ) + 3
+
       IF j > Len( cGifEnd )
-         cFile := path + "\" + cFileNoExt( GIF ) + "_frame_" + StrZero( nImgCount, 4 ) + ".gif"
+         cFile := path + "\" + cFileNoExt( GIF ) + "_frame_" + hb_ntos( nID ) + "_" + StrZero( nImgCount, 4 ) + ".gif"
          nFileHandle := FCreate( cFile, FC_NORMAL )
          IF FError() <> 0
-#ifdef _DEBUG_
-            Alert( "Error while creating a temp file:" + Str( FError() ) )
-#endif
             RETURN FALSE
          ENDIF
 
-         cPicBuf := cGifHeader + SubStr( cStream, i -1, j - i )
-         imgHeader = Left( SubStr ( cStream, i -1, j - i ), 16 )
+         cPicBuf := cGifHeader + SubStr( cStream, i - 1, j - i )
+         imgHeader = Left( SubStr ( cStream, i - 1, j - i ), 16 )
 
          IF FWrite( nFileHandle, cPicBuf ) <> Len( cPicBuf )
-#ifdef _DEBUG_
-            Alert( "Error while writing a file:" + Str( FError() ) )
-#endif
             RETURN FALSE
          ENDIF
 
          IF .NOT. FClose( nFileHandle )
-#ifdef _DEBUG_
-            Alert( "Error while closing a file:" + Str( FError() ) )
-#endif
             RETURN FALSE
          ENDIF
 
-         ASize( aFrames, nImgCount )
-         aFrames[ nImgCount ]  := cFile
-
-         ASize( aImgInfo, nImgCount )
-         aImgInfo[ nImgCount ] := imgHeader
+         AAdd( aFrames, cFile )
+         AAdd( oGif:aDelay, GetFrameDelay( imgHeader, oGif:nDelay ) )
       ENDIF
 
       DO EVENTS
@@ -511,47 +476,38 @@ FUNCTION LoadGif( GIF, aGifInfo, aFrames, aImgInfo, path )
       ELSE
          i := j
       ENDIF
+
    ENDDO
 
    IF i < Len( cStream )
-      cFile := path + "\" + cFileNoExt( GIF ) + "_frame_" + StrZero( nImgCount, 4 ) + ".gif"
+
+      cFile := path + "\" + cFileNoExt( GIF ) + "_frame_" + hb_nTos( nID ) + "_" + StrZero( ++nImgCount, 4 ) + ".gif"
       nFileHandle := FCreate( cFile, FC_NORMAL )
       IF FError() <> 0
-#ifdef _DEBUG_
-         Alert( "Error while creating a temp file:" + Str( FError() ) )
-#endif
          RETURN FALSE
       ENDIF
 
-      cPicBuf := cGifHeader + SubStr( cStream, i -1, Len( cStream ) - i )
-      imgHeader := Left( SubStr( cStream, i -1, Len( cStream ) - i ), 16 )
+      cPicBuf := cGifHeader + SubStr( cStream, i - 1, Len( cStream ) - i )
+      imgHeader := Left( SubStr( cStream, i - 1, Len( cStream ) - i ), 16 )
 
       IF FWrite( nFileHandle, cPicBuf ) <> Len( cPicBuf )
-#ifdef _DEBUG_
-         Alert( "Error while writing a file:" + Str( FError() ) )
-#endif
          RETURN FALSE
       ENDIF
 
       IF .NOT. FClose( nFileHandle )
-#ifdef _DEBUG_
-         Alert( "Error while closing a file:" + Str( FError() ) )
-#endif
          RETURN FALSE
       ENDIF
 
-      ASize( aFrames, nImgCount )
-      aFrames[ nImgCount ]  := cFile
+      AAdd( aFrames, cFile )
+      AAdd( oGif:aDelay, GetFrameDelay( imgHeader, oGif:nDelay ) )
 
-      ASize( aImgInfo, nImgCount )
-      aImgInfo[ nImgCount ] := imgHeader
    ENDIF
 
-RETURN bLoadGif
+RETURN TRUE
 
 /*
 */
-FUNCTION ReadFromStream( cFile, cStream )
+STATIC FUNCTION ReadFromStream( cFile, cStream )
 
    LOCAL nFileSize
    LOCAL nFileHandle := FOpen( cFile )

@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -52,11 +52,19 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineSpinner ( ControlName, ParentForm, x, y, w, value , fontname, ;
-      fontsize, rl, rh, tooltip, change, lostfocus, gotfocus, h, HelpId, horizontal, invisible, notabstop, bold, ;
-      italic, underline, strikeout, wrap, readonly, increment , backcolor , fontcolor , cuetext )
+      fontsize, rl, rh, tooltip, change, lostfocus, gotfocus, h, HelpId, ;
+      horizontal, invisible, notabstop, bold, italic, underline, strikeout, ;
+      wrap, readonly, increment, backcolor, fontcolor, cuetext, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL cParentForm , RetArray , mVar , k
    LOCAL ControlHandle , FontHandle
+   LOCAL cParentForm
+   LOCAL RetArray
+   LOCAL mVar
+   LOCAL k
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    hb_default( @w, 120 )
    hb_default( @h, 24 )
@@ -109,7 +117,9 @@ FUNCTION _DefineSpinner ( ControlName, ParentForm, x, y, w, value , fontname, ;
    ELSE
       __defaultNIL( @FontName, _HMG_DefaultFontName )
       __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-      FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+      IF IsWindowHandle( ControlHandle )
+         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+      ENDIF
    ENDIF
 
    IF _HMG_BeginTabActive
@@ -117,7 +127,7 @@ FUNCTION _DefineSpinner ( ControlName, ParentForm, x, y, w, value , fontname, ;
    ENDIF
 
    IF ValType( tooltip ) != "U"
-      SetToolTip ( ControlHandle , tooltip , GetFormToolTipHandle ( cParentForm ) )
+      AEval ( RetArray, { |x| SetToolTip ( x , tooltip , GetFormToolTipHandle ( cParentForm ) ) } )
    ENDIF
 
    k := _GetControlFree()
@@ -148,7 +158,7 @@ FUNCTION _DefineSpinner ( ControlName, ParentForm, x, y, w, value , fontname, ;
    _HMG_aControlSpacing  [k] :=  0
    _HMG_aControlContainerRow  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameRow [_HMG_FrameLevel] , -1 )
    _HMG_aControlContainerCol  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameCol [_HMG_FrameLevel] , -1 )
-   _HMG_aControlPicture  [k] :=  ""
+   _HMG_aControlPicture  [k] :=  increment
    _HMG_aControlContainerHandle  [k] :=  0
    _HMG_aControlFontName [k] :=   fontname
    _HMG_aControlFontSize  [k] :=  fontsize
@@ -165,10 +175,6 @@ FUNCTION _DefineSpinner ( ControlName, ParentForm, x, y, w, value , fontname, ;
    _HMG_aControlMiscData1 [k] := { 0, readonly }
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF !Empty ( cuetext ) .AND. IsVistaOrLater() .AND. IsThemed()
       value := ""
       SendMessageWideString ( ControlHandle, EM_SETCUEBANNER, .T., cuetext )
@@ -182,25 +188,40 @@ FUNCTION _DefineSpinner ( ControlName, ParentForm, x, y, w, value , fontname, ;
       SetSpinnerIncrement( RetArray [2], increment )
    ENDIF
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentForm )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
+
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION OSPINEVENTS( hWnd, nMsg, wParam, lParam )    // 2006.08.13 JD
 *-----------------------------------------------------------------------------*
-   LOCAL i, ParentForm
+   LOCAL ParentForm
+   LOCAL i
 
    SWITCH nMsg
 
    CASE WM_GETDLGCODE
 
       IF _HMG_ExtendedNavigation
+
          IF wParam == 0x0D   // Return key pressed
+
             IF CheckBit( GetKeyState( VK_SHIFT ), 32768 ) // Is Shift key pressed?
                InsertShiftTab()
             ELSE
                InsertTab()
             ENDIF
+
          ENDIF
+
       ENDIF
       EXIT
 
@@ -208,14 +229,21 @@ FUNCTION OSPINEVENTS( hWnd, nMsg, wParam, lParam )    // 2006.08.13 JD
 
       i := AScan( _HMG_aControlHandles, { |x| iif( ValType( x ) == "A", ( AScan( x, hWnd ) > 0 ), x == hWnd ) } )
       ParentForm := _HMG_aControlParentHandles [i]
+
       i := AScan( _HMG_aControlsContextMenu, { |x| x [1] == hWnd } )
+
       IF i > 0
-         IF _HMG_aControlsContextMenu [i] [4] == .T.
+
+         IF _HMG_aControlsContextMenu [i][4] == .T.
             setfocus( wParam )
-            _HMG_xControlsContextMenuID := _HMG_aControlsContextMenu [i] [3]
-            TrackPopupMenu ( _HMG_aControlsContextMenu [i] [2], LOWORD( lparam ), HIWORD( lparam ), ParentForm )
+
+            _HMG_xControlsContextMenuID := _HMG_aControlsContextMenu [i][3]
+
+            TrackPopupMenu ( _HMG_aControlsContextMenu [i][2], LOWORD( lParam ), HIWORD( lParam ), ParentForm )
+
             RETURN 1
          ENDIF
+
       ENDIF
 
    ENDSWITCH

@@ -33,18 +33,18 @@
  Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+     Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -624,7 +624,7 @@ FUNCTION InitPageFldProc( hWndParent, hwndDlg, idDlg )
                ENDIF
             ENDIF
          ENDIF
-         IF ValType( aDialogItems[n,12] ) != "U"
+         IF ValType( aDialogItems[n,12] ) != "U" .AND. IsWindowHandle( GetFormToolTipHandle ( _HMG_ActiveDialogName ) )
             SetToolTip ( ControlHandle , aDialogItems[n,12] , GetFormToolTipHandle ( _HMG_ActiveDialogName ) )
          ENDIF
          IF k > 0
@@ -769,6 +769,7 @@ FUNCTION PageFldProc( hWndDlg, nMsg, wParam, lParam )
    CASE nMsg == WM_NOTIFY
 
       SWITCH GetNotifyCode( lParam )
+
       CASE FLN_APPLY
          Folder_UnChanged( hwndFolder, hWndDlg )
 
@@ -789,6 +790,7 @@ FUNCTION PageFldProc( hWndDlg, nMsg, wParam, lParam )
             ENDIF
          ENDIF
          EXIT
+
       CASE FLN_RESET
          i := AScan ( _HMG_aFolderInfo[nFldID,FLD_HFP],  hwndDlg )
          IF i > 0
@@ -807,10 +809,12 @@ FUNCTION PageFldProc( hWndDlg, nMsg, wParam, lParam )
             ENDIF
          ENDIF
          EXIT
+
       CASE FLN_FINISH
          _ReleaseFolder( hwndFolder )
          Folder_CleanUp ( hwndFolder )
          EXIT
+
       CASE FLN_HELP
          i := AScan ( _HMG_aFormhandles,  hwndFolder )  // find FolderProcedure
          IF i > 0
@@ -819,18 +823,18 @@ FUNCTION PageFldProc( hWndDlg, nMsg, wParam, lParam )
             ENDIF
          ENDIF
          EXIT
+
       CASE FLN_SETACTIVE
          EXIT
+
       CASE FLN_KILLACTIVE
          EXIT
-#ifndef __XHARBOUR__
-      OTHERWISE
-#else
-         DEFAULT
-#endif
+
+      DEFAULT
          IF GetDialogITemHandle( hwndDlg, LOWORD( wParam ) ) != 0
             Events( hwndDlg, nMsg, wParam, lParam )
          ENDIF
+
       ENDSWITCH
       IF lRet == FALSE
          IF GetDialogITemHandle( hwndDlg, LOWORD( wParam ) ) != 0

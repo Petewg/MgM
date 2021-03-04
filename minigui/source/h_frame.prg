@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -49,11 +49,19 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #include "i_winuser.ch"
 
 *-----------------------------------------------------------------------------*
-STATIC FUNCTION _DefineFrame ( ControlName, ParentFormName, x, y, w, h , caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , backcolor , fontcolor , transparent , invisible , nId )
+STATIC FUNCTION _DefineFrame ( ControlName, ParentFormName, x, y, w, h, ;
+      caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , ;
+      backcolor , fontcolor , transparent , invisible , nId , bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , mVar , k , Style
-   LOCAL ControlHandle , FontHandle
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
    LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    IF ( FontHandle := GetFontHandle( FontName ) ) != 0
       GetFontParamByRef( FontHandle, @FontName, @FontSize, @bold, @italic, @underline, @strikeout )
@@ -122,7 +130,13 @@ STATIC FUNCTION _DefineFrame ( ControlName, ParentFormName, x, y, w, h , caption
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
+      ENDIF
+
+      IF _HMG_IsThemed .AND. ( IsArrayRGB ( backcolor ) .OR. IsArrayRGB ( fontcolor ) )
+         SetWindowTheme ( ControlHandle, "", "" )
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -174,18 +188,24 @@ STATIC FUNCTION _DefineFrame ( ControlName, ParentFormName, x, y, w, h , caption
    _HMG_aControlMiscData1 [k] :=  0
    _HMG_aControlMiscData2 [k] :=  ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF invisible
       _HideControl ( ControlName , ParentFormName )
    ENDIF
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
+
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
-FUNCTION _BeginFrame( name , parent , row , col , w , h , caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , backcolor , fontcolor , transparent , invisible , nId )
+FUNCTION _BeginFrame( name , parent , row , col , w , h , caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , backcolor , fontcolor , transparent , invisible , nId, bInit )
 *-----------------------------------------------------------------------------*
 
    IF _HMG_BeginWindowActive
@@ -214,6 +234,6 @@ FUNCTION _BeginFrame( name , parent , row , col , w , h , caption , fontname , f
    hb_default( @w, 140 )
    hb_default( @h, 140 )
 
-   _DefineFrame ( name , parent , col , row , w , h , caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , backcolor , fontcolor , transparent , invisible , nId )
+   _DefineFrame ( name , parent , col , row , w , h , caption , fontname , fontsize , opaque , bold, italic, underline, strikeout , backcolor , fontcolor , transparent , invisible , nId, bInit )
 
 RETURN Nil

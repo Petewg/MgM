@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -51,15 +51,17 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 FUNCTION _DefinePlayer ( ControlName, ParentFormName, file, x, y, w, h, noasw, noasm, noed, nom, noo, nop, sha, shm, shn, shp, HelpId )
 *-----------------------------------------------------------------------------*
-   LOCAL ControlHandle , mVar , k
+   LOCAL ControlHandle
+   LOCAL mVar
+   LOCAL k
 
    IF _HMG_BeginWindowActive
       ParentFormName := _HMG_ActiveFormName
    ENDIF
 
    IF _HMG_FrameLevel > 0 .AND. !_HMG_ParentWindowActive
-      x    := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
-      y    := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
+      x := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
+      y := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
       ParentFormName := _HMG_ActiveFrameParentFormName [_HMG_FrameLevel]
    ENDIF
 
@@ -74,21 +76,7 @@ FUNCTION _DefinePlayer ( ControlName, ParentFormName, file, x, y, w, h, noasw, n
    mVar := '_' + ParentFormName + '_' + ControlName
 
    ControlHandle := InitPlayer ( GetFormHandle( ParentFormName ) , ;
-      file         , ;
-      x            , ;
-      y            , ;
-      w            , ;
-      h            , ;
-      noasw        , ;
-      noasm        , ;
-      noed         , ;
-      nom          , ;
-      noo          , ;
-      nop          , ;
-      sha          , ;
-      shm          , ;
-      shn          , ;
-      shp )
+      file ,  x ,  y , w , h , noasw, noasm, noed, nom, noo, nop, sha, shm, shn, shp )
 
    IF _HMG_BeginTabActive
       AAdd ( _HMG_ActiveTabCurrentPageMap , ControlHandle )
@@ -144,6 +132,7 @@ FUNCTION _DefinePlayer ( ControlName, ParentFormName, file, x, y, w, h, noasw, n
    ENDIF
 
 RETURN Nil
+
 *-----------------------------------------------------------------------------*
 FUNCTION PlayWave( wave, r, s, ns, l, nd )
 *-----------------------------------------------------------------------------*
@@ -154,18 +143,77 @@ FUNCTION PlayWave( wave, r, s, ns, l, nd )
 RETURN C_PlayWave( wave, r, s, ns, l, nd )
 
 *-----------------------------------------------------------------------------*
-FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, center, transparent, file, HelpId, border, backcolor, nId )
+FUNCTION GetAviFileSize( cFile )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , blInit , ControlHandle , mVar , k , tooltip := '' , Style
+   LOCAL cStr1, cStr2
+   LOCAL nWidth, nHeight
+   LOCAL nFileHandle
+
+   cStr1 := cStr2 := Space( 4 )
+   nWidth := nHeight := 0
+
+   nFileHandle := FOpen( cFile )
+
+   IF FError() == 0
+
+      FRead( nFileHandle, @cStr1, 4 )
+
+      IF cStr1 == "RIFF"
+         FSeek( nFileHandle, 64, 0 )
+
+         FRead( nFileHandle, @cStr1, 4 )
+         FRead( nFileHandle, @cStr2, 4 )
+
+         nWidth  := Bin2L( cStr1 )
+         nHeight := Bin2L( cStr2 )
+      ENDIF
+
+      FClose( nFileHandle )
+
+   ENDIF
+
+RETURN { nWidth, nHeight }
+
+*-----------------------------------------------------------------------------*
+FUNCTION GetAviResSize( cResName )
+*-----------------------------------------------------------------------------*
+   LOCAL aAviSize
+   LOCAL cDiskFile
+
+   aAviSize := Array( 2 )
+   cDiskFile := TempFile( GetTempFolder(), "avi" )
+
+   IF RCDataToFile( cResName, cDiskFile, "AVI" ) > 0
+
+      IF hb_FileExists( cDiskFile )
+         aAviSize := GetAviFileSize( cDiskFile )
+         FErase( cDiskFile )
+      ENDIF
+
+   ENDIF
+
+RETURN { aAviSize[1], aAviSize[2] }
+
+*-----------------------------------------------------------------------------*
+FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, center, transparent, file, HelpId, border, backcolor, invisible, nId )
+*-----------------------------------------------------------------------------*
+   LOCAL ParentFormHandle , ControlHandle
+   LOCAL blInit
+   LOCAL mVar
+   LOCAL k
+   LOCAL tooltip := ''
+   LOCAL Style
    LOCAL lDialogInMemory
+
+   hb_default( @invisible, .F. )
 
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
       ParentFormName := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
    ENDIF
 
    IF _HMG_FrameLevel > 0 .AND. !_HMG_ParentWindowActive
-      x    := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
-      y    := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
+      x := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
+      y := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
       ParentFormName := _HMG_ActiveFrameParentFormName [_HMG_FrameLevel]
    ENDIF
    lDialogInMemory := _HMG_DialogInMemory
@@ -186,10 +234,13 @@ FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, c
 
       ParentFormHandle := _HMG_ActiveDialogHandle
 
-      style := WS_CHILD + WS_TABSTOP + WS_VISIBLE
+      style := WS_CHILD + WS_TABSTOP
 
       IF border
          Style += WS_BORDER
+      ENDIF
+      IF !invisible
+         Style += WS_VISIBLE
       ENDIF
 
       IF lDialogInMemory         //Dialog Template
@@ -213,7 +264,7 @@ FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, c
    ELSE
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
-      ControlHandle := InitAnimate( ParentFormHandle, x, y, w, h, autoplay, center, transparent, border )
+      ControlHandle := InitAnimate( ParentFormHandle, x, y, w, h, autoplay, center, transparent, border, invisible )
 
    ENDIF
 
@@ -259,7 +310,7 @@ FUNCTION _DefineAnimateBox( ControlName, ParentFormName, x, y, w, h, autoplay, c
    _HMG_aControlRangeMin  [k] :=   0
    _HMG_aControlRangeMax  [k] :=   0
    _HMG_aControlCaption  [k] :=   file
-   _HMG_aControlVisible  [k] :=   .T.
+   _HMG_aControlVisible  [k] :=   iif( invisible, FALSE, TRUE )
    _HMG_aControlHelpId  [k] :=   HelpId
    _HMG_aControlFontHandle   [k] :=  0
    _HMG_aControlBrushHandle  [k] :=  0

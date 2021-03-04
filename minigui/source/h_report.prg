@@ -30,18 +30,18 @@
  Parts of this project are based upon:
 
  "Harbour GUI framework for Win32"
-  Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+  Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
   Copyright 2001 Antonio Linares <alinares@fivetech.com>
- www - http://harbour-project.org
+ www - https://harbour.github.io/
 
  "Harbour Project"
- Copyright 1999-2017, http://harbour-project.org/
+ Copyright 1999-2021, https://harbour.github.io/
 
  "WHAT32"
  Copyright 2002 AJ Wos <andrwos@aust1.net>
 
  "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -63,11 +63,14 @@ FUNCTION easyreport
 
    PARAMETERS ctitle, aheaders1, aheaders2, afields, awidths, atotals, nlpp, ldos, lpreview, cgraphic, nfi, nci, nff, ncf, ;
       lmul, cgrpby, chdrgrp, llandscape, ncpl, lselect, calias, nllmargin, aformats, npapersize, ntoprow, ldatetimestamp
+
    LOCAL nlen, nlin, i, ncol, aresul, lmode, swt := 0, nran, grpby, cfile, k, cpagina, ntotalchar, norient, nRecNo, cType
    LOCAL aT, aW, aD
+
    MEMVAR cfilerepo
 
    PUBLIC _npage, angrpby, wfield, nlmargin, nfsize, ISEVERYPAGE, wfield1, crompe
+
    ldatetimestamp := !ldatetimestamp
 
    nlen := Len( afields )
@@ -99,11 +102,11 @@ FUNCTION easyreport
 
    cfile := calias
    Select( calias )
-   aFieldsg := &cfile->( Array( FCount() ) )
-   aT := &cfile->( Array( FCount() ) )
-   aW := &cfile->( Array( FCount() ) )
-   aD := &cfile->( Array( FCount() ) )
-   &cfile->( AFields( aFieldsg, aT, aW, aD ) )
+   aFieldsg := ( cfile )->( Array( FCount() ) )
+   aT := ( cfile )->( Array( FCount() ) )
+   aW := ( cfile )->( Array( FCount() ) )
+   aD := ( cfile )->( Array( FCount() ) )
+   ( cfile )->( AFields( aFieldsg, aT, aW, aD ) )
    lmode := .T.
    IF nlpp == NIL
       nlpp := 50
@@ -227,8 +230,8 @@ FUNCTION easyreport
       ENDIF
       crompe := &wfield1
    ENDIF
-   nRecNo := &cfile->( RecNo() )  //JP 18
-   DO WHILE .NOT. &cfile->( Eof() )
+   nRecNo := ( cfile )->( RecNo() )  //JP 18
+   DO WHILE .NOT. ( cfile )->( Eof() )
       swt := 0
       imp_SUBTOTALES( @nlin, @ncol, @lmode, @swt, @grpby )
 
@@ -308,10 +311,10 @@ FUNCTION easyreport
       nlin++
       imp_pagina( @nlin, @lmode, @grpby, @chdrgrp )
 
-      &cfile->( dbSkip() )
+      ( cfile )->( dbSkip() )
    ENDDO
-// FIN DE LA IMPRESIÓN DEL ÚLTIMO REGISTRO DE LA TABLA
-// IMPRESIÓN DEL SUBTOTAL DEL ULTIMO GRUPO DE LA TABLA EN CASO DE HABER SUBTOTALES
+   // FIN DE LA IMPRESIÓN DEL ÚLTIMO REGISTRO DE LA TABLA
+   // IMPRESIÓN DEL SUBTOTAL DEL ULTIMO GRUPO DE LA TABLA EN CASO DE HABER SUBTOTALES
    IF swt == 1 // EXISTE COLUMNA DE TOTALES
       ncol := nlmargin + 1
       imp_SUBTOTALES( @nlin, @ncol, @lmode, @swt, @grpby )
@@ -347,7 +350,7 @@ FUNCTION easyreport
          EJECT
       ENDIF
    ENDIF
-   &cfile->( dbGoto( nRecNo ) )  //JP 18
+   ( cfile )->( dbGoto( nRecNo ) )  //JP 18
    IF ldos
       IF lpreview
          SET DEVICE TO SCREEN
@@ -507,6 +510,7 @@ RETURN nlin
 STATIC FUNCTION mypreview( cfilerepo )
 
    LOCAL wr
+
    MEMVAR wfilerepo
 
    wfilerepo := cfilerepo
@@ -572,7 +576,9 @@ FUNCTION extreport( cfilerep )
    ENDIF
 
    PUBLIC aline := {}
+
    creport := MemoRead( cfilerep + '.rpt' )
+
    nContlin := MLCount( cReport )
    FOR i := 1 TO nContlin
       AAdd( Aline, MemoLine( cReport,500,i,, .T. ) )
@@ -769,7 +775,7 @@ RETURN cfvalue
 STATIC FUNCTION learowi( cname, npar )
 
    LOCAL i, npos1, nrow := '0'
-// Unused Parameter
+   // Unused Parameter
    HB_SYMBOL_UNUSED( cname )
 
    FOR i := 1 TO Len( aline )
@@ -785,7 +791,7 @@ RETURN nrow
 STATIC FUNCTION leacoli( cname, npar )
 
    LOCAL i, npos, ncol := '0'
-// Unused Parameter
+   // Unused Parameter
    HB_SYMBOL_UNUSED( cname )
 
    FOR i := 1 TO Len( aline )

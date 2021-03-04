@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -53,7 +53,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 FUNCTION GetColor( aInitColor )
 *-----------------------------------------------------------------------------*
-   LOCAL aRetVal [3] , nColor , nInitColor
+   LOCAL aRetVal [3]
+   LOCAL nColor , nInitColor
 
    IF IsArrayRGB ( aInitColor )
       nInitColor := RGB ( aInitColor [1] , aInitColor [2] , aInitColor [3] )
@@ -66,16 +67,17 @@ FUNCTION GetColor( aInitColor )
 RETURN aRetVal
 
 *-----------------------------------------------------------------------------*
-FUNCTION GetFolder( cTitle, cInitPath, nFlags, lNewFolderButton ) // JK HMG 1.0 Experimental Build 8
+FUNCTION GetFolder( cTitle, cInitPath, nFlags, lNewFolderButton, nFolderType ) // JK HMG 1.0 Experimental Build 8
 *-----------------------------------------------------------------------------*
-RETURN C_BrowseForFolder( NIL, cTitle, hb_defaultValue( nFlags, BIF_USENEWUI + BIF_VALIDATE + ;
-   iif( hb_defaultValue( lNewFolderButton, .T. ), 0, BIF_NONEWFOLDERBUTTON ) ), NIL, cInitPath )
+RETURN C_BrowseForFolder( NIL, cTitle, ;
+   hb_defaultValue( nFlags, BIF_USENEWUI + BIF_VALIDATE + ;
+   iif( hb_defaultValue( lNewFolderButton, .T. ), 0, BIF_NONEWFOLDERBUTTON ) ), nFolderType, cInitPath )
 
 *-----------------------------------------------------------------------------*
-FUNCTION BrowseForFolder( nFolder, nFlags, cTitle, cInitPath ) // Contributed By Ryszard Rylko
+FUNCTION BrowseForFolder( nFolderType, nFlags, cTitle, cInitPath ) // Contributed By Ryszard Rylko
 *-----------------------------------------------------------------------------*
-RETURN C_BrowseForFolder( NIL, cTitle, hb_defaultValue( nFlags, ;
-   hb_BitOr( BIF_NEWDIALOGSTYLE, BIF_EDITBOX, BIF_VALIDATE ) ), nFolder, cInitPath )
+RETURN C_BrowseForFolder( NIL, cTitle, ;
+   hb_defaultValue( nFlags, hb_BitOr( BIF_NEWDIALOGSTYLE, BIF_EDITBOX, BIF_VALIDATE ) ), nFolderType, cInitPath )
 
 *-----------------------------------------------------------------------------*
 FUNCTION GetFile( aFilter, title, cIniFolder, multiselect, lNoChangeCurDir, nFilterIndex )
@@ -85,30 +87,44 @@ FUNCTION GetFile( aFilter, title, cIniFolder, multiselect, lNoChangeCurDir, nFil
    LOCAL n, files
 
    hb_default( @multiselect, .F. )
-   hb_default( @nFilterIndex, 1 )
 
    IF ISARRAY( aFilter )
-      AEval( aFilter, { | x | cFilter += x[1] + Chr( 0 ) + x[2] + Chr( 0 ) } )
+      AEval( aFilter, { | x | cFilter += x [1] + Chr( 0 ) + x [2] + Chr( 0 ) } )
       cFilter += Chr( 0 )
    ENDIF
 
-   files := C_GetFile ( cFilter, title, cIniFolder, multiselect, lNoChangeCurDir, nFilterIndex )
+   files := C_GetFile ( cFilter, title, cIniFolder, multiselect, lNoChangeCurDir, hb_defaultValue( nFilterIndex, 1 ) )
 
    IF multiselect
+
       IF Len( files ) > 0
+
          IF ValType( files ) == "A"
+
             FOR n := 1 TO Len( files )
-               IF At( "\\", files[n] ) > 0 .AND. Left( files[n], 2 ) != "\\"
-                  files[n] := StrTran( files[n] , "\\", "\" )
+
+               IF At( "\\", files [n] ) > 0 .AND. Left( files [n], 2 ) != "\\"
+
+                  files [n] := StrTran( files [n] , "\\", "\" )
+
                ENDIF
+
             NEXT
+
             fileslist := AClone( files )
+
          ELSE
+
             AAdd( fileslist, files )
+
          ENDIF
+
       ENDIF
+
    ELSE
+
       fileslist := files
+
    ENDIF
 
 RETURN ( fileslist )
@@ -119,37 +135,32 @@ FUNCTION Putfile( aFilter, title, cIniFolder, lNoChangeCurDir, cDefFileName, ;
 *-----------------------------------------------------------------------------*
    LOCAL cFilter As String
 
-   hb_default( @cDefFileName, "" )
    hb_default( @nFilterIndex, 1 )
 
    IF ISARRAY( aFilter )
-      AEval( aFilter, { | x | cFilter += x[1] + Chr( 0 ) + x[2] + Chr( 0 ) } )
+      AEval( aFilter, { | x | cFilter += x [1] + Chr( 0 ) + x [2] + Chr( 0 ) } )
       cFilter += Chr( 0 )
    ENDIF
 
-RETURN C_PutFile ( cFilter, title, cIniFolder, lNoChangeCurDir, cDefFileName, @nFilterIndex, hb_defaultValue( lPromptOverwrite, .F. ) )
+RETURN C_PutFile ( cFilter, title, cIniFolder, lNoChangeCurDir, hb_defaultValue( cDefFileName, "" ), ;
+   @nFilterIndex, hb_defaultValue( lPromptOverwrite, .F. ) )
 
 *-----------------------------------------------------------------------------*
 FUNCTION GetFont( cInitFontName , nInitFontSize , lBold , lItalic , anInitColor , lUnderLine , lStrikeOut , nCharset )
 *-----------------------------------------------------------------------------*
-   LOCAL RetArray , rgbcolor := 0
-
-   hb_default( @cInitFontName, "" )
-   hb_default( @nInitFontSize, 0 )
-   hb_default( @lBold, .F. )
-   hb_default( @lItalic, .F. )
-   hb_default( @lUnderLine, .F. )
-   hb_default( @lStrikeOut, .F. )
-   hb_default( @nCharSet, 0 )
+   LOCAL RetArray
+   LOCAL rgbcolor As Numeric
 
    IF IsArrayRGB( anInitColor )
       rgbcolor := RGB( anInitColor [1] , anInitColor [2] , anInitColor [3] )
    ENDIF
 
-   RetArray := ChooseFont( cInitFontName , nInitFontSize , lBold , lItalic , rgbcolor , lUnderLine , lStrikeOut , nCharSet )
+   RetArray := ChooseFont( hb_defaultValue( cInitFontName, "" ) , hb_defaultValue( nInitFontSize, 0 ) , ;
+      hb_defaultValue( lBold, .F. ) , hb_defaultValue( lItalic, .F. ) , rgbcolor , ;
+      hb_defaultValue( lUnderLine, .F. ) , hb_defaultValue( lStrikeOut, .F. ) , hb_defaultValue( nCharSet, 0 ) )
 
    IF Empty( RetArray [1] )
-      RetArray [5] := { Nil , Nil , Nil }
+      RetArray [5] := { Nil, Nil, Nil }
    ELSE
       rgbcolor := RetArray [5]
       RetArray [5] := nRGB2Arr( rgbcolor )

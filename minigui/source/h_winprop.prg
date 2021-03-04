@@ -32,18 +32,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
@@ -67,11 +67,13 @@ RETURN
 *-----------------------------------------------------------------------------*
 FUNCTION _GetWindowProp ( xParentForm, cPropName, lDirect )
 *-----------------------------------------------------------------------------*
-   LOCAL xValue, cParentFormName := ""
+   LOCAL cParentFormName := ""
+   LOCAL xValue
 
    xParentForm := _GetFormHandle ( xParentForm, @cParentFormName )
 
    xValue := GetProp( xParentForm, cPropName, hb_defaultValue( lDirect, .F. ) )
+
    IF HB_ISNIL( xValue )
       MsgMiniGuiError( "Property " + cPropName + " in Window " + cParentFormName + " is not defined." )
    ENDIF
@@ -81,37 +83,44 @@ RETURN xValue
 *-----------------------------------------------------------------------------*
 FUNCTION _RemoveWindowProp ( xParentForm, cPropName, lNoFree )
 *-----------------------------------------------------------------------------*
-   xParentForm := _GetFormHandle ( xParentForm )
 
-RETURN RemoveProp( xParentForm, cPropName, hb_defaultValue( lNoFree, .F. ) )
+RETURN RemoveProp( _GetFormHandle ( xParentForm ), cPropName, hb_defaultValue( lNoFree, .F. ) )
 
 *-----------------------------------------------------------------------------*
 FUNCTION _EnumWindowProps( xParentForm )
 *-----------------------------------------------------------------------------*
-	LOCAL nHandle := _GetFormHandle ( xParentForm )
 
-RETURN EnumProps( nHandle )
+RETURN EnumProps( _GetFormHandle ( xParentForm ) )
 
 *-----------------------------------------------------------------------------*
 STATIC FUNCTION _GetFormHandle ( xParentForm, cParentFormName )
 *-----------------------------------------------------------------------------*
 
    IF ValType( xParentForm ) == 'U'
+
       IF _HMG_BeginWindowMdiActive
+
          xParentForm := GetActiveMdiHandle()
+
       ELSE
+
          IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
             xParentForm := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
          ENDIF
+
       ENDIF
+
    ENDIF
 
    IF HB_ISSTRING( xParentForm )
+
       IF ! _IsWindowDefined ( xParentForm )
          MsgMiniGuiError( "Window: " + xParentForm + " is not defined." )
       ENDIF
+
       cParentFormName := xParentForm
       xParentForm := GetFormHandle ( cParentFormName )
+
    ENDIF
 
 RETURN xParentForm

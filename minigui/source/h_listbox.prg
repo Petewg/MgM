@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -54,8 +54,13 @@ FUNCTION _DefineListbox ( ControlName, ParentFormName, x, y, w, h, arows, value,
       invisible, notabstop, sort, bold, italic, underline, strikeout, backcolor, fontcolor, ;
       multiselect, dragitems, multicolumn, multitabs, aWidth, nId )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , blInit , mVar , ControlHandle , Style
-   LOCAL FontHandle , rows , i , k
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
+   LOCAL blInit
+   LOCAL rows
+   LOCAL i
    LOCAL lDialogInMemory
 
    hb_default( @w, 120 )
@@ -213,7 +218,9 @@ FUNCTION _DefineListbox ( ControlName, ParentFormName, x, y, w, h, arows, value,
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -295,7 +302,10 @@ RETURN Nil
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogListBox( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
-   LOCAL Rows, Value, multitabs, aWidth
+   LOCAL Rows
+   LOCAL Value
+   LOCAL aWidth
+   LOCAL multitabs
 
    HB_SYMBOL_UNUSED( ParentName )
 
@@ -328,12 +338,13 @@ FUNCTION InitDialogListBox( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
 FUNCTION LB_Array2String( aData, Sep )
 *-----------------------------------------------------------------------------*
-   LOCAL n, cData := ""
+   LOCAL cData := ""
+   LOCAL n
 
-   DEFAULT Sep := Chr(9)
+   hb_default( @Sep, Chr( 9 ) )
 
    FOR n := 1 TO Len( aData )
-      cData += iif(n == 1, "", Sep) + aData [n]
+      cData += iif( n == 1, "", Sep ) + aData [n]
    NEXT
 
 RETURN cData

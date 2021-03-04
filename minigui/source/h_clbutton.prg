@@ -28,10 +28,21 @@ RETURN
 *------------------------------------------------------------------------------*
 PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParent, lDefault, w, h, cBitmap )
 *------------------------------------------------------------------------------*
-   LOCAL hControlHandle, nId, hParentFormHandle, k, mVar
+   LOCAL hControlHandle, hParentFormHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL nId
 
    IF _HMG_BeginWindowActive
       cParent := _HMG_ActiveFormName
+   ENDIF
+
+   // If defined inside a Tab structure, adjust position and determine cParent
+
+   IF _HMG_FrameLevel > 0
+      nCol += _HMG_ActiveFrameCol[ _HMG_FrameLevel ]
+      nRow += _HMG_ActiveFrameRow[ _HMG_FrameLevel ]
+      cParent := _HMG_ActiveFrameParentFormName[ _HMG_FrameLevel ]
    ENDIF
 
    IF .NOT. _IsWindowDefined ( cParent )
@@ -42,8 +53,8 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
       MsgMiniGuiError ( "Control: " + cName + " Of " + cParent + " Already defined." )
    ENDIF
 
-   DEFAULT w TO 180
-   DEFAULT h TO 60
+   hb_default( @w, 180 )
+   hb_default( @h, 60 )
 
    mVar := '_' + cParent + '_' + cName
 
@@ -63,6 +74,10 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
       )
 
    CLButton_SetNote( hControlHandle, cNotes )
+
+   IF _HMG_BeginTabActive
+      AAdd ( _HMG_ActiveTabCurrentPageMap, hControlHandle )
+   ENDIF
 
    Public &mVar. := k
 
@@ -88,8 +103,8 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
    _HMG_aControlWidth[k] := w
    _HMG_aControlHeight[k] := h
    _HMG_aControlSpacing[k] := 0
-   _HMG_aControlContainerRow[k] :=  -1
-   _HMG_aControlContainerCol[k] :=  -1
+   _HMG_aControlContainerRow [k] :=  iif ( _HMG_FrameLevel > 0, _HMG_ActiveFrameRow[ _HMG_FrameLevel ], -1 )
+   _HMG_aControlContainerCol [k] :=  iif ( _HMG_FrameLevel > 0, _HMG_ActiveFrameCol[ _HMG_FrameLevel ], -1 )
    _HMG_aControlPicture[k] :=  "Arrow"
    _HMG_aControlContainerHandle[k ] :=   0
    _HMG_aControlFontName[k] :=  Nil
@@ -104,8 +119,8 @@ PROCEDURE _DefineCLButton ( cName, nRow, nCol, cCaption, cNotes, bAction, cParen
    _HMG_aControlFontHandle[k] :=   Nil
    _HMG_aControlBrushHandle[k] :=   0
    _HMG_aControlEnabled[k] :=   .T.
-   _HMG_aControlMiscData1[k] := 0
-   _HMG_aControlMiscData2[k] := ''
+   _HMG_aControlMiscData1[k] :=  0
+   _HMG_aControlMiscData2[k] :=  ''
 
    IF _HMG_lOOPEnabled
       Eval ( _HMG_bOnControlInit, k, mVar )
@@ -146,8 +161,8 @@ RETURN
 *------------------------------------------------------------------------------*
 FUNCTION CLButtonEventhandler ( hWnd, nMsg, wParam, lParam )
 *------------------------------------------------------------------------------*
-   LOCAL i
    LOCAL RetVal := Nil
+   LOCAL i
 
    HB_SYMBOL_UNUSED( hWnd )
 
@@ -198,7 +213,9 @@ RETURN
 *------------------------------------------------------------------------------*
 PROCEDURE CLButtonSetFocus ( cWindow, cControl )
 *------------------------------------------------------------------------------*
-   LOCAL hWnd, x, ControlCount, ParentFormHandle
+   LOCAL hWnd, ParentFormHandle
+   LOCAL ControlCount
+   LOCAL x
 
    IF GetControlType ( cControl, cWindow ) == 'CLBUTTON'
 
@@ -423,19 +440,28 @@ RETURN RetVal
 #include <mgdefs.h>
 #include <commctrl.h>
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
+
 HB_FUNC( INITCLBUTTON )
 {
    HWND hwnd = ( HWND ) HB_PARNL( 1 );
    HWND hbutton;
    int  Style;
+#ifndef UNICODE
+   LPCSTR lpWindowName = hb_parc( 4 );
+#else
+   LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 4 ) );
+#endif
 
    Style = BS_COMMANDLINK;
 
    if( hb_parl( 5 ) )
       Style = BS_DEFCOMMANDLINK;
 
-   hbutton = CreateWindow( "button",
-                           hb_parc( 4 ),
+   hbutton = CreateWindow( TEXT( "button" ),
+                           lpWindowName,
                            Style | WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | BS_PUSHBUTTON | WS_VISIBLE,
                            hb_parni( 3 ),
                            hb_parni( 2 ),
@@ -449,7 +475,9 @@ HB_FUNC( INITCLBUTTON )
    HB_RETNL( ( LONG_PTR ) hbutton );
 }
 
+#ifndef BCM_SETNOTE
 #define BCM_SETNOTE  0x00001609
+#endif
 
 HB_FUNC( CLBUTTON_SETNOTE )
 {
@@ -484,11 +512,16 @@ HB_FUNC( CLBUTTON_SETIMAGE )
 {
    HIMAGELIST       himl;
    BUTTON_IMAGELIST bi;
+#ifndef UNICODE
+   LPCTSTR lpImageName = hb_parc( 2 );
+#else
+   LPWSTR  lpImageName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    himl = ImageList_LoadImage
           (
       GetModuleHandle( NULL ),
-      hb_parc( 2 ),
+      lpImageName,
       0,
       6,
       CLR_DEFAULT,
@@ -500,7 +533,7 @@ HB_FUNC( CLBUTTON_SETIMAGE )
       himl = ImageList_LoadImage
              (
          GetModuleHandle( NULL ),
-         hb_parc( 2 ),
+         lpImageName,
          0,
          6,
          CLR_DEFAULT,

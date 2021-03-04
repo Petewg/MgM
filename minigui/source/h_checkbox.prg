@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2020, https://harbour.github.io/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -470,7 +470,7 @@ RETURN Nil
 FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
       Value, fontname, fontsize, tooltip, ;
       changeprocedure, w, h, lostfocus, gotfocus, ;
-      HelpId, invisible, notabstop, nId )
+      HelpId, invisible, notabstop, nId, notrans )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle , ControlHandle
    LOCAL aRet
@@ -489,6 +489,7 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
    __defaultNIL( @changeprocedure, "" )
    hb_default( @invisible, .F. )
    hb_default( @notabstop, .F. )
+   hb_default( @notrans, .F. )
 
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
       ParentFormName := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
@@ -544,7 +545,7 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', 1, bitmap, w, h, invisible, notabstop, _HMG_IsThemed )
+      aRet := InitImageCheckButton ( ParentFormHandle, "", 0, x, y, '', notrans, bitmap, w, h, invisible, notabstop, _HMG_IsThemed )
 
       ControlHandle := aRet[1]
       nhImage := aRet[2]
@@ -585,7 +586,7 @@ FUNCTION _DefineImageCheckButton ( ControlName, ParentFormName, x, y, BitMap, ;
    _HMG_aControlCol   [k] :=  x
    _HMG_aControlWidth   [k] :=  w
    _HMG_aControlHeight  [k] :=  h
-   _HMG_aControlSpacing [k] :=  .F.
+   _HMG_aControlSpacing [k] :=  notrans
    _HMG_aControlContainerRow  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameRow [_HMG_FrameLevel] , -1 )
    _HMG_aControlContainerCol  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameCol [_HMG_FrameLevel] , -1 )
    _HMG_aControlPicture  [k] :=  BitMap

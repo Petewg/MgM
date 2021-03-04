@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -50,12 +50,22 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
-      ProcedureName, tooltip, HelpId, invisible, stretch, aBKColor, transparent, adjustimage, ;
-      mouseover, mouseleave, nAlphaLevel, nId )
+      ProcedureName, tooltip, HelpId, invisible, stretch, aBKColor, transparent, ;
+      adjustimage, mouseover, mouseleave, nAlphaLevel, nId, bInit, dblclick )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , blInit , mVar , action := .F. , k , Style
-   LOCAL ControlHandle , lDialogInMemory , BackgroundColor
+   LOCAL ParentFormHandle , ControlHandle
+   LOCAL blInit
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
+   LOCAL BackgroundColor
+   LOCAL action := .F.
+   LOCAL lDialogInMemory
    LOCAL lCheckAlpha := ISNUMBER( nAlphaLevel )
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
       ParentFormName := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
@@ -112,7 +122,7 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
          Style += WS_VISIBLE
       ENDIF
 
-      IF action
+      IF action .OR. ISBLOCK( dblclick )
          Style += SS_NOTIFY
       ENDIF
 
@@ -138,7 +148,7 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
 
       ParentFormHandle := GetFormHandle ( ParentFormName )
 
-      ControlHandle := InitImage ( ParentFormHandle, 0, x, y, invisible, ( action .OR. ISSTRING( tooltip ) ), ( ISBLOCK( mouseover ) .OR. ISBLOCK( mouseleave ) ) )
+      ControlHandle := InitImage ( ParentFormHandle, 0, x, y, invisible, ( action .OR. ISBLOCK( dblclick ) .OR. ISSTRING( tooltip ) ), ( ISBLOCK( mouseover ) .OR. ISBLOCK( mouseleave ) ) )
 
    ENDIF
 
@@ -172,7 +182,7 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
    _HMG_aControlBkColor  [k] :=  Nil
    _HMG_aControlFontColor  [k] :=  Nil
    _HMG_aControlDblClick  [k] :=  lCheckAlpha
-   _HMG_aControlHeadClick  [k] :=  {}
+   _HMG_aControlHeadClick  [k] :=  dblclick
    _HMG_aControlRow  [k] :=  y
    _HMG_aControlCol  [k] :=  x
    _HMG_aControlWidth  [k] :=  w
@@ -197,13 +207,19 @@ FUNCTION _DefineImage ( ControlName, ParentFormName, x, y, FileName, w, h, ;
    _HMG_aControlMiscData1 [k] := nAlphaLevel
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF .NOT. lDialogInMemory
       InitDialogImage( ParentFormName, ControlHandle, k )
    ENDIF
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 
@@ -235,39 +251,58 @@ FUNCTION BmpSize( xBitmap )
 *-----------------------------------------------------------------------------*
    LOCAL aRet := { 0, 0, 4 }
 
-   IF ISSTRING ( xBitmap )
+   DO CASE
+   CASE ISSTRING( xBitmap )
 
       aRet := GetBitmapSize( xBitmap )
 
       IF Empty( aRet [1] ) .AND. Empty( aRet [2] )
-
          xBitmap := C_GetResPicture( xBitmap )
-
          aRet := GetBitmapSize( xBitmap )
-
          DeleteObject( xBitmap )
-
       ENDIF
 
-   ELSEIF ISNUMERIC ( xBitmap )
+   CASE ISNUMERIC( xBitmap )
 
       aRet := GetBitmapSize( xBitmap )
 
-   ENDIF
+   ENDCASE
 
 RETURN aRet
 
 *-----------------------------------------------------------------------------*
 FUNCTION HasAlpha( FileName )
 *-----------------------------------------------------------------------------*
-   LOCAL hBitmap, lRet := .F.
+   LOCAL hBitmap
+   LOCAL lResult := .F.
 
    hBitmap := C_GetResPicture( FileName )
 
    IF GetObjectType( hBitmap ) == OBJ_BITMAP .AND. BmpSize( FileName ) [3] == 32
-      lRet := C_HasAlpha( hBitmap )
+      lResult := C_HasAlpha( hBitmap )
+      DeleteObject( hBitmap )
    ENDIF
 
-   DeleteObject( hBitmap )
+RETURN lResult
 
-RETURN lRet
+*-----------------------------------------------------------------------------*
+FUNCTION HMG_SaveImage( FileName, cOutName, cEncoder, nJpgQuality, aOutSize )
+*-----------------------------------------------------------------------------*
+   LOCAL hBitmap
+   LOCAL lResult := .F.
+
+   hBitmap := iif( ISSTRING( FileName ), C_GetResPicture( FileName ), FileName )
+
+   IF GetObjectType( hBitmap ) == OBJ_BITMAP
+      hb_default( @cEncoder, "BMP" )
+      hb_default( @nJpgQuality, 100 )
+      __defaultNIL( @aOutSize, BmpSize( hBitmap ) )
+
+      lResult := C_SaveHBitmapToFile( hBitmap, cOutName, aOutSize [1], aOutSize [2], "image/" + Lower( cEncoder ), nJpgQuality )
+
+      IF ISSTRING( FileName )
+         DeleteObject( hBitmap )
+      ENDIF
+   ENDIF
+
+RETURN lResult

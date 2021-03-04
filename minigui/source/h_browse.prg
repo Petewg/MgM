@@ -30,20 +30,20 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
----------------------------------------------------------------------------*/
+----------------------------------------------------------------------------*/
 
 #include "minigui.ch"
 
@@ -51,6 +51,11 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 #include "i_winuser.ch"
 #include "dbstruct.ch"
+#include "dbinfo.ch"
+
+#ifndef __XHARBOUR__
+   SET PROCEDURE TO netfuncs.prg
+#endif
 
 #ifdef HMG_LEGACY_ON
    MEMVAR aresult, l, aWhen, aWhenVarNames
@@ -58,14 +63,25 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineBrowse ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidths, aFields, value, ;
-      fontname, fontsize, tooltip , change , dblclick , aHeadClick , gotfocus , lostfocus , WorkArea , ;
+      fontname, fontsize, tooltip, change, dblclick, aHeadClick, gotfocus, lostfocus , WorkArea , ;
       Delete , nogrid , aImage , aJust , HelpId , bold , italic , underline , strikeout , break , ;
-      backcolor , fontcolor , lock , inplace , novscroll , appendable , readonly , valid , validmessages , ;
+      backcolor, fontcolor, lock, inplace, novscroll, appendable, readonly, valid, validmessages, ;
       edit , dynamicforecolor , dynamicbackcolor , aWhenFields , nId , aImageHeader , NoTabStop , ;
-      inputitems , displayitems , doublebuffer , columnsort )
+      inputitems , displayitems , doublebuffer , columnsort , bInit , aPict )   // add jsz
 *-----------------------------------------------------------------------------*
-   LOCAL i , ParentFormHandle , blInit , mVar , DeltaWidth , k , Style , lsort
-   LOCAL ControlHandle , FontHandle , lDialogInMemory
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL blInit
+   LOCAL mVar
+   LOCAL k
+   LOCAL DeltaWidth
+   LOCAL Style
+   LOCAL i
+   LOCAL lsort
+   LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    IF ( FontHandle := GetFontHandle( FontName ) ) != 0
       GetFontParamByRef( FontHandle, @FontName, @FontSize, @bold, @italic, @underline, @strikeout )
@@ -104,10 +120,22 @@ FUNCTION _DefineBrowse ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWid
    IF ! HB_ISARRAY( aJust )
       aJust := AFill( Array( Len( aFields ) ), 0 )
    ELSE
-      ASize( aJust, Len( aFields ) )
+      IF Len( aJust ) < Len( aFields )
+         ASize( aJust, Len( aFields ) )
+      ENDIF 
       AEval( aJust, { |x, i| aJust[ i ] := iif( HB_ISNUMERIC( x ), x, 0 ) } )
    ENDIF
    /* end code borrowed */
+   // aPict array verify
+   IF HB_ISARRAY( aPict )
+      IF Len( aPict ) < Len( aFields )
+         ASize( aPict, Len( aFields ) )
+      ENDIF 
+      AEval( aPict, { |x, i| aPict[ i ] := x } )
+   ELSE
+      aPict := AFill( Array( Len( aFields ) ), NIL )
+   ENDIF
+
    __defaultNIL( @aImage, {} )
    __defaultNIL( @aImageHeader, {} )
 
@@ -191,12 +219,12 @@ FUNCTION _DefineBrowse ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWid
 
    IF .NOT. lDialogInMemory
 
-      IF ValType ( backcolor ) != 'U'
+      IF IsArrayRGB ( backcolor )
          ListView_SetBkColor ( ControlHandle , backcolor[1] , backcolor[2] , backcolor[3] )
          ListView_SetTextBkColor ( ControlHandle , backcolor[1] , backcolor[2] , backcolor[3]  )
       ENDIF
 
-      IF ValType ( fontcolor ) != 'U'
+      IF IsArrayRGB ( fontcolor )
          ListView_SetTextColor ( ControlHandle , fontcolor[1] , fontcolor[2] , fontcolor[3]  )
       ENDIF
 
@@ -210,7 +238,9 @@ FUNCTION _DefineBrowse ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWid
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF ValType( tooltip ) != "U"
@@ -259,37 +289,77 @@ FUNCTION _DefineBrowse ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWid
    _HMG_aControlFontHandle   [k] :=  FontHandle
    _HMG_aControlBrushHandle  [k] :=  0
    _HMG_aControlEnabled   [k] :=  .T.
-   _HMG_aControlMiscData1 [k] := { 0 , ;
-      appendable , readonly , valid , validmessages , edit , nogrid , novscroll , dynamicforecolor , dynamicbackcolor , ;
-      aWhenFields , Delete , inputitems , displayitems , 0 , aJust , NIL , NIL , doublebuffer , iif( lsort, Array( Len( aHeaders ) ), 0 ) }
+   _HMG_aControlMiscData1 [k] := { ;
+                                   0 ,;                        // 1
+                                   appendable ,;               // 2
+                                   readonly , ;                // 3
+                                   valid , ;                   // 4
+                                   validmessages , ;           // 5
+                                   edit , ;                    // 6
+                                   nogrid , ;                  // 7
+                                   novscroll , ;               // 8
+                                   dynamicforecolor , ;        // 9
+                                   dynamicbackcolor , ;        // 10
+                                   aWhenFields , ;             // 11
+                                   Delete , ;                  // 12
+                                   inputitems , ;              // 13
+                                   displayitems , ;            // 14
+                                   0 , ;                       // 15
+                                   aJust , ;                   // 16
+                                   NIL , ;                     // 17
+                                   NIL , ;                     // 18
+                                   doublebuffer , ;            // 19
+                                   iif( lsort, Array( Len( aHeaders ) ), 0 ), ;  // 20
+                                   aPict }                     // 21 add jsz           
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF .NOT. lDialogInMemory
+
       IF lsort
+
          AFill( _HMG_aControlMiscData1 [k][20], .T. )
+
          IF Len( columnsort ) > 0
+
             FOR i := 1 TO Min( Len( columnsort ), Len( _HMG_aControlMiscData1 [k][20] ) )
+
                IF ValType( columnsort [i] ) == 'L'
                   _HMG_aControlMiscData1 [k][20][i] := columnsort [i]
                ENDIF
+
             NEXT i
+
          ENDIF
+
          HMG_OrdCreate( k )
+
       ENDIF
+
       InitDialogBrowse( ParentFormName, ControlHandle, k )
+
    ENDIF
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogBrowse( ParentName, ControlHandle, i )
 *-----------------------------------------------------------------------------*
-   LOCAL x , w , y , h , z , ParentFormHandle , ScrollBarHandle , wBitmap
-   LOCAL hsum := 0 , aJust , aImageHeader , ScrollBarButtonHandle , nogrid , doublebuffer
+   LOCAL ParentFormHandle , ScrollBarHandle , ScrollBarButtonHandle
+   LOCAL aJust , aImageHeader
+   LOCAL wBitmap
+   LOCAL hsum := 0
+   LOCAL nogrid , doublebuffer
+   LOCAL x , w , y , h , z
 
    x := _HMG_aControlCol    [i]
    w := _HMG_aControlWidth  [i]
@@ -321,6 +391,12 @@ FUNCTION InitDialogBrowse( ParentName, ControlHandle, i )
       hsum += ListView_GetColumnWidth ( _HMG_aControlHandles [i] , z - 1 )
       _HMG_aControlProcedures [i] [z] := ListView_GetColumnWidth ( _HMG_aControlHandles [i] , z - 1 )
    NEXT z
+
+   IF Len( aImageHeader ) == Len ( _HMG_aControlPageMap [i] )
+      FOR z := 1 TO Len ( _HMG_aControlPageMap [i] )
+         SetGridColumnHeaderImage ( _HMG_aControlHandles [i], z, z, ( aJust [z] == 1 ) )
+      NEXT z
+   ENDIF
 
    // Add Vertical scrollbar
    IF _HMG_aControlMiscData1 [i,8] == .F.
@@ -364,7 +440,6 @@ STATIC PROCEDURE HMG_OrdCreate( i )
    LOCAL _Alias
    LOCAL _BrowseArea
    LOCAL nColumn
-   LOCAL cIndexName
    LOCAL aFields
    LOCAL cField
    LOCAL cOrdKey
@@ -378,23 +453,23 @@ STATIC PROCEDURE HMG_OrdCreate( i )
 
    Select &_BrowseArea
 
-   cIndexName := Alias() + IndexExt()
    aFields := _HMG_aControlRangeMin [i]
 
    ordListClear()
-   ordCondSet( , , .T. /*All*/, , , , RecNo(), , , , , , , , , , , .T. /*Memory*/ )
+
+   ordCondSet( , , .T. /*All*/, , , , RecNo(), , , , , , , , , , , .T. /*Memory*/, , )
 
    FOR nColumn := 1 TO Len( aFields )
 
       IF _HMG_aControlMiscData1 [i][20][nColumn] == .F. .OR. FieldPos( aFields [nColumn] ) == 0
-         ordCreate( cIndexName, 'Bag' + StrZero( Random( 999999 ), 6 ), 'Field->' + FieldName( 1 ) )
+         ordCreate( , 'Bag' + StrZero( Random( 999999 ), 6 ), 'Field->' + FieldName( 1 ) )
       ELSE
          cField := FieldName( FieldPos( aFields [nColumn] ) )
          cOrdKey := Alias() + '->' + cField
 #ifndef __XHARBOUR__
-         ordCreate( cIndexName, cField, cOrdKey, hb_macroBlock( cOrdKey ), .F. /*lUnique*/ )
+         ordCreate( , cField, cOrdKey, hb_macroBlock( cOrdKey ), .F. /*lUnique*/ )
 #else
-         ordCreate( cIndexName, cField, cOrdKey, &( '{|| ' + cOrdKey + '}' ), .F. /*lUnique*/ )
+         ordCreate( , cField, cOrdKey, &( '{|| ' + cOrdKey + '}' ), .F. /*lUnique*/ )
 #endif
       ENDIF
 
@@ -403,10 +478,17 @@ STATIC PROCEDURE HMG_OrdCreate( i )
    ordSetFocus( 0 )
    GO TOP
 
+   RestoreWorkArea( _Alias )
+
+RETURN
+
+*-----------------------------------------------------------------------------*
+STATIC PROCEDURE RestoreWorkArea( _Alias )
+*-----------------------------------------------------------------------------*
    IF Select( _Alias ) != 0
-      Select &_Alias
+      dbSelectArea( _Alias )
    ELSE
-      SELECT 0
+      dbSelectArea( 0 )
    ENDIF
 
 RETURN
@@ -423,6 +505,10 @@ PROCEDURE HMG_SetOrder( nColumn, lDescend )
    LOCAL nRecord
    LOCAL i := GetControlIndex( cControlName, cFormName )
 
+   IF nColumn == 0    // add  jsz
+      RETURN 
+   ENDIF
+   
    IF _HMG_aControlMiscData1 [i][20][nColumn] == .T.
 
       _Alias := Alias()
@@ -453,11 +539,8 @@ PROCEDURE HMG_SetOrder( nColumn, lDescend )
       ordDescend( nOrder, NIL, lDescend )
 
       GO nRecord
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+
+      RestoreWorkArea( _Alias )
 
       _BrowseRefresh( '', '', i )
 
@@ -465,18 +548,21 @@ PROCEDURE HMG_SetOrder( nColumn, lDescend )
 
 RETURN
 
-#ifndef __XHARBOUR__
-   /* SWITCH ... ; CASE ... ; DEFAULT ; ... ; END */
-   #xcommand DEFAULT => OTHERWISE
-   /* FOR EACH hb_enumIndex() */
-   #xtranslate hb_enumIndex( <!v!> ) => <v>:__enumIndex()
-#endif
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
 *-----------------------------------------------------------------------------*
-   LOCAL PageLength , aTemp , cTemp , Fields , _BrowseRecMap := {} , i , x , j , First , Image , _Rec
-   LOCAL dBc , dFc , processdbc , processdfc , ColorMap , ColorRow , fcolormap , fcolorrow
-   LOCAL aDisplayItems, aDisplayItemsLengths, aProcessDisplayItems, lFound, k
+   LOCAL aDisplayItems, aDisplayItemsLengths, aProcessDisplayItems
+   LOCAL aTemp , _BrowseRecMap := {}
+   LOCAL cTemp , Fields
+   LOCAL First , Image , _Rec
+   LOCAL dBc , dFc
+   LOCAL processdbc , processdfc
+   LOCAL ColorMap , ColorRow
+   LOCAL fcolormap , fcolorrow
+   LOCAL lFound
+   LOCAL PageLength
+   LOCAL i , x , j , k
+   LOCAl aPict
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentName ) , z )
 
@@ -487,6 +573,8 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
    Fields := _HMG_aControlRangeMin [i]
 
    aDisplayItems := _HMG_aControlMiscData1 [ i ] [ 14 ]
+  
+   aPict := _HMG_aControlMiscData1 [ i ] [ 21 ]    // add jsz
 
    aProcessDisplayItems := Array ( Len ( Fields ) )
    aDisplayItemsLengths := Array ( Len ( Fields ) )
@@ -494,11 +582,11 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
    AFill ( aProcessDisplayItems , .F. )
    AFill ( aDisplayItemsLengths , 0 )
 
-   IF ValType ( aDisplayItems ) == 'A'
+   IF ISARRAY ( aDisplayItems )
 
       FOR k := 1 TO Len ( aProcessDisplayItems )
 
-         IF ValType ( aDisplayItems [k] ) == 'A'
+         IF ISARRAY ( aDisplayItems [k] )
             aProcessDisplayItems [k] := .T.
             aDisplayItemsLengths [k] := Len ( aDisplayItems [k] )
          ENDIF
@@ -558,7 +646,7 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
 
          IF processdbc
 
-            IF ValType ( dbc ) == 'A' .AND. Len ( dbc ) == Len ( Fields )
+            IF Len ( dbc ) == Len ( Fields )
                AAdd ( colorrow , -1 )
             ENDIF
 
@@ -566,7 +654,7 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
 
          IF processdfc
 
-            IF ValType ( dfc ) == 'A' .AND. Len ( dfc ) == Len ( Fields )
+            IF Len ( dfc ) == Len ( Fields )
                AAdd ( fcolorrow , -1 )
             ENDIF
 
@@ -594,21 +682,21 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
                   AAdd ( aTemp , '' )
                ENDIF
             ELSE
-               AAdd ( aTemp , _GetBrowseFieldValue ( cTemp ) )
+               AAdd ( aTemp , _GetBrowseFieldValue( cTemp , aPict [j] ) )    // add jsz
             ENDIF
 
             IF processdfc
 
-               IF ValType ( dfc ) == 'A' .AND. Len ( dfc ) == Len ( Fields )
-                  AAdd ( fcolorrow , iif( ValType ( dfc [j] ) == 'B', _teval ( dfc [j] ) , -1 ) )
+               IF Len ( dfc ) == Len ( Fields )
+                  AAdd ( fcolorrow , iif( ISBLOCK ( dfc [j] ), _teval ( dfc [j] ) , -1 ) )
                ENDIF
 
             ENDIF
 
             IF processdbc
 
-               IF ValType ( dbc ) == 'A' .AND. Len ( dbc ) == Len ( Fields )
-                  AAdd ( colorrow , iif( ValType ( dbc [j] ) == 'B', _teval ( dbc [j] ) , -1 ) )
+               IF Len ( dbc ) == Len ( Fields )
+                  AAdd ( colorrow , iif( ISBLOCK ( dbc [j] ), _teval ( dbc [j] ) , -1 ) )
                ENDIF
 
             ENDIF
@@ -656,7 +744,7 @@ PROCEDURE _BrowseUpdate( ControlName, ParentName, z )
 RETURN
 
 *-----------------------------------------------------------------------------*
-FUNCTION _GetBrowseFieldValue ( cTemp )
+FUNCTION _GetBrowseFieldValue ( cTemp , cPict )      // add jsz   param
 *-----------------------------------------------------------------------------*
    LOCAL cRet := 'Nil'
    LOCAL cType := _TypeEx ( cTemp )
@@ -669,7 +757,7 @@ FUNCTION _GetBrowseFieldValue ( cTemp )
    CASE 'I'
    CASE 'B'
    CASE 'Y'
-      cRet := hb_ntos ( &cTemp )
+      cRet := TransForm ( &cTemp , cPict )     // add jsz
       EXIT
    CASE 'D'
       cRet := DToC ( &cTemp )
@@ -678,7 +766,7 @@ FUNCTION _GetBrowseFieldValue ( cTemp )
       cRet := hb_TSToStr ( &cTemp, .T. )
       EXIT
    CASE 'C'
-      cRet := RTrim ( &cTemp )
+      cRet := TransForm ( RTrim ( &cTemp ) , cPict )      // add jsz
       EXIT
    CASE 'L'
       cRet := iif ( &cTemp == .T. , '.T.' , '.F.' )
@@ -686,8 +774,9 @@ FUNCTION _GetBrowseFieldValue ( cTemp )
    CASE 'M'
       cRet := iif ( Empty ( &cTemp ) , '<memo>' , '<Memo>' )
       EXIT
+   CASE 'V'
    CASE '@'
-      cRet := RTrim( hb_ValToStr ( &cTemp ) )
+      cRet := TransForm ( RTrim( hb_ValToStr ( &cTemp ) ) , cPict )    // add jsz
       EXIT
    CASE 'G'
       cRet := '<General>'
@@ -696,7 +785,7 @@ FUNCTION _GetBrowseFieldValue ( cTemp )
       IF cType == 'UE'
          cRet := '<R-Next>'
       ELSEIF cType == 'UI'
-         cRet := _GetBrowseFnValue( cTemp )
+         cRet := _GetBrowseFnValue( cTemp , cPict )        // add jsz
       ENDIF
 
    END SWITCH
@@ -704,14 +793,14 @@ FUNCTION _GetBrowseFieldValue ( cTemp )
 RETURN cRet
 
 *-----------------------------------------------------------------------------*
-FUNCTION _GetBrowseFnValue ( cTemp )
+FUNCTION _GetBrowseFnValue ( cTemp , cPict )      // add jsz   param
 *-----------------------------------------------------------------------------*
    LOCAL cRet := 'Nil'
 
    SWITCH ValType ( cTemp )
 
    CASE 'N'
-      cRet := hb_ntos ( &cTemp )
+      cRet := TransForm ( &cTemp , cPict )     // add jsz
       EXIT
    CASE 'D'
       cRet := DToC ( &cTemp )
@@ -720,7 +809,7 @@ FUNCTION _GetBrowseFnValue ( cTemp )
       cRet := iif ( &cTemp == .T. , '.T.' , '.F.' )
       EXIT
    CASE 'C'
-      cRet := RTrim ( &cTemp )
+      cRet := TransForm ( RTrim ( &cTemp ) , cPict )      // add jsz
       EXIT
    CASE 'M'
       cRet := '<Memo>'
@@ -743,7 +832,9 @@ RETURN iif( nFieldPos > 0, aStruct [nFieldPos] [DBS_TYPE], Type ( cTemp ) )
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseNext ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , PageLength , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll , s
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll
+   LOCAL PageLength
+   LOCAL i , s
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -771,16 +862,15 @@ PROCEDURE _BrowseNext ( ControlName , ParentForm , z )
       _RecNo := RecNo()
 
       GO _BrowseRecMap [PageLength]
+
       _BrowseUpdate( '', '', i )
       _BrowseVscrollUpdate( i )
+
       ListView_Scroll( _BrowseHandle , _DeltaScroll[2] * ( -1 ) , 0 )
       ListView_SetCursel ( _BrowseHandle , Len( _HMG_aControlRangeMax [i] ) )
+
       GO _RecNo
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+      RestoreWorkArea( _Alias )
 
    ELSE
 
@@ -796,7 +886,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowsePrior ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll
+   LOCAL i
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -817,15 +908,14 @@ PROCEDURE _BrowsePrior ( ControlName , ParentForm , z )
 
       GO _BrowseRecMap [1]
       Skip - LISTVIEWGETCOUNTPERPAGE ( _BrowseHandle ) + 1
+
       _BrowseVscrollUpdate( i )
       _BrowseUpdate( '', '', i )
+
       ListView_Scroll( _BrowseHandle , _DeltaScroll[2] * ( -1 ) , 0 )
+
       GO _RecNo
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+      RestoreWorkArea( _Alias )
 
    ELSE
 
@@ -842,7 +932,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseHome ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll
+   LOCAL i
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -851,22 +942,23 @@ PROCEDURE _BrowseHome ( ControlName , ParentForm , z )
 
    _Alias := Alias()
    _BrowseArea := _HMG_aControlSpacing [i]
+
    IF Select ( _BrowseArea ) == 0
       RETURN
    ENDIF
+
    Select &_BrowseArea
+
    _RecNo := RecNo()
    GO TOP
 
    _BrowseVscrollUpdate( i )
    _BrowseUpdate( '', '', i )
+
    ListView_Scroll( _BrowseHandle , _DeltaScroll[2] * ( -1 ) , 0 )
+
    GO _RecNo
-   IF Select( _Alias ) != 0
-      Select &_Alias
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( _Alias )
 
    ListView_SetCursel ( _BrowseHandle , 1 )
 
@@ -877,7 +969,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseEnd ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll , _BottomRec
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll , _BottomRec
+   LOCAL i
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -886,24 +979,25 @@ PROCEDURE _BrowseEnd ( ControlName , ParentForm , z )
 
    _Alias := Alias()
    _BrowseArea := _HMG_aControlSpacing [i]
+
    IF Select ( _BrowseArea ) == 0
       RETURN
    ENDIF
+
    Select &_BrowseArea
+
    _RecNo := RecNo()
    GO BOTTOM
    _BottomRec := RecNo()
 
    _BrowseVscrollUpdate( i )
    Skip - LISTVIEWGETCOUNTPERPAGE ( _BrowseHandle ) + 1
+
    _BrowseUpdate( '', '', i )
    ListView_Scroll( _BrowseHandle , _DeltaScroll[2] * ( -1 ) , 0 )
+
    GO _RecNo
-   IF Select( _Alias ) != 0
-      Select &_Alias
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( _Alias )
 
    ListView_SetCursel ( _BrowseHandle , AScan ( _HMG_aControlRangeMax [i] , _BottomRec ) )
 
@@ -914,7 +1008,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseUp ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , s , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll
+   LOCAL i , s
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -946,11 +1041,7 @@ PROCEDURE _BrowseUp ( ControlName , ParentForm , z )
       ENDIF
 
       GO _RecNo
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+      RestoreWorkArea( _Alias )
 
       ListView_SetCursel ( _BrowseHandle , 1 )
 
@@ -974,7 +1065,9 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseDown ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , PageLength , s , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _BrowseRecMap , _DeltaScroll
+   LOCAL PageLength
+   LOCAL i , s
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -1012,12 +1105,7 @@ PROCEDURE _BrowseDown ( ControlName , ParentForm , z )
       ListView_Scroll( _BrowseHandle , _DeltaScroll[2] * ( -1 ) , 0 )
 
       GO _RecNo
-
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+      RestoreWorkArea( _Alias )
 
       ListView_SetCursel ( _BrowseHandle , Len( _HMG_aControlRangeMax [i] ) )
 
@@ -1041,8 +1129,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseRefresh ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , s , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll
-   LOCAL v
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll
+   LOCAL i , s , v
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -1099,12 +1187,7 @@ PROCEDURE _BrowseRefresh ( ControlName , ParentForm , z )
       ListViewReset ( _BrowseHandle )
 
       GO _RecNo
-
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+      RestoreWorkArea( _Alias )
 
       RETURN
 
@@ -1122,18 +1205,15 @@ PROCEDURE _BrowseRefresh ( ControlName , ParentForm , z )
    ListView_SetCursel ( _BrowseHandle , AScan ( _HMG_aControlRangeMax [i] , v ) )
 
    GO _RecNo
-   IF Select( _Alias ) != 0
-      Select &_Alias
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( _Alias )
 
 RETURN
 
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseSetValue ( ControlName , ParentForm , Value , z , mp )
 *-----------------------------------------------------------------------------*
-   LOCAL i , _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll , m
+   LOCAL _Alias , _RecNo , _BrowseHandle , _BrowseArea , _DeltaScroll
+   LOCAL i , m
 
    IF Value <= 0
       RETURN
@@ -1187,11 +1267,7 @@ PROCEDURE _BrowseSetValue ( ControlName , ParentForm , Value , z , mp )
    IF ( ! Empty( dbFilter() ) .AND. ! &( dbFilter() ) )
 #endif
       GO _RecNo
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+      RestoreWorkArea( _Alias )
 
       RETURN
 
@@ -1200,11 +1276,7 @@ PROCEDURE _BrowseSetValue ( ControlName , ParentForm , Value , z , mp )
    IF EOF()
 
       GO _RecNo
-      IF Select( _Alias ) != 0
-         Select &_Alias
-      ELSE
-         SELECT 0
-      ENDIF
+      RestoreWorkArea( _Alias )
 
       RETURN
 
@@ -1221,11 +1293,7 @@ PROCEDURE _BrowseSetValue ( ControlName , ParentForm , Value , z , mp )
    _HMG_aControlValue [i] := Value
    _BrowseUpdate( '' , '' , i )
    GO _RecNo
-   IF Select( _Alias ) != 0
-      Select &_Alias
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( _Alias )
 
    ListView_Scroll( _BrowseHandle , _DeltaScroll[2] * ( -1 ) , 0 )
    ListView_SetCursel ( _BrowseHandle , AScan ( _HMG_aControlRangeMax [i] , Value ) )
@@ -1239,7 +1307,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 FUNCTION _BrowseGetValue ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , _BrowseRecMap , _BrowseArea
+   LOCAL _BrowseRecMap , _BrowseArea
+   LOCAL i
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -1260,7 +1329,9 @@ RETURN 0
 *-----------------------------------------------------------------------------*
 FUNCTION  _BrowseDelete (  ControlName , ParentForm , z  )
 *-----------------------------------------------------------------------------*
-   LOCAL i , _BrowseRecMap , Value , _Alias , _RecNo , _BrowseArea
+   LOCAL _BrowseRecMap , _Alias , _RecNo , _BrowseArea , lock
+   LOCAL Value
+   LOCAL i
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
@@ -1277,22 +1348,28 @@ FUNCTION  _BrowseDelete (  ControlName , ParentForm , z  )
    ENDIF
 
    _Alias := Alias()
+   lock := _HMG_aControlInputMask [i]
    _BrowseArea := _HMG_aControlSpacing [i]
+
    IF Select ( _BrowseArea ) == 0
       RETURN Nil
    ENDIF
+
    Select &_BrowseArea
    _RecNo := RecNo()
+
+   IF lock == .F. .AND. ( _BrowseArea )->( dbInfo( DBI_SHARED ) )
+      lock := .T.
+   ENDIF
 
    GO Value
 
    IF .NOT. Deleted()
 
-      IF _HMG_aControlInputMask [i] == .T.
+      IF lock
 
-         IF NetRlock()
-            DELETE
-            dbUnlock()
+         IF NetDelete()
+            dbRUnlock()
             SKIP
 
             IF EOF()
@@ -1322,38 +1399,40 @@ FUNCTION  _BrowseDelete (  ControlName , ParentForm , z  )
    ENDIF
 
    GO _RecNo
-   IF Select( _Alias ) != 0
-      Select &_Alias
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( _Alias )
 
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION _BrowseEdit ( GridHandle , aValid , aValidMessages , aReadOnly , lock , append , inplace , InputItems )
 *-----------------------------------------------------------------------------*
+   LOCAL BrowseArea , i
 #ifdef HMG_LEGACY_ON
-   LOCAL actpos := { 0, 0, 0, 0 } , h , GRow , GCol , GWidth , Col , i , ControlName , j , FormName , item
+   LOCAL actpos := { 0, 0, 0, 0 } , h , GRow , GCol , GWidth , Col , ControlName , j , FormName , item
    LOCAL Title , aLabels , aInitValues := {} , aFormats := {} , aResults , z , tvar , BackRec , aStru
-   LOCAL svar , q , BackArea , BrowseArea , TmpNames := {} , NewRec := 0 , MixedFields := .F.
+   LOCAL svar , q , BackArea , TmpNames := {} , NewRec := 0 , MixedFields := .F.
    PRIVATE aWhen , aWhenVarNames
-
 #else
    hb_default( @inplace, .T. )
 #endif
    IF LISTVIEW_GETFIRSTITEM ( GridHandle ) == 0
-
       IF ValType ( append ) != 'U'
          IF append == .F.
             RETURN Nil
          ENDIF
       ENDIF
+   ENDIF
 
+   i := AScan ( _HMG_aControlHandles , GridHandle )
+   BrowseArea := _HMG_aControlSpacing [i]
+
+   IF ( BrowseArea )->( dbInfo( DBI_ISDBF ) ) .AND. ( BrowseArea )->( dbInfo( DBI_ISREADONLY ) )
+      RETURN Nil            
    ENDIF
 
    IF InPlace .OR. _HMG_MainClientMDIHandle != 0  // GF HMG 64
       _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aReadOnly , lock , append , InputItems )
+
 #ifdef HMG_LEGACY_ON
    ELSE
 
@@ -1508,14 +1587,10 @@ FUNCTION _BrowseEdit ( GridHandle , aValid , aValidMessages , aReadOnly , lock ,
    Select &BrowseArea
 
    IF lock == .T.
-      IF ! NetRlock()
+      IF ! NetRecLock()
          MsgAlert ( _HMG_BRWLangError[9], _HMG_BRWLangError[10] )
          GO BackRec
-         IF Select ( BackArea ) != 0
-            Select &BackArea
-         ELSE
-            SELECT 0
-         ENDIF
+         RestoreWorkArea( BackArea )
          RETURN Nil
       ENDIF
    ENDIF
@@ -1533,7 +1608,7 @@ FUNCTION _BrowseEdit ( GridHandle , aValid , aValidMessages , aReadOnly , lock ,
       ENDIF
 
       IF lock == .T.
-         NetRlock()
+         NetRecLock()
       ENDIF
 
       FOR z := 1 TO Len ( aResults )
@@ -1552,16 +1627,11 @@ FUNCTION _BrowseEdit ( GridHandle , aValid , aValidMessages , aReadOnly , lock ,
    ENDIF
 
    IF lock == .T.
-      UNLOCK
+      dbRUnLock()
    ENDIF
 
    GO BackRec
-
-   IF Select ( BackArea ) != 0
-      Select &BackArea
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( BackArea )
 
    _SetFocus( ControlName , FormName )
 
@@ -1573,7 +1643,6 @@ FUNCTION _BrowseEdit ( GridHandle , aValid , aValidMessages , aReadOnly , lock ,
       ENDIF
    ENDIF
 #endif
-
    ENDIF
 
 RETURN Nil
@@ -1745,9 +1814,10 @@ RETURN ( aResult )
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE _WHENEVAL ()
 *-----------------------------------------------------------------------------*
-   LOCAL i, x
-   LOCAL Result, mVar
    LOCAL ControlName
+   LOCAL mVar
+   LOCAL Result
+   LOCAL i, x
 
    IF ValType ( aWhen ) == 'A'
 
@@ -1792,7 +1862,9 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC FUNCTION _EditRecordOk ( aValid , TmpNames , aValidMessages )
 *-----------------------------------------------------------------------------*
-   LOCAL i , ControlName , l , mVar
+   LOCAL ControlName
+   LOCAL mVar
+   LOCAL i , l
 
    l := Len ( aResult )
 
@@ -1868,7 +1940,7 @@ STATIC FUNCTION _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aRea
    LOCAL GridCol , GridRow , i , nrec , _GridWorkArea , BackArea , BackRec
    LOCAL _GridFields , FieldName , CellData := '' , CellColIndex
    LOCAL aStruct , Width , Decimals , sFieldname , ControlType
-   LOCAL Ldelta := 0 , aTemp , E , r , p , lInputItems := .F. , aItems := {}, aValues := {}
+   LOCAL Ldelta := 0 , aTemp , E , r , p , lInputItems := .F. , aItems := {} , aValues := {}
    LOCAL aEnabledTypes := { "N", "C", "D", "L", "M" }
 
    IF _HMG_ThisEventType == 'BROWSE_WHEN'
@@ -1879,7 +1951,7 @@ STATIC FUNCTION _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aRea
    ENDIF
 
    IF append
-      i := AScan ( _HMG_aControlhandles , GridHandle )
+      i := AScan ( _HMG_aControlHandles , GridHandle )
       _BrowseInPlaceAppend ( '' , '' , i )
       RETURN Nil
    ENDIF
@@ -1970,19 +2042,20 @@ STATIC FUNCTION _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aRea
       GO nRec
    ENDIF
 
+   IF lock == .F. .AND. ( _GridWorkArea )->( dbInfo( DBI_SHARED ) )
+      lock := .T.
+   ENDIF
+
    // If LOCK clause is present, try to lock.
    IF lock == .T.
 
-      IF ( _GridWorkArea )->( NetRlock() ) == .F.
+      IF ( _GridWorkArea )->( NetRecLock() ) == .F.
+         _HMG_IPE_CANCELLED := .T.
          MsgAlert( _HMG_BRWLangError[9], _HMG_BRWLangError[10] )
          // Restore Original Record Pointer
          GO BackRec
          // Restore Original WorkArea
-         IF Select ( BackArea ) != 0
-            Select &BackArea
-         ELSE
-            SELECT 0
-         ENDIF
+         RestoreWorkArea( BackArea )
          RETURN Nil
       ENDIF
 
@@ -2003,11 +2076,7 @@ STATIC FUNCTION _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aRea
                // Restore Original Record Pointer
                GO BackRec
                // Restore Original WorkArea
-               IF Select ( BackArea ) != 0
-                  Select &BackArea
-               ELSE
-                  SELECT 0
-               ENDIF
+               RestoreWorkArea( BackArea )
                _HMG_IPE_CANCELLED := .F.
                RETURN Nil
             ENDIF
@@ -2070,7 +2139,7 @@ STATIC FUNCTION _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aRea
 
    IF ControlType == 'M'
 
-      r := InputBox ( '' , _HMG_aControlCaption [i][CellColIndex] , StrTran( CellData, Chr(141 ), ' ' ) , , , .T. )
+      r := InputBox ( '' , _HMG_aControlCaption [i][CellColIndex] , StrTran( CellData, Chr( 141 ), ' ' ) , , , .T. )
 
       IF _HMG_DialogCancelled == .F.
          Replace &FieldName WITH r
@@ -2080,7 +2149,7 @@ STATIC FUNCTION _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aRea
       ENDIF
 
       IF lock == .T.
-         ( _GridWorkArea )->( dbUnlock() )
+         ( _GridWorkArea )->( dbRUnlock() )
       ENDIF
 
    ELSE
@@ -2208,18 +2277,17 @@ STATIC FUNCTION _BrowseInPlaceEdit ( GridHandle , aValid , aValidMessages , aRea
    // Restore Original Record Pointer
    GO BackRec
    // Restore Original WorkArea
-   IF Select ( BackArea ) != 0
-      Select &BackArea
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( BackArea )
 
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE _InPlaceEditOk ( i , r , aValid , CellColIndex , sFieldName , AreaName , aValidMessages , lock , ControlType , aInputItems )
 *-----------------------------------------------------------------------------*
-   LOCAL b , Result , mVar , TmpName
+   LOCAL mVar
+   LOCAL TmpName
+   LOCAL b
+   LOCAL Result
 
    IF ControlType == 'X' .Or. ControlType == 'L'
 
@@ -2313,7 +2381,7 @@ STATIC PROCEDURE _InPlaceEditOk ( i , r , aValid , CellColIndex , sFieldName , A
 
    ENDIF
 
-   _HMG_IPE_CANCELLED := .F.
+   _HMG_IPE_CANCELLED := ( lock .AND. NetError() )
 
 RETURN
 
@@ -2323,7 +2391,7 @@ STATIC PROCEDURE _InPlaceEditSave ( i , FieldName , Alias , r , lock , ControlTy
 
    IF lock == .T.
 
-      IF ! ( Alias )->( NetRlock() )
+      IF ! ( Alias )->( NetRecLock() )
          MsgAlert ( _HMG_BRWLangError[9], _HMG_BRWLangError[10] )
          RETURN
       ENDIF
@@ -2344,7 +2412,7 @@ STATIC PROCEDURE _InPlaceEditSave ( i , FieldName , Alias , r , lock , ControlTy
    REPLACE &FieldName WITH r
 
    IF lock == .T.
-      ( Alias )->( dbUnlock() )
+      ( Alias )->( dbRUnlock() )
    ENDIF
 
    _BrowseRefresh ( '' , '' , i )
@@ -2354,35 +2422,11 @@ STATIC PROCEDURE _InPlaceEditSave ( i , FieldName , Alias , r , lock , ControlTy
 RETURN
 
 *-----------------------------------------------------------------------------*
-STATIC FUNCTION NetRlock()
-*-----------------------------------------------------------------------------*
-   LOCAL lSuccess := .T. , n := 1
-
-   IF AScan ( RecNo(), dbRLockList() ) == 0
-
-      REPEAT
-
-         IF ( lSuccess := RLock() )
-            EXIT
-         ENDIF
-
-         Inkey( .2 )
-         n -= .2
-
-      UNTIL ( n > 0 )
-
-   ENDIF
-
-RETURN lSuccess
-
-*-----------------------------------------------------------------------------*
 PROCEDURE ProcessInPlaceKbdEdit( i )
 *-----------------------------------------------------------------------------*
-   LOCAL r, IPE_MAXCOL, TmpRow, xs, xd
-
-   IF _HMG_aControlFontColor [i] == .F.
-      RETURN
-   ENDIF
+   LOCAL IPE_MAXCOL
+   LOCAL TmpRow
+   LOCAL r, xs, xd
 
    IF LISTVIEW_GETFIRSTITEM ( _HMG_aControlHandles [i] ) == 0
       RETURN
@@ -2435,7 +2479,7 @@ PROCEDURE ProcessInPlaceKbdEdit( i )
       _HMG_ThisItemCellWidth := r[3]
       _HMG_ThisItemCellHeight := r[4]
 
-      _BrowseEdit ( _hmg_acontrolhandles[i] , _HMG_acontrolmiscdata1 [i] [4] , _HMG_acontrolmiscdata1 [i] [5] , _HMG_acontrolmiscdata1 [i] [3] , _HMG_aControlInputMask [i] , .F. , _HMG_aControlFontColor [i] , _HMG_acontrolmiscdata1 [i] [13] )
+      _BrowseEdit ( _hmg_acontrolhandles [i] , _HMG_acontrolmiscdata1 [i] [4] , _HMG_acontrolmiscdata1 [i] [5] , _HMG_acontrolmiscdata1 [i] [3] , _HMG_aControlInputMask [i] , .F. , _HMG_aControlFontColor [i] , _HMG_acontrolmiscdata1 [i] [13] )
 
       _HMG_ThisIndex := 0
       _HMG_ThisType := ''
@@ -2498,11 +2542,7 @@ STATIC PROCEDURE _BrowseSync ( i )
       GO _CurrentValue
    ENDIF
 
-   IF Select( _Alias ) != 0
-      Select &_Alias
-   ELSE
-      SELECT 0
-   ENDIF
+   RestoreWorkArea( _Alias )
 
 RETURN
 
@@ -2521,45 +2561,48 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE _BrowseInPlaceAppend ( ControlName , ParentForm , z )
 *-----------------------------------------------------------------------------*
-   LOCAL i , _Alias , _RecNo , _BrowseArea , _NewRec , aTemp
+   LOCAL _Alias , _BrowseArea , _RecNo , _NewRec
+   LOCAL aTemp
+   LOCAL i
 
    i := iif( PCount() == 2 , GetControlIndex ( ControlName , ParentForm ) , z )
 
    _Alias := Alias()
    _BrowseArea := _HMG_aControlSpacing [i]
+
    IF Select ( _BrowseArea ) == 0
       RETURN
    ENDIF
+
    Select &_BrowseArea
+
    _RecNo := RecNo()
    GO BOTTOM
 
    _NewRec := RecCount() + 1
 
-   IF LISTVIEWGETITEMCOUNT( _HMG_aControlhandles[i] ) != 0
+   IF LISTVIEWGETITEMCOUNT( _HMG_aControlhandles [i] ) != 0
       _BrowseVscrollUpdate( i )
-      Skip - LISTVIEWGETCOUNTPERPAGE ( _HMG_aControlhandles[i] ) + 2
+      Skip - LISTVIEWGETCOUNTPERPAGE ( _HMG_aControlhandles [i] ) + 2
       _BrowseUpdate( '' , '' , i )
    ENDIF
 
-   APPEND BLANK
+   NetAppend()
 
    GO _RecNo
-   IF Select( _Alias ) != 0
-      Select &_Alias
-   ELSE
-      SELECT 0
+   RestoreWorkArea( _Alias )
+
+   IF ! NetError()
+      aTemp := Array ( Len ( _HMG_aControlRangeMin [i] ) )
+      AFill ( aTemp , '' )
+      AAdd ( _HMG_aControlRangeMax [i] , _NewRec )
+
+      AddListViewItems ( _HMG_aControlHandles [i] , aTemp , 0 )
+
+      ListView_SetCursel ( _HMG_aControlHandles [i] , Len ( _HMG_aControlRangeMax [i] ) )
+
+      _BrowseOnChange ( i )
    ENDIF
-
-   aTemp := Array ( Len ( _HMG_aControlRangeMin [i] ) )
-   AFill ( aTemp , '' )
-   AAdd ( _HMG_aControlRangeMax [i] , _NewRec )
-
-   AddListViewItems ( _HMG_aControlhandles[i] , aTemp , 0 )
-
-   ListView_SetCursel ( _HMG_aControlHandles [i] , Len ( _HMG_aControlRangeMax [i] ) )
-
-   _BrowseOnChange ( i )
 
    _HMG_IPE_ROW := 1
    _HMG_IPE_COL := 1
@@ -2569,7 +2612,9 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE _BrowseVscrollUpdate ( i )
 *-----------------------------------------------------------------------------*
-   LOCAL ActualRecord , RecordCount , KeyCount
+   LOCAL ActualRecord
+   LOCAL RecordCount
+   LOCAL KeyCount
 
    // If vertical scrollbar is used it must be updated
    IF _HMG_aControlIds [i] != 0
@@ -2600,7 +2645,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _BrowseVscrollFastUpdate ( i , d )
 *-----------------------------------------------------------------------------*
-   LOCAL ActualRecord , RecordCount
+   LOCAL ActualRecord
+   LOCAL RecordCount
 
    // If vertical scrollbar is used it must be updated
    IF _HMG_aControlIds [i] != 0
@@ -2625,7 +2671,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 FUNCTION _SetGetBrowseProperty ( ControlName, ParentForm, nId, Value )
 *-----------------------------------------------------------------------------*
-   LOCAL RetVal := .T. , i := GetControlIndex ( ControlName, ParentForm )
+   LOCAL i := GetControlIndex ( ControlName, ParentForm )
+   LOCAL RetVal := .T.
 
    IF _HMG_aControlType [i] == 'BROWSE'
 

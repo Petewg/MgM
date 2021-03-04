@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -72,7 +72,13 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _DefineMenuPopup ( Caption, Name, Image, Font )
 *-----------------------------------------------------------------------------*
-   LOCAL mVar, k, FormName
+   LOCAL mVar
+   LOCAL k
+   LOCAL FormName
+
+   IF ValType( Font ) == 'C'
+      Font := GetFontHandle( Font )
+   ENDIF
 
    IF _HMG_xMenuType $ 'MAIN,CONTEXT,OWNCONTEXT,NOTIFY,DROPDOWN'
 
@@ -274,7 +280,16 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _DefineMenuItem ( caption, action, name, Image, checked, disabled, cMessage, font, check_image, lBreakMenu, lSeparator, icon, default )
 *-----------------------------------------------------------------------------*
-   LOCAL ControlHandle , mVar , k , id , hBitmap := 0 , ContextMenuHandle , nBreakCode := 6
+   LOCAL ControlHandle , ContextMenuHandle
+   LOCAL hBitmap := 0
+   LOCAL mVar
+   LOCAL k
+   LOCAL id
+   LOCAL nBreakCode := 6
+
+   IF ValType( font ) == 'C'
+      font := GetFontHandle( font )
+   ENDIF
 
    hb_default( @checked, .F. )
    hb_default( @disabled, .F. )
@@ -515,7 +530,8 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _EndMenu()
 *-----------------------------------------------------------------------------*
-   LOCAL i, j, image
+   LOCAL image
+   LOCAL i, j
 
    SWITCH Left( _HMG_xMenuType, 1 )
 
@@ -571,7 +587,9 @@ PROCEDURE _EndMenu()
 
    ENDSWITCH
 
-   FOR i := 1 TO Len ( _HMG_aControlHandles )
+   FOR EACH j IN _HMG_aControlHandles
+
+      i := hb_enumindex( j )
 
       IF _HMG_aControlType [i] == "POPUP"
 
@@ -590,7 +608,9 @@ RETURN
 *-----------------------------------------------------------------------------*
 STATIC FUNCTION _GetMenuIds ( ItemName , FormName )
 *-----------------------------------------------------------------------------*
-   LOCAL h, id, x
+   LOCAL h
+   LOCAL id
+   LOCAL x
 
    IF ( x := GetControlIndex ( ItemName , FormName ) ) > 0
 
@@ -689,6 +709,35 @@ PROCEDURE _DefineContextMenu ( Parent )
    _HMG_xContextMenuParentHandle := GetFormHandle ( Parent )
    _HMG_xContextMenuParentName := Parent
    _HMG_xContextMenuHandle := CreatePopupMenu( 3 )
+
+RETURN
+
+*-----------------------------------------------------------------------------*
+PROCEDURE _ShowContextMenu ( Parent , nRow , nCol )
+*-----------------------------------------------------------------------------*
+   LOCAL xContextMenuParentHandle
+   LOCAL aPos
+
+   hb_default ( @Parent, "" )
+
+   IF .Not. _IsWindowDefined ( Parent )
+      xContextMenuParentHandle := _HMG_xContextMenuParentHandle
+   ELSE
+      xContextMenuParentHandle := GetFormHandle ( Parent )
+   ENDIF
+
+   IF xContextMenuParentHandle == 0
+      MsgMiniGuiError ( "Context Menu is not defined." )
+   ENDIF
+
+   IF hb_defaultValue ( nRow , 0 ) == 0 .AND. hb_defaultValue ( nCol , 0 ) == 0
+      aPos := GetCursorPos()
+      nRow := aPos [1]
+      nCol := aPos [2]
+   ENDIF
+
+   TrackPopupMenu ( _HMG_xContextMenuHandle , nCol , nRow , xContextMenuParentHandle )
+   DoEvents()
 
 RETURN
 
@@ -832,13 +881,16 @@ FUNCTION _SetMenuItemFont ( ItemName , FormName , Font )
 *-----------------------------------------------------------------------------*
    LOCAL a := _GetMenuIds ( ItemName , FormName )
 
-RETURN MenuItem_SetFont ( a [1] , a [2] , Font )
+RETURN MenuItem_SetFont ( a [1] , a [2] , iif ( ISCHARACTER( Font ) , GetFontHandle( Font ) , Font ) )
 
-*------------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------*
 FUNCTION _InsertMenuItem ( ItemName , FormName , caption , action , name , Image )
-*------------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------*
    LOCAL a := _GetMenuIds ( ItemName , FormName )
-   LOCAL Id, mVar, Controlhandle := a [1], hBitmap := 0
+   LOCAL Controlhandle := a [1]
+   LOCAL hBitmap := 0
+   LOCAL mVar
+   LOCAL Id
 
    Id := _GetId()
 
@@ -903,14 +955,15 @@ FUNCTION _InsertMenuItem ( ItemName , FormName , caption , action , name , Image
 
 RETURN Nil
 
-*------------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------*
 FUNCTION _ModifyMenuItem ( ItemName , FormName , Caption , action , name , Image )
-*------------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------*
    LOCAL a := _GetMenuIds ( ItemName , FormName )
    LOCAL x := GetControlIndex ( ItemName , FormName )
-   LOCAL Id , mVar
+   LOCAL mVar
+   LOCAL Id
 
-   Id := _HMG_aControlIds [ x ]
+   Id := _HMG_aControlIds [x]
 
    IF ValType ( name ) != 'U'
       mVar := '_' + _HMG_xMainMenuParentName + '_' + Name
@@ -933,9 +986,220 @@ FUNCTION _ModifyMenuItem ( ItemName , FormName , Caption , action , name , Image
 
 RETURN Nil
 
-*------------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------*
 FUNCTION _RemoveMenuItem ( ItemName , FormName  )
-*------------------------------------------------------------------------------*
+*-----------------------------------------------------------------------------*
    LOCAL a := _GetMenuIds ( ItemName , FormName )
 
 RETURN RemoveMenuItem ( a [1] , a [2] )
+
+*-----------------------------------------------------------------------------*
+FUNCTION HMG_SetMenuTheme ( nType , cFormName , aUserDefined )
+*-----------------------------------------------------------------------------*
+   LOCAL aColors := GetMenuColors()
+
+   hb_default ( @nType, MNUCLR_THEME_DEFAULT )
+
+   IF PCount() < 2 .AND. Len ( _HMG_aFormHandles ) > 0
+      cFormName := ThisWindow.Name
+   ENDIF
+
+   IF PCount() > 2 .AND. ! ISARRAY ( aUserDefined )
+      aUserDefined := Array ( 24 )
+   ENDIF
+
+   SWITCH nType
+
+   CASE MNUCLR_THEME_DEFAULT
+
+      aColors[ MNUCLR_MENUBARBACKGROUND1 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_MENUBARBACKGROUND2 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_MENUBARTEXT ] := RGB( 0, 0, 0 )
+      aColors[ MNUCLR_MENUBARSELECTEDTEXT ] := RGB( 0, 0, 0 )
+      aColors[ MNUCLR_MENUBARGRAYEDTEXT ] := RGB( 192, 192, 192 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM1 ] := RGB( 255, 252, 248 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM2 ] := RGB( 136, 133, 116 )
+
+      aColors[ MNUCLR_MENUITEMTEXT ] := RGB( 0, 0, 0 )
+      aColors[ MNUCLR_MENUITEMSELECTEDTEXT ] := RGB( 0, 0, 0 )
+      aColors[ MNUCLR_MENUITEMGRAYEDTEXT ] := RGB( 192, 192, 192 )
+      aColors[ MNUCLR_MENUITEMBACKGROUND1 ] := RGB( 255, 255, 255 )
+      aColors[ MNUCLR_MENUITEMBACKGROUND2 ] := RGB( 255, 255, 255 )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND1 ] := RGB( 182, 189, 210 )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND2 ] := RGB( 182, 189, 210 )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND1 ] := RGB( 255, 255, 255 )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND2 ] := RGB( 255, 255, 255 )
+
+      aColors[ MNUCLR_IMAGEBACKGROUND1 ] := RGB( 246, 245, 244 )
+      aColors[ MNUCLR_IMAGEBACKGROUND2 ] := RGB( 207, 210, 200 )
+
+      aColors[ MNUCLR_SEPARATOR1 ] := RGB( 168, 169, 163 )
+      aColors[ MNUCLR_SEPARATOR2 ] := RGB( 255, 255, 255 )
+
+      aColors[ MNUCLR_SELECTEDITEMBORDER1 ] := RGB( 10, 36, 106 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER2 ] := RGB( 10, 36, 106 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER3 ] := RGB( 10, 36, 106 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER4 ] := RGB( 10, 36, 106 )
+
+      SET MENUCURSOR FULL
+      SET MENUSEPARATOR SINGLE RIGHTALIGN
+      SET MENUITEM BORDER 3DSTYLE
+
+      EXIT
+
+   CASE MNUCLR_THEME_XP
+
+      aColors[ MNUCLR_MENUBARBACKGROUND1 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_MENUBARBACKGROUND2 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_MENUBARTEXT ] := GetSysColor( 7 )
+      aColors[ MNUCLR_MENUBARSELECTEDTEXT ] := GetSysColor( 14 )
+      aColors[ MNUCLR_MENUBARGRAYEDTEXT ] := GetSysColor( 17 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM1 ] := GetSysColor( 13 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM2 ] := GetSysColor( 13 )
+
+      aColors[ MNUCLR_MENUITEMTEXT ] := GetSysColor( 7 )
+      aColors[ MNUCLR_MENUITEMSELECTEDTEXT ] := GetSysColor( 14 )
+      aColors[ MNUCLR_MENUITEMGRAYEDTEXT ] := GetSysColor( 17 )
+      aColors[ MNUCLR_MENUITEMBACKGROUND1 ] := IF( _HMG_IsXP, GetSysColor( 4 ), RGB( 255, 255, 255 ) )
+      aColors[ MNUCLR_MENUITEMBACKGROUND2 ] := IF( _HMG_IsXP, GetSysColor( 4 ), RGB( 255, 255, 255 ) )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND1 ] := GetSysColor( 13 )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND2 ] := GetSysColor( 13 )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND1 ] := IF( _HMG_IsXP, GetSysColor( 4 ), RGB( 255, 255, 255 ) )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND2 ] := IF( _HMG_IsXP, GetSysColor( 4 ), RGB( 255, 255, 255 ) )
+
+      aColors[ MNUCLR_IMAGEBACKGROUND1 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_IMAGEBACKGROUND2 ] := GetSysColor( 15 )
+
+      aColors[ MNUCLR_SEPARATOR1 ] := GetSysColor( 17 )
+      aColors[ MNUCLR_SEPARATOR2 ] := GetSysColor( 14 )
+
+      aColors[ MNUCLR_SELECTEDITEMBORDER1 ] := GetSysColor( 13 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER2 ] := GetSysColor( 13 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER3 ] := GetSysColor( 17 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER4 ] := GetSysColor( 14 )
+
+      SET MENUCURSOR FULL
+      SET MENUSEPARATOR DOUBLE RIGHTALIGN
+      SET MENUITEM BORDER FLAT
+
+      EXIT
+
+   CASE MNUCLR_THEME_2000
+
+      aColors[ MNUCLR_MENUBARBACKGROUND1 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_MENUBARBACKGROUND2 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_MENUBARTEXT ] := RGB( 0, 0, 0 )
+      aColors[ MNUCLR_MENUBARSELECTEDTEXT ] := RGB( 0, 0, 0 )
+      aColors[ MNUCLR_MENUBARGRAYEDTEXT ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM1 ] := GetSysColor( 15 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM2 ] := GetSysColor( 15 )
+
+      aColors[ MNUCLR_MENUITEMTEXT ] := RGB( 0, 0, 0 )
+      aColors[ MNUCLR_MENUITEMSELECTEDTEXT ] := RGB( 255, 255, 255 )
+      aColors[ MNUCLR_MENUITEMGRAYEDTEXT ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_MENUITEMBACKGROUND1 ] := RGB( 212, 208, 200 )
+      aColors[ MNUCLR_MENUITEMBACKGROUND2 ] := RGB( 212, 208, 200 )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND1 ] := RGB( 10, 36, 106 )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND2 ] := RGB( 10, 36, 106 )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND1 ] := RGB( 212, 208, 200 )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND2 ] := RGB( 212, 208, 200 )
+
+      aColors[ MNUCLR_IMAGEBACKGROUND1 ] := RGB( 212, 208, 200 )
+      aColors[ MNUCLR_IMAGEBACKGROUND2 ] := RGB( 212, 208, 200 )
+
+      aColors[ MNUCLR_SEPARATOR1 ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_SEPARATOR2 ] := RGB( 255, 255, 255 )
+
+      aColors[ MNUCLR_SELECTEDITEMBORDER1 ] := RGB( 10, 36, 106 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER2 ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER3 ] := RGB( 10, 36, 106 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER4 ] := RGB( 255, 255, 255 )
+
+      SET MENUCURSOR SHORT
+      SET MENUSEPARATOR DOUBLE LEFTALIGN
+      SET MENUITEM BORDER 3D
+
+      EXIT
+
+   CASE MNUCLR_THEME_DARK
+
+      aColors[ MNUCLR_MENUBARBACKGROUND1 ] := RGB( 43, 43, 43 )
+      aColors[ MNUCLR_MENUBARBACKGROUND2 ] := RGB( 43, 43, 43 )
+      aColors[ MNUCLR_MENUBARTEXT ] := RGB( 237, 237, 237 )
+      aColors[ MNUCLR_MENUBARSELECTEDTEXT ] := RGB( 255, 255, 255 )
+      aColors[ MNUCLR_MENUBARGRAYEDTEXT ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM1 ] := RGB( 65, 65, 65 )
+      aColors[ MNUCLR_MENUBARSELECTEDITEM2 ] := RGB( 65, 65, 65 )
+
+      aColors[ MNUCLR_MENUITEMTEXT ] := RGB( 237, 237, 237 )
+      aColors[ MNUCLR_MENUITEMSELECTEDTEXT ] := RGB( 255, 255, 255 )
+      aColors[ MNUCLR_MENUITEMGRAYEDTEXT ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_MENUITEMBACKGROUND1 ] := RGB( 43, 43, 43 )
+      aColors[ MNUCLR_MENUITEMBACKGROUND2 ] := RGB( 43, 43, 43 )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND1 ] := RGB( 65, 65, 65 )
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND2 ] := RGB( 65, 65, 65 )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND1 ] := RGB( 43, 43, 43 )
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND2 ] := RGB( 43, 43, 43 )
+
+      aColors[ MNUCLR_IMAGEBACKGROUND1 ] := RGB( 43, 43, 43 )
+      aColors[ MNUCLR_IMAGEBACKGROUND2 ] := RGB( 43, 43, 43 )
+
+      aColors[ MNUCLR_SEPARATOR1 ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_SEPARATOR2 ] := RGB( 128, 128, 128 )
+
+      aColors[ MNUCLR_SELECTEDITEMBORDER1 ] := RGB( 75, 75, 75 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER2 ] := RGB( 128, 128, 128 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER3 ] := RGB( 75, 75, 75 )
+      aColors[ MNUCLR_SELECTEDITEMBORDER4 ] := RGB( 237, 237, 237 )
+
+      SET MENUCURSOR FULL
+      SET MENUSEPARATOR SINGLE LEFTALIGN
+      SET MENUITEM BORDER FLAT
+
+      EXIT
+
+   DEFAULT /* MNUCLR_THEME_USER_DEFINED */
+
+      aColors[ MNUCLR_MENUBARBACKGROUND1 ] := aUserDefined[ 1 ]
+      aColors[ MNUCLR_MENUBARBACKGROUND2 ] := aUserDefined[ 2 ]
+      aColors[ MNUCLR_MENUBARTEXT ] := aUserDefined[ 3 ]
+      aColors[ MNUCLR_MENUBARSELECTEDTEXT ] := aUserDefined[ 4 ]
+      aColors[ MNUCLR_MENUBARGRAYEDTEXT ] := aUserDefined[ 5 ]
+      aColors[ MNUCLR_MENUBARSELECTEDITEM1 ] := aUserDefined[ 6 ]
+      aColors[ MNUCLR_MENUBARSELECTEDITEM2 ] := aUserDefined[ 7 ]
+
+      aColors[ MNUCLR_MENUITEMTEXT ] := aUserDefined[ 8 ]
+      aColors[ MNUCLR_MENUITEMSELECTEDTEXT ] := aUserDefined[ 9 ]
+      aColors[ MNUCLR_MENUITEMGRAYEDTEXT ] := aUserDefined[ 10 ]
+      aColors[ MNUCLR_MENUITEMBACKGROUND1 ] := aUserDefined[ 11 ]
+      aColors[ MNUCLR_MENUITEMBACKGROUND2 ] := aUserDefined[ 12 ]
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND1 ] := aUserDefined[ 13 ]
+      aColors[ MNUCLR_MENUITEMSELECTEDBACKGROUND2 ] := aUserDefined[ 14 ]
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND1 ] := aUserDefined[ 15 ]
+      aColors[ MNUCLR_MENUITEMGRAYEDBACKGROUND2 ] := aUserDefined[ 16 ]
+
+      aColors[ MNUCLR_IMAGEBACKGROUND1 ] := aUserDefined[ 17 ]
+      aColors[ MNUCLR_IMAGEBACKGROUND2 ] := aUserDefined[ 18 ]
+
+      aColors[ MNUCLR_SEPARATOR1 ] := aUserDefined[ 19 ]
+      aColors[ MNUCLR_SEPARATOR2 ] := aUserDefined[ 20 ]
+
+      aColors[ MNUCLR_SELECTEDITEMBORDER1 ] := aUserDefined[ 21 ]
+      aColors[ MNUCLR_SELECTEDITEMBORDER2 ] := aUserDefined[ 22 ]
+      aColors[ MNUCLR_SELECTEDITEMBORDER3 ] := aUserDefined[ 23 ]
+      aColors[ MNUCLR_SELECTEDITEMBORDER4 ] := aUserDefined[ 24 ]
+
+      SET MENUCURSOR FULL
+      SET MENUSEPARATOR DOUBLE RIGHTALIGN
+      SET MENUITEM BORDER FLAT
+
+   END SWITCH
+
+   SetMenuColors( aColors )
+
+   IF ISCHARACTER( cFormName )
+      SetProperty( cFormName, "BackColor", aColors[ MNUCLR_MENUBARBACKGROUND1 ] )
+      _ColorMenu ( GetFormHandle( cFormName ), nRGB2Arr( aColors[ MNUCLR_MENUBARBACKGROUND2 ] ) )
+   ENDIF
+
+RETURN nType

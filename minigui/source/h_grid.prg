@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2020, https://harbour.github.io/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -58,7 +58,7 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
       dynamicforecolor, dynamicbackcolor, multiselect, editcontrols, backcolor, fontcolor, ;
       nId, columnvalid, columnwhen, validmessages, showheaders, aImageHeader, NoTabStop, ;
       celled, lCheckboxes, lockcolumns, OnCheckBoxClicked, doublebuffer, nosortheaders, ;
-      columnsort, aWidthLimits, ondragitems, bInit, autosizeH, autosizeW )
+      columnsort, aWidthLimits, ondragitems, bInit, autosizeH, autosizeW, rclick )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle , ControlHandle , FontHandle
    LOCAL nHeaderImageListHandle := 0
@@ -83,6 +83,7 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
    __defaultNIL( @aHeadClick, {} )
    __defaultNIL( @change, "" )
    __defaultNIL( @dblclick, "" )
+   __defaultNIL( @rclick, "" )
    hb_default( @notabstop, .F. )
    hb_default( @lockcolumns, 0 )
    hb_default( @doublebuffer, .F. )
@@ -339,7 +340,7 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
       inplace, NIL, NIL, ;
       OnCheckBoxClicked, ;
       doublebuffer, aWidthLimits, ondragitems, ;
-      autosizeH, autosizeW }
+      autosizeH, autosizeW, rclick }
    _HMG_aControlMiscData2 [k] := ''
 
    IF Len( _HMG_aDialogTemplate ) == 0   //Dialog Template
@@ -370,7 +371,7 @@ FUNCTION _DefineGrid ( ControlName, ParentFormName, x, y, w, h, aHeaders, aWidth
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
-FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
+FUNCTION InitDialogGrid ( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
    LOCAL ControlName, Value
    LOCAL aWidths, aJust, nogrid, lcheckboxes, lockcolumns, doublebuffer
@@ -464,7 +465,7 @@ FUNCTION InitDialogGrid( ParentName, ControlHandle, k )
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
-FUNCTION ListView_CalculateSize( hLV, nNumberOfRows, /*@*/nWidth, /*@*/nHeight )
+FUNCTION ListView_CalculateSize ( hLV, nNumberOfRows, /*@*/nWidth, /*@*/nHeight )
 *-----------------------------------------------------------------------------*
    LOCAL nResult
 
@@ -489,7 +490,7 @@ RETURN nHeight
 FUNCTION _AddGridRow ( ControlName, ParentForm, aRow )
 *-----------------------------------------------------------------------------*
    LOCAL aGridRow := AClone ( aRow )
-   LOCAL i, iIm := 0
+   LOCAL i, h, iIm := 0
 
    i := GetControlIndex ( ControlName , ParentForm )
 
@@ -504,14 +505,18 @@ FUNCTION _AddGridRow ( ControlName, ParentForm, aRow )
 
 #ifdef _HMG_COMPAT_
    IF ! ISARRAY ( _HMG_aControlMiscData1 [i] [13] )
-      AEval( aGridRow, {|x, i| iif( ISCHARACTER( x ) .OR. HB_ISNIL( x ), , aGridRow [i] := hb_ValToStr( x ) ) } )
+      AEval ( aGridRow, {|x, i| iif( ISCHARACTER( x ) .OR. HB_ISNIL( x ), , aGridRow [i] := hb_ValToStr( x ) ) } )
    ENDIF
 #endif
 
-   AddListViewItems ( _HMG_aControlHandles [i] , aGridRow , iIm )
+   h := _HMG_aControlHandles [i]
+   AddListViewItems ( h , aGridRow , iIm )
 
    IF ISARRAY ( _HMG_aControlMiscData1 [i] [13] )
-      _SetItem ( ControlName , ParentForm , ListViewGetItemCount ( _HMG_aControlHandles [i] ) , aGridRow )
+      _SetItem ( ControlName , ParentForm , ListViewGetItemCount ( h ) , aGridRow )
+      IF Len ( _HMG_aControlBkColor [i] ) > 0
+         SetImageListViewItems ( h , ListViewGetItemCount ( h ) , iIm )
+      ENDIF
    ENDIF
 
 RETURN Nil

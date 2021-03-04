@@ -30,23 +30,23 @@
  Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 /*
  * Author: P.Chornyj <myorg63@mail.ru>
- * revised for 16.10.
+ * revised for build 16.10
 */
 
 #include "minigui.ch"
@@ -58,7 +58,10 @@
 
 FUNCTION _SetWindowBKBrush( cWindow, lNoDelete, cBrushStyle, nHatch, aColor, xImage )
 
-   LOCAL nIndex, hWnd, hOldBrush, hBrush := 0
+   LOCAL hWnd
+   LOCAL hOldBrush
+   LOCAL hBrush := 0
+   LOCAL nIndex
 
    __defaultNIL( @lNoDelete, .F. )
    __defaultNIL( @cBrushStyle, "SOLID" )
@@ -91,7 +94,7 @@ FUNCTION _SetWindowBKBrush( cWindow, lNoDelete, cBrushStyle, nHatch, aColor, xIm
 
       IF GetObjectType ( hBrush ) == OBJ_BRUSH
          hOldBrush := SetWindowBrush ( hWnd, hBrush )
-         _HMG_aFormBrushHandle[nIndex ] := hBrush
+         _HMG_aFormBrushHandle[ nIndex ] := hBrush
 
          IF lNoDelete
             RETURN hOldBrush

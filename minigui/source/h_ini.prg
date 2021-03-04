@@ -34,18 +34,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -90,29 +90,32 @@ FUNCTION _LogFile( ... )
 #ifdef __XHARBOUR__
          lCrLf := aParams[ 1 ]
 #endif
-         IF hb_defaultValue( lCrLf, .T. )
+         IF ( lCrLf := hb_defaultValue( lCrLf, .T. ) )
             FWrite( hFile, CRLF, 2 )
          ENDIF
-         FOR i := 2 TO nParams
-            xVal := aParams[ i ]
-            cTp  := ValType( xVal )
-            IF     cTp == 'C' ; xVal := iif( Empty( xVal ), "'" + "'", Trim( xVal ) )
-            ELSEIF cTp == 'N' ; xVal := hb_ntos( xVal )
-            ELSEIF cTp == 'L' ; xVal := iif( xVal, ".T.", ".F." )
+         IF nParams == 2 .AND. HB_ISNIL( aParams[ 2 ] ) .AND. lCrLf
+         ELSE
+            FOR i := 2 TO nParams
+               xVal := aParams[ i ]
+               cTp  := ValType( xVal )
+               IF     cTp == 'C' ; xVal := iif( Empty( xVal ), "'" + "'", Trim( xVal ) )
+               ELSEIF cTp == 'N' ; xVal := hb_ntos( xVal )
+               ELSEIF cTp == 'L' ; xVal := iif( xVal, ".T.", ".F." )
 #ifdef __XHARBOUR__
-            ELSEIF cTp == 'D' ; xVal := DToC( xVal )
+               ELSEIF cTp == 'D' ; xVal := DToC( xVal )
 #else
-            ELSEIF cTp == 'D' ; xVal := hb_DToC( xVal, 'DD.MM.YYYY' )
+               ELSEIF cTp == 'D' ; xVal := hb_DToC( xVal, 'DD.MM.YYYY' )
 #endif
-            ELSEIF cTp == 'A' ; xVal := "ARRAY["  + hb_ntos( Len( xVal ) ) + "]"
-            ELSEIF cTp == 'H' ; xVal :=  "HASH["  + hb_ntos( Len( xVal ) ) + "]"
-            ELSEIF cTp == 'B' ; xVal := "'" + "B" + "'"
-            ELSEIF cTp == 'T' ; xVal := hb_TSToStr( xVal, .T. )
-            ELSEIF cTp == 'U' ; xVal := 'NIL'
-            ELSE              ; xVal := "'" + cTp + "'"
-            ENDIF
-            FWrite( hFile, xVal + Chr( 9 ) )
-         NEXT
+               ELSEIF cTp == 'A' ; xVal := "ARRAY["  + hb_ntos( Len( xVal ) ) + "]"
+               ELSEIF cTp == 'H' ; xVal :=  "HASH["  + hb_ntos( Len( xVal ) ) + "]"
+               ELSEIF cTp == 'B' ; xVal := "'" + "B" + "'"
+               ELSEIF cTp == 'T' ; xVal := hb_TSToStr( xVal, .T. )
+               ELSEIF cTp == 'U' ; xVal := 'NIL'
+               ELSE              ; xVal := "'" + cTp + "'"
+               ENDIF
+               FWrite( hFile, xVal + Chr( 9 ) )
+            NEXT
+         ENDIF
       ELSE
          FWrite( hFile, CRLF, 2 )
       ENDIF
@@ -285,16 +288,15 @@ FUNCTION _GetSectionNames( cIniFile )
 *-----------------------------------------------------------------------------*
    // return 1-dimensional array with section list in cIniFile
    // or empty array if no sections are present
-   LOCAL aSectionList := {}, cLista, aLista
+   LOCAL aSectionList := {}, aLista
 
    IF File( cIniFile )
-      cLista := _GetPrivateProfileSectionNames( cIniFile )
-      aLista := hb_ATokens( cLista, Chr( 0 ) )
-      IF !Empty( aLista )
-         AEval( aLista, {|cVal| iif( Empty( cVal ), , AAdd( aSectionList, cVal ) ) }, , Len( aLista ) -1 )
+      aLista := _GetPrivateProfileSectionNames( cIniFile )
+      IF ! Empty( aLista )
+         AEval( aLista, {|cVal| iif( Empty( cVal ), , AAdd( aSectionList, cVal ) ) } )
       ENDIF
    ELSE
-      MsgStop( "Can`t open " + cIniFile, "Error" )
+      MsgStop( "Can't open " + cIniFile, "Error" )
    ENDIF
 
 RETURN aSectionList
@@ -303,15 +305,14 @@ RETURN aSectionList
 FUNCTION _GetSection( cSection, cIniFile )
 *-----------------------------------------------------------------------------*
    // return 2-dimensional array with {key,value} pairs from section cSection in cIniFile
-   LOCAL aKeyValueList := {}, cLista, aLista, i, n
+   LOCAL aKeyValueList := {}, aLista, i, n
 
    IF File( cIniFile )
-      cLista := _GetPrivateProfileSection( cSection, cIniFile )
-      aLista := hb_ATokens( cLista, Chr( 0 ) )
-      IF !Empty( aLista )
-         FOR i := 1 TO Len( aLista ) -1
+      aLista := _GetPrivateProfileSection( cSection, cIniFile )
+      IF ! Empty( aLista )
+         FOR i := 1 TO Len( aLista )
             IF ( n := At( "=", aLista[ i ] ) ) > 0
-               AAdd( aKeyValueList, { Left( aLista[ i ], n -1 ), SubStr( aLista[ i ], n + 1 ) } )
+               AAdd( aKeyValueList, { Left( aLista[ i ], n - 1 ), SubStr( aLista[ i ], n + 1 ) } )
             ENDIF
          NEXT i
       ENDIF

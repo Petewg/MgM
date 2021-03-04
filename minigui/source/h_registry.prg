@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -52,8 +52,8 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #define KEY_WRITE       6
 #define KEY_ALL_ACCESS  63
 
-#define REG_SZ    1
-#define REG_DWORD 4
+#define REG_SZ          1
+#define REG_DWORD       4
 
 #define ERROR_SUCCESS   0
 #define KEY_WOW64_64KEY 0x0100   // Access a 64-bit key from either a 32-bit or 64-bit application
@@ -75,7 +75,6 @@ CREATE CLASS TReg32
    METHOD Get( cRegVar, uVar )
    METHOD Set( cRegVar, uVar )
    METHOD Delete( cRegVar )
-   METHOD KeyDelete( cSubKey )
    METHOD Close() BLOCK {|Self| iif( ::lError, , RegCloseKey( ::nHandle ) ) }
 
 ENDCLASS
@@ -83,12 +82,14 @@ ENDCLASS
 
 METHOD New( nKey, cRegKey, lShowError ) CLASS TReg32
 
-   LOCAL nReturn, nHandle := 0
+   LOCAL nHandle := 0
+   LOCAL nReturn
 
    DEFAULT cRegKey TO ""
 
    nReturn := RegOpenKeyExA( nKey, cRegKey, , ;
       iif( IsWow64(), hb_BitOr( KEY_ALL_ACCESS, KEY_WOW64_64KEY ), KEY_ALL_ACCESS ), @nHandle )
+
    IF nReturn != ERROR_SUCCESS
       nReturn := RegOpenKeyExA( nKey, cRegKey, , KEY_READ, @nHandle )
    ENDIF
@@ -108,7 +109,8 @@ RETURN Self
 
 METHOD Create( nKey, cRegKey, lShowError ) CLASS TReg32
 
-   LOCAL nReturn, nHandle := 0
+   LOCAL nHandle := 0
+   LOCAL nReturn
 
    DEFAULT cRegKey TO ""
 
@@ -137,6 +139,7 @@ METHOD Get( cRegVar, uVar ) CLASS TReg32
    LOCAL cType
 
    IF ! ::lError
+
       DEFAULT cRegVar TO ''
       cType := ValType( uVar )
 
@@ -155,6 +158,7 @@ METHOD Get( cRegVar, uVar ) CLASS TReg32
             uVar := ( Upper( uVar ) == ".T." )
          ENDSWITCH
       ENDIF
+
    ENDIF
 
 RETURN uVar
@@ -162,9 +166,11 @@ RETURN uVar
 
 METHOD Set( cRegVar, uVar ) CLASS TReg32
 
-   LOCAL nType, cType
+   LOCAL cType
+   LOCAL nType
 
    IF ! ::lError
+
       DEFAULT cRegVar TO ''
       cType := ValType( uVar )
 
@@ -182,6 +188,7 @@ METHOD Set( cRegVar, uVar ) CLASS TReg32
       ENDIF
 
       ::nError := RegSetValueExA( ::nHandle, cRegVar, 0, nType, @uVar )
+
    ENDIF
 
 RETURN NIL
@@ -191,15 +198,6 @@ METHOD Delete( cRegVar ) CLASS TReg32
 
    IF ! ::lError
       ::nError := RegDeleteValueA( ::nHandle, cRegVar )
-   ENDIF
-
-RETURN NIL
-
-
-METHOD KeyDelete( cSubKey ) CLASS TReg32
-
-   IF ! ::lError
-      ::nError := RegDeleteKey( ::nHandle, cSubkey )
    ENDIF
 
 RETURN NIL
@@ -313,39 +311,33 @@ FUNCTION DeleteRegistryVar( nKey, cRegKey, cRegVar )
 RETURN lSuccess
 
 
-FUNCTION DeleteRegistryKey( nKey, cRegKey, cSubKey )
+FUNCTION DeleteRegistryKey( nKey, cRegKey )
 
-   LOCAL oReg
-   LOCAL lSuccess := .F.
+   LOCAL lSuccess
 
-   oReg := TReg32():New( nKey, cRegKey, .F. )
-
-   IF ! oReg:lError
-      oReg:KeyDelete( cSubKey )
-      lSuccess := ( oReg:nError == ERROR_SUCCESS )
-   ENDIF
-
-   oReg:Close()
+   lSuccess := ( RegDeleteKey( nKey, cRegKey ) == ERROR_SUCCESS )
 
 RETURN lSuccess
 
 /*
  * C-level
-*/
+ */
 #pragma BEGINDUMP
 
 #include <mgdefs.h>
 
+extern HB_PTRUINT wapi_GetProcAddress( HMODULE hModule, const char * lpProcName );
+
 // http://msdn.microsoft.com/en-us/library/ms684139(VS.85).aspx
 typedef BOOL ( WINAPI *LPFN_ISWOW64PROCESS ) ( HANDLE, PBOOL );
 
-HB_FUNC( ISWOW64 )
+HB_FUNC_STATIC( ISWOW64 )
 {
    BOOL bIsWow64 = FALSE;
 
    LPFN_ISWOW64PROCESS fnIsWow64Process;
 
-   fnIsWow64Process = ( LPFN_ISWOW64PROCESS ) GetProcAddress( GetModuleHandle( "kernel32" ), "IsWow64Process" );
+   fnIsWow64Process = ( LPFN_ISWOW64PROCESS ) wapi_GetProcAddress( GetModuleHandle( "kernel32" ), "IsWow64Process" );
    if( NULL != fnIsWow64Process )
    {
       fnIsWow64Process( GetCurrentProcess(), &bIsWow64 );

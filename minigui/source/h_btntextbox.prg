@@ -33,18 +33,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -62,13 +62,17 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       aToolTip, nMaxLength, lUpper, lLower, lNumeric, lPassword, ;
       uLostFocus, uGotFocus, uChange, uEnter, right, HelpId, ;
       bold, italic, underline, strikeout, field, backcolor, fontcolor , ;
-      invisible, notabstop, nId, disableedit, lDefault, cuetext, keepfocus )
+      invisible, notabstop, nId, disableedit, lDefault, cuetext, keepfocus, bInit )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle, aControlHandle := 0
-   LOCAL mVar, k, Style
-   LOCAL FontHandle, cBmp, cTTip, lBtn2 := ISBLOCK( ProcedureName2 )
+   LOCAL mVar, k, Style, lBtn2 := ISBLOCK( ProcedureName2 )
+   LOCAL FontHandle, cBmp, tmp
    LOCAL WorkArea, blInit
    LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    // Assign STANDARD values to optional params.
    hb_default( @w, 120 )
@@ -91,6 +95,7 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       aBitmap := Array( 2 )
       aBitmap[1] := cBmp
    ENDIF
+
    IF ValType ( Field ) != 'U'
       IF  At ( '>', Field ) == 0
          MsgMiniGuiError ( "Control " + ControlName + " Of " + ParentFormName + " : You must specify a fully qualified field name." )
@@ -101,10 +106,11 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
          ENDIF
       ENDIF
    ENDIF
+
    IF ValType ( aToolTip ) != 'A'
-      cTTip := aToolTip
+      tmp := aToolTip
       aToolTip := Array( 3 )
-      aToolTip[1] := cTTip
+      aToolTip[1] := tmp
    ELSE
       IF Len( aToolTip ) < 3
          aToolTip := ASize( aToolTip, 3 )
@@ -214,7 +220,9 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( aControlHandle[1], FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( aControlHandle[1] )
+            FontHandle := _SetFont ( aControlHandle[1], FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
          SetTbBtnMargin ( aControlHandle[1], BtnWidth, .T., lBtn2 )
       ENDIF
 
@@ -223,15 +231,11 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
       ENDIF
 
       // Add a ToolTip if param has value
-      IF ValType( aToolTip[1] ) != "U"
-         SetToolTip( aControlHandle[1], aToolTip[1], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[2] ) != "U"
-         SetToolTip( aControlHandle[2], aToolTip[2], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[3] ) != "U"
-         SetToolTip( aControlHandle[3], aToolTip[3], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
+      FOR tmp := 1 TO 3
+         IF ValType( aToolTip[tmp] ) != "U"
+            SetToolTip ( aControlHandle[tmp], aToolTip[tmp], GetFormToolTipHandle ( ParentFormName ) )
+         ENDIF
+      NEXT
 
    ENDIF
 
@@ -278,10 +282,6 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
    _HMG_aControlMiscData1 [k] := { 0, lBtn2, disableedit, lDefault, keepfocus }
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF .NOT. lDialogInMemory
       // With NUMERIC clause, transform numeric value into a string.
       IF lNumeric
@@ -303,6 +303,16 @@ FUNCTION _DefineBtnTextBox ( ControlName, ParentFormName, x, y, w, h, ;
          AAdd( _HMG_aFormBrowseList [ GetFormIndex ( ParentFormName ) ] , k )
       ENDIF
    ENDIF
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( aControlHandle[1] )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN nil
 
@@ -349,8 +359,9 @@ FUNCTION InitDialogBtnTextBox( ParentName, ControlHandle, k )
 RETURN Nil
 
 *------------------------------------------------------------------------------*
-FUNCTION TBBtnEvents( hwndEdit, HwndBtn )
+FUNCTION TBBtnEvents( hwndEdit, HwndBtn, nMsg )
 *------------------------------------------------------------------------------*
+   LOCAL ParentForm
    LOCAL i, aHandle
 
    i := AScan ( _HMG_aControlSpacing, { |x| ValType( x ) == 'A' .AND. Len( x ) > 0 .AND. ValType( x [1] ) == 'N' .AND. x [1] == hwndEdit } )
@@ -367,6 +378,7 @@ FUNCTION TBBtnEvents( hwndEdit, HwndBtn )
             ENDIF
          ENDIF
          EXIT
+
       CASE TBB2
          IF _DoControlEventProcedure ( _HMG_aControlHeadClick [i], i )
             IF ValType( _HMG_aControlMiscData1 [i] ) == 'A' .AND. Len( _HMG_aControlMiscData1 [i] ) >= 4 .AND. ! _HMG_aControlMiscData1 [i] [4]
@@ -375,8 +387,20 @@ FUNCTION TBBtnEvents( hwndEdit, HwndBtn )
          ENDIF
       END SWITCH
 
-      IF ValType( _HMG_aControlMiscData1 [i] ) == 'A' .AND. Len( _HMG_aControlMiscData1 [i] ) > 4 .AND. _HMG_aControlMiscData1 [i] [5]
-         SetFocus( aHandle [1] )
+      IF nMsg == WM_CONTEXTMENU
+         ParentForm := _HMG_aControlParentHandles [i]
+         IF ( i := AScan( _HMG_aControlsContextMenu , {|x| x [1] == aHandle [1] } ) ) > 0
+            IF _HMG_aControlsContextMenu [i][4] == .T.
+               setfocus( aHandle [1] )
+               _HMG_xControlsContextMenuID := _HMG_aControlsContextMenu [i][3]
+               TrackPopupMenu ( _HMG_aControlsContextMenu [i][2] , LOWORD( HwndBtn ) , HIWORD( HwndBtn ) , ParentForm )
+               RETURN 1
+            ENDIF
+         ENDIF
+      ELSE
+         IF ValType( _HMG_aControlMiscData1 [i] ) == 'A' .AND. Len( _HMG_aControlMiscData1 [i] ) > 4 .AND. _HMG_aControlMiscData1 [i] [5]
+            SetFocus( aHandle [1] )
+         ENDIF
       ENDIF
 
    ENDIF

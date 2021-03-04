@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -50,12 +50,23 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineEditbox ( ControlName, ParentFormName, x, y, w, h, value, ;
-      fontname, fontsize, tooltip, maxlength, gotfocus, change, lostfocus, readonly, break, HelpId, ;
-      invisible, notabstop, bold, italic, underline, strikeout, field, backcolor, fontcolor, novscroll, nohscroll, nId )
+      fontname, fontsize, tooltip, maxlength, gotfocus, change, lostfocus, ;
+      readonly, break, HelpId, invisible, notabstop, bold, italic, underline, ;
+      strikeout, field, backcolor, fontcolor, novscroll, nohscroll, nId, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL i , ParentFormHandle , mVar , ContainerHandle := 0 , k , Style
-   LOCAL ControlHandle , FontHandle , WorkArea , blInit
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL ContainerHandle := 0
+   LOCAL WorkArea
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
+   LOCAL blInit
+   LOCAL i
    LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    hb_default( @w, 120 )
    hb_default( @h, 240 )
@@ -177,7 +188,9 @@ FUNCTION _DefineEditbox ( ControlName, ParentFormName, x, y, w, h, value, ;
             ELSE
                __defaultNIL( @FontName, _HMG_DefaultFontName )
                __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-               FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+               IF IsWindowHandle( ControlHandle )
+                  FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+               ENDIF
             ENDIF
             AddSplitBoxItem ( Controlhandle , _HMG_aFormReBarHandle [i] , w , break , , , , _HMG_ActiveSplitBoxInverted )
             Containerhandle := _HMG_aFormReBarHandle [i]
@@ -222,7 +235,9 @@ FUNCTION _DefineEditbox ( ControlName, ParentFormName, x, y, w, h, value, ;
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       IF ValType( tooltip ) != "U"
@@ -273,10 +288,6 @@ FUNCTION _DefineEditbox ( ControlName, ParentFormName, x, y, w, h, value, ;
    _HMG_aControlMiscData1 [k] := { 0 , maxlength , readonly }
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF Len( _HMG_aDialogTemplate ) == 0        //Dialog Template
       InitDialogEdit( ParentFormName, ControlHandle, k )
    ENDIF
@@ -284,6 +295,16 @@ FUNCTION _DefineEditbox ( ControlName, ParentFormName, x, y, w, h, value, ;
    IF ValType ( Field ) != 'U'
       AAdd ( _HMG_aFormBrowseList [ GetFormIndex ( ParentFormName ) ] , k )
    ENDIF
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 
@@ -309,7 +330,9 @@ RETURN
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogEdit( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
-   LOCAL maxlength , readonly
+   LOCAL maxlength
+   LOCAL readonly
+
    ParentName := Nil
 
    maxlength := _HMG_aControlMiscData1 [k,2]

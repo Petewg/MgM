@@ -2,6 +2,10 @@
 # hmg.hbp
 #
 
+#{bcc}-env:DEBUG=yes
+
+#-env:UNICODE=yes
+
 -hblib
 
 -inc
@@ -13,16 +17,17 @@
 
 -w3 -es2 -ko -ql
 
-{mingw|mingw64|msvc|msvc64}-l
+{!DEBUG&bcc|bcc64|mingw|mingw64|msvc|msvc64}-l
 
 -warn=max
+
+-strip
 
 #{mingw|mingw64}-cflag=-Wno-cast-function-type
 
 #{msvc|msvc64}-cflag=-D_CRT_SECURE_NO_WARNINGS
 
 -hbx=../include/hmg.hbx
-
 
 c_bitmap.c
 c_browse.c
@@ -33,7 +38,7 @@ c_chklabel.c
 c_chklistbox.c
 c_combo.c
 c_controlmisc.c
-#c_crypt.c
+{bcc}c_crypt.c
 c_cuebanner.c
 c_cursor.c
 c_datepicker.c
@@ -68,9 +73,10 @@ c_nonclient.c
 c_pager.c
 c_progressbar.c
 c_radio.c
-c_registry.c
+{!UNICODE}c_registry.c
 c_resource.c
 c_richeditbox.c
+c_richeditex.c
 c_scrsaver.c
 c_slider.c
 c_spinner.c
@@ -82,6 +88,7 @@ c_timer.c
 c_toolbar.c
 c_tooltip.c
 c_tree.c
+{UNICODE}c_unicode.c
 c_winapimisc.c
 c_windows.c
 c_windowsAPI.c
@@ -91,7 +98,6 @@ c_winprop.c
 c_winxp.c
 dbinsert.c
 hbgdiplus.c
-
 ErrorSys.prg
 h_activex.prg
 h_alert.prg
@@ -101,6 +107,7 @@ h_btntextbox.prg
 h_button.prg
 h_buttonex.prg
 h_checkbox.prg
+h_checkres.prg
 h_chklabel.prg
 h_chklistbox.prg
 h_clbutton.prg
@@ -150,12 +157,14 @@ h_objmisc.prg
 h_owntab.prg
 h_pager.prg
 h_progressbar.prg
+h_progresswheel.prg
 h_radio.prg
-h_registry.prg
+{!UNICODE}h_registry.prg
 h_report.prg
 h_richeditbox.prg
+h_richeditex.prg
 h_rptgen.prg
-h_scrsaver.prg
+{!UNICODE}h_scrsaver.prg
 h_slider.prg
 h_socket.prg
 h_spinner.prg

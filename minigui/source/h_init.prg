@@ -30,23 +30,25 @@
  Parts of this project are based upon:
 
  "Harbour GUI framework for Win32"
-  Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+  Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
   Copyright 2001 Antonio Linares <alinares@fivetech.com>
- www - http://harbour-project.org
+ www - https://harbour.github.io/
 
  "Harbour Project"
- Copyright 1999-2017, http://harbour-project.org/
+ Copyright 1999-2021, https://harbour.github.io/
 
  "WHAT32"
  Copyright 2002 AJ Wos <andrwos@aust1.net>
 
  "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
----------------------------------------------------------------------------*/
+ ---------------------------------------------------------------------------*/
 
 // Initialize g_hInstance on C-level
 REQUEST GETINSTANCE
+
+#include "SET_COMPILE_HMG_UNICODE.ch"
 
 #include "minigui.ch"
 #include "i_winuser.ch"
@@ -90,7 +92,7 @@ PROCEDURE Init
    _HMG_DefaultStatusBarMessage := 0
    _HMG_ActiveToolBarFormName := ''
 
-   _HMG_IsXP := ( 'XP' $ WindowsVersion () [1] )
+   _HMG_IsXP := os_isWinXP()
    _HMG_IsXPorLater := IsWinXPorLater ()
    _HMG_IsThemed := IsThemed ()
 
@@ -105,7 +107,8 @@ PROCEDURE Init
    _HMG_aABMLangButton := {}
    _HMG_aABMLangError  := {}
 
-   _HMG_MESSAGE := Array ( 9 )
+   _HMG_MESSAGE := Array ( 12 )
+   _HMG_RPTDATA := Array ( 165 )
 
    _HMG_SetFocusExecuted := .F.
 
@@ -127,7 +130,10 @@ PROCEDURE Init
    _HMG_ThisFormName := Nil
    _HMG_ThisControlName := Nil
 
+   _HMG_aBrowseSyncStatus := Array ( 2 )
    _HMG_BrowseSyncStatus := .F.
+   _HMG_BrowseUpdateStatus := .F.
+
    _HMG_ActiveTabBold := Nil
    _HMG_ActiveTabItalic := Nil
    _HMG_ActiveTabUnderline := Nil
@@ -250,7 +256,7 @@ PROCEDURE Init
 
    _HMG_MainWindowFirst := .T.
    _HMG_MainActive      := .F.
-   _HMG_MainCargo	:= NIL
+   _HMG_MainCargo	:= hmg_Version()
    _HMG_MainHandle      := 0
 
    _HMG_MouseRow        := 0
@@ -426,6 +432,10 @@ PROCEDURE Init
    _HMG_aControlMiscData2  := {}
 
    _HMG_ListBoxDragNotification := _GetDDLMessage()
+   _HMG_FindReplaceOptions := Array ( 6 )
+   _HMG_CharRange_Min := 0
+   _HMG_CharRange_Max := 0
+   _HMG_MsgIDFindDlg := RegisterFindMsgString()
 
 #ifdef _USERINIT_
    _HMG_aCustomEventProcedure := {}
@@ -450,7 +460,11 @@ PROCEDURE Init
 #endif
 
 #if ! defined( __XHARBOUR__ ) && ( ( __HARBOUR__ - 0 ) > 0x030100 )
+#ifdef UNICODE
+   Set ( _SET_CODEPAGE, "UTF8" )
+#else
    InitCodePage()
+#endif
 #endif
 
    InitMessages()
@@ -465,7 +479,9 @@ RETURN
 *------------------------------------------------------------------------------*
 FUNCTION TimeFromStart
 *------------------------------------------------------------------------------*
-   LOCAL cText := "", n, aData
+   LOCAL aData
+   LOCAL cText := ""
+   LOCAL n
 
    aData := _hmg_Elapsed( _HMG_SYSINIT [1], Date(), _HMG_SYSINIT [2], Time() )
    FOR n := 1 TO 4
@@ -478,7 +494,9 @@ RETURN cText
 *------------------------------------------------------------------------------*
 STATIC FUNCTION _hmg_Elapsed( dStart, dEnd, cTimeStart, cTimeEnd )
 *------------------------------------------------------------------------------*
-   LOCAL nTotalSec, nCtr, nConstant, nTemp, aRetVal [4]
+   LOCAL aRetVal [4]
+   LOCAL nTotalSec, nCtr, nConstant
+   LOCAL nTemp
 
    nTotalSec := ( dEnd - dStart ) * 86400 + ;
       Val( cTimeEnd ) *  3600 + ;
@@ -501,6 +519,7 @@ STATIC FUNCTION _hmg_Elapsed( dStart, dEnd, cTimeStart, cTimeEnd )
 RETURN aRetVal
 
 #if ! defined( __XHARBOUR__ ) && ( ( __HARBOUR__ - 0 ) > 0x030100 )
+#ifndef UNICODE
 *------------------------------------------------------------------------------*
 STATIC PROCEDURE InitCodePage
 *------------------------------------------------------------------------------*
@@ -569,6 +588,7 @@ STATIC PROCEDURE InitCodePage
 RETURN
 
 #endif
+#endif
 *------------------------------------------------------------------------------*
 FUNCTION _GetSysFont()
 *------------------------------------------------------------------------------*
@@ -597,6 +617,9 @@ PROCEDURE InitMessages
    _HMG_MESSAGE [7] := 'Cancel'
    _HMG_MESSAGE [8] := 'Apply'
    _HMG_MESSAGE [9] := 'Pag.'
+   _HMG_MESSAGE [10] := 'Attention'
+   _HMG_MESSAGE [11] := 'Information'
+   _HMG_MESSAGE [12] := 'Stop'
 
    // BROWSE MESSAGES (ENGLISH DEFAULT)
 
@@ -606,17 +629,17 @@ PROCEDURE InitMessages
       "&Cancel" , ;
       "&OK" }
    _HMG_BRWLangError  := { ;
-      "Window: "                                              , ;  // 1
-      " is not defined. Program terminated"                   , ;  // 2
-      "MiniGUI Error"                                         , ;  // 3
-      "Control: "                                             , ;  // 4
-      " Of "                                                  , ;  // 5
-      " Already defined. Program terminated"                  , ;  // 6
-      "Browse: Type Not Allowed. Program terminated"          , ;  // 7
-      "Browse: Append Clause Can't Be Used With Fields Not Belonging To Browse WorkArea.", ; // 8
-      "Record Is Being Edited By Another User"                , ;  // 9
-      "Warning"                                               , ;  // 10
-      "Invalid Entry" }  // 11
+      "Window: "                                              , ;
+      " is not defined. Program terminated"                   , ;
+      "MiniGUI Error"                                         , ;
+      "Control: "                                             , ;
+      " Of "                                                  , ;
+      " Already defined. Program terminated"                  , ;
+      "Browse: Type Not Allowed. Program terminated"          , ;
+      "Browse: Append Clause Can't Be Used With Fields Not Belonging To Browse WorkArea.", ;
+      "Record Is Being Edited By Another User"                , ;
+      "Warning"                                               , ;
+      "Invalid Entry" }
    _HMG_BRWLangMessage := { 'Are you sure ?' , 'Delete Record' }
 
    // EDIT MESSAGES (ENGLISH DEFAULT)
@@ -797,6 +820,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Storno'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Str.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE MESSAGES
 
@@ -981,6 +1007,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Prekid'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Pag.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE MESSAGES
 
@@ -1165,6 +1194,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Cancel'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Pag.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE MESSAGES
 
@@ -1349,6 +1381,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Abandonner'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Pag.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE
 
@@ -1531,6 +1566,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Abbruch'
       _HMG_MESSAGE [8] := 'Anwenden'
       _HMG_MESSAGE [9] := 'Seite'
+      _HMG_MESSAGE [10] := 'Warnung'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE
 
@@ -1714,6 +1752,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Annulla'
       _HMG_MESSAGE [8] := 'Applica'
       _HMG_MESSAGE [9] := 'Pag.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE
 
@@ -1896,6 +1937,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Porzuζ'
       _HMG_MESSAGE [8] := 'Zastosuj'
       _HMG_MESSAGE [9] := 'Str.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE
 
@@ -2079,6 +2123,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := "Cancela"
       _HMG_MESSAGE [8] := "Aplicar"
       _HMG_MESSAGE [9] := "Pαg."
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
  
       // BROWSE
  
@@ -2258,6 +2305,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Ξςμενΰ'
       _HMG_MESSAGE [8] := 'Οπθμενθςό'
       _HMG_MESSAGE [9] := 'Ρςπ.'
+      _HMG_MESSAGE [10] := 'Βνθμΰνθε'
+      _HMG_MESSAGE [11] := 'Θντξπμΰφθÿ'
+      _HMG_MESSAGE [12] := 'Ρςξο'
 
       // BROWSE
 
@@ -2440,13 +2490,15 @@ PROCEDURE InitMessages
       _HMG_MESSAGE[ 1 ] := 'Βθ βοεβνενi ?'
       _HMG_MESSAGE[ 2 ] := 'Ηΰκπθςθ βiκνξ.'
       _HMG_MESSAGE[ 3 ] := 'Ηΰκπθςςÿ νε δξηβξλÿΊςόρÿ.'
-      _HMG_MESSAGE[ 4 ] := ( 'Οπξγπΰμΰ βθκξνσΊςόρÿ.' + CRLF + ;
-         'Ηΰοσρκ ωε ξδνiΊΏ κξοiΏ ηΰαξπξνενξ.' )
+      _HMG_MESSAGE[ 4 ] := ( 'Οπξγπΰμΰ βθκξνσΊςόρÿ.' + CRLF + 'Ηΰοσρκ ωε ξδνiΊΏ κξοiΏ ηΰαξπξνενξ.' )
       _HMG_MESSAGE[ 5 ] := 'Ημiνθςθ'
       _HMG_MESSAGE[ 6 ] := 'Γΰπΰηδ'
       _HMG_MESSAGE[ 7 ] := 'Ρκΰρσβΰςθ'
       _HMG_MESSAGE[ 8 ] := 'Ηΰρςξρσβΰςθ'
       _HMG_MESSAGE[ 9 ] := 'Ρςξπ.'
+      _HMG_MESSAGE [10] := 'Σβΰγΰ!'
+      _HMG_MESSAGE [11] := 'Iντξπμΰφ³ÿ'
+      _HMG_MESSAGE [12] := 'Ρςξο'
 
       // BROWSE
 
@@ -2629,6 +2681,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Cancelar'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Pag.'
+      _HMG_MESSAGE [10] := 'Atencion'
+      _HMG_MESSAGE [11] := 'Informaciσn'
+      _HMG_MESSAGE [12] := 'Detener'
 
       // BROWSE  
 
@@ -2790,7 +2845,7 @@ PROCEDURE InitMessages
       CRLF + "No se puede filtrar por campos memo    " + CRLF,                                                                ; // 35
       CRLF + "Seleccione el campo a filtrar    " + CRLF,                                                                 ; // 36
       CRLF + "Seleccione el operador de comparaciσn    " + CRLF,                                                              ; // 37
-      CRLF + "Introduzca el valor del filtro    " + CRLF,                                                                   ; // 38
+      CRLF + "Introduzca el valor del filtro    " + CRLF,                                                                 ; // 38
       CRLF + "No hay ningϊn filtro activo    " + CRLF,                                                              ; // 39
       CRLF + "ΏEliminar el filtro activo?   " + CRLF,                                                                           ; // 40
       CRLF + "Registro bloqueado por otro usuario    " + CRLF,                                                                   ; // 41
@@ -2812,6 +2867,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Keskeytδ'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Sivu.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE
 
@@ -2999,6 +3057,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Annuleren'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Pag.'
+      _HMG_MESSAGE [10] := 'Aandacht'
+      _HMG_MESSAGE [11] := 'Informatie'
+      _HMG_MESSAGE [12] := 'Hou op'
 
       // BROWSE
 
@@ -3183,6 +3244,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Prekini'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Str.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE MESSAGES
 
@@ -3369,6 +3433,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Storno'
       _HMG_MESSAGE [8] := 'Aplikuj'
       _HMG_MESSAGE [9] := 'Str.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE MESSAGES
 
@@ -3553,6 +3620,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Mιgse'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Old.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE MESSAGES
 
@@ -3723,57 +3793,56 @@ PROCEDURE InitMessages
 
    CASE cLang == "EL"  // Greek - Ellinika
       /////////////////////////////////////////////////////////////
-      //  EL - GREEK - ΕΛΛΗΝΙΚΑ
+      // GREEK - ΕΛΛΗΝΙΚΑ - EL
       /////////////////////////////////////////////////////////////
 
-      // MISC MESSAGES (EL - GREEK - ΕΛΛΗΝΙΚΑ)
+      // MISC MESSAGES (GREEK EL)
 
-      _HMG_MESSAGE [1] := "Είστε βέβαιοι?"
-      _HMG_MESSAGE [2] := "Κλείσιμο παραθύρου"
-      _HMG_MESSAGE [3] := "Δεν επιτρέπεται το κλείσιμο"
-      _HMG_MESSAGE [4] := "Το πρόγραμμα εκτελείται ήδη"
-      _HMG_MESSAGE [5] := "Επεξ."
-      _HMG_MESSAGE [6] := "Ok"
-      _HMG_MESSAGE [7] := "Ακυρο"
-      _HMG_MESSAGE [8] := "Εφαρμογή"
-      _HMG_MESSAGE [9] := "Σελ."
-		
-      // BROWSE MESSAGES (EL - GREEK - ΕΛΛΗΝΙΚΑ)
-      _HMG_BRWLangButton := { ;
-		   "&Προσθήκη"        , ;
-         "&Διόρθωση"        , ;
-         "&Ακυρο"           , ;
-         "&Εντάξει"         }
-			
-      _HMG_BRWLangError  := { ;
-		   "Το Παράθυρο: "                                                                    , ;
-         " δεν έχει ορισθεί. Το πρόγραμμα τερματίσθηκε"                                     , ;
-         "MiniGUI Error"                                                                    , ;
-         "Το control: "                                                                     , ;
-         " του "                                                                            , ;
-         " έχει ήδη ορισθεί. Το πρόγραμμα τερματίσθηκε"                                     , ;
-         "Browse: Μη έγκυρος τύπος. Το πρόγραμμα τερματίσθηκε"                              , ;
+      _HMG_MESSAGE [1] := 'Είστε βέβαιοι?'
+      _HMG_MESSAGE [2] := 'Κλείσιμο παραθύρου'
+      _HMG_MESSAGE [3] := 'Δεν επιτρέπεται το κλείσιμο'
+      _HMG_MESSAGE [4] := 'Το πρόγραμμα εκτελείται ήδη'
+      _HMG_MESSAGE [5] := 'Επεξ.'
+      _HMG_MESSAGE [6] := 'Ok'
+      _HMG_MESSAGE [7] := 'Ακυρο'
+      _HMG_MESSAGE [8] := 'Apply'
+      _HMG_MESSAGE [9] := 'Σελ.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
+
+      // BROWSE MESSAGES (GREEK EL)
+
+      _HMG_BRWLangButton := { "&Νέο"  , ;
+         "&Διόρθωση"    , ;
+         "&Ακυρο"  , ;
+         "&OK"       }
+      _HMG_BRWLangError  := { "Το window: "                                           , ;
+         " δεν έχει ορισθεί. Το πρόγραμμα τερματίσθηκε"          , ;
+         "MiniGUI Error"                                         , ;
+         "Control: "                                             , ;
+         " Of "                                                  , ;
+         " έχει ήδη ορισθεί. Το πρόγραμμα τερματίσθηκε"          , ;
+         "Browse: Μη έγκυρος τύπος. Το πρόγραμμα τερματίσθηκε"          , ;
          "Browse: Append Clause Can't Be Used With Fields Not Belonging To Browse WorkArea.", ;
-         "Η εγγραφή χρησιμοποιείται από αλλο χρήστη"                                        , ;
-         "Προειδοποίηση"                                                                    , ;
-         "Μη αποδεκτή τιμή" }
-			
-      _HMG_BRWLangMessage := { "Είστε βέβαιοι ?" , "Διαγραφή εγγραφής" }
+         "Η εγγραφή χρησιμοποιείται από αλλο χρήστη"                , ;
+         "Προσοχή"                                               , ;
+         "Μη αποδεκτή τιμή"                                          }
+      _HMG_BRWLangMessage := { 'Είστε βέβαιοι ?' , 'Διαγραφή εγγραφής' }
 
-      // EDIT MESSAGES  (EL - GREEK - ΕΛΛΗΝΙΚΑ)
-      _HMG_aABMLangUser   := { ;
-		   Chr( 13 ) + "Διαγραφή εγγραφής" + Chr( 13 ) + "Είστε βέβαιοι?" + Chr( 13 )                    , ;
-         Chr( 13 ) + "Το ευρετήριο δεν υπάρχει" + Chr( 13 ) + "Αναζήτηση αδύνατη!" + Chr( 13 )         , ;
-         Chr( 13 ) + "Το κλειδί αναζήτησης δεν βρέθηκε" + Chr( 13 ) + "Αναζήτηση αδύνατη!" + Chr( 13 ) , ;
-         Chr( 13 ) + "Αναζήτηση αδύνατη σε" + Chr( 13 ) + "πεδία memo ή λογικά" + Chr( 13 )            , ;
-         Chr( 13 ) + "Η εγγραφή δεν βρέθηκε" + Chr( 13 )                                               , ;
-         Chr( 13 ) + "Πολλές στήλες" + Chr( 13 ) + "Η εκτύπωση δεν χωρά στη σελίδα" + Chr( 13 ) }
+      // EDIT MESSAGES (GREEK - ΕΛΛΗΝΙΚΑ)
 
-      _HMG_aABMLangLabel  := {    ;
-		   "Εγγραφή"              , ;
+      _HMG_aABMLangUser   := { Chr( 13 ) + "Διαγραφή εγγραφής" + Chr( 13 ) + "Είστε βέβαιοι?" + Chr( 13 )    , ;
+         Chr( 13 ) + "Το ευρετήριο δεν υπάρχει" + Chr( 13 ) + "Αναζήτηση αδύνατη!" + Chr( 13 )  , ;
+         Chr( 13 ) + "Can`t find index field" + Chr( 13 ) + "Αναζήτηση αδύνατη!" + Chr( 13 )        , ;
+         Chr( 13 ) + "Αναζήτηση αδύνατη σε" + Chr( 13 ) + "πεδία memo ή λογικά" + Chr( 13 )       , ;
+         Chr( 13 ) + "Η εγγραφή δεν βρέθηκε" + Chr( 13 )                                        , ;
+         Chr( 13 ) + "Πολλές στήλες" + Chr( 13 ) + "Η αναφορά δεν χωρά στη σελίδα" + Chr( 13 ) }
+
+      _HMG_aABMLangLabel  := { "Εγγραφή"    , ;
          "Αριθ.Εγγραφών"        , ;
          "       (Νέο)"         , ;
-         "     (Διόρθ)"         , ;
+         "     (Διόρ.)"         , ;
          "Δώστε αριθ.εγγραφής"  , ;
          "Εύρεση"               , ;
          "Εύρεση κειμένου"      , ;
@@ -3792,14 +3861,13 @@ PROCEDURE InitMessages
          "Ναι"                  , ;
          "Οχι"                  , ;
          "Σελ. "                , ;
-         " of "              }
+         " of "                 }
 
-      _HMG_aABMLangButton := {   ;
-		   "Κλείσιμο"            , ;
+      _HMG_aABMLangButton := { "Κλείσε"    , ;
          "Nέο"                 , ;
          "Διόρθωση"            , ;
          "Διαγραφή"            , ;
-         "Εύρεση"              , ;
+         "Ευρεση"              , ;
          "Πηγαινε"             , ;
          "Αναφορά"             , ;
          "Πρώτο"               , ;
@@ -3811,108 +3879,107 @@ PROCEDURE InitMessages
          "Προσθήκη"            , ;
          "Διαγραφή"            , ;
          "Εκτυπωση"            , ;
-         "Κλείσιμο"          }
+         "Κλείσιμο"     }
 	
-      _HMG_aABMLangError  := { ;
-		   "ΕΠΕΞΕΡΓΑΣΙΑ, το όνομα περιοχης εργασιας δεν υπαρχει"                           , ;
+      _HMG_aABMLangError  := { "ΕΠΕΞΕΡΓΑΣΙΑ, το όνομα περιοχης εργασιας δεν υπαρχει"                 , ;
          "ΕΠΕΞΕΡΓΑΣΙΑ, η περιοχή εργασίας έχει περισσότερα απο 16 πεδία"                 , ;
          "ΕΠΕΞΕΡΓΑΣΙΑ, ρυθμός ανανέωσης εκτός ορίων (παρακαλώ γνωστοποιήσατε το bug)"    , ;
          "ΕΠΕΞΕΡΓΑΣΙΑ, main event number εκτός ορίων (παρακαλώ γνωστοποιήσατε το bug)"   , ;
-         "ΕΠΕΞΕΡΓΑΣΙΑ, list event number εκτός ορίων (παρακαλώ γνωστοποιήσατε το bug)" }
+         "ΕΠΕΞΕΡΓΑΣΙΑ, list event number εκτός ορίων (παρακαλώ γνωστοποιήσατε το bug)"  }
 
-      // EDIT EXTENDED  (EL - GREEK - ΕΛΛΗΝΙΚΑ)
-      _HMG_aLangButton := { ;
-			"&Κλείσιμο",       ; // 1
-			"&Νέο",            ; // 2
-			"&Διόρθωση",       ; // 3
-			"&Διαγραφή",       ; // 4
-			"&Εύρεση",         ; // 5
-			"&Εκτύπωση",       ; // 6
-			"&Ακυρο",          ; // 7
-			"&Ok",             ; // 8
-			"&Αντιγραφή",      ; // 9
-			"&Φίλτρο",         ; // 10
-			"&Χωρίς φίλτρο",   ; // 11
-			"&Επαναφορά"     }   // 12
+      // EDIT EXTENDED (GREEK - ΕΛΛΗΝΙΚΑ)
 
-      _HMG_aLangLabel := {               ;
-			"Κανένα",                       ; // 1
-			"Εγγραφή",                      ; // 2
-			"Σύνολο",                       ; // 3
-			"Ενεργή Ταξινόμηση",            ; // 4
-			"Επιλογές",                     ; // 5
-			"Νέα εγγραφή",                  ; // 6
-			"Διόρθ. εγγραφής",              ; // 7
-			"Επιλογή εγγραφής",             ; // 8
-			"Εύρεση",                       ; // 9
-			"Προτιμήσεις εκτύπωσης",        ; // 10
-			"Διαθέσιμα πεδία",              ; // 11
-			"Πεδία γιά εκτύπωση",           ; // 12
-			"Διαθέσιμοι εκτυπωτές",         ; // 13
-			"Πρώτη εγγραφή εκτυπ.",         ; // 14
-			"Τελευταία εγγραφή εκτυπ.",     ; // 15
-			"Διαγραφή εγγραφής",            ; // 16
-			"Προεπισκόπηση",                ; // 17
-			"Μικρογραφίες σελίδων",         ; // 18
-			"Οροι Φίλτρου: ",               ; // 19
-			"Φιλτραρισμένα: ",              ; // 20
-			"Επιλογές φίλτρου" ,            ; // 21
-			"Πεδία βάσης δεδομένων" ,       ; // 22
-			"Τελεστής σύγκρισης",           ; // 23
-			"Τιμή φίλτρου",                 ; // 24
-			"Επιλογή πεδίου για φίλτρο",    ; // 25
-			"Επιλογή Τελεστή σύγκρισης",    ; // 26
-			"Ισον",                         ; // 27
-			"Οχι Ισον",                     ; // 28
-			"Μεγαλίτερο από",               ; // 29
-			"Μικρότερο από",                ; // 30
-			"Μεγαλίτερο ή ισον με",         ; // 31
-			"Μικρότερο ή ισον με"        }    // 32
-
+      _HMG_aLangButton := {   ;
+         "&Κλείσιμο",       ; // 1
+      "&Νέο",            ; // 2
+      "&Διόρθωση",       ; // 3
+      "&Διαγραφή",       ; // 4
+      "&Εύρεση",         ; // 5
+      "&Εκτύπωση",       ; // 6
+      "&Ακυρο",          ; // 7
+      "&Ok",             ; // 8
+      "&Αντιγραφή",      ; // 9
+      "&Φίλτρο",         ; // 10
+      "&Χωρίς φίλτρο",   ; // 11
+      "&Restore"         } // 12
+      _HMG_aLangLabel := {                   ;
+         "Κανένα",                       ; // 1
+      "Εγγραφή",                      ; // 2
+      "Σύνολο",                       ; // 3
+      "Ενεργή Ταξινόμηση",            ; // 4
+      "Επιλογές",                     ; // 5
+      "Νέα εγγραφή",                  ; // 6
+      "Διόρθ. εγγραφής",              ; // 7
+      "Επιλογή εγγραφής",             ; // 8
+      "Εύρεση",                       ; // 9
+      "Προτιμήσεις εκτύπωσης",        ; // 10
+      "Διαθέσιμα πεδία",              ; // 11
+      "Πεδία γιά εκτύπωση",           ; // 12
+      "Διαθέσιμοι εκτυπωτές",         ; // 13
+      "Πρώτη εγγραφή εκτυπ.",         ; // 14
+      "Τελευταία εγγραφή εκτυπ.",     ; // 15
+      "Διαγραφή εγγραφής",            ; // 16
+      "Προεπισκόπηση",                ; // 17
+      "Μικρογραφίες σελίδων",         ; // 18
+      "Οροι Φίλτρου: ",               ; // 19
+      "Φιλτραρισμένα: ",              ; // 20
+      "Επιλογές φίλτρου" ,            ; // 21
+      "Πεδία βάσης δεδομένων" ,       ; // 22
+      "Τελεστής σύγκρισης",           ; // 23
+      "Τιμή φίλτρου",                 ; // 24
+      "Επιλογή πεδίου για φίλτρο",    ; // 25
+      "Επιλογή Τελεστή σύγκρισης",    ; // 26
+      "Ισον",                         ; // 27
+      "Οχι Ισον",                     ; // 28
+      "Μεγαλίτερο από",               ; // 29
+      "Μικρότερο από",                ; // 30
+      "Μεγαλίτερο ή ισον με",         ; // 31
+      "Μικρότερο ή ισον με"           } // 32
       _HMG_aLangUser := { ;
-			CRLF + "Δεν υπάρχει ενεργή περιοχή εργασίας. "  + CRLF + "Επιλέξτε μιά περιοχή πρίν από την κλήση της EDIT   " + CRLF, ; // 1
-			"Δώστε μία τιμή πεδίου (κείμενο)",                                                                         ; // 2
-			"Δώστε μία τιμή πεδίου (αριθμός)",                                                                         ; // 3
-			"Επιλέξτε ημερ/νία",                                                                                       ; // 4
-			"Τσεκάρετε να αληθεύει",                                                                                   ; // 5
-			"Δώστε τιμή του πεδίου",             																							  ; // 6
-			"Επιλέξτε μία εγγραφή & πιέστε OK",                                                                        ; // 7
-			CRLF + "Η τρέχουσα εγγραφή θα διαγραφεί   " + CRLF + "Είστε βέβαιοι?    " + CRLF,                          ; // 8
-			CRLF + "Κανένα ενεργό ευρετήριο  " + CRLF + "Παρακαλώ επιλέξατε ένα   " + CRLF,                            ; // 9
-			CRLF + "Δεν γίνεται αναζήτηση σε memo ή logic πεδίο " + CRLF,                                              ; // 10
-			CRLF + "Η εγγραφή δεν βρέθηκε  " + CRLF,                                                                   ; // 11
-			"Συμπερίληψη του πεδίου στη λίστα",                                                                        ; // 12
-			"Εξαίρεση του πεδίου από την λίστα",                                                                       ; // 13
-			"Επιλέξτε εκτυπωτή",                                                                                       ; // 14
-			"Πιέστε το κουμπί γιά συμπερίληψη του πεδίου",                                                             ; // 15
-			"Πιέστε το κουμπί γιά εξαίρεση του πεδίου",                                                                ; // 16
-			"Πιέστε το κουμπί γιά επιλογή της εγγραφης για εκτυπωση",                                                  ; // 17
-			"Πιέστε το κουμπί γιά επιλογή τελευταίας εγγραφής",                                                        ; // 18
-			CRLF + "Δεν υπάρχουν άλλα πεδία " + CRLF,                                                                  ; // 19
-			CRLF + "Πρώτα επιλέξτε πεδίο " + CRLF,                                                                     ; // 20
-			CRLF + "Δεν υπάρχουν άλλα πεδία " + CRLF,                                                                  ; // 21
-			CRLF + "Πρώτα επιλέξτε πεδίο " + CRLF,                                                                     ; // 22
-			CRLF + "Δεν έχουν επιλεγεί πεδία " + CRLF + "Παρακαλώ επιλέξτε πεδία προς εκτύπωση   " + CRLF,             ; // 23
-			CRLF + "Πάρα πολλά πεδία " + CRLF + "Μειώστε τον αριθμό πεδίων " + CRLF,                                   ; // 24
-			CRLF + "Ο εκτυπωτής δεν είναι έτοιμος " + CRLF,                                                            ; // 25
-			"Ταξινόμηση ανά ",                                                                                         ; // 26
-			"Από εγγραφή",                                                                                             ; // 27
-			"Εως εγγραφή",                                                                                             ; // 28
-			"Ναι",                                                                                                     ; // 29
-			"Οχι",                                                                                                     ; // 30
-			"Σελ.:",                                                                                                   ; // 31
-			CRLF + "Παρακαλώ επιλέξτε εκτυπωτή " + CRLF,                                                               ; // 32
-			"Φιλτράρισμα ανά",                                                                                         ; // 33
-			CRLF + "Υπάρχει ενεργό φίλτρο " + CRLF,                                                                    ; // 34
-			CRLF + "Ανέφικτο το φιλτράρισμα σε πεδίο memo " + CRLF,                                                    ; // 35
-			CRLF + "Επιλέξτε πεδία γιά το φίλτρο " + CRLF,                                                             ; // 36
-			CRLF + "Επιλέξτε έναν τελεστή γιά το φίλτρο " + CRLF,                                                      ; // 37
-			CRLF + "Δώστε μία τιμή για το φίλτρο " + CRLF,                                                             ; // 38
-			CRLF + "Δεν υπάρχει ενεργό φίλτρο " + CRLF,                                                                ; // 39
-			CRLF + "Κατάργηση φίλτρου;   " + CRLF,                                                                     ; // 40
-			CRLF + "Εγγραφή κλειδωμένη από άλλο χρήστη    " + CRLF,                                                    ; // 41
-			CRLF + "Θα γίνει επαναφορά της διαγραμμένης εγγραφής  " + CRLF + "Είστε βέβαιοι?   " + CRLF }                // 42
-                
+         CRLF + "Δεν υπάρχει ενεργή περιοχή εργασίας. "  + CRLF + ;
+         "Επιλέξτε μιά περιοχή πρίν από την κλήση της EDIT   " + CRLF,                                          ; // 1
+      "Δώστε μία τιμή πεδίου (κείμενο)",                                                                         ; // 2
+      "Δώστε μία τιμή πεδίου (αριθμός)",                                                                         ; // 3
+      "Επιλέξτε ημερ/νία",                                                                                       ; // 4
+      "Τσεκάρετε αν αληθεύει",                                                                                   ; // 5
+      "Δώστε τιμή του πεδίου",                                                                                   ; // 6
+      "Επιλέξτε μία εγγραφή & πιέστε OK",                                                                        ; // 7
+      CRLF + "Η τρέχουσα εγγραφή θα διαγραφεί   " + CRLF + "Είστε βέβαιοι?    " + CRLF,              ; // 8
+      CRLF + "Κανένα ενεργό ευρετήριο  " + CRLF + "Παρακαλώ επιλέξατε ένα   " + CRLF,                ; // 9
+      CRLF + "Δεν γίνεται αναζήτηση σε memo ή logic πεδίο " + CRLF,                                      ; // 10
+      CRLF + "Η εγγραφή δεν βρέθηκε  " + CRLF,                                                           ; // 11
+      "Συμπερίληψη του πεδίου στη λίστα",                                                                        ; // 12
+      "Εξαίρεση του πεδίου από την λίστα",                                                                       ; // 13
+      "Επιλέξτε εκτυπωτή",                                                                                       ; // 14
+      "Πιέστε το κουμπί γιά συμπερίληψη του πεδίου",                                                             ; // 15
+      "Πιέστε το κουμπί γιά εξαίρεση του πεδίου",                                                                ; // 16
+      "Πιέστε το κουμπί γιά επιλογή  εγγραφης για εκτυπωση",                                                     ; // 17
+      "Push button to select the last record to print",                                                          ; // 18
+      CRLF + "Δεν υπάρχουν άλλα πεδία " + CRLF,                                                          ; // 19
+      CRLF + "Πρώτα επιλέξτε πεδίο " + CRLF,                                                             ; // 20
+      CRLF + "Δεν υπάρχουν άλλα πεδία " + CRLF,                                                          ; // 21
+      CRLF + "Πρώτα επιλέξτε πεδίο " + CRLF,                                                             ; // 22
+      CRLF + "Δεν έχουν επιλεγεί πεδία " + CRLF + "Παρακαλώ επιλέξτε πεδία προς εκτύπωση   " + CRLF, ; // 23
+      CRLF + "Πάρα πολλά πεδία " + CRLF + "Μειώστε τον αριθμό πεδίων " + CRLF,                       ; // 24
+      CRLF + "Ο εκτυπωτής δεν είναι έτοιμος " + CRLF,                                                    ; // 25
+      "Ταξινόμηση ανά ",                                                                                         ; // 26
+      "Από εγγραφή",                                                                                             ; // 27
+      "Εως εγγραφή",                                                                                             ; // 28
+      "Ναι",                                                                                                     ; // 29
+      "Οχι",                                                                                                     ; // 30
+      "Σελ.:",                                                                                                   ; // 31
+      CRLF + "Παρακαλώ επιλέξτε εκτυπωτή " + CRLF,                                                       ; // 32
+      "Filtered by",                                                                                             ; // 33
+      CRLF + "Υπάρχει ενεργό φίλτρο " + CRLF,                                                            ; // 34
+      CRLF + "Ανέφικτο το φιλτράρισμα σε πεδίο memo " + CRLF,                                            ; // 35
+      CRLF + "Επιλέξτε πεδία γιά το φίλτρο " + CRLF,                                                     ; // 36
+      CRLF + "Επιλέξτε έναν τελεστή γιά το φίλτρο " + CRLF,                                              ; // 37
+      CRLF + "Δώστε μία τιμή για το φίλτρο " + CRLF,                                                     ; // 38
+      CRLF + "Δεν υπάρχει ενεργό φίλτρο " + CRLF,                                                        ; // 39
+      CRLF + "Κατάργηση φίλτρου;   " + CRLF,                                                             ; // 40
+      CRLF + "Εγγραφή κλειδωμένη από άλλο χρήστη    " + CRLF,                                            ; // 41
+      CRLF + "You are going to restore the deleted record   " + CRLF + "Are you sure?    " + CRLF    } // 42
+
    CASE cLang == "BG"  // Bulgarian
       /////////////////////////////////////////////////////////////
       // BULGARIAN
@@ -3929,6 +3996,9 @@ PROCEDURE InitMessages
       _HMG_MESSAGE [7] := 'Ξςμÿνΰ'
       _HMG_MESSAGE [8] := 'Apply'
       _HMG_MESSAGE [9] := 'Ρςπ.'
+      _HMG_MESSAGE [10] := 'Attention'
+      _HMG_MESSAGE [11] := 'Information'
+      _HMG_MESSAGE [12] := 'Stop'
 
       // BROWSE
 

@@ -30,32 +30,33 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
 #ifdef __XHARBOUR__
-# define __SYSDATA__
+#define __SYSDATA__
 #endif
 #include "minigui.ch"
 #include "error.ch"
+#include "hbver.ch"
 
 *-----------------------------------------------------------------------------*
 INIT PROCEDURE ClipInit()
 *-----------------------------------------------------------------------------*
 
-   IF "95" $ WindowsVersion()[1]
+   IF os_isWin95()
       MsgExclamation( "The " + hb_ArgV( 0 ) + " file" + CRLF + ;
          "expects a newer version of Windows." + CRLF + ;
          "Upgrade your Windows version.", "Error Starting Program", , .F., .T. )
@@ -92,12 +93,14 @@ RETURN
 FUNCTION MsgMiniGuiError( cMessage, lAddText )
 *-----------------------------------------------------------------------------*
 
-   cMessage += iif( hb_defaultValue( lAddText, .T. ), " Program terminated.", "" )
+   IF hb_defaultValue( lAddText, .T. )
+      cMessage += " Program terminated."
+   ENDIF
 
-RETURN Eval( ErrorBlock(), _HMG_GenError( cMessage ) )
+RETURN Eval( ErrorBlock(), HMG_GenError( cMessage ) )
 
 *-----------------------------------------------------------------------------*
-STATIC FUNCTION _HMG_GenError( cMsg )
+STATIC FUNCTION HMG_GenError( cMsg )
 *-----------------------------------------------------------------------------*
    LOCAL oError := ErrorNew()
 
@@ -109,8 +112,27 @@ STATIC FUNCTION _HMG_GenError( cMsg )
 
 RETURN oError
 
+#define MG_VERSION "Harbour MiniGUI Extended Edition 21.02 ("
 *-----------------------------------------------------------------------------*
-FUNCTION MiniGuiVersion
+FUNCTION MiniGuiVersion( nVer )
 *-----------------------------------------------------------------------------*
+#ifndef __XHARBOUR__
+   LOCAL cVer := MG_VERSION + hb_ntos( hb_Version( HB_VERSION_BITWIDTH ) ) + "-bit)"
+#else
+   LOCAL cVer := MG_VERSION + iif( IsExe64(), "64", "32" ) + "-bit)"
+#endif
+   LOCAL anOfs
 
-RETURN( "Harbour MiniGUI Extended Edition 18.01 (" + iif( IsExe64(), "64", "32" ) + "-bit)" )
+   cVer += " " + HMG_CharsetName()
+
+   anOfs := { Len( cVer ), 40, 15 }
+
+   hb_default( @nVer, 0 )
+
+   IF nVer > 2
+      nVer := 2
+   ELSEIF nVer < 0
+      nVer := 0
+   ENDIF
+
+RETURN Left( cVer, anOfs[ nVer + 1 ] )

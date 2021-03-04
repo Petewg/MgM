@@ -30,272 +30,133 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
-#include 'minigui.ch'
-
+#ifndef __XHARBOUR__
+  #xtranslate hb_OsNewLine() => hb_eol()
+#endif
 *-----------------------------------------------------------------------------*
-FUNCTION httpconnect( Connection , Server , Port )
+FUNCTION httpconnect( Connection, Server, Port )
 *-----------------------------------------------------------------------------*
+   LOCAL oUrl
 
-   Public &Connection
-   &Connection := THttp():New()
-   &Connection:Connect( Server, Port )
+   IF !( Lower( Left( Server, 7 ) ) == "http://" )
+      Server := "http://" + Server
+   ENDIF
 
-RETURN Nil
+   oUrl := TUrl():New( Server + ":" + hb_ntos( Port ) )
 
-*-----------------------------------------------------------------------------*
-FUNCTION GetData()
-*-----------------------------------------------------------------------------*
-   LOCAL PacketNames [ aDir ( _HMG_CommPath + _HMG_StationName + '.*' ) ]
-   LOCAL i, Rows, Cols, RetVal := Nil, aItem, aTemp := {}, r, c
-   LOCAL DataValue, DataType, DataLength, Packet
-   LOCAL bd := Set ( _SET_DATEFORMAT )
+   IF HB_ISSTRING( Connection )
 
-   SET DATE TO ANSI
+      Public &Connection
 
-   ADir ( _HMG_CommPath + _HMG_StationName + '.*' , PacketNames )
+      IF Empty( oUrl )
+         &Connection := Nil
+      ELSE
+         &Connection := TIpClientHttp():New( oUrl )
 
-   IF Len ( PacketNames ) > 0
+         IF ! ( &Connection ):Open()
+            &Connection := Nil
+         ENDIF
+      ENDIF
 
-      Packet := MemoRead ( _HMG_CommPath + PacketNames [1] )
+   ELSE
 
-      Rows := Val ( SubStr ( MemoLine ( Packet , , 1 ) , 11 , 99 ) )
-      Cols := Val ( SubStr ( MemoLine ( Packet , , 2 ) , 11 , 99 ) )
+      IF Empty( oUrl )
+         Connection := Nil
+      ELSE
+         Connection := TIpClientHttp():New( oUrl )
 
-      DO CASE
-
-      // Single Data
-      CASE Rows == 0 .AND. Cols == 0
-
-         DataType := SubStr ( MemoLine ( Packet ,  , 3 ) , 12 , 1 )
-         DataLength := Val ( SubStr ( MemoLine ( Packet , , 3 ) , 14 , 99 ) )
-
-         DataValue := MemoLine ( Packet , 254 , 4 )
-
-         DO CASE
-         CASE DataType == 'C'
-            RetVal := Left ( DataValue , DataLength )
-         CASE DataType == 'N'
-            RetVal := Val ( DataValue )
-         CASE DataType == 'D'
-            RetVal := CToD ( DataValue )
-         CASE DataType == 'L'
-            RetVal := ( AllTrim ( DataValue ) == 'T' )
-         END CASE
-
-      // One Dimension Array Data
-      CASE Rows != 0 .AND. Cols == 0
-
-         i := 3
-
-         DO WHILE i < MLCount ( Packet )
-
-            DataType   := SubStr ( MemoLine ( Packet , , i ) , 12 , 1 )
-            DataLength := Val ( SubStr ( MemoLine ( Packet , , i ) , 14 , 99 ) )
-
-            i++
-
-            DataValue  := MemoLine ( Packet , 254 , i )
-
-            DO CASE
-            CASE DataType == 'C'
-               aItem := Left ( DataValue , DataLength )
-            CASE DataType == 'N'
-               aItem := Val ( DataValue )
-            CASE DataType == 'D'
-               aItem := CToD ( DataValue )
-            CASE DataType == 'L'
-               aItem := ( AllTrim ( DataValue ) == 'T' )
-            END CASE
-
-            AAdd ( aTemp , aItem )
-
-            i++
-
-         ENDDO
-
-         RetVal := aTemp
-
-      // Two Dimension Array Data
-      CASE Rows != 0 .AND. Cols != 0
-
-         i := 3
-
-         aTemp := Array ( Rows , Cols )
-
-         r := 1
-         c := 1
-
-         DO WHILE i < MLCount ( Packet )
-
-            DataType   := SubStr ( MemoLine ( Packet , , i ) , 12 , 1 )
-            DataLength := Val ( SubStr ( MemoLine ( Packet , , i ) , 14 , 99 ) )
-
-            i++
-
-            DataValue  := MemoLine ( Packet , 254 , i )
-
-            DO CASE
-            CASE DataType == 'C'
-               aItem := Left ( DataValue , DataLength )
-            CASE DataType == 'N'
-               aItem := Val ( DataValue )
-            CASE DataType == 'D'
-               aItem := CToD ( DataValue )
-            CASE DataType == 'L'
-               aItem := ( AllTrim ( DataValue ) == 'T' )
-            END CASE
-
-            aTemp [r] [c] := aItem
-
-            c++
-            IF c > Cols
-               r++
-               c := 1
-            ENDIF
-
-            i++
-
-         ENDDO
-
-         RetVal := aTemp
-
-      END CASE
-
-      DELETE File ( _HMG_CommPath + PacketNames [1] )
+         IF ! Connection:Open()
+            Connection := Nil
+         ENDIF
+      ENDIF
 
    ENDIF
 
-   SET ( _SET_DATEFORMAT , bd )
+RETURN NIL
 
-RETURN ( RetVal )
 *-----------------------------------------------------------------------------*
-FUNCTION SendData ( cDest , Data )
+FUNCTION httpgeturl( Connection, cPage, uRet )
 *-----------------------------------------------------------------------------*
-   LOCAL cData, i, j
-   LOCAL pData, cLen, cType, FileName, Rows, Cols
+   LOCAL cUrl
+   LOCAL cResponse
+   LOCAL cHeader
+   LOCAL cRet
+   LOCAL i
 
-	// pete.d. 29/04/2016
-   // FileName := _HMG_CommPath + cDest + '.' + _HMG_StationName + '.' + hb_ntos ( ++_HMG_SendDataCount )
-	FileName := _HMG_CommPath + cDest + '.' + _HMG_StationName + '.' + PadL( ++_HMG_SendDataCount, 10, "0" )
-	// end pete.d. 29/04/2016
-	
-   IF ValType ( Data ) == 'A'
+   cUrl := "http://"
 
-      IF ValType ( Data [1] ) != 'A'
+   IF ! Empty( Connection:oUrl:cUserid )
+      cUrl += Connection:oUrl:cUserid
+      IF ! Empty( Connection:oUrl:cPassword )
+         cUrl += ":" + Connection:oUrl:cPassword
+      ENDIF
+      cUrl += "@"
+   ENDIF
 
-         cData := '#DataRows=' + hb_ntos( Len(Data ) ) + Chr( 13 ) + Chr( 10 )
-         cData += '#DataCols=0' + Chr( 13 ) + Chr( 10 )
+   IF ! Empty( Connection:oUrl:cServer )
+      cUrl += Connection:oUrl:cServer
+      IF Connection:oUrl:nPort > 0
+         cUrl += ":" + hb_ntos( Connection:oUrl:nPort )
+      ENDIF
+   ENDIF
 
-         FOR i := 1 TO Len ( Data )
+   cUrl += cPage
 
-            cType := ValType ( Data [i] )
+   IF Connection:Open( cUrl )
 
-            IF cType == 'D'
-               pData := hb_ntos( Year( data[i] ) ) + '.' + hb_ntos( Month( data[i] ) ) + '.' + hb_ntos( Day( data[i] ) )
-               cLen := hb_ntos( Len( pData ) )
-            ELSEIF cType == 'L'
-               pData := iif( Data [i] == .T. , 'T', 'F' )
-               cLen := hb_ntos( Len( pData ) )
-            ELSEIF cType == 'N'
-               pData := Str ( Data [i] )
-               cLen := hb_ntos( Len( pData ) )
-            ELSEIF cType == 'C'
-               pData := Data [i]
-               cLen := hb_ntos( Len( pData ) )
-            ELSE
-               MsgMiniGuiError( 'SendData: Type Not Supported.' )
-            ENDIF
+      cResponse := Connection:Read()
+      IF ! HB_ISSTRING( cResponse )
+         cResponse := "<No data returned>"
+      ENDIF
 
-            cData += '#DataBlock=' + cType + ',' + cLen + Chr( 13 ) + Chr( 10 )
-            cData += pData + Chr( 13 ) + Chr( 10 )
+      IF HB_ISLOGICAL( uRet )
 
-         NEXT i
+         cHeader := Connection:cReply
+         IF ! HB_ISSTRING( cHeader )
+            cHeader := "<No header returned>"
+         ENDIF
+         cHeader += hb_osNewLine()
 
-         MemoWrit ( FileName , cData )
+         FOR i := 1 TO Len( Connection:hHeaders )
+#ifdef __XHARBOUR__
+            cHeader += hGetKeyAt( Connection:hHeaders, i ) + ": " + hGetValueAt( Connection:hHeaders, i ) + hb_osNewLine()
+#else
+            cHeader += hb_HKeyAt( Connection:hHeaders, i ) + ": " + hb_HValueAt( Connection:hHeaders, i ) + hb_osNewLine()
+#endif
+         NEXT
+         cHeader += hb_osNewLine()
 
-      ELSE
+         IF uRet                       // return DATA and HEADERS
+            cRet := cHeader + cResponse
+         ELSE                          // return HEADERS only
+            cRet := cHeader
+         ENDIF
 
-         Rows := Len ( Data )
-         Cols := Len ( Data [1] )
+      ELSE                             // return DATA only
 
-         cData := '#DataRows=' + hb_ntos( Rows ) + Chr( 13 ) + Chr( 10 )
-         cData += '#DataCols=' + hb_ntos( Cols ) + Chr( 13 ) + Chr( 10 )
-
-         FOR i := 1 TO Rows
-
-            FOR j := 1 TO Cols
-
-               cType := ValType ( Data [i] [j] )
-
-               IF cType == 'D'
-                  pData := hb_ntos( Year( data[i][j] ) ) + '.' + hb_ntos( Month( data[i][j] ) ) + '.' + hb_ntos( Day( data[i][j] ) )
-                  cLen := hb_ntos( Len( pData ) )
-               ELSEIF cType == 'L'
-                  pData := iif( Data [i] [j] == .T. , 'T', 'F' )
-                  cLen := hb_ntos( Len( pData ) )
-               ELSEIF cType == 'N'
-                  pData := Str ( Data [i] [j] )
-                  cLen := hb_ntos( Len( pData ) )
-               ELSEIF cType == 'C'
-                  pData := Data [i] [j]
-                  cLen := hb_ntos( Len( pData ) )
-               ELSE
-                  MsgMiniGuiError( 'SendData: Type Not Supported.' )
-               ENDIF
-
-               cData += '#DataBlock=' + cType + ',' + cLen + Chr( 13 ) + Chr( 10 )
-               cData += pData + Chr( 13 ) + Chr( 10 )
-
-            NEXT j
-         NEXT i
-
-         MemoWrit ( FileName , cData )
+         cRet := cResponse
 
       ENDIF
 
    ELSE
 
-      cType := ValType ( Data )
-
-      IF cType == 'D'
-         pData := hb_ntos( Year( data ) ) + '.' + hb_ntos( Month( data ) ) + '.' + hb_ntos( Day( data ) )
-         cLen := hb_ntos( Len( pData ) )
-      ELSEIF cType == 'L'
-         pData := iif( Data == .T. , 'T', 'F' )
-         cLen := hb_ntos( Len( pData ) )
-      ELSEIF cType == 'N'
-         pData := Str ( Data )
-         cLen := hb_ntos( Len( pData ) )
-      ELSEIF cType == 'C'
-         pData := Data
-         cLen := hb_ntos( Len( pData ) )
-      ELSE
-         MsgMiniGuiError( 'SendData: Type Not Supported.' )
-      ENDIF
-
-      cData := '#DataRows=0' + Chr( 13 ) + Chr( 10 )
-      cData += '#DataCols=0' + Chr( 13 ) + Chr( 10 )
-
-      cData += '#DataBlock=' + cType + ',' + cLen + Chr( 13 ) + Chr( 10 )
-      cData += pData + Chr( 13 ) + Chr( 10 )
-
-      MemoWrit ( FileName , cData )
+      cRet := "<Error opening URL>"
 
    ENDIF
 
-RETURN Nil
+RETURN cRet

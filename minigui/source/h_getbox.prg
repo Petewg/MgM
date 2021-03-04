@@ -35,20 +35,20 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
----------------------------------------------------------------------------*/
+ ---------------------------------------------------------------------------*/
 //#define __CLIPPER_COMPAT__
 
 #include "minigui.ch"
@@ -58,33 +58,42 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #define WM_INVALID   WM_USER + 50
 #define WM_CARET     WM_USER + 51
 
-#define GBB1   2
-#define GBB2   3
+#define GBB1         2
+#define GBB2         3
+
+#define lInsert      s_Global[1]
+#define lClrFocus    s_Global[2]
+#define aClrFocus    s_Global[3]
+#define aFntFocus    s_Global[4]
+#define aOldBackClr  s_Global[5]
+#define aOldFontClr  s_Global[6]
 
 #ifndef __XHARBOUR__
    SET PROCEDURE TO tget\tget.prg
    SET PROCEDURE TO tget\tgetint.prg
 #endif
 
-STATIC lInsert
-STATIC lClrFocus := .F.
-STATIC aClrFocus := { 235, 235, 145 }, aOldBackClr
-STATIC aFntFocus, aOldFontClr
+STATIC s_Global := { NIL, .F., { 235, 235, 145 }, NIL, NIL, NIL }
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
    FontName, FontSize, aToolTip, lPassword, uLostFocus, uGotFocus, uChange, ;
    right, HelpId, readonly, bold, italic, underline, strikeout, field, backcolor, ;
    fontcolor, invisible, notabstop, nId, valid, cPicture, cmessage, cvalidmessage, ;
-   when, ProcedureName, ProcedureName2, abitmap, BtnWidth, lNoMinus, noborder )
+   when, ProcedureName, ProcedureName2, abitmap, BtnWidth, lNoMinus, noborder, bInit )
 *-----------------------------------------------------------------------------*
    LOCAL ParentFormHandle, ControlHandle
    LOCAL aControlHandle := {}
    LOCAL mVar, lDialogInMemory
    LOCAL FontHandle, nMaxLength
-   LOCAL WorkArea, blInit, cBmp, cTTip
-   LOCAL lBtns := .F., lBtn2 := .F.
+   LOCAL WorkArea, blInit, cBmp, tmp
+   LOCAL lBtns := ISBLOCK( ProcedureName ), lBtn2 := ISBLOCK( ProcedureName2 )
+   LOCAL lModifyGotFocus := .F.
    LOCAL k, Style, aPicData, oGet
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    IF Empty( field ) .AND. ValType( Value ) == "U"
       MsgMiniGUIError( "GETBOX: Initial Value or Field must be specified." )
@@ -129,17 +138,10 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
       aBitmap[1] := cBmp
    ENDIF
 
-   IF ProcedureName != Nil
-      lBtns := .T.
-   ENDIF
-   IF ProcedureName2 != Nil
-      lBtn2 := .T.
-   ENDIF
-
    IF ValType ( aToolTip ) != 'A'
-      cTTip := aToolTip
+      tmp := aToolTip
       aToolTip := Array( 3 )
-      aToolTip[1] := cTTip
+      aToolTip[1] := tmp
    ELSE
       IF Len( aToolTip ) < 3
          aToolTip := ASize( aToolTip, 3 )
@@ -227,9 +229,9 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
 
    ELSE
 
-      ParentFormHandle  := GetFormHandle( ParentFormName )
+      ParentFormHandle := GetFormHandle( ParentFormName )
 
-      aControlHandle := InitGetBox( ParentFormHandle, 0, x, y, w, h, '', 0, nMaxLength, ;
+      aControlHandle := InitGetBox ( ParentFormHandle, 0, x, y, w, h, '', 0, nMaxLength, ;
          .F. , .F. , .F. , lPassword , right , readonly , invisible , notabstop, abitmap[1], BtnWidth, lBtns, abitmap[2], lBtn2, noborder )
 
       ControlHandle := aControlHandle[1]
@@ -243,7 +245,9 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
          SetTbBtnMargin ( ControlHandle, BtnWidth, lBtns, lBtn2 )
       ENDIF
 
@@ -251,15 +255,11 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
          AAdd ( _HMG_ActiveTabCurrentPageMap , ControlHandle )
       ENDIF
 
-      IF ValType( aToolTip[1] ) != "U"
-         SetToolTip( aControlHandle[1], aToolTip[1], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[2] ) != "U"
-         SetToolTip( aControlHandle[2], aToolTip[2], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
-      IF ValType( aToolTip[3] ) != "U"
-         SetToolTip( aControlHandle[3], aToolTip[3], GetFormToolTipHandle( ParentFormName ) )
-      ENDIF
+      FOR tmp := 1 TO 3
+         IF ValType( aToolTip[tmp] ) != "U"
+            SetToolTip ( aControlHandle[tmp], aToolTip[tmp], GetFormToolTipHandle ( ParentFormName ) )
+         ENDIF
+      NEXT
 
    ENDIF
 
@@ -272,7 +272,7 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
    oget:name      := mVar
    oget:control   := ControlHandle
    oget:SetFocus()
-   oget:original  := oGet:Buffer
+   oget:original  := oGet:buffer
 
    aPicData := _GetPictureData( oGet, cPicture )
 
@@ -289,7 +289,7 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
 
    Public &mVar. := k
 
-   _HMG_aControlType [k] := "GETBOX"
+   _HMG_aControlType  [k] :=  "GETBOX"
    _HMG_aControlNames  [k] :=  ControlName
    _HMG_aControlHandles  [k] :=  ControlHandle
    _HMG_aControlParenthandles  [k] :=  ParentFormHandle
@@ -303,12 +303,12 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
    _HMG_aControlChangeProcedure  [k] :=  uChange
    _HMG_aControlDeleted  [k] :=  .F.
    _HMG_aControlBkColor  [k] :=  backcolor
-   _HMG_aControlFontColor [k] :=  fontcolor
+   _HMG_aControlFontColor  [k] :=  fontcolor
    _HMG_aControlDblClick  [k] :=  iif( readonly, NIL, ProcedureName2 )
    _HMG_aControlHeadClick  [k] :=  oGet
    _HMG_aControlRow  [k] :=  y
    _HMG_aControlCol  [k] :=  x
-   _HMG_aControlWidth   [k] :=  w
+   _HMG_aControlWidth  [k] :=  w
    _HMG_aControlHeight  [k] :=  h
    _HMG_aControlSpacing  [k] :=  cValidMessage
    _HMG_aControlContainerRow  [k] :=  iif ( _HMG_FrameLevel > 0 , _HMG_ActiveFrameRow [_HMG_FrameLevel] , -1 )
@@ -319,19 +319,27 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
    _HMG_aControlFontSize  [k] :=  FontSize
    _HMG_aControlFontAttributes  [k] :=  { bold, italic, underline, strikeout }
    _HMG_aControlToolTip  [k] :=  aToolTip
-   _HMG_aControlRangeMin [k] :=  aControlHandle
-   _HMG_aControlRangeMax [k] :=  nMaxLength
+   _HMG_aControlRangeMin  [k] :=  aControlHandle
+   _HMG_aControlRangeMax  [k] :=  nMaxLength
    _HMG_aControlCaption  [k] :=  ''
    _HMG_aControlVisible  [k] :=  .NOT. invisible
-   _HMG_aControlHelpId   [k] :=  HelpId
+   _HMG_aControlHelpId  [k] :=  HelpId
    _HMG_aControlFontHandle  [k] :=  FontHandle
-   _HMG_aControlBrushHandle [k] :=  0
+   _HMG_aControlBrushHandle  [k] :=  0
    _HMG_aControlEnabled  [k] :=  .T.
-   _HMG_aControlMiscData1 [k] :=  { 0, readonly, 0, ProcedureName, ProcedureName2, BtnWidth, lBtn2, lNoMinus }
-   _HMG_aControlMiscData2 [k] :=  ''
+   _HMG_aControlMiscData1  [k] :=  { 0, readonly, 0, ProcedureName, ProcedureName2, BtnWidth, lBtn2, lNoMinus }
+   _HMG_aControlMiscData2  [k] :=  ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
+   IF ISCHARACTER( cPicture ) .AND. ! Empty( cPicture ) .AND. '@K' $ cPicture
+      lModifyGotFocus := .T.
+   ENDIF
+
+   IF lModifyGotFocus .AND. Empty( uGotFocus )
+      IF ValType( Value ) == "C"
+         _HMG_aControlGotFocusProcedure [k] := {|| SendMessage( _HMG_aControlHandles [k], EM_SETSEL, 0, iif( Empty( Value ), -1, Len( Trim( ( _HMG_aControlHeadClick [k] ):Cargo ) ) ) ) }
+      ELSEIF ValType( Value ) $ "ND"
+         _HMG_aControlGotFocusProcedure [k] := {|| SendMessage( _HMG_aControlHandles [k], EM_SETSEL, 0, -1 ) }
+      ENDIF
    ENDIF
 
    IF .NOT. lDialogInMemory
@@ -347,20 +355,33 @@ FUNCTION _DefineGetBox ( ControlName, ParentFormName, x, y, w, h, Value, ;
       ENDIF
    ENDIF
 
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, oGet, ow, oc )
+
 RETURN oGet
 
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE _GetBoxSetNextFocus( lPrevious )
 *-----------------------------------------------------------------------------*
-   LOCAL NextControlHandle, i
+   LOCAL NextControlHandle
+   LOCAL i
 
    NextControlHandle := GetNextDlgTabITem ( GetActiveWindow() , GetFocus() , lPrevious )
    setfocus ( NextControlHandle )
-   i := AScan ( _HMG_aControlHandles , NextControlHandle )
-   IF i > 0
+
+   IF ( i := AScan ( _HMG_aControlHandles , NextControlHandle ) ) > 0
+
       IF _HMG_aControlType [i] == 'BUTTON'
          SendMessage ( NextControlHandle , BM_SETSTYLE , LOWORD ( BS_DEFPUSHBUTTON ) , 1 )
       ENDIF
+
    ENDIF
 
 RETURN
@@ -368,13 +389,9 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE _DataGetBoxRefresh ( i )
 *-----------------------------------------------------------------------------*
-   LOCAL Field := _HMG_aControlPageMap [i], hWnd := _HMG_aControlHandles [i]
+   LOCAL Field := _HMG_aControlPageMap [i]
 
-   IF ValType ( Field ) != 'U'
-      _SetGetBoxValue( i, hWnd, &( Field ) )
-   ELSE
-      _SetGetBoxValue( i, hWnd, _HMG_aControlValue [i] )
-   ENDIF
+   _SetGetBoxValue( i, _HMG_aControlHandles [i], iif( ValType ( Field ) == 'U', _HMG_aControlValue [i], &( Field ) ) )
 
 RETURN
 
@@ -395,7 +412,7 @@ PROCEDURE _DataGetBoxSave ( ControlName, ParentForm )
    oGet:cargo := &( Field )
 
    IF oGet:type == "D"
-      oGet:Buffer := DToC( oGet:cargo )
+      oGet:buffer := DToC( oGet:cargo )
    ENDIF
 
 RETURN
@@ -408,6 +425,9 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
    LOCAL cText, cPicMask, cPicFunc, lCleanZero, MinDec
    LOCAL aHandle, HwndBtn
    LOCAL lAllowEdit := .T.
+#ifndef __XHARBOUR__
+   LOCAL aKey
+#endif
    LOCAL i := AScan ( _HMG_aControlHandles, hWnd )
 
    STATIC lInValid := .F.
@@ -435,7 +455,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
    IF ValType( oGet:preblock ) == 'B'
       IF !Eval( oGet:preblock, oGet, .F. )
-         IF oGet:VarGet() == oGet:UnTransform( oGet:Original )
+         IF oGet:VarGet() == oGet:UnTransform( oGet:original )
             lAllowEdit := .F.
          ENDIF
       ENDIF
@@ -455,7 +475,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
       IF ValType( oGet:preblock ) == 'B'
          IF !Eval( oGet:preblock, oGet, .F. )
-            IF oGet:VarGet() == oGet:UnTransform( oGet:Original )
+            IF oGet:VarGet() == oGet:UnTransform( oGet:original )
                lAllowEdit := .F.
 #ifdef __CLIPPER_COMPAT__
                Tone( 400 )
@@ -501,7 +521,8 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
       _HMG_aControlMiscData1 [i][1] := 1
 
       IF '@K' $ oGet:Picture .OR. oGet:type == "N"
-         oGet:pos := 1 ; nStart := oGet:pos - 1
+         oGet:pos := 1
+         nStart := oGet:pos - 1
       ELSE
          oGet:pos := nEnd + 1
       ENDIF
@@ -523,9 +544,9 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
       // show message if any
       IF ParentHandle > 0
-         IF _IsControlDefined( "StatusBar", _HMG_aFormNames [ ParentHandle ] )
+         IF _IsControlDefined( "StatusBar", _HMG_aFormNames [ParentHandle] )
             IF ! Empty( oGet:message )
-               SetProperty( _HMG_aFormNames [ ParentHandle ], "StatusBar", "Item", 1, oGet:message )
+               SetProperty( _HMG_aFormNames [ParentHandle], "StatusBar", "Item", 1, oGet:message )
             ENDIF
          ENDIF
       ENDIF
@@ -534,7 +555,8 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
    CASE nMsg == WM_INVALID
 
-      IF _IsChildOfActiveWindow( hWnd ) .AND. !readonly .AND. lAllowEdit
+      IF ( _IsChildOfActiveWindow( hWnd ) .OR. ;
+         IsWindowHasExStyle( _HMG_aControlParenthandles [i], WS_EX_CONTROLPARENT ) ) .AND. !readonly .AND. lAllowEdit
 
          IF ! lInValid
             lInValid := .T.
@@ -599,6 +621,9 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
       ENDIF
 
       IF ValType( oGet:cargo ) == "D" .AND. oGet:BadDate
+         oGet:BadDate := .F.
+         oGet:VarPut( CToD( "" ) )
+         oGet:UpdateBuffer()
          PostMessage( hWnd, WM_INVALID, wParam, 0 )
          RETURN( 0 )
       ENDIF
@@ -663,7 +688,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
       CASE wParam == 3  // CTRL+C Copy
 
-         CopyToClipboard( SubStr( oGet:Buffer, nStart, nEnd - nStart ) )
+         CopyToClipboard( SubStr( oGet:buffer, nStart, nEnd - nStart ) )
          RETURN( 0 )
 
       CASE wParam == 24 .AND. !readonly // CTRL+X Cut
@@ -672,7 +697,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
             RETURN( 0 )
          ENDIF
 
-         CopyToClipboard( SubStr( oGet:Buffer, nStart, nEnd - nStart ) ) //Franz
+         CopyToClipboard( SubStr( oGet:buffer, nStart, nEnd - nStart ) ) //Franz
          nStart := LoWord( SendMessage( hWnd, EM_GETSEL, 0, 0 ) ) + 1
          nEnd   := HiWord( SendMessage( hWnd, EM_GETSEL, 0, 0 ) ) + 1
 
@@ -738,7 +763,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
          IF nEnd > nStart
 
-            IF nEnd > Len( oGet:Buffer ) + 1
+            IF nEnd > Len( oGet:buffer ) + 1
                IF oGet:type == "N" .AND. SubStr( oGet:buffer, oGet:pos, 1 ) $ "(-"
                   oGet:minus := .F.
                ENDIF
@@ -804,7 +829,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
          oGet:changed := .T.
 
          IF nStart # nEnd
-            IF nEnd > Len( oGet:Buffer ) + 1
+            IF nEnd > Len( oGet:buffer ) + 1
                oGet:Delete()
             ENDIF
             FOR ipp := nStart TO nEnd  // clear selection by backspacing
@@ -836,11 +861,11 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
             IF oGet:type == "N"
                nlen := Len( oGet:buffer )
                IF ( ipp := At( '.' , oGet:buffer ) ) > 0
-                  oGet:buffer := PadL( StrTran( Left( oGet:Buffer , ipp - 1 ) , " " , "" ) , ipp - 1 ) + ;
-                     '.' + PadR( StrTran( SubStr( oGet:Buffer , ipp + 1 ) , " " , "" ) , nlen - ipp , "0" )
+                  oGet:buffer := PadL( StrTran( Left( oGet:buffer , ipp - 1 ) , " " , "" ) , ipp - 1 ) + ;
+                     '.' + PadR( StrTran( SubStr( oGet:buffer , ipp + 1 ) , " " , "" ) , nlen - ipp , "0" )
 
                ELSE
-                  oGet:buffer := PadL( StrTran( oGet:Buffer , " " , "" ) , nlen )
+                  oGet:buffer := PadL( StrTran( oGet:buffer , " " , "" ) , nlen )
                ENDIF
             ENDIF
 
@@ -885,7 +910,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
          ENDIF
 
          _DispGetBoxText( hWnd, oGet:buffer )
-         SendMessage( hWnd, EM_SETSEL, oGet:pos - 1, oGet:pos - 1 )
+         SendMessage( hWnd, EM_SETSEL , oGet:pos - 1 , oGet:pos - 1 )
 
          RETURN( 0 )
 
@@ -896,13 +921,14 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
       IF wParam == MK_LBUTTON
 #ifndef __XHARBOUR__
          IF Len( oGet:aKeyEvent ) > 0
-            RETURN oGet:DoKeyEvent( nMsg )
-         ELSE
-#endif
-            SendMessage( _HMG_aControlhandles [i] , EM_SETSEL , 0 , -1 )
-#ifndef __XHARBOUR__
+            FOR EACH aKey IN oGet:aKeyEvent
+               IF Val( aKey[ 1 ] ) == nMsg
+                  RETURN oGet:DoKeyEvent( nMsg )
+               ENDIF
+            NEXT
          ENDIF
 #endif
+         SendMessage( _HMG_aControlhandles [i] , EM_SETSEL , 0 , -1 )
       ENDIF
 
    CASE nMsg == WM_KEYDOWN
@@ -916,10 +942,19 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
       oGet:pos := nEnd + 1
       _HMG_aControlMiscData1 [i,3] := wParam  //JP
 
+#ifndef __XHARBOUR__
+      IF Len( oGet:aKeyEvent ) > 0
+         FOR EACH aKey IN oGet:aKeyEvent
+            IF Val( aKey[ 1 ] ) == wParam
+               RETURN oGet:DoKeyEvent( wParam )
+            ENDIF
+         NEXT
+      ENDIF
+#endif
       IF wParam == VK_ESCAPE .AND. !readonly
 
          IF oGet:Type == "N" .AND. oGet:minus == .T. .AND. At( "-", oGet:original ) <= 0
-            oGet:Buffer := oGet:Original
+            oGet:buffer := oGet:original
             oGet:VarPut( ( oGet:unTransform() ) * ( -1 ), .T. )
             oGet:minus := .F.
             IF oGet:Changed
@@ -929,7 +964,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
             _HMG_aControlValue[ i ] := oGet:VarGet()
          ELSE
             IF oGet:Changed
-               oGet:Buffer := oGet:Original
+               oGet:buffer := oGet:original
                oGet:Assign()
                oGet:UpdateBuffer()
             ENDIF
@@ -944,7 +979,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
          oGet:Pos := 1
 
          IF ! oGet:changed
-            oGet:Buffer := oGet:Original
+            oGet:buffer := oGet:original
             IF oGet:Type == "N" .AND. oGet:minus == .T. .AND. At( "-", oGet:original ) <= 0
                oGet:VarPut( ( oGet:unTransform() ) * ( -1 ), .T. )
                oGet:minus := .F.
@@ -965,7 +1000,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
       lCtrl  := CheckBit( GetKeyState( VK_CONTROL ) , 32768 )
 
       IF lCtrl .AND. wParam == VK_INSERT
-         CopyToClipboard( SubStr( oGet:Buffer, nStart, nEnd - nStart ) )
+         CopyToClipboard( SubStr( oGet:buffer, nStart, nEnd - nStart ) )
          RETURN( 0 )
 
       ELSEIF lShift .AND. wParam == VK_INSERT
@@ -987,13 +1022,13 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
                IF oGet:type == "D" .OR. oGet:type == "N"
                   oGet:VarPut( oGet:VarGet() - 1 )
                   oGet:UpdateBuffer()
-                  _DispGetBoxText( hWnd, oGet:Buffer )
+                  _DispGetBoxText( hWnd, oGet:buffer )
                   oGet:changed := .T.
                ENDIF
                IF oGet:type == "L"
                   oGet:VarPut( ! oGet:VarGet() )
                   oGet:UpdateBuffer()
-                  _DispGetBoxText( hWnd, oGet:Buffer )
+                  _DispGetBoxText( hWnd, oGet:buffer )
                   oGet:changed := .T.
                ENDIF
             ENDIF
@@ -1016,13 +1051,13 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
                IF oGet:type == "D" .OR. oGet:type == "N"
                   oGet:VarPut( oGet:VarGet() + 1 )
                   oGet:UpdateBuffer()
-                  _DispGetBoxText( hWnd, oGet:Buffer )
+                  _DispGetBoxText( hWnd, oGet:buffer )
                   oGet:changed := .T.
                ENDIF
                IF oGet:type == "L"
                   oGet:VarPut( ! oGet:VarGet() )
                   oGet:UpdateBuffer()
-                  _DispGetBoxText( hWnd, oGet:Buffer )
+                  _DispGetBoxText( hWnd, oGet:buffer )
                   oGet:changed := .T.
                ENDIF
             ENDIF
@@ -1062,7 +1097,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
          RETURN( 1 )
 
       ELSEIF wParam == VK_END
-         nEnd := Len( Trim( oGet:Buffer ) )
+         nEnd := Len( Trim( oGet:buffer ) )
          IF !lShift
             nStart := nEnd
          ENDIF
@@ -1121,11 +1156,6 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
          RETURN( 0 )
 
-#ifndef __XHARBOUR__
-      ELSE
-
-         oGet:DoKeyEvent( wParam )
-#endif
       ENDIF
 
    CASE nMsg == WM_PASTE
@@ -1138,7 +1168,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
          nStart := LoWord( SendMessage( hWnd, EM_GETSEL, 0, 0 ) ) + 1
          nEnd   := HiWord( SendMessage( hWnd, EM_GETSEL, 0, 0 ) ) + 1
-         nLen   := Len( oGet:Buffer )
+         nLen   := Len( oGet:buffer )
 
          IF nStart # nEnd
             FOR i := nStart TO nEnd  // clear selection by backspacing
@@ -1216,11 +1246,30 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
 
       _SetGetBoxCaret( hWnd )
 
+   CASE nMsg == WM_CONTEXTMENU
+
+      ParentHandle := _HMG_aControlParentHandles [i]
+
+      IF ( i := AScan( _HMG_aControlsContextMenu , {|x| x [1] == hWnd } ) ) > 0
+
+         IF _HMG_aControlsContextMenu [i][4] == .T.
+            setfocus( wParam )
+
+            _HMG_xControlsContextMenuID := _HMG_aControlsContextMenu [i][3]
+
+            TrackPopupMenu ( _HMG_aControlsContextMenu [i][2] , LOWORD( lParam ) , HIWORD( lParam ) , ParentHandle )
+
+            RETURN 1
+         ENDIF
+
+      ENDIF
+
    CASE nMsg == WM_COMMAND
 
       IF ( HwndBtn := lParam ) > 0
 
          aHandle := _HMG_aControlRangeMin [i]
+
          IF ValType( aHandle ) == 'A' .AND. Len( aHandle ) >= 1 .AND. aHandle [1] == hWnd
 
             SWITCH AScan ( aHandle , HwndBtn )
@@ -1230,6 +1279,7 @@ FUNCTION OGETEVENTS( hWnd, nMsg, wParam, lParam )
             CASE GBB2
                _DoControlEventProcedure ( _HMG_aControlDblClick [i] , i )
             ENDSWITCH
+
             SendMessage ( HwndBtn , BM_SETSTYLE , LOWORD ( BS_PUSHBUTTON ) , 1 )
             setfocus ( aHandle [1] )
 
@@ -1252,14 +1302,13 @@ PROCEDURE _SetGetBoxValue( nId, hWnd, Value )
    IF ValType( Value ) == ValType( oGet:VarGet() )
 
       _HMG_ThisFormIndex   := AScan ( _HMG_aFormHandles , _HMG_aControlParentHandles [nId] )
-      _HMG_ThisFormName    := _HMG_aFormNames [ _HMG_ThisFormIndex ]
+      _HMG_ThisFormName    := _HMG_aFormNames [_HMG_ThisFormIndex]
       _HMG_ThisControlName := _HMG_aControlNames [nId]
+      _HMG_aControlValue [nId] := Value
 
       oGet:VarPut( Value )
       oGet:UpdateBuffer()
-      oget:original := oget:buffer
-
-      _HMG_aControlValue [nId] := Value
+      oGet:original := oGet:buffer
 
       IF oGet:type == "N" .AND. Value >= 0
          oGet:minus := .F.
@@ -1272,10 +1321,10 @@ PROCEDURE _SetGetBoxValue( nId, hWnd, Value )
       aPicData := _GetPictureData( oGet, oGet:Picture )
 
       IF oGet:Picture == NIL .OR. ! ( '@K' $ oGet:Picture )
-         oGet:Clear := .F.
+         oGet:clear := .F.
       ENDIF
 
-      IF ! Empty( aPicData[2] ) .AND. oGet:type == "C"
+      IF !Empty( aPicData [2] ) .AND. oGet:type == "C"
          Value := PadR( Value, Len( aPicData [2] ) )
          oGet:cargo := Value
       ENDIF
@@ -1283,7 +1332,7 @@ PROCEDURE _SetGetBoxValue( nId, hWnd, Value )
          oGet:buffer := Space( Max( Len( oGet:buffer ), Len( aPicData [2] ) ) )
       ENDIF
 
-      _DispGetBoxText( hWnd, oget:buffer )
+      _DispGetBoxText( hWnd, oGet:buffer )
 
    ELSE
 
@@ -1294,7 +1343,7 @@ PROCEDURE _SetGetBoxValue( nId, hWnd, Value )
 RETURN
 
 *-----------------------------------------------------------------------------*
-PROCEDURE _SetGetBoxValidMessage( ControlName, ParentForm , cNewMessage )
+PROCEDURE _SetGetBoxValidMessage( ControlName, ParentForm, cNewMessage )
 *-----------------------------------------------------------------------------*
    LOCAL ix := GetControlIndex ( ControlName, ParentForm )
 
@@ -1347,12 +1396,23 @@ RETURN aOldClrFocus
 *-----------------------------------------------------------------------------*
 PROCEDURE _DispGetBoxText( hWnd, cText )
 *-----------------------------------------------------------------------------*
-   LOCAL i := AScan ( _HMG_aControlHandles , hWnd )
+   LOCAL ControlHandle
+   LOCAL i
 
-   IF And( GetWindowLong( _HMG_aControlHandles [i], GWL_STYLE ), ES_PASSWORD ) == ES_PASSWORD
-      SetWindowText( _HMG_aControlHandles [i], Replicate( "*", Len( Trim( cText ) ) ) )
-   ELSE
-      SetWindowText( _HMG_aControlHandles [i], cText )
+   IF ( i := AScan ( _HMG_aControlHandles, hWnd ) ) > 0
+
+      ControlHandle := _HMG_aControlHandles [i]
+
+      IF IsWindowHandle( ControlHandle )
+
+         IF And ( GetWindowLong( ControlHandle, GWL_STYLE ), ES_PASSWORD ) == ES_PASSWORD
+            SetWindowText ( ControlHandle, Replicate( "*", Len( Trim( cText ) ) ) )
+         ELSE
+            SetWindowText ( ControlHandle, cText )
+         ENDIF
+
+      ENDIF
+
    ENDIF
 
 RETURN
@@ -1373,9 +1433,13 @@ RETURN
 *-----------------------------------------------------------------------------*
 FUNCTION _GetPictureData( oGet, cPicture )
 *-----------------------------------------------------------------------------*
-   LOCAL nAt, nFor
-   LOCAL cNum, lDecRev
-   LOCAL cPicMask, cPicFunc, lCleanZero
+   LOCAL nAt
+   LOCAL nFor
+   LOCAL cNum
+   LOCAL cPicFunc
+   LOCAL cPicMask
+   LOCAL lCleanZero
+   LOCAL lDecRev
 
    IF Left( cPicture, 1 ) == "@"
 
@@ -1392,12 +1456,9 @@ FUNCTION _GetPictureData( oGet, cPicture )
       IF "D" $ cPicFunc
 
          cPicMask := Set( _SET_DATEFORMAT )
-         cPicMask := StrTran( cPicmask, "y", "9" )
-         cPicMask := StrTran( cPicmask, "Y", "9" )
-         cPicMask := StrTran( cPicmask, "m", "9" )
-         cPicMask := StrTran( cPicmask, "M", "9" )
-         cPicMask := StrTran( cPicmask, "d", "9" )
-         cPicMask := StrTran( cPicmask, "D", "9" )
+         FOR EACH cNum IN "yYmMdD"
+            cPicMask := StrTran( cPicMask, cNum, "9" )
+         NEXT 
 
       ENDIF
 
@@ -1438,12 +1499,9 @@ FUNCTION _GetPictureData( oGet, cPicture )
       CASE oGet:type == "D"
 
          cPicMask := Set( _SET_DATEFORMAT )
-         cPicMask := StrTran( cPicmask, "y", "9" )
-         cPicMask := StrTran( cPicmask, "Y", "9" )
-         cPicMask := StrTran( cPicmask, "m", "9" )
-         cPicMask := StrTran( cPicmask, "M", "9" )
-         cPicMask := StrTran( cPicmask, "d", "9" )
-         cPicMask := StrTran( cPicmask, "D", "9" )
+         FOR EACH cNum IN "yYmMdD"
+            cPicMask := StrTran( cPicMask, cNum, "9" )
+         NEXT 
 
       CASE oGet:type == "N"
 
@@ -1470,17 +1528,17 @@ RETURN { cPicFunc, cPicMask, lCleanZero }
 STATIC FUNCTION _FirstEditable( nId )
 *-----------------------------------------------------------------------------*
    LOCAL nFor
-   LOCAL oGet    := _HMG_aControlHeadClick [nId]
-   LOCAL nMaxLen := Len( oGet:Buffer )
+   LOCAL oGet := _HMG_aControlHeadClick [nId]
+   LOCAL nMaxLen := Len( oGet:buffer )
 
    IF nMaxLen != NIL
 
-      IF _IsEditable( 1 , nId )
+      IF _IsEditable( 1, nId )
          RETURN 1
       ENDIF
 
       FOR nFor := 2 TO nMaxLen
-         IF _IsEditable( nFor , nId )
+         IF _IsEditable( nFor, nId )
             RETURN nFor
          ENDIF
       NEXT
@@ -1495,13 +1553,16 @@ RETURN 0
 STATIC FUNCTION _IsEditable( nPos, nId )
 *-----------------------------------------------------------------------------*
    LOCAL cChar
-   LOCAL cPicMask := _HMG_aControlInputMask [nId,2]
-   LOCAL oGet     := _HMG_aControlHeadClick [nId]
-   LOCAL nMaxLen  := Len( oGet:Buffer )
+   LOCAL oGet
+   LOCAL nMaxLen
+   LOCAL cPicMask := _HMG_aControlInputMask [nId, 2]
 
    IF Empty( cPicMask )
       RETURN .T.
    ENDIF
+
+   oGet := _HMG_aControlHeadClick [nId]
+   nMaxLen := Len( oGet:buffer )
 
    IF nPos > Len( cPicMask ) .AND. nPos <= nMaxLen
       RETURN .T.
@@ -1512,31 +1573,23 @@ STATIC FUNCTION _IsEditable( nPos, nId )
    IF oGet:type != NIL
 
       SWITCH  oGet:type
-
       CASE "C" ; RETURN ( cChar $ "!ANX9#LY" )
       CASE "N" ; RETURN ( cChar $ "9#$*" )
       CASE "D"
       CASE "T" ; RETURN ( cChar == "9" )
       CASE "L" ; RETURN ( cChar $ "LY#" )
-
       ENDSWITCH
 
    ENDIF
 
 RETURN .F.
 
-#ifndef __XHARBOUR__
-   /* SWITCH ... ; CASE ... ; DEFAULT ; ... ; END */
-   #xcommand DEFAULT => OTHERWISE
-   /* FOR EACH hb_enumIndex() */
-   #xtranslate hb_enumIndex( <!v!> ) => <v>:__enumIndex()
-#endif
 *-----------------------------------------------------------------------------*
 STATIC FUNCTION _Input( cChar , nID )
 *-----------------------------------------------------------------------------*
    LOCAL oGet     := _HMG_aControlHeadClick [nId]
-   LOCAL cPicFunc := _HMG_aControlInputMask [nId,1]
-   LOCAL cPicMask := _HMG_aControlInputMask [nId,2]
+   LOCAL cPicFunc := _HMG_aControlInputMask [nId, 1]
+   LOCAL cPicMask := _HMG_aControlInputMask [nId, 2]
    LOCAL cLangItem_1 := hb_langMessage( HB_LANG_ITEM_BASE_TEXT + 1 )
    LOCAL cLangItem_2 := hb_langMessage( HB_LANG_ITEM_BASE_TEXT + 2 )
    LOCAL cPic
@@ -1641,7 +1694,9 @@ RETURN cChar
 *-----------------------------------------------------------------------------*
 STATIC FUNCTION _GetDefinedStatusBarItemValue( ParentHandle, ItemID )
 *-----------------------------------------------------------------------------*
-   LOCAL h, i, nLocID := 0
+   LOCAL h
+   LOCAL nLocID := 0
+   LOCAL i
 
    hb_default( @ItemID, 1 )
 
@@ -1650,11 +1705,50 @@ STATIC FUNCTION _GetDefinedStatusBarItemValue( ParentHandle, ItemID )
       i := hb_enumindex( h )
 
       IF _HMG_aControlType [i] == "ITEMMESSAGE" .AND. h == ParentHandle
+
          IF ++nLocID == ItemID
             EXIT
          ENDIF
+
       ENDIF
 
    NEXT
 
 RETURN ( _HMG_aControlCaption [i] )
+
+// (JK) HMG Experimental 1.1. Build 14
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _IsChildOfActiveWindow ( hWnd )
+*-----------------------------------------------------------------------------*
+   LOCAL hActiveWnd := GetActiveWindow()
+   LOCAL lRet := ( _GetParent( hWnd ) == hActiveWnd )
+   LOCAL hParent
+
+   DO WHILE lRet
+
+      hParent := _GetParent( hWnd )
+
+      IF hActiveWnd <> hParent
+
+         IF AND( GetWindowLong( hParent, GWL_STYLE ), WS_CHILD ) > 0
+            hWnd := hParent
+         ELSE
+            lRet := .F.
+         ENDIF
+
+      ELSE
+
+         EXIT
+
+      ENDIF
+
+   ENDDO
+
+RETURN lRet
+
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _GetParent ( hWnd )
+*-----------------------------------------------------------------------------*
+   LOCAL i := AScan( _HMG_aControlHandles, hWnd )
+
+RETURN iif( i > 0, _HMG_aControlParentHandles [ i ], 0 )

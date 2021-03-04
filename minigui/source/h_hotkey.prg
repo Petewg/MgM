@@ -30,28 +30,31 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
----------------------------------------------------------------------------*/
+ ---------------------------------------------------------------------------*/
 
 #include 'minigui.ch'
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineHotKey ( cParentForm , nMod , nKey , bAction )
 *-----------------------------------------------------------------------------*
-   LOCAL nParentForm , nId , k , lSuccess
-// BK 22-Apr-2012
+   LOCAL nParentForm
+   LOCAL nId
+   LOCAL k
+   LOCAL lSuccess
+   // BK 22-Apr-2012
    IF _HMG_BeginWindowMDIActive .AND. Empty( _HMG_ActiveFormName )  //JP MDI HotKey
       nParentForm := GetActiveMdiHandle()
       IF nParentForm == 0
@@ -67,13 +70,13 @@ FUNCTION _DefineHotKey ( cParentForm , nMod , nKey , bAction )
       MsgMiniGuiError ( "ON KEY: Parent Window is Not specified." )
    ENDIF
 
-// Check if the window/form is defined.
+   // Check if the window/form is defined.
    IF .NOT. _IsWindowDefined( cParentForm )
       MsgMiniGuiError( "Window " + cParentForm + " is not defined." )
    ENDIF
 
    _ReleaseHotKey ( cParentForm, nMod , nKey )
-// BK 22-Apr-2012
+   // BK 22-Apr-2012
    IF _HMG_BeginWindowMDIActive .AND. Empty( _HMG_ActiveFormName )  //JP MDI HotKey
       nParentForm := GetActiveMdiHandle()
       IF nParentForm == 0
@@ -132,15 +135,12 @@ FUNCTION _DefineHotKey ( cParentForm , nMod , nKey , bAction )
 
 RETURN lSuccess
 
-#ifndef __XHARBOUR__
-   /* FOR EACH hb_enumIndex() */
-   #xtranslate hb_enumIndex( <!v!> ) => <v>:__enumIndex()
-#endif
 *-----------------------------------------------------------------------------*
 PROCEDURE _ReleaseHotKey ( cParentForm, nMod , nKey )
 *-----------------------------------------------------------------------------*
    LOCAL nParentFormHandle := GetFormHandle ( cParentForm )
-   LOCAL i , ControlType
+   LOCAL ControlType
+   LOCAL i
 
    FOR EACH ControlType IN _HMG_aControlType
       i := hb_enumindex( ControlType )
@@ -155,9 +155,10 @@ RETURN
 *-----------------------------------------------------------------------------*
 FUNCTION _GetHotKeyBlock ( cParentForm, nMod, nKey )
 *-----------------------------------------------------------------------------*
-   LOCAL bRetVal := Nil
    LOCAL nParentFormHandle := GetFormHandle ( cParentForm )
-   LOCAL i , ControlType
+   LOCAL bRetVal := Nil
+   LOCAL ControlType
+   LOCAL i
 
    FOR EACH ControlType IN _HMG_aControlType
       i := hb_enumindex( ControlType )
@@ -172,17 +173,17 @@ RETURN ( bRetVal )
 *-----------------------------------------------------------------------------*
 PROCEDURE _PushKey ( nKey )
 *-----------------------------------------------------------------------------*
-
    Keybd_Event ( nKey, .F. )
    Keybd_Event ( nKey, .T. )
 
 RETURN
 
-#ifdef _HMG_COMPAT_  // HMG_PressKey( nVK1, nVK2, ... ) --> array { nVK1, nVK2, ... }
+// HMG_PressKey( nVK1, nVK2, ... ) --> array { nVK1, nVK2, ... }
 *-----------------------------------------------------------------------------*
 FUNCTION HMG_PressKey( ... )  // by Dr. Claudio Soto, April 2016
 *-----------------------------------------------------------------------------*
-   LOCAL i, aVK := {}
+   LOCAL aVK := {}
+   LOCAL i
 
    FOR i := 1 TO PCount()
       IF ValType( PValue( i ) ) == "N"
@@ -199,11 +200,11 @@ FUNCTION HMG_PressKey( ... )  // by Dr. Claudio Soto, April 2016
 
 RETURN aVK
 
-#endif
 *-----------------------------------------------------------------------------*
 FUNCTION _SetHotKeyByName ( cParentForm, cKey, bAction )
 *-----------------------------------------------------------------------------*
-   LOCAL aKey , lSuccess := .F.
+   LOCAL aKey
+   LOCAL lSuccess := .F.
 
    IF _HMG_BeginWindowActive
       cParentForm := _HMG_ActiveFormName
@@ -230,7 +231,9 @@ RETURN lSuccess
 FUNCTION _DetermineKey ( cKey )
 *-----------------------------------------------------------------------------*
    LOCAL aKey, nAlt, nCtrl, nShift, nWin, nPos, cKey2, cText
-   STATIC aKeyTables := { "LBUTTON", "RBUTTON", "CANCEL", "MBUTTON", "XBUTTON1", "XBUTTON2", ".7", "BACK", "TAB", ".10", ;
+
+   STATIC aKeyTables := { ;
+      "LBUTTON", "RBUTTON", "CANCEL", "MBUTTON", "XBUTTON1", "XBUTTON2", ".7", "BACK", "TAB", ".10", ;
       ".11", "CLEAR", "RETURN", ".14", ".15", "SHIFT", "CONTROL", "MENU", "PAUSE", "CAPITAL", ;
       "KANA", ".22", "JUNJA", "FINAL", "HANJA", ".26", "ESCAPE", "CONVERT", "NONCONVERT", "ACCEPT", ;
       "MODECHANGE", "SPACE", "PRIOR", "NEXT", "END", "HOME", "LEFT", "UP", "RIGHT", "DOWN", ;
@@ -247,33 +250,44 @@ FUNCTION _DetermineKey ( cKey )
       ".141", ".142", ".143", "NUMLOCK", "SCROLL", ".146", ".147", ".148", ".149", ".150", ;
       ".151", ".152", ".153", ".154", ".155", ".156", ".157", ".158", ".159", "LSHIFT", ;
       "RSHIFT", "LCONTROL", "RCONTROL", "LMENU", "RMENU" } // 165
+
    aKey := { 0, 0 }
    nAlt := nCtrl := nShift := nWin := 0
    cKey2 := Upper ( cKey )
+
    DO WHILE !Empty ( cKey2 )
+
       nPos := At( "+", cKey2 )
+
       IF nPos == 0
+
          cKey2 := AllTrim ( cKey2 )
          nPos := AScan ( aKeyTables, { |c| cKey2 == c } )
          cKey2 := ""
          IF nPos != 0
             aKey := { nPos, nAlt + nCtrl + nShift + nWin }
          ENDIF
+
       ELSE
+
          cText := AllTrim ( Left( cKey2, nPos - 1 ) )
          cKey2 := SubStr ( cKey2, nPos + 1 )
-         IF cText == "ALT"
+
+         DO CASE
+         CASE cText == "ALT"
             nAlt := MOD_ALT
-         ELSEIF cText == "CTRL" .OR. cText == "CONTROL"
+         CASE cText == "CTRL" .OR. cText == "CONTROL"
             nCtrl := MOD_CONTROL
-         ELSEIF cText == "SHIFT" .OR. cText == "SHFT"
+         CASE cText == "SHIFT" .OR. cText == "SHFT"
             nShift := MOD_SHIFT
-         ELSEIF cText == "WIN"
+         CASE cText == "WIN"
             nWin := MOD_WIN
-         ELSE
+         OTHERWISE
             cKey2 := ""  // Invalid keyword
-         ENDIF
+         ENDCASE
+
       ENDIF
+
    ENDDO
 
 RETURN aKey

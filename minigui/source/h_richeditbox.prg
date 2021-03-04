@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -53,8 +53,13 @@ FUNCTION _DefineRichEditBox ( ControlName, ParentForm, x, y, w, h, value, ;
       break, HelpId, invisible, notabstop, bold, italic, underline, strikeout, file, ;
       field, backcolor, fontcolor, plaintext, nohscroll, novscroll, select, vscroll )
 *-----------------------------------------------------------------------------*
-   LOCAL i , cParentForm , mVar , ContainerHandle := 0 , k
-   LOCAL ControlHandle , FontHandle , WorkArea
+   LOCAL ControlHandle , FontHandle
+   LOCAL cParentForm
+   LOCAL mVar
+   LOCAL k
+   LOCAL ContainerHandle := 0
+   LOCAL WorkArea
+   LOCAL i
 
    hb_default( @w, 120 )
    hb_default( @h, 240 )
@@ -128,7 +133,9 @@ FUNCTION _DefineRichEditBox ( ControlName, ParentForm, x, y, w, h, value, ;
          ELSE
             __defaultNIL( @FontName, _HMG_DefaultFontName )
             __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+            IF IsWindowHandle( ControlHandle )
+               FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+            ENDIF
          ENDIF
 
          AddSplitBoxItem ( Controlhandle , _HMG_aFormReBarHandle [i] , w , break , , , , _HMG_ActiveSplitBoxInverted )
@@ -144,7 +151,9 @@ FUNCTION _DefineRichEditBox ( ControlName, ParentForm, x, y, w, h, value, ;
       ELSE
          __defaultNIL( @FontName, _HMG_DefaultFontName )
          __defaultNIL( @FontSize, _HMG_DefaultFontSize )
-         FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         IF IsWindowHandle( ControlHandle )
+            FontHandle := _SetFont ( ControlHandle, FontName, FontSize, bold, italic, underline, strikeout )
+         ENDIF
       ENDIF
 
       SetFontRTF( ControlHandle, IFARRAY( fontcolor, -1, 0 ), FontName, FontSize, bold, italic, ;
@@ -229,10 +238,11 @@ RETURN Nil
 *-----------------------------------------------------------------------------*
 PROCEDURE _DataBaseRichEditBoxSave ( ControlName, ParentForm, typ )
 *-----------------------------------------------------------------------------*
-   LOCAL Field, i
    LOCAL cTempFile := TempFile( GetTempFolder(), 'txt' )
+   LOCAL Field
+   LOCAL i
 
-   IF !Empty( cTempFile )
+   IF ! Empty ( cTempFile )
       i := GetControlIndex ( ControlName, ParentForm )
 
       Field := _HMG_aControlPageMap [i]
@@ -240,10 +250,10 @@ PROCEDURE _DataBaseRichEditBoxSave ( ControlName, ParentForm, typ )
       _DataRichEditBoxSave ( ControlName, ParentForm, cTempFile, typ )
 
       IF _IsFieldExists ( Field )
-         REPLACE &Field WITH MemoRead( cTempFile )
+         REPLACE &Field WITH MemoRead ( cTempFile )
       ENDIF
 
-      FErase( cTempFile )
+      FErase ( cTempFile )
    ENDIF
 
 RETURN
@@ -255,12 +265,12 @@ FUNCTION _DataRichEditBoxSetValue ( ControlName, ParentForm, cRichValue, typ )
 *-----------------------------------------------------------------------------*
    LOCAL cTempFile := TempFile( GetTempFolder(), 'txt' )
 
-   IF !Empty( cTempFile )
-      hb_MemoWrit( cTempFile, cRichValue )
+   IF ! Empty ( cTempFile )
+      hb_MemoWrit ( cTempFile, cRichValue )
 
       _DataRichEditBoxOpen ( ControlName, ParentForm, cTempFile, typ )
 
-      FErase( cTempFile )
+      FErase ( cTempFile )
    ENDIF
 
 RETURN cRichValue
@@ -270,15 +280,15 @@ RETURN cRichValue
 *-----------------------------------------------------------------------------*
 FUNCTION _DataRichEditBoxGetValue ( ControlName, ParentForm, typ )
 *-----------------------------------------------------------------------------*
-   LOCAL cRichValue
    LOCAL cTempFile := TempFile( GetTempFolder(), 'txt' )
+   LOCAL cRichValue
 
-   IF !Empty( cTempFile )
+   IF ! Empty ( cTempFile )
       _DataRichEditBoxSave ( ControlName, ParentForm, cTempFile, typ )
 
-      cRichValue := MemoRead( cTempFile )
+      cRichValue := MemoRead ( cTempFile )
 
-      FErase( cTempFile )
+      FErase ( cTempFile )
    ENDIF
 
 RETURN cRichValue

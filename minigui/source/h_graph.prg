@@ -30,23 +30,23 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
 #ifdef __XHARBOUR__
-#   pragma -w2
+# pragma -w2
 #endif
 
 #include "minigui.ch"
@@ -168,7 +168,7 @@ PROCEDURE GraphShow( parent, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aDat
    //
    IF !Empty( cTitle )
       cNameObj := 'Obj_Name_' + hb_ntos( nGraphObj++ )
-      @ nTop - 36 * nResV, nLeft LABEL &cNameObj OF &parent VALUE cTitle;
+      @ nTop - 36 * nResV, nLeft LABEL (cNameObj) OF (parent) VALUE cTitle;
          WIDTH nRight - nLeft;
          HEIGHT 24;
          FONTCOLOR aClrFore;
@@ -183,12 +183,12 @@ PROCEDURE GraphShow( parent, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aDat
    // Legends
    //
    IF lLegends
-      nPos := nTop
+      nPos := nTop + 2
       FOR nI := 1 TO Len( aSeries )
          DrawBar( parent, nRight + ( ( _HMG_DefaultFontSize - 1 ) * nResH ), nPos + _HMG_DefaultFontSize * nResV,;
-            ( _HMG_DefaultFontSize - 1 ) * nResH, ( _HMG_DefaultFontSize - 2 ) * nResV, l3D, 1, aColors[nI] )
+            ( _HMG_DefaultFontSize - 2 ) * nResH, ( _HMG_DefaultFontSize - 3 ) * nResV, l3D, 1, aColors[nI] )
          cNameObj := "Obj_Name_" + hb_ntos( nGraphObj++ )
-         @ nPos - 1, nRight + ( 4 + 2 * _HMG_DefaultFontSize ) * nResH LABEL &cNameObj OF &parent;
+         @ nPos, nRight + 2 * _HMG_DefaultFontSize * nResH LABEL (cNameObj) OF (parent);
             VALUE aSeries[nI] AUTOSIZE;
             FONTCOLOR aClrFore;
             BACKCOLOR iif( lPrint, WHITE, NIL );
@@ -211,7 +211,6 @@ PROCEDURE GraphShow( parent, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aDat
    nXMin   := iif( nMin < 0, DetMaxVal( nMin ), 0 )
    nHigh   := nXMax + nXMin
    nMax    := Max( nXMax, nXMin )
-
    nRel    := nMaxBar / nHigh
    nMaxBar := nMax * nRel
 
@@ -243,7 +242,7 @@ PROCEDURE GraphShow( parent, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aDat
       IF lxVal
          IF nRange * nI <= nXMax
             cNameObj := "Obj_Name_" + hb_ntos( nGraphObj++ )
-            @ nRPos, nLeft - nDeep - 75 LABEL &cNameObj OF &parent;
+            @ nRPos + nDeep - 5, nLeft - nDeep - 75 LABEL (cNameObj) OF (parent);
                VALUE Transform( nRange * nI, cPicture );
                WIDTH 65;
                HEIGHT _HMG_DefaultFontSize + 3;
@@ -256,7 +255,7 @@ PROCEDURE GraphShow( parent, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aDat
          ENDIF
          IF nRange * ( - nI ) >= nXMin * ( -1 )
             cNameObj := "Obj_Name_" + hb_ntos( nGraphObj++ )
-            @ nRNeg, nLeft - nDeep - 75 LABEL &cNameObj OF &parent;
+            @ nRNeg + nDeep - 5, nLeft - nDeep - 75 LABEL (cNameObj) OF (parent);
                VALUE Transform( nRange *- nI, cPicture );
                WIDTH 65;
                HEIGHT _HMG_DefaultFontSize + 3;
@@ -322,7 +321,7 @@ PROCEDURE GraphShow( parent, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aDat
       nI := nLeft + nWideB
       FOR nJ := 1 TO nMax( aData )
          cNameObj := "Obj_Name_" + hb_ntos( nGraphObj++ )
-         @ nBottom + 8, nI - iif( l3D, nDeep, nDeep + 8 ) LABEL &cNameObj OF &parent;
+         @ nBottom + 8, nI - iif( l3D, nDeep, nDeep + 8 ) LABEL (cNameObj) OF (parent);
             VALUE aYVals[nJ] AUTOSIZE;
             FONTCOLOR aClrFore;
             BACKCOLOR iif( lPrint, WHITE, aClrBack );
@@ -398,10 +397,10 @@ PROCEDURE GraphShow( parent, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aDat
       ENDIF
       FOR nI := 1 TO nRange
          FOR nJ := 1 TO nSeries
-            DRAW TEXT IN WINDOW &parent;
-               AT nZero - ( aData[nJ,nI] / nMin + 2 * nDeep ), iif( nType == BARS, nPos - 18, nPos + 8 );
-               VALUE Transform( aData[nJ,nI], cPicture );
-               FONT _HMG_DefaultFontName SIZE _HMG_DefaultFontSize - 1 BOLD;
+            DRAW TEXT IN WINDOW &parent ;
+               AT nZero - ( aData[nJ, nI] / nMin + iif( l3D, nDeep, 16 ) ), iif( nType == BARS, nPos - iif( l3D, 20, 40 ), nPos + 8 ) ;
+               VALUE Transform( aData[nJ, nI], cPicture ) ;
+               FONT _HMG_DefaultFontName SIZE _HMG_DefaultFontSize - 1 ;
                FONTCOLOR aClrFore TRANSPARENT
             nPos += iif( nType == BARS, nWide + nSep, 0 )
          NEXT nJ
@@ -494,15 +493,16 @@ RETURN
 
 STATIC PROCEDURE DrawPoint( parent, nType, nY, nX, nHigh, aColor )
 
-   IF nType == POINTS
+   DO CASE
+   CASE nType == POINTS
 
       Circle( parent, nX - nHigh - 3, nY - 3, 8, aColor )
 
-   ELSEIF nType == LINES
+   CASE nType == LINES
 
       Circle( parent, nX - nHigh - 2, nY - 2, 6, aColor )
 
-   ENDIF
+   ENDCASE
 
 RETURN
 
@@ -514,7 +514,7 @@ STATIC PROCEDURE Circle( window, nCol, nRow, nWidth, aColor )
 RETURN
 
 
-STATIC FUNCTION nMax( aData )
+FUNCTION nMax( aData )
 
    LOCAL nMax := 0
 
@@ -523,7 +523,7 @@ STATIC FUNCTION nMax( aData )
 RETURN( nMax )
 
 
-STATIC FUNCTION DetMaxVal( nNum )
+FUNCTION DetMaxVal( nNum )
 
    LOCAL nE, nMax, nMan, nVal, nOffset
 
@@ -554,7 +554,7 @@ STATIC FUNCTION DetMaxVal( nNum )
 RETURN ( nVal )
 
 
-STATIC FUNCTION ClrShadow( nColor, nFactor )
+FUNCTION ClrShadow( nColor, nFactor )
 
    LOCAL aHSL, aRGB
 
@@ -565,7 +565,7 @@ STATIC FUNCTION ClrShadow( nColor, nFactor )
 RETURN RGB( aRGB[1], aRGB[2], aRGB[3] )
 
 
-STATIC FUNCTION RGB2HSL( nR, nG, nB )
+FUNCTION RGB2HSL( nR, nG, nB )
 
    LOCAL nMax, nMin
    LOCAL nH, nS, nL
@@ -577,9 +577,9 @@ STATIC FUNCTION RGB2HSL( nR, nG, nB )
       nR := GetRed( nR )
    ENDIF
 
-   nR := nR / 255
-   nG := nG / 255
-   nB := nB / 255
+   nR /= 255
+   nG /= 255
+   nB /= 255
    nMax := Max( nR, Max( nG, nB ) )
    nMin := Min( nR, Min( nG, nB ) )
    nL := ( nMax + nMin ) / 2
@@ -591,31 +591,34 @@ STATIC FUNCTION RGB2HSL( nR, nG, nB )
       IF nL < 0.5
          nS := ( nMax - nMin ) / ( nMax + nMin )
       ELSE
-         nS := ( nMax - nMin ) / ( 2.0 - nMax - nMin )
+         nS := ( nMax - nMin ) / ( 2 - nMax - nMin )
       ENDIF
       DO CASE
       CASE nR == nMax
          nH := ( nG - nB ) / ( nMax - nMin )
       CASE nG == nMax
-         nH := 2.0 + ( nB - nR ) / ( nMax - nMin )
+         nH := 2 + ( nB - nR ) / ( nMax - nMin )
       CASE nB == nMax
-         nH := 4.0 + ( nR - nG ) / ( nMax - nMin )
+         nH := 4 + ( nR - nG ) / ( nMax - nMin )
       ENDCASE
    ENDIF
 
    nH := Int( ( nH * 239 ) / 6 )
-   IF nH < 0 ; nH += 240 ; ENDIF
+   IF nH < 0
+      nH += 240
+   ENDIF
    nS := Int( nS * 239 )
    nL := Int( nL * 239 )
 
 RETURN { nH, nS, nL }
 
 
-STATIC FUNCTION HSL2RGB( nH, nS, nL )
+FUNCTION HSL2RGB( nH, nS, nL )
 
    LOCAL nFor
    LOCAL nR, nG, nB
-   LOCAL nTmp1, nTmp2, aTmp3 := { 0, 0, 0 }
+   LOCAL nTmp1, nTmp2
+   LOCAL aTmp3 := { 0, 0, 0 }
 
    nH /= 239
    nS /= 239
@@ -710,13 +713,13 @@ FUNCTION drawpiegraph( windowname, fromrow, fromcol, torow, tocol, series, aname
          backcolor := NIL
       ENDIF
       cname := "title_of_pie" + hb_ntos( nPieObj++ )
-      define label &cname
-        parent &windowname
+      define label (cname)
+        parent (windowname)
         row fromrow + 10
         col fromcol + iif( Len( ctitle ) * 8 > ( tocol - fromcol ), 0, 5 )
         width iif( Len( ctitle ) * 8 > ( tocol - fromcol ), Len( ctitle ) * 10, tocol - fromcol - 10 )
         height 16 + _HMG_DefaultFontSize
-        fontbold .T.
+//        fontbold .T.
         fontname _HMG_DefaultFontName
         fontsize _HMG_DefaultFontSize + 3
         centeralign ( Len( ctitle ) * 8 < ( tocol - fromcol ) )
@@ -876,8 +879,8 @@ FUNCTION drawpiegraph( windowname, fromrow, fromcol, torow, tocol, series, aname
       FOR i := 1 TO Len( aname )
          cname := "pielegend_" + hb_ntos( nPieObj++ )
          drawrect( windowname, fromrow, fromcol, fromrow + 15, fromcol + 15, { 0, 0, 0 }, 1, colors[i] )
-         define label &cname
-           parent &windowname
+         define label (cname)
+           parent (windowname)
            row fromrow
            col fromcol + 20
            fontname _HMG_DefaultFontName
@@ -895,80 +898,100 @@ FUNCTION drawpiegraph( windowname, fromrow, fromcol, torow, tocol, series, aname
       NEXT i
    ENDIF
 
-RETURN nil
+RETURN NIL
 
-
+*-----------------------------------------------------------------------------*
 PROCEDURE ErasePieGraph( windowname )
-
+*-----------------------------------------------------------------------------*
    LOCAL cname, i := 1
 
    DO WHILE i < nPieObj
+
       cname := "title_of_pie" + hb_ntos( i )
       IF _IsControlDefined ( cname, windowname )
          _ReleaseControl( cname, windowname )
       ENDIF
+
       cname := "pielegend_" + hb_ntos( i++ )
       IF _IsControlDefined ( cname, windowname )
          _ReleaseControl( cname, windowname )
       ENDIF
+
    ENDDO
 
 RETURN
 
-
+*-----------------------------------------------------------------------------*
 FUNCTION _PiePrint( cForm, fromrow, fromcol, torow, tocol, series, aname, colors, ctitle, depth, l3d, lxval, lsleg, cPicture, x, y, cLibrary, placement )
-
+*-----------------------------------------------------------------------------*
    LOCAL b := _HMG_IsModalActive
-
+   LOCAL FormName := '_Tmp_' + hb_ntos( _GetId() )
+#ifdef __XHARBOUR__
+   IF _IsWindowDefined ( FormName )
+      DoMethod ( FormName, 'Release' )
+      DoEvents()
+   ENDIF
+#endif
    _HMG_IsModalActive := .F.
-   DEFAULT cLibrary := ""
-   Define Window _PieGraph;
-      At GetProperty( cForm, 'Row' ), GetProperty( cForm, 'Col' );
-      Width GetProperty( cForm, 'Width' );
-      Height GetProperty( cForm, 'Height' );
-      Child;
-      On Init ( drawpiegraph( "_PieGraph",fromrow,fromcol,torow,tocol,series,aname,colors,ctitle,depth,l3d,lxval,lsleg,cPicture, .T., placement, .T. ),;
-         _bmpprint( ThisWindow.Name, x, y, iif( "HBPRINT" $ Upper( cLibrary ), 2, 1 ) ) );
-      BackColor WHITE
 
-   End Window
-   Activate Window _PieGraph
+   DEFINE WINDOW &FormName ;
+      AT GetProperty( cForm, 'Row' ), GetProperty( cForm, 'Col' ) ;
+      WIDTH GetProperty( cForm, 'Width' ) ;
+      HEIGHT GetProperty( cForm, 'Height' ) ;
+      CHILD ;
+      ON INIT ( drawpiegraph( FormName, fromrow, fromcol, torow, tocol, series, aname, colors, ctitle, depth, l3d, lxval, lsleg, cPicture, .T., placement, .T. ), ;
+         _bmpprint( ThisWindow.Name, x, y, iif( "HBPRINT" $ Upper( hb_defaultValue( cLibrary, "" ) ), 2, 1 ) ) ) ;
+      BACKCOLOR WHITE
+
+   END WINDOW
+
+   ACTIVATE WINDOW &FormName
+
    _HMG_IsModalActive := b
 
-RETURN nil
+RETURN NIL
 
-
+*-----------------------------------------------------------------------------*
 FUNCTION _GraphPrint( cForm, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aData, cTitle, aYVals, nBarD, nWideB, nSep, nXRanges, ;
       l3D, lGrid, lxGrid, lyGrid, lxVal, lyVal, lLegends, aSeries, aColors, nType, lViewVal, cPicture, nLegendsWidth, x, y, cLibrary )
-
+*-----------------------------------------------------------------------------*
    LOCAL b := _HMG_IsModalActive
-
+   LOCAL FormName := '_Tmp_' + hb_ntos( _GetId() )
+#ifdef __XHARBOUR__
+   IF _IsWindowDefined ( FormName )
+      DoMethod ( FormName, 'Release' )
+      DoEvents()
+   ENDIF
+#endif
    _HMG_IsModalActive := .F.
-   DEFAULT cLibrary := ""
-   Define Window _Graph;
-      At GetProperty( cForm, 'Row' ), GetProperty( cForm, 'Col' );
-      Width GetProperty( cForm, 'Width' );
-      Height GetProperty( cForm, 'Height' );
-      Child;
-      On Init ( GraphShow("_Graph",nTop,nLeft,nBottom,nRight,nHeight,nWidth,aData,cTitle,aYVals,nBarD,nWideB,nSep,nXRanges,;
-         l3D, lGrid, lxGrid, lyGrid, lxVal, lyVal, lLegends, aSeries, aColors, nType, lViewVal, cPicture, nLegendsWidth, .T. , .T. ),;
-         _bmpprint( ThisWindow.Name, x, y, iif( "HBPRINT" $ Upper( cLibrary ), 2, 1 ) ) );
-      BackColor WHITE
 
-   End Window
-   Activate Window _Graph
+   DEFINE WINDOW &FormName ;
+      AT GetProperty( cForm, 'Row' ), GetProperty( cForm, 'Col' ) ;
+      WIDTH GetProperty( cForm, 'Width' ) ;
+      HEIGHT GetProperty( cForm, 'Height' ) ;
+      CHILD ;
+      ON INIT ( GraphShow( FormName, nTop, nLeft, nBottom, nRight, nHeight, nWidth, aData, cTitle, aYVals, nBarD, nWideB, nSep, nXRanges, ;
+         l3D, lGrid, lxGrid, lyGrid, lxVal, lyVal, lLegends, aSeries, aColors, nType, lViewVal, cPicture, nLegendsWidth, .T. , .T. ), ;
+         _bmpprint( ThisWindow.Name, x, y, iif( "HBPRINT" $ Upper( hb_defaultValue( cLibrary, "" ) ), 2, 1 ) ) ) ;
+      BACKCOLOR WHITE
+
+   END WINDOW
+
+   ACTIVATE WINDOW &FormName
+
    _HMG_IsModalActive := b
 
-RETURN nil
+RETURN NIL
 
-
+*-----------------------------------------------------------------------------*
 STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
-
+*-----------------------------------------------------------------------------*
    LOCAL cTempFile := TempFile( GetTempFolder(), 'BMP' )
    LOCAL aSize, nOrientation, lSuccess
    LOCAL W, H, HO, VO, bw, bh, r, tW := 0, tH
 
-   DO EVENTS
+   SuppressKeyAndMouseEvents()
+
    DoMethod( cForm, 'SaveAs', cTempFile )
 
    aSize := BmpSize( cTempFile )
@@ -988,7 +1011,7 @@ STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
 
       IF HBPRNERROR != 0
          DoMethod ( cForm, 'Release' )
-         FErase( cTempFile )
+         FErase ( cTempFile )
          RETURN .F.
       ENDIF
 
@@ -1010,18 +1033,28 @@ STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
 
       REPEAT
 
-         th := ++tw / r
+         th := ++ tw / r
 
       UNTIL ( tw < w - x .OR. th < h - y )
 
       DoMethod ( cForm, 'Hide' )
 
       START DOC
+
          START PAGE
 
             @ VO + y + ( h - th ) / 2, HO + x + ( w - tw ) / 2 PICTURE cTempFile SIZE tH, tW
 
+#ifdef __XHARBOUR__
+      IF hb_FileExists( cTempFile )
+         FErase( cTempFile )
+      ENDIF
+      IF hb_FileExists( cFileNoPath( cTempFile ) )
+         FErase( cFileNoPath( cTempFile ) )
+      ENDIF
+#endif
          END PAGE
+
       END DOC
 
       RELEASE PRINTSYS
@@ -1032,7 +1065,7 @@ STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
 
       IF .NOT. lSuccess
          DoMethod ( cForm, 'Release' )
-         FErase( cTempFile )
+         FErase ( cTempFile )
          RETURN .F.
       ENDIF
 
@@ -1051,23 +1084,32 @@ STATIC FUNCTION _bmpprint( cForm, x, y, nLibrary )
       DoMethod ( cForm, 'Hide' )
 
       START PRINTDOC NAME 'MINIPRINT'
+
          START PRINTPAGE
 
             @ VO + y + ( h - th ) / 2, HO + x + ( w - tw ) / 2 PRINT IMAGE cTempFile WIDTH tW HEIGHT tH
 
+#ifdef __XHARBOUR__
+      IF hb_FileExists( cTempFile )
+         FErase( cTempFile )
+      ENDIF
+      IF hb_FileExists( cFileNoPath( cTempFile ) )
+         FErase( cFileNoPath( cTempFile ) )
+      ENDIF
+#endif
          END PRINTPAGE
+
       END PRINTDOC
 
    ENDIF
 
-   DO EVENTS
-
    DoMethod ( cForm, 'Release' )
-   FErase( cTempFile )
+#ifndef __XHARBOUR__
+   FErase ( cTempFile )
+#endif
 
 RETURN .T.
 
-#ifdef _HMG_COMPAT_
 *-----------------------------------------------------------------------------*
 FUNCTION PrintWindow ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeight )
 *-----------------------------------------------------------------------------*
@@ -1103,7 +1145,7 @@ FUNCTION PrintWindow ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeig
       lPreview := .F.
    ENDIF
 
-   IF ! _IsWIndowDefined ( cWindowName )
+   IF ! _IsWindowDefined ( cWindowName )
       MsgMiniGuiError ( _HMG_BRWLangError[ 1 ] + cWindowName + _HMG_BRWLangError[ 2 ], .F. )
    ENDIF
 
@@ -1147,7 +1189,7 @@ FUNCTION PrintWindow ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeig
 
    ENDIF
 
-   TempName := TempFile( GetTempFolder(), 'BMP' )
+   TempName := TempFile ( GetTempFolder(), 'BMP' )
 
    SaveWindowByHandle ( GetFormHandle ( cWindowName ), TempName, ntop, nleft, nbottom, nright )
 
@@ -1176,8 +1218,6 @@ FUNCTION PrintWindow ( cWindowName, lPreview, ldialog, nRow, nCol, nWidth, nHeig
    END PRINTDOC
 
    DO EVENTS
-   FErase( TempName )
+   FErase ( TempName )
 
 RETURN NIL
-
-#endif

@@ -30,26 +30,30 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 ---------------------------------------------------------------------------*/
 
 #include "minigui.ch"
 
+#ifdef _PAGER_
 *-----------------------------------------------------------------------------*
 FUNCTION _BeginPager( ControlName, ParentName, nWidth, nHeight, nScroll, cCaption, tooltip, vertical, autoscroll, backcolor )
 *-----------------------------------------------------------------------------*
-   LOCAL hRebar, ParentForm, ControlHandle,  mVar, k, Id
+   LOCAL hRebar, ParentForm, ControlHandle
+   LOCAL mVar
+   LOCAL k
+   LOCAL Id
 
    IF _HMG_BeginPagerActive
       MsgMiniGuiError( "DEFINE PAGER Structures can't be nested." )
@@ -154,8 +158,11 @@ RETURN ControlHandle
 *-----------------------------------------------------------------------------*
 FUNCTION _EndPager()
 *-----------------------------------------------------------------------------*
+
    _HMG_BeginPagerActive := .F.
    _HMG_ActiveSplitBoxParentFormName := ""
    _EndSplitBox ()
 
 RETURN Nil
+
+#endif

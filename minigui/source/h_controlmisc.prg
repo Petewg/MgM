@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -50,6 +50,11 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #endif
 
 #include "hmg.ch"
+
+#ifndef HMG_LEGACY_OFF
+#undef _BT_
+#endif
+
 #include "i_winuser.ch"
 
 #define ESB_ENABLE_BOTH    0x0000
@@ -135,7 +140,7 @@ FUNCTION _GetValue ( ControlName, ParentForm, Index )
 
    CASE T == "TEXT" .OR. T == "BTNTEXT" .OR. T == "EDIT" .OR. "LABEL" $ T .OR. T == "HYPERLINK" .OR. T == "CHARMASKTEXT" .OR. T == "RICHEDIT"
       IF t == "CHARMASKTEXT"
-         IF ValType ( _HMG_aControlHeadCLick [ix] ) == 'L'
+         IF ISLOGICAL ( _HMG_aControlHeadCLick [ix] )
             IF _HMG_aControlHeadCLick [ix] == .T.
                retval := CToD ( AllTrim ( GetWindowText ( c ) ) )
             ELSE
@@ -171,7 +176,7 @@ FUNCTION _GetValue ( ControlName, ParentForm, Index )
    CASE T == "RADIOGROUP"
       FOR EACH x IN c
          IF x > 0
-            auxval := SendMessage( x , BM_GETCHECK , 0 , 0 )
+            auxval := SendMessage ( x , BM_GETCHECK , 0 , 0 )
             IF auxval == BST_CHECKED
                retval := hb_enumindex( x )
                EXIT
@@ -180,7 +185,7 @@ FUNCTION _GetValue ( ControlName, ParentForm, Index )
       NEXT
 
    CASE T == "COMBO"
-      IF ValType ( _HMG_aControlSpacing [ix] ) == 'C'
+      IF ISCHARACTER ( _HMG_aControlSpacing [ix] )
          auxval := ComboGetCursel ( c )
          WorkArea := _HMG_aControlSpacing [ix]
          BackRec := ( WorkArea )->( RecNo() )
@@ -311,6 +316,13 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
       SetMonthCalValue ( c, Year ( value ), Month ( value ), Day ( value ) )
 
       _DoControlEventProcedure ( _HMG_aControlChangeProcedure [ix] , ix , 'CONTROL_ONCHANGE' )
+#ifndef __XHARBOUR__
+      IF hb_Version( HB_VERSION_BITWIDTH ) >= 64
+#else
+      IF IsExe64()
+#endif
+         SetDayState( _HMG_aControlNames [ix] , GetParentFormName( ix ) )
+      ENDIF
 
    CASE T == "TREE"
       IF Empty ( Value )
@@ -469,7 +481,7 @@ FUNCTION _SetValue ( ControlName, ParentForm, Value, index )
    CASE T == "COMBO"
       Value := IFNUMERIC( Value, Value, 0 )
 
-      IF ValType ( _HMG_aControlSpacing [ix] ) == 'C'
+      IF ISCHARACTER ( _HMG_aControlSpacing [ix] )
          _HMG_aControlValue [ix] := value
          WorkArea := _HMG_aControlSpacing [ix]
          BackRec := ( WorkArea )->( RecNo() )
@@ -635,7 +647,7 @@ FUNCTION _AddItem ( ControlName , ParentForm , Value , Parent , aImage , Id )
 
    __defaultNIL( @Id, 0 )
 
-   IF ValType ( aImage ) == 'N'
+   IF ISNUMERIC ( aImage )
       Id := aImage
    ENDIF
 
@@ -669,8 +681,8 @@ FUNCTION _AddItem ( ControlName , ParentForm , Value , Parent , aImage , Id )
             iUnsel := 2  // Pointer to defalut Node Bitmaps, no Bitmap loaded
             iSel   := 3
          ELSE
-            iUnSel := AddTreeViewBitmap ( c, aImage [1] ) - 1
-            iSel   := iif( ImgDef == 1, iUnSel, AddTreeViewBitmap ( c, aImage [2] ) - 1 )
+            iUnSel := AddTreeViewBitmap ( c, aImage [1], _HMG_aControlMiscData1[ ix, 4 ] ) - 1
+            iSel   := iif( ImgDef == 1, iUnSel, AddTreeViewBitmap ( c, aImage [2], _HMG_aControlMiscData1[ ix, 4 ] ) - 1 )
             // If only one bitmap in array iSel = iUnsel, only one Bitmap loaded
          ENDIF
 
@@ -753,8 +765,8 @@ FUNCTION _AddItem ( ControlName , ParentForm , Value , Parent , aImage , Id )
             iUnsel := 0  // Pointer to defalut Node Bitmaps, no Bitmap loaded
             iSel   := 1
          ELSE
-            iUnSel := AddTreeViewBitmap ( c, aImage [1] ) - 1
-            iSel   := iif( ImgDef == 1, iUnSel, AddTreeViewBitmap ( c, aImage [2] ) - 1 )
+            iUnSel := AddTreeViewBitmap ( c, aImage [1], _HMG_aControlMiscData1[ ix, 4 ] ) - 1
+            iSel   := iif( ImgDef == 1, iUnSel, AddTreeViewBitmap ( c, aImage [2], _HMG_aControlMiscData1[ ix, 4 ] ) - 1 )
             // If only one bitmap in array iSel = iUnsel, only one Bitmap loaded
          ENDIF
 
@@ -1214,7 +1226,7 @@ FUNCTION _DisableControl ( ControlName , ParentForm , nPosition )
       IF _HMG_aControlEnabled [y] == .T.
          IF _HMG_IsThemed
             ImageList_Destroy( _HMG_aControlBrushHandle [y] )
-            _HMG_aControlBrushHandle [y] := _SetMixedBtnPicture ( c , _HMG_aControlPicture [y] )
+            _HMG_aControlBrushHandle [y] := _SetMixedBtnPicture ( c , _HMG_aControlPicture [y] , _HMG_aControlSpacing [y] )
             ReDrawWindow ( c )
          ELSE
             _SetBtnPictureMask( c, y )
@@ -1329,7 +1341,7 @@ FUNCTION _EnableControl ( ControlName , ParentForm , nPosition )
    CASE T == "BUTTON" .AND. !Empty( _HMG_aControlBrushHandle [y] ) .AND. ValType( _HMG_aControlPicture [y] ) == "C" .AND. _HMG_aControlMiscData1 [y] == 0
       IF _HMG_aControlEnabled [y] == .F.
          IF _HMG_aControlDblClick [y] == .F. .AND. _HMG_IsThemed
-            ImageList_Destroy( _HMG_aControlBrushHandle [y] )
+            ImageList_Destroy ( _HMG_aControlBrushHandle [y] )
             _HMG_aControlBrushHandle [y] := _SetMixedBtnPicture ( c , _HMG_aControlPicture [y] )
             ReDrawWindow ( c )
          ELSE
@@ -1343,7 +1355,7 @@ FUNCTION _EnableControl ( ControlName , ParentForm , nPosition )
       IF _HMG_aControlEnabled [y] == .F.
          IF _HMG_IsThemed
             ImageList_Destroy( _HMG_aControlBrushHandle [y] )
-            _HMG_aControlBrushHandle [y] := _SetMixedBtnPicture ( c , _HMG_aControlPicture [y] )
+            _HMG_aControlBrushHandle [y] := _SetMixedBtnPicture ( c , _HMG_aControlPicture [y] , _HMG_aControlSpacing [y] )
             ReDrawWindow ( c )
          ELSE
             _DestroyBtnPictureMask( c, y )
@@ -1721,7 +1733,7 @@ FUNCTION _SetItem ( ControlName , ParentForm , Item , Value , index )
 
    CASE T == "LIST"
 
-      IF _HMG_aControlMiscData1 [i] [2] .AND. ValType ( value ) == 'A'
+      IF _HMG_aControlMiscData1 [i] [2] .AND. ISARRAY ( value )
          value := LB_Array2String ( value )
       ENDIF
 
@@ -1813,7 +1825,7 @@ FUNCTION _SetItem ( ControlName , ParentForm , Item , Value , index )
 
                ELSEIF AEC == 'CODEBLOCK'
                   aTemp [ci] := hb_ValToStr ( VALUE [CI] )
-                  
+
                ELSEIF AEC == 'DATEPICKER'
                   bd := Set ( _SET_DATEFORMAT )
                   SET CENTURY ON
@@ -1844,6 +1856,9 @@ FUNCTION _SetItem ( ControlName , ParentForm , Item , Value , index )
 
          ENDIF
 
+         IF Len ( _HMG_aControlBkColor [i] ) > 0
+            SetImageListViewItems ( c , Item , Value [1] )
+         ENDIF
          _UpdateGridColors ( i )
 
       ENDIF
@@ -2596,6 +2611,7 @@ FUNCTION _SetPicture ( ControlName , ParentForm , FileName )
    LOCAL cImage
    LOCAL oGet
    LOCAL w, h, t, i, c
+   LOCAL cDiskFile
 
    c := GetControlHandle ( ControlName , ParentForm )
    i := GetControlIndex ( ControlName , ParentForm )
@@ -2632,6 +2648,27 @@ FUNCTION _SetPicture ( ControlName , ParentForm , FileName )
       _HMG_aControlInputMask [i] := _GetPictureData ( oGet, Filename )
 
       _SetValue ( , , oGet:VarGet(), i )
+
+   CASE t == 'ANIGIF'
+
+      _HMG_aControlPicture [i] := FileName
+
+      IF ! hb_FileExists ( FileName )
+         cDiskFile := TempFile ( GetTempFolder(), "gif" )
+         IF RCDataToFile ( Filename, cDiskFile, "GIF" ) > 0
+            IF hb_FileExists ( cDiskFile )
+               FileName := cDiskFile
+            ENDIF
+         ENDIF
+      ENDIF
+
+      oGet := _HMG_aControlIds [i]
+      oGet:cFileName := FileName
+      oGet:Restart()
+
+      IF hb_FileExists ( cDiskFile )
+         FErase ( cDiskFile )
+      ENDIF
 
    CASE t == 'BTNTEXT' .OR. t == 'BTNNUMTEXT'
 
@@ -3260,7 +3297,8 @@ FUNCTION _SetMultiImage ( ControlName, ParentForm, Column, Value, lRightAlign )
             IMAGELIST_DESTROY ( _HMG_aControlInputMask [i] )
          ENDIF
 
-         _HMG_aControlInputMask [i] := AddTabBitMap ( h, _HMG_aControlPicture [i] )
+         _HMG_aControlInputMask [i] := AddTabBitMap ( h, _HMG_aControlPicture [i], _HMG_aControlMiscData1 [i, 8] )
+
          UpdateTab ( i )
 
       CASE t == 'TREE'  // GF 12/23/2013
@@ -3462,11 +3500,22 @@ FUNCTION _ReleaseControl ( ControlName, ParentForm )
 
    DO CASE
 
+   CASE t == "ANIGIF"
+      _HMG_aControlIds [i]:End()
+
    CASE t == "ANIMATEBOX"
       _DestroyAnimateBox ( ControlName, ParentForm )
 
    CASE t == "PLAYER"
       _DestroyPlayer ( ControlName, ParentForm )
+
+   CASE t == "PROGRESSWHEEL"
+      IF GetProperty ( ParentForm, ControlName, "GradientMode" ) == 3
+         SetProperty ( ParentForm, ControlName, "GradientMode", 1 )
+      ENDIF
+
+      hb_ADel ( _HMG_aFormGraphTasks[ GetFormIndex ( ParentForm ) ] , _HMG_aControlMiscData1 [i] , .T. )
+      ReleaseControl ( _HMG_aControlHandles [i] )
 
    CASE t == "SPINNER" .OR. t == "RADIOGROUP"
       AEval ( _HMG_aControlHandles [i], { |y| ReleaseControl ( y ) } )
@@ -3650,8 +3699,8 @@ FUNCTION _EraseControl ( i, p )
 
    x := _HMG_aControlFontHandle [i]
 
-   IF ISNUMERIC ( x ) .AND. !Empty ( x ) .AND. ;
-      !( ( t := AScan ( _HMG_aControlHandles, x ) ) > 0 .AND. _HMG_aControlType [t] == "FONT" ) 
+   IF ISNUMERIC ( x ) .AND. ! Empty ( x ) .AND. ;
+      !( ( t := AScan ( _HMG_aControlHandles, x ) ) > 0 .AND. _HMG_aControlType [t] == "FONT" )
       DeleteObject ( x )
    ENDIF
 
@@ -3683,8 +3732,13 @@ FUNCTION _EraseControl ( i, p )
          ENDIF
       ENDIF
 
-   CASE t == 'BUTTON' .OR. t == 'CHECKBOX'
-      IF !Empty( _HMG_aControlBrushHandle [i] ) .AND. _HMG_IsThemed
+   CASE t == 'BUTTON'
+      IF ! Empty ( _HMG_aControlBrushHandle [i] ) .AND. _HMG_IsThemed .AND. ISLOGICAL ( _HMG_aControlDblClick [i] ) .AND. _HMG_aControlDblClick [i] == .F.
+         ImageList_Destroy ( _HMG_aControlBrushHandle [i] )
+      ENDIF
+
+   CASE t == 'CHECKBOX'
+      IF ! Empty ( _HMG_aControlBrushHandle [i] ) .AND. _HMG_IsThemed
          ImageList_Destroy ( _HMG_aControlBrushHandle [i] )
       ENDIF
 
@@ -3825,6 +3879,18 @@ PROCEDURE SetProperty( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 )
    LOCAL ix
 #ifdef _USERINIT_
    LOCAL cMacro, cProc
+#endif
+
+#ifdef _HMG_COMPAT_
+   IF _RichEditBox_SetProperty ( Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8 ) == .T.
+      RETURN
+   ENDIF
+#endif
+
+#ifdef _BT_
+   IF _ProgressWheel_SetProperty ( Arg1, Arg2, Arg3, Arg4 ) == .T.
+      RETURN
+   ENDIF
 #endif
 
    SWITCH PCount()
@@ -4010,8 +4076,8 @@ PROCEDURE SetProperty( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 )
       DO CASE
 
       CASE Arg3 == "CUEBANNER" /* P.Ch. 16.10. */
-         
-         IF IsVistaOrLater() 
+
+         IF IsVistaOrLater()
 
             IF "TEXT" $ GetControlType( Arg2, Arg1 )
                SendMessageWideString( GetControlHandle ( Arg2, Arg1 ), EM_SETCUEBANNER, .T., Arg4 )
@@ -4243,6 +4309,14 @@ PROCEDURE SetProperty( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 )
       CASE Arg3 == "FONTCOLOR" .OR. Arg3 == "FORECOLOR"
 
          _SetFontColor ( Arg2 , Arg1 , Arg4 )
+
+      CASE Arg3 == "HTFORECOLOR"
+
+         _SetGetTabHTColors ( Arg2 , Arg1 , 6 , Arg4 )
+
+      CASE Arg3 == "HTINACTIVECOLOR"
+
+         _SetGetTabHTColors ( Arg2 , Arg1 , 7 , Arg4 )
 
       CASE Arg3 == "ADDRESS"
 
@@ -4498,7 +4572,7 @@ PROCEDURE SetProperty( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 )
 
       ENDIF
       EXIT
-      
+
    CASE 6 // PCount() == 6 (TAB CHILD CONTROL OR SPLITBOX CHILD WITH ARGUMENT OR SPLITCHILD TOOLBAR BUTTON)
 
       IF Upper ( Arg2 ) == "SPLITBOX"
@@ -4610,17 +4684,32 @@ PROCEDURE SetProperty( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 )
    ENDIF
 #endif
 
-RETURN 
+RETURN
 
 *-----------------------------------------------------------------------------*
-FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
+FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7, Arg8 )
 *-----------------------------------------------------------------------------*
    LOCAL RetVal, ix
+#if defined( _BT_ ) .OR. defined( _HMG_COMPAT_ )
+   LOCAL xData
+#endif
 #ifdef _USERINIT_
    LOCAL cMacro, cProc
 #endif
 #ifdef _HMG_COMPAT_
    LOCAL cHeader, nAlignHeader, cFooter, nAlingFooter, nState
+
+   IF _RichEditBox_GetProperty ( @xDATA, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8 ) == .T.
+      RETURN xData
+   ENDIF
+#else
+   HB_SYMBOL_UNUSED( Arg8 )
+#endif
+
+#ifdef _BT_
+   IF _ProgressWheel_GetProperty ( @xDATA, Arg1, Arg2, Arg3 ) == .T.
+      RETURN xData
+   ENDIF
 #endif
 
    SWITCH PCount()
@@ -4648,6 +4737,7 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
 
       NEXT
 #endif
+
       DO CASE
 
       CASE Arg2 == "TITLE"
@@ -4818,8 +4908,8 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
       DO CASE
 
       CASE Arg3 == "CUEBANNER" /* P.Ch. 16.10. */
-         
-         IF IsVistaOrLater() 
+
+         IF IsVistaOrLater()
 
             IF "TEXT" $ GetControlType( Arg2, Arg1 )
                RetVal := GetCueBannerText( GetControlHandle ( Arg2, Arg1 ) )
@@ -4894,6 +4984,7 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
       CASE Arg3 == "CARGO"  // (GF) HMG 1.7 Exp. Build 76
 
          RetVal := _ControlCargo ( Arg2 , Arg1 )
+
 #ifdef _TSBROWSE_
       CASE Arg3 == "OBJECT"
 
@@ -4920,9 +5011,9 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
          RetVal := GetControlName ( Arg2 , Arg1 )
 
       CASE Arg3 == "HANDLE"
-  
+
          RetVal := GetControlHandle ( Arg2 , Arg1 )
-     
+
       CASE Arg3 == "INDEX"
 
          RetVal := GetControlIndex ( Arg2 , Arg1 )
@@ -4930,7 +5021,7 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
       CASE Arg3 == "TYPE"
 
          RetVal := GetUserControlType ( Arg2 , Arg1 )
-  
+
 #ifdef _DBFBROWSE_
       CASE Arg3 == "ALLOWEDIT"
 
@@ -5107,6 +5198,14 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
 
          RetVal := _GetFontColor ( Arg2 , Arg1 )
 
+      CASE Arg3 == "HTFORECOLOR"
+
+         RetVal := _SetGetTabHTColors ( Arg2 , Arg1 , 6 )
+
+      CASE Arg3 == "HTINACTIVECOLOR"
+
+         RetVal := _SetGetTabHTColors ( Arg2 , Arg1 , 7 )
+
       CASE Arg3 == "ADDRESS"
 
          RetVal := _GetAddress ( Arg2 , Arg1 )
@@ -5136,6 +5235,10 @@ FUNCTION GetProperty ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 )
       CASE Arg3 == "COLUMNCOUNT"
 
          RetVal := ListView_GetColumnCount ( GetControlHandle ( Arg2 , Arg1 ) )
+
+      CASE Arg3 == "ROWSPERPAGE"
+
+         RetVal := ListViewGetCountPerPage ( GetControlHandle ( Arg2 , Arg1 ) )
 #endif
       CASE Arg3 == "READONLY" .OR. Arg3 == "DISABLEEDIT"
 
@@ -5414,6 +5517,12 @@ FUNCTION DoMethod ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 , Arg9
    LOCAL cMacro, cProc
 #endif
 
+#ifdef _HMG_COMPAT_
+   IF _RichEditBox_DoMethod ( Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9 ) == .T.
+      RETURN NIL
+   ENDIF
+#endif
+
    IF PCount() == 2 // Window
 
       IF ValType ( Arg1 ) == "C"
@@ -5688,6 +5797,13 @@ FUNCTION DoMethod ( Arg1 , Arg2 , Arg3 , Arg4 , Arg5 , Arg6 , Arg7 , Arg8 , Arg9
 
          _SetArrayToControl ( Arg2 , Arg1 , Arg4 )
 
+#ifdef _BT_
+      CASE Arg3 == 'SETSHOWTEXT' // GF
+
+         IF GetControlType ( Arg2 , Arg1 ) == "PROGRESSWHEEL"
+            PW_SetShowText ( Arg2 , Arg1 , Arg4 )
+         ENDIF
+#endif
       OTHERWISE
 
          IF !( "GROUP" $ Arg3 )
@@ -5989,6 +6105,130 @@ STATIC PROCEDURE GroupCheckBoxAllItems ( cControlName, cParentName, nGroupID, lC
 RETURN
 #endif
 
+#ifdef _BT_
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _ProgressWheel_GetProperty ( xData, Arg1, Arg2, Arg3 )
+*-----------------------------------------------------------------------------*
+   LOCAL RetVal := .F.
+
+   IF ( ValType( Arg1 ) <> "C" ) .OR. ( ValType( Arg2 ) <> "C" ) .OR. ( ValType ( Arg3 ) <> "C" ) .OR. ;
+      ( _IsControlDefined ( Arg2, Arg1 ) == .F. ) .OR. ( GetControlType ( Arg2, Arg1 ) <> "PROGRESSWHEEL" )
+      RETURN .F.
+   ENDIF
+
+   Arg3 := Upper ( AllTrim ( Arg3 ) )
+
+   DO CASE
+   CASE Arg3 == 'COLORDONEMIN'
+      xData := PW_GetColorDoneMin ( Arg2, Arg1 )
+      RetVal := .T.
+
+   CASE Arg3 == 'COLORDONEMAX'
+      xData := PW_GetColorDoneMax ( Arg2, Arg1 )
+      RetVal := .T.
+
+   CASE Arg3 == 'COLORREMAIN'
+      xData := PW_GetColorRemain ( Arg2, Arg1 )
+      RetVal := .T.
+
+   CASE Arg3 == 'COLORINNER'
+      xData := PW_GetColorInner ( Arg2, Arg1 )
+      RetVal := .T.
+
+   CASE Arg3 == 'INNERSIZE'
+      xData := _HMG_aControlSpacing [ GetControlIndex ( Arg2 , Arg1 ) ]
+      RetVal := .T.
+
+   CASE Arg3 == 'STARTANGLE'
+      xData := _HMG_aControlInputMask [ GetControlIndex ( Arg2 , Arg1 ) ]
+      RetVal := .T.
+
+   CASE Arg3 == 'MIN'
+      xData := _HMG_aControlRangeMin [ GetControlIndex ( Arg2 , Arg1 ) ]
+      RetVal := .T.
+
+   CASE Arg3 == 'MAX'
+      xData := _HMG_aControlRangeMax [ GetControlIndex ( Arg2 , Arg1 ) ]
+      RetVal := .T.
+
+   CASE Arg3 == 'POSITION'
+      xData := _HMG_aControlValue [ GetControlIndex ( Arg2 , Arg1 ) ]
+      RetVal := .T.
+
+   CASE Arg3 == 'SHOWTEXT'
+      xData := _HMG_aControlDblClick [ GetControlIndex ( Arg2 , Arg1 ) ]
+      RetVal := .T.
+
+   CASE Arg3 == 'GRADIENTMODE'
+      xData := _HMG_aControlPicture [ GetControlIndex ( Arg2 , Arg1 ) ]
+      RetVal := .T.
+
+   ENDCASE
+
+RETURN RetVal
+
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _ProgressWheel_SetProperty ( Arg1, Arg2, Arg3, Arg4 )
+*-----------------------------------------------------------------------------*
+   LOCAL RetVal := .F.
+
+   IF ( ValType( Arg1 ) <> "C" ) .OR. ( ValType( Arg2 ) <> "C" ) .OR. ( ValType ( Arg3 ) <> "C" ) .OR. ;
+      ( _IsControlDefined( Arg2, Arg1 ) == .F. ) .OR. ( GetControlType( Arg2, Arg1 ) <> "PROGRESSWHEEL" )
+      RETURN .F.
+   ENDIF
+
+   Arg3 := Upper ( AllTrim ( Arg3 ) )
+
+   DO CASE
+   CASE Arg3 == 'COLORDONEMIN'
+      PW_SetColorDoneMin ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'COLORDONEMAX'
+      PW_SetColorDoneMax ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'COLORREMAIN'
+      PW_SetColorRemain ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'COLORINNER'
+      PW_SetColorInner ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'INNERSIZE'
+      PW_SetInnerSize ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'STARTANGLE'
+      PW_SetStartAngle ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'MIN'
+      PW_SetMin ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'MAX'
+      PW_SetMax ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'POSITION'
+      PW_SetPosition ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'SHOWTEXT'
+      _HMG_aControlDblClick [ GetControlIndex ( Arg2 , Arg1 ) ] := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'GRADIENTMODE'
+      PW_SetGradientMode ( Arg2, Arg1, Arg4 )
+      RetVal := .T.
+
+   ENDCASE
+
+RETURN RetVal
+#endif
+
 *-----------------------------------------------------------------------------*
 STATIC PROCEDURE VerifyControlDefined ( cParentName , cControlName )
 *-----------------------------------------------------------------------------*
@@ -6152,6 +6392,462 @@ STATIC FUNCTION _SetArrayToControl ( ControlName , ParentForm , aValue )  // GF 
 RETURN Nil
 
 #ifdef _HMG_COMPAT_
+// *********************************************
+// by Dr. Claudio Soto (January 2014)
+// *********************************************
+
+*-----------------------------------------------------------------------------*
+PROCEDURE FindTextDlg ( OnActionCodeBlock, cFind, lNoUpDown, lNoMatchCase, lNoWholeWord, lCheckDown, lCheckMatchCase, lCheckWholeWord, cTitle )
+*-----------------------------------------------------------------------------*
+   LOCAL cReplace := NIL
+
+   IF ValType ( OnActionCodeBlock ) <> "B"
+      OnActionCodeBlock := {|| NIL }
+   ENDIF
+
+   IF ValType ( lCheckDown ) <> "L"
+      lCheckDown := .T.
+   ENDIF
+
+   IF ValType ( lCheckMatchCase ) <> "L"
+      lCheckMatchCase := .F.
+   ENDIF
+
+   IF ValType ( lCheckWholeWord ) <> "L"
+      lCheckWholeWord := .F.
+   ENDIF
+
+   IF FindReplaceDlgIsRelease () == .F.
+      FindReplaceDlgRelease ( .T. )
+   ENDIF
+
+   _HMG_FindReplaceOnAction := OnActionCodeBlock
+   FindReplaceDlg ( NIL, lNoUpDown, lNoMatchCase, lNoWholeWord, lCheckDown, lCheckMatchCase, lCheckWholeWord, cFind, cReplace, .F., cTitle )
+
+RETURN
+
+*-----------------------------------------------------------------------------*
+PROCEDURE ReplaceTextDlg ( OnActionCodeBlock, cFind, cReplace, lNoMatchCase, lNoWholeWord, lCheckMatchCase, lCheckWholeWord, cTitle )
+*-----------------------------------------------------------------------------*
+   LOCAL lNoUpDown := NIL
+   LOCAL lCheckDown := NIL
+
+   IF ValType ( OnActionCodeBlock ) <> "B"
+      OnActionCodeBlock := {|| NIL }
+   ENDIF
+
+   IF ValType ( lCheckMatchCase ) <> "L"
+      lCheckMatchCase := .F.
+   ENDIF
+
+   IF ValType ( lCheckWholeWord ) <> "L"
+      lCheckWholeWord := .F.
+   ENDIF
+
+   IF FindReplaceDlgIsRelease () == .F.
+      FindReplaceDlgRelease ( .T. )
+   ENDIF
+
+   _HMG_FindReplaceOnAction := OnActionCodeBlock
+   FindReplaceDlg ( NIL, lNoUpDown, lNoMatchCase, lNoWholeWord, lCheckDown, lCheckMatchCase, lCheckWholeWord, cFind, cReplace, .T., cTitle )
+
+RETURN
+
+// *********************************************
+// by Dr. Claudio Soto (January 2014)
+// *********************************************
+
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _RichEditBox_GetProperty ( xData, Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8 )
+*-----------------------------------------------------------------------------*
+   LOCAL hWndControl, cFontName, nFontSize, lBold, lItalic, lUnderline, lStrikeout, aTextColor, aBackColor, nScript, lLink
+   LOCAL nAlignment, nNumbering, nNumberingStyle, nNumberingStart, ndOffset, ndLineSpacing, ndStartIndent
+   LOCAL nNumerator, nDenominator
+   LOCAL RetVal := .F.
+
+   IF ( ValType( Arg1 ) <> "C" ) .OR. ( ValType( Arg2 ) <> "C" ) .OR. ( ValType ( Arg3 ) <> "C" ) .OR. ;
+      ( _IsControlDefined( Arg2, Arg1 ) == .F. ) .OR. ( GetControlType( Arg2, Arg1 ) <> "RICHEDIT" ) .OR. (  _HMG_aControlMiscData1 [GetControlIndex( Arg2, Arg1 )] <> 1 )
+      RETURN .F.
+   ENDIF
+
+   cFontName := nFontSize := lBold := lItalic := lUnderline := lStrikeout := aTextColor := aBackColor := nScript := lLink := NIL
+   nAlignment := nNumbering := nNumberingStyle := nNumberingStart := ndOffset := ndLineSpacing := ndStartIndent := NIL
+
+   hWndControl := GetControlHandle ( Arg2, Arg1 )
+   RichEditBox_GetFont ( hWndControl, @cFONTNAME, @nFONTSIZE, @lBOLD, @lItalic, @lUnderline, @lStrikeout, @aTextColor, @aBACKCOLOR, @nScript, @lLink )
+   RichEditBox_GetParaFormat ( hWndControl, @nALIGNMENT, @nNumbering, @nNumberingStyle, @nNumberingStart, @ndOffset, @ndLineSpacing, @ndStartIndent )
+
+   Arg3 := Upper ( AllTrim ( Arg3 ) )
+
+   DO CASE
+   CASE Arg3 == 'FONTNAME'
+      xData := cFontName
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTSIZE'
+      xData := nFontSize
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTBOLD'
+      xData := lBold
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTITALIC'
+      xData := lItalic
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTUNDERLINE'
+      xData := lUnderline
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTSTRIKEOUT'
+      xData := lStrikeout
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTCOLOR'
+      xData := aTextColor
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTBACKCOLOR'
+      xData := aBackColor
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTSCRIPT'
+      xData := nScript
+      RetVal := .T.
+
+   CASE Arg3 == 'RTFTEXTMODE'
+      xData := RichEditBox_IsRTFTextMode ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == 'AUTOURLDETECT'
+      xData := RichEditBox_GetAutoURLDetect ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == 'ZOOM'
+      RichEditBox_GetZoom ( hWndControl, @nNumerator, @nDenominator )
+      xData := ( nNumerator / nDenominator ) * 100
+      RetVal := .T.
+
+   CASE Arg3 == 'SELECTRANGE'
+      xData := RichEditBox_GetSelRange ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == 'CARETPOS'
+      xData := RichEditBox_GetCaretPos ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == 'VALUE'
+      xData := RichEditBox_GetText ( hWndControl, .F. )
+      RetVal := .T.
+
+   CASE Arg3 == 'GETSELECTTEXT'
+      xData := RichEditBox_GetText ( hWndControl, .T. )
+      RetVal := .T.
+
+   CASE Arg3 == "GETTEXTRANGE"
+      xData := RichEditBox_GetTextRange ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == "GETTEXTLENGTH"
+      xData := RichEditBox_GetTextLength ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "GETPOSCHAR"
+      xData := RichEditBox_PosFromChar ( hWndControl, Arg4 ) // return { nRowScreen, nColScreen } or { -1, -1 } if character is not displayed
+      RetVal := .T.
+
+   CASE Arg3 == "PARAALIGNMENT"
+      xData := nAlignment
+      RetVal := .T.
+
+   CASE Arg3 == "PARANUMBERING"
+      xData := nNumbering
+      RetVal := .T.
+
+   CASE Arg3 == "PARANUMBERINGSTYLE"
+      xData := nNumberingStyle
+      RetVal := .T.
+
+   CASE Arg3 == "PARANUMBERINGSTART"
+      xData := nNumberingStart
+      RetVal := .T.
+
+   CASE Arg3 == "PARAOFFSET"
+      xData := ndOffset // in millimeters
+      RetVal := .T.
+
+   CASE Arg3 == "PARALINESPACING"
+      xData := ndLineSpacing
+      RetVal := .T.
+
+   CASE Arg3 == "PARAINDENT"
+      xData := ndStartIndent // in millimeters
+      RetVal := .T.
+
+   CASE Arg3 == "CANPASTE"
+      xData := RichEditBox_CanPaste ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "CANUNDO"
+      xData := RichEditBox_CanUnDo ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "CANREDO"
+      xData := RichEditBox_CanReDo ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "FINDTEXT"
+      xData := RichEditBox_FindText ( hWndControl, Arg4, Arg5, Arg6, Arg7, Arg8 )
+      RetVal := .T.
+
+   CASE Arg3 == "REPLACETEXT"
+      xData := RichEditBox_ReplaceText ( hWndControl, Arg4, Arg5, Arg6, Arg7, Arg8 )
+      RetVal := .T.
+
+   CASE Arg3 == "REPLACEALLTEXT"
+      xData := RichEditBox_ReplaceAllText ( hWndControl, Arg4, Arg5, Arg6, Arg7, Arg8 )
+      RetVal := .T.
+
+   CASE Arg3 == "LINK"
+      xData := lLink
+      RetVal := .T.
+
+   CASE Arg3 == "GETCLICKLINKRANGE"
+      xData := { _HMG_CharRange_Min, _HMG_CharRange_Max } // This Value is valid only into ON LINK procedure
+      RetVal := .T.
+
+   CASE Arg3 == "GETCLICKLINKTEXT"
+      xData := RichEditBox_GetTextRange ( hWndControl, { _HMG_CharRange_Min, _HMG_CharRange_Max } ) // This Value is valid only into ON LINK procedure
+      RetVal := .T.
+
+   CASE Arg3 == "VIEWRECT"
+      xData := RichEditBox_GetRect ( hWndControl )
+      RetVal := .T.
+
+   ENDCASE
+
+RETURN RetVal
+
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _RichEditBox_SetProperty ( Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8 )
+*-----------------------------------------------------------------------------*
+   LOCAL hWndControl, cFontName, nFontSize, lBold, lItalic, lUnderline, lStrikeout, aTextColor, aBackColor, nScript, lLink
+   LOCAL nAlignment, nNumbering, nNumberingStyle, nNumberingStart, ndOffset, ndLineSpacing, ndStartIndent
+   LOCAL nNumerator, nDenominator
+   LOCAL RetVal := .F.
+
+   IF ( ValType( Arg1 ) <> "C" ) .OR. ( ValType( Arg2 ) <> "C" ) .OR. ( ValType ( Arg3 ) <> "C" ) .OR. ;
+      ( _IsControlDefined( Arg2, Arg1 ) == .F. ) .OR. ( GetControlType( Arg2, Arg1 ) <> "RICHEDIT" ) .OR. (  _HMG_aControlMiscData1 [GetControlIndex( Arg2, Arg1 )] <> 1 )
+      RETURN .F.
+   ENDIF
+
+   cFontName := nFontSize := lBold := lItalic := lUnderline := lStrikeout := aTextColor := aBackColor := nScript := lLink := NIL
+   nAlignment := nNumbering := nNumberingStyle := nNumberingStart := ndOffset := ndLineSpacing := ndStartIndent := NIL
+
+   // Parameters NOT used
+   HB_SYMBOL_UNUSED ( Arg6 )
+   HB_SYMBOL_UNUSED ( Arg7 )
+   HB_SYMBOL_UNUSED ( Arg8 )
+
+   hWndControl := GetControlHandle ( Arg2, Arg1 )
+
+   Arg3 := Upper ( AllTrim ( Arg3 ) )
+
+   DO CASE
+
+   CASE Arg3 == 'FONTNAME'
+      cFontName := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTSIZE'
+      nFontSize := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTBOLD'
+      lBold := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTITALIC'
+      lItalic := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTUNDERLINE'
+      lUnderline := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTSTRIKEOUT'
+      lStrikeout := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTCOLOR'
+      aTextColor := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTBACKCOLOR'
+      aBackColor := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'FONTSCRIPT'
+      nScript := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == 'RTFTEXTMODE'
+      RichEditBox_SetRTFTextMode ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'AUTOURLDETECT'
+      RichEditBox_SetAutoURLDetect ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'BACKGROUNDCOLOR'
+      RichEditBox_SetBkgndColor ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'ZOOM'
+      nNumerator := Arg4 // in percentage
+      nDenominator := 100
+      RichEditBox_SetZoom ( hWndControl, nNumerator, nDenominator )
+      RetVal := .T.
+
+   CASE Arg3 == 'SELECTRANGE'
+      RichEditBox_SetSelRange ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'CARETPOS'
+      RichEditBox_SetCaretPos ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == 'VALUE'
+      RichEditBox_SetText ( hWndControl, .F., Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == "ADDTEXT"
+      Arg4 := IF ( ValType ( Arg4 ) <> "N", -1, Arg4 )
+      RichEditBox_SetCaretPos ( hWndControl, Arg4 )
+      RichEditBox_SetText ( hWndControl, .T., Arg5 )
+      RetVal := .T.
+
+   CASE Arg3 == "ADDTEXTANDSELECT"
+      Arg4 := IF ( ValType ( Arg4 ) <> "N", -1, Arg4 )
+      RichEditBox_AddTextAndSelect ( hWndControl, Arg4, Arg5 )
+      RetVal := .T.
+
+   CASE Arg3 == "PARAALIGNMENT"
+      nAlignment := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == "PARANUMBERING"
+      nNumbering := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == "PARANUMBERINGSTYLE"
+      nNumberingStyle := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == "PARANUMBERINGSTART"
+      nNumberingStart := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == "PARAOFFSET"
+      ndOffset := Arg4 // in millimeters
+      RetVal := .T.
+
+   CASE Arg3 == "PARALINESPACING"
+      ndLineSpacing := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == "PARAINDENT"
+      ndStartIndent := Arg4 // in millimeters
+      RetVal := .T.
+
+   CASE Arg3 == "LINK"
+      lLink := Arg4
+      RetVal := .T.
+
+   CASE Arg3 == "VIEWRECT"
+      RichEditBox_SetRect ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   ENDCASE
+
+   RichEditBox_SetFont ( hWndControl, cFontName, nFontSize, lBold, lItalic, lUnderline, lStrikeout, aTextColor, aBackColor, nScript, lLink )
+   RichEditBox_SetParaFormat ( hWndControl, nAlignment, nNumbering, nNumberingStyle, nNumberingStart, ndOffset, ndLineSpacing, ndStartIndent )
+
+RETURN RetVal
+
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _RichEditBox_DoMethod ( Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9 )
+*-----------------------------------------------------------------------------*
+   LOCAL RetVal := .F.
+   LOCAL hWndControl
+
+   IF ( ValType( Arg1 ) <> "C" ) .OR. ( ValType( Arg2 ) <> "C" ) .OR. ( ValType ( Arg3 ) <> "C" ) .OR. ;
+      ( _IsControlDefined( Arg2, Arg1 ) == .F. ) .OR. ( GetControlType( Arg2, Arg1 ) <> "RICHEDIT" ) .OR. (  _HMG_aControlMiscData1 [GetControlIndex( Arg2, Arg1 )] <> 1 )
+      RETURN .F.
+   ENDIF
+
+   hWndControl := GetControlHandle ( Arg2, Arg1 )
+
+   Arg3 := Upper ( AllTrim ( Arg3 ) )
+
+   DO CASE
+   CASE Arg3 == "SELECTALL"
+      RichEditBox_SelectAll ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "UNSELECTALL"
+      RichEditBox_UnSelectAll ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "RTFLOADFILE" .OR. Arg3 == "LOADFILE"
+      RichEditBox_LoadFile ( hWndControl, Arg4, Arg5, Arg6 ) // by default load in SF_RTF format
+      RetVal := .T.
+
+   CASE Arg3 == "RTFSAVEFILE" .OR. Arg3 == "SAVEFILE"
+      RichEditBox_SaveFile ( hWndControl, Arg4, Arg5, Arg6 ) // by default save in SF_RTF format
+      RetVal := .T.
+
+   CASE Arg3 == "SELPASTESPECIAL"
+      RichEditBox_PasteSpecial ( hWndControl, Arg4 )
+      RetVal := .T.
+
+   CASE Arg3 == "SELCOPY"
+      RichEditBox_SelCopy ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "SELPASTE"
+      RichEditBox_SelPaste ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "SELCUT"
+      RichEditBox_SelCut ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "SELCLEAR"
+      RichEditBox_SelClear ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "UNDO"
+      RichEditBox_ChangeUndo ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "REDO"
+      RichEditBox_ChangeRedo ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "CLEARUNDOBUFFER"
+      RichEditBox_ClearUndoBuffer ( hWndControl )
+      RetVal := .T.
+
+   CASE Arg3 == "RTFPRINT"
+      RichEditBox_RTFPrint ( hWndControl, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9 )
+      RetVal := .T.
+
+   ENDCASE
+
+RETURN RetVal
+
 *-----------------------------------------------------------------------------*
 FUNCTION GetFormNameByHandle ( hWnd , /*@*/cFormName )
 *-----------------------------------------------------------------------------*
@@ -6279,7 +6975,7 @@ STATIC FUNCTION _SetGetColumnHeadClick ( ControlName , ParentForm , nColIndex , 
 
       nColumnCount := ListView_GetColumnCount ( _HMG_aControlHandles [i] )
 
-      IF Len ( _HMG_aControlHeadClick [i] ) < nColumnCount           
+      IF Len ( _HMG_aControlHeadClick [i] ) < nColumnCount
          ASize ( _HMG_aControlHeadClick [i], nColumnCount )
       ENDIF
 
@@ -6499,7 +7195,9 @@ FUNCTION _SetWindowBackColor( FormHandle, aColor )
 
    IF ( i := AScan ( _HMG_aFormHandles, FormHandle ) ) > 0
 
-      DeleteObject ( _HMG_aFormBrushHandle [i] )
+      IF GetObjectType ( _HMG_aFormBrushHandle [i] ) == OBJ_BRUSH
+         DeleteObject ( _HMG_aFormBrushHandle [i] )
+      ENDIF
 
       hBrush := PaintBkGnd ( FormHandle, aColor )
 
@@ -6588,7 +7286,7 @@ STATIC FUNCTION _SetFontColor ( ControlName , ParentForm , Value )
       RedrawWindow ( c )
 
    CASE t == 'RICHEDIT'
-      SetFontRTF( c, -1, _HMG_aControlFontName [i], _HMG_aControlFontSize [i], _HMG_aControlFontAttributes [i][1], _HMG_aControlFontAttributes [i][2], ;
+      SetFontRTF ( c, -1, _HMG_aControlFontName [i], _HMG_aControlFontSize [i], _HMG_aControlFontAttributes [i][1], _HMG_aControlFontAttributes [i][2], ;
          RGB ( Value [1], Value [2], Value [3] ), _HMG_aControlFontAttributes [i][3], _HMG_aControlFontAttributes [i][4] )
       RedrawWindow ( c )
 
@@ -6600,6 +7298,9 @@ STATIC FUNCTION _SetFontColor ( ControlName , ParentForm , Value )
       _HMG_aControlFontColor [i] := Value
       IF _HMG_IsThemed .AND. IsArrayRGB ( Value )
          SetWindowTheme ( c, "", "" )
+         SetPosMonthCal ( c, _HMG_aControlCol [i], _HMG_aControlRow [i] )
+         _HMG_aControlWidth [i] := GetWindowWidth ( c )
+         _HMG_aControlHeight [i] := GetWindowHeight ( c )
       ENDIF
       SetMonthCalFontColor ( c, value [1], value [2], value [3] )
 
@@ -6670,6 +7371,9 @@ STATIC FUNCTION _SetBackColor ( ControlName , ParentForm , Value )
       _HMG_aControlBkColor [i] := Value
       IF _HMG_IsThemed .AND. IsArrayRGB ( Value )
          SetWindowTheme ( c, "", "" )
+         SetPosMonthCal ( c, _HMG_aControlCol [i], _HMG_aControlRow [i] )
+         _HMG_aControlWidth [i] := GetWindowWidth ( c )
+         _HMG_aControlHeight [i] := GetWindowHeight ( c )
       ENDIF
       SetMonthCalMonthBkColor ( c, Value [1], Value [2], Value [3] )
 
@@ -6699,7 +7403,7 @@ STATIC FUNCTION _SetBackColor ( ControlName , ParentForm , Value )
       _HMG_aControlBkColor [i] := iif( ISARRAY ( Value ), Value, { nRGB2Arr ( d ), nRGB2Arr ( f ), nRGB2Arr ( d ) } )
       RedrawWindow ( c )
 
-   CASE t == 'IMAGE' 
+   CASE t == 'IMAGE'
       _HMG_aControlSpacing [i] := iif( ISARRAY ( Value ), RGB ( Value [1], Value [2], Value [3] ), Value )
       _SetPicture ( ControlName , ParentForm , _HMG_aControlPicture [i] )
 
@@ -7551,6 +8255,9 @@ STATIC FUNCTION GetUserControlType ( ControlName, ParentForm )
 
    ELSEIF "TEXT" $ cRetName .OR. "EDIT" $ cRetName .OR. ( "LIST" $ cRetName .AND. cRetName != 'IMAGELIST' )
       cRetName += 'BOX'
+      IF cRetName == 'RICHEDITBOX' .AND. _HMG_aControlMiscData1 [i] == 1
+         cRetName += 'EX'
+      ENDIF
 
    ELSEIF "PICK" $ cRetName
       cRetName += 'ER'
@@ -7685,8 +8392,11 @@ STATIC FUNCTION _RedrawControl ( i )
    IF i > 0
 
       ControlHandle := _HMG_aControlHandles [i]
+
       IF ValType ( ControlHandle ) == "A"
          AEval ( ControlHandle, {|x| RedrawWindow ( x , .T. ) } )
+      ELSEIF _HMG_aControlType [i] == "OBUTTON"
+         InvalidateRect( ControlHandle, 0 )
       ELSE
          RedrawWindow ( ControlHandle )
       ENDIF
@@ -7694,6 +8404,25 @@ STATIC FUNCTION _RedrawControl ( i )
    ENDIF
 
 RETURN Nil
+
+*-----------------------------------------------------------------------------*
+STATIC FUNCTION _SetGetTabHTColors ( ControlName, ParentForm, nId, Value )
+*-----------------------------------------------------------------------------*
+   LOCAL i := GetControlIndex ( ControlName, ParentForm )
+   LOCAL RetVal := .T.
+
+   IF _HMG_aControlType [i] == 'TAB' .AND. _HMG_aControlMiscData1 [i] [5]  // HotTrack
+
+      IF PCount() > 3
+         _HMG_aControlMiscData1 [ i ] [ nId ] := Value
+      ELSE
+         RetVal := _HMG_aControlMiscData1 [ i ] [ nId ]
+      ENDIF
+
+   ENDIF
+
+RETURN RetVal
+
 
 *-----------------------------------------------------------------------------*
 FUNCTION _SetType ( cType )   // (c) 1996-1997, Bryan Duchesne

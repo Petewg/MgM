@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -55,10 +55,19 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineProgressBar ( ControlName, ParentFormName, x, y, w, h, lo, hi, ;
-      tooltip, vertical, smooth, HelpId, invisible, value, BackColor, BarColor, marquee, velocity, nId )
+      tooltip, vertical, smooth, HelpId, invisible, value, BackColor, BarColor, ;
+      marquee, velocity, nId, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle, blInit, mVar, ControlHandle, k, Style
+   LOCAL ParentFormHandle, ControlHandle
+   LOCAL blInit
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
    LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    hb_default( @vertical, .F. )
    hb_default( @h, iif( vertical, 120, 25 ) )
@@ -72,18 +81,15 @@ FUNCTION _DefineProgressBar ( ControlName, ParentFormName, x, y, w, h, lo, hi, ;
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
       ParentFormName := iif( _HMG_BeginDialogActive, _HMG_ActiveDialogName, _HMG_ActiveFormName )
    ENDIF
-
    IF _HMG_FrameLevel > 0 .AND. !_HMG_ParentWindowActive
       x := x + _HMG_ActiveFrameCol [_HMG_FrameLevel]
       y := y + _HMG_ActiveFrameRow [_HMG_FrameLevel]
       ParentFormName := _HMG_ActiveFrameParentFormName [_HMG_FrameLevel]
    ENDIF
    lDialogInMemory := _HMG_DialogInMemory
-
    IF .NOT. _IsWindowDefined ( ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError( "Window: " + IFNIL( ParentFormName, "Parent", ParentFormName ) + " is not defined." )
    ENDIF
-
    IF _IsControlDefined ( ControlName, ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError ( "Control: " + ControlName + " Of " + ParentFormName + " Already defined." )
    ENDIF
@@ -141,9 +147,13 @@ FUNCTION _DefineProgressBar ( ControlName, ParentFormName, x, y, w, h, lo, hi, ;
 
       IF marquee
          IF _HMG_IsXPorLater .AND. _HMG_IsThemed
-            ChangeStyle( ControlHandle , PBS_MARQUEE )
-            SendMessage( ControlHandle , PBM_SETMARQUEE , iif( velocity > 0, 1, 0 ) , velocity )
+            ChangeStyle ( ControlHandle , PBS_MARQUEE )
+            SendMessage ( ControlHandle , PBM_SETMARQUEE , iif( velocity > 0, 1, 0 ) , velocity )
          ENDIF
+      ENDIF
+
+      IF _HMG_IsThemed .AND. ( IsArrayRGB ( BarColor ) .OR. IsArrayRGB ( BackColor ) )
+         SetWindowTheme ( ControlHandle, "", "" )
       ENDIF
 
       IF _HMG_BeginTabActive
@@ -199,43 +209,54 @@ FUNCTION _DefineProgressBar ( ControlName, ParentFormName, x, y, w, h, lo, hi, ;
    _HMG_aControlMiscData1 [k] := 0
    _HMG_aControlMiscData2 [k] := ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF .NOT. lDialogInMemory
       IF IsArrayRGB( BackColor )
-         SetProgressBarBkColor( ControlHandle, BackColor[1], BackColor[2], BackColor[3] )
+         SetProgressBarBkColor( ControlHandle, BackColor [1], BackColor [2], BackColor [3] )
       ENDIF
 
       IF IsArrayRGB( BarColor )
-         SetProgressBarBarColor( ControlHandle, BarColor[1], BarColor[2], BarColor[3] )
+         SetProgressBarBarColor( ControlHandle, BarColor [1], BarColor [2], BarColor [3] )
       ENDIF
    ENDIF
+
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 
 *-----------------------------------------------------------------------------*
 FUNCTION InitDialogProgressBar( ParentName, ControlHandle, k )
 *-----------------------------------------------------------------------------*
-   LOCAL BackColor, BarColor
+   LOCAL BackColor
+   LOCAL BarColor
 
    BackColor := _HMG_aControlBkColor [k]
    BarColor  := _HMG_aControlFontColor [k]
+
+   IF _HMG_IsThemed .AND. ( IsArrayRGB ( BarColor ) .OR. IsArrayRGB ( BackColor ) )
+      SetWindowTheme ( ControlHandle, "", "" )
+   ENDIF
 
    IF ValType( ParentName ) <> 'U'
       SendMessage( ControlHandle , PBM_SETPOS , _HMG_aControlValue [k] , 0 )
    ENDIF
 
    IF IsArrayRGB( BackColor )
-      SetProgressBarBkColor( ControlHandle, BackColor[1], BackColor[2], BackColor[3] )
+      SetProgressBarBkColor( ControlHandle, BackColor [1], BackColor [2], BackColor [3] )
    ENDIF
 
    IF IsArrayRGB( BarColor )
-      SetProgressBarBarColor( ControlHandle, BarColor[1], BarColor[2], BarColor[3] )
+      SetProgressBarBarColor( ControlHandle, BarColor [1], BarColor [2], BarColor [3] )
    ENDIF
 // JP 62
-   IF Len( _HMG_aDialogTemplate ) != 0 .AND. _HMG_aDialogTemplate[3]   // Modal
+   IF Len( _HMG_aDialogTemplate ) != 0 .AND. _HMG_aDialogTemplate[3]  // Modal
       _HMG_aControlDeleted [k] := .T.
    ENDIF
 

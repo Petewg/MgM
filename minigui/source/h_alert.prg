@@ -35,7 +35,7 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2020, https://harbour.github.io/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -115,10 +115,12 @@ FUNCTION HMG_Alert( cMsg, aOptions, cTitle, nType, cIcoFile, nIcoSize, aBtnColor
 
    hb_default( @aBackColor, nRGB2Arr( GetSysColor( COLOR_BTNFACE ) ) )
    hb_default( @aFontColor, nRGB2Arr( GetSysColor( COLOR_BTNTEXT ) ) )
+   __defaultNIL( @cTitle, "Attention" )
+   __defaultNIL( @aOptions, { "&OK" } )
+   hb_default( @lClosable, .F. )
+   hb_default( @cFontName, "DlgFont" )
 
-   DEFAULT cTitle TO "Attention", aOptions TO { "&OK" }, lClosable TO .F., cFontName TO "DlgFont"
-
-   IF ValType( aOptions ) == "A"
+   IF ISARRAY( aOptions )
       DEFAULT nType := iif( Len( aOptions ) > 1, 2, 1 )
    ELSE
       DEFAULT nType := 1
@@ -142,7 +144,8 @@ FUNCTION HMG_Alert( cMsg, aOptions, cTitle, nType, cIcoFile, nIcoSize, aBtnColor
 
    AEval( aIcon, {| x, i | aIcon[ i ] := "ZZZ_B_" + x } )
 
-   DEFAULT cIcoFile := aIcon[ nType ], nIcoSize := 32
+   __defaultNIL( @cIcoFile, aIcon[ nType ] )
+   hb_default( @nIcoSize, 32 )
 
    IF GetFontHandle( cFontName ) == 0
       lFont := .T.
@@ -249,7 +252,7 @@ STATIC FUNCTION FillDlg( cMsg, aOptions, nLineas, cIcoFile, nIcoSize, aBtnColors
       cFont AS CHARACTER, ;
       nMaxLen AS NUMERIC
 #endif
-   IF ValType( aOptions ) == "N"
+   IF ISNUMERIC( aOptions )
 
       nSeconds := aOptions
       aOptions := { "&OK" }
@@ -260,7 +263,7 @@ STATIC FUNCTION FillDlg( cMsg, aOptions, nLineas, cIcoFile, nIcoSize, aBtnColors
 
    ENDIF
 
-   nLenaOp := iif( ValType( aOptions ) == "A", Len( aOptions ), 1 )
+   nLenaOp := iif( ISARRAY( aOptions ), Len( aOptions ), 1 )
 
    IF ( lExt := ( ISARRAY( aBtnColors ) .AND. Len( aBtnColors ) == nLenaOp ) )
       nVMARGIN_BUTTON := 3 * VMARGIN_BUTTON

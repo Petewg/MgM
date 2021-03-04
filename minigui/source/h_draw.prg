@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -50,8 +50,9 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 FUNCTION drawtextout( window, row, col, string, fontcolor, backcolor, fontname, fontsize, bold, italic, underline, strikeout, transparent, angle, once )
 *-----------------------------------------------------------------------------*
-   LOCAL i, FormHandle, FontHandle
+   LOCAL FormHandle, FontHandle
    LOCAL torow, tocol
+   LOCAL i
 
    IF hb_IsString( window )
       IF ( i := GetFormIndex( window ) ) > 0
@@ -75,9 +76,9 @@ FUNCTION drawtextout( window, row, col, string, fontcolor, backcolor, fontname, 
 
       torow := row + iif( transparent .OR. !Empty( angle ), 0, fontsize + 4 )
       tocol := col + ( Len( string ) - 1 ) * fontsize
-      textdraw( formhandle, row, col, string, torow, tocol, fontcolor, backcolor, fontname, fontsize, bold, italic, underline, strikeout, transparent, angle )
+      textdraw( FormHandle, row, col, string, torow, tocol, fontcolor, backcolor, fontname, fontsize, bold, italic, underline, strikeout, transparent, angle )
       IF ! once
-         AAdd ( _HMG_aFormGraphTasks [i], {|| textdraw( formhandle,row,col,string,torow,tocol,fontcolor,backcolor,fontname,fontsize,bold,italic,underline,strikeout,transparent,angle ) } )
+         AAdd ( _HMG_aFormGraphTasks [i], {|| textdraw( FormHandle,row,col,string,torow,tocol,fontcolor,backcolor,fontname,fontsize,bold,italic,underline,strikeout,transparent,angle ) } )
       ENDIF
    ENDIF
 
@@ -86,30 +87,31 @@ RETURN NIL
 *-----------------------------------------------------------------------------*
 FUNCTION drawline( window, row, col, row1, col1, penrgb, penwidth )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
    LOCAL FormHandle
+   LOCAL i
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
 
-      linedraw( formhandle, row, col, row1, col1, penrgb, penwidth )
-      AAdd ( _HMG_aFormGraphTasks [i] , {|| linedraw( formhandle,row,col,row1,col1,penrgb,penwidth ) } )
+      linedraw( FormHandle, row, col, row1, col1, penrgb, penwidth )
+      AAdd ( _HMG_aFormGraphTasks [i] , {|| linedraw( FormHandle,row,col,row1,col1,penrgb,penwidth ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION drawrect( window, row, col, row1, col1, penrgb, penwidth, fillrgb )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
-   LOCAL FormHandle, fill
+   LOCAL FormHandle
+   LOCAL i
+   LOCAL fill
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
       IF !( fill := ISARRAY( fillrgb ) )
          fillrgb := { 255, 255, 255 }
       ENDIF
@@ -118,18 +120,19 @@ FUNCTION drawrect( window, row, col, row1, col1, penrgb, penwidth, fillrgb )
       AAdd ( _HMG_aFormGraphTasks [i] , {|| rectdraw( FormHandle,row,col,row1,col1,penrgb,penwidth,fillrgb,fill ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION drawroundrect( window, row, col, row1, col1, width, height, penrgb, penwidth, fillrgb )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
-   LOCAL FormHandle, fill
+   LOCAL FormHandle
+   LOCAL i
+   LOCAL fill
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
       IF !( fill := ISARRAY( fillrgb ) )
          fillrgb := { 255, 255, 255 }
       ENDIF
@@ -138,55 +141,57 @@ FUNCTION drawroundrect( window, row, col, row1, col1, width, height, penrgb, pen
       AAdd ( _HMG_aFormGraphTasks [i] , {|| roundrectdraw( FormHandle,row,col,row1,col1,width,height,penrgb,penwidth,fillrgb,fill ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION drawellipse( window, row, col, row1, col1, penrgb, penwidth, fillrgb )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
-   LOCAL FormHandle, fill
+   LOCAL FormHandle
+   LOCAL i
+   LOCAL fill
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
       IF !( fill := ISARRAY( fillrgb ) )
          fillrgb := { 255, 255, 255 }
       ENDIF
 
       ellipsedraw( FormHandle, row, col, row1, col1, penrgb, penwidth, fillrgb, fill )
-      AAdd ( _HMG_aFormGraphTasks [i] , {|| ellipsedraw( FormHandle ,row,col,row1,col1,penrgb,penwidth,fillrgb,fill ) } )
+      AAdd ( _HMG_aFormGraphTasks [i] , {|| ellipsedraw( FormHandle,row,col,row1,col1,penrgb,penwidth,fillrgb,fill ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION drawarc( window, row, col, row1, col1, rowr, colr, rowr1, colr1, penrgb, penwidth )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
    LOCAL FormHandle
+   LOCAL i
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
 
       arcdraw( FormHandle, row, col, row1, col1, rowr, colr, rowr1, colr1, penrgb, penwidth )
-      AAdd ( _HMG_aFormGraphTasks [i] , {|| arcdraw( FormHandle ,row,col,row1,col1,rowr,colr,rowr1,colr1,penrgb,penwidth ) } )
+      AAdd ( _HMG_aFormGraphTasks [i] , {|| arcdraw( FormHandle,row,col,row1,col1,rowr,colr,rowr1,colr1,penrgb,penwidth ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION drawpie( window, row, col, row1, col1, rowr, colr, rowr1, colr1, penrgb, penwidth, fillrgb )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
-   LOCAL FormHandle, fill
+   LOCAL FormHandle
+   LOCAL i
+   LOCAL fill
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
       IF !( fill := ISARRAY( fillrgb ) )
          fillrgb := { 255, 255, 255 }
       ENDIF
@@ -195,19 +200,20 @@ FUNCTION drawpie( window, row, col, row1, col1, rowr, colr, rowr1, colr1, penrgb
       AAdd ( _HMG_aFormGraphTasks [i] , {|| piedraw( FormHandle,row,col,row1,col1,rowr,colr,rowr1,colr1,penrgb,penwidth,fillrgb,fill ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION drawpolygon( window, apoints, penrgb, penwidth, fillrgb )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
-   LOCAL FormHandle, fill
+   LOCAL FormHandle
+   LOCAL i
+   LOCAL fill
    LOCAL xarr := {}, yarr := {}
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
       IF !( fill := ISARRAY( fillrgb ) )
          fillrgb := { 255, 255, 255 }
       ENDIF
@@ -217,35 +223,37 @@ FUNCTION drawpolygon( window, apoints, penrgb, penwidth, fillrgb )
       AAdd( _HMG_aFormGraphTasks [i] , {|| polygondraw( FormHandle,xarr,yarr,penrgb,penwidth,fillrgb,fill ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION drawpolybezier( window, apoints, penrgb, penwidth )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
    LOCAL FormHandle
    LOCAL xarr := {}, yarr := {}
+   LOCAL i
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @penrgb, { 0, 0, 0 } )
       hb_default( @penwidth, 1 )
-      FormHandle := _HMG_aFormHandles [i]
 
       AEval( apoints, { | x | AAdd( yarr, x[1] ), AAdd( xarr, x[2] ) } )
       polybezierdraw( FormHandle, xarr, yarr, penrgb, penwidth )
       AAdd( _HMG_aFormGraphTasks [i] , {|| polybezierdraw( FormHandle,xarr,yarr,penrgb,penwidth ) } )
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 #define COLOR_BTNFACE	15
 *-----------------------------------------------------------------------------*
 FUNCTION HMG_DrawIcon( window, icon, row, col, w, h, rgb, transparent )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window ), backcolor
    LOCAL FormHandle
+   LOCAL backcolor
+   LOCAL i
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
       hb_default( @w, 0 )
       hb_default( @h, 0 )
       hb_default( @transparent, .F. )
@@ -261,14 +269,12 @@ FUNCTION HMG_DrawIcon( window, icon, row, col, w, h, rgb, transparent )
       ENDIF
       hb_default( @rgb, GetSysColor( COLOR_BTNFACE ) )
 
-      FormHandle := _HMG_aFormHandles [i]
-
       IF ISNUMERIC( icon )
          DrawIconEx( FormHandle, Col, Row, icon, w, h, rgb, .F. )
          AAdd( _HMG_aFormGraphTasks [i] , {|| DrawIconEx( FormHandle, Col, Row, icon, w, h, rgb, .F. ) } )
       ELSEIF ISSTRING( icon )
-         DrawIconEx( FormHandle, Col, Row, LoadIconByName( icon, w, h ), w, h, rgb )
-         AAdd( _HMG_aFormGraphTasks [i] , {|| DrawIconEx( FormHandle, Col, Row, LoadIconByName( icon, w, h ), w, h, rgb ) } )
+         DrawIconEx( FormHandle, Col, Row, LoadIconByName( icon, w, h ), w, h, rgb, .T. )
+         AAdd( _HMG_aFormGraphTasks [i] , {|| DrawIconEx( FormHandle, Col, Row, LoadIconByName( icon, w, h ), w, h, rgb, .T. ) } )
       ENDIF
    ENDIF
 
@@ -277,9 +283,9 @@ RETURN NIL
 *-----------------------------------------------------------------------------*
 FUNCTION EraseWindow( window )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
+   LOCAL i
 
-   IF i > 0
+   IF ( i := GetFormIndex ( Window ) ) > 0
       IF _HMG_aFormDeleted [i] == .F.
          IF ISARRAY ( _HMG_aFormGraphTasks [i] )
             ASize ( _HMG_aFormGraphTasks [i], 0 )
@@ -288,30 +294,38 @@ FUNCTION EraseWindow( window )
       ENDIF
    ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION DrawWindowBoxIn( window, row, col, rowr, colr )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
-   LOCAL FormHandle := _HMG_aFormHandles [i]
-   LOCAL hDC := GetDC( FormHandle )
+   LOCAL FormHandle
+   LOCAL hDC
+   LOCAL i
 
-   WndBoxIn( hDC, row, col, rowr, colr )
-   ReleaseDC( FormHandle, hDC )
-   AAdd( _HMG_aFormGraphTasks [i] , {|| WndBoxIn( ( hDC := GetDC( FormHandle ) ), row, col, rowr, colr ), ReleaseDC( FormHandle, hDC ) } )
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
+      hDC := GetDC ( FormHandle )
+      WndBoxIn ( hDC, row, col, rowr, colr )
+      ReleaseDC ( FormHandle, hDC )
+      AAdd( _HMG_aFormGraphTasks [i] , {|| WndBoxIn( ( hDC := GetDC( FormHandle ) ), row, col, rowr, colr ), ReleaseDC( FormHandle, hDC ) } )
+   ENDIF
 
-RETURN nil
+RETURN NIL
 
 *-----------------------------------------------------------------------------*
 FUNCTION DrawWindowBoxRaised( window, row, col, rowr, colr )
 *-----------------------------------------------------------------------------*
-   LOCAL i := GetFormIndex ( Window )
-   LOCAL FormHandle := _HMG_aFormHandles [i]
-   LOCAL hDC := GetDC( FormHandle )
+   LOCAL FormHandle
+   LOCAL hDC
+   LOCAL i
 
-   WndBoxRaised( hDC, row, col, rowr, colr )
-   ReleaseDC( FormHandle, hDC )
-   AAdd( _HMG_aFormGraphTasks [i] , {|| WndBoxRaised( ( hDC := GetDC( FormHandle ) ), row, col, rowr, colr ), ReleaseDC( FormHandle, hDC ) } )
+   IF ( i := GetFormIndex ( Window ) ) > 0
+      FormHandle := _HMG_aFormHandles [i]
+      hDC := GetDC ( FormHandle )
+      WndBoxRaised ( hDC, row, col, rowr, colr )
+      ReleaseDC ( FormHandle, hDC )
+      AAdd( _HMG_aFormGraphTasks [i] , {|| WndBoxRaised( ( hDC := GetDC( FormHandle ) ), row, col, rowr, colr ), ReleaseDC( FormHandle, hDC ) } )
+   ENDIF
 
-RETURN nil
+RETURN NIL

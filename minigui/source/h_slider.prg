@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -51,10 +51,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineSlider ( ControlName, ParentFormName, x, y, w, h, lo, hi, value, ;
    tooltip, scroll, change, vertical, noticks, both, top, left, HelpId, invisible, ;
-   notabstop, backcolor, nId, enableselrange, nSelMin, nSelMax )
+   notabstop, backcolor, nId, enableselrange, nSelMin, nSelMax, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle, Controlhandle, blInit, mVar, k, Style
+   LOCAL ParentFormHandle, ControlHandle
+   LOCAL blInit
+   LOCAL mVar
+   LOCAL k
+   LOCAL Style
    LOCAL lDialogInMemory
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
 
    hb_default( @w, iif( vertical, 35 + iif( both, 5, 0 ), 120 ) )
    hb_default( @h, iif( vertical, 120, 35 + iif( both, 5, 0 ) ) )
@@ -212,7 +220,13 @@ FUNCTION _DefineSlider ( ControlName, ParentFormName, x, y, w, h, lo, hi, value,
 
    IF _HMG_lOOPEnabled
       Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
    ENDIF
+
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 

@@ -1,3 +1,52 @@
+/*----------------------------------------------------------------------------
+MINIGUI - Harbour Win32 GUI library source code
+
+Copyright 2002-2010 Roberto Lopez <harbourminigui@gmail.com>
+http://harbourminigui.googlepages.com/
+
+ANIMATERES Control Source Code
+Copyright 2011 Grigory Filatov <gfilatov@inbox.ru>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along with
+   this software; see the file COPYING. If not, write to the Free Software
+   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA (or
+   visit the web site http://www.gnu.org/).
+
+   As a special exception, you have permission for additional uses of the text
+   contained in this release of Harbour Minigui.
+
+   The exception is that, if you link the Harbour Minigui library with other
+   files to produce an executable, this does not by itself cause the resulting
+   executable to be covered by the GNU General Public License.
+   Your use of that executable is in no way restricted on account of linking the
+   Harbour-Minigui library code into it.
+
+   Parts of this project are based upon:
+
+   "Harbour GUI framework for Win32"
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
+   Copyright 2001 Antonio Linares <alinares@fivetech.com>
+   www - https://harbour.github.io/
+
+   "Harbour Project"
+   Copyright 1999-2021, https://harbour.github.io/
+
+   "WHAT32"
+   Copyright 2002 AJ Wos <andrwos@aust1.net>
+
+   "HWGUI"
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
+
+---------------------------------------------------------------------------*/
 
 #include "minigui.ch"
 
@@ -16,7 +65,10 @@ RETURN
 FUNCTION _DefineAnimateRes ( ControlName, ParentForm, x, y, w, h, cFile, nRes, ;
       tooltip, HelpId, invisible )
 *------------------------------------------------------------------------------*
-   LOCAL cParentForm, mVar, ControlHandle, hAvi
+   LOCAL ControlHandle
+   LOCAL hAvi
+   LOCAL cParentForm
+   LOCAL mVar
 
    hb_default( @w, 200 )
    hb_default( @h, 50 )
@@ -41,7 +93,7 @@ FUNCTION _DefineAnimateRes ( ControlName, ParentForm, x, y, w, h, cFile, nRes, ;
    ENDIF
 
    mVar := '_' + ParentForm + '_' + ControlName
-   Public &mVar. := Len( _HMG_aControlNames ) + 1
+   Public &mVar. := Len ( _HMG_aControlNames ) + 1
 
    cParentForm := ParentForm
 
@@ -57,7 +109,7 @@ FUNCTION _DefineAnimateRes ( ControlName, ParentForm, x, y, w, h, cFile, nRes, ;
       SetToolTip ( ControlHandle, tooltip, GetFormToolTipHandle ( cParentForm ) )
    ENDIF
 
-   AAdd ( _HMG_aControlType, "ANIMATE" )
+   AAdd ( _HMG_aControlType, "ANIMATERES" )
    AAdd ( _HMG_aControlNames, ControlName )
    AAdd ( _HMG_aControlHandles, ControlHandle )
    AAdd ( _HMG_aControlParentHandles, ParentForm )
@@ -70,8 +122,8 @@ FUNCTION _DefineAnimateRes ( ControlName, ParentForm, x, y, w, h, cFile, nRes, ;
    AAdd ( _HMG_aControlGotFocusProcedure, "" )
    AAdd ( _HMG_aControlChangeProcedure, "" )
    AAdd ( _HMG_aControlDeleted, .F. )
-   AAdd ( _HMG_aControlBkColor, {} )
-   AAdd ( _HMG_aControlFontColor, {} )
+   AAdd ( _HMG_aControlBkColor, Nil )
+   AAdd ( _HMG_aControlFontColor, Nil )
    AAdd ( _HMG_aControlDblClick, "" )
    AAdd ( _HMG_aControlHeadClick, {} )
    AAdd ( _HMG_aControlRow, y )
@@ -108,7 +160,7 @@ RETURN NIL
 FUNCTION SetAnimateResFile ( cWindow, cControl, cProperty, cValue )
 *------------------------------------------------------------------------------*
 
-   IF GetControlType ( cControl, cWindow ) == 'ANIMATE' .AND. Upper ( cProperty ) == 'FILE'
+   IF GetControlType ( cControl, cWindow ) == 'ANIMATERES' .AND. Upper ( cProperty ) == 'FILE'
 
       _HMG_UserComponentProcess := .T.
 
@@ -127,7 +179,7 @@ FUNCTION GetAnimateResFile ( cWindow, cControl )
 *------------------------------------------------------------------------------*
    LOCAL RetVal := Nil
 
-   IF GetControlType ( cControl, cWindow ) == 'ANIMATE'
+   IF GetControlType ( cControl, cWindow ) == 'ANIMATERES'
 
       _HMG_UserComponentProcess := .T.
 
@@ -145,7 +197,7 @@ RETURN RetVal
 FUNCTION SetAnimateResId ( cWindow, cControl, cProperty, cValue )
 *------------------------------------------------------------------------------*
 
-   IF GetControlType ( cControl, cWindow ) == 'ANIMATE' .AND. Upper ( cProperty ) == 'RESID'
+   IF GetControlType ( cControl, cWindow ) == 'ANIMATERES' .AND. Upper ( cProperty ) == 'RESID'
 
       _HMG_UserComponentProcess := .T.
 
@@ -164,7 +216,7 @@ FUNCTION GetAnimateResId ( cWindow, cControl )
 *------------------------------------------------------------------------------*
    LOCAL RetVal := Nil
 
-   IF GetControlType ( cControl, cWindow ) == 'ANIMATE'
+   IF GetControlType ( cControl, cWindow ) == 'ANIMATERES'
 
       _HMG_UserComponentProcess := .T.
 
@@ -182,7 +234,7 @@ RETURN RetVal
 PROCEDURE ReleaseAnimateRes ( cWindow, cControl )
 *------------------------------------------------------------------------------*
 
-   IF _IsControlDefined ( cControl, cWindow ) .AND. GetControlType ( cControl, cWindow ) == 'ANIMATE'
+   IF _IsControlDefined ( cControl, cWindow ) .AND. GetControlType ( cControl, cWindow ) == 'ANIMATERES'
 
       UnloadAnimateLib( _GetControlObject ( cControl, cWindow ) )
 
@@ -206,11 +258,20 @@ RETURN
 #include <mmsystem.h>
 #include <commctrl.h>
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
+
 HB_FUNC( INITANIMATERES )
 {
    HWND      hwnd;
    HWND      AnimationCtrl;
    HINSTANCE avi;
+#ifndef UNICODE
+   LPCSTR lpszDllName = hb_parc( 7 );
+#else
+   LPWSTR lpszDllName = AnsiToWide( ( char * ) hb_parc( 7 ) );
+#endif
 
    int Style = WS_CHILD | WS_VISIBLE | ACS_TRANSPARENT | ACS_CENTER | ACS_AUTOPLAY;
 
@@ -227,7 +288,7 @@ HB_FUNC( INITANIMATERES )
       Style = Style | WS_VISIBLE;
    }
 
-   avi = LoadLibrary( hb_parc( 7 ) );
+   avi = LoadLibrary( lpszDllName );
 
    AnimationCtrl = CreateWindowEx( 0,                       // Style
                                    ANIMATE_CLASS,           // Class Name
@@ -242,7 +303,7 @@ HB_FUNC( INITANIMATERES )
                                    avi,                     // hInstance
                                    NULL );                  // User defined style
 
-   Animate_OpenEx( ( HWND ) AnimationCtrl, avi, hb_parni( 8 ) );
+   Animate_OpenEx( ( HWND ) AnimationCtrl, avi, MAKEINTRESOURCE( hb_parni( 8 ) ) );
 
    HB_STORNL( ( LONG_PTR ) avi, 2 );
    HB_RETNL( ( LONG_PTR ) AnimationCtrl );

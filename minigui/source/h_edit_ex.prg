@@ -154,7 +154,7 @@
  * =============
  *      - Implementar busqueda del siguiente registro.
  *
-*/
+ */
 
 // Ficheros de definiciones.---------------------------------------------------
 #include "minigui.ch"
@@ -202,33 +202,35 @@
 #define ABM_LIS_SET1            1
 #define ABM_LIS_SET2            2
 
+
 #xtranslate Alltrim( Str( <i> ) ) => hb_NtoS( <i> )
 
+
 // Declaración de variables globales.------------------------------------------
-static _cArea           /*as character*/            // Nombre del area de la bdd.
-static _aEstructura     /*as array*/                // Estructura de la bdd.
-static _aIndice         /*as array*/                // Nombre de los indices de la bdd.
-static _aIndiceCampo    /*as array*/                // Número del campo indice.
-static _nIndiceActivo   /*as array*/                // Indice activo.
-static _aNombreCampo    /*as array*/                // Nombre desciptivo de los campos de la bdd.
-static _aEditable       /*as array*/                // Indicador de si son editables.
-static _cTitulo         /*as character*/            // Título de la ventana.
-static _nAltoPantalla   /*as numeric*/              // Alto de la pantalla.
-static _nAnchoPantalla  /*as numeric*/              // Ancho de la pantalla.
-static _aEtiqueta       /*as array*/                // Datos de las etiquetas.
-static _aControl        /*as array*/                // Datos de los controles.
-static _aCampoTabla     /*as array*/                // Nombre de los campos para la tabla.
-static _aAnchoTabla     /*as array*/                // Anchos de los campos para la tabla.
-static _aCabeceraTabla  /*as array*/                // Texto de las columnas de la tabla.
-static _aAlineadoTabla  /*as array*/                // Alineación de las columnas de la tabla.
-static _aVisibleEnTabla /*as array*/                // Campos visibles en la tabla.
-static _nControlActivo  /*as numeric*/              // Control con foco.
-static _aOpciones       /*as array*/                // Opciones del usuario.
-static _bGuardar        /*as codeblock*/            // Acción para guardar registro.
-static _bBuscar         /*as codeblock*/            // Acción para buscar registro.
-static _bImprimir       /*as codeblock*/            // Acción para imprimir listado.
-static _lFiltro         /*as logical*/              // Indicativo de filtro activo.
-static _cFiltro         /*as character*/            // Condición de filtro.
+STATIC _cArea           /*as character*/            // Nombre del area de la bdd.
+STATIC _aEstructura     /*as array*/                // Estructura de la bdd.
+STATIC _aIndice         /*as array*/                // Nombre de los indices de la bdd.
+STATIC _aIndiceCampo    /*as array*/                // Número del campo indice.
+STATIC _nIndiceActivo   /*as array*/                // Indice activo.
+STATIC _aNombreCampo    /*as array*/                // Nombre desciptivo de los campos de la bdd.
+STATIC _aEditable       /*as array*/                // Indicador de si son editables.
+STATIC _cTitulo         /*as character*/            // Título de la ventana.
+STATIC _nAltoPantalla   /*as numeric*/              // Alto de la pantalla.
+STATIC _nAnchoPantalla  /*as numeric*/              // Ancho de la pantalla.
+STATIC _aEtiqueta       /*as array*/                // Datos de las etiquetas.
+STATIC _aControl        /*as array*/                // Datos de los controles.
+STATIC _aCampoTabla     /*as array*/                // Nombre de los campos para la tabla.
+STATIC _aAnchoTabla     /*as array*/                // Anchos de los campos para la tabla.
+STATIC _aCabeceraTabla  /*as array*/                // Texto de las columnas de la tabla.
+STATIC _aAlineadoTabla  /*as array*/                // Alineación de las columnas de la tabla.
+STATIC _aVisibleEnTabla /*as array*/                // Campos visibles en la tabla.
+STATIC _nControlActivo  /*as numeric*/              // Control con foco.
+STATIC _aOpciones       /*as array*/                // Opciones del usuario.
+STATIC _bGuardar        /*as codeblock*/            // Acción para guardar registro.
+STATIC _bBuscar         /*as codeblock*/            // Acción para buscar registro.
+STATIC _bImprimir       /*as codeblock*/            // Acción para imprimir listado.
+STATIC _lFiltro         /*as logical*/              // Indicativo de filtro activo.
+STATIC _cFiltro         /*as character*/            // Condición de filtro.
 
 
 /****************************************************************************************
@@ -256,505 +258,504 @@ static _cFiltro         /*as character*/            // Condición de filtro.
  *              bImprimir       Bloque de código para la acción imprimir.
  *    Devuelve: NIL
 ****************************************************************************************/
-function ABM2( cArea, cTitulo, aNombreCampo, ;
-                aAvisoCampo, aEditable, aVisibleEnTabla, ;
-                aOpciones, bGuardar, bBuscar, bImprimir )
+FUNCTION ABM2( cArea, cTitulo, aNombreCampo, ;
+      aAvisoCampo, aEditable, aVisibleEnTabla, ;
+      aOpciones, bGuardar, bBuscar, bImprimir )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local   i              /*as numeric*/   // Indice de iteración.
-        local   k              /*as numeric*/   // Indice de iteración.
-        local   nArea          as numeric       // Numero del area de la bdd.
-        local   nRegistro      as numeric       // Número de regisrto de la bdd.
-        local   nEstructura    /*as numeric*/   // Ancho del estructura de la bdd.
-        local   lSalida        /*as logical*/   // Control de bucle.
-        local   nVeces         /*as numeric*/   // Indice de iteración.
-        local   cIndice        as character     // Nombre del indice.
-        local   cIndiceActivo  as character     // Nombre del indice activo.
-        local   cClave         as character     // Clave del indice.
-        local   nInicio        /*as numeric*/   // Inicio de la cadena de busqueda.
-        local   nAnchoCampo    /*as numeric*/   // Ancho del campo actual.
-        local   nAnchoEtiqueta /*as numeric*/   // Ancho máximo de las etiquetas.
-        local   nFila          /*as numeric*/   // Fila de creación del control de edición.
-        local   nColumna       /*as numeric*/   // Columna de creación del control de edición.
-        local   aTextoOp       /*as numeric*/   // Texto de las opciones de usuario.
-        local   _BakExtendedNavigation          // Estado de SET NAVIAGTION.
-        local   _BackDeleted                    // Estado de SET DELETED.
-        local   cFiltroAnt     as character     // Condición del filtro anterior.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL   i              /*as numeric*/   // Indice de iteración.
+   LOCAL   k              /*as numeric*/   // Indice de iteración.
+   LOCAL   nArea          as numeric       // Numero del area de la bdd.
+   LOCAL   nRegistro      as numeric       // Número de regisrto de la bdd.
+   LOCAL   nEstructura    /*as numeric*/   // Ancho del estructura de la bdd.
+   LOCAL   lSalida        /*as logical*/   // Control de bucle.
+   LOCAL   nVeces         /*as numeric*/   // Indice de iteración.
+   LOCAL   cIndice        as character     // Nombre del indice.
+   LOCAL   cIndiceActivo  as character     // Nombre del indice activo.
+   LOCAL   cClave         as character     // Clave del indice.
+   LOCAL   nInicio        /*as numeric*/   // Inicio de la cadena de busqueda.
+   LOCAL   nAnchoCampo    /*as numeric*/   // Ancho del campo actual.
+   LOCAL   nAnchoEtiqueta /*as numeric*/   // Ancho máximo de las etiquetas.
+   LOCAL   nFila          /*as numeric*/   // Fila de creación del control de edición.
+   LOCAL   nColumna       /*as numeric*/   // Columna de creación del control de edición.
+   LOCAL   aTextoOp       /*as numeric*/   // Texto de las opciones de usuario.
+   LOCAL   _BakExtendedNavigation          // Estado de SET NAVIAGTION.
+   LOCAL   _BackDeleted                    // Estado de SET DELETED.
+   LOCAL   cFiltroAnt     as character     // Condición del filtro anterior.
 
-        // ------- Gusrdar estado actual de SET DELETED y activarlo
-        _BackDeleted := set( _SET_DELETED )
-        SET DELETED OFF
+   // ------- Gusrdar estado actual de SET DELETED y activarlo
+   _BackDeleted := Set( _SET_DELETED )
+   SET DELETED OFF
 
-        // ------- Inicialización del soporte multilenguaje.---------------------------
-        InitMessages()
+   // ------- Inicialización del soporte multilenguaje.---------------------------
+   InitMessages()
 
-        // ------- Desactivación de SET NAVIGATION.------------------------------------
-        _BakExtendedNavigation  := _HMG_ExtendedNavigation
-        _HMG_ExtendedNavigation := .F.
+   // ------- Desactivación de SET NAVIGATION.------------------------------------
+   _BakExtendedNavigation := _HMG_ExtendedNavigation
+   _HMG_ExtendedNavigation := .F.
 
-        // ------- Control de parámetros.----------------------------------------------
-        // Area de la base de datos.
-        if ValType( cArea ) != "C" .or. Empty( cArea )
-                _cArea := Alias()
-                if _cArea == ""
-                        msgExclamation( _HMG_aLangUser[ 1 ], "EDIT EXTENDED" )
-                        return NIL
-                endif
-        else
-                _cArea := cArea
-        endif
-        _aEstructura := ( _cArea )->( dbStruct() )
-        nEstructura := Len( _aEstructura )
+   // ------- Control de parámetros.----------------------------------------------
+   // Area de la base de datos.
+   IF ValType( cArea ) != "C" .OR. Empty( cArea )
+      _cArea := Alias()
+      IF _cArea == ""
+         msgExclamation( _HMG_aLangUser[ 1 ], "EDIT EXTENDED" )
+         RETURN NIL
+      ENDIF
+   ELSE
+      _cArea := cArea
+   ENDIF
+   _aEstructura := ( _cArea )->( dbStruct() )
+   nEstructura := Len( _aEstructura )
 
-        // Título de la ventana.
-        if Empty( cTitulo ) .or. Valtype( cTitulo ) != "C"
-                _cTitulo := _cArea
-        else
-                _cTitulo := cTitulo
-        endif
+   // Título de la ventana.
+   IF Empty( cTitulo ) .OR. ValType( cTitulo ) != "C"
+      _cTitulo := _cArea
+   ELSE
+      _cTitulo := cTitulo
+   ENDIF
 
-        // Nombres de los campos.
-        lSalida := .t.
-        if ValType( aNombreCampo ) != "A"
-                lSalida := .f.
-        else
-                if Len( aNombreCampo ) != nEstructura
-                        lSalida := .f.
-                else
-                        for i := 1 to Len( aNombreCampo )
-                                if ValType( aNombreCampo[ i ] ) != "C"
-                                        lSalida := .f.
-                                        exit
-                                endif
-                        next
-                endif
-        endif
-        if lSalida
-                _aNombreCampo := aNombreCampo
-        else
-                _aNombreCampo := {}
-                for i := 1 to nEstructura
-                        aAdd( _aNombreCampo, Upper( Left( _aEstructura[ i, DBS_NAME ], 1 ) ) + ;
-                                Lower( SubStr( _aEstructura[ i, DBS_NAME ], 2 ) ) )
-                next
-        endif
+   // Nombres de los campos.
+   lSalida := .T.
+   IF ValType( aNombreCampo ) != "A"
+      lSalida := .F.
+   ELSE
+      IF Len( aNombreCampo ) != nEstructura
+         lSalida := .F.
+      ELSE
+         FOR i := 1 TO Len( aNombreCampo )
+            IF ValType( aNombreCampo[ i ] ) != "C"
+               lSalida := .F.
+               EXIT
+            ENDIF
+         NEXT
+      ENDIF
+   ENDIF
+   IF lSalida
+      _aNombreCampo := aNombreCampo
+   ELSE
+      _aNombreCampo := {}
+      FOR i := 1 TO nEstructura
+         AAdd( _aNombreCampo, Upper( Left( _aEstructura[ i, DBS_NAME ], 1 ) ) + ;
+            Lower( SubStr( _aEstructura[ i, DBS_NAME ], 2 ) ) )
+      NEXT
+   ENDIF
 
-        // Texto de aviso en la barra de estado de la ventana de edición de registro.
-        lSalida := .t.
-        if ValType( aAvisoCampo ) != "A"
-                lSalida := .f.
-        else
-                if Len( aAvisoCampo ) != nEstructura
-                        lSalida := .f.
-                else
-                        for i := 1 to Len( aAvisoCampo )
-                                if Valtype( aAvisoCampo[ i ] ) != "C"
-                                        lSalida := .f.
-                                        exit
-                                endif
-                        next
-                endif
-        endif
-        if !lSalida
-                aAvisoCampo := {}
-                for i := 1 to nEstructura
-                        do case
-                        case _aEstructura[ i, DBS_TYPE ] == "C"
-                                aAdd( aAvisoCampo, _HMG_aLangUser[ 2 ] )
-                        case _aEstructura[ i, DBS_TYPE ] == "N"
-                                aAdd( aAvisoCampo, _HMG_aLangUser[ 3 ] )
-                        case _aEstructura[ i, DBS_TYPE ] == "D"
-                                aAdd( aAvisoCampo, _HMG_aLangUser[ 4 ] )
-                        case _aEstructura[ i, DBS_TYPE ] == "L"
-                                aAdd( aAvisoCampo, _HMG_aLangUser[ 5 ] )
-                        case _aEstructura[ i, DBS_TYPE ] == "M"
-                                aAdd( aAvisoCampo, _HMG_aLangUser[ 6 ] )
-                        otherwise
-                                aAdd( aAvisoCampo, _HMG_aLangUser[ 7 ] )
-                        endcase
-                next
-        endif
+   // Texto de aviso en la barra de estado de la ventana de edición de registro.
+   lSalida := .T.
+   IF ValType( aAvisoCampo ) != "A"
+      lSalida := .F.
+   ELSE
+      IF Len( aAvisoCampo ) != nEstructura
+         lSalida := .F.
+      ELSE
+         FOR i := 1 TO Len( aAvisoCampo )
+            IF ValType( aAvisoCampo[ i ] ) != "C"
+               lSalida := .F.
+               EXIT
+            ENDIF
+         NEXT
+      ENDIF
+   ENDIF
+   if ! lSalida
+      aAvisoCampo := {}
+      FOR i := 1 TO nEstructura
+         DO CASE
+         CASE _aEstructura[ i, DBS_TYPE ] == "C"
+            AAdd( aAvisoCampo, _HMG_aLangUser[ 2 ] )
+         CASE _aEstructura[ i, DBS_TYPE ] == "N"
+            AAdd( aAvisoCampo, _HMG_aLangUser[ 3 ] )
+         CASE _aEstructura[ i, DBS_TYPE ] == "D"
+            AAdd( aAvisoCampo, _HMG_aLangUser[ 4 ] )
+         CASE _aEstructura[ i, DBS_TYPE ] == "L"
+            AAdd( aAvisoCampo, _HMG_aLangUser[ 5 ] )
+         CASE _aEstructura[ i, DBS_TYPE ] == "M"
+            AAdd( aAvisoCampo, _HMG_aLangUser[ 6 ] )
+         OTHERWISE
+            AAdd( aAvisoCampo, _HMG_aLangUser[ 7 ] )
+         ENDCASE
+      NEXT
+   ENDIF
 
-        // Campos visibles en la tabla de la ventana de visualización de registros.
-        lSalida := .t.
-        if Valtype( aVisibleEnTabla ) != "A"
-                lSalida := .f.
-        else
-                if Len( aVisibleEnTabla ) != nEstructura
-                        lSalida := .f.
-                else
-                        for i := 1 to Len( aVisibleEnTabla )
-                                if ValType( aVisibleEnTabla[ i ] ) != "L"
-                                        lSalida := .f.
-                                        exit
-                                endif
-                        next
-                endif
-        endif
-        if lSalida
-                _aVisibleEnTabla := aVisibleEnTabla
-        else
-                _aVisibleEnTabla := {}
-                for i := 1 to nEstructura
-                        aAdd( _aVisibleEnTabla, .t. )
-                next
-        endif
+   // Campos visibles en la tabla de la ventana de visualización de registros.
+   lSalida := .T.
+   IF ValType( aVisibleEnTabla ) != "A"
+      lSalida := .F.
+   ELSE
+      IF Len( aVisibleEnTabla ) != nEstructura
+         lSalida := .F.
+      ELSE
+         FOR i := 1 TO Len( aVisibleEnTabla )
+            IF ValType( aVisibleEnTabla[ i ] ) != "L"
+               lSalida := .F.
+               EXIT
+            ENDIF
+         NEXT
+      ENDIF
+   ENDIF
+   IF lSalida
+      _aVisibleEnTabla := aVisibleEnTabla
+   ELSE
+      _aVisibleEnTabla := {}
+      FOR i := 1 TO nEstructura
+         AAdd( _aVisibleEnTabla, .T. )
+      NEXT
+   ENDIF
 
-        // Estado de los campos en la ventana de edición de registro.
-        lSalida := .t.
-        if ValType( aEditable ) != "A"
-                lSalida := .f.
-        else
-                if Len( aEditable ) != nEstructura
-                        lSalida := .f.
-                else
-                        for i := 1 to Len( aEditable )
-                                if ValType( aEditable[ i ] ) != "L"
-                                        lSalida := .f.
-                                        exit
-                                endif
-                        next
-                endif
-        endif
-        if lSalida
-                _aEditable := aEditable
-        else
-                _aEditable := {}
-                for i := 1 to nEstructura
-                        aAdd( _aEditable, .t. )
-                next
-        endif
+   // Estado de los campos en la ventana de edición de registro.
+   lSalida := .T.
+   IF ValType( aEditable ) != "A"
+      lSalida := .F.
+   ELSE
+      IF Len( aEditable ) != nEstructura
+         lSalida := .F.
+      ELSE
+         FOR i := 1 TO Len( aEditable )
+            IF ValType( aEditable[ i ] ) != "L"
+               lSalida := .F.
+               EXIT
+            ENDIF
+         NEXT
+      ENDIF
+   ENDIF
+   IF lSalida
+      _aEditable := aEditable
+   ELSE
+      _aEditable := {}
+      FOR i := 1 TO nEstructura
+         AAdd( _aEditable, .T. )
+      NEXT
+   ENDIF
 
-        // Opciones del usuario.
-        lSalida := .t.
+   // Opciones del usuario.
+   lSalida := .T.
 
-        if ValType( aOpciones ) != "A"
-                lSalida := .f.
-        elseif len( aOpciones ) < 1
-                lSalida := .f.
-        elseif Len( aOpciones[ 1 ] ) != 2
-                lSalida := .f.
-        else
-                for i := 1 to Len( aOpciones )
-                        if ValType( aOpciones[i, ABM_OPC_TEXTO ] ) != "C" .or. ;
-                                        ValType( aOpciones[i, ABM_OPC_BLOQUE ] ) != "B"
-                                lSalida := .f.
-                                exit
-                        endif
-                next
-        endif
+   IF ValType( aOpciones ) != "A"
+      lSalida := .F.
+   ELSEIF Len( aOpciones ) < 1
+      lSalida := .F.
+   ELSEIF Len( aOpciones[ 1 ] ) != 2
+      lSalida := .F.
+   ELSE
+      FOR i := 1 TO Len( aOpciones )
+         IF ValType( aOpciones[ i, ABM_OPC_TEXTO ] ) != "C" .OR. ;
+               ValType( aOpciones[ i, ABM_OPC_BLOQUE ] ) != "B"
+            lSalida := .F.
+            EXIT
+         ENDIF
+      NEXT
+   ENDIF
 
-        if lSalida
-                _aOpciones := aOpciones
-        else
-                _aOpciones := {}
-        endif
+   IF lSalida
+      _aOpciones := aOpciones
+   ELSE
+      _aOpciones := {}
+   ENDIF
 
-        // Acción al guardar.
-        if ValType( bGuardar ) == "B"
-                _bGuardar := bGuardar
-        else
-                _bGuardar := NIL
-        endif
+   // Acción al guardar.
+   IF ValType( bGuardar ) == "B"
+      _bGuardar := bGuardar
+   ELSE
+      _bGuardar := NIL
+   ENDIF
 
-        // Acción al buscar.
-        if ValType( bBuscar ) == "B"
-                _bBuscar := bBuscar
-        else
-                _bBuscar := NIL
-        endif
+   // Acción al buscar.
+   IF ValType( bBuscar ) == "B"
+      _bBuscar := bBuscar
+   ELSE
+      _bBuscar := NIL
+   ENDIF
 
-        // Acción al buscar.
-        if ValType( bImprimir ) == "B"
-                _bImprimir := bImprimir
-        else
-                _bImprimir := NIL
-        endif
+   // Acción al buscar.
+   IF ValType( bImprimir ) == "B"
+      _bImprimir := bImprimir
+   ELSE
+      _bImprimir := NIL
+   ENDIF
 
-        // ------- Selección del area de la bdd.---------------------------------------
-        nRegistro     := ( _cArea )->( RecNo() )
-        nArea         := Select()
-        cIndiceActivo := ( _cArea )->( ordSetFocus() )
-        cFiltroAnt    := ( _cArea )->( dbFilter() )
-        dbSelectArea( _cArea )
-        ( _cArea )->( dbGoTop() )
+   // ------- Selección del area de la bdd.---------------------------------------
+   nRegistro := ( _cArea )->( RecNo() )
+   nArea := Select()
+   cIndiceActivo := ( _cArea )->( ordSetFocus() )
+   cFiltroAnt := ( _cArea )->( dbFilter() )
+   dbSelectArea( _cArea )
+   ( _cArea )->( dbGoTop() )
 
-        // ------- Inicialización de variables.----------------------------------------
-        // Filtro.
-        _cFiltro := cFiltroAnt
-        _lFiltro := !( Empty( _cFiltro ) )
+   // ------- Inicialización de variables.----------------------------------------
+   // Filtro.
+   _cFiltro := cFiltroAnt
+   _lFiltro := !( Empty( _cFiltro ) )
 
-        // Indices de la base de datos.
-        lSalida       := .t.
-        k             := 1
-        _aIndice      := {}
-        _aIndiceCampo := {}
-        nVeces        := 1
-        aAdd( _aIndice, _HMG_aLangLabel[ 1 ] )
-        aAdd( _aIndiceCampo, 0 )
-        do while lSalida
-                if Empty( ( _cArea )->( ordName( k ) ) )
-                        lSalida := .f.
-                else
-                        cIndice := Upper( ( _cArea )->( ordName( k ) ) )
-                        aAdd( _aIndice, cIndice )
-                        cClave := Upper( ( _cArea )->( ordKey( k ) ) )
-                        for i := 1 to nEstructura
-                                if nVeces <= 1
-                                        nInicio := At( _aEstructura[ i, DBS_NAME ], cClave )
-                                        if  nInicio != 0
-                                                aAdd( _aIndiceCampo, i )
-                                                nVeces++
-                                        endif
-                                endif
-                        next
-                endif
-                k++
-                nVeces := 1
-        enddo
+   // Indices de la base de datos.
+   lSalida := .T.
+   k := 1
+   _aIndice := {}
+   _aIndiceCampo := {}
+   nVeces := 1
+   AAdd( _aIndice, _HMG_aLangLabel[ 1 ] )
+   AAdd( _aIndiceCampo, 0 )
+   DO WHILE lSalida
+      IF Empty( ( _cArea )->( ordName( k ) ) )
+         lSalida := .F.
+      ELSE
+         cIndice := Upper( ( _cArea )->( ordName( k ) ) )
+         AAdd( _aIndice, cIndice )
+         cClave := Upper( ( _cArea )->( ordKey( k ) ) )
+         FOR i := 1 TO nEstructura
+            IF nVeces <= 1
+               nInicio := At( _aEstructura[ i, DBS_NAME ], cClave )
+               IF nInicio != 0
+                  AAdd( _aIndiceCampo, i )
+                  nVeces++
+               ENDIF
+            ENDIF
+         NEXT
+      ENDIF
+      k++
+      nVeces := 1
+   ENDDO
 
-        // Numero de indice.
-        if Empty( cIndiceActivo )
-                _nIndiceActivo := 1
-        else
-                _nIndiceActivo := aScan( _aIndice, Upper( ( _cArea )->( ordSetFocus() ) ) )
-        endif
+   // Numero de indice.
+   IF Empty( cIndiceActivo )
+      _nIndiceActivo := 1
+   ELSE
+      _nIndiceActivo := AScan( _aIndice, Upper( ( _cArea )->( ordSetFocus() ) ) )
+   ENDIF
 
-        // Tamaño de la pantalla.
-        _nAltoPantalla  := getDesktopHeight()
-        _nAnchoPantalla := getDesktopWidth()
+   // Tamaño de la pantalla.
+   _nAltoPantalla := getDesktopHeight()
+   _nAnchoPantalla := getDesktopWidth()
 
-        // Datos de las etiquetas y los controles de la ventana de edición.
-        _aEtiqueta     := Array( nEstructura, ABM_LBL_LEN )
-        _aControl      := Array( nEstructura, ABM_CON_LEN )
-        nFila          := 10
-        nColumna       := 10
-        nAnchoEtiqueta := 0
-        for i := 1 to Len( _aNombreCampo )
-                nAnchoEtiqueta := iif( nAnchoEtiqueta > ( Len( _aNombreCampo[ i ] ) * 9 ), ;
-                        nAnchoEtiqueta, ;
-                        Len( _aNombreCampo[ i ] ) * 9 )
-        next
-        for i := 1 to nEstructura
-                _aEtiqueta[ i, ABM_LBL_NAME ]   := "ABM2Etiqueta" + AllTrim( Str( i ) )
-                _aEtiqueta[ i, ABM_LBL_ROW ]    := nFila
-                _aEtiqueta[ i, ABM_LBL_COL ]    := nColumna
-                _aEtiqueta[ i, ABM_LBL_WIDTH ]  := Len( _aNombreCampo[ i ] ) * 9
-                _aEtiqueta[ i, ABM_LBL_HEIGHT ] := 25
-                switch Left( _aEstructura[ i, DBS_TYPE ], 1 )
-                case "C"
-                        _aControl[ i, ABM_CON_NAME ]   := "ABM2Control" + AllTrim( Str( i ) )
-                        _aControl[ i, ABM_CON_ROW ]    := nFila
-                        _aControl[ i, ABM_CON_COL ]    := nColumna + nAnchoEtiqueta + 20
-                        _aControl[ i, ABM_CON_WIDTH ]  := iif( ( _aEstructura[ i, DBS_LEN ] * 10 ) < 50, 50, _aEstructura[ i, DBS_LEN ] * 10 )
-                        _aControl[ i, ABM_CON_HEIGHT ] := 25
-                        _aControl[ i, ABM_CON_DES ]    := aAvisoCampo[ i ]
-                        _aControl[ i, ABM_CON_TYPE ]   := ABM_TEXTBOXC
-                        exit
-                case "D"
-                        _aControl[ i, ABM_CON_NAME ]   := "ABM2Control" + AllTrim( Str( i ) )
-                        _aControl[ i, ABM_CON_ROW ]    := nFila
-                        _aControl[ i, ABM_CON_COL ]    := nColumna + nAnchoEtiqueta + 20
-                        _aControl[ i, ABM_CON_WIDTH ]  := _aEstructura[ i, DBS_LEN ] * 10
-                        _aControl[ i, ABM_CON_HEIGHT ] := 25
-                        _aControl[ i, ABM_CON_DES ]    := aAvisoCampo[ i ]
-                        _aControl[ i, ABM_CON_TYPE ]   := ABM_DATEPICKER
-                        exit
-                case "N"
-                        _aControl[ i, ABM_CON_NAME ]   := "ABM2Control" + AllTrim( Str( i ) )
-                        _aControl[ i, ABM_CON_ROW ]    := nFila
-                        _aControl[ i, ABM_CON_COL ]    := nColumna + nAnchoEtiqueta + 20
-                        _aControl[ i, ABM_CON_WIDTH ]  := iif( ( _aEstructura[ i, DBS_LEN ] * 10 ) < 50, 50, _aEstructura[ i, DBS_LEN ] * 10 )
-                        _aControl[ i, ABM_CON_HEIGHT ] := 25
-                        _aControl[ i, ABM_CON_DES ]    := aAvisoCampo[ i ]
-                        _aControl[ i, ABM_CON_TYPE ]   := ABM_TEXTBOXN
-                        exit
-                case "L"
-                        _aControl[ i, ABM_CON_NAME ]   := "ABM2Control" + AllTrim( Str( i ) )
-                        _aControl[ i, ABM_CON_ROW ]    := nFila
-                        _aControl[ i, ABM_CON_COL ]    := nColumna + nAnchoEtiqueta + 20
-                        _aControl[ i, ABM_CON_WIDTH ]  := 25
-                        _aControl[ i, ABM_CON_HEIGHT ] := 25
-                        _aControl[ i, ABM_CON_DES ]    := aAvisoCampo[ i ]
-                        _aControl[ i, ABM_CON_TYPE ]   := ABM_CHECKBOX
-                        exit
-                case "M"
-                        _aControl[ i, ABM_CON_NAME ]   := "ABM2Control" + AllTrim( Str( i ) )
-                        _aControl[ i, ABM_CON_ROW ]    := nFila
-                        _aControl[ i, ABM_CON_COL ]    := nColumna + nAnchoEtiqueta + 20
-                        _aControl[ i, ABM_CON_WIDTH ]  := 300
-                        _aControl[ i, ABM_CON_HEIGHT ] := 70
-                        _aControl[ i, ABM_CON_DES ]    := aAvisoCampo[ i ]
-                        _aControl[ i, ABM_CON_TYPE ]   := ABM_EDITBOX
-                        nFila += 45
-                endswitch
-                if _aEstructura[ i, DBS_TYPE ] $ "CDNLM"
-                        nFila += 35
-                endif
-        next
+   // Datos de las etiquetas y los controles de la ventana de edición.
+   _aEtiqueta := Array( nEstructura, ABM_LBL_LEN )
+   _aControl := Array( nEstructura, ABM_CON_LEN )
+   nFila := 10
+   nColumna := 10
+   nAnchoEtiqueta := 0
+   FOR i := 1 TO Len( _aNombreCampo )
+      nAnchoEtiqueta := iif( nAnchoEtiqueta > ( Len( _aNombreCampo[ i ] ) * 9 ), ;
+         nAnchoEtiqueta, ;
+         Len( _aNombreCampo[ i ] ) * 9 )
+   NEXT
+   FOR i := 1 TO nEstructura
+      _aEtiqueta[ i, ABM_LBL_NAME ] := "ABM2Etiqueta" + AllTrim( Str( i ) )
+      _aEtiqueta[ i, ABM_LBL_ROW ] := nFila
+      _aEtiqueta[ i, ABM_LBL_COL ] := nColumna
+      _aEtiqueta[ i, ABM_LBL_WIDTH ] := Len( _aNombreCampo[ i ] ) * 9
+      _aEtiqueta[ i, ABM_LBL_HEIGHT ] := 25
+      switch Left( _aEstructura[ i, DBS_TYPE ], 1 )
+      CASE "C"
+         _aControl[ i, ABM_CON_NAME ] := "ABM2Control" + AllTrim( Str( i ) )
+         _aControl[ i, ABM_CON_ROW ] := nFila
+         _aControl[ i, ABM_CON_COL ] := nColumna + nAnchoEtiqueta + 20
+         _aControl[ i, ABM_CON_WIDTH ] := iif( ( _aEstructura[ i, DBS_LEN ] * 10 ) < 50, 50, _aEstructura[ i, DBS_LEN ] * 10 )
+         _aControl[ i, ABM_CON_HEIGHT ] := 25
+         _aControl[ i, ABM_CON_DES ] := aAvisoCampo[ i ]
+         _aControl[ i, ABM_CON_TYPE ] := ABM_TEXTBOXC
+         EXIT
+      CASE "D"
+         _aControl[ i, ABM_CON_NAME ] := "ABM2Control" + AllTrim( Str( i ) )
+         _aControl[ i, ABM_CON_ROW ] := nFila
+         _aControl[ i, ABM_CON_COL ] := nColumna + nAnchoEtiqueta + 20
+         _aControl[ i, ABM_CON_WIDTH ] := _aEstructura[ i, DBS_LEN ] * 10
+         _aControl[ i, ABM_CON_HEIGHT ] := 25
+         _aControl[ i, ABM_CON_DES ] := aAvisoCampo[ i ]
+         _aControl[ i, ABM_CON_TYPE ] := ABM_DATEPICKER
+         EXIT
+      CASE "N"
+         _aControl[ i, ABM_CON_NAME ] := "ABM2Control" + AllTrim( Str( i ) )
+         _aControl[ i, ABM_CON_ROW ] := nFila
+         _aControl[ i, ABM_CON_COL ] := nColumna + nAnchoEtiqueta + 20
+         _aControl[ i, ABM_CON_WIDTH ] := iif( ( _aEstructura[ i, DBS_LEN ] * 10 ) < 50, 50, _aEstructura[ i, DBS_LEN ] * 10 )
+         _aControl[ i, ABM_CON_HEIGHT ] := 25
+         _aControl[ i, ABM_CON_DES ] := aAvisoCampo[ i ]
+         _aControl[ i, ABM_CON_TYPE ] := ABM_TEXTBOXN
+         EXIT
+      CASE "L"
+         _aControl[ i, ABM_CON_NAME ] := "ABM2Control" + AllTrim( Str( i ) )
+         _aControl[ i, ABM_CON_ROW ] := nFila
+         _aControl[ i, ABM_CON_COL ] := nColumna + nAnchoEtiqueta + 20
+         _aControl[ i, ABM_CON_WIDTH ] := 25
+         _aControl[ i, ABM_CON_HEIGHT ] := 25
+         _aControl[ i, ABM_CON_DES ] := aAvisoCampo[ i ]
+         _aControl[ i, ABM_CON_TYPE ] := ABM_CHECKBOX
+         EXIT
+      CASE "M"
+         _aControl[ i, ABM_CON_NAME ] := "ABM2Control" + AllTrim( Str( i ) )
+         _aControl[ i, ABM_CON_ROW ] := nFila
+         _aControl[ i, ABM_CON_COL ] := nColumna + nAnchoEtiqueta + 20
+         _aControl[ i, ABM_CON_WIDTH ] := 300
+         _aControl[ i, ABM_CON_HEIGHT ] := 70
+         _aControl[ i, ABM_CON_DES ] := aAvisoCampo[ i ]
+         _aControl[ i, ABM_CON_TYPE ] := ABM_EDITBOX
+         nFila += 45
+      endswitch
+      IF _aEstructura[ i, DBS_TYPE ] $ "CDNLM"
+         nFila += 35
+      ENDIF
+   NEXT
 
-        // Datos de la tabla de la ventana de visualización.
+   // Datos de la tabla de la ventana de visualización.
 
-        _aCampoTabla    := { "if(deleted(), 'X', ' ')" }
-        _aAnchoTabla    := { 20 }
-        _aCabeceraTabla := { "X" }
-        _aAlineadoTabla := { BROWSE_JTFY_LEFT }
+   _aCampoTabla := { "if(deleted(), 'X', ' ')" }
+   _aAnchoTabla := { 20 }
+   _aCabeceraTabla := { "X" }
+   _aAlineadoTabla := { BROWSE_JTFY_LEFT }
 
-        for i := 1 to nEstructura
-                if _aVisibleEnTabla[ i ]
-                        aAdd( _aCampoTabla, _cArea + "->" + _aEstructura[ i, DBS_NAME ] )
-                        nAnchoCampo    := iif( ( _aEstructura[ i, DBS_LEN ] * 10 ) < 50,   ;
-                                50,                                    ;
-                                _aEstructura[ i, DBS_LEN ] * 10 )
-                        nAnchoEtiqueta := Len( _aNombreCampo[ i ] ) * 10
-                        aAdd( _aAnchoTabla, iif( nAnchoEtiqueta > nAnchoCampo,          ;
-                                nAnchoEtiqueta,                        ;
-                                nAnchoCampo ) )
-                        aAdd( _aCabeceraTabla, _aNombreCampo[ i ] )
+   FOR i := 1 TO nEstructura
+      IF _aVisibleEnTabla[ i ]
+         AAdd( _aCampoTabla, _cArea + "->" + _aEstructura[ i, DBS_NAME ] )
+         nAnchoCampo := iif( ( _aEstructura[ i, DBS_LEN ] * 10 ) < 50, 50, ;
+            _aEstructura[ i, DBS_LEN ] * 10 )
+         nAnchoEtiqueta := Len( _aNombreCampo[ i ] ) * 10
+         AAdd( _aAnchoTabla, iif( nAnchoEtiqueta > nAnchoCampo, ;
+            nAnchoEtiqueta, ;
+            nAnchoCampo ) )
+         AAdd( _aCabeceraTabla, _aNombreCampo[ i ] )
 
-                        If _aEstructura[ i, DBS_TYPE ] == "L"
-                                aAdd( _aAlineadoTabla, BROWSE_JTFY_CENTER )
-                        elseif _aEstructura[ i, DBS_TYPE ] == "D"
-                                aAdd( _aAlineadoTabla, BROWSE_JTFY_CENTER )
-                        elseif _aEstructura[ i, DBS_TYPE ] == "N"
-                                aAdd( _aAlineadoTabla, BROWSE_JTFY_RIGHT )
-                        else
-                                aAdd( _aAlineadoTabla, BROWSE_JTFY_LEFT )
-                        endif
-                endif
-        next
+         IF _aEstructura[ i, DBS_TYPE ] == "L"
+            AAdd( _aAlineadoTabla, BROWSE_JTFY_CENTER )
+         ELSEIF _aEstructura[ i, DBS_TYPE ] == "D"
+            AAdd( _aAlineadoTabla, BROWSE_JTFY_CENTER )
+         ELSEIF _aEstructura[ i, DBS_TYPE ] == "N"
+            AAdd( _aAlineadoTabla, BROWSE_JTFY_RIGHT )
+         ELSE
+            AAdd( _aAlineadoTabla, BROWSE_JTFY_LEFT )
+         ENDIF
+      ENDIF
+   NEXT
 
-        // ------- Definición de la ventana de visualización.--------------------------
-        define window wndABM2Edit               ;
-                at 60, 30                       ;
-                width _nAnchoPantalla - 60      ;
-                height _nAltoPantalla - 140     ;
-                title _cTitulo                  ;
-                modal                           ;
-                nosize                          ;
-                nosysmenu                       ;
-                on init {|| ABM2Redibuja() }    ;
-                on release {|| ABM2salir( nRegistro, cIndiceActivo, cFiltroAnt, nArea ) } ;
-                font _GetSysFont() size 9
+   // ------- Definición de la ventana de visualización.--------------------------
+   DEFINE WINDOW wndABM2Edit ;
+         AT 60, 30 ;
+         WIDTH _nAnchoPantalla - 60 ;
+         HEIGHT _nAltoPantalla - 140 ;
+         TITLE _cTitulo ;
+         MODAL ;
+         NOSIZE ;
+         NOSYSMENU ;
+         ON INIT {|| ABM2Redibuja() } ;
+         ON RELEASE {|| ABM2salir( nRegistro, cIndiceActivo, cFiltroAnt, nArea ) } ;
+         FONT _GetSysFont() SIZE 9
 
-        // Define la barra de estado de la ventana de visualización.
-        define statusbar font _GetSysFont() size 9
-               statusitem _HMG_aLangLabel[ 19 ]                         // 1
-               statusitem _HMG_aLangLabel[ 20 ]      width 100 raised   // 2
-               statusitem _HMG_aLangLabel[ 2 ] + ': ' width 200 raised  // 3
-        end statusbar
+      // Define la barra de estado de la ventana de visualización.
+      DEFINE STATUSBAR FONT _GetSysFont() SIZE 9
+         STATUSITEM _HMG_aLangLabel[ 19 ] // 1
+         STATUSITEM _HMG_aLangLabel[ 20 ] WIDTH 100 raised // 2
+         STATUSITEM _HMG_aLangLabel[ 2 ] + ': ' WIDTH 200 raised // 3
+      END STATUSBAR
 
-        // Define la barra de botones de la ventana de visualización.
-        define toolbar tbEdit buttonsize 100, 32 flat righttext border
-        button tbbCerrar  caption _HMG_aLangButton[ 1 ]  ;
-                picture "MINIGUI_EDIT_CLOSE"  ;
-                action  wndABM2Edit.Release
-        button tbbNuevo   caption _HMG_aLangButton[ 2 ]  ;
-                picture "MINIGUI_EDIT_NEW"  ;
-                action  {|| ABM2Editar( .t. ) }
-        button tbbEditar  caption _HMG_aLangButton[ 3 ]  ;
-                picture "MINIGUI_EDIT_EDIT"  ;
-                action  {|| ABM2Editar( .f. ) }
-        button tbbBorrar  caption _HMG_aLangButton[ 4 ]  ;
-                picture "MINIGUI_EDIT_DELETE"  ;
-                action  {|| ABM2Borrar() }
-        button tbbRecover caption _HMG_aLangButton[ 12 ]  ;
-                picture "MINIGUI_EDIT_UNDO"  ;
-                action  {|| ABM2Recover() }
-        button tbbBuscar  caption _HMG_aLangButton[ 5 ]  ;
-                picture "MINIGUI_EDIT_FIND"  ;
-                action  {|| ABM2Buscar() }
-        button tbbListado caption _HMG_aLangButton[ 6 ]  ;
-                picture "MINIGUI_EDIT_PRINT"  ;
-                action  {|| ABM2Imprimir() }
-        end toolbar
+      // Define la barra de botones de la ventana de visualización.
+      DEFINE TOOLBAR tbEdit buttonsize 100, 32 FLAT righttext BORDER
+         BUTTON tbbCerrar CAPTION _HMG_aLangButton[ 1 ] ;
+            PICTURE "MINIGUI_EDIT_CLOSE" ;
+            ACTION wndABM2Edit.RELEASE
+         BUTTON tbbNuevo CAPTION _HMG_aLangButton[ 2 ] ;
+            PICTURE "MINIGUI_EDIT_NEW" ;
+            ACTION {|| ABM2Editar( .T. ) }
+         BUTTON tbbEditar CAPTION _HMG_aLangButton[ 3 ] ;
+            PICTURE "MINIGUI_EDIT_EDIT" ;
+            ACTION {|| ABM2Editar( .F. ) }
+         BUTTON tbbBorrar CAPTION _HMG_aLangButton[ 4 ] ;
+            PICTURE "MINIGUI_EDIT_DELETE" ;
+            ACTION {|| ABM2Borrar() }
+         BUTTON tbbRecover CAPTION _HMG_aLangButton[ 12 ] ;
+            PICTURE "MINIGUI_EDIT_UNDO" ;
+            ACTION {|| ABM2Recover() }
+         BUTTON tbbBuscar CAPTION _HMG_aLangButton[ 5 ] ;
+            PICTURE "MINIGUI_EDIT_FIND" ;
+            ACTION {|| ABM2Buscar() }
+         BUTTON tbbListado CAPTION _HMG_aLangButton[ 6 ] ;
+            PICTURE "MINIGUI_EDIT_PRINT" ;
+            ACTION {|| ABM2Imprimir() }
+      END TOOLBAR
 
-        end window
+   END WINDOW
 
-        // ------- Creación de los controles de la ventana de visualización.-----------
-        @ 50, 10 frame frmEditOpciones          ;
-                of wndABM2Edit                  ;
-                caption ""                      ;
-                width wndABM2Edit.Width - 25    ;
-                height 60
-        @ 112, 10 frame frmEditTabla            ;
-                of wndABM2Edit                  ;
-                caption ""                      ;
-                width wndABM2Edit.Width - 25    ;
-                height wndABM2Edit.Height - 165
-        @ 60, 20 label lblIndice               ;
-                of wndABM2Edit                  ;
-                value _HMG_aLangUser[26 ]       ;
-                autosize                        ;
-                font _GetSysFont() size 9
-        @ 75, 20 combobox cbIndices             ;
-                of wndABM2Edit                  ;
-                items _aIndice                  ;
-                value _nIndiceActivo            ;
-                width 150                       ;
-                font _GetSysFont() size 9     ;
-                on change {|| ABM2CambiarOrden() }
-        nColumna := wndABM2Edit.Width - 175
-        aTextoOp := {}
-        for i := 1 to Len( _aOpciones )
-                aAdd( aTextoOp, _aOpciones[ i, ABM_OPC_TEXTO ] )
-        next
-        @ 60, nColumna label lblOpciones        ;
-                of wndABM2Edit                  ;
-                value _HMG_aLangLabel[5 ]       ;
-                autosize                        ;
-                font _GetSysFont() size 9
-        @ 75, nColumna combobox cbOpciones      ;
-                of wndABM2Edit                  ;
-                items aTextoOp                  ;
-                value 1                         ;
-                width 150                       ;
-                font _GetSysFont() size 9     ;
-                on change {|| ABM2EjecutaOpcion() }
-        @ 65, ( wndABM2Edit.Width / 2 ) -110 button btnFiltro1  ;
-                of wndABM2Edit                                  ;
-                caption _HMG_aLangButton[ 10 ]                  ;
-                action {|| ABM2ActivarFiltro() }                ;
-                width 100                                       ;
-                height 32                                       ;
-                font _GetSysFont() size 9
-        @ 65, ( wndABM2Edit.Width / 2 ) + 5 button btnFiltro2   ;
-                of wndABM2Edit                                  ;
-                caption _HMG_aLangButton[ 11 ]                  ;
-                action {|| ABM2DesactivarFiltro() }             ;
-                width 100                                       ;
-                height 32                                       ;
-                font _GetSysFont() size 9
-        @ 132, 20 browse brwABM2Edit                                                    ;
-                of wndABM2Edit                                                          ;
-                width wndABM2Edit.Width - 45                                            ;
-                height wndABM2Edit.Height - 195                                         ;
-                headers _aCabeceraTabla                                                 ;
-                widths _aAnchoTabla                                                     ;
-                workarea &_cArea                                                        ;
-                fields _aCampoTabla                                                     ;
-                value ( _cArea )->( RecNo() )                                           ;
-                font _GetSysFont() size 9                                             ;
-                on change {|| ( _cArea )->( dbGoto( wndABM2Edit .brwABM2Edit. Value ) ),    ;
-                ABM2Redibuja( .f. ) }                                     ;
-                on dblclick {|| iif( wndABM2Edit .tbbEditar. Enabled, ABM2Editar( .f. ), ) }  ;
-                justify _aAlineadoTabla paintdoublebuffer
+   // ------- Creación de los controles de la ventana de visualización.-----------
+   @ 50, 10 FRAME frmEditOpciones ;
+      OF wndABM2Edit ;
+      CAPTION "" ;
+      WIDTH wndABM2Edit.WIDTH -25 ;
+      HEIGHT 60
+   @ 112, 10 FRAME frmEditTabla ;
+      OF wndABM2Edit ;
+      CAPTION "" ;
+      WIDTH wndABM2Edit.WIDTH -25 ;
+      HEIGHT wndABM2Edit.HEIGHT -165
+   @ 60, 20 LABEL lblIndice ;
+      OF wndABM2Edit ;
+      VALUE _HMG_aLangUser[ 26 ] ;
+      AUTOSIZE ;
+      FONT _GetSysFont() SIZE 9
+   @ 75, 20 COMBOBOX cbIndices ;
+      OF wndABM2Edit ;
+      ITEMS _aIndice ;
+      VALUE _nIndiceActivo ;
+      WIDTH 150 ;
+      FONT _GetSysFont() SIZE 9 ;
+      ON CHANGE {|| ABM2CambiarOrden() }
+   nColumna := wndABM2Edit.WIDTH -175
+   aTextoOp := {}
+   FOR i := 1 TO Len( _aOpciones )
+      AAdd( aTextoOp, _aOpciones[ i, ABM_OPC_TEXTO ] )
+   NEXT
+   @ 60, nColumna LABEL lblOpciones ;
+      OF wndABM2Edit ;
+      VALUE _HMG_aLangLabel[ 5 ] ;
+      AUTOSIZE ;
+      FONT _GetSysFont() SIZE 9
+   @ 75, nColumna COMBOBOX cbOpciones ;
+      OF wndABM2Edit ;
+      ITEMS aTextoOp ;
+      VALUE 1 ;
+      WIDTH 150 ;
+      FONT _GetSysFont() SIZE 9 ;
+      ON CHANGE {|| ABM2EjecutaOpcion() }
+   @ 65, ( wndABM2Edit.Width / 2 ) - 110 BUTTON btnFiltro1 ;
+      OF wndABM2Edit ;
+      CAPTION _HMG_aLangButton[ 10 ] ;
+      ACTION {|| ABM2ActivarFiltro() } ;
+      WIDTH 100 ;
+      HEIGHT 32 ;
+      FONT _GetSysFont() SIZE 9
+   @ 65, ( wndABM2Edit.Width / 2 ) + 5 BUTTON btnFiltro2 ;
+      OF wndABM2Edit ;
+      CAPTION _HMG_aLangButton[ 11 ] ;
+      ACTION {|| ABM2DesactivarFiltro() } ;
+      WIDTH 100 ;
+      HEIGHT 32 ;
+      FONT _GetSysFont() SIZE 9
+   @ 132, 20 BROWSE brwABM2Edit ;
+      OF wndABM2Edit ;
+      WIDTH wndABM2Edit.WIDTH -45 ;
+      HEIGHT wndABM2Edit.HEIGHT -195 ;
+      HEADERS _aCabeceraTabla ;
+      WIDTHS _aAnchoTabla ;
+      WORKAREA &_cArea ;
+      FIELDS _aCampoTabla ;
+      VALUE ( _cArea )->( RecNo() ) ;
+      FONT _GetSysFont() SIZE 9 ;
+      ON CHANGE {|| ( _cArea )->( dbGoto( wndABM2Edit.brwABM2Edit.Value ) ), ;
+      ABM2Redibuja( .F. ) } ;
+      ON DBLCLICK {|| iif( wndABM2Edit.tbbEditar.Enabled, ABM2Editar( .F. ), ) } ;
+      justify _aAlineadoTabla paintdoublebuffer
 
-        // Comprueba el estado de las opciones de usuario.
-        if Len( _aOpciones ) == 0
-                wndABM2Edit .cbOpciones. Enabled := .f.
-        endif
+   // Comprueba el estado de las opciones de usuario.
+   IF Len( _aOpciones ) == 0
+      wndABM2Edit.cbOpciones.Enabled := .F.
+   ENDIF
 
-        // ------- Activación de la ventana de visualización.--------------------------
-        activate window wndABM2Edit
+   // ------- Activación de la ventana de visualización.--------------------------
+   ACTIVATE WINDOW wndABM2Edit
 
-        // ------- Restauración de SET NAVIGATION.-------------------------------------
-        _HMG_ExtendedNavigation := _BakExtendedNavigation
+   // ------- Restauración de SET NAVIGATION.-------------------------------------
+   _HMG_ExtendedNavigation := _BakExtendedNavigation
 
-        // ------- Restaurar SET DELETED a su valor inicial
-        set( _SET_DELETED, _BackDeleted  )
+   // ------- Restaurar SET DELETED a su valor inicial
+   Set( _SET_DELETED, _BackDeleted )
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -765,23 +766,19 @@ return NIL
  *  Parámetros: Ninguno.
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2salir( nRegistro, cIndiceActivo, cFiltroAnt, nArea )
+STATIC FUNCTION ABM2salir( nRegistro, cIndiceActivo, cFiltroAnt, nArea )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local bFiltroAnt as codeblock           // Bloque de código del filtro.
+   // ------- Restaura el area de la bdd inicial.---------------------------------
+   ( _cArea )->( dbGoto( nRegistro ) )
+   ( _cArea )->( ordSetFocus( cIndiceActivo ) )
+   IF Empty( cFiltroAnt )
+      ( _cArea )->( dbClearFilter() )
+   ELSE
+      ( _cArea )->( dbSetFilter( &( "{||" + cFiltroAnt + "}" ), cFiltroAnt ) )
+   ENDIF
+   dbSelectArea( nArea )
 
-        // ------- Inicialización de variables.----------------------------------------
-        bFiltroAnt := iif( Empty( cFiltroAnt ), ;
-                &( "{||NIL}" ), ;
-                &( "{||" + cFiltroAnt + "}" ) )
-
-        // ------- Restaura el area de la bdd inicial.---------------------------------
-        ( _cArea )->( dbGoTo( nRegistro ) )
-        ( _cArea )->( ordSetFocus( cIndiceActivo ) )
-        ( _cArea )->( dbSetFilter( bFiltroAnt, cFiltroAnt ) )
-        dbSelectArea( nArea )
-
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -792,48 +789,48 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2Redibuja( lTabla )
+STATIC FUNCTION ABM2Redibuja( lTabla )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local lDeleted /*as logical*/
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL lDeleted /*as logical*/
 
-        // ------- Control de parámetros.----------------------------------------------
-        if ValType( lTabla ) != "L"
-                lTabla := .f.
-        endif
+   // ------- Control de parámetros.----------------------------------------------
+   IF ValType( lTabla ) != "L"
+      lTabla := .F.
+   ENDIF
 
-        // ------- Refresco de la barra de botones.------------------------------------
-        if ( _cArea )->( RecCount() ) == 0
-                wndABM2Edit .tbbEditar. Enabled  := .f.
-                wndABM2Edit .tbbBorrar. Enabled  := .f.
-                wndABM2Edit .tbbBuscar. Enabled  := .f.
-                wndABM2Edit .tbbListado. Enabled := .f.
-        else
-                lDeleted := Deleted()
-                wndABM2Edit .tbbEditar. Enabled  := !lDeleted
-                wndABM2Edit .tbbBorrar. Enabled  := !lDeleted
-                wndABM2Edit .tbbBuscar. Enabled  := .t.
-                wndABM2Edit .tbbRecover. Enabled := lDeleted
-                wndABM2Edit .tbbListado. Enabled := .t.
-        endif
+   // ------- Refresco de la barra de botones.------------------------------------
+   IF ( _cArea )->( RecCount() ) == 0
+      wndABM2Edit.tbbEditar.Enabled := .F.
+      wndABM2Edit.tbbBorrar.Enabled := .F.
+      wndABM2Edit.tbbBuscar.Enabled := .F.
+      wndABM2Edit.tbbListado.Enabled := .F.
+   ELSE
+      lDeleted := Deleted()
+      wndABM2Edit.tbbEditar.Enabled := ! lDeleted
+      wndABM2Edit.tbbBorrar.Enabled := ! lDeleted
+      wndABM2Edit.tbbBuscar.Enabled := .T.
+      wndABM2Edit.tbbRecover.Enabled := lDeleted
+      wndABM2Edit.tbbListado.Enabled := .T.
+   ENDIF
 
-        // ------- Refresco de la barra de estado.-------------------------------------
-        wndABM2Edit .StatusBar. Item( 1 ) := _HMG_aLangLabel[ 19 ] + _cFiltro
-        wndABM2Edit .StatusBar. Item( 2 ) := _HMG_aLangLabel[ 20 ] + iif( _lFiltro, _HMG_aLangUser[ 29 ], _HMG_aLangUser[ 30 ] )
-        wndABM2Edit .StatusBar. Item( 3 ) := _HMG_aLangLabel[ 2 ] + ': ' + ;
-                AllTrim( Str( ( _cArea )->( RecNo() ) ) ) + "/" + ;
-                AllTrim( Str( ( _cArea )->( RecCount() ) ) )
+   // ------- Refresco de la barra de estado.-------------------------------------
+   wndABM2Edit.StatusBar.Item( 1 ) := _HMG_aLangLabel[ 19 ] + _cFiltro
+   wndABM2Edit.StatusBar.Item( 2 ) := _HMG_aLangLabel[ 20 ] + iif( _lFiltro, _HMG_aLangUser[ 29 ], _HMG_aLangUser[ 30 ] )
+   wndABM2Edit.StatusBar.Item( 3 ) := _HMG_aLangLabel[ 2 ] + ': ' + ;
+      AllTrim( Str( ( _cArea )->( RecNo() ) ) ) + "/" + ;
+      AllTrim( Str( ( _cArea )->( RecCount() ) ) )
 
-        // ------- Refresca el browse si se indica.
-        if lTabla
-                wndABM2Edit .brwABM2Edit. Value := ( _cArea )->( RecNo() )
-                wndABM2Edit .brwABM2Edit. Refresh
-        endif
+   // ------- Refresca el browse si se indica.
+   IF lTabla
+      wndABM2Edit.brwABM2Edit.VALUE := ( _cArea )->( RecNo() )
+      wndABM2Edit.brwABM2Edit.Refresh
+   ENDIF
 
-        // ------- Coloca el foco en el browse.
-        wndABM2Edit .brwABM2Edit. SetFocus
+   // ------- Coloca el foco en el browse.
+   wndABM2Edit.brwABM2Edit.SetFocus
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -844,21 +841,21 @@ return NIL
  *  Parámetros: Ninguno.
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2CambiarOrden()
+STATIC FUNCTION ABM2CambiarOrden()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local nIndice /*as numeric*/                // Número del indice.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL nIndice /*as numeric*/ // Número del indice.
 
-        // ------- Inicializa las variables.-------------------------------------------
-        nIndice := wndABM2Edit .cbIndices. Value - 1
+   // ------- Inicializa las variables.-------------------------------------------
+   nIndice := wndABM2Edit.cbIndices.VALUE -1
 
-        // ------- Cambia el orden del area de trabajo.--------------------------------
-        ( _cArea )->( ordSetFocus( nIndice ) )
-        // (_cArea)->( dbGoTop() )
-        _nIndiceActivo := ++nIndice
-        ABM2Redibuja( .t. )
+   // ------- Cambia el orden del area de trabajo.--------------------------------
+   ( _cArea )->( ordSetFocus( nIndice ) )
+   // (_cArea)->( dbGoTop() )
+   _nIndiceActivo := ++nIndice
+   ABM2Redibuja( .T. )
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -869,23 +866,23 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2EjecutaOpcion()
+STATIC FUNCTION ABM2EjecutaOpcion()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local nItem    /*as numeric*/           // Numero del item seleccionado.
-        local bBloque  as codebloc              // Bloque de codigo a ejecutar.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL nItem /*as numeric*/ // Numero del item seleccionado.
+   LOCAL bBloque as codebloc // Bloque de codigo a ejecutar.
 
-        // ------- Inicialización de variables.----------------------------------------
-        nItem   := wndABM2Edit .cbOpciones. Value
-        bBloque := _aOpciones[ nItem, ABM_OPC_BLOQUE ]
+   // ------- Inicialización de variables.----------------------------------------
+   nItem := wndABM2Edit.cbOpciones.VALUE
+   bBloque := _aOpciones[ nItem, ABM_OPC_BLOQUE ]
 
-        // ------- Ejecuta la opción.--------------------------------------------------
-        Eval( bBloque )
+   // ------- Ejecuta la opción.--------------------------------------------------
+   Eval( bBloque )
 
-        // ------- Refresca el browse.
-        ABM2Redibuja( .t. )
+   // ------- Refresca el browse.
+   ABM2Redibuja( .T. )
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -897,227 +894,219 @@ return NIL
  *                              o editando el actual.
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2Editar( lNuevo )
+STATIC FUNCTION ABM2Editar( lNuevo )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local i              as numeric         // Indice de iteración.
-        local nAnchoEtiqueta /*as numeric*/     // Ancho máximo de las etiquetas.
-        local nAltoControl   /*as numeric*/     // Alto total de los controles de edición.
-        local nAncho         /*as numeric*/     // Ancho de la ventana de edición .
-        local nAlto          /*as numeric*/     // Alto de la ventana de edición.
-        local nAnchoTope     /*as numeric*/     // Ancho máximo de la ventana de edición.
-        local nAltoTope      /*as numeric*/     // Alto máximo de la ventana de edición.
-        local nAnchoSplit    /*as numeric*/     // Ancho de la ventana Split.
-        local nAltoSplit     /*as numeric*/     // Alto de la ventana Split.
-        local cTitulo        as character       // Título de la ventana.
-        local cMascara       as character       // Máscara de edición de los controles numéricos.
-        local nAnchoControl  /*as numeric*/
-        local cMacroTemp     as character
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL i              as numeric         // Indice de iteración.
+   LOCAL nAnchoEtiqueta /*as numeric*/     // Ancho máximo de las etiquetas.
+   LOCAL nAltoControl   /*as numeric*/     // Alto total de los controles de edición.
+   LOCAL nAncho         /*as numeric*/     // Ancho de la ventana de edición .
+   LOCAL nAlto          /*as numeric*/     // Alto de la ventana de edición.
+   LOCAL nAnchoTope     /*as numeric*/     // Ancho máximo de la ventana de edición.
+   LOCAL nAltoTope      /*as numeric*/     // Alto máximo de la ventana de edición.
+   LOCAL nAnchoSplit    /*as numeric*/     // Ancho de la ventana Split.
+   LOCAL nAltoSplit     /*as numeric*/     // Alto de la ventana Split.
+   LOCAL cTitulo        as character       // Título de la ventana.
+   LOCAL cMascara       as character       // Máscara de edición de los controles numéricos.
+   LOCAL nAnchoControl  /*as numeric*/
 
-        // ------- Control de parámetros.----------------------------------------------
-        if ValType( lNuevo ) != "L"
-                lNuevo := .t.
-        endif
+   // ------- Control de parámetros.----------------------------------------------
+   IF ValType( lNuevo ) != "L"
+      lNuevo := .T.
+   ENDIF
 
-        // ------- Incialización de variables.-----------------------------------------
-        nAnchoEtiqueta := 0
-        nAnchoControl  := 0
-        nAltoControl   := 0
-        for i := 1 to Len( _aEtiqueta )
-                nAnchoEtiqueta := iif( nAnchoEtiqueta > _aEtiqueta[ i, ABM_LBL_WIDTH ], ;
-                        nAnchoEtiqueta, ;
-                        _aEtiqueta[ i, ABM_LBL_WIDTH ] )
-                nAnchoControl  := iif( nAnchoControl > _aControl[ i, ABM_CON_WIDTH ], ;
-                        nAnchoControl, ;
-                        _aControl[ i, ABM_CON_WIDTH ] )
-                nAltoControl   += _aControl[ i, ABM_CON_HEIGHT ] + 10
-        next
-        nAltoSplit  := 10 + nAltoControl + 25
-        nAnchoSplit := 10 + nAnchoEtiqueta + 10 + nAnchoControl + 25
-        nAlto       := 80 + nAltoSplit + 15 + iif( _HMG_IsThemed, 10, 0 )
-        nAltoTope   := _nAltoPantalla - 130
-        nAncho      := 15 + nAnchoSplit + 15
-        nAncho      := iif( nAncho < 300, 300, nAncho )
-        nAnchoTope  := _nAnchoPantalla - 60
-        cTitulo     := iif( lNuevo, _HMG_aLangLabel[ 6 ], _HMG_aLangLabel[ 7 ] )
+   // ------- Incialización de variables.-----------------------------------------
+   nAnchoEtiqueta := 0
+   nAnchoControl := 0
+   nAltoControl := 0
+   FOR i := 1 TO Len( _aEtiqueta )
+      nAnchoEtiqueta := iif( nAnchoEtiqueta > _aEtiqueta[ i, ABM_LBL_WIDTH ], ;
+         nAnchoEtiqueta, ;
+         _aEtiqueta[ i, ABM_LBL_WIDTH ] )
+      nAnchoControl := iif( nAnchoControl > _aControl[ i, ABM_CON_WIDTH ], ;
+         nAnchoControl, ;
+         _aControl[ i, ABM_CON_WIDTH ] )
+      nAltoControl += _aControl[ i, ABM_CON_HEIGHT ] + 10
+   NEXT
+   nAltoSplit := 10 + nAltoControl + 25
+   nAnchoSplit := 10 + nAnchoEtiqueta + 10 + nAnchoControl + 25
+   nAlto := 80 + nAltoSplit + 15 + iif( _HMG_IsThemed, 10, 0 )
+   nAltoTope := _nAltoPantalla - 130
+   nAncho := 15 + nAnchoSplit + 15
+   nAncho := iif( nAncho < 300, 300, nAncho )
+   nAnchoTope := _nAnchoPantalla - 60
+   cTitulo := iif( lNuevo, _HMG_aLangLabel[ 6 ], _HMG_aLangLabel[ 7 ] )
 
-        // ------- Define la ventana de edición de registro.---------------------------
-        define window wndABM2EditNuevo                                  ;
-                at 70, 40                                               ;
-                width iif( nAncho > nAnchoTope, nAnchoTope, nAncho )    ;
-                height iif( nAlto > nAltoTope, nAltoTope, nAlto )       ;
-                title cTitulo                                           ;
-                modal                                                   ;
-                nosize                                                  ;
-                nosysmenu                                               ;
-                font _GetSysFont() size 9
+   // ------- Define la ventana de edición de registro.---------------------------
+   DEFINE WINDOW wndABM2EditNuevo ;
+         AT 70, 40 ;
+         WIDTH iif( nAncho > nAnchoTope, nAnchoTope, nAncho ) ;
+         HEIGHT iif( nAlto > nAltoTope, nAltoTope, nAlto ) ;
+         TITLE cTitulo ;
+         MODAL ;
+         NOSIZE ;
+         NOSYSMENU ;
+         FONT _GetSysFont() SIZE 9
 
-        // Define la barra de estado de la ventana de edición de registro.
-        define statusbar font _GetSysFont() size 9
-                statusitem ""
-        end statusbar
+      // Define la barra de estado de la ventana de edición de registro.
+      DEFINE STATUSBAR FONT _GetSysFont() SIZE 9
+         STATUSITEM ""
+      END STATUSBAR
 
-        define splitbox
+      DEFINE SPLITBOX
 
-        // Define la barra de botones de la ventana de edición de registro.
-        define toolbar tbEditNuevo buttonsize 100, 32 flat righttext
-        button tbbCancelar caption _HMG_aLangButton[ 7 ]          ;
-                picture "MINIGUI_EDIT_CANCEL"        ;
-                action  wndABM2EditNuevo.Release
-        button tbbAceptar  caption _HMG_aLangButton[ 8 ]          ;
-                picture "MINIGUI_EDIT_OK"            ;
-                action  ABM2EditarGuardar( lNuevo )
-        button tbbCopiar   caption _HMG_aLangButton[ 9 ]          ;
-                picture "MINIGUI_EDIT_COPY"          ;
-                action  ABM2EditarCopiar()
-        end toolbar
+         // Define la barra de botones de la ventana de edición de registro.
+         DEFINE TOOLBAR tbEditNuevo buttonsize 100, 32 FLAT righttext
+            BUTTON tbbCancelar CAPTION _HMG_aLangButton[ 7 ] ;
+               PICTURE "MINIGUI_EDIT_CANCEL" ;
+               ACTION wndABM2EditNuevo.RELEASE
+            BUTTON tbbAceptar CAPTION _HMG_aLangButton[ 8 ] ;
+               PICTURE "MINIGUI_EDIT_OK" ;
+               ACTION ABM2EditarGuardar( lNuevo )
+            BUTTON tbbCopiar CAPTION _HMG_aLangButton[ 9 ] ;
+               PICTURE "MINIGUI_EDIT_COPY" ;
+               ACTION ABM2EditarCopiar()
+         END TOOLBAR
 
-        // Define la ventana donde van contenidos los controles de edición.
-        define window wndABM2EditNuevoSplit             ;
-                width iif( nAncho > nAnchoTope,         ;
-                nAnchoTope - 10,             ;
-                nAnchoSplit  - 1 )           ;
-                height iif( nAlto > nAltoTope,          ;
-                nAltoTope - 95,             ;
-                nAltoSplit - 1 )            ;
-                virtual width nAnchoSplit               ;
-                virtual height nAltoSplit               ;
-                splitchild                              ;
-                nocaption                               ;
-                font _GetSysFont() size 9             ;
-                focused
-        end window
-        end splitbox
-        end window
+         // Define la ventana donde van contenidos los controles de edición.
+         DEFINE WINDOW wndABM2EditNuevoSplit ;
+               WIDTH iif( nAncho > nAnchoTope, ;
+               nAnchoTope - 10, ;
+               nAnchoSplit - 1 ) ;
+               HEIGHT iif( nAlto > nAltoTope, ;
+               nAltoTope - 95, ;
+               nAltoSplit - 1 ) ;
+               VIRTUAL WIDTH nAnchoSplit ;
+               VIRTUAL HEIGHT nAltoSplit ;
+               SPLITCHILD ;
+               NOCAPTION ;
+               FONT _GetSysFont() SIZE 9 ;
+               FOCUSED
+         END WINDOW
+      END SPLITBOX
+   END WINDOW
 
-        // ------- Define las etiquetas de los controles.------------------------------
-        for i := 1 to Len( _aEtiqueta )
+   // ------- Define las etiquetas de los controles.------------------------------
+   FOR i := 1 TO Len( _aEtiqueta )
 
-                cMacroTemp := _aEtiqueta[ i, ABM_LBL_NAME ]
-                @ _aEtiqueta[ i, ABM_LBL_ROW ], _aEtiqueta[ i, ABM_LBL_COL ]  ;
-                        label &cMacroTemp                               ;
-                        of wndABM2EditNuevoSplit                        ;
-                        value _aNombreCampo[ i ]                        ;
-                        width _aEtiqueta[ i, ABM_LBL_WIDTH ]            ;
-                        height _aEtiqueta[ i, ABM_LBL_HEIGHT ]          ;
-                        vcenteralign                                    ;
-                        font _GetSysFont() size 9
-        next
+      @ _aEtiqueta[ i, ABM_LBL_ROW ], _aEtiqueta[ i, ABM_LBL_COL ] ;
+         LABEL ( _aEtiqueta[ i, ABM_LBL_NAME ] ) ;
+         OF wndABM2EditNuevoSplit ;
+         VALUE _aNombreCampo[ i ] ;
+         WIDTH _aEtiqueta[ i, ABM_LBL_WIDTH ] ;
+         HEIGHT _aEtiqueta[ i, ABM_LBL_HEIGHT ] ;
+         VCENTERALIGN ;
+         FONT _GetSysFont() SIZE 9
+   NEXT
 
-        // ------- Define los controles de edición.------------------------------------
-        for i := 1 to Len( _aControl )
-                do case
-                case _aControl[ i, ABM_CON_TYPE ] == ABM_TEXTBOXC
+   // ------- Define los controles de edición.------------------------------------
+   FOR i := 1 TO Len( _aControl )
+      DO CASE
+      CASE _aControl[ i, ABM_CON_TYPE ] == ABM_TEXTBOXC
 
-                        cMacroTemp := _aControl[ i, ABM_CON_NAME ]
-                        @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ]    ;
-                                textbox &cMacroTemp                             ;
-                                of wndABM2EditNuevoSplit                        ;
-                                value ""                                        ;
-                                height _aControl[ i, ABM_CON_HEIGHT ]           ;
-                                width _aControl[ i, ABM_CON_WIDTH ]             ;
-                                font "arial" size 9                             ;
-                                maxlength _aEstructura[ i, DBS_LEN ]            ;
-                                on gotfocus ABM2ConFoco()                       ;
-                                on lostfocus ABM2SinFoco()                      ;
-                                on enter ABM2AlEntrar()
-                case _aControl[ i, ABM_CON_TYPE ] == ABM_DATEPICKER
-                        cMacroTemp := _aControl[ i, ABM_CON_NAME ]
-                        @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ]    ;
-                                datepicker &cMacroTemp                          ;
-                                of wndABM2EditNuevoSplit                        ;
-                                height _aControl[ i, ABM_CON_HEIGHT ]           ;
-                                width _aControl[ i, ABM_CON_WIDTH ] + 25        ;
-                                font "arial" size 9                             ;
-                                SHOWNONE                                        ;
-                                on gotfocus ABM2ConFoco()                       ;
-                                on lostfocus ABM2SinFoco()
-                case _aControl[ i, ABM_CON_TYPE ] == ABM_TEXTBOXN
-                        if _aEstructura[ i, DBS_DEC ] == 0
-                                cMacroTemp := _aControl[ i, ABM_CON_NAME ]
-                                @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ]    ;
-                                        textbox &cMacroTemp                             ;
-                                        of wndABM2EditNuevoSplit                        ;
-                                        value ""                                        ;
-                                        height _aControl[ i, ABM_CON_HEIGHT ]           ;
-                                        width _aControl[ i, ABM_CON_WIDTH ]             ;
-                                        numeric                                         ;
-                                        font "arial" size 9                             ;
-                                        maxlength _aEstructura[ i, DBS_LEN ]            ;
-                                        on gotfocus ABM2ConFoco( i )                    ;
-                                        on lostfocus ABM2SinFoco( i )                   ;
-                                        on enter ABM2AlEntrar()
-                        else
-                                cMascara := Replicate( "9", _aEstructura[ i, DBS_LEN ] - ( _aEstructura[ i, DBS_DEC ] + 1 ) )
-                                cMascara += "."
-                                cMascara += Replicate( "9", _aEstructura[ i, DBS_DEC ] )
-                                cMacroTemp := _aControl[ i, ABM_CON_NAME ]
-                                @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ]    ;
-                                        textbox &cMacroTemp                             ;
-                                        of wndABM2EditNuevoSplit                        ;
-                                        value ""                                        ;
-                                        height _aControl[ i, ABM_CON_HEIGHT ]           ;
-                                        width _aControl[ i, ABM_CON_WIDTH ]             ;
-                                        numeric                                         ;
-                                        inputmask cMascara                              ;
-                                        on gotfocus ABM2ConFoco()                       ;
-                                        on lostfocus ABM2SinFoco()                      ;
-                                        on enter ABM2AlEntrar()
-                        endif
-                case _aControl[ i, ABM_CON_TYPE ] == ABM_CHECKBOX
-                        cMacroTemp := _aControl[ i, ABM_CON_NAME ]
-                        @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ]    ;
-                                checkbox &cMacroTemp                            ;
-                                of wndABM2EditNuevoSplit                        ;
-                                caption ""                                      ;
-                                height _aControl[ i, ABM_CON_HEIGHT ]           ;
-                                width _aControl[ i, ABM_CON_WIDTH ]             ;
-                                value .f.                                       ;
-                                on gotfocus ABM2ConFoco()                       ;
-                                on lostfocus ABM2SinFoco()
-                case _aControl[ i, ABM_CON_TYPE ] == ABM_EDITBOX
-                        cMacroTemp := _aControl[ i, ABM_CON_NAME ]
-                        @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ]    ;
-                                editbox &cMacroTemp                             ;
-                                of wndABM2EditNuevoSplit                        ;
-                                width _aControl[ i, ABM_CON_WIDTH ]             ;
-                                height _aControl[ i, ABM_CON_HEIGHT ]           ;
-                                value ""                                        ;
-                                font "arial" size 9                             ;
-                                on gotfocus ABM2ConFoco()                       ;
-                                on lostfocus ABM2SinFoco()
-                endcase
-        next
+         @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ] ;
+            TEXTBOX ( _aControl[ i, ABM_CON_NAME ] ) ;
+            OF wndABM2EditNuevoSplit ;
+            VALUE "" ;
+            HEIGHT _aControl[ i, ABM_CON_HEIGHT ] ;
+            WIDTH _aControl[ i, ABM_CON_WIDTH ] ;
+            FONT "Arial" SIZE 9 ;
+            MAXLENGTH _aEstructura[ i, DBS_LEN ] ;
+            ON GOTFOCUS ABM2ConFoco() ;
+            ON LOSTFOCUS ABM2SinFoco() ;
+            ON ENTER ABM2AlEntrar()
+      CASE _aControl[ i, ABM_CON_TYPE ] == ABM_DATEPICKER
+         @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ] ;
+            DATEPICKER ( _aControl[ i, ABM_CON_NAME ] ) ;
+            OF wndABM2EditNuevoSplit ;
+            HEIGHT _aControl[ i, ABM_CON_HEIGHT ] ;
+            WIDTH _aControl[ i, ABM_CON_WIDTH ] + 25 ;
+            FONT "Arial" SIZE 9 ;
+            SHOWNONE ;
+            ON GOTFOCUS ABM2ConFoco() ;
+            ON LOSTFOCUS ABM2SinFoco()
+      CASE _aControl[ i, ABM_CON_TYPE ] == ABM_TEXTBOXN
+         IF _aEstructura[ i, DBS_DEC ] == 0
+            @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ] ;
+               TEXTBOX ( _aControl[ i, ABM_CON_NAME ] ) ;
+               OF wndABM2EditNuevoSplit ;
+               VALUE "" ;
+               HEIGHT _aControl[ i, ABM_CON_HEIGHT ] ;
+               WIDTH _aControl[ i, ABM_CON_WIDTH ] ;
+               NUMERIC ;
+               FONT "Arial" SIZE 9 ;
+               MAXLENGTH _aEstructura[ i, DBS_LEN ] ;
+               ON GOTFOCUS ABM2ConFoco( i ) ;
+               ON LOSTFOCUS ABM2SinFoco( i ) ;
+               ON ENTER ABM2AlEntrar()
+         ELSE
+            cMascara := Replicate( "9", _aEstructura[ i, DBS_LEN ] - ( _aEstructura[ i, DBS_DEC ] + 1 ) )
+            cMascara += "."
+            cMascara += Replicate( "9", _aEstructura[ i, DBS_DEC ] )
+            @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ] ;
+               TEXTBOX ( _aControl[ i, ABM_CON_NAME ] ) ;
+               OF wndABM2EditNuevoSplit ;
+               VALUE "" ;
+               HEIGHT _aControl[ i, ABM_CON_HEIGHT ] ;
+               WIDTH _aControl[ i, ABM_CON_WIDTH ] ;
+               NUMERIC ;
+               INPUTMASK cMascara ;
+               ON GOTFOCUS ABM2ConFoco() ;
+               ON LOSTFOCUS ABM2SinFoco() ;
+               ON ENTER ABM2AlEntrar()
+         ENDIF
+      CASE _aControl[ i, ABM_CON_TYPE ] == ABM_CHECKBOX
+         @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ] ;
+            CHECKBOX ( _aControl[ i, ABM_CON_NAME ] ) ;
+            OF wndABM2EditNuevoSplit ;
+            CAPTION "" ;
+            HEIGHT _aControl[ i, ABM_CON_HEIGHT ] ;
+            WIDTH _aControl[ i, ABM_CON_WIDTH ] ;
+            VALUE .F. ;
+            ON GOTFOCUS ABM2ConFoco() ;
+            ON LOSTFOCUS ABM2SinFoco()
+      CASE _aControl[ i, ABM_CON_TYPE ] == ABM_EDITBOX
+         @ _aControl[ i, ABM_CON_ROW ], _aControl[ i, ABM_CON_COL ] ;
+            EDITBOX ( _aControl[ i, ABM_CON_NAME ] ) ;
+            OF wndABM2EditNuevoSplit ;
+            WIDTH _aControl[ i, ABM_CON_WIDTH ] ;
+            HEIGHT _aControl[ i, ABM_CON_HEIGHT ] ;
+            VALUE "" ;
+            FONT "Arial" SIZE 9 ;
+            ON GOTFOCUS ABM2ConFoco() ;
+            ON LOSTFOCUS ABM2SinFoco()
+      ENDCASE
+   NEXT
 
-        // ------- Actualiza los controles si se está editando.------------------------
-        if !lNuevo
-                for i := 1 to Len( _aControl )
-                        SetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value", ( _cArea )->( FieldGet( i ) ) )
-                next
-        endif
+   // ------- Actualiza los controles si se está editando.------------------------
+   if ! lNuevo
+      FOR i := 1 TO Len( _aControl )
+         SetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value", ( _cArea )->( FieldGet( i ) ) )
+      NEXT
+   ENDIF
 
-        // ------- Establece el estado inicial de los controles.-----------------------
-        for i := 1 to Len( _aControl )
-                SetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Enabled", _aEditable[ i ] )
-        next
+   // ------- Establece el estado inicial de los controles.-----------------------
+   FOR i := 1 TO Len( _aControl )
+      SetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Enabled", _aEditable[ i ] )
+   NEXT
 
-        // ------- Establece el estado del botón de copia.-----------------------------
-        if !lNuevo
-                wndABM2EditNuevo .tbbCopiar. Enabled := .f.
-        endif
+   // ------- Establece el estado del botón de copia.-----------------------------
+   if ! lNuevo
+      wndABM2EditNuevo.tbbCopiar.Enabled := .F.
+   ENDIF
 
-        // ------- Activa la ventana de edición de registro.---------------------------
-        on key escape ;
-                of wndABM2EditNuevoSplit ;
-                action wndABM2EditNuevo .tbbCancelar. onclick
+   // ------- Activa la ventana de edición de registro.---------------------------
+   ON KEY ESCAPE ;
+      OF wndABM2EditNuevoSplit ;
+      ACTION wndABM2EditNuevo.tbbCancelar.onclick
 
-        on key return ;
-                of wndABM2EditNuevoSplit ;
-                action wndABM2EditNuevo .tbbAceptar. onclick
+   ON KEY RETURN ;
+      OF wndABM2EditNuevoSplit ;
+      ACTION wndABM2EditNuevo.tbbAceptar.onclick
 
-        activate window wndABM2EditNuevo
+   ACTIVATE WINDOW wndABM2EditNuevo
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1130,28 +1119,28 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2ConFoco()
+STATIC FUNCTION ABM2ConFoco()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local i         /*as numeric*/          // Indice de iteración.
-        local cControl  as character            // Nombre del control activo.
-        local acControl /*as array*/            // Matriz con los nombre de los controles.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL i /*as numeric*/ // Indice de iteración.
+   LOCAL cControl as character // Nombre del control activo.
+   LOCAL acControl /*as array*/ // Matriz con los nombre de los controles.
 
-        // ------- Inicialización de variables.----------------------------------------
-        cControl := This.Name
-        acControl := {}
-        for i := 1 to Len( _aControl )
-                aAdd( acControl, _aControl[ i, ABM_CON_NAME ] )
-        next
-        _nControlActivo := aScan( acControl, cControl )
+   // ------- Inicialización de variables.----------------------------------------
+   cControl := This.NAME
+   acControl := {}
+   FOR i := 1 TO Len( _aControl )
+      AAdd( acControl, _aControl[ i, ABM_CON_NAME ] )
+   NEXT
+   _nControlActivo := AScan( acControl, cControl )
 
-        // ------- Pone la etiqueta en negrita.----------------------------------------
-        SetProperty( "wndABM2EditNuevoSplit", _aEtiqueta[ _nControlActivo, ABM_LBL_NAME ], "FontBold", .t. )
+   // ------- Pone la etiqueta en negrita.----------------------------------------
+   SetProperty( "wndABM2EditNuevoSplit", _aEtiqueta[ _nControlActivo, ABM_LBL_NAME ], "FontBold", .T. )
 
-        // ------- Presenta el mensaje en la barra de estado.--------------------------
-        wndABM2EditNuevo .StatusBar. Item( 1 ) := _aControl[ _nControlActivo, ABM_CON_DES ]
+   // ------- Presenta el mensaje en la barra de estado.--------------------------
+   wndABM2EditNuevo.StatusBar.Item( 1 ) := _aControl[ _nControlActivo, ABM_CON_DES ]
 
-return nil
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1163,15 +1152,15 @@ return nil
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2SinFoco()
+STATIC FUNCTION ABM2SinFoco()
 
-        // ------- Restaura el estado de la etiqueta.----------------------------------
-        SetProperty( "wndABM2EditNuevoSplit", _aEtiqueta[ _nControlActivo, ABM_LBL_NAME ], "FontBold", .f. )
+   // ------- Restaura el estado de la etiqueta.----------------------------------
+   SetProperty( "wndABM2EditNuevoSplit", _aEtiqueta[ _nControlActivo, ABM_LBL_NAME ], "FontBold", .F. )
 
-        // ------- Restaura el texto de la barra de estado.----------------------------
-        wndABM2EditNuevo .StatusBar. Item( 1 ) := ""
+   // ------- Restaura el texto de la barra de estado.----------------------------
+   wndABM2EditNuevo.StatusBar.Item( 1 ) := ""
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1183,35 +1172,35 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2AlEntrar()
+STATIC FUNCTION ABM2AlEntrar()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local lSalida   /*as logical*/              // Tipo de salida.
-        local nTipo     /*as numeric*/              // Tipo del control.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL lSalida /*as logical*/ // Tipo de salida.
+   LOCAL nTipo /*as numeric*/ // Tipo del control.
 
-        // ------- Inicializa las variables.-------------------------------------------
-        lSalida := .t.
+   // ------- Inicializa las variables.-------------------------------------------
+   lSalida := .T.
 
-        // ------- Restaura el estado de la etiqueta.----------------------------------
-        SetProperty( "wndABM2EditNuevoSplit", _aEtiqueta[ _nControlActivo, ABM_LBL_NAME ], "FontBold", .f. )
+   // ------- Restaura el estado de la etiqueta.----------------------------------
+   SetProperty( "wndABM2EditNuevoSplit", _aEtiqueta[ _nControlActivo, ABM_LBL_NAME ], "FontBold", .F. )
 
-        // ------- Activa el siguiente control editable con evento ON ENTER.-----------
-        do while lSalida
-                _nControlActivo++
-                if _nControlActivo > Len( _aControl )
-                        _nControlActivo := 1
-                endif
-                nTipo := _aControl[ _nControlActivo, ABM_CON_TYPE ]
-                if nTipo == ABM_TEXTBOXC .or. nTipo == ABM_TEXTBOXN
-                        if _aEditable[ _nControlActivo ]
-                                lSalida := .f.
-                        endif
-                endif
-        enddo
+   // ------- Activa el siguiente control editable con evento ON ENTER.-----------
+   DO WHILE lSalida
+      _nControlActivo++
+      IF _nControlActivo > Len( _aControl )
+         _nControlActivo := 1
+      ENDIF
+      nTipo := _aControl[ _nControlActivo, ABM_CON_TYPE ]
+      IF nTipo == ABM_TEXTBOXC .OR. nTipo == ABM_TEXTBOXN
+         IF _aEditable[ _nControlActivo ]
+            lSalida := .F.
+         ENDIF
+      ENDIF
+   ENDDO
 
-        Domethod( "wndABM2EditNuevoSplit", _aControl[ _nControlActivo, ABM_CON_NAME ], "SetFocus" )
+   DoMethod( "wndABM2EditNuevoSplit", _aControl[ _nControlActivo, ABM_CON_NAME ], "SetFocus" )
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1223,59 +1212,59 @@ return NIL
  *                              o editando el actual.
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2EditarGuardar( lNuevo )
+STATIC FUNCTION ABM2EditarGuardar( lNuevo )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local i          /*as numeric*/             // Indice de iteración.
-        local xValor                                // Valor a guardar.
-        local lResultado /*as logical*/             // Resultado del bloque del usuario.
-        local aValores   /*as array*/               // Valores del registro.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL i /*as numeric*/ // Indice de iteración.
+   LOCAL xValor // Valor a guardar.
+   LOCAL lResultado /*as logical*/ // Resultado del bloque del usuario.
+   LOCAL aValores /*as array*/ // Valores del registro.
 
-        // ------- Guarda el registro.-------------------------------------------------
-        if _bGuardar == NIL
+   // ------- Guarda el registro.-------------------------------------------------
+   IF _bGuardar == NIL
 
-                // No hay bloque de código del usuario.
-                if lNuevo
-                        ( _cArea )->( dbAppend() )
-                endif
+      // No hay bloque de código del usuario.
+      IF lNuevo
+         ( _cArea )->( dbAppend() )
+      ENDIF
 
-                if ( _cArea )->( rlock() )
+      IF ( _cArea )->( RLock() )
 
-                        for i := 1 to Len( _aEstructura )
-                                xValor := GetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value" )
-                                ( _cArea )->( FieldPut( i, xValor ) )
-                        next
+         FOR i := 1 TO Len( _aEstructura )
+            xValor := GetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value" )
+            ( _cArea )->( FieldPut( i, xValor ) )
+         NEXT
 
-                        ( _cArea )->( dbunlock() )
+         ( _cArea )->( dbUnlock() )
 
-                        // Refresca la ventana de visualización.
-                        wndABM2EditNuevo.Release
-                        ABM2Redibuja( .t. )
+         // Refresca la ventana de visualización.
+         wndABM2EditNuevo.RELEASE
+         ABM2Redibuja( .T. )
 
-                else
-                        Msgstop ( _HMG_aLangUser[41 ], _cTitulo )
-                endif
-        else
+      ELSE
+         Msgstop ( _HMG_aLangUser[ 41 ], _cTitulo )
+      ENDIF
+   ELSE
 
-                // Hay bloque de código del usuario.
-                aValores := {}
-                for i := 1 to Len( _aControl )
-                        xValor := GetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value" )
-                        aAdd( aValores, xValor )
-                next
-                lResultado := Eval( _bGuardar, aValores, lNuevo )
-                if ValType( lResultado ) != "L"
-                        lResultado := .t.
-                endif
+      // Hay bloque de código del usuario.
+      aValores := {}
+      FOR i := 1 TO Len( _aControl )
+         xValor := GetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value" )
+         AAdd( aValores, xValor )
+      NEXT
+      lResultado := Eval( _bGuardar, aValores, lNuevo )
+      IF ValType( lResultado ) != "L"
+         lResultado := .T.
+      ENDIF
 
-                // Refresca la ventana de visualización.
-                if lResultado
-                        wndABM2EditNuevo.Release
-                        ABM2Redibuja( .t. )
-                endif
-        endif
+      // Refresca la ventana de visualización.
+      IF lResultado
+         wndABM2EditNuevo.RELEASE
+         ABM2Redibuja( .T. )
+      ENDIF
+   ENDIF
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1287,76 +1276,76 @@ return NIL
  *    Devuelve: [nReg]          Numero de registro seleccionado, o cero si no se ha
  *                              seleccionado ninguno.
 ****************************************************************************************/
-static function ABM2Seleccionar()
+STATIC FUNCTION ABM2Seleccionar()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local lSalida   as logical              // Control de bucle.
-        local nReg      as numeric              // Valores del registro
-        local nRegistro /*as numeric*/          // Número de registro.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL lSalida as logical // Control de bucle.
+   LOCAL nReg as numeric // Valores del registro
+   LOCAL nRegistro /*as numeric*/ // Número de registro.
 
-        // ------- Inicialización de variables.----------------------------------------
-        lSalida   := .f.
-        nReg      := 0
-        nRegistro := ( _cArea )->( RecNo() )
+   // ------- Inicialización de variables.----------------------------------------
+   lSalida := .F.
+   nReg := 0
+   nRegistro := ( _cArea )->( RecNo() )
 
-        // ------- Se situa en el primer registro.-------------------------------------
-        ( _cArea )->( dbGoTop() )
+   // ------- Se situa en el primer registro.-------------------------------------
+   ( _cArea )->( dbGoTop() )
 
-        // ------- Creación de la ventana de selección de registro.--------------------
-        define window wndSeleccionar            ;
-                at 0, 0                         ;
-                width 500                       ;
-                height 300                      ;
-                title _HMG_aLangLabel[ 8 ]      ;
-                modal                           ;
-                nosize                          ;
-                nosysmenu                       ;
-                font _GetSysFont() size 9
+   // ------- Creación de la ventana de selección de registro.--------------------
+   DEFINE WINDOW wndSeleccionar ;
+         AT 0, 0 ;
+         WIDTH 500 ;
+         HEIGHT 300 ;
+         TITLE _HMG_aLangLabel[ 8 ] ;
+         MODAL ;
+         NOSIZE ;
+         NOSYSMENU ;
+         FONT _GetSysFont() SIZE 9
 
-        // Define la barra de botones de la ventana de selección.
-        define toolbar tbSeleccionar buttonsize 100, 32 flat righttext border
-        button tbbCancelarSel caption _HMG_aLangButton[ 7 ]               ;
-                picture "MINIGUI_EDIT_CANCEL"             ;
-                action  {|| lSalida := .f.,               ;
-                nReg    := 0,                 ;
-                wndSeleccionar.Release }
-        button tbbAceptarSel  caption _HMG_aLangButton[ 8 ]                       ;
-                picture "MINIGUI_EDIT_OK"                                         ;
-                action  {|| lSalida := .t.,                                       ;
-                nReg    := wndSeleccionar .brwSeleccionar. Value,       ;
-                wndSeleccionar.Release }
-        end toolbar
+      // Define la barra de botones de la ventana de selección.
+      DEFINE TOOLBAR tbSeleccionar buttonsize 100, 32 FLAT righttext BORDER
+         BUTTON tbbCancelarSel CAPTION _HMG_aLangButton[ 7 ] ;
+            PICTURE "MINIGUI_EDIT_CANCEL" ;
+            ACTION {|| lSalida := .F., ;
+            nReg := 0, ;
+            wndSeleccionar.Release }
+         BUTTON tbbAceptarSel CAPTION _HMG_aLangButton[ 8 ] ;
+            PICTURE "MINIGUI_EDIT_OK" ;
+            ACTION {|| lSalida := .T., ;
+            nReg := wndSeleccionar.brwSeleccionar.VALUE, ;
+            wndSeleccionar.Release }
+      END TOOLBAR
 
-        // Define la barra de estado de la ventana de selección.
-        define statusbar font _GetSysFont() size 9
-                statusitem _HMG_aLangUser[ 7 ]
-        end statusbar
+      // Define la barra de estado de la ventana de selección.
+      DEFINE STATUSBAR FONT _GetSysFont() SIZE 9
+         STATUSITEM _HMG_aLangUser[ 7 ]
+      END STATUSBAR
 
-        // Define la tabla de la ventana de selección.
-        @ 55, 20 browse brwSeleccionar                                          ;
-                width 460                                                       ;
-                height 190                                                      ;
-                headers _aCabeceraTabla                                         ;
-                widths _aAnchoTabla                                             ;
-                workarea &_cArea                                                ;
-                fields _aCampoTabla                                             ;
-                value ( _cArea )->( RecNo() )                                   ;
-                font "arial" size 9                                             ;
-                on dblclick {|| lSalida := .t.,                                 ;
-                nReg := wndSeleccionar .brwSeleccionar. Value,    ;
-                wndSeleccionar.Release }                        ;
-                justify _aAlineadoTabla paintdoublebuffer
+      // Define la tabla de la ventana de selección.
+      @ 55, 20 BROWSE brwSeleccionar ;
+         WIDTH 460 ;
+         HEIGHT 190 ;
+         HEADERS _aCabeceraTabla ;
+         WIDTHS _aAnchoTabla ;
+         WORKAREA &_cArea ;
+         FIELDS _aCampoTabla ;
+         VALUE ( _cArea )->( RecNo() ) ;
+         FONT "Arial" SIZE 9 ;
+         ON DBLCLICK {|| lSalida := .T., ;
+         nReg := wndSeleccionar.brwSeleccionar.VALUE, ;
+         wndSeleccionar.Release } ;
+         justify _aAlineadoTabla paintdoublebuffer
 
-        end window
+   END WINDOW
 
-        // ------- Activa la ventana de selección de registro.-------------------------
-        center window wndSeleccionar
-        activate window wndSeleccionar
+   // ------- Activa la ventana de selección de registro.-------------------------
+   CENTER WINDOW wndSeleccionar
+   ACTIVATE WINDOW wndSeleccionar
 
-        // ------- Restuara el puntero de registro.------------------------------------
-        ( _cArea )->( dbGoTo( nRegistro ) )
+   // ------- Restuara el puntero de registro.------------------------------------
+   ( _cArea )->( dbGoto( nRegistro ) )
 
-return ( nReg )
+RETURN ( nReg )
 
 
 /****************************************************************************************
@@ -1368,29 +1357,29 @@ return ( nReg )
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2EditarCopiar()
+STATIC FUNCTION ABM2EditarCopiar()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local i         /*as numeric*/          // Indice de iteración.
-        local nRegistro /*as numeric*/          // Puntero de registro.
-        local nReg      /*as numeric*/          // Numero de registro.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL i /*as numeric*/ // Indice de iteración.
+   LOCAL nRegistro /*as numeric*/ // Puntero de registro.
+   LOCAL nReg /*as numeric*/ // Numero de registro.
 
-        // ------- Obtiene el registro a copiar.---------------------------------------
-        nReg := ABM2Seleccionar()
+   // ------- Obtiene el registro a copiar.---------------------------------------
+   nReg := ABM2Seleccionar()
 
-        // ------- Actualiza los controles de edición.---------------------------------
-        if nReg != 0
-                nRegistro := ( _cArea )->( RecNo() )
-                ( _cArea )->( dbGoTo( nReg ) )
-                for i := 1 to Len( _aControl )
-                        if _aEditable[ i ]
-                                SetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value", ( _cArea )->( FieldGet( i ) ) )
-                        endif
-                next
-                ( _cArea )->( dbGoTo( nRegistro ) )
-        endif
+   // ------- Actualiza los controles de edición.---------------------------------
+   IF nReg != 0
+      nRegistro := ( _cArea )->( RecNo() )
+      ( _cArea )->( dbGoto( nReg ) )
+      FOR i := 1 TO Len( _aControl )
+         IF _aEditable[ i ]
+            SetProperty( "wndABM2EditNuevoSplit", _aControl[ i, ABM_CON_NAME ], "Value", ( _cArea )->( FieldGet( i ) ) )
+         ENDIF
+      NEXT
+      ( _cArea )->( dbGoto( nRegistro ) )
+   ENDIF
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1401,27 +1390,27 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2Borrar()
+STATIC FUNCTION ABM2Borrar()
 
-        // ------- Borra el registro si se acepta.-------------------------------------
-        if MsgOKCancel( _HMG_aLangUser[ 8 ], _HMG_aLangLabel[ 16 ] )
-                if ( _cArea )->( rlock() )
-                        ( _cArea )->( dbDelete() )
-                        ( _cArea )->( dbCommit() )
-                        ( _cArea )->( dbunlock() )
-                        if set( _SET_DELETED )
-                                ( _cArea )->( dbSkip() )
-                                if ( _cArea )->( eof() )
-                                        ( _cArea )->( dbGoBottom() )
-                                endif
-                        endif
-                        ABM2Redibuja( .t. )
-                else
-                        Msgstop( _HMG_aLangUser[41 ], _cTitulo )
-                endif
-        endif
+   // ------- Borra el registro si se acepta.-------------------------------------
+   IF MsgOKCancel( _HMG_aLangUser[ 8 ], _HMG_aLangLabel[ 16 ] )
+      IF ( _cArea )->( RLock() )
+         ( _cArea )->( dbDelete() )
+         ( _cArea )->( dbCommit() )
+         ( _cArea )->( dbUnlock() )
+         IF Set( _SET_DELETED )
+            ( _cArea )->( dbSkip() )
+            IF ( _cArea )->( Eof() )
+               ( _cArea )->( dbGoBottom() )
+            ENDIF
+         ENDIF
+         ABM2Redibuja( .T. )
+      ELSE
+         Msgstop( _HMG_aLangUser[ 41 ], _cTitulo )
+      ENDIF
+   ENDIF
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1432,21 +1421,21 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2Recover()
+STATIC FUNCTION ABM2Recover()
 
-        // ------- Restaurar el registro si se acepta.-----------------------------------
-        if MsgOKCancel( _HMG_aLangUser[ 42 ], StrTran( _HMG_aLangButton[ 12 ], "&", "" ) )
-                if ( _cArea )->( rlock() )
-                        ( _cArea )->( dbRecall() )
-                        ( _cArea )->( dbCommit() )
-                        ( _cArea )->( dbunlock() )
-                        ABM2Redibuja( .t. )
-                else
-                        Msgstop( _HMG_aLangUser[41 ], _cTitulo )
-                endif
-        endif
+   // ------- Restaurar el registro si se acepta.-----------------------------------
+   IF MsgOKCancel( _HMG_aLangUser[ 42 ], StrTran( _HMG_aLangButton[ 12 ], "&", "" ) )
+      IF ( _cArea )->( RLock() )
+         ( _cArea )->( dbRecall() )
+         ( _cArea )->( dbCommit() )
+         ( _cArea )->( dbUnlock() )
+         ABM2Redibuja( .T. )
+      ELSE
+         Msgstop( _HMG_aLangUser[ 41 ], _cTitulo )
+      ENDIF
+   ENDIF
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1457,170 +1446,170 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2Buscar()
+STATIC FUNCTION ABM2Buscar()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local nControl   /*as numeric*/         // Numero del control.
-        local lSalida    as logical             // Tipo de salida de la ventana.
-        local xValor                            // Valor de busqueda.
-        local cMascara   as character           // Mascara de edición del control.
-        local lResultado /*as logical*/         // Resultado de la busqueda.
-        local nRegistro  /*as numeric*/         // Numero de registro.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL nControl /*as numeric*/ // Numero del control.
+   LOCAL lSalida as logical // Tipo de salida de la ventana.
+   LOCAL xValor // Valor de busqueda.
+   LOCAL cMascara as character // Mascara de edición del control.
+   LOCAL lResultado /*as logical*/ // Resultado de la busqueda.
+   LOCAL nRegistro /*as numeric*/ // Numero de registro.
 
-        // ------- Inicialización de variables.----------------------------------------
-        nControl := _aIndiceCampo[ _nIndiceActivo ]
+   // ------- Inicialización de variables.----------------------------------------
+   nControl := _aIndiceCampo[ _nIndiceActivo ]
 
-        // ------- Comprueba si se ha pasado una acción del usuario.--------------------
-        if _bBuscar != NIL
-                // msgInfo( "ON FIND" )
-                Eval( _bBuscar )
-                ABM2Redibuja( .t. )
-                return NIL
-        endif
+   // ------- Comprueba si se ha pasado una acción del usuario.--------------------
+   IF _bBuscar != NIL
+      // msgInfo( "ON FIND" )
+      Eval( _bBuscar )
+      ABM2Redibuja( .T. )
+      RETURN NIL
+   ENDIF
 
-        // ------- Comprueba si hay un indice activo.----------------------------------
-        if _nIndiceActivo == 1
-                msgExclamation( _HMG_aLangUser[ 9 ], _cTitulo )
-                return NIL
-        endif
+   // ------- Comprueba si hay un indice activo.----------------------------------
+   IF _nIndiceActivo == 1
+      msgExclamation( _HMG_aLangUser[ 9 ], _cTitulo )
+      RETURN NIL
+   ENDIF
 
-        // ------- Comprueba que el campo indice no es del tipo memo o logico.---------
-        if _aEstructura[ nControl, DBS_TYPE ] == "L" .or. _aEstructura[ nControl, DBS_TYPE ] == "M"
-                msgExclamation( _HMG_aLangUser[ 10 ], _cTitulo )
-                return NIL
-        endif
+   // ------- Comprueba que el campo indice no es del tipo memo o logico.---------
+   IF _aEstructura[ nControl, DBS_TYPE ] == "L" .OR. _aEstructura[ nControl, DBS_TYPE ] == "M"
+      msgExclamation( _HMG_aLangUser[ 10 ], _cTitulo )
+      RETURN NIL
+   ENDIF
 
-        // ------- Crea la ventana de busqueda.----------------------------------------
-        define window wndABMBuscar              ;
-                at 0, 0                         ;
-                width 500                       ;
-                height 170                      ;
-                title _HMG_aLangLabel[ 9 ]      ;
-                modal                           ;
-                nosize                          ;
-                nosysmenu                       ;
-                font _GetSysFont() size 9
+   // ------- Crea la ventana de busqueda.----------------------------------------
+   DEFINE WINDOW wndABMBuscar ;
+         AT 0, 0 ;
+         WIDTH 500 ;
+         HEIGHT 170 ;
+         TITLE _HMG_aLangLabel[ 9 ] ;
+         MODAL ;
+         NOSIZE ;
+         NOSYSMENU ;
+         FONT _GetSysFont() SIZE 9
 
-        // Define la barra de botones de la ventana de busqueda.
-        define toolbar tbBuscar buttonsize 100, 32 flat righttext border
-        button tbbCancelarBus caption _HMG_aLangButton[ 7 ]         ;
-                picture "MINIGUI_EDIT_CANCEL"                       ;
-                action  {|| lSalida := .f.,                         ;
-                xValor := wndABMBuscar .conBuscar. Value,           ;
-                wndABMBuscar.Release }
-        button tbbAceptarBus  caption _HMG_aLangButton[ 8 ]         ;
-                picture "MINIGUI_EDIT_OK"                           ;
-                action  {|| lSalida := .t.,                         ;
-                xValor := wndABMBuscar .conBuscar. Value,           ;
-                wndABMBuscar.Release }
-        end toolbar
+      // Define la barra de botones de la ventana de busqueda.
+      DEFINE TOOLBAR tbBuscar buttonsize 100, 32 FLAT righttext BORDER
+         BUTTON tbbCancelarBus CAPTION _HMG_aLangButton[ 7 ] ;
+            PICTURE "MINIGUI_EDIT_CANCEL" ;
+            ACTION {|| lSalida := .F., ;
+            xValor := wndABMBuscar .conBuscar.VALUE, ;
+            wndABMBuscar.Release }
+         BUTTON tbbAceptarBus CAPTION _HMG_aLangButton[ 8 ] ;
+            PICTURE "MINIGUI_EDIT_OK" ;
+            ACTION {|| lSalida := .T., ;
+            xValor := wndABMBuscar .conBuscar.VALUE, ;
+            wndABMBuscar.Release }
+      END TOOLBAR
 
-        // Define la barra de estado de la ventana de busqueda.
-        define statusbar font _GetSysFont() size 9
-                statusitem ""
-        end statusbar
-        end window
+      // Define la barra de estado de la ventana de busqueda.
+      DEFINE STATUSBAR FONT _GetSysFont() SIZE 9
+         STATUSITEM ""
+      END STATUSBAR
+   END WINDOW
 
-        // ------- Crea los controles de la ventana de busqueda.-----------------------
-        // Frame.
-        @ 45, 10 frame frmBuscar                        ;
-                of wndABMBuscar                         ;
-                caption ""                              ;
-                width wndABMBuscar.Width - 25           ;
-                height wndABMBuscar.Height - 100
+   // ------- Crea los controles de la ventana de busqueda.-----------------------
+   // Frame.
+   @ 45, 10 FRAME frmBuscar ;
+      OF wndABMBuscar ;
+      CAPTION "" ;
+      WIDTH wndABMBuscar.WIDTH -25 ;
+      HEIGHT wndABMBuscar.HEIGHT -100
 
-        // Etiqueta.
-        @ 60, 20 label lblBuscar                                ;
-                of wndABMBuscar                                 ;
-                value _aNombreCampo[ nControl ]                 ;
-                width _aEtiqueta[ nControl, ABM_LBL_WIDTH ]     ;
-                height _aEtiqueta[ nControl, ABM_LBL_HEIGHT ]   ;
-                font _GetSysFont() size 9
+   // Etiqueta.
+   @ 60, 20 LABEL lblBuscar ;
+      OF wndABMBuscar ;
+      VALUE _aNombreCampo[ nControl ] ;
+      WIDTH _aEtiqueta[ nControl, ABM_LBL_WIDTH ] ;
+      HEIGHT _aEtiqueta[ nControl, ABM_LBL_HEIGHT ] ;
+      FONT _GetSysFont() SIZE 9
 
-        // Tipo de dato a buscar.
-        do case
+   // Tipo de dato a buscar.
+   DO CASE
 
-                // Carácter.
-        case _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXC
-                @ 75, 20  textbox conBuscar                             ;
-                        of wndABMBuscar                                 ;
-                        value ""                                        ;
-                        height _aControl[ nControl, ABM_CON_HEIGHT ]    ;
-                        width _aControl[ nControl, ABM_CON_WIDTH ]      ;
-                        font "arial" size 9                             ;
-                        maxlength _aEstructura[ nControl, DBS_LEN ]
+      // Carácter.
+   CASE _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXC
+      @ 75, 20 TEXTBOX conBuscar ;
+         OF wndABMBuscar ;
+         VALUE "" ;
+         HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+         WIDTH _aControl[ nControl, ABM_CON_WIDTH ] ;
+         FONT "Arial" SIZE 9 ;
+         MAXLENGTH _aEstructura[ nControl, DBS_LEN ]
 
-                // Fecha.
-        case _aControl[ nControl, ABM_CON_TYPE ] == ABM_DATEPICKER
-                @ 75, 20 datepicker conBuscar                           ;
-                        of wndABMBuscar                                 ;
-                        value Date()                                    ;
-                        height _aControl[ nControl, ABM_CON_HEIGHT ]    ;
-                        width _aControl[ nControl, ABM_CON_WIDTH ] + 25 ;
-                        font "arial" size 9
+      // Fecha.
+   CASE _aControl[ nControl, ABM_CON_TYPE ] == ABM_DATEPICKER
+      @ 75, 20 DATEPICKER conBuscar ;
+         OF wndABMBuscar ;
+         VALUE Date() ;
+         HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+         WIDTH _aControl[ nControl, ABM_CON_WIDTH ] + 25 ;
+         FONT "Arial" SIZE 9
 
-                // Numerico.
-        case _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXN
-                if _aEstructura[ nControl, DBS_DEC ] == 0
+      // Numerico.
+   CASE _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXN
+      IF _aEstructura[ nControl, DBS_DEC ] == 0
 
-                        // Sin decimales.
-                        @ 75, 20 textbox conBuscar                              ;
-                                of wndABMBuscar                                 ;
-                                value ""                                        ;
-                                height _aControl[ nControl, ABM_CON_HEIGHT ]    ;
-                                width _aControl[ nControl, ABM_CON_WIDTH ]      ;
-                                numeric                                         ;
-                                font "arial" size 9                             ;
-                                maxlength _aEstructura[ nControl, DBS_LEN ]
-                else
+         // Sin decimales.
+         @ 75, 20 TEXTBOX conBuscar ;
+            OF wndABMBuscar ;
+            VALUE "" ;
+            HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+            WIDTH _aControl[ nControl, ABM_CON_WIDTH ] ;
+            NUMERIC ;
+            FONT "Arial" SIZE 9 ;
+            MAXLENGTH _aEstructura[ nControl, DBS_LEN ]
+      ELSE
 
-                        // Con decimales.
-                        cMascara := Replicate( "9", _aEstructura[ nControl, DBS_LEN ] - ( _aEstructura[ nControl, DBS_DEC ] + 1 ) )
-                        cMascara += "."
-                        cMascara += Replicate( "9", _aEstructura[ nControl, DBS_DEC ] )
-                        @ 75, 20 textbox conBuscar                              ;
-                                of wndABMBuscar                                 ;
-                                value ""                                        ;
-                                height _aControl[ nControl, ABM_CON_HEIGHT ]    ;
-                                width _aControl[ nControl, ABM_CON_WIDTH ]      ;
-                                numeric                                         ;
-                                inputmask cMascara
-                endif
-        endcase
+         // Con decimales.
+         cMascara := Replicate( "9", _aEstructura[ nControl, DBS_LEN ] - ( _aEstructura[ nControl, DBS_DEC ] + 1 ) )
+         cMascara += "."
+         cMascara += Replicate( "9", _aEstructura[ nControl, DBS_DEC ] )
+         @ 75, 20 TEXTBOX conBuscar ;
+            OF wndABMBuscar ;
+            VALUE "" ;
+            HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+            WIDTH _aControl[ nControl, ABM_CON_WIDTH ] ;
+            NUMERIC ;
+            INPUTMASK cMascara
+      ENDIF
+   ENDCASE
 
-        // ------- Actualiza la barra de estado.---------------------------------------
-        wndABMBuscar .StatusBar. Item( 1 ) := _aControl[ nControl, ABM_CON_DES ]
+   // ------- Actualiza la barra de estado.---------------------------------------
+   wndABMBuscar.StatusBar.Item( 1 ) := _aControl[ nControl, ABM_CON_DES ]
 
-        // ------- Comprueba el tamaño del control de edición del dato a buscar.-------
-        if wndABMBuscar .conBuscar. Width > wndABM2Edit.Width - 45
-                wndABMBuscar .conBuscar. Width := wndABM2Edit.Width - 45
-        endif
+   // ------- Comprueba el tamaño del control de edición del dato a buscar.-------
+   IF wndABMBuscar .conBuscar. Width > wndABM2Edit.WIDTH -45
+      wndABMBuscar .conBuscar. WIDTH := wndABM2Edit.WIDTH -45
+   ENDIF
 
-        // ------- Activa la ventana de busqueda.--------------------------------------
-        on key escape ;
-                of wndABMBuscar ;
-                action wndABMBuscar .tbbCancelarBus. onclick
+   // ------- Activa la ventana de busqueda.--------------------------------------
+   ON KEY ESCAPE ;
+      OF wndABMBuscar ;
+      ACTION wndABMBuscar.tbbCancelarBus.onclick
 
-        on key return ;
-                of wndABMBuscar ;
-                action wndABMBuscar .tbbAceptarBus. onclick
+   ON KEY RETURN ;
+      OF wndABMBuscar ;
+      ACTION wndABMBuscar.tbbAceptarBus.onclick
 
-        center window wndABMBuscar
-        activate window wndABMBuscar
+   CENTER WINDOW wndABMBuscar
+   ACTIVATE WINDOW wndABMBuscar
 
-        // ------- Busca el registro.--------------------------------------------------
-        if lSalida
-                nRegistro := ( _cArea )->( RecNo() )
-                lResultado := ( _cArea )->( dbSeek( xValor ) )
-                if !lResultado
-                        msgExclamation( _HMG_aLangUser[ 11 ], _cTitulo )
-                        ( _cArea )->( dbGoTo( nRegistro ) )
-                else
-                        ABM2Redibuja( .t. )
-                endif
-        endif
+   // ------- Busca el registro.--------------------------------------------------
+   IF lSalida
+      nRegistro := ( _cArea )->( RecNo() )
+      lResultado := ( _cArea )->( dbSeek( xValor ) )
+      if ! lResultado
+         msgExclamation( _HMG_aLangUser[ 11 ], _cTitulo )
+         ( _cArea )->( dbGoto( nRegistro ) )
+      ELSE
+         ABM2Redibuja( .T. )
+      ENDIF
+   ENDIF
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1631,113 +1620,113 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2ActivarFiltro()
+STATIC FUNCTION ABM2ActivarFiltro()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local aCompara   /*as array*/               // Comparaciones.
-        local aCampos    /*as array*/               // Nombre de los campos.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL aCompara /*as array*/ // Comparaciones.
+   LOCAL aCampos /*as array*/ // Nombre de los campos.
 
-        // ------- Comprueba que no hay ningun filtro activo.--------------------------
-        if _cFiltro != ""
-                MsgInfo( _HMG_aLangUser[ 34 ], '' )
-        endif
+   // ------- Comprueba que no hay ningun filtro activo.--------------------------
+   IF _cFiltro != ""
+      MsgInfo( _HMG_aLangUser[ 34 ], '' )
+   ENDIF
 
-        // ------- Inicialización de variables.----------------------------------------
-        aCampos    := _aNombreCampo
-        aCompara   := { _HMG_aLangLabel[ 27 ], ;
-                _HMG_aLangLabel[ 28 ], ;
-                _HMG_aLangLabel[ 29 ], ;
-                _HMG_aLangLabel[ 30 ], ;
-                _HMG_aLangLabel[ 31 ], ;
-                _HMG_aLangLabel[ 32 ] }
+   // ------- Inicialización de variables.----------------------------------------
+   aCampos := _aNombreCampo
+   aCompara := { _HMG_aLangLabel[ 27 ], ;
+      _HMG_aLangLabel[ 28 ], ;
+      _HMG_aLangLabel[ 29 ], ;
+      _HMG_aLangLabel[ 30 ], ;
+      _HMG_aLangLabel[ 31 ], ;
+      _HMG_aLangLabel[ 32 ] }
 
 
-        // ------- Crea la ventana de filtrado.----------------------------------------
-        define window wndABM2Filtro                     ;
-                at 0, 0                                 ;
-                width 400                               ;
-                height 325                              ;
-                title _HMG_aLangLabel[ 21 ]             ;
-                modal                                   ;
-                nosize                                  ;
-                nosysmenu                               ;
-                on init {|| ABM2ControlFiltro() }       ;
-                font _GetSysFont() size 9
+   // ------- Crea la ventana de filtrado.----------------------------------------
+   DEFINE WINDOW wndABM2Filtro ;
+         AT 0, 0 ;
+         WIDTH 400 ;
+         HEIGHT 325 ;
+         TITLE _HMG_aLangLabel[ 21 ] ;
+         MODAL ;
+         NOSIZE ;
+         NOSYSMENU ;
+         ON INIT {|| ABM2ControlFiltro() } ;
+         FONT _GetSysFont() SIZE 9
 
-        // Define la barra de botones de la ventana de filtrado.
-        define toolbar tbBuscar buttonsize 100, 32 flat righttext border
-        button tbbCancelarFil caption _HMG_aLangButton[ 7 ]           ;
-                picture "MINIGUI_EDIT_CANCEL"     ;
-                action  {|| wndABM2Filtro.Release, ;
-                ABM2Redibuja( .f. ) }
-        button tbbAceptarFil  caption _HMG_aLangButton[ 8 ]           ;
-                picture "MINIGUI_EDIT_OK"         ;
-                action  {|| ABM2EstableceFiltro() }
-        end toolbar
+      // Define la barra de botones de la ventana de filtrado.
+      DEFINE TOOLBAR tbBuscar buttonsize 100, 32 FLAT righttext BORDER
+         BUTTON tbbCancelarFil CAPTION _HMG_aLangButton[ 7 ] ;
+            PICTURE "MINIGUI_EDIT_CANCEL" ;
+            ACTION {|| wndABM2Filtro.RELEASE, ;
+            ABM2Redibuja( .F. ) }
+         BUTTON tbbAceptarFil CAPTION _HMG_aLangButton[ 8 ] ;
+            PICTURE "MINIGUI_EDIT_OK" ;
+            ACTION {|| ABM2EstableceFiltro() }
+      END TOOLBAR
 
-        // Define la barra de estado de la ventana de filtrado.
-        define statusbar font _GetSysFont() size 9
-                statusitem ""
-        end statusbar
-        end window
+      // Define la barra de estado de la ventana de filtrado.
+      DEFINE STATUSBAR FONT _GetSysFont() SIZE 9
+         STATUSITEM ""
+      END STATUSBAR
+   END WINDOW
 
-        // ------- Controles de la ventana de filtrado.
-        // Frame.
-        @ 45, 10 frame frmFiltro                ;
-                of wndABM2Filtro                ;
-                caption ""                      ;
-                width wndABM2Filtro.Width - 25  ;
-                height wndABM2Filtro.Height - 100
-        @ 65, 20 label lblCampos                ;
-                of wndABM2Filtro                ;
-                value _HMG_aLangLabel[ 22 ]     ;
-                width 140                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
-        @ 65, 220 label lblCompara              ;
-                of wndABM2Filtro                ;
-                value _HMG_aLangLabel[ 23 ]     ;
-                width 140                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
-        @ 200, 20 label lblValor                ;
-                of wndABM2Filtro                ;
-                value _HMG_aLangLabel[ 24 ]     ;
-                width 140                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
-        @ 85, 20 listbox lbxCampos                      ;
-                of wndABM2Filtro                        ;
-                width 140                               ;
-                height 100                              ;
-                items aCampos                           ;
-                value 1                                 ;
-                font "Arial" size 9                     ;
-                on change {|| ABM2ControlFiltro() }     ;
-                on gotfocus wndABM2Filtro .StatusBar. Item( 1 ) := _HMG_aLangLabel[ 25 ] ;
-                on lostfocus wndABM2Filtro .StatusBar. Item( 1 ) := ""
-        @ 85, 220 listbox lbxCompara                    ;
-                of wndABM2Filtro                        ;
-                width 140                               ;
-                height 100                              ;
-                items aCompara                          ;
-                value 1                                 ;
-                font "Arial" size 9                     ;
-                on gotfocus wndABM2Filtro .StatusBar. Item( 1 ) := _HMG_aLangLabel[ 26 ] ;
-                on lostfocus wndABM2Filtro .StatusBar. Item( 1 ) := ""
-        @ 220, 20 textbox conValor              ;
-                of wndABM2Filtro                ;
-                value ""                        ;
-                height 25                       ;
-                width 160                       ;
-                font "arial" size 9             ;
-                maxlength 16
+   // ------- Controles de la ventana de filtrado.
+   // Frame.
+   @ 45, 10 FRAME frmFiltro ;
+      OF wndABM2Filtro ;
+      CAPTION "" ;
+      WIDTH wndABM2Filtro.WIDTH -25 ;
+      HEIGHT wndABM2Filtro.HEIGHT -100
+   @ 65, 20 LABEL lblCampos ;
+      OF wndABM2Filtro ;
+      VALUE _HMG_aLangLabel[ 22 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
+   @ 65, 220 LABEL lblCompara ;
+      OF wndABM2Filtro ;
+      VALUE _HMG_aLangLabel[ 23 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
+   @ 200, 20 LABEL lblValor ;
+      OF wndABM2Filtro ;
+      VALUE _HMG_aLangLabel[ 24 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
+   @ 85, 20 LISTBOX lbxCampos ;
+      OF wndABM2Filtro ;
+      WIDTH 140 ;
+      HEIGHT 100 ;
+      ITEMS aCampos ;
+      VALUE 1 ;
+      FONT "Arial" SIZE 9 ;
+      ON CHANGE {|| ABM2ControlFiltro() } ;
+      ON GOTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := _HMG_aLangLabel[ 25 ] ;
+      ON LOSTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ""
+   @ 85, 220 LISTBOX lbxCompara ;
+      OF wndABM2Filtro ;
+      WIDTH 140 ;
+      HEIGHT 100 ;
+      ITEMS aCompara ;
+      VALUE 1 ;
+      FONT "Arial" SIZE 9 ;
+      ON GOTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := _HMG_aLangLabel[ 26 ] ;
+      ON LOSTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ""
+   @ 220, 20 TEXTBOX conValor ;
+      OF wndABM2Filtro ;
+      VALUE "" ;
+      HEIGHT 25 ;
+      WIDTH 160 ;
+      FONT "Arial" SIZE 9 ;
+      MAXLENGTH 16
 
-        // ------- Activa la ventana.
-        center window wndABM2Filtro
-        activate window wndABM2Filtro
+   // ------- Activa la ventana.
+   CENTER WINDOW wndABM2Filtro
+   ACTIVATE WINDOW wndABM2Filtro
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1748,114 +1737,114 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2ControlFiltro()
+STATIC FUNCTION ABM2ControlFiltro()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local nControl /*as numeric*/
-        local cMascara as character
-        local cMensaje as character
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL nControl /*as numeric*/
+   LOCAL cMascara as character
+   LOCAL cMensaje as character
 
-        // ------- Inicializa las variables.
-        nControl := wndABM2Filtro .lbxCampos. Value
+   // ------- Inicializa las variables.
+   nControl := wndABM2Filtro.lbxCampos.VALUE
 
-        // ------- Comprueba que se puede crear el control.----------------------------
-        if _aEstructura[ nControl, DBS_TYPE ] == "M"
-                msgExclamation( _HMG_aLangUser[ 35 ], _cTitulo )
-                return NIL
-        endif
-        if nControl == 0
-                msgExclamation( _HMG_aLangUser[ 36 ], _cTitulo )
-                return NIL
-        endif
+   // ------- Comprueba que se puede crear el control.----------------------------
+   IF _aEstructura[ nControl, DBS_TYPE ] == "M"
+      msgExclamation( _HMG_aLangUser[ 35 ], _cTitulo )
+      RETURN NIL
+   ENDIF
+   IF nControl == 0
+      msgExclamation( _HMG_aLangUser[ 36 ], _cTitulo )
+      RETURN NIL
+   ENDIF
 
-        // ------- Crea el nuevo control.----------------------------------------------
-        wndABM2Filtro .conValor. Release
-        cMensaje := _aControl[ nControl, ABM_CON_DES ]
-        do case
+   // ------- Crea el nuevo control.----------------------------------------------
+   wndABM2Filtro.conValor.RELEASE
+   cMensaje := _aControl[ nControl, ABM_CON_DES ]
+   DO CASE
 
-                // Carácter.
-        case _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXC
-                @ 226, 20  textbox conValor                                     ;
-                        of wndABM2Filtro                                        ;
-                        value ""                                                ;
-                        height _aControl[ nControl, ABM_CON_HEIGHT ]            ;
-                        width _aControl[ nControl, ABM_CON_WIDTH ]              ;
-                        font "arial" size 9                                     ;
-                        maxlength _aEstructura[ nControl, DBS_LEN ]             ;
-                        on gotfocus wndABM2Filtro .StatusBar. Item( 1 ) :=      ;
-                                    cMensaje                                    ;
-                        on lostfocus wndABM2Filtro .StatusBar. Item( 1 ) := ""
+      // Carácter.
+   CASE _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXC
+      @ 226, 20 TEXTBOX conValor ;
+         OF wndABM2Filtro ;
+         VALUE "" ;
+         HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+         WIDTH _aControl[ nControl, ABM_CON_WIDTH ] ;
+         FONT "Arial" SIZE 9 ;
+         MAXLENGTH _aEstructura[ nControl, DBS_LEN ] ;
+         ON GOTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ;
+         cMensaje ;
+         ON LOSTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ""
 
-                // Fecha.
-        case _aControl[ nControl, ABM_CON_TYPE ] == ABM_DATEPICKER
-                @ 226, 20 datepicker conValor                                   ;
-                        of wndABM2Filtro                                        ;
-                        value Date()                                            ;
-                        height _aControl[ nControl, ABM_CON_HEIGHT ]            ;
-                        width _aControl[ nControl, ABM_CON_WIDTH ] + 25         ;
-                        font "arial" size 9                                     ;
-                        on gotfocus wndABM2Filtro .StatusBar. Item( 1 ) :=      ;
-                                    cMensaje                                    ;
-                        on lostfocus wndABM2Filtro .StatusBar. Item( 1 ) := ""
+      // Fecha.
+   CASE _aControl[ nControl, ABM_CON_TYPE ] == ABM_DATEPICKER
+      @ 226, 20 DATEPICKER conValor ;
+         OF wndABM2Filtro ;
+         VALUE Date() ;
+         HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+         WIDTH _aControl[ nControl, ABM_CON_WIDTH ] + 25 ;
+         FONT "Arial" SIZE 9 ;
+         ON GOTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ;
+         cMensaje ;
+         ON LOSTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ""
 
-                // Numerico.
-        case _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXN
-                if _aEstructura[ nControl, DBS_DEC ] == 0
+      // Numerico.
+   CASE _aControl[ nControl, ABM_CON_TYPE ] == ABM_TEXTBOXN
+      IF _aEstructura[ nControl, DBS_DEC ] == 0
 
-                        // Sin decimales.
-                        @ 226, 20 textbox conValor                                      ;
-                                of wndABM2Filtro                                        ;
-                                value ""                                                ;
-                                height _aControl[ nControl, ABM_CON_HEIGHT ]            ;
-                                width _aControl[ nControl, ABM_CON_WIDTH ]              ;
-                                numeric                                                 ;
-                                font "arial" size 9                                     ;
-                                maxlength _aEstructura[ nControl, DBS_LEN ]             ;
-                                on gotfocus wndABM2Filtro .StatusBar. Item( 1 ) :=      ;
-                                            cMensaje                                    ;
-                                on lostfocus wndABM2Filtro .StatusBar. Item( 1 ) := ""
+         // Sin decimales.
+         @ 226, 20 TEXTBOX conValor ;
+            OF wndABM2Filtro ;
+            VALUE "" ;
+            HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+            WIDTH _aControl[ nControl, ABM_CON_WIDTH ] ;
+            NUMERIC ;
+            FONT "Arial" SIZE 9 ;
+            MAXLENGTH _aEstructura[ nControl, DBS_LEN ] ;
+            ON GOTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ;
+            cMensaje ;
+            ON LOSTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ""
 
-                else
+      ELSE
 
-                        // Con decimales.
-                        cMascara := Replicate( "9", _aEstructura[ nControl, DBS_LEN ] - ( _aEstructura[ nControl, DBS_DEC ] + 1 ) )
-                        cMascara += "."
-                        cMascara += Replicate( "9", _aEstructura[ nControl, DBS_DEC ] )
-                        @ 226, 20 textbox conValor                                      ;
-                                of wndABM2Filtro                                        ;
-                                value ""                                                ;
-                                height _aControl[ nControl, ABM_CON_HEIGHT ]            ;
-                                width _aControl[ nControl, ABM_CON_WIDTH ]              ;
-                                numeric                                                 ;
-                                inputmask cMascara                                      ;
-                                on gotfocus wndABM2Filtro .StatusBar. Item( 1 ) :=      ;
-                                            cMensaje                                    ;
-                                on lostfocus wndABM2Filtro .StatusBar. Item( 1 ) := ""
-                endif
+         // Con decimales.
+         cMascara := Replicate( "9", _aEstructura[ nControl, DBS_LEN ] - ( _aEstructura[ nControl, DBS_DEC ] + 1 ) )
+         cMascara += "."
+         cMascara += Replicate( "9", _aEstructura[ nControl, DBS_DEC ] )
+         @ 226, 20 TEXTBOX conValor ;
+            OF wndABM2Filtro ;
+            VALUE "" ;
+            HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+            WIDTH _aControl[ nControl, ABM_CON_WIDTH ] ;
+            NUMERIC ;
+            INPUTMASK cMascara ;
+            ON GOTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ;
+            cMensaje ;
+            ON LOSTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ""
+      ENDIF
 
-                // Logico
-        case _aControl[ nControl, ABM_CON_TYPE ] == ABM_CHECKBOX
-                @ 226, 20 checkbox conValor                                     ;
-                        of wndABM2Filtro                                        ;
-                        caption ""                                              ;
-                        height _aControl[ nControl, ABM_CON_HEIGHT ]            ;
-                        width _aControl[ nControl, ABM_CON_WIDTH ]              ;
-                        value .f.                                               ;
-                        on gotfocus wndABM2Filtro .StatusBar. Item( 1 ) :=      ;
-                                    cMensaje                                    ;
-                        on lostfocus wndABM2Filtro .StatusBar. Item( 1 ) := ""
+      // Logico
+   CASE _aControl[ nControl, ABM_CON_TYPE ] == ABM_CHECKBOX
+      @ 226, 20 CHECKBOX conValor ;
+         OF wndABM2Filtro ;
+         CAPTION "" ;
+         HEIGHT _aControl[ nControl, ABM_CON_HEIGHT ] ;
+         WIDTH _aControl[ nControl, ABM_CON_WIDTH ] ;
+         VALUE .F. ;
+         ON GOTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ;
+         cMensaje ;
+         ON LOSTFOCUS wndABM2Filtro.StatusBar.Item( 1 ) := ""
 
-        endcase
+   ENDCASE
 
-        // ------- Actualiza el valor de la etiqueta.----------------------------------
-        wndABM2Filtro .lblValor. Value := _aNombreCampo[ nControl ]
+   // ------- Actualiza el valor de la etiqueta.----------------------------------
+   wndABM2Filtro .lblValor.VALUE := _aNombreCampo[ nControl ]
 
-        // ------- Comprueba el tamaño del control de edición del dato a buscar.-------
-        if wndABM2Filtro .conValor. Width > wndABM2Filtro.Width - 45
-                wndABM2Filtro .conValor. Width := wndABM2Filtro.Width - 45
-        endif
+   // ------- Comprueba el tamaño del control de edición del dato a buscar.-------
+   IF wndABM2Filtro.conValor.Width > wndABM2Filtro.WIDTH -45
+      wndABM2Filtro.conValor.WIDTH := wndABM2Filtro.WIDTH -45
+   ENDIF
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1866,70 +1855,70 @@ return NIL
  *  Parámetros: Ninguno.
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2EstableceFiltro()
+STATIC FUNCTION ABM2EstableceFiltro()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local aOperador  /*as array*/
-        local nCampo     /*as numeric*/
-        local nCompara   /*as numeric*/
-        local cValor     as character
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL aOperador /*as array*/
+   LOCAL nCampo /*as numeric*/
+   LOCAL nCompara /*as numeric*/
+   LOCAL cValor as character
 
-        // ------- Inicialización de variables.----------------------------------------
-        nCompara  := wndABM2Filtro .lbxCompara. Value
-        nCampo    := wndABM2Filtro .lbxCampos. Value
-        cValor    := HB_ValToStr( wndABM2Filtro .conValor. Value )
-        aOperador := { "=", "<>", ">", "<", ">=", "<=" }
+   // ------- Inicialización de variables.----------------------------------------
+   nCompara := wndABM2Filtro.lbxCompara.VALUE
+   nCampo := wndABM2Filtro.lbxCampos.VALUE
+   cValor := hb_ValToStr( wndABM2Filtro.conValor.Value )
+   aOperador := { "=", "<>", ">", "<", ">=", "<=" }
 
-        // ------- Comprueba que se puede filtrar.-------------------------------------
-        if nCompara == 0
-                msgExclamation( _HMG_aLangUser[ 37 ], _cTitulo )
-                return NIL
-        endif
-        if nCampo == 0
-                msgExclamation( _HMG_aLangUser[ 36 ], _cTitulo )
-                return NIL
-        endif
-        if cValor == ""
-                msgExclamation( _HMG_aLangUser[ 38 ], _cTitulo )
-                return NIL
-        endif
-        if _aEstructura[ nCampo, DBS_TYPE ] == "M"
-                msgExclamation( _HMG_aLangUser[ 35 ], _cTitulo )
-                return NIL
-        endif
+   // ------- Comprueba que se puede filtrar.-------------------------------------
+   IF nCompara == 0
+      msgExclamation( _HMG_aLangUser[ 37 ], _cTitulo )
+      RETURN NIL
+   ENDIF
+   IF nCampo == 0
+      msgExclamation( _HMG_aLangUser[ 36 ], _cTitulo )
+      RETURN NIL
+   ENDIF
+   IF cValor == ""
+      msgExclamation( _HMG_aLangUser[ 38 ], _cTitulo )
+      RETURN NIL
+   ENDIF
+   IF _aEstructura[ nCampo, DBS_TYPE ] == "M"
+      msgExclamation( _HMG_aLangUser[ 35 ], _cTitulo )
+      RETURN NIL
+   ENDIF
 
-        // ------- Establece el filtro.------------------------------------------------
-        do case
-        case _aEstructura[ nCampo, DBS_TYPE ] == "C"
-                _cFiltro := "Upper(" + _cArea + "->" + ;
-                        _aEstructura[ nCampo, DBS_NAME ] + ")" + ;
-                        aOperador[ nCompara ]
-                _cFiltro += "'" + Upper( AllTrim( cValor ) ) + "'"
+   // ------- Establece el filtro.------------------------------------------------
+   DO CASE
+   CASE _aEstructura[ nCampo, DBS_TYPE ] == "C"
+      _cFiltro := "Upper(" + _cArea + "->" + ;
+         _aEstructura[ nCampo, DBS_NAME ] + ")" + ;
+         aOperador[ nCompara ]
+      _cFiltro += "'" + Upper( AllTrim( cValor ) ) + "'"
 
-        case _aEstructura[ nCampo, DBS_TYPE ] == "N"
-                _cFiltro := _cArea + "->" + ;
-                        _aEstructura[ nCampo, DBS_NAME ] + ;
-                        aOperador[ nCompara ]
-                _cFiltro += AllTrim( cValor )
+   CASE _aEstructura[ nCampo, DBS_TYPE ] == "N"
+      _cFiltro := _cArea + "->" + ;
+         _aEstructura[ nCampo, DBS_NAME ] + ;
+         aOperador[ nCompara ]
+      _cFiltro += AllTrim( cValor )
 
-        case _aEstructura[ nCampo, DBS_TYPE ] == "D"
-                _cFiltro := _cArea + "->" + ;
-                        _aEstructura[ nCampo, DBS_NAME ] + ;
-                        aOperador[ nCompara ]
-                _cFiltro += "CToD(" + "'" + cValor + "')"
+   CASE _aEstructura[ nCampo, DBS_TYPE ] == "D"
+      _cFiltro := _cArea + "->" + ;
+         _aEstructura[ nCampo, DBS_NAME ] + ;
+         aOperador[ nCompara ]
+      _cFiltro += "CToD(" + "'" + cValor + "')"
 
-        case _aEstructura[ nCampo, DBS_TYPE ] == "L"
-                _cFiltro := _cArea + "->" + ;
-                        _aEstructura[ nCampo, DBS_NAME ] + ;
-                        aOperador[ nCompara ]
-                _cFiltro += cValor
-        endcase
-        ( _cArea )->( dbSetFilter( {|| &_cFiltro }, _cFiltro ) )
-        _lFiltro := .t.
-        wndABM2Filtro.Release
-        ABM2Redibuja( .t. )
+   CASE _aEstructura[ nCampo, DBS_TYPE ] == "L"
+      _cFiltro := _cArea + "->" + ;
+         _aEstructura[ nCampo, DBS_NAME ] + ;
+         aOperador[ nCompara ]
+      _cFiltro += cValor
+   ENDCASE
+   ( _cArea )->( dbSetFilter( {|| &_cFiltro }, _cFiltro ) )
+   _lFiltro := .T.
+   wndABM2Filtro.RELEASE
+   ABM2Redibuja( .T. )
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1940,22 +1929,22 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2DesactivarFiltro()
+STATIC FUNCTION ABM2DesactivarFiltro()
 
-        // ------- Desactiva el filtro si procede.
-        if !_lFiltro
-                msgExclamation( _HMG_aLangUser[ 39 ], _cTitulo )
-                ABM2Redibuja( .f. )
-                return NIL
-        endif
-        if msgYesNo( _HMG_aLangUser[ 40 ], _cTitulo )
-                ( _cArea )->( dbClearFilter( NIL ) )
-                _lFiltro := .f.
-                _cFiltro := ""
-                ABM2Redibuja( .t. )
-        endif
+   // ------- Desactiva el filtro si procede.
+   if ! _lFiltro
+      msgExclamation( _HMG_aLangUser[ 39 ], _cTitulo )
+      ABM2Redibuja( .F. )
+      RETURN NIL
+   ENDIF
+   IF msgYesNo( _HMG_aLangUser[ 40 ], _cTitulo )
+      ( _cArea )->( dbClearFilter( NIL ) )
+      _lFiltro := .F.
+      _cFiltro := ""
+      ABM2Redibuja( .T. )
+   ENDIF
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -1966,240 +1955,240 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2Imprimir()
+STATIC FUNCTION ABM2Imprimir()
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local aCampoBase    /*as array*/        // Campos de la bdd.
-        local aCampoListado /*as array*/        // Campos del listado.
-        local nRegistro     /*as numeric*/      // Numero de registro actual.
-        local nCampo        /*as numeric*/      // Numero de campo.
-        local cRegistro1    as character        // Valor del registro inicial.
-        local cRegistro2    as character        // Valor del registro final.
-        local aImpresoras   as array            // Impresoras disponibles.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL aCampoBase /*as array*/ // Campos de la bdd.
+   LOCAL aCampoListado /*as array*/ // Campos del listado.
+   LOCAL nRegistro /*as numeric*/ // Numero de registro actual.
+   LOCAL nCampo /*as numeric*/ // Numero de campo.
+   LOCAL cRegistro1 as character // Valor del registro inicial.
+   LOCAL cRegistro2 as character // Valor del registro final.
+   LOCAL aImpresoras as array // Impresoras disponibles.
 
-        // ------- Comprueba si se ha pasado la clausula ON PRINT.---------------------
-        IF _bImprimir != NIL
-                // msgInfo( "ON PRINT" )
-                Eval( _bImprimir )
-                ABM2Redibuja( .T. )
-                return NIL
-        ENDIF
+   // ------- Comprueba si se ha pasado la clausula ON PRINT.---------------------
+   IF _bImprimir != NIL
+      // msgInfo( "ON PRINT" )
+      Eval( _bImprimir )
+      ABM2Redibuja( .T. )
+      RETURN NIL
+   ENDIF
 
-        // ------- Obtiene las impresoras disponibles.---------------------------------
-        aImpresoras := {}
-        INIT PRINTSYS
-        GET PRINTERS TO aImpresoras
-        RELEASE PRINTSYS
+   // ------- Obtiene las impresoras disponibles.---------------------------------
+   aImpresoras := {}
+   INIT PRINTSYS
+   GET PRINTERS TO aImpresoras
+   RELEASE PRINTSYS
 
-        // ------- Comprueba que hay un indice activo.---------------------------------
-        if _nIndiceActivo == 1
-                msgExclamation( _HMG_aLangUser[ 9 ], _cTitulo )
-                return NIL
-        endif
+   // ------- Comprueba que hay un indice activo.---------------------------------
+   IF _nIndiceActivo == 1
+      msgExclamation( _HMG_aLangUser[ 9 ], _cTitulo )
+      RETURN NIL
+   ENDIF
 
-        // ------- Inicialización de variables.----------------------------------------
-        aCampoListado := {}
-        aCampoBase    := _aNombreCampo
-        SET DELETED ON
-        nRegistro     := ( _cArea )->( RecNo() )
-        if ( _cArea )->( Deleted() )
-                ( _cArea )->( dbSkip() )
-        endif
+   // ------- Inicialización de variables.----------------------------------------
+   aCampoListado := {}
+   aCampoBase := _aNombreCampo
+   SET DELETED ON
+   nRegistro := ( _cArea )->( RecNo() )
+   IF ( _cArea )->( Deleted() )
+      ( _cArea )->( dbSkip() )
+   ENDIF
 
-        // Registro inicial y final.
-        nCampo := _aIndiceCampo[ _nIndiceActivo ]
-        ( _cArea )->( dbGoTop() )
-        cRegistro1 := HB_ValToStr( ( _cArea )->( FieldGet( nCampo ) ) )
-        ( _cArea )->( dbGoBottom() )
-        cRegistro2 := HB_ValToStr( ( _cArea )->( FieldGet( nCampo ) ) )
-        ( _cArea )->( dbGoTo( nRegistro ) )
+   // Registro inicial y final.
+   nCampo := _aIndiceCampo[ _nIndiceActivo ]
+   ( _cArea )->( dbGoTop() )
+   cRegistro1 := hb_ValToStr( ( _cArea )->( FieldGet( nCampo ) ) )
+   ( _cArea )->( dbGoBottom() )
+   cRegistro2 := hb_ValToStr( ( _cArea )->( FieldGet( nCampo ) ) )
+   ( _cArea )->( dbGoto( nRegistro ) )
 
-        // ------- Definición de la ventana de formato de listado.---------------------
-        define window wndABM2Listado            ;
-                at 0, 0                         ;
-                width 390                       ;
-                height 365                      ;
-                title _HMG_aLangLabel[ 10 ]       ;
-                icon "MINIGUI_EDIT_PRINT"       ;
-                modal                           ;
-                nosize                          ;
-                nosysmenu                       ;
-                font _GetSysFont() size 9
+   // ------- Definición de la ventana de formato de listado.---------------------
+   DEFINE WINDOW wndABM2Listado ;
+         AT 0, 0 ;
+         WIDTH 390 ;
+         HEIGHT 365 ;
+         TITLE _HMG_aLangLabel[ 10 ] ;
+         ICON "MINIGUI_EDIT_PRINT" ;
+         MODAL ;
+         NOSIZE ;
+         NOSYSMENU ;
+         FONT _GetSysFont() SIZE 9
 
-        // Define la barra de botones de la ventana de formato de listado.
-        define toolbar tbListado buttonsize 100, 32 flat righttext border
-        button tbbCancelarLis caption _HMG_aLangButton[ 7 ]               ;
-                picture "MINIGUI_EDIT_CANCEL"             ;
-                action  wndABM2Listado.Release
-        button tbbAceptarLis  caption _HMG_aLangButton[ 8 ]               ;
-                picture "MINIGUI_EDIT_OK"                 ;
-                action  ABM2Listado( aImpresoras )
+      // Define la barra de botones de la ventana de formato de listado.
+      DEFINE TOOLBAR tbListado buttonsize 100, 32 FLAT righttext BORDER
+         BUTTON tbbCancelarLis CAPTION _HMG_aLangButton[ 7 ] ;
+            PICTURE "MINIGUI_EDIT_CANCEL" ;
+            ACTION wndABM2Listado.RELEASE
+         BUTTON tbbAceptarLis CAPTION _HMG_aLangButton[ 8 ] ;
+            PICTURE "MINIGUI_EDIT_OK" ;
+            ACTION ABM2Listado( aImpresoras )
 
-        end toolbar
+      END TOOLBAR
 
-        // Define la barra de estado de la ventana de formato de listado.
-        define statusbar font _GetSysFont() size 9
-                statusitem ""
-        end statusbar
-        end window
+      // Define la barra de estado de la ventana de formato de listado.
+      DEFINE STATUSBAR FONT _GetSysFont() SIZE 9
+         STATUSITEM ""
+      END STATUSBAR
+   END WINDOW
 
-        // ------- Define los controles de edición de la ventana de formato de listado.-
-        // Frame.
-        @ 45, 10 frame frmListado                       ;
-                of wndABM2Listado                       ;
-                caption ""                              ;
-                width wndABM2Listado.Width - 25         ;
-                height wndABM2Listado.Height - 100
+   // ------- Define los controles de edición de la ventana de formato de listado.-
+   // Frame.
+   @ 45, 10 FRAME frmListado ;
+      OF wndABM2Listado ;
+      CAPTION "" ;
+      WIDTH wndABM2Listado.WIDTH -25 ;
+      HEIGHT wndABM2Listado.HEIGHT -100
 
-        // Label
-        @ 65, 20 label lblCampoBase             ;
-                of wndABM2Listado               ;
-                value _HMG_aLangLabel[ 11 ]       ;
-                width 140                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
-        @ 65, 220 label lblCampoListado         ;
-                of wndABM2Listado               ;
-                value _HMG_aLangLabel[ 12 ]       ;
-                width 140                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
-        @ 200, 20 label lblImpresoras           ;
-                of wndABM2Listado               ;
-                value _HMG_aLangLabel[ 13 ]       ;
-                width 140                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
-        @ 200, 170 label lblInicial             ;
-                of wndABM2Listado               ;
-                value _HMG_aLangLabel[ 14 ]       ;
-                width 160                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
-        @ 255, 170 label lblFinal               ;
-                of wndABM2Listado               ;
-                value _HMG_aLangLabel[ 15 ]       ;
-                width 160                       ;
-                height 25                       ;
-                font _GetSysFont() size 9
+   // Label
+   @ 65, 20 LABEL lblCampoBase ;
+      OF wndABM2Listado ;
+      VALUE _HMG_aLangLabel[ 11 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
+   @ 65, 220 LABEL lblCampoListado ;
+      OF wndABM2Listado ;
+      VALUE _HMG_aLangLabel[ 12 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
+   @ 200, 20 LABEL lblImpresoras ;
+      OF wndABM2Listado ;
+      VALUE _HMG_aLangLabel[ 13 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
+   @ 200, 170 LABEL lblInicial ;
+      OF wndABM2Listado ;
+      VALUE _HMG_aLangLabel[ 14 ] ;
+      WIDTH 160 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
+   @ 255, 170 LABEL lblFinal ;
+      OF wndABM2Listado ;
+      VALUE _HMG_aLangLabel[ 15 ] ;
+      WIDTH 160 ;
+      HEIGHT 25 ;
+      FONT _GetSysFont() SIZE 9
 
-        // Listbox.
-        @ 85, 20 listbox lbxCampoBase                                           ;
-                of wndABM2Listado                                               ;
-                width 140                                                       ;
-                height 100                                                      ;
-                items aCampoBase                                                ;
-                value 1                                                         ;
-                font "Arial" size 9                                             ;
-                on gotfocus wndABM2Listado .StatusBar. Item( 1 ) := _HMG_aLangUser[ 12 ] ;
-                on lostfocus wndABM2Listado .StatusBar. Item( 1 ) := ""
-        @ 85, 220 listbox lbxCampoListado                                       ;
-                of wndABM2Listado                                               ;
-                width 140                                                       ;
-                height 100                                                      ;
-                items aCampoListado                                             ;
-                value 1                                                         ;
-                font "Arial" size 9                                             ;
-                on gotFocus wndABM2Listado .StatusBar. Item( 1 ) := _HMG_aLangUser[ 13 ] ;
-                on lostfocus wndABM2Listado .StatusBar. Item( 1 ) := ""
+   // Listbox.
+   @ 85, 20 LISTBOX lbxCampoBase ;
+      OF wndABM2Listado ;
+      WIDTH 140 ;
+      HEIGHT 100 ;
+      ITEMS aCampoBase ;
+      VALUE 1 ;
+      FONT "Arial" SIZE 9 ;
+      ON GOTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := _HMG_aLangUser[ 12 ] ;
+      ON LOSTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := ""
+   @ 85, 220 LISTBOX lbxCampoListado ;
+      OF wndABM2Listado ;
+      WIDTH 140 ;
+      HEIGHT 100 ;
+      ITEMS aCampoListado ;
+      VALUE 1 ;
+      FONT "Arial" SIZE 9 ;
+      ON gotFocus wndABM2Listado.StatusBar.Item( 1 ) := _HMG_aLangUser[ 13 ] ;
+      ON LOSTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := ""
 
-        // ComboBox.
-        @ 220, 20 combobox cbxImpresoras                                        ;
-                of wndABM2Listado                                               ;
-                items aImpresoras                                               ;
-                value 1                                                         ;
-                width 140                                                       ;
-                font "Arial" size 9                                             ;
-                on gotfocus wndABM2Listado .StatusBar. Item( 1 ) := _HMG_aLangUser[ 14 ] ;
-                on lostfocus wndABM2Listado .StatusBar. Item( 1 ) := ""
+   // ComboBox.
+   @ 220, 20 COMBOBOX cbxImpresoras ;
+      OF wndABM2Listado ;
+      ITEMS aImpresoras ;
+      VALUE 1 ;
+      WIDTH 140 ;
+      FONT "Arial" SIZE 9 ;
+      ON GOTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := _HMG_aLangUser[ 14 ] ;
+      ON LOSTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := ""
 
-        // PicButton.
-        @ 90, 170 button btnMas                                                 ;
-                of wndABM2Listado                                               ;
-                picture "MINIGUI_EDIT_ADD"                                      ;
-                action ABM2DefinirColumnas( ABM_LIS_ADD )                       ;
-                width 40                                                        ;
-                height 40                                                       ;
-                on gotfocus wndABM2Listado .StatusBar. Item( 1 ) := _HMG_aLangUser[ 15 ] ;
-                on lostfocus wndABM2Listado .StatusBar. Item( 1 ) := ""
-        @ 140, 170 button btnMenos                                              ;
-                of wndABM2Listado                                               ;
-                picture "MINIGUI_EDIT_DEL"                                      ;
-                action ABM2DefinirColumnas( ABM_LIS_DEL )                       ;
-                width 40                                                        ;
-                height 40                                                       ;
-                on gotfocus wndABM2Listado .StatusBar. Item( 1 ) := _HMG_aLangUser[ 16 ] ;
-                on lostfocus wndABM2Listado .StatusBar. Item( 1 ) := ""
-        @ 220, 170 button btnSet1                                               ;
-                of wndABM2Listado                                               ;
-                picture "MINIGUI_EDIT_SET"                                      ;
-                action ABM2DefinirRegistro( ABM_LIS_SET1 )                      ;
-                width 25                                                        ;
-                height 25                                                       ;
-                on gotfocus wndABM2Listado .StatusBar. Item( 1 ) := _HMG_aLangUser[ 17 ] ;
-                on lostfocus wndABM2Listado .StatusBar. Item( 1 ) := ""
-        @ 275, 170 button btnSet2                                               ;
-                of wndABM2Listado                                               ;
-                picture "MINIGUI_EDIT_SET"                                      ;
-                action ABM2DefinirRegistro( ABM_LIS_SET2 )                      ;
-                width 25                                                        ;
-                height 25                                                       ;
-                on gotfocus wndABM2Listado .StatusBar. Item( 1 ) := _HMG_aLangUser[ 18 ] ;
-                on lostfocus wndABM2Listado .StatusBar. Item( 1 ) := ""
+   // PicButton.
+   @ 90, 170 BUTTON btnMas ;
+      OF wndABM2Listado ;
+      PICTURE "MINIGUI_EDIT_ADD" ;
+      ACTION ABM2DefinirColumnas( ABM_LIS_ADD ) ;
+      WIDTH 40 ;
+      HEIGHT 40 ;
+      ON GOTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := _HMG_aLangUser[ 15 ] ;
+      ON LOSTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := ""
+   @ 140, 170 BUTTON btnMenos ;
+      OF wndABM2Listado ;
+      PICTURE "MINIGUI_EDIT_DEL" ;
+      ACTION ABM2DefinirColumnas( ABM_LIS_DEL ) ;
+      WIDTH 40 ;
+      HEIGHT 40 ;
+      ON GOTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := _HMG_aLangUser[ 16 ] ;
+      ON LOSTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := ""
+   @ 220, 170 BUTTON btnSet1 ;
+      OF wndABM2Listado ;
+      PICTURE "MINIGUI_EDIT_SET" ;
+      ACTION ABM2DefinirRegistro( ABM_LIS_SET1 ) ;
+      WIDTH 25 ;
+      HEIGHT 25 ;
+      ON GOTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := _HMG_aLangUser[ 17 ] ;
+      ON LOSTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := ""
+   @ 275, 170 BUTTON btnSet2 ;
+      OF wndABM2Listado ;
+      PICTURE "MINIGUI_EDIT_SET" ;
+      ACTION ABM2DefinirRegistro( ABM_LIS_SET2 ) ;
+      WIDTH 25 ;
+      HEIGHT 25 ;
+      ON GOTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := _HMG_aLangUser[ 18 ] ;
+      ON LOSTFOCUS wndABM2Listado.StatusBar.Item( 1 ) := ""
 
-        // CheckBox.
-        @ 255, 20 checkbox chkVistas            ;
-                of wndABM2Listado               ;
-                caption _HMG_aLangLabel[ 18 ]   ;
-                width 140                       ;
-                height 25                       ;
-                value .t.                       ;
-                font _GetSysFont() size 9
-        @ 275, 20 checkbox chkPrevio            ;
-                of wndABM2Listado               ;
-                caption _HMG_aLangLabel[ 17 ]   ;
-                width 140                       ;
-                height 25                       ;
-                value .t.                       ;
-                font _GetSysFont() size 9
+   // CheckBox.
+   @ 255, 20 CHECKBOX chkVistas ;
+      OF wndABM2Listado ;
+      CAPTION _HMG_aLangLabel[ 18 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      VALUE .T. ;
+      FONT _GetSysFont() SIZE 9
+   @ 275, 20 CHECKBOX chkPrevio ;
+      OF wndABM2Listado ;
+      CAPTION _HMG_aLangLabel[ 17 ] ;
+      WIDTH 140 ;
+      HEIGHT 25 ;
+      VALUE .T. ;
+      FONT _GetSysFont() SIZE 9
 
-        // Editbox.
-        @ 220, 196 textbox txtRegistro1         ;
-                of wndABM2Listado               ;
-                value cRegistro1                ;
-                height 25                       ;
-                width 160                       ;
-                font "arial" size 9             ;
-                maxlength 16
-        @ 275, 196 textbox txtRegistro2         ;
-                of wndABM2Listado               ;
-                value cRegistro2                ;
-                height 25                       ;
-                width 160                       ;
-                font "arial" size 9             ;
-                maxlength 16
+   // Editbox.
+   @ 220, 196 TEXTBOX txtRegistro1 ;
+      OF wndABM2Listado ;
+      VALUE cRegistro1 ;
+      HEIGHT 25 ;
+      WIDTH 160 ;
+      FONT "Arial" SIZE 9 ;
+      MAXLENGTH 16
+   @ 275, 196 TEXTBOX txtRegistro2 ;
+      OF wndABM2Listado ;
+      VALUE cRegistro2 ;
+      HEIGHT 25 ;
+      WIDTH 160 ;
+      FONT "Arial" SIZE 9 ;
+      MAXLENGTH 16
 
-        // ------- Estado de los controles.--------------------------------------------
-        wndABM2Listado .txtRegistro1. Enabled := .f.
-        wndABM2Listado .txtRegistro2. Enabled := .f.
+   // ------- Estado de los controles.--------------------------------------------
+   wndABM2Listado .txtRegistro1.Enabled := .F.
+   wndABM2Listado .txtRegistro2.Enabled := .F.
 
-        // ------- Comrprueba que la selección de registros es posible.----------------
-        nCampo := _aIndiceCampo[ _nIndiceActivo ]
-        if _aEstructura[ nCampo, DBS_TYPE ] == "L" .or. _aEstructura[ nCampo, DBS_TYPE ] == "M"
-                wndABM2Listado .btnSet1. Enabled := .f.
-                wndABM2Listado .btnSet2. Enabled := .f.
-        endif
+   // ------- Comrprueba que la selección de registros es posible.----------------
+   nCampo := _aIndiceCampo[ _nIndiceActivo ]
+   IF _aEstructura[ nCampo, DBS_TYPE ] == "L" .OR. _aEstructura[ nCampo, DBS_TYPE ] == "M"
+      wndABM2Listado .btnSet1.Enabled := .F.
+      wndABM2Listado .btnSet2.Enabled := .F.
+   ENDIF
 
-        // ------- Activación de la ventana de formato de listado.---------------------
-        center window wndABM2Listado
-        activate window wndABM2Listado
+   // ------- Activación de la ventana de formato de listado.---------------------
+   CENTER WINDOW wndABM2Listado
+   ACTIVATE WINDOW wndABM2Listado
 
-        // ------- Restaura.-----------------------------------------------------------
-        SET DELETED OFF
-        ( _cArea )->( dbGoTo( nRegistro ) )
-        ABM2Redibuja( .f. )
+   // ------- Restaura.-----------------------------------------------------------
+   SET DELETED OFF
+   ( _cArea )->( dbGoto( nRegistro ) )
+   ABM2Redibuja( .F. )
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -2210,40 +2199,40 @@ return NIL
  *  Parámetros: [nAccion]       Numerico. Indica el tipo de accion realizado.
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2DefinirRegistro( nAccion )
+STATIC FUNCTION ABM2DefinirRegistro( nAccion )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local nRegistro as character            // Puntero de registros.
-        local nReg      as character            // Registro seleccionado.
-        local cValor    as character            // Valor del registro seleccionado.
-        local nCampo    /*as numeric*/          // Numero del campo indice.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL nRegistro as character // Puntero de registros.
+   LOCAL nReg as character // Registro seleccionado.
+   LOCAL cValor as character // Valor del registro seleccionado.
+   LOCAL nCampo /*as numeric*/ // Numero del campo indice.
 
-        // ------- Inicializa las variables.-------------------------------------------
-        nRegistro := ( _cArea )->( RecNo() )
+   // ------- Inicializa las variables.-------------------------------------------
+   nRegistro := ( _cArea )->( RecNo() )
 
-        // ------- Selecciona el registro.---------------------------------------------
-        nReg := ABM2Seleccionar()
-        if nReg == 0
-                ( _cArea )->( dbGoTo( nRegistro ) )
-                return NIL
-        else
-                ( _cArea )->( dbGoTo( nReg ) )
-                nCampo := _aIndiceCampo[ _nIndiceActivo ]
-                cValor := HB_ValToStr( ( _cArea )->( FieldGet( nCampo ) ) )
-        endif
+   // ------- Selecciona el registro.---------------------------------------------
+   nReg := ABM2Seleccionar()
+   IF nReg == 0
+      ( _cArea )->( dbGoto( nRegistro ) )
+      RETURN NIL
+   ELSE
+      ( _cArea )->( dbGoto( nReg ) )
+      nCampo := _aIndiceCampo[ _nIndiceActivo ]
+      cValor := hb_ValToStr( ( _cArea )->( FieldGet( nCampo ) ) )
+   ENDIF
 
-        // ------- Actualiza según la acción.------------------------------------------
-        do case
-        case nAccion == ABM_LIS_SET1
-                wndABM2Listado .txtRegistro1. Value := cValor
-        case nAccion == ABM_LIS_SET2
-                wndABM2Listado .txtRegistro2. Value := cValor
-        endcase
+   // ------- Actualiza según la acción.------------------------------------------
+   DO CASE
+   CASE nAccion == ABM_LIS_SET1
+      wndABM2Listado .txtRegistro1.VALUE := cValor
+   CASE nAccion == ABM_LIS_SET2
+      wndABM2Listado .txtRegistro2.VALUE := cValor
+   ENDCASE
 
-        // ------- Restaura el registro.
-        ( _cArea )->( dbGoTo( nRegistro ) )
+   // ------- Restaura el registro.
+   ( _cArea )->( dbGoto( nRegistro ) )
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -2255,96 +2244,96 @@ return NIL
  *  Parámetros: [nAccion]       Numerico. Indica el tipo de accion realizado.
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2DefinirColumnas( nAccion )
+STATIC FUNCTION ABM2DefinirColumnas( nAccion )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local aCampoBase    /*as array*/        // Campos de la bbd.
-        local aCampoListado /*as array*/        // Campos del listado.
-        local i             /*as numeric*/      // Indice de iteración.
-        local nItem         /*as numeric*/      // Numero del item seleccionado.
-        local cValor        as character
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL aCampoBase /*as array*/ // Campos de la bbd.
+   LOCAL aCampoListado /*as array*/ // Campos del listado.
+   LOCAL i /*as numeric*/ // Indice de iteración.
+   LOCAL nItem /*as numeric*/ // Numero del item seleccionado.
+   LOCAL cValor as character
 
-        // ------- Inicialización de variables.----------------------------------------
-        aCampoBase  := {}
-        aCampoListado := {}
-        for i := 1 to wndABM2Listado .lbxCampoBase. ItemCount
-                aAdd( aCampoBase, wndABM2Listado .lbxCampoBase. Item( i ) )
-        next
-        for i := 1 to wndABM2Listado .lbxCampoListado. ItemCount
-                aAdd( aCampoListado, wndABM2Listado .lbxCampoListado. Item( i ) )
-        next
+   // ------- Inicialización de variables.----------------------------------------
+   aCampoBase := {}
+   aCampoListado := {}
+   FOR i := 1 TO wndABM2Listado.lbxCampoBase.ItemCount
+      AAdd( aCampoBase, wndABM2Listado.lbxCampoBase.Item( i ) )
+   NEXT
+   FOR i := 1 TO wndABM2Listado.lbxCampoListado.ItemCount
+      AAdd( aCampoListado, wndABM2Listado.lbxCampoListado.Item( i ) )
+   NEXT
 
-        // ------- Ejecuta según la acción.--------------------------------------------
-        do case
-        case nAccion == ABM_LIS_ADD
+   // ------- Ejecuta según la acción.--------------------------------------------
+   DO CASE
+   CASE nAccion == ABM_LIS_ADD
 
-                // Obtiene la columna a añadir.
-                nItem := wndABM2Listado .lbxCampoBase. Value
-                cValor := wndABM2Listado .lbxCampoBase. Item( nItem )
+      // Obtiene la columna a añadir.
+      nItem := wndABM2Listado.lbxCampoBase.VALUE
+      cValor := wndABM2Listado.lbxCampoBase.Item( nItem )
 
-                // Actualiza los datos de los campos de la base.
-                if Len( aCampoBase ) == 0
-                        msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
-                        return NIL
-                else
-                        wndABM2Listado .lbxCampoBase. DeleteAllItems
-                        for i := 1 to Len( aCampoBase )
-                                if i != nItem
-                                        wndABM2Listado .lbxCampoBase. AddItem( aCampoBase[ i ] )
-                                endif
-                        next
-                        wndABM2Listado .lbxCampoBase. Value := iif( nItem > 1, nItem - 1, 1 )
-                endif
+      // Actualiza los datos de los campos de la base.
+      IF Len( aCampoBase ) == 0
+         msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
+         RETURN NIL
+      ELSE
+         wndABM2Listado.lbxCampoBase.DeleteAllItems
+         FOR i := 1 TO Len( aCampoBase )
+            IF i != nItem
+               wndABM2Listado.lbxCampoBase.AddItem( aCampoBase[ i ] )
+            ENDIF
+         NEXT
+         wndABM2Listado.lbxCampoBase.VALUE := iif( nItem > 1, nItem - 1, 1 )
+      ENDIF
 
-                // Actualiza los datos de los campos del listado.
-                if Empty( cValor )
-                        msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
-                        return NIL
-                else
-                        wndABM2Listado .lbxCampoListado. AddItem( cValor )
-                        wndABM2Listado .lbxCampoListado. Value := ;
-                                wndABM2Listado .lbxCampoListado. ItemCount
-                endif
-        case nAccion == ABM_LIS_DEL
+      // Actualiza los datos de los campos del listado.
+      IF Empty( cValor )
+         msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
+         RETURN NIL
+      ELSE
+         wndABM2Listado.lbxCampoListado.AddItem( cValor )
+         wndABM2Listado.lbxCampoListado.VALUE := ;
+            wndABM2Listado.lbxCampoListado.ItemCount
+      ENDIF
+   CASE nAccion == ABM_LIS_DEL
 
-                // Obtiene la columna a quitar.
-                nItem := wndABM2Listado .lbxCampoListado. Value
-                cValor := wndABM2Listado .lbxCampoListado. Item( nItem )
+      // Obtiene la columna a quitar.
+      nItem := wndABM2Listado.lbxCampoListado.VALUE
+      cValor := wndABM2Listado.lbxCampoListado.Item( nItem )
 
-                // Actualiza los datos de los campos del listado.
-                if Len( aCampoListado ) == 0
-                        msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
-                        return NIL
-                else
-                        wndABM2Listado .lbxCampoListado. DeleteAllItems
-                        for i := 1 to Len( aCampoListado )
-                                if i != nItem
-                                        wndABM2Listado .lbxCampoListado. AddItem( aCampoListado[ i ] )
-                                endif
-                        next
-                        wndABM2Listado .lbxCampoListado. Value := ;
-                                wndABM2Listado .lbxCampoListado. ItemCount
-                endif
+      // Actualiza los datos de los campos del listado.
+      IF Len( aCampoListado ) == 0
+         msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
+         RETURN NIL
+      ELSE
+         wndABM2Listado.lbxCampoListado.DeleteAllItems
+         FOR i := 1 TO Len( aCampoListado )
+            IF i != nItem
+               wndABM2Listado.lbxCampoListado.AddItem( aCampoListado[ i ] )
+            ENDIF
+         NEXT
+         wndABM2Listado.lbxCampoListado.VALUE := ;
+            wndABM2Listado.lbxCampoListado.ItemCount
+      ENDIF
 
-                // Actualiza los datos de los campos de la base.
-                if Empty( cValor )
-                        msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
-                        return NIL
-                else
-                        wndABM2Listado .lbxCampoBase. DeleteAllItems
-                        for i := 1 to Len( _aNombreCampo )
-                                if aScan( aCampoBase, _aNombreCampo[ i ] ) != 0
-                                        wndABM2Listado .lbxCampoBase. AddItem( _aNombreCampo[ i ] )
-                                endif
-                                if _aNombreCampo[ i ] == cValor
-                                        wndABM2Listado .lbxCampoBase. AddItem( _aNombreCampo[ i ] )
-                                endif
-                        next
-                        wndABM2Listado .lbxCampoBase. Value := 1
-                endif
-        endcase
+      // Actualiza los datos de los campos de la base.
+      IF Empty( cValor )
+         msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
+         RETURN NIL
+      ELSE
+         wndABM2Listado.lbxCampoBase.DeleteAllItems
+         FOR i := 1 TO Len( _aNombreCampo )
+            IF AScan( aCampoBase, _aNombreCampo[ i ] ) != 0
+               wndABM2Listado.lbxCampoBase.AddItem( _aNombreCampo[ i ] )
+            ENDIF
+            IF _aNombreCampo[ i ] == cValor
+               wndABM2Listado.lbxCampoBase.AddItem( _aNombreCampo[ i ] )
+            ENDIF
+         NEXT
+         wndABM2Listado.lbxCampoBase.VALUE := 1
+      ENDIF
+   ENDCASE
 
-return NIL
+RETURN NIL
 
 
 /****************************************************************************************
@@ -2355,331 +2344,331 @@ return NIL
  *  Parámetros: Ninguno
  *    Devuelve: NIL
 ****************************************************************************************/
-static function ABM2Listado( aImpresoras )
+STATIC FUNCTION ABM2Listado( aImpresoras )
 
-        // ------- Declaración de variables locales.-----------------------------------
-        local i             /*as numeric*/      // Indice de iteración.
-        local cCampo        /*as character*/    // Nombre del campo indice.
-        local aCampo        /*as array*/        // Nombres de los campos.
-        local nCampo        /*as numeric*/      // Numero del campo actual.
-        local nPosicion     /*as numeric*/      // Posición del campo.
-        local aNumeroCampo  /*as array*/        // Numeros de los campos.
-        local aAncho        /*as array*/        // Anchos de las columnas.
-        local nAncho        /*as numeric*/      // Ancho de las columna actual.
-        local lPrevio       /*as logical*/      // Previsualizar.
-        local lVistas       /*as logical*/      // Vistas en miniatura.
-        local nImpresora    /*as numeric*/      // Numero de la impresora.
-        local cImpresora    as character        // Nombre de la impresora.
-        local lOrientacion  /*as logical*/      // Orientación de la página.
-        local lSalida       /*as logical*/      // Control de bucle.
-        local lCabecera     /*as logical*/      // ¿Imprimir cabecera?.
-        local nFila         /*as numeric*/      // Numero de la fila.
-        local nColumna      /*as numeric*/      // Numero de la columna.
-        local nPagina       /*as numeric*/      // Numero de página.
-        local nPaginas      /*as numeric*/      // Páginas totales.
-        local cPie          as character        // Texto del pie de página.
-        local nPrimero      /*as numeric*/      // Numero del primer registro a imprimir.
-        local nUltimo       /*as numeric*/      // Numero del ultimo registro a imprimir.
-        local nTotales      /*as numeric*/      // Registros totales a imprimir.
-        local nRegistro     /*as numeric*/      // Numero del registro actual.
-        local cRegistro1    as character        // Valor del registro inicial.
-        local cRegistro2    as character        // Valor del registro final.
-        local xRegistro1                        // Valor de comparación.
-        local xRegistro2                        // Valor de comparación.
+   // ------- Declaración de variables locales.-----------------------------------
+   LOCAL i /*as numeric*/ // Indice de iteración.
+   LOCAL cCampo /*as character*/ // Nombre del campo indice.
+   LOCAL aCampo /*as array*/ // Nombres de los campos.
+   LOCAL nCampo /*as numeric*/ // Numero del campo actual.
+   LOCAL nPosicion /*as numeric*/ // Posición del campo.
+   LOCAL aNumeroCampo /*as array*/ // Numeros de los campos.
+   LOCAL aAncho /*as array*/ // Anchos de las columnas.
+   LOCAL nAncho /*as numeric*/ // Ancho de las columna actual.
+   LOCAL lPrevio /*as logical*/ // Previsualizar.
+   LOCAL lVistas /*as logical*/ // Vistas en miniatura.
+   LOCAL nImpresora /*as numeric*/ // Numero de la impresora.
+   LOCAL cImpresora as character // Nombre de la impresora.
+   LOCAL lOrientacion /*as logical*/ // Orientación de la página.
+   LOCAL lSalida /*as logical*/ // Control de bucle.
+   LOCAL lCabecera /*as logical*/ // ¿Imprimir cabecera?.
+   LOCAL nFila /*as numeric*/ // Numero de la fila.
+   LOCAL nColumna /*as numeric*/ // Numero de la columna.
+   LOCAL nPagina /*as numeric*/ // Numero de página.
+   LOCAL nPaginas /*as numeric*/ // Páginas totales.
+   LOCAL cPie as character // Texto del pie de página.
+   LOCAL nPrimero /*as numeric*/ // Numero del primer registro a imprimir.
+   LOCAL nUltimo /*as numeric*/ // Numero del ultimo registro a imprimir.
+   LOCAL nTotales /*as numeric*/ // Registros totales a imprimir.
+   LOCAL nRegistro /*as numeric*/ // Numero del registro actual.
+   LOCAL cRegistro1 as character // Valor del registro inicial.
+   LOCAL cRegistro2 as character // Valor del registro final.
+   LOCAL xRegistro1 // Valor de comparación.
+   LOCAL xRegistro2 // Valor de comparación.
 
-        // ------- Inicialización de variables.----------------------------------------
-        // Previsualizar.
-        lPrevio := wndABM2Listado .chkPrevio. Value
-        lVistas := wndABM2Listado .chkVistas. Value
+   // ------- Inicialización de variables.----------------------------------------
+   // Previsualizar.
+   lPrevio := wndABM2Listado .chkPrevio.VALUE
+   lVistas := wndABM2Listado .chkVistas.VALUE
 
-        // Nombre de la impresora.
-        nImpresora := wndABM2Listado .cbxImpresoras. Value
-        if nImpresora == 0
-                msgExclamation( _HMG_aLangUser[ 32 ], '' )
-        else
-                cImpresora := aImpresoras[ nImpresora ]
-        endif
+   // Nombre de la impresora.
+   nImpresora := wndABM2Listado.cbxImpresoras.VALUE
+   IF nImpresora == 0
+      msgExclamation( _HMG_aLangUser[ 32 ], '' )
+   ELSE
+      cImpresora := aImpresoras[ nImpresora ]
+   ENDIF
 
-        // Nombre del campo.
-        aCampo := {}
-        for i := 1 to wndABM2Listado .lbxCampoListado. ItemCount
-                cCampo := wndABM2Listado .lbxCampoListado. Item( i )
-                aAdd( aCampo, cCampo )
-        next
-        if Len( aCampo ) == 0
-                msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
-                return NIL
-        endif
+   // Nombre del campo.
+   aCampo := {}
+   FOR i := 1 TO wndABM2Listado.lbxCampoListado.ItemCount
+      cCampo := wndABM2Listado.lbxCampoListado.Item( i )
+      AAdd( aCampo, cCampo )
+   NEXT
+   IF Len( aCampo ) == 0
+      msgExclamation( _HMG_aLangUser[ 23 ], _cTitulo )
+      RETURN NIL
+   ENDIF
 
-        // Número del campo.
-        aNumeroCampo := {}
-        for i := 1 to Len( aCampo )
-                nPosicion := aScan( _aNombreCampo, aCampo[ i ] )
-                aAdd( aNumeroCampo, nPosicion )
-        next
+   // Número del campo.
+   aNumeroCampo := {}
+   FOR i := 1 TO Len( aCampo )
+      nPosicion := AScan( _aNombreCampo, aCampo[ i ] )
+      AAdd( aNumeroCampo, nPosicion )
+   NEXT
 
-        // ------- Obtiene el ancho de impresión.--------------------------------------
-        aAncho := {}
-        for i := 1 to Len( aNumeroCampo )
-                nCampo := aNumeroCampo[ i ]
-                do case
-                case _aEstructura[ nCampo, DBS_TYPE ] == "D"
-                        nAncho := 9
-                case _aEstructura[ nCampo, DBS_TYPE ] == "M"
-                        nAncho := 20
-                otherwise
-                        nAncho := _aEstructura[ nCampo, DBS_LEN ]
-                endcase
-                nAncho := iif( Len( _aNombreCampo[ nCampo ] ) > nAncho,  ;
-                        Len( _aNombreCampo[ nCampo ] ),            ;
-                        nAncho )
-                aAdd( aAncho, 2 + nAncho )
-        next
+   // ------- Obtiene el ancho de impresión.--------------------------------------
+   aAncho := {}
+   FOR i := 1 TO Len( aNumeroCampo )
+      nCampo := aNumeroCampo[ i ]
+      DO CASE
+      CASE _aEstructura[ nCampo, DBS_TYPE ] == "D"
+         nAncho := 9
+      CASE _aEstructura[ nCampo, DBS_TYPE ] == "M"
+         nAncho := 20
+      OTHERWISE
+         nAncho := _aEstructura[ nCampo, DBS_LEN ]
+      ENDCASE
+      nAncho := iif( Len( _aNombreCampo[ nCampo ] ) > nAncho, ;
+         Len( _aNombreCampo[ nCampo ] ), ;
+         nAncho )
+      AAdd( aAncho, 2 + nAncho )
+   NEXT
 
-        // ------- Comprueba el ancho de impresión.------------------------------------
-        nAncho := 0
-        for i := 1 to Len( aAncho )
-                nAncho += aAncho[ i ]
-        next
-        if nAncho > 164
-                MsgExclamation( _HMG_aLangUser[ 24 ], _cTitulo )
-                return NIL
-        else
-                lOrientacion := ( nAncho > 109 )  // Horizontal / Vertical
-        endif
+   // ------- Comprueba el ancho de impresión.------------------------------------
+   nAncho := 0
+   FOR i := 1 TO Len( aAncho )
+      nAncho += aAncho[ i ]
+   NEXT
+   IF nAncho > 164
+      MsgExclamation( _HMG_aLangUser[ 24 ], _cTitulo )
+      RETURN NIL
+   ELSE
+      lOrientacion := ( nAncho > 109 ) // Horizontal / Vertical
+   ENDIF
 
-        // ------- Valores de inicio y fin de listado.---------------------------------
-        nRegistro  := ( _cArea )->( RecNo() )
-        cRegistro1 := wndABM2Listado .txtRegistro1. Value
-        cRegistro2 := wndABM2Listado .txtRegistro2. Value
-        do case
-        case _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "C"
-                xRegistro1 := cRegistro1
-                xRegistro2 := cRegistro2
-        case _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "N"
-                xRegistro1 := Val( cRegistro1 )
-                xRegistro2 := Val( cRegistro2 )
-        case _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "D"
-                xRegistro1 := CToD( cRegistro1 )
-                xRegistro2 := CToD( cRegistro2 )
-        case _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "L"
-                xRegistro1 := ( cRegistro1 == ".t." )
-                xRegistro2 := ( cRegistro2 == ".t." )
-        endcase
-        ( _cArea )->( dbSeek( xRegistro2 ) )
-        nUltimo := ( _cArea )->( RecNo() )
-        ( _cArea )->( dbSeek( xRegistro1 ) )
-        nPrimero := ( _cArea )->( RecNo() )
+   // ------- Valores de inicio y fin de listado.---------------------------------
+   nRegistro := ( _cArea )->( RecNo() )
+   cRegistro1 := wndABM2Listado .txtRegistro1.VALUE
+   cRegistro2 := wndABM2Listado .txtRegistro2.VALUE
+   DO CASE
+   CASE _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "C"
+      xRegistro1 := cRegistro1
+      xRegistro2 := cRegistro2
+   CASE _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "N"
+      xRegistro1 := Val( cRegistro1 )
+      xRegistro2 := Val( cRegistro2 )
+   CASE _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "D"
+      xRegistro1 := CToD( cRegistro1 )
+      xRegistro2 := CToD( cRegistro2 )
+   CASE _aEstructura[ _aIndiceCampo[ _nIndiceActivo ], DBS_TYPE ] == "L"
+      xRegistro1 := ( cRegistro1 == ".t." )
+      xRegistro2 := ( cRegistro2 == ".t." )
+   ENDCASE
+   ( _cArea )->( dbSeek( xRegistro2 ) )
+   nUltimo := ( _cArea )->( RecNo() )
+   ( _cArea )->( dbSeek( xRegistro1 ) )
+   nPrimero := ( _cArea )->( RecNo() )
 
-        // ------- Obtiene el número de páginas.---------------------------------------
-        nTotales := 1
-        ( _cArea )->( dbEval( {|| nTotales++ },, {|| !( RecNo() == nUltimo ) .and. !Eof() },,, .T. ) )
-        ( _cArea )->( dbGoTo( nPrimero ) )
-        if lOrientacion
-                if Mod( nTotales, 33 ) == 0
-                        nPaginas := Int( nTotales / 33 )
-                else
-                        nPaginas := Int( nTotales / 33 ) + 1
-                endif
-        else
-                if Mod( nTotales, 55 ) == 0
-                        nPaginas := Int( nTotales / 55 )
-                else
-                        nPaginas := Int( nTotales / 55 ) + 1
-                endif
-        endif
+   // ------- Obtiene el número de páginas.---------------------------------------
+   nTotales := 1
+   ( _cArea )->( dbEval( {|| nTotales++ },, {|| !( RecNo() == nUltimo ) .AND. ! Eof() },,, .T. ) )
+   ( _cArea )->( dbGoto( nPrimero ) )
+   IF lOrientacion
+      IF Mod( nTotales, 33 ) == 0
+         nPaginas := Int( nTotales / 33 )
+      ELSE
+         nPaginas := Int( nTotales / 33 ) + 1
+      ENDIF
+   ELSE
+      IF Mod( nTotales, 55 ) == 0
+         nPaginas := Int( nTotales / 55 )
+      ELSE
+         nPaginas := Int( nTotales / 55 ) + 1
+      ENDIF
+   ENDIF
 
-        // ------- Inicializa el listado.----------------------------------------------
-        INIT PRINTSYS
+   // ------- Inicializa el listado.----------------------------------------------
+   INIT PRINTSYS
 
-        // Opciones de la impresión.
-        if lPrevio
-                SELECT PRINTER cImpresora PREVIEW
-        else
-                SELECT PRINTER cImpresora
-        endif
-        if lVistas
-                ENABLE THUMBNAILS
-        endif
+   // Opciones de la impresión.
+   IF lPrevio
+      SELECT PRINTER cImpresora PREVIEW
+   ELSE
+      SELECT PRINTER cImpresora
+   ENDIF
+   IF lVistas
+      ENABLE THUMBNAILS
+   ENDIF
 
-        // Control de errores.
-        if HBPRNERROR > 0
-                msgExclamation( _HMG_aLangUser[ 25 ], _cTitulo )
-                return NIL
-        endif
+   // Control de errores.
+   IF HBPRNERROR > 0
+      msgExclamation( _HMG_aLangUser[ 25 ], _cTitulo )
+      RETURN NIL
+   ENDIF
 
-        // Definición de las fuentes del listado.
-        DEFINE FONT "a8"   name "arial" size 8
-        DEFINE FONT "a9"   name "arial" size 9
-        DEFINE FONT "a9n"  name "arial" size 9  bold
-        DEFINE FONT "a10"  NAME "arial" size 10
-        DEFINE FONT "a12n" name "arial" size 12 bold
+   // Definición de las fuentes del listado.
+   DEFINE FONT "a8" NAME "Arial" SIZE 8
+   DEFINE FONT "a9" NAME "Arial" SIZE 9
+   DEFINE FONT "a9n" NAME "Arial" SIZE 9 BOLD
+   DEFINE FONT "a10" NAME "Arial" SIZE 10
+   DEFINE FONT "a12n" NAME "Arial" SIZE 12 BOLD
 
-        // Definición de los tipos de linea.
-        DEFINE PEN "l0" STYLE PS_SOLID width 0.0 color 0x000000
-        DEFINE PEN "l1" STYLE PS_SOLID width 0.1 color 0x000000
-        DEFINE PEN "l2" STYLE PS_SOLID width 0.2 color 0x000000
+   // Definición de los tipos de linea.
+   DEFINE PEN "l0" STYLE PS_SOLID WIDTH 0.0 COLOR 0x000000
+   DEFINE PEN "l1" STYLE PS_SOLID WIDTH 0.1 COLOR 0x000000
+   DEFINE PEN "l2" STYLE PS_SOLID WIDTH 0.2 COLOR 0x000000
 
-        // Definición de los patrones de relleno.
-        DEFINE BRUSH "s0" STYLE BS_NULL
-        DEFINE BRUSH "s1" STYLE BS_SOLID color RGB( 220, 220, 220 )
+   // Definición de los patrones de relleno.
+   DEFINE BRUSH "s0" STYLE BS_NULL
+   DEFINE BRUSH "s1" STYLE BS_SOLID COLOR RGB( 220, 220, 220 )
 
-        // Inicio del listado.
-        lCabecera := .t.
-        lSalida   := .t.
-        nFila     := iif( Empty( _cFiltro ), 12, 13 )
-        nPagina   := 1
-        START DOC
-        SET UNITS ROWCOL
-        if lOrientacion
-                SET PAGE ORIENTATION DMORIENT_LANDSCAPE ;
-                        PAPERSIZE DMPAPER_A4 FONT "a10"
-        else
-                SET PAGE ORIENTATION DMORIENT_PORTRAIT  ;
-                        PAPERSIZE DMPAPER_A4 FONT "a10"
-        endif
-        START PAGE
-        do while lSalida
+   // Inicio del listado.
+   lCabecera := .T.
+   lSalida := .T.
+   nFila := iif( Empty( _cFiltro ), 12, 13 )
+   nPagina := 1
+   START DOC
+   SET UNITS ROWCOL
+   IF lOrientacion
+      SET PAGE ORIENTATION DMORIENT_LANDSCAPE ;
+         PAPERSIZE DMPAPER_A4 FONT "a10"
+   ELSE
+      SET PAGE ORIENTATION DMORIENT_PORTRAIT ;
+         PAPERSIZE DMPAPER_A4 FONT "a10"
+   ENDIF
+   START PAGE
+   DO WHILE lSalida
 
-                // Cabecera el listado.
-                if lCabecera
-                        set text align right
-                        select pen "l2"
-                        @ 5, HBPRNMAXCOL - 5 say _cTitulo     font "a12n" to print
-                        @ 6, 10, 6, HBPRNMAXCOL - 5 line
-                        select pen "l0"
-                        @ 7, 29 say _HMG_aLangUser[ 26 ]      font "a9n" to print
-                        @ 8, 29 say _HMG_aLangUser[ 27 ]      font "a9n" to print
-                        @ 9, 29 say _HMG_aLangUser[ 28 ]      font "a9n" to print
-                        if ! Empty( _cFiltro )
-                                @ 10, 29 say _HMG_aLangUser[33 ] font "a9n" to print
-                        endif
-                        set text align left
-                        @ 7, 31 say ( _cArea )->( ordName() ) font "a9"  to print
-                        @ 8, 31 say cRegistro1                font "a9"  to print
-                        @ 9, 31 say cRegistro2                font "a9"  to print
-                        if ! Empty( _cFiltro )
-                                @ 10, 31 say _cFiltro         font "a9"  to print
-                        endif
-                        nColumna := 10
-                        select pen "l1"
-                        select brush "s1"
-                        for i := 1 to Len( aCampo )
-                                @ nFila - .9, nColumna, nFila, nColumna + aAncho[ i ] fillrect
-                                @ nFila - 1, nColumna + 1 say aCampo[ i ] font "a9n" to print
-                                nColumna += aAncho[ i ]
-                        next
-                        select pen "l0"
-                        select brush "s0"
-                        lCabecera := .f.
-                endif
+      // Cabecera el listado.
+      IF lCabecera
+         SET TEXT ALIGN RIGHT
+         SELECT pen "l2"
+         @ 5, HBPRNMAXCOL - 5 SAY _cTitulo FONT "a12n" TO PRINT
+         @ 6, 10, 6, HBPRNMAXCOL - 5 line
+         SELECT pen "l0"
+         @ 7, 29 SAY _HMG_aLangUser[ 26 ] FONT "a9n" TO PRINT
+         @ 8, 29 SAY _HMG_aLangUser[ 27 ] FONT "a9n" TO PRINT
+         @ 9, 29 SAY _HMG_aLangUser[ 28 ] FONT "a9n" TO PRINT
+         if ! Empty( _cFiltro )
+            @ 10, 29 SAY _HMG_aLangUser[ 33 ] FONT "a9n" TO PRINT
+         ENDIF
+         SET TEXT ALIGN LEFT
+         @ 7, 31 say ( _cArea )->( ordName() ) FONT "a9" TO PRINT
+         @ 8, 31 SAY cRegistro1 FONT "a9" TO PRINT
+         @ 9, 31 SAY cRegistro2 FONT "a9" TO PRINT
+         if ! Empty( _cFiltro )
+            @ 10, 31 SAY _cFiltro FONT "a9" TO PRINT
+         ENDIF
+         nColumna := 10
+         SELECT pen "l1"
+         SELECT brush "s1"
+         FOR i := 1 TO Len( aCampo )
+            @ nFila - .9, nColumna, nFila, nColumna + aAncho[ i ] fillrect
+            @ nFila - 1, nColumna + 1 SAY aCampo[ i ] FONT "a9n" TO PRINT
+            nColumna += aAncho[ i ]
+         NEXT
+         SELECT pen "l0"
+         SELECT brush "s0"
+         lCabecera := .F.
+      ENDIF
 
-                // Registros.
-                nColumna := 10
-                for i := 1 to Len( aNumeroCampo )
-                        nCampo := aNumeroCampo[ i ]
-                        do case
-                        case _aEstructura[ nCampo, DBS_TYPE ] == "N"
-                                set text align right
-                                @ nFila, nColumna + aAncho[ i ] say ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ) font "a8" to print
-                        case _aEstructura[ nCampo, DBS_TYPE ] == "L"
-                                set text align left
-                                @ nFila, nColumna + 1 say iif( ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ), _HMG_aLangUser[ 29 ], _HMG_aLangUser[ 30 ] ) font "a8" to print
-                        case _aEstructura[ nCampo, DBS_TYPE ] == "M"
-                                set text align left
-                                @ nFila, nColumna + 1 say SubStr( ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ), 1, 20 ) font "a8" to print
-                        otherwise
-                                set text align left
-                                @ nFila, nColumna + 1 say ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ) font "a8" to print
-                        endcase
-                        nColumna += aAncho[ i ]
-                next
-                nFila++
+      // Registros.
+      nColumna := 10
+      FOR i := 1 TO Len( aNumeroCampo )
+         nCampo := aNumeroCampo[ i ]
+         DO CASE
+         CASE _aEstructura[ nCampo, DBS_TYPE ] == "N"
+            SET TEXT ALIGN RIGHT
+            @ nFila, nColumna + aAncho[ i ] say ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ) FONT "a8" TO PRINT
+         CASE _aEstructura[ nCampo, DBS_TYPE ] == "L"
+            SET TEXT ALIGN LEFT
+            @ nFila, nColumna + 1 SAY iif( ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ), _HMG_aLangUser[ 29 ], _HMG_aLangUser[ 30 ] ) FONT "a8" TO PRINT
+         CASE _aEstructura[ nCampo, DBS_TYPE ] == "M"
+            SET TEXT ALIGN LEFT
+            @ nFila, nColumna + 1 SAY SubStr( ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ), 1, 20 ) FONT "a8" TO PRINT
+         OTHERWISE
+            SET TEXT ALIGN LEFT
+            @ nFila, nColumna + 1 say ( _cArea )->( FieldGet( aNumeroCampo[ i ] ) ) FONT "a8" TO PRINT
+         ENDCASE
+         nColumna += aAncho[ i ]
+      NEXT
+      nFila++
 
-                // Comprueba el final del registro.
-                if ( _cArea )->( RecNo() ) == nUltimo .or. ( _cArea )->( EOF() )
-                        lSalida := .f.
-                endif
-                ( _cArea )->( dbSkip( 1 ) )
+      // Comprueba el final del registro.
+      IF ( _cArea )->( RecNo() ) == nUltimo .OR. ( _cArea )->( Eof() )
+         lSalida := .F.
+      ENDIF
+      ( _cArea )->( dbSkip( 1 ) )
 
-                // Pie.
-                if lOrientacion
-                        if nFila > 44
-                                set text align left
-                                select pen "l2"
-                                @ 46, 10, 46, HBPRNMAXCOL - 5 line
-                                cPie := HB_ValToStr( Date() ) + " " + Time()
-                                @ 46, 10 say cPie font "a9n" to print
-                                set text align right
-                                cPie := _HMG_aABMLangLabel[ 22 ] +        ;
-                                        AllTrim( Str( nPagina ) ) +      ;
-                                        "/" +                           ;
-                                        AllTrim( Str( nPaginas ) )
-                                @ 46, HBPRNMAXCOL - 5 say cPie font "a9n" to print
-                                nPagina++
-                                nFila := iif( Empty( _cFiltro ), 12, 13 )
-                                lCabecera := .t.
-                                END PAGE
-                                START PAGE
-                        endif
-                else
-                        if nFila > 66
-                                set text align left
-                                select pen "l2"
-                                @ 68, 10, 68, HBPRNMAXCOL - 5 line
-                                cPie := HB_ValToStr( Date() ) + " " + Time()
-                                @ 68, 10 say cPie font "a9n" to print
-                                set text align right
-                                cPie := _HMG_aABMLangLabel[ 22 ] +        ;
-                                        AllTrim( Str( nPagina ) ) +      ;
-                                        "/" +                           ;
-                                        AllTrim( Str( nPaginas ) )
-                                @ 68, HBPRNMAXCOL - 5 say cPie font "a9n" to print
-                                nFila := iif( Empty( _cFiltro ), 12, 13 )
-                                nPagina++
-                                lCabecera := .t.
-                                END PAGE
-                                START PAGE
-                        endif
-                endif
-        enddo
+      // Pie.
+      IF lOrientacion
+         IF nFila > 44
+            SET TEXT ALIGN LEFT
+            SELECT pen "l2"
+            @ 46, 10, 46, HBPRNMAXCOL - 5 line
+            cPie := hb_ValToStr( Date() ) + " " + Time()
+            @ 46, 10 SAY cPie FONT "a9n" TO PRINT
+            SET TEXT ALIGN RIGHT
+            cPie := _HMG_aABMLangLabel[ 22 ] + ;
+               AllTrim( Str( nPagina ) ) + ;
+               "/" + ;
+               AllTrim( Str( nPaginas ) )
+            @ 46, HBPRNMAXCOL - 5 SAY cPie FONT "a9n" TO PRINT
+            nPagina++
+            nFila := iif( Empty( _cFiltro ), 12, 13 )
+            lCabecera := .T.
+            END PAGE
+            START PAGE
+         ENDIF
+      ELSE
+         IF nFila > 66
+            SET TEXT ALIGN LEFT
+            SELECT pen "l2"
+            @ 68, 10, 68, HBPRNMAXCOL - 5 line
+            cPie := hb_ValToStr( Date() ) + " " + Time()
+            @ 68, 10 SAY cPie FONT "a9n" TO PRINT
+            SET TEXT ALIGN RIGHT
+            cPie := _HMG_aABMLangLabel[ 22 ] + ;
+               AllTrim( Str( nPagina ) ) + ;
+               "/" + ;
+               AllTrim( Str( nPaginas ) )
+            @ 68, HBPRNMAXCOL - 5 SAY cPie FONT "a9n" TO PRINT
+            nFila := iif( Empty( _cFiltro ), 12, 13 )
+            nPagina++
+            lCabecera := .T.
+            END PAGE
+            START PAGE
+         ENDIF
+      ENDIF
+   ENDDO
 
-        // Comprueba que se imprime el pie de la ultima hoja.----------
-        if nPagina == nPaginas
-                if lOrientacion
-                        set text align left
-                        select pen "l2"
-                        @ 46, 10, 46, HBPRNMAXCOL - 5 line
-                        cPie := HB_ValToStr( Date() ) + " " + Time()
-                        @ 46, 10 say cPie font "a9n" to print
-                        set text align right
-                        cPie := _HMG_aABMLangLabel[ 22 ] +        ;
-                                AllTrim( Str( nPagina ) ) +      ;
-                                "/" +                           ;
-                                AllTrim( Str( nPaginas ) )
-                        @ 46, HBPRNMAXCOL - 5 say cPie font "a9n" to print
-                else
-                        set text align left
-                        select pen "l2"
-                        @ 68, 10, 68, HBPRNMAXCOL - 5 line
-                        cPie := HB_ValToStr( Date() ) + " " + Time()
-                        @ 68, 10 say cPie font "a9n" to print
-                        set text align right
-                        cPie := _HMG_aABMLangLabel[ 22 ] +        ;
-                                AllTrim( Str( nPagina ) ) +      ;
-                                "/" +                           ;
-                                AllTrim( Str( nPaginas ) )
-                        @ 68, HBPRNMAXCOL - 5 say cPie font "a9n" to print
-                endif
+   // Comprueba que se imprime el pie de la ultima hoja.----------
+   IF nPagina == nPaginas
+      IF lOrientacion
+         SET TEXT ALIGN LEFT
+         SELECT pen "l2"
+         @ 46, 10, 46, HBPRNMAXCOL - 5 line
+         cPie := hb_ValToStr( Date() ) + " " + Time()
+         @ 46, 10 SAY cPie FONT "a9n" TO PRINT
+         SET TEXT ALIGN RIGHT
+         cPie := _HMG_aABMLangLabel[ 22 ] + ;
+            AllTrim( Str( nPagina ) ) + ;
+            "/" + ;
+            AllTrim( Str( nPaginas ) )
+         @ 46, HBPRNMAXCOL - 5 SAY cPie FONT "a9n" TO PRINT
+      ELSE
+         SET TEXT ALIGN LEFT
+         SELECT pen "l2"
+         @ 68, 10, 68, HBPRNMAXCOL - 5 line
+         cPie := hb_ValToStr( Date() ) + " " + Time()
+         @ 68, 10 SAY cPie FONT "a9n" TO PRINT
+         SET TEXT ALIGN RIGHT
+         cPie := _HMG_aABMLangLabel[ 22 ] + ;
+            AllTrim( Str( nPagina ) ) + ;
+            "/" + ;
+            AllTrim( Str( nPaginas ) )
+         @ 68, HBPRNMAXCOL - 5 SAY cPie FONT "a9n" TO PRINT
+      ENDIF
 
-                END PAGE
-        endif
-        END DOC
+      END PAGE
+   ENDIF
+   END DOC
 
-        RELEASE PRINTSYS
+   RELEASE PRINTSYS
 
-        // ------- Cierra la ventana.--------------------------------------------------
-        ( _cArea )->( dbGoTo( nRegistro ) )
-        wndABM2Listado.Release
+   // ------- Cierra la ventana.--------------------------------------------------
+   ( _cArea )->( dbGoto( nRegistro ) )
+   wndABM2Listado.RELEASE
 
-return NIL
+RETURN NIL

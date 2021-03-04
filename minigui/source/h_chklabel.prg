@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -52,25 +52,44 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
       fontname, fontsize, bold, BORDER, CLIENTEDGE, HSCROLL, VSCROLL, ;
       TRANSPARENT, aRGB_bk, aRGB_font, ProcedureName, tooltip, HelpId, invisible, ;
-      italic, underline, strikeout, autosize, rightalign, centeralign, ;
-      blink, mouseover, mouseleave, abitmap, leftcheck, lChecked, nId )
+      italic, underline, strikeout, field, autosize, rightalign, centeralign, ;
+      blink, mouseover, mouseleave, abitmap, leftcheck, lChecked, VCenterAlign, nId, bInit )
 *-----------------------------------------------------------------------------*
-   LOCAL ParentFormHandle , mVar , k := 0, Style, blInit
-   LOCAL ControlHandle , FontHandle, cBmp
+   LOCAL ParentFormHandle , ControlHandle , FontHandle
+   LOCAL WorkArea
+   LOCAL cBmp
+   LOCAL mVar
+   LOCAL k := 0
+   LOCAL Style
+   LOCAL blInit
    LOCAL lDialogInMemory
-
-   DEFAULT w             TO 120
-   DEFAULT h             TO 24
-   DEFAULT ProcedureName TO {|| _SetValue( ControlName, ParentFormName, NIL ) }
-   DEFAULT invisible     TO FALSE
-   DEFAULT bold          TO FALSE
-   DEFAULT italic        TO FALSE
-   DEFAULT underline     TO FALSE
-   DEFAULT strikeout     TO FALSE
-   DEFAULT leftcheck     TO FALSE
+   LOCAL oc := NIL, ow := NIL
+#ifdef _OBJECT_
+   ow := oDlu2Pixel()
+#endif
+   hb_default( @w, 120 )
+   hb_default( @h, 24 )
+   __defaultNIL( @ProcedureName, {|| SetProperty( ParentFormName, ControlName, "Checked", NIL ) } )
+   hb_default( @invisible, .F. )
+   hb_default( @bold, .F. )
+   hb_default( @italic, .F. )
+   hb_default( @underline, .F. )
+   hb_default( @strikeout, .F. )
+   hb_default( @VCenterAlign, .F. )
 
    IF ( FontHandle := GetFontHandle( FontName ) ) != 0
       GetFontParamByRef( FontHandle, @FontName, @FontSize, @bold, @italic, @underline, @strikeout )
+   ENDIF
+
+   IF ValType ( Field ) != 'U'
+      IF At ( '>', Field ) == 0
+         MsgMiniGuiError ( "Control: " + ControlName + " Of " + ParentFormName + " : You must specify a fully qualified field name." )
+      ELSE
+         WorkArea := Left ( Field , At ( '>', Field ) - 2 )
+         IF Select ( WorkArea ) != 0
+            lChecked := &( Field )
+         ENDIF
+      ENDIF
    ENDIF
 
    IF _HMG_BeginWindowActive .OR. _HMG_BeginDialogActive
@@ -94,6 +113,10 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
    IF _IsControlDefined ( ControlName, ParentFormName ) .AND. .NOT. lDialogInMemory
       MsgMiniGuiError ( "Control: " + ControlName + " Of " + ParentFormName + " Already defined." )
+   ENDIF
+
+   IF autosize .AND. ! ISCHARACTER ( Caption )
+      Caption := cValToChar ( Caption )
    ENDIF
 
    IF ValType ( aBitmap ) != 'A'
@@ -133,6 +156,10 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
       IF centeralign
          Style += ES_CENTER
+      ENDIF
+
+      IF VCenterAlign
+         Style += SS_CENTERIMAGE
       ENDIF
 
       IF lDialogInMemory         //Dialog Template
@@ -178,7 +205,7 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
       Controlhandle := InitChkLabel ( ParentFormHandle, Caption, 0, x, y, w, h, '', 0, ;
          ( ValType( mouseover ) == "B" .OR. ValType( mouseleave ) == "B" ) , border , clientedge , ;
          HSCROLL , VSCROLL , TRANSPARENT , invisible , rightalign , centeralign, ;
-         abitmap[ 1 ], abitmap[ 2 ], leftcheck, lChecked )
+         abitmap[ 1 ], abitmap[ 2 ], leftcheck, lChecked , VCenterAlign )
 
    ENDIF
 
@@ -210,7 +237,7 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
    _HMG_aControlParenthandles  [k] :=  ParentFormHandle
    _HMG_aControlIds  [k] :=  nId
    _HMG_aControlProcedures  [k] :=  ProcedureName
-   _HMG_aControlPageMap  [k] :=  {}
+   _HMG_aControlPageMap  [k] :=  Field
    _HMG_aControlValue [k] :=   Nil
    _HMG_aControlInputMask  [k] :=  transparent
    _HMG_aControllostFocusProcedure  [k] :=  mouseleave
@@ -234,8 +261,8 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
    _HMG_aControlFontSize  [k] :=  fontsize
    _HMG_aControlFontAttributes  [k] :=  { bold, italic, underline, strikeout }
    _HMG_aControlToolTip  [k] :=  tooltip
-   _HMG_aControlRangeMin  [k] :=  0
-   _HMG_aControlRangeMax  [k] :=  0
+   _HMG_aControlRangeMin  [k] :=  h
+   _HMG_aControlRangeMax  [k] :=  leftcheck
    _HMG_aControlCaption  [k] :=  Caption
    _HMG_aControlVisible  [k] :=  iif( invisible, FALSE, TRUE )
    _HMG_aControlHelpId  [k] :=  HelpId
@@ -245,10 +272,6 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
    _HMG_aControlMiscData1 [k] :=  { 0, blink, .T. }
    _HMG_aControlMiscData2 [k] :=  ''
 
-   IF _HMG_lOOPEnabled
-      Eval ( _HMG_bOnControlInit, k, mVar )
-   ENDIF
-
    IF blink == .T. .AND. .NOT. lDialogInMemory
       _DefineTimer ( 'BlinkTimer' + hb_ntos( k ) , ParentFormName , 500 , {|| _HMG_aControlMiscData1 [k] [3] := ! _HMG_aControlMiscData1 [k] [3], ;
          iif( _HMG_aControlMiscData1 [k] [3] == .T. , _ShowControl ( ControlName , ParentFormName ), _HideControl ( ControlName , ParentFormName ) ) } )
@@ -256,10 +279,24 @@ FUNCTION _DefineChkLabel ( ControlName, ParentFormName, x, y, Caption, w, h, ;
 
    IF autosize == .T. .AND. .NOT. lDialogInMemory
       _SetControlWidth ( ControlName , ParentFormName , GetTextWidth( NIL, Caption, FontHandle ) + ;
-         iif( bold == .T. .AND. _HMG_IsThemed, GetTextWidth( NIL, " ", FontHandle ), 0 ) ) // Fixed for problem with display bold label at themed WinXP
-      _SetControlHeight ( ControlName , ParentFormName , FontSize + iif( FontSize < 12, 12, 16 ) )
+         iif( bold == .T. .OR. italic == .T., GetTextWidth( NIL, " ", FontHandle ), 0 ) + h + iif( Len( Caption ) > 0 .AND. leftcheck == .F., GetBorderWidth(), iif( leftcheck, GetBorderWidth() / 2, 0 ) ) )
+      _SetControlHeight ( ControlName , ParentFormName , iif( FontSize < 13, 22, FontSize + 16 ) )
       RedrawWindow ( ControlHandle )
    ENDIF
+
+   IF ValType ( Field ) != 'U'
+      AAdd ( _HMG_aFormBrowseList [ GetFormIndex ( ParentFormName ) ] , k )
+   ENDIF
+/*
+   IF _HMG_lOOPEnabled
+      Eval ( _HMG_bOnControlInit, k, mVar )
+#ifdef _OBJECT_
+      ow := _WindowObj ( ParentFormHandle )
+      oc := _ControlObj( ControlHandle )
+#endif
+   ENDIF
+*/
+   Do_ControlEventProcedure ( bInit, k, ow, oc )
 
 RETURN Nil
 

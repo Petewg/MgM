@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -50,9 +50,11 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 *-----------------------------------------------------------------------------*
 FUNCTION _DefineTimer ( ControlName , ParentForm , Interval , ProcedureName , Once )
 *-----------------------------------------------------------------------------*
-   LOCAL mVar , k
    LOCAL ParentFormHandle
-   LOCAL id , lSuccess
+   LOCAL mVar
+   LOCAL id
+   LOCAL k
+   LOCAL lSuccess
 
    IF _HMG_BeginWindowActive
       ParentForm := _HMG_ActiveFormName
@@ -68,7 +70,7 @@ FUNCTION _DefineTimer ( ControlName , ParentForm , Interval , ProcedureName , On
 
    hb_default( @Interval, 1000 )
    IF _HMG_ProgrammaticChange
-      Interval := Max( Interval, 100 )
+      Interval := Max( Interval, 10 )
    ENDIF
 
    mVar := '_' + ParentForm + '_' + ControlName
