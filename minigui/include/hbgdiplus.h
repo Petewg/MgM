@@ -21,8 +21,15 @@
 # if defined( _MSC_VER )
 #  pragma warning(push)
 #  pragma warning(disable:4201)  /* warning C4201: nonstandard extension used: nameless struct/union */
-# endif 
+# endif
+# if defined( __MINGW32__ )
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wpedantic"
+# endif
 # include "fGdiPlusFlat.h"
+# if defined( __MINGW32__ )
+#  pragma GCC diagnostic pop
+# endif
 # if defined( _MSC_VER )
 #  pragma warning(pop)
 # endif
@@ -50,6 +57,7 @@ typedef void ( WINGDIPAPI * GdiplusShutdown_ptr )( ULONG_PTR );
   extern HMODULE g_GpModule;
 # endif /* ======================_HMG_STUB_=======================*/
 
+#include "hbapi.h"
 # ifndef __XHARBOUR__
 # include "hbwinuni.h"
 # else
@@ -67,6 +75,8 @@ typedef GpStatus ( WINGDIPAPI * GdipGetImageEncoders_ptr )( UINT numEncoders, UI
 typedef GpStatus ( WINGDIPAPI * GdipGetImageThumbnail_ptr )( GpImage * image, UINT thumbWidth, UINT thumbHeight, GpImage ** thumbImage, GetThumbnailImageAbort callback, VOID * callbackData );
 typedef GpStatus ( WINGDIPAPI * GdipCreateBitmapFromHBITMAP_ptr )( HBITMAP hbm, HPALETTE hpal, GpBitmap ** bitmap );
 typedef GpStatus ( WINGDIPAPI * GdipSaveImageToFile_ptr )( GpImage * image, GDIPCONST HB_WCHAR * filename, GDIPCONST CLSID * clsidEncoder, GDIPCONST EncoderParameters * encoderParams );
+
+extern HB_PTRUINT wapi_GetProcAddress( HMODULE hModule, const char * lpProcName );
 
 #define EXTERN_FUNCPTR( name )          extern name##_ptr fn_##name
 #define DECLARE_FUNCPTR( name )         name##_ptr fn_##name = NULL

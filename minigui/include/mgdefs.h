@@ -41,6 +41,12 @@
   #define _WIN32_IE 0x0501
 #endif /* !_WIN32_IE */
 
+#include "SET_COMPILE_HMG_UNICODE.ch"
+
+#if defined( UNICODE ) && !defined( _UNICODE )
+  #define _UNICODE
+#endif
+
 #include "hbapi.h"
 
 #ifndef NO_LEAN_AND_MEAN
@@ -48,6 +54,7 @@
 #endif /* !NO_LEAN_AND_MEAN */
 
 #include <windows.h>
+#include <tchar.h>
 
 #ifndef NO_LEAN_AND_MEAN
   #undef  WIN32_LEAN_AND_MEAN
@@ -70,6 +77,7 @@
   #define HB_STORNL        hb_stornll
   #define HB_STORVNL       hb_stornll
   #define HB_STORL         hb_storl
+  #define HB_STORDL        hb_stordl
 #else
   #define HB_PARNI         hb_parvni
   #define HB_PARNL         hb_parnll
@@ -80,6 +88,7 @@
   #define HB_STORNL        hb_stornll
   #define HB_STORVNL       hb_storvnll
   #define HB_STORL         hb_storvl
+  #define HB_STORDL        hb_storvdl
 #endif /* __XHARBOUR__ */
 #else
   #define HB_arraySetNL    hb_arraySetNL
@@ -94,6 +103,7 @@
   #define HB_STORNI        hb_storvni
   #define HB_STORVNL       hb_storvnl
   #define HB_STORL         hb_storvl
+  #define HB_STORDL        hb_storvdl
 #else
   #define HB_PARNI         hb_parni
   #define HB_PARVNL        hb_parnl
@@ -101,6 +111,7 @@
   #define HB_STORNI        hb_storni
   #define HB_STORVNL       hb_stornl
   #define HB_STORL         hb_storl
+  #define HB_STORDL        hb_stordl
 #endif /* !( __XHARBOUR__ || __XCC__ ) */
 #endif /* _WIN64 */
 
@@ -131,7 +142,11 @@
 #define hb_parnintdef( n1, n2 )     ( ISNUM( n1 ) ? hb_parnint( n1 ) : n2 )
 #endif /* __XHARBOUR__ */
 
-#define _isValidCtrlClass  _isValidCtrlClassA
+#if defined( UNICODE )
+  #define _isValidCtrlClass  _isValidCtrlClassW
+#else
+  #define _isValidCtrlClass  _isValidCtrlClassA
+#endif
 
 #if defined( __BORLANDC__ ) && ! defined( HB_ARCH_64BIT )
   #undef MAKELONG
