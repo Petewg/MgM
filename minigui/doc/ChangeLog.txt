@@ -1,3 +1,742 @@
+2021/02/25: HMG Extended Edition version 21.02.
+  * Fixed: The EDIT EXTENDED command implementation by Cristobal Molla:
+           - fixed a program crash on exit at using of LetoDBf server.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Enhanced: The colored TAB control with HOTTRACK clause allows to
+           modify the HTFORECOLOR and HTINACTIVECOLOR properties at runtime.
+           You can set/get these properties with
+           - function syntax:
+             SetProperty ( Form, TabName, 'HTForeColor', aRGB )
+             GetProperty ( Form, TabName, 'HTForeColor' ) --> aRGB
+             GetProperty ( Form, TabName, 'HTInactiveColor' ) --> aRGB
+           - pseudo-OOP syntax:
+             FormName.TabName.HTForeColor --> color array
+             FormName.TabName.HTInactiveColor --> color array
+             FormName.TabName.HTInactiveColor := aRGB
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\TAB)
+  * Enhanced: The Grid control supports the optional ON RCLICK clause.
+           This clause specifies the action at the mouse right button click.
+           Requested by Spencer Redfield.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo3.prg in folder \samples\Basic\Grid_4)
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG:
+           - New: added 'RowsPerPage' property which retrieves the number of
+             rows visible within a Grid. Note: This property is read-only and
+             available after control definiton only.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\Grid_Rows_Per_Page)
+  * Updated: the MiniGUI core libraries were compiled with the Harbour switch
+           -l for a smaller program size:
+           - added a new annotated DEBUG constant in the hmg.hbp project file
+             for switching above behaviour.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see hmg.hbp in folder \Source)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 latest version 3.35.0dev.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>.
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2021-01-26 18:27):
+           * bumped copyright year to 2021.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * New: 'MySql Database Driver' samples (passed with MySQL version 5.7.32).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demos in folder \samples\Advanced\MySqlDD_2)
+  * New: 'Function References' utility.
+           Based upon a contribution of a HMG user.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Utils\FuncRef)
+  * Updated: 'Internet Explorer ActiveX' sample:
+           - added the cut-copy-paste actions by pressing the corresponding
+             hotkeys.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\ActiveX)
+  * Updated: 'LetoDBf server&client testing' sample:
+           - added the letoudf.prg source, containing UDF server side
+             functions.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\LetoDBf\SERVER\SOURCE)
+  * Updated: 'Read XLS' sample by Ismael Elias:
+           - added support of .xlsx Excel files.
+           Contributed by Pierpaolo Martinello <pier.martinello[at]alice.it>
+           (see in folder \samples\Advanced\ReadXLS)
+  * Updated: 'Make PRG' console utility.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Utils\MakePrg)
+
+2021/01/21: HMG Extended Edition version 21.01.
+  * Fixed: The symbol fonts were abandoned in the internal function
+           _DefineFont() (introduced in the build 16.12).
+           Bug was reported by Pierpaolo Martinello.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see sample 2 in demo at folder \samples\Advanced\TSBrowse)
+  * Fixed: An Image index assigning was ignored in the Grid control with
+           'ColumnControls' property defined as NIL (introduced in the build
+           20.06).
+           Bug was reported by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\GRID_1)
+  * Modified: The command DEFINE FONT <font> FONTNAME <name> ... will delete
+           automatically a previous font definition instead of error message.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\WALERT_2)
+  * Modified: Adaptation of MiniGUI core for compatibility with Borland/
+           Embarcadero C++ 7.20 64-bit compiler:
+           - added a dummy C-function instead of the missed MCIWndCreateA().
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>.
+  * New: Added the Harbour contrib library for Cabinet file (*.CAB)
+           compression and extraction (see source in folder \Source\HbCAB).
+           This is a wrapper of system DLL cabinet.dll.
+           Based on an original work of Andi Jahja <xharbour/at/telkom.net.id>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demos in folder \samples\Advanced\HbCAB)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.35.0dev (from 3.34.0).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>.
+  * Updated: Added the binary of HMG IDE tool of Roberto Lopez.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \HMG-IDE)
+  * Updated: HbZeeGrid sample:
+           - update for using ZeeGrid DLL build 41 (from build 37).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demos in folder \samples\Advanced\HbZeeGrid)
+  * Updated: 'Print Pie Graph' sample: updated the data for December 2020.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\GraphPrint)
+  * Updated: 'Grid Image Index with the PNG images' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\Grid_ImageIndex)
+  * Updated: 'MySql Client' sample:
+           - fixed program crash at export to DBF for the numeric fields
+             with the defined decimal value more than zero;
+           - updated import from DBF for the numeric fields
+             with the defined decimal value more than zero;
+           - fixed a dynamic grid filling typo.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\MySqlClient)
+  * Updated: 'Virtual columns in Tsbrowse for DBF file' sample.
+           Contributed by Verchenko Andrey
+           (see in folder \samples\Advanced\Tsb_VirtualColumn)
+  * Updated: 'TSBrowse Demo' sample:
+           - added the in-line ProgressBar in the sample SbArray.
+           Contributed by Pierpaolo Martinello <pier.martinello[at]alice.it>
+           (see in folder \samples\Advanced\TSBrowse)
+  * Removed: 'Flash Player' sample not working due to the Adobe restrictions
+           since January 12, 2021 (Adobe Flash is officially dead and gone).
+
+2020/12/10: HMG Extended Edition version 20.12.
+  * Fixed: A support of use the Harbour pcode DLL was broken in the MiniGUI core
+           (introduced in the build 16.12).
+           Requested by Anand Gupta on Minigui forum.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Fixed: Possible program crash at releasing of the standard 'Image Button'
+           control with NOXPSTYLE clause which was established to TRUE value
+           (introduced in the build 16.03).
+           Bug was reported by Eladio Bravo <eladibravo/at/gmail.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Synchronized Extended HMG for compatibility with the Official HMG:
+           - misc updates for a correct compiling of the HMG-IDE tool.
+           Based upon a contribution of Claudio Soto <srvet/at/adinet.com.uy>.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+  * New: The ProcInfo library source code. It is available in the mingw64-based
+           donationware distribution only.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Source\ProcInfo)
+  * New: The SELECTOR library source code. It is available in the mingw64-based
+           donationware distribution only.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Source\SELECTOR)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.34.0 (from 3.34.0dev).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>.
+  * Updated: HMGS-IDE v.1.4.4.3 Project Manager and Two-Way Visual Form Designer:
+           - minor correction at adding of a preferable text editor.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Ide)
+  * Updated: 'HMG IDE' sample: code was modified to original source of utility.
+           Based upon a contribution of Roberto Lopez <mail.box.hmg@gmail.com>.
+           Thanks a lot for this GREAT contribution!
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\hmgide)
+  * New: 'Get Text Width Test' sample.
+           Based upon a contribution at official HMG forum.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\GetTextWidth)
+  * New: 'Open Table InSpector' sample is based on the Otis library of Hans Marc:
+           - usage in the Plugin mode (look at \Doc folder for a manual).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\OTIS)
+  * Updated: UnRar sample and HbUnrar library:
+           - updated UnRar.Dll to the current version 6.0.2 (from 5.90).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\UnRar)
+  * Updated: The following samples were revised for compatibility with the
+           recent Minigui modification of the ButtonEx control handling:
+           - \samples\Applications\Daily;
+           - \samples\Advanced\ExpButton;
+           - \samples\Advanced\OnScreenKeyboard;
+           - \samples\Advanced\SetThemes;
+           - \samples\Advanced\TransparentIcons.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: 'TBrowse :aBitMaps and :aCheck variables usage' sample:
+           - added mark/unmark records mode with using keys <Space>, F2, F3, F5.
+           Contributed by Sergej Kiselev
+           (see in folder \samples\Advanced\Tsb_BitMaps)
+  * Updated: 'Virtual columns in Tsbrowse for DBF file' sample.
+           Contributed by Verchenko Andrey
+           (see in folder \samples\Advanced\Tsb_VirtualColumn)
+
+2020/11/12: HMG Extended Edition version 20.10 (Update 4).
+  * Fixed: Minor correction of a title position in the GRAPH BITMAP PIE command.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\GraphPrint_Bitmap)
+  * Enhanced: The function MiniGUIVersion() will return a string with the Update
+           number.
+           Example:
+             MiniGuiVersion(1) -> "Harbour MiniGUI Extended Edition 20.10.4"
+           Suggested and contributed by Miguel Ingles
+           (see menudemo2.prg in folder \samples\Basic\Menu)
+  * Updated: HBPrinter library:
+           - correction of printing of the image from a memory variable
+             (introduced in the build 20.05).
+           Problem was reported by Rene Koot <rene[at]plantenkennis.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HMGS-IDE v.1.4.4.3 Project Manager and Two-Way Visual Form Designer:
+           - added needed BosTaurus library to a link scripts.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Ide)
+  * Updated: MPM utility:
+           - added needed BosTaurus library to a link script.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Utils\MPM)
+  * Updated: 'Virtual columns in Tsbrowse for DBF file' sample.
+           Contributed by Sergej Kiselev
+           (see in folder \samples\Advanced\Tsb_VirtualColumn)
+
+2020/11/06: HMG Extended Edition version 20.10 (Update 3).
+  * Fixed: PROGRESSWHEEL: important correction of a gradien calculation in
+           the internal function GradientColor().
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Advanced\ProgressWheel)
+  * Enhanced: The ButtonEx control now accepts the numeric color definitions
+           as well as the RGB arrays for BACKCOLOR and FONTCOLOR clauses.
+           Requested by Verchenko Andrey.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: 'Bos Taurus' Graphics Library:
+           - code was separated into PRG-module and C-module.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see source in folder \Source\BosTaurus)
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2020-11-03 10:37).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+
+2020/11/05: HMG Extended Edition version 20.10 (Update 2).
+  * New: Progress Wheel is a round progress control with customizable colors,
+           shape and gradient.
+           Syntax:
+             @ <row>,<col> PROGRESSWHEEL <name>	[ OF <parent> ] ;
+               [ RANGE <lo> , <hi> ] ;
+               [ VALUE <v> ] ;
+               [ WIDTH <w> ] ;
+               [ HEIGHT <h> ] ;
+               [ <ShowText : SHOWTEXT> ] ;
+               [ STARTANGLE <StartAngle> ] ;
+               [ INNERSIZE <InnerSize> ] ;
+               [ GRADIENTMODE <GradientMode> ] ;
+               [ COLORDONEMIN <ColorDoneMin> ] ;
+               [ COLORDONEMAX <ColorDoneMax> ] ;
+               [ COLORREMAIN <ColorRemain> ] ;
+               [ COLORINNER <ColorInner> ]
+           There are the following properties and method for this control:
+           - pseudo-OOP method SetShowText:
+             Form.PWeel.SetShowText( bCustomText )
+             Domethod ( Form, Control, "SetShowText", bCustomText )
+           - read/write properties 'ColorDoneMin', 'ColorDoneMax',
+             'ColorRemain', 'ColorInner', 'InnerSize', 'StartAngle',
+             'Min', 'Max', 'Position', 'ShowText', 'GradientMode':
+             Form.PWeel.Position := 25
+             nPos := GetProperty( Form, Control, 'Position' )
+             Form.PWeel.GradientMode := GM_POSITION
+             nMode := GetProperty( Form, Control, 'GradientMode' )
+           It is based upon the BosTaurus library and must be considered as
+           experimental feature.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demos in folder \samples\Advanced\ProgressWheel)
+  * Modified: TGif class version 1.4 was improved with the following:
+           - optimized the use of the object's properties;
+           - created a unique ID for the dismount file of the GIF in the
+             temporary folder;
+           - returned the 'Cargo' property to the user;
+           - removed several properties that had no real use;
+           - eliminated errors of missing files.
+           Contributed by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Revised by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\tgif)
+  * Enhanced: ANIGIF control: added support of read/write property 'Picture'.
+           Based upon a contribution of Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Revised by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 latest version 3.34.0dev.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>.
+  * Updated: 'Animated GIF' sample:
+           - updated for the recent changes in Minigui core.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\AniGIF)
+  * Updated: 'TGif class' sample:
+           - updated for the recent changes in Minigui core.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\tgif)
+
+2020/10/28: HMG Extended Edition version 20.10 (Update 1).
+  * Fixed: Browse control without PICTURE option had a wrong formatting for
+           the fields with negative numbers (introduced in the build 20.05).
+           Bug was reported by Pablo Jalabert.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\Browse_4)
+  * Fixed: Correction in the Imagelist ADD IMAGE commands.
+           Syntax:
+             ADD IMAGE <image> [ MASK <mask> ] TO <control> OF <parent>
+             ADD MASKEDIMAGE <image> [ COLOR <aColor> ] TO <control> ;
+               OF <parent>
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\TOOLBAR_3)
+  * Enhanced: TOOLBAR control: tool buttons respect the BALLOON style of
+           tooltips and the command SET TOOLTIP [ ACTIVATE ] <ON | OFF>.
+           Requested by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\TOOLBAR_2)
+  * Enhanced: ANIGIF control: added support of animated GIF from resources.
+           Requested by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\AniGIF)
+  * Enhanced: BtnTextBox and GetBox controls support Controls Context menu.
+           Requested by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Modified: Adding the new selected values to the multiple selection Grid
+           was significantly accelerated (noticeable for grids with more than
+           one hundred thousand items).
+           Suggested by HMG user Edward.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * New: 'Month Calendar control with the bold days and backcolor' sample.
+           Based upon a contribution of Kevin Carmody <i@kevincarmody.com>.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo3.prg in folder \samples\Basic\MONTHCAL)
+  * New: 'MiniGUI ToolBar ImageList Demo' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\TOOLBAR_3)
+
+2020/10/21: HMG Extended Edition version 20.10.
+  * New: Added the new functions for Windows GDI objects memory release.
+           It will activate the GDI objects recording and call CheckRes()
+           to generate the checkres.txt log file on the application quit.
+           The above logfile will report the following unreleased objects:
+           - BITMAP handles;
+           - BRUSH handles;
+           - CURSOR handles;
+           - FONT handles;
+           - ICON handles;
+           - IMAGELIST handles;
+           - REGION handles.
+           Note: This feature will work after setting of debugging mode
+           via the Harbour command Set( _SET_DEBUG, .T. ) or AltD( 1 ).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\Grid_5)
+  * Fixed: Detected resource leakage of GDI objects at the release of the
+           Main form with usage of the new MiniGUI Resources control system.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Fixed: Alternate definition of SPLITBOX control overrides wrongly a
+           standard his definition (cannot be used simultaneously BOTTOM and
+           HORIZONTAL clauses). It exists in the official version too.
+           Bug was reported by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Fixed: TREE: There is a blurring of the picture in some cases.
+           Bug was reported by Eladio Bravo <eladibravo/at/gmail.com>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Advanced\DirTree_2)
+  * Fixed: The TOOLBAR control with WRAP style was hidden in the SplitBox with
+           defined BOTTOM clause.
+           Problem was reported by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Enhanced: TOOLBAR control: toolbuttons supports an optional ADJUST clause.
+           Requested by Ivanil Marcelino <ivanil/at/linkbr.com.br>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Revised a hot mouse tracking in the ButtonEx control.
+           Problem was reported by Gilbert Vaillancourt.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see menulist_2.prg in folder \samples\Advanced\MenuList)
+  * Updated: Revised a releasing of the AniGif control after using of the new
+           MiniGUI Resources control system.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\CircleProgressAnimation)
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG:
+           - New: COMBOBOXEX supports the optional clause NOTRANSPARENT;
+           - New: IMAGE CHECKBUTTON supports the optional clause NOTRANSPARENT;
+           - New: TAB control supports the optional clause NOTRANSPARENT;
+           - New: TREE control supports the optional clause NOTRANSPARENT.
+           Based upon a contribution of Claudio Soto <srvet/at/adinet.com.uy>.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Added the optional color's constants to the header files.
+           Contributed by Kevin Carmody <i@kevincarmody.com>
+           (see i_color.ch and i_wincolor.ch in folder \include)
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added the new variables :lFastDrawCell, :aFastDrawCell and
+             :lFastDrawClear, method :FastDrawClear() for high-speed hash-based
+             data refreshing in the TSBrowse class;
+             Note: you should set :lFastDrawCell to .T. for switch ON above mode.
+             Thanks a lot for this GREAT contribution!
+           - correction of a filling of :aRowPosAtRec auxiliary array
+             in the methods GoUp() and GoDown().
+           Suggested and contributed by Sergej Kiselev and Igor Nazarov.
+           - added the new cursors CATCH and DRAG in the TCursor class.
+           Sample code:
+             oCursor := TCursor():New( , "CATCH" )
+             DEFINE WINDOW Form_1 ...
+               ON MOUSEMOVE SetResCursor( oCursor:hCursor ) ;
+               ON RELEASE oCursor:End()
+             END WINDOW
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.34.0dev (from 3.33.0).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * New: 'Character Colors Test' sample with using of HBPrinter feature.
+           Based upon a contribution of Pierpaolo Martinello for WinReport.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\Color_4)
+  * New: 'ButtonEx Builder' sample.
+           Contributed by Gilbert Vaillancourt.
+           Revised by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Applications\ButtonBuilder)
+  * New: 'DBF Index Manager' sample.
+           Contributed by Gilbert Vaillancourt.
+           Revised by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Applications\DBFIndex)
+  * Updated: 'How to add a skin for a Grid control' sample:
+           - fixed a resource leakage with usage of the Minigui Resources
+             control system.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\Grid_5)
+  * Updated: 'TBrowse in the MDI environment' sample:
+           - added a memo field editing in the Card edit mode.
+           Contributed by Sergej Kiselev
+           (see in folder \samples\Advanced\Tsb_DemoMDI)
+  * Updated: 'TBrowse SpecHeader' sample:
+           - fixed incorrect creation of NTX indexes for a column sorting.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\Tsb_SpecHeader)
+  * Updated: 'Data Base Assistant' utility:
+           - fixed open errors handling.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Utils\DBA)
+
+2020/09/30: HMG Extended Edition version 20.08 (Update 5).
+  * Updated: The internal function GetUserControlType() detects now a new
+           RichEditBoxEx control.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Revised MiniGUI core code for compiling a lite English only
+           version of the library with the following switches in the header
+           file include\minigui.ch:
+           - _MULTILINGUAL_ constant is turned OFF;
+           - _PROPGRID_ constant is turned OFF;
+           - _PANEL_ constant is turned OFF;
+           - _PAGER_ constant is turned OFF;
+           - _HMG_COMPAT_ constant is turned OFF;
+           - _OBJECT_ constant is turned OFF.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HMGS-IDE v.1.4.4.2 Project Manager and Two-Way Visual Form Designer:
+           - experimental build with the lite version of MiniGUI 20.08.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added the ADS field types support in the method :LoadFields().
+           Contributed by Igor Nazarov.
+  * Updated: ADS RDD synced for the latest Advantage Database Server 12.0.
+           Contributed by Igor Nazarov.
+  * New: 'Tsbrowse ADO Test' sample.
+           Based upon a code borrowed from OOHG.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\Tsb_adotest)
+  * Updated: 'Test Directory List with System Icons' sample:
+           - fixed memory leak which was reported by Jimmy.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\FILEICON)
+  * Updated: 'TBrowse speed test with multiple fields' samples:
+           - added the hotkey actions via Ctrl + 0...8.
+           Contributed by Sergej Kiselev
+           (see in folder \samples\Advanced\Tsb_MoreFields)
+
+2020/09/24: HMG Extended Edition version 20.08 (Update 4).
+  * Fixed: The default backcolor of Label, CheckBox and RadioGroup controls
+           is not correct if you place a WINDOW PANEL into the TAB control.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\CONTAINERS\Panel)
+  * Fixed: Wrong GETBOX update behavior when user entered an invalid date
+           value (there is no way to correct it via program action).
+           Bug was reported by Pierpaolo Martinello.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Enhanced: The DATEPICKER supports the colors definition for a dropdown
+           MonthCalendar in the THEMED Operating Systems.
+           It was a postponed user's request.
+           Based upon a contribution of HMG user Jimmy.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\DatePicker)
+  * Enhanced: The MONTHCAL control allows the display of days in BOLD.
+           There are three auxiliary functions for above feature handling:
+           - AddMonthCalBoldDay( ControlName, ParentName, dDate );
+           - DelMonthCalBoldDay( ControlName, ParentName, dDate );
+           - IsMonthCalBoldDay( ControlName, ParentName, dDate ).
+           Based upon a code borrowed from OOHG.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see month.prg in folder \samples\Basic\MONTHCAL)
+  * New: 'Testing columns in Tsbrowse for DBF file' sample.
+           Contributed by Sergej Kiselev and Verchenko Andrey
+           (see in folder \samples\Advanced\Tsb_2tables)
+  * New: 'Virtual columns in Tsbrowse for DBF file' sample.
+           Contributed by Sergej Kiselev and Verchenko Andrey
+           (see in folder \samples\Advanced\Tsb_VirtualColumn)
+  * Updated: 'Month calendar control test' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo.prg in folder \samples\Basic\MONTHCAL)
+
+2020/09/17: HMG Extended Edition version 20.08 (Update 3).
+  * Fixed: The initial display of the window with a TAB control is not correct
+           if you place a WINDOW PANEL on the second page of the TAB control.
+           That's exists in the official version too.
+           Bug was reported by Hans Marc.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo2.prg in folder \samples\Basic\CONTAINERS\Panel)
+  * New: Added the useful function HMG_DbfStruct().
+           Syntax:
+             HMG_DbfStruct( cDbfName ) --> aStruct
+           where aStruct is a multidimensional array with database fields
+             structure, which is similar to the output from dbStruct(), but
+             without the need to use the USE command.
+           (see demo in folder \samples\Advanced\Tsb_MoreFields)
+  * Updated: Minor modifications in the MiniGUI core for compatibility with
+           the new Pelles C 10.0 (64-bit) and Harbour 3.2.0dev.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added the new variables :cEditBoxSep, :nEditBoxWrap,
+             :lEditBoxROnly and :lEditBox in the TSColumn class.
+           Sample code:
+             :Cargo:nMaxMemoCnt := 0              // Max count field memo
+             :Cargo:nMaxCharCol := 50             // Max len char column
+             :Cargo:nMaxLineMem := 10             // Max line for memo edit
+             :Cargo:lEdit  := oMain:Cargo:lEdit
+           ...
+             ELSEIF o:cFieldTyp $ "CM"
+                IF o:cFieldTyp == "M" .or. o:nFieldLen > :Cargo:nMaxCharCol
+                   o:lEditBox := .T.
+                   IF o:cFieldTyp == "M"
+                      :nMemoHE := :Cargo:nMaxLineMem
+                      :Cargo:nMaxMemoCnt += 1
+                   ELSE
+                      o:nEditBoxWrap := :Cargo:nMaxCharCol
+                   ENDIF
+                   o:nWidth := o:ToWidth( :Cargo:nMaxCharCol )
+                   :Cargo:lToolTipCol := .T.
+                   IF ! :Cargo:lEdit
+                      o:lEditBoxROnly := .T.
+                      o:lEdit := .T.
+                   ENDIF
+                ELSE
+                   o:nWidth += GetFontWidth("Normal", 1)
+                ENDIF
+             ENDIF
+           Contributed by Sergej Kiselev
+           (see demo in folder \samples\Advanced\Tsb_DemoMDI)
+  * New: 'Charts SQLITE3' sample is based on using of the SQLite ODBC Driver
+           from http://www.ch-werner.de/sqliteodbc/.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\Charts_4)
+  * New: 'Test Directory List with System Icons' sample.
+           Based upon a contribution of HMG user Jimmy.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\FILEICON)
+  * New: 'TBrowse speed test with multiple fields' samples.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\Tsb_MoreFields)
+  * Updated: 'DBF to HTML Wizard' sample:
+           - added using of Bootstrap and jQuery frameworks.
+           Contributed by Marcos Jarrin Pita
+           (see in folder \samples\Applications\Dbf2Html)
+
+2020/09/10: HMG Extended Edition version 20.08 (Update 2).
+  * Fixed: Wrong detection of RichEditBox control as RichEditBoxEx control.
+           Bug was reported by Marcelo A. L. Carli.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: HBPrinter library:
+           - small correction for the incorrect symbols in DOC NAME clause.
+           Problem was reported by Oscar Martin.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added the new method ToolTipSet( nToolTipTime, nToolTipLen );
+           - added the new variables :aRowPosAtRec and :lRowPosAtRec.
+           Sample code:
+           :lRowPosAtRec := .T.
+           :ToolTipSet( 7, 1024 )         // 7 sec., 1024 buffer
+           :cToolTip := {|ob,x,y|
+                          Local cRet := "", xVal, nRec, nNew
+                          If ! ISNUMERIC(y) .or. ! ISNUMERIC(x) ; Return cRet
+                          EndIf
+                          If y > 0
+                             nNew := ob:aRowPosAtRec[ y ]
+                             If nNew > 0
+                                nRec := (ob:cAlias)->( RecNo() )
+                                ( ob:cAlias )->( dbGoto( nNew ) )
+                                xVal := ob:GetValue( x )
+                                ( ob:cAlias )->( dbGoto( nRec ) )
+                                If ISCHAR( xVal )
+                                   cRet := Trim( xVal )
+                                   If Len( cRet ) < 50
+                                      cRet := ""
+                                   EndIf
+                                EndIf
+                             EndIf
+                          EndIf
+                          Return cRet
+                        }
+           - added possibility to filter all types of the fields in the method
+             FilterFTS( cFind [, lUpper][, lBottom][, lFocus][, lAllTypes] )
+             Sample code:
+               oBrw_1:FilterFTS( cSeek, .F. ,,, .T. )
+             (see demo in folder \samples\Advanced\Tsb_filter)
+           Contributed by Sergej Kiselev.
+  * New: 'DBF to HTML Wizard' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Applications\Dbf2Html)
+  * New: 'DBF to XML Wizard' sample.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Applications\DBF2XML)
+  * Updated: UnRar sample and HbUnrar library:
+           - updated UnRar.Dll to the current version 5.90 (from 3.93).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\UnRar)
+
+2020/09/02: HMG Extended Edition version 20.08 (Update 1).
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG:
+           - New: added commands FINDTEXTDIALOG and REPLACETEXTDIALOG;
+           - New: added in-line feature to the miniprint commands;
+           - New: added RegistryRead() and RegistryWrite() pseudo-functions.
+           Based upon a contribution of Claudio Soto <srvet/at/adinet.com.uy>.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Applications\WordWriter)
+  * New: 'Word Writer' sample. Borrowed from Official HMG distribution.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Applications\WordWriter)
+  * Updated: 'RichEditBox' sample:
+           - adapted RTF print feature.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Basic\RichEditBox)
+
+2020/08/31: HMG Extended Edition version 20.08.
+  * Fixed: Program crash at editing of a first column with the defined IMAGE
+           clause in the Grid control.
+           Bug was reported by Pete D. <pete_westg/at/yahoo.gr>.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\Grid_ImageIndex)
+  * Fixed: Small correction in the internal function VerifyControlDefined()
+           for protection of the HOTKEY controls which have not an internal
+           name. Problem was reported by Sergej Kiselev.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>.
+  * Enhanced: Added the auxiliary function HMG_Alert_RowStart() for managing
+           of a start row of a first line in the function HMG_Alert().
+           Suggested and contributed by Sergej Kiselev
+           (see demo8.prg in folder \samples\Advanced\Tsb_Basic_3)
+  * Enhanced: The internal OOP class TKeyData was improved for Json support:
+           - added the new method Json( cJson ).
+           Usage:
+             a := hb_hash() // create a hash
+             a['dat'] := date() ; a['0'] := 222 ; a['TYP'] := "text"
+             a['1']   := "text2" ; a['kod'] := 7777 
+             o := oKeyData() // create object
+             o:Set( a )
+             hb_MemoWrit( ".\_o_.json", o:Json( .F. ) )
+             ...
+             J := hb_MemoRead( ".\_o_.json" )
+             a := oKeyData()
+             ? "a = ", a:Json( J ) // a =   'O'
+             ?v a:GetAll( .F. )
+           Suggested and contributed by Sergej Kiselev.
+  * Updated: Synchronized Extended HMG for compatibility with Official HMG:
+           - New: added RichEditBoxEx control with the expanded possibilities.
+           Requested by Theo Pluijm <trmpluym/at/gmail.com>.
+           Based upon a contribution of Claudio Soto <srvet/at/adinet.com.uy>.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see demo in folder \samples\Basic\RichEditBox)
+  * Modified: The default <versioninfo> section may be removed from the
+           application resources with a specify of __VERSION_INFO constant
+           and launch the batch file \Resources\CompileRes.bat.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see minigui.rc in folder \Resources)
+  * Modified: The batch file buildapp.bat from Mingw-based distribution
+           supports the projects with many RC files similar to BCC compiler.
+           You can define the __VERSION_INFO constant in your local RC file
+           for using an user-defined <versioninfo> section.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (see Modest.rc in folder \Samples\Applications\Modest)
+  * Updated: Adaptation FiveWin Class TSBrowse 9.0 in HMG:
+           - added the new variable :bTSDrawCell and method TSDrawCell();
+           - added handling of a restore message [#46] in method DeleteRow();
+           - improved usage of LOADFIELDS clause for a database.
+           Sample code:
+             DEFINE TBROWSE &cBrw OBJ oBrw AT y,x WIDTH w HEIGHT h CELL ;
+                    ALIAS         Alias()                               ;
+                    FONT          {"Normal", "Bold", "Bold"}            ;
+                    FOOTER        .T.                                   ;
+                    FIXED         COLSEMPTY                             ;
+                    LOADFIELDS    GOTFOCUSSELECT                        ;
+                    COLNUMBER     { 1, 50 }                             ;
+                    ENUMERATOR
+           Contributed by Sergej Kiselev
+           (see demo9.prg in folder \samples\Advanced\Tsb_Basic_3)
+  * Updated: HbXML library source code:
+           - open error detection fixed;
+           - BOM detection added.
+           Borrowed from HwGui v2.22 by Alexander Kresin <alex@kresin.ru>.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Source\HbXML)
+  * Updated: HbSQLite3 library:
+           - update for using SQLITE3 version 3.33.0 (from 3.33.0dev).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+  * Updated: Harbour Compiler 3.2.0dev (SVN 2020-08-19 02:02).
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look at ReadMe.txt in folder \harbour)
+  * Updated: HMGS-IDE v.1.4.4.2 Project Manager and Two-Way Visual Form Designer.
+           Contributed by Grigory Filatov <gfilatov@inbox.ru>
+           (look for what's new at changelog.txt in folder \Ide)
+  * New: 'RichText Class Test' sample.
+           Related Commands are:
+           - DEFINE RTF / CLOSE RTF
+           - DEFINE PAGESETUP
+           - BEGIN HEADER / END HEADER
+           - BEGIN FOOTER / END FOOTER
+           - WRITE TEXT
+           - NEW PARAGRAPH
+           - DEFINE TABLE / CLOSE TABLE
+           - BEGIN ROW / END ROW
+           - WRITE CELL
+           - NEW SECTION
+           - INSERT PAGENUMBER
+           Based upon a contribution of Tom Marchione for FiveWin library.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \samples\Advanced\RichText)
+  * New: 'TBrowse control placed into Alert messagebox' sample.
+           Contributed by Sergej Kiselev
+           (see demo9.prg in folder \samples\Advanced\Tsb_Basic_3)
+  * New: 'TSBrowse Export data to XLS/XML/DOC files with a coloring' sample.
+           Contributed by Verchenko Andrey <verchenkoag@gmail.com>
+           (see in folder \samples\Advanced\Tsb_Export_2)
+  * New: 'Source Code Formatter' utility.
+           Based upon a code borrowed from OOHG.
+           Adapted for Minigui Extended by Grigory Filatov <gfilatov@inbox.ru>
+           (see in folder \Utils\ofmt)
+  * Updated: 'Data-Bound Controls' sample:
+           - updated function DrawRR() for the round rectangled edit controls.
+           Syntax:
+             DrawRR( [ lFocus ][, nRow ][, nCol ][, nHeight ][, nWidth ] ;
+             [, cWindowName ][, nCurve ] )
+           Suggested and contributed by Sergej Kiselev
+           (see demo2.prg in folder \samples\Basic\DATA_BOUND)
+
 2020/07/30: HMG Extended Edition version 20.06 (Update 5).
   * Fixed: Possible corruption after a memory allocation in the C-function
            ListViewGetItem() (introduced in the build 19.04).
