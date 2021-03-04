@@ -1,14 +1,14 @@
-*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
+﻿*HMGS-MINIGUI-IDE Two-Way Form Designer Generated Code
 *OPEN SOURCE PROJECT 2005-2016 Walter Formigoni http://sourceforge.net/projects/hmgs-minigui/
 
-DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" NOSIZE NOSYSMENU NOCAPTION ON MOUSECLICK MoveActiveWindow(,this.name) BACKCOLOR aFormColor
+DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 TITLE "Power Buttons" ICON "AAMAIN" MAIN NOSIZE NOSYSMENU NOCAPTION ON INIT ChkUni() ON MOUSECLICK MoveActiveWindow(,this.name) BACKCOLOR aFormColor
 
-     DEFINE LABEL LblAppBar
+     DEFINE LABEL lblAppBar
             ROW    0
             COL    0
             WIDTH  200
             HEIGHT 40
-            VALUE "  System"+hb_eol()+"  power!"
+            VALUE "  Power"+hb_eol()+"  buttons!"
             FONTNAME mainFont
             FONTSIZE mainFontSize
             FONTBOLD .T.
@@ -17,6 +17,28 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             CENTERALIGN .T.
      END LABEL  
 
+    DEFINE BUTTONEX BtnAbout
+            ROW    5
+            COL    5
+            WIDTH  32
+            HEIGHT 32
+            PICTURE "QUESTION"
+            ICON NIL
+            ACTION MsgAbout() 
+            FONTNAME mainFont
+            FONTSIZE mainFontSize
+            FONTCOLOR HeaderFontColor
+            BACKCOLOR HeaderBackColor
+            TOOLTIP 'About...'
+            FLAT .T.
+            NOTRANSPARENT .T.
+            NOXPSTYLE .T.            
+            ONGOTFOCUS this.picture := "QUESTIONH"
+            ONLOSTFOCUS this.picture := "QUESTION"
+            TABSTOP .F.
+            HANDCURSOR .T.
+     END BUTTONEX  
+     
      DEFINE BUTTONEX BtnExit
             ROW    5
             COL    165
@@ -28,14 +50,14 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             FONTNAME mainFont
             FONTSIZE mainFontSize
             FONTCOLOR HeaderFontColor
-            TOOLTIP ''
+            TOOLTIP 'Close applet'
             FLAT .T.
             NOTRANSPARENT .T.
             NOXPSTYLE .T.
             ONGOTFOCUS this.picture := "ExitH"
             ONLOSTFOCUS this.picture := "Exit"
             TABSTOP .F.
-            HANDCURSOR .F.
+            HANDCURSOR .T.
      END BUTTONEX  
 
      DEFINE BUTTONEX btxLockDesk
@@ -45,7 +67,7 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             HEIGHT 48
             PICTURE NIL
             ICON "LOGOUT"
-            ACTION Iif( MsgYesNo( e"Lock desktop! \n\r are you sure?" ), LockDeskTop(), NIL )
+            ACTION Iif( MsgYesNo( e"Lock desktop! \n\r are you sure?" ), mgm_LockDeskTop(), NIL )
             FONTNAME mainFont
             FONTSIZE mainFontSize
             FONTCOLOR HeaderFontColor
@@ -76,7 +98,7 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             HEIGHT 48
             PICTURE NIL
             ICON "SUSPEND"
-            ACTION Iif( MsgYesNo( e"Suspend System (sleep) \n\r are you sure?" ), SuspendSystem( .F. ), NIL )
+            ACTION Iif( MsgYesNo( e"Suspend System (sleep) \n\r are you sure?" ), mgm_SuspendSystem( .F. ), NIL )
             FONTNAME mainFont
             FONTSIZE mainFontSize
             FONTCOLOR HeaderFontColor
@@ -98,7 +120,7 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             FONTSIZE smallFontSize
             TRANSPARENT .T.
             BACKCOLOR {  62,  70,  79 }
-            FONTCOLOR {0,113,225}
+            FONTCOLOR {130,200,255}
      END LABEL  
 
      DEFINE BUTTONEX btxHiber
@@ -108,7 +130,7 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             HEIGHT 48
             PICTURE NIL
             ICON "HIBER"
-            ACTION Iif( MsgYesNo( e"Suspend System (hibernate) \n\r are you sure?" ), SuspendSystem( .T. ), NIL )
+            ACTION Iif( MsgYesNo( e"Suspend System (hibernate) \n\r are you sure?" ), mgm_SuspendSystem( .T. ), NIL )
             FONTNAME mainFont
             FONTSIZE mainFontSize
             FONTCOLOR HeaderFontColor
@@ -172,7 +194,7 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             HEIGHT 48
             PICTURE NIL
             ICON "MONITOR"
-            ACTION SuspendMonitor()
+            ACTION mgm_SuspendMonitor()
             FONTNAME mainFont
             FONTSIZE mainFontSize
             FONTCOLOR HeaderFontColor
@@ -194,11 +216,9 @@ DEFINE WINDOW TEMPLATE AT 141 , 629 WIDTH 200 HEIGHT 490 MAIN ICON "ZZZ_LED_ON" 
             FONTSIZE smallFontSize
             TRANSPARENT .T.
             BACKCOLOR {  62,  70,  79 }
-            FONTCOLOR {234,0,0}
+            FONTCOLOR {0,232,116}
      END LABEL  
      
      
      
 END WINDOW
-
-

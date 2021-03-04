@@ -1,11 +1,10 @@
-
+﻿-prgflag=-DUNICODE
+-cflag=-DUNICODE
+-cflag=-D_UNICODE
 -w3
 -es2
 #-ospwr
 
--prgflag=-DUNICODE
--cflag=-DUNICODE
-
-main.prg
+main_u.prg
 -lDwmapi
 \MiniguiM\minigui\source\mgmMisc\mgmMisc.hbc
