@@ -1,5 +1,5 @@
 
-USEFUL REGULAR EXPRESSIONS for greWin
+USEFUL REGULAR EXPRESSIONS for grepWin
 ----------------------------------------
 
 1. Line replace/delete
