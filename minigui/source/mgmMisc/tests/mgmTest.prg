@@ -41,8 +41,8 @@ PROCEDURE Main()
                                           .f.,0x00004000+0x00000004      ), "", "press Esc... " } )
 
       @ 10, 830 BUTTON bt_11 Caption e"CPU" Width 40 ; //      ACTION win_GetOpenFileName( )*/
-      ACTION  ( msgInfo( "CPU Speed (when idle): " + hb_ntoc( GetCpuSpeed(1), 3 ) + " GHz" + hb_eol() + ; 
-                         "CPU Speed (when busy): " + hb_ntoc( GetCpuSpeed(2), 3 ) + " GHz", "GetCpuSpeed()" ) )
+      ACTION  ( msgInfo( "CPU Speed (when busy): " + hb_ntoc( GetCpuSpeed(2,1000), 3 ) + " GHz"  + hb_eol() + ;
+      "CPU Speed (when idle): " + hb_ntoc( GetCpuSpeed(1,1000), 3 ) + " GHz", "GetCpuSpeed()" ) )
                                           
       //mgm_BrowseForFolder( [<hWnd>], [<cInitFolder>], [<cTitle>], [<lAllowCreateFolder>], [<nFlags>] )
             
@@ -63,7 +63,7 @@ PROCEDURE GetAllWindows()
    LOCAL aColumnSrt := {2,1,1,1,1}
    LOCAL aGrid := {}
    LOCAL nI, hWnd, nThreadID, nProcessID, cFullName
-   LOCAL aHWND := EnumWindows()
+   LOCAL aHWND := mgm_EnumWindows()
    LOCAL bDblClick
 
    // msgdebug( hb_BitShift( 255, 8 ), hb_BitShift( 0, 8 ), hb_BitShift( 0, 8 ) )
@@ -152,7 +152,7 @@ STATIC PROCEDURE DblClick1( cForm, cGrid )
    LOCAL hWnd1, hWnd2, nProcessID, cFullName
    
    hWnd1 := Getproperty( cForm, cGrid, "Cell", Getproperty( cForm, cGrid, "Value" ), 6 )
-   hWnd2 := GetParent( hWnd1 )
+   hWnd2 := mgm_GetParent( hWnd1 )
    
    GetWindowThreadProcessId( hWnd2 , @nProcessID )
    cFullName := GetProcessFullName ( nProcessID )
@@ -200,7 +200,7 @@ HB_FUNC( BLURWINDOW )
    hb_retl( hr );
 }
 
-HB_FUNC( GETPARENT )
+HB_FUNC( MGM_GETPARENT )
 {
    HWND hwnd = (HWND) hb_parnl( 1 );
    UINT gaFlags = GA_ROOT | GA_ROOTOWNER | GA_PARENT;
@@ -238,15 +238,10 @@ int WINAPI GetClassName(
 );
 */
 
-
-
-
-
-
-
+/*
 * EnumWindows() -> aArray filled with handles of all top-level windows
-* EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows
+* mgm_EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows
 *
 * GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
 * GetProcessFullName ( [ nProcessID ] ) --> return cProcessFullName
-
+*/
