@@ -103,25 +103,6 @@
 //#define __CALLDLL__
 #ifdef __CALLDLL__
 
-#ifdef __XHARBOUR__
-
-  #xcommand DECLARE [<static:STATIC>] <FuncName>( [ <uParam1> ] [, <uParamN> ] ) ;
-             IN <DllName> ;
-       => ;
-          [<static>] function <FuncName>( [<uParam1>] [,<uParamN>] ) ;;
-             local uResult ;;
-             uResult := CallDLL32( <"FuncName"> , <"DllName"> [, <uParam1> ] [, <uParamN> ] ) ;;
-             return uResult
-
-  #xcommand DECLARE [<static:STATIC>] <FuncName>( [ <uParam1> ] [, <uParamN> ] ) ;
-             IN <DllName> ALIAS <alias> ;
-       => ;
-          [<static>] function <alias>( [<uParam1>] [,<uParamN>] ) ;;
-             local uResult ;;
-             uResult := CallDLL32( <"FuncName"> , <"DllName"> [, <uParam1> ] [, <uParamN> ] ) ;;
-             return uResult
-
-#else
 
   #xcommand DECLARE <nRetType> [<static:STATIC>] <FuncName>( [ <uParam1> ] [, <uParamN> ] ) ;
              IN <DllName> ;
@@ -138,7 +119,7 @@
              local uResult ;;
              uResult := HMG_CallDLL( <"DllName">, [ <nRetType> ], <"FuncName"> [, <uParam1> ] [, <uParamN> ] ) ;;
              return uResult
-#endif
+
 
 #else
 

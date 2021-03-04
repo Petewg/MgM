@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -60,7 +60,7 @@
 // 8. SplitBox Child ToolBar Buttons
 
    #xcommand DECLARE WINDOW <w> ;
-   =>;
+   => ;
    #xtranslate <w> . \<p:Name,Handle,Type,Index,Title,Height,Width,ClientHeight,ClientWidth,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,Cursor,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Visible,Enabled,Topmost,HelpButton,Cargo,Object\> => GetProperty ( <(w)>, \<"p"\> ) ;;
    #xtranslate <w> . \<p:Name,Title,Height,Width,Col,Row,NotifyIcon,NotifyToolTip,FocusedControl,Cursor,BackColor,MinHeight,MinWidth,MaxHeight,MaxWidth,TitleBar,SysMenu,Sizable,MaxButton,MinButton,Closable,Visible,Enabled,Topmost,HelpButton,Cargo\> := \<n\> => SetProperty ( <(w)>, \<"p"\> , \<n\> ) ;;
    #xtranslate <w> . \<p:OnInit,OnRelease,OnInterActiveClose,OnGotFocus,OnLostFocus,OnNotifyClick,OnMouseClick,OnMouseDrag,OnMouseMove,OnMove,OnSize,OnMaximize,OnMinimize,OnPaint,OnRestore,OnDropFiles\> => GetProperty ( <(w)>, \<"p"\> ) ;;
@@ -69,8 +69,8 @@
    #xtranslate <w> . \<p:Activate,Center,Redraw,Release,Maximize,Minimize,Restore,Show,Hide,SetFocus,Print\> \[()\] => DoMethod ( <(w)>, \<"p"\> ) ;;
    #xtranslate <w> . \<p:SaveAs\> (\<a\>) => DoMethod ( <(w)> , "SaveAs", \<a\> ) ;;
    #xtranslate <w> . \<c\> . \<p:SaveAs\> (\<a\>) => DoMethod ( <(w)> , \<(c)\> , "SaveAs", \<a\> ) ;;
-   #xtranslate <w> . \<c\> . \<p:Value,Name,Handle,Type,Index,ClientHeight,ClientWidth,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop,Object,XObject,CheckBoxEnabled,PaintDoubleBuffer,HeaderDragDrop,DisplayValue,InfoTip,ColumnCOUNT\> => GetProperty ( <(w)>, \<(c)\> , \<"p"\> ) ;;
-   #xtranslate <w> . \<c\> . \<p:Value,Name,Address,BackColor,BackgroundColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop,CheckBoxEnabled,PaintDoubleBuffer,HeaderDragDrop,InfoTip\> := \<n\> => SetProperty ( <(w)>, \<(c)\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:Value,Name,Handle,Type,Index,ClientHeight,ClientWidth,Address,BackColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop,Object,XObject,CheckBoxEnabled,PaintDoubleBuffer,HeaderDragDrop,DisplayValue,InfoTip,ColumnCOUNT,RowsPerPage,HTForeColor,HTInActiveColor\> => GetProperty ( <(w)>, \<(c)\> , \<"p"\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:Value,Name,Address,BackColor,BackgroundColor,FontColor,Picture,Icon,HBitmap,ToolTip,FontName,FontSize,FontBold,FontUnderline,FontItalic,FontStrikeOut,Caption,Row,DisplayValue,Col,Width,Height,Visible,Enabled,Checked,ItemCount,RangeMin,RangeMax,Cargo,Tabstop,CheckBoxEnabled,PaintDoubleBuffer,HeaderDragDrop,InfoTip,HTForeColor,HTInActiveColor\> := \<n\> => SetProperty ( <(w)>, \<(c)\> , \<"p"\> , \<n\> ) ;;
    #xtranslate <w> . \<c\> . \<p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,ValidMessage,AutoFont,RichValue,CueBanner,Alignment,CaseConvert,Transparent,RootValue,FirstItemValue,GradientFill,GradientOver,Interval,Once,Increment,OnListDisplay,OnDropDown,OnListClose,OnCloseUp,ImageWidth,ImageHeight\> => GetProperty ( <(w)>, \<(c)\> , \<"p"\> ) ;;
    #xtranslate <w> . \<c\> . \<p:ListWidth,Position,CaretPos,ForeColor,AllowAppend,AllowDelete,AllowEdit,Blink,InputItems,DisplayItems,FormatString,Indent,Linecolor,ItemHeight,ValidMessage,AutoFont,RichValue,CueBanner,Alignment,CaseConvert,Transparent,ColumnWidthLimits,GradientFill,GradientOver,Interval,Once,Increment,OnListDisplay,OnDropDown,OnListClose,OnCloseUp,ImageWidth,ImageHeight\> := \<n\> => SetProperty ( <(w)>, \<(c)\> , \<"p"\> , \<n\> ) ;;
    #xtranslate <w> . \<c\> . \<p:Caption,Header,ColumnHeader,Image,Item,Icon,ToolTip,Width,ColumnWidth,Enabled,RichValue,HeaderImage,IsTrueNode,NodeFlag,IsExpand,CheckboxItem,ColumnDISPLAYPOSITION\> (\<arg\>) => GetProperty ( <(w)>, \<(c)\> , \<"p"\> , \<arg\> ) ;;
@@ -129,7 +129,30 @@
    #xtranslate <w> . SplitBox . \<c\> . \<p:Name,Length,CueBanner,Alignment,CaseConvert,Transparent\> => GetProperty ( <(w)>, "SplitBox", \<(c)\> , \<"p"\> ) ;;
    #xtranslate <w> . SplitBox . \<c\> . \<p:ReadOnly,DisableEdit,Speed,Volume,Zoom,CueBanner,Alignment,CaseConvert,Transparent\> := \<n\> => SetProperty ( <(w)>, "SplitBox", \<(c)\> , \<"p"\> , \<n\> ) ;;
    #xtranslate <w> . SplitBox . \<x\> . \<c\> . \<p:Caption,Enabled,Value\> => GetProperty ( <(w)> , "SplitBox" , \<"x"\> , \<(c)\> , \<"p"\> ) ;;
-   #xtranslate <w> . SplitBox . \<x\> . \<c\> . \<p:Caption,Enabled,Value\> := \<n\> => SetProperty ( <(w)> , "SplitBox", \<"x"\> , \<(c)\> , \<"p"\> , \<n\> )
+   #xtranslate <w> . SplitBox . \<x\> . \<c\> . \<p:Caption,Enabled,Value\> := \<n\> => SetProperty ( <(w)> , "SplitBox", \<"x"\> , \<(c)\> , \<"p"\> , \<n\> ) ;;
+   ;;   // RichEditEx
+   #xtranslate <w>. \<c\> . \<p:FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeOut,FontColor,FontBackColor,FontScript,Link\>          => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:FontName,FontSize,FontBold,FontItalic,FontUnderline,FontStrikeOut,FontColor,FontBackColor,FontScript,Link\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:RTFTextMode,AutoURLDetect,Zoom,SelectRange,CaretPos,Value,GetSelectText,GetTextLength,ViewRect\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:RTFTextMode,AutoURLDetect,Zoom,SelectRange,CaretPos,Value,ViewRect\> := \<n\>      => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:BackGroundColor\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:SelectAll,UnSelectAll\> \[()\] => DoMethod ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:AddText,AddTextAndSelect\> (\<arg\>) := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg\> , \<n\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:ParaAlignment, ParaNumbering, ParaNumberingStyle, ParaNumberingStart, ParaOffset, ParaLineSpacing, ParaIndent\>          => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:ParaAlignment, ParaNumbering, ParaNumberingStyle, ParaNumberingStart, ParaOffset, ParaLineSpacing, ParaIndent\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:LoadFile,SaveFile\> (\<arg1\>,\<arg2\>,\<arg3\>) => DoMethod ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\>, \<arg3\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:RTFLoadFile,RTFSaveFile\> (\<arg1\>,\<arg2\>,\<arg3\>) => DoMethod ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\>, \<arg3\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:RTFLoadFile,RTFSaveFile\> (\<arg1\>,\<arg2\>)          => DoMethod ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:CanPaste,CanUndo,CanRedo\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:SelCopy,SelPaste,SelCut,SelClear,Undo,Redo,ClearUndoBuffer\> \[()\] => DoMethod ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:FindText,ReplaceText,ReplaceAllText\> (\<arg1\>,\<arg2\>,\<arg3\>,\<arg4\>,\<arg5\>) => GetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\> , \<arg3\> , \<arg4\> , \<arg5\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:GetClickLinkRange,GetClickLinkText\> => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:GetTextRange,GetPosChar\> (\<arg1\>) => GetProperty ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> ) ;;
+   #xtranslate <w>. \<c\> . \<p:RTFPrint\> (\<arg1\>,\<arg2\>,\<arg3\>,\<arg4\>,\<arg5\>,\<arg6\>) => DoMethod ( <"w">, \<"c"\> , \<"p"\> , \<arg1\> , \<arg2\> , \<arg3\> , \<arg4\> , \<arg5\> , \<arg6\> ) ;;
+   ;;   // ProgressWheel
+   #xtranslate <w> . \<c\> . \<p:ColorDoneMin,ColorDoneMax,ColorRemain,ColorInner,InnerSize,StartAngle,Min,Max,Position,ShowText,GradientMode\>          => GetProperty ( <"w">, \<"c"\> , \<"p"\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:ColorDoneMin,ColorDoneMax,ColorRemain,ColorInner,InnerSize,StartAngle,Min,Max,Position,ShowText,GradientMode\> := \<n\> => SetProperty ( <"w">, \<"c"\> , \<"p"\> , \<n\> ) ;;
+   #xtranslate <w> . \<c\> . \<p:SetShowText\> (\<a1\>) => Domethod ( <(w)>, \<(c)\> , \<"p"\> , \<a1\> )
 
 
    #xcommand DEFINE WINDOW <w> ;

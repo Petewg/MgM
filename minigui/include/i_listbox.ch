@@ -35,7 +35,7 @@
    www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2020, https://harbour.github.io/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -274,14 +274,6 @@
 #define LB_GETCURSEL            0x0188
 #define LB_GETCOUNT             0x018B
 #define LB_SETTABSTOPS          0x0192
-
-#xtranslate ListboxAddString ( <hWnd>, <s> ) ;
-=> ;
-SendMessageString( <hWnd>, LB_ADDSTRING, 0, <s> )
-
-#xtranslate ListboxInsertString ( <hWnd>, <s>, <p> ) ;
-=> ;
-SendMessageString( <hWnd>, LB_INSERTSTRING, <p> - 1, <s> )
 
 #xtranslate ListboxSetCurSel ( <hWnd>, <s> ) ;
 => ;

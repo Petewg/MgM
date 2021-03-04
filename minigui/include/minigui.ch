@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -219,6 +219,7 @@
 #include "i_folder.ch"
 #include "i_pager.ch"
 #include "i_chklabel.ch"
+#include "i_progresswheel.ch"
 
 #ifdef _MIXEDMODE_
   ANNOUNCE HB_GTSYS

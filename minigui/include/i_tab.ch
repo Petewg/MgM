@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -69,10 +69,11 @@
         [ <vertical: VERTICAL> ] ;
 	[ <bottom: BOTTOM> ] ;
 	[ ON CHANGE <change> ] ;
-        [ <notabstop: NOTABSTOP> ]      ;
+	[ <notabstop: NOTABSTOP> ] ;
+	[ <NoTrans: NOTRANSPARENT> ] ;
 	[ ON INIT <bInit> ] ;
-=>;
-	_BeginTab( <(name)> , <(parent)> , <row> , <col> , <w> , <h> , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.> , <.bottom.> , <.notabstop.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.multiline.>, {<backcolor>, <htforecolor>, <htinactivecolor>}, <nId>, <bInit> )
+	=>;
+	_BeginTab( <(name)> , <(parent)> , <row> , <col> , <w> , <h> , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.> , <.bottom.> , <.notabstop.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.multiline.>, {<backcolor>, <htforecolor>, <htinactivecolor>}, <nId>, <bInit>, <.NoTrans.> )
 
 #command REDEFINE TAB <name> ;
         ID <nId>;
@@ -92,10 +93,11 @@
         [ <vertical: VERTICAL> ]       ;
 	[ <bottom: BOTTOM> ] ;
 	[ ON CHANGE <change> ] ;
-        [ <notabstop: NOTABSTOP> ]       ;
+	[ <notabstop: NOTABSTOP> ]       ;
+	[ <NoTrans: NOTRANSPARENT> ] ;
 	[ ON INIT <bInit> ] ;
 	=>;
-	_BeginTab( <(name)> , <(parent)> , 0 , 0 , 0 , 0 , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.>, <.bottom.> , <.notabstop.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.multiline.>, {,,}, <nId> , <bInit> )
+	_BeginTab( <(name)> , <(parent)> , 0 , 0 , 0 , 0 , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.>, <.bottom.> , <.notabstop.> , <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.multiline.>, {,,}, <nId> , <bInit> , <.NoTrans.> )
 
 #command PAGE <caption> [ IMAGE <image> ] [ TOOLTIP <tooltip> ] ;
 	=>;

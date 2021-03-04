@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -72,10 +72,11 @@
 	[ ON DBLCLICK <dblclick> ] ;
 	[ ON INIT <bInit> ] ;
 	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]] ;
+	[ <notrans: NOTRANSPARENT> ] ;
 	[ <itemids : ITEMIDS> ] ;
 	[ HELPID <helpid> ] ;
 =>;
-_DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit> )
+_DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit>, <.notrans.> )
 
 * Alternate Syntax
 
@@ -101,6 +102,7 @@ _DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{cha
 	[ ONINIT <bInit> ] ;
 	[ NODEIMAGES <aImgNode> ] ;
 	[ ITEMIMAGES <aImgItem> ] ;
+	[ TRANSPARENT <Trans> ] ;   
 	[ ROOTBUTTON <rootbutton> ] ;
 	[ ITEMIDS <itemids> ] ;
 	[ HELPID <helpid> ] ;
@@ -110,7 +112,7 @@ _DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{cha
 	[ INDENT    <indent> ] ;
 	[ ITEMHEIGHT <itemheight> ];
 =>;
-_DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.rootbutton.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit> )
+_DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.rootbutton.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit>, !<.Trans.> )
 
 
 #xcommand REDEFINE TREE <name> ;
@@ -135,10 +137,11 @@ _DefineTree ( <(name)> , <(parent)> , <row> , <col> , <width> , <height> , <{cha
 	[ ON DBLCLICK <dblclick> ] ;
 	[ ON INIT <bInit> ] ;
 	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]] ;
+	[ <notrans: NOTRANSPARENT> ] ;
 	[ <itemids : ITEMIDS> ] ;
 	[ HELPID <helpid> ] ;
 =>;
-_DefineTree ( <(name)> , <(parent)> , 0 , 0 , 0 , 0 , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit> )
+_DefineTree ( <(name)> , <(parent)> , 0 , 0 , 0 , 0 , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , .f. , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, <nId>, <bInit>, <.notrans.> )
 
 
 #xcommand NODE <text> [ IMAGES <aImage> ] [ ID <id> ] [ CARGO <Cargo> ] ;
@@ -190,9 +193,10 @@ _EndTree()
 	[ <itemids : ITEMIDS> ] ;
 	[ HELPID <helpid> ] 		;
 	[ NODEIMAGES <aImgNode> [ ITEMIMAGES <aImgItem> ] [ <noBut: NOROOTBUTTON> ]];
+	[ <notrans: NOTRANSPARENT> ] ;
 	[ <break: BREAK> ] ;                             
 =>;
-_DefineTree ( <(name)> , <(parent)> , , , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , <.break.> , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, 0, <bInit> )
+_DefineTree ( <(name)> , <(parent)> , , , <width> , <height> , <{change}> , <tooltip> , <fontname> , <fontsize> , <{gotfocus}> , <{lostfocus}> , <{dblclick}> , <.break.> , <value>  , <helpid>, <aImgNode>, <aImgItem>, <.noBut.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.>, <.itemids.>, <backcolor>, <fontcolor>, <linecolor>, <indent>, <itemheight>, 0, <bInit>, <.notrans.> )
 
 #ifndef TV_FIRST
 #define TV_FIRST           0x1100

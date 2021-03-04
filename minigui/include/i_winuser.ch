@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -520,15 +520,23 @@
 #define TRANSPARENT	1
 #define OPAQUE		2
 #endif
-#define LVN_GETDISPINFO (-150)
-#define EN_MSGFILTER	1792
-#define DLGC_WANTCHARS	128
+#define LVN_GETDISPINFO     (-150)
+#define EN_MSGFILTER	    1792
+
+#define DLGC_WANTCHARS	    128
 #define DLGC_WANTMESSAGE    4
 
 #define MCN_FIRST           -750
 #define MCN_LAST            -759
 #define MCN_SELCHANGE       (MCN_FIRST + 1)
+#define MCN_GETDAYSTATE     (MCN_FIRST + 3)
 #define MCN_SELECT          (MCN_FIRST + 4)
+
+#define MCS_DAYSTATE        0x0001
+#define MCS_MULTISELECT     0x0002
+#define MCS_WEEKNUMBERS     0x0004
+#define MCS_NOTODAYCIRCLE   0x0008
+#define MCS_NOTODAY         0x0010
 
 #define STN_CLICKED         0
 #define STN_DBLCLK          1
@@ -602,9 +610,10 @@
 #define EN_KILLFOCUS		512
 #define EN_CHANGE       	768
 #define EN_UPDATE       	1024
-#define EN_SELCHANGE    	1794
-#define EN_DRAGDROPDONE 	1804
 #define EN_VSCROLL      	1538
+#define EN_SELCHANGE    	1794
+#define EN_LINK 		1803
+#define EN_DRAGDROPDONE 	1804
 
 /*
  * Edit Control Messages
@@ -627,22 +636,13 @@
 #define PBM_GETRANGE            (WM_USER+7)
 #define PBM_GETPOS              (WM_USER+8)
 
-#define TTN_NEEDTEXT		(-520)
-
 // System metrics
 #define SM_CXFULLSCREEN         16
 #define SM_CYFULLSCREEN         17
 
-// Tootips' definitions
+// Tootips definitions
+#define TTN_NEEDTEXT		(-520)
 #define TTM_DELTOOLA            (WM_USER + 5)
-//#define TTM_SETTIPBKCOLOR     (WM_USER + 19)
-//#define TTM_SETTIPTEXTCOLOR   (WM_USER + 20)
-//#define TTM_SETMAXTIPWIDTH    (WM_USER + 24)
-//#define TTM_SETTITLE          (WM_USER + 32)
-//#define TTI_NONE              0
-//#define TTI_INFO              1
-//#define TTI_WARNING           2
-//#define TTI_ERROR             3
 
 // Static Control Constants
 #define SS_LEFT             0

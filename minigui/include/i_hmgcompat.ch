@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -96,6 +96,19 @@
 => ;
 _DefineHotKey ( <(parent)> , 0 , VK_SPACE , <{action}> )
 
+
+#xtranslate RegistryRead ( <arg> ) ;
+=> ;
+win_RegRead ( <arg> )
+
+#xtranslate RegistryWrite ( <arg1> , <arg2> ) ;
+=> ;
+win_RegWrite ( <arg1> , <arg2> )
+
+#xtranslate SetMenuBkColor ( <hWnd>, <argb> [, <lSubMenu> ] ) ;
+=> ;
+_ColorMenu ( <hWnd>, <argb> [, <lSubMenu> ] )
+
 #xtranslate Restore( <h> ) => _Restore( <h> )
 
 #xtranslate HMG_LEN(<x>)   => LEN (<x>)
@@ -133,6 +146,72 @@ _DefineHotKey ( <(parent)> , 0 , VK_SPACE , <{action}> )
 #xtranslate SET CONTROL <ControlName> OF <FormName> STATICEDGE => HMG_ChangeWindowStyle (GetControlHandle (<"ControlName">, <"FormName">), WS_EX_STATICEDGE, NIL, .T.)
 #xtranslate SET CONTROL <ControlName> OF <FormName> WINDOWEDGE => HMG_ChangeWindowStyle (GetControlHandle (<"ControlName">, <"FormName">), WS_EX_WINDOWEDGE, NIL, .T.)
 #xtranslate SET CONTROL <ControlName> OF <FormName> NOTEDGE    => HMG_ChangeWindowStyle (GetControlHandle (<"ControlName">, <"FormName">), NIL, hb_bitOr (WS_EX_CLIENTEDGE, WS_EX_STATICEDGE, WS_EX_WINDOWEDGE), .T.)
+
+
+#xtranslate FINDTEXTDIALOG  ;
+           [ <dummy1: ACTION,ON ACTION> <action> ];
+           [ FIND <cFind> ] ;
+           [ <NoUpDown: NOUPDOWN> ] ;
+           [ <NoMatchCase: NOMATCHCASE> ] ;
+           [ <NoWholeWord: NOWHOLEWORD> ] ;
+           [ CHECKDOWN <CheckDown> ] ;
+           [ CHECKMATCHCASE <CheckMatchCase> ] ;
+           [ CHECKWHOLEWORD <CheckWholeWord> ] ;
+           [ TITLE <cTitle> ] ;
+=> FindTextDlg ( <{action}>, <cFind>, <.NoUpDown.>, <.NoMatchCase.>, <.NoWholeWord.>, <CheckDown>, <CheckMatchCase>, <CheckWholeWord>, <cTitle> ) 
+
+
+#xtranslate REPLACETEXTDIALOG ;
+           [ <dummy1: ACTION,ON ACTION> <action> ];
+           [ FIND <cFind> ] ;
+           [ REPLACE <cReplace> ] ;
+           [ <NoMatchCase: NOMATCHCASE> ] ;
+           [ <NoWholeWord: NOWHOLEWORD> ] ;
+           [ CHECKMATCHCASE <CheckMatchCase> ] ;
+           [ CHECKWHOLEWORD <CheckWholeWord> ] ;
+           [ TITLE <cTitle> ] ;
+=> ReplaceTextDlg ( <{action}>, <cFind>, <cReplace>, <.NoMatchCase.>, <.NoWholeWord.>, <CheckMatchCase>, <CheckWholeWord> , <cTitle> ) 
+
+
+
+#xtranslate FindReplaceDlg.Show           => FINDREPLACEDLGSHOW (.T.)
+#xtranslate FindReplaceDlg.Hide           => FINDREPLACEDLGSHOW (.F.)
+#xtranslate FindReplaceDlg.Release        => FINDREPLACEDLGRELEASE (.T.)
+
+
+#xtranslate FindReplaceDlg.IsRelease      => FINDREPLACEDLGISRELEASE ()
+#xtranslate FindReplaceDlg.IsOpen         => .NOT.( FINDREPLACEDLGISRELEASE () )
+#xtranslate FindReplaceDlg.HANDLE         => FINDREPLACEDLGGETHANDLE ()
+#xtranslate FindReplaceDlg.Title          => FINDREPLACEDLGGETTITLE ()
+#xtranslate FindReplaceDlg.Title := <arg> => FINDREPLACEDLGSETTITLE (<arg>)
+
+
+#xtranslate FindReplaceDlg.ROW    => IF ( FindReplaceDlg.IsOpen, GetWindowRow    ( FINDREPLACEDLGGETHANDLE () ), 0)
+#xtranslate FindReplaceDlg.COL    => IF ( FindReplaceDlg.IsOpen, GetWindowCol    ( FINDREPLACEDLGGETHANDLE () ), 0)
+#xtranslate FindReplaceDlg.WIDTH  => IF ( FindReplaceDlg.IsOpen, GetWindowWidth  ( FINDREPLACEDLGGETHANDLE () ), 0)
+#xtranslate FindReplaceDlg.HEIGHT => IF ( FindReplaceDlg.IsOpen, GetWindowHeight ( FINDREPLACEDLGGETHANDLE () ), 0)
+
+#xtranslate FindReplaceDlg.ROW    := <arg> => IF ( FindReplaceDlg.IsOpen, _SetWindowSizePos ( FINDREPLACEDLGGETHANDLE (), <arg>,      ,      ,       ), NIL)
+#xtranslate FindReplaceDlg.COL    := <arg> => IF ( FindReplaceDlg.IsOpen, _SetWindowSizePos ( FINDREPLACEDLGGETHANDLE (),      , <arg>,      ,       ), NIL)
+#xtranslate FindReplaceDlg.WIDTH  := <arg> => IF ( FindReplaceDlg.IsOpen, _SetWindowSizePos ( FINDREPLACEDLGGETHANDLE (),      ,      , <arg>,       ), NIL)
+#xtranslate FindReplaceDlg.HEIGHT := <arg> => IF ( FindReplaceDlg.IsOpen, _SetWindowSizePos ( FINDREPLACEDLGGETHANDLE (),      ,      ,      , <arg> ), NIL)
+
+
+#xtranslate FindReplaceDlg.RetValue      => _HMG_FindReplaceOptions \[ 1 \]
+#xtranslate FindReplaceDlg.Find          => _HMG_FindReplaceOptions \[ 2 \]
+#xtranslate FindReplaceDlg.Replace       => _HMG_FindReplaceOptions \[ 3 \]
+#xtranslate FindReplaceDlg.Down          => _HMG_FindReplaceOptions \[ 4 \]
+#xtranslate FindReplaceDlg.MatchCase     => _HMG_FindReplaceOptions \[ 5 \]
+#xtranslate FindReplaceDlg.WholeWord     => _HMG_FindReplaceOptions \[ 6 \]
+
+
+//  FindReplaceDlg.RetValue
+#define FRDLG_UNKNOWN    -1
+#define FRDLG_CANCEL      0   // Cancel or Close dialog
+#define FRDLG_FINDNEXT    1
+#define FRDLG_REPLACE     2
+#define FRDLG_REPLACEALL  3
+
 
 #xtranslate SET DIALOGBOX [ POSITION ] [ ROW <nRow> ] [ COL <nCol> ] [ [<lCenter:CENTER> OF <Form> ] ] ;
    => ;
@@ -202,8 +281,10 @@ _DefineHotKey ( <(parent)> , 0 , VK_SPACE , <{action}> )
    SendMessage( GetFormToolTipHandle(Application.FormName), TTM_SETTIPTEXTCOLOR, RGB(<aColor>\[1\], <aColor>\[2\], <aColor>\[3\]), 0 )
 
 
-#define LWA_COLORKEY 0x01
-#define LWA_ALPHA    0x02
+#ifndef LWA_ALPHA
+#define LWA_COLORKEY            0x00000001
+#define LWA_ALPHA               0x00000002
+#endif
 
 #xtranslate SET WINDOW <FormName> TRANSPARENT TO <nAlphaBlend> => ;  // nAlphaBlend = 0 to 255 (completely transparent = 0, opaque = 255)
    SetLayeredWindowAttributes( GetFormHandle( <"FormName"> ), 0, <nAlphaBlend>, LWA_ALPHA )
@@ -346,7 +427,6 @@ _DefineHotKey ( <(parent)> , 0 , VK_SPACE , <{action}> )
 #define GRID_GROUP_NORMAL    0x01
 #define GRID_GROUP_COLLAPSED 0x02
 
-#define CYAN      { 153, 217, 234 }
 #define IDC_HAND  (32649)
 
 #translate _TIMELONG24H  => "HH:mm:ss"
@@ -401,8 +481,8 @@ _DefineHotKey ( <(parent)> , 0 , VK_SPACE , <{action}> )
 	[ MULTILINE <multiline> ] ;
 	[ TRANSPARENT <Trans> ] ;
 	[ ON INIT <bInit> ] ;
-=>;
-	_BeginTab( <(name)> , <(parent)> , <row> , <col> , <w> , <h> , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.>, .f., !<.tabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <.multiline.> , {,,}, , <bInit> )
+	=>;
+	_BeginTab( <(name)> , <(parent)> , <row> , <col> , <w> , <h> , <value> , <f> , <s> , <tooltip> , <{change}> , <.buttons.> , <.flat.> , <.hottrack.> , <.vertical.>, .f., !<.tabstop.> ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , <.multiline.> , {,,}, , <bInit> , !<.Trans.> )
 
 
 #xcommand  DEFINE TOOLBAR  <name> ;
@@ -454,10 +534,28 @@ _DefineHotKey ( <(parent)> , 0 , VK_SPACE , <{action}> )
       [ CUSTOMIZE <custom> ] ;
       [ BREAK <break> ] ;
    => ;
-   _BeginToolBar ( <(name)>, <(parent)>,,, iif(<.strictwidth.>,<imagewidth>,<imagewidth>+8), ;
-                   iif(<.strictwidth.>,<imageheight>,<imageheight>+2), <grippertext>,, <f>, <s>, ;
-                   <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, <.strikeout.>, ;
-                   <.border.>, <.wrap.>, <.custom.> )
+   _BeginToolBar ( <(name)>, <(parent)>,,, iif(<.strictwidth.>,<imagewidth>,<imagewidth> + 8), ;
+                   iif(<.strictwidth.>,<imageheight>,<imageheight> + 2), <grippertext>,, <f>, <s>, ;
+                   <tooltip>, <.flat.>, <.bottom.>, <.righttext.>, <.break.>, <.bold.>, <.italic.>, <.underline.>, ;
+                   <.strikeout.>, <.border.>, <.wrap.>, <.custom.> )
+
+* Propertized ToolBar Button
+
+#xcommand TOOLBUTTON <name> ;
+	[ CAPTION <caption> ] ;
+	[ PICTURE <picture> ] ;
+	[ ONCLICK <action> ] ;
+	[ TOOLTIP <tooltip> ] ;
+	[ SEPARATOR <separator> ] ;
+	[ AUTOSIZE <autosize> ] ;             
+	[ DROPDOWN <dropdown> ] ;
+	[ WHOLEDROPDOWN <wholedropdown> ] ;
+	[ CHECK <check> ] ;
+	[ GROUP <group> ] ;
+   =>;
+   _DefineToolButton ( <(name)>, _HMG_ActiveToolBarName, , , <caption> , <{action}> , , , <picture> , <tooltip> , , , ;
+                       .f. , <.separator.> , <.autosize.> , <.check.> , <.group.> , <.dropdown.> , <.wholedropdown.> , ;
+                       .f., -1 )
 
 
 #xcommand @ <row>, <col> BUTTON <name> ;

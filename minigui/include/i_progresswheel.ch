@@ -4,6 +4,9 @@
  Copyright 2002-2010 Roberto Lopez <harbourminigui@gmail.com>
  http://harbourminigui.googlepages.com/
 
+ Copyright 2020 Grigory Filatov <gfilatov@inbox.ru>
+ http://www.hmgextended.com
+
  This program is free software; you can redistribute it and/or modify it under 
  the terms of the GNU General Public License as published by the Free Software 
  Foundation; either version 2 of the License, or (at your option) any later 
@@ -45,58 +48,28 @@
 
 ---------------------------------------------------------------------------*/
 
-#command @ <row>,<col> HYPERLINK <name>   ;
-   [ <dummy1: OF, PARENT> <parent> ] ;
-   [ VALUE <value> ]   ;
-   [ ADDRESS <address>];
-   [ WIDTH <width> ]   ;
-   [ HEIGHT <height> ]   ;
-   [ <autosize : AUTOSIZE> ] ;
-   [ FONT <fontname> ]   ;
-   [ SIZE <fontsize> ]   ;
-   [ <bold : BOLD> ] ;
-   [ <italic : ITALIC> ] ;
-   [ TOOLTIP <tooltip> ] ;
-   [ BACKCOLOR <backcolor> ] ;
-   [ FONTCOLOR <fontcolor> ] ;
-   [ <border: BORDER> ] ;
-   [ <clientedge: CLIENTEDGE> ] ;
-   [ <hscroll: HSCROLL> ] ;
-   [ <vscroll: VSCROLL> ] ;
-   [ <transparent: TRANSPARENT> ] ;
-   [ <rightalign: RIGHTALIGN> ]	;
-   [ <centeralign: CENTERALIGN> ] ;
-   [ <handcursor: HANDCURSOR> ] ;
-   [ HELPID <helpid> ] 		;
-   [ <invisible: INVISIBLE> ] ;
- =>;
-   _DefineLabel (         ;
-	<(name)>,         ;
-	<(parent)>,       ;
-	<col>,            ;
-	<row>,            ;
-	<value>,          ;
-	<width>,          ;
-	<height>,         ;
-	<fontname> ,      ;
-	<fontsize> ,      ;
-	<.bold.>,         ;
-	<.border.> ,      ;
-	<.clientedge.> ,  ;
-	<.hscroll.> ,     ;
-	<.vscroll.> ,     ;
-	<.transparent.> , ;
-	[ <backcolor> ],  ;
-	iif(hb_IsArray(<fontcolor>), <fontcolor>, {0,0,255}), , ;
-	<tooltip>,	  ;
-	<helpid>,         ;
-	<.invisible.>,    ;
-	<.italic.>,       ;
-	.t. , ;
-	.f. , ;
-	<.autosize.> ,    ;
-	<.rightalign.> ,  ;
-	<.centeralign.> , ;
-	.f. , ;
-	iif(<.handcursor.>, {|| RC_CURSOR("MINIGUI_FINGER")}, Nil), , );;
-	_setaddress(<(name)>, iif(empty(_HMG_ActiveFormName), <(parent)>, _HMG_ActiveFormName), <address>)
+#command @ <row>,<col> PROGRESSWHEEL <name>	;
+	[ <dummy1: OF, PARENT, DIALOG> <parent> ] ;
+	[ RANGE <lo> , <hi> ] 		;
+	[ VALUE <v> ]			;
+	[ WIDTH <w> ] 			;
+	[ HEIGHT <h> ] 			;
+	[ <ShowText : SHOWTEXT> ]	;
+	[ STARTANGLE <StartAngle> ] 	;
+	[ INNERSIZE <InnerSize> ]	;
+	[ GRADIENTMODE <GradientMode> ]	;
+	[ COLORDONEMIN <ColorDoneMin> ]	;
+	[ COLORDONEMAX <ColorDoneMax> ]	;
+	[ COLORREMAIN <ColorRemain> ]	;
+	[ COLORINNER <ColorInner> ]	;
+   =>;
+	_DefineProgressWheel ( <(name)>, <(parent)>, <col>, <row>, <w>, <h>, ;
+		<v>, <StartAngle>, <InnerSize>, <GradientMode>, <ShowText>, <lo>, <hi>, ;
+		<ColorDoneMin>, <ColorDoneMax>, <ColorRemain>, <ColorInner> )
+
+
+/* for using with GradientMode property */
+#define GM_NONE		1
+#define GM_POSITION	2
+#define GM_ANGLE	3
+

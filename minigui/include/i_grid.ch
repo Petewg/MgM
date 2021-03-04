@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -77,13 +77,14 @@
 		[ <strikeout : STRIKEOUT> ] 	;
 		[ TOOLTIP <tooltip> ]  		;
 		[ BACKCOLOR <backcolor> ] 	;
+		[ ON GOTFOCUS <gotfocus> ] 	;
 		[ DYNAMICBACKCOLOR <dynamicbackcolor> ] ;
 		[ DYNAMICFORECOLOR <dynamicforecolor> ] ;
 		[ FONTCOLOR <fontcolor> ] 	;
-		[ ON GOTFOCUS <gotfocus> ] 	;
 		[ ON CHANGE <change> ]  	;
 		[ ON LOSTFOCUS <lostfocus> ] 	;
 		[ ON DBLCLICK <dblclick> ]  	;
+		[ ON RCLICK <rclick> ]  	;
 		[ ON HEADCLICK <aHeadClick> ] 	;
 		[ <edit : EDIT> ] 		;
 		[ INPLACE <editcontrols> ]	;
@@ -164,7 +165,12 @@
 		<.doublebuffer.> , ;
 		<.nosortheaders.> , ;
                 <columnsort> , ;
-                <aLimitColumns> , <{OnDragItems}> , <bInit> , <autosizeH>, <.autosizeW.> )
+                <aLimitColumns> , ;
+                <{OnDragItems}> , ;
+                <bInit> , ;
+                <autosizeH> , ;
+                <.autosizeW.> , ;
+                <{rclick}> )
 
 #command REDEFINE GRID <name> 		;
 		[ ID <nId> ]		;
@@ -410,6 +416,7 @@
 		[ ON CHANGE <change> ]  	;
 		[ ON LOSTFOCUS <lostfocus> ] 	;
 		[ ON DBLCLICK <dblclick> ]  	;
+		[ ON RCLICK <rclick> ]  	;
 		[ ON HEADCLICK <aHeadClick> ] 	;
 		[ <edit : EDIT> ]		;
 		[ <cell : CELL, CELLED, CELLNAVIGATION> ] ;
@@ -490,7 +497,12 @@
                 <.doublebuffer.> ,;
                 <.nosortheaders.> ,;
                 <columnsort> ,;
-                <aLimitColumns> , <{OnDragItems}> , <bInit> , <autosizeH>, <.autosizeW.> )
+                <aLimitColumns> , ;
+                <{OnDragItems}> , ;
+                <bInit> , ;
+                <autosizeH> , ;
+                <.autosizeW.> , ;
+                <{rclick}> )
 
 ///////////////////////////////////////////////////////////////////////////////
 // GRID (SPLITBOX VERSION)

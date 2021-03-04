@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -54,7 +54,7 @@
   MEMVAR _HMG_SYSDATA
 #endif
 
-#define _HMG_SYSDATA_SIZE			450
+#define _HMG_SYSDATA_SIZE			455
 
 #xtranslate _HMG_ErrorLogFile			=> _HMG_SYSDATA\[1]
 #xtranslate _HMG_CreateErrorlog			=> _HMG_SYSDATA\[2]
@@ -596,3 +596,10 @@ Memvariables
 
 #xtranslate _HMG_IsThemed				=> _HMG_SYSDATA\[449]
 #xtranslate _HMG_RptData				=> _HMG_SYSDATA\[450]
+
+#xtranslate _HMG_MsgIDFindDlg				=> _HMG_SYSDATA\[451]
+#xtranslate _HMG_FindReplaceOnAction			=> _HMG_SYSDATA\[452]
+#xtranslate _HMG_FindReplaceOptions			=> _HMG_SYSDATA\[453]
+#xtranslate _HMG_CharRange_Min				=> _HMG_SYSDATA\[454]
+#xtranslate _HMG_CharRange_Max				=> _HMG_SYSDATA\[455]
+

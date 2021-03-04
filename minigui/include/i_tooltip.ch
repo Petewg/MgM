@@ -36,7 +36,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -119,15 +119,18 @@
 
 #xcommand ADD TOOLTIPICON <icon> WITH <dummy:MESSAGE,TITLE> <message> <dummy2:TO,OF> <form> ;
    => ; 
-   SendMessageString( GetFormToolTipHandle (<"form">), TTM_SETTITLE, <icon>, <message> )
+   SendMessageString( GetFormToolTipHandle (<"form">), TTM_SETTITLE, <icon>, <message> ) ;;
+   _WindowCargo ( <"form"> , { <icon>, <message> } )
 
 #xcommand ADD TOOLTIPICON <icon:ERROR,ERROR_LARGE,INFO,INFO_LARGE,WARNING,WARNING_LARGE> WITH <dummy:MESSAGE,TITLE> <message> <dummy2:TO,OF> <form> ;
    => ; 
-   SendMessageString( GetFormToolTipHandle (<"form">), TTM_SETTITLE, TTI_<icon>, <message> )
+   SendMessageString( GetFormToolTipHandle (<"form">), TTM_SETTITLE, TTI_<icon>, <message> ) ;;
+   _WindowCargo ( <"form"> , { TTI_<icon>, <message> } )
 
 #xcommand CLEAR TOOLTIPICON OF <form> ;
    => ;
-   SendMessageString( GetFormToolTipHandle (<"form">), TTM_SETTITLE, TTI_NONE, "" )
+   SendMessageString( GetFormToolTipHandle (<"form">), TTM_SETTITLE, TTI_NONE, "" ) ;;
+   _WindowCargo ( <"form"> , { TTI_NONE, "" } )
 
 #xcommand SET TOOLTIP TEXTCOLOR TO <color> OF <form> ;
    => ;

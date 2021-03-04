@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -121,6 +121,9 @@
 #xtranslate ThisWindow . <p:ClientHeight> => _GetClientRect ( GetFormHandle ( _HMG_THISFORMNAME ) ) \[4]
 
 // CONTROLS
+
+// RichEditBox ( by Dr. Claudio Soto, January 2014 )
+#xtranslate ThisRichEditBox . <p: GetClickLinkRange,GetClickLinkText> => GetProperty ( _HMG_THISFORMNAME , _HMG_THISCONTROLNAME , <"p"> )
 
 * Property without arguments
 

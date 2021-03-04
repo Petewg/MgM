@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -96,12 +96,12 @@
 	_EndDragImage () 
 
 
-#command ADD IMAGE <image> [ <mask> ] TO <control> OF <parent> ;
+#command ADD IMAGE <image> [ MASK <mask> ] TO <control> OF <parent> ;
 	=>;
 	DoMethod ( <"parent"> , <"control"> , 'AddImage' , <image> , <mask> )
 
 
-#command ADD MASKEDIMAGE <image> [ <aColor> ] TO <control> OF <parent> ;
+#command ADD MASKEDIMAGE <image> [ COLOR <aColor> ] TO <control> OF <parent> ;
 	=>;
 	DoMethod ( <"parent"> , <"control"> , 'AddImageMask' , <image> , <aColor> )
 

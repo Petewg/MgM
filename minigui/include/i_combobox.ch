@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -43,7 +43,7 @@
 	"HWGUI"
   	Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
----------------------------------------------------------------------------*/
+ ---------------------------------------------------------------------------*/
 
 #xcommand @ <row>,<col> COMBOBOX <name> ;
       [ID <nId>] ;
@@ -233,6 +233,7 @@ ComboBox Extend Style
       [ IMAGELIST <imagelist> ]       ;
       [ HELPID <helpid> ]       ;
       [ <invisible : INVISIBLE> ] ;
+      [ <notrans: NOTRANSPARENT>] ;
       [ ON INIT <bInit> ] ;
    =>;
    _DefineComboEx ( <(name)>, <(parent)>, <col>, <row>, <w>, <aRows> , <value>, ;
@@ -241,7 +242,8 @@ ComboBox Extend Style
       <.invisible.>, <.notabstop.>, .f. , <.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
       <(itemsource)> , <(valuesource)> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> ,  .f. , "", <aImage>, <nValue>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight>, <bInit> )
+      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, ;
+      <imagelist>, <nItemHeight>, <bInit>, <.notrans.> )
 
 
 // SPLITBOX VERSION
@@ -280,6 +282,7 @@ ComboBox Extend Style
       [ GRIPPERTEXT <grippertext> ] ;
       [ <break: BREAK> ] ;
       [ <invisible : INVISIBLE> ] ;
+      [ <notrans: NOTRANSPARENT>] ;
       [ ON INIT <bInit> ] ;
    =>;
    _DefineComboEx ( <(name)>, <(parent)>, , , <w>, <aRows> , <value>, ;
@@ -288,7 +291,8 @@ ComboBox Extend Style
       <.invisible.>, <.notabstop.>, .f. ,<.bold.>, <.italic.>, <.underline.>, <.strikeout.> , ;
       <(itemsource)> , <(valuesource)> , <.displaychange.> , ;
       <{ondisplaychangeprocedure}> , <.break.> , <grippertext> , <aImage> , <nValue>, ;
-      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, <imagelist>, <nItemHeight>, <bInit> )
+      <{onListdisplayprocedure}> , <{onListcloseprocedure}> , <backcolor> , <fontcolor>, ;
+      <imagelist>, <nItemHeight>, <bInit>, <.notrans.> )
 
 
 /*
@@ -306,15 +310,6 @@ ComboBox Extend Style
 
 #define CB_GETDROPPEDWIDTH          0x015f
 #define CB_SETDROPPEDWIDTH          0x0160
-
-
-#xtranslate ComboAddString ( <hWnd>, <s> ) ;
-=> ;
-SendMessageString( <hWnd>, CB_ADDSTRING, 0, <s> )
-
-#xtranslate ComboInsertString ( <hWnd>, <s>, <p> ) ;
-=> ;
-SendMessageString( <hWnd>, CB_INSERTSTRING, <p> - 1, <s> )
 
 #xtranslate ComboSetCurSel ( <hWnd>, <s> ) ;
 => ;

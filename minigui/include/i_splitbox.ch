@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -57,11 +57,11 @@
 
 * Alternate
 
-#xcommand DEFINE SPLITBOX ;
+#xcommand DEFINE SPLIT BOX ;
 	[ PARENT <parent> ] ;
-	[ BOTTOM <bottom> ]	;
+	[ BOTTOM <bottom> ] ;
 	[ HORIZONTAL <horizontal> ]	;
-	[ <dummy1: HANDLE, STOREIN> <hSplitWnd> ] ;
+	[ <dummy: HANDLE, STOREIN> <hSplitWnd> ] ;
 =>;
 	[ <hSplitWnd> := ] _DefineSplitBox ( <(parent)> , <.bottom.> , <.horizontal.> )
 

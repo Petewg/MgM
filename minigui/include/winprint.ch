@@ -401,14 +401,17 @@
 #define TA_RTLREADING                256
 #define TA_MASK       (TA_BASELINE+TA_CENTER+TA_UPDATECP+TA_RTLREADING)
 
+#ifndef SB_HORZ
+
 /*
  * Scroll Bar Constants
  */
-
 #define SB_HORZ             0
 #define SB_VERT             1
 #define SB_CTL              2
 #define SB_BOTH             3
+
+#endif
 
 /*
  * DrawText() Format Flags
@@ -465,12 +468,17 @@
 #endif
 
 /* Stock Logical Objects */
+#ifndef WHITE_BRUSH
+
 #define WHITE_BRUSH         0
 #define LTGRAY_BRUSH        1
 #define GRAY_BRUSH          2
 #define DKGRAY_BRUSH        3
 #define BLACK_BRUSH         4
 #define NULL_BRUSH          5
+
+#endif
+
 #define HOLLOW_BRUSH        NULL_BRUSH
 #define WHITE_PEN           6
 #define BLACK_PEN           7

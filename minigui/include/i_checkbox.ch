@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -170,8 +170,9 @@
 		[ HELPID <helpid> ] 		;
 		[ <invisible: INVISIBLE> ] ;
 		[ <notabstop: NOTABSTOP> ] ;
+		[ <notrans: NOTRANSPARENT>];
 	=>;
-	_DefineImageCheckButton ( <(name)>, <(parent)>, <col>, <row>, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId> )
+	_DefineImageCheckButton ( <(name)>, <(parent)>, <col>, <row>, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , [<w>] , [<h>] , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId>, <.notrans.> )
 
 
 #command REDEFINE CHECKBUTTON <name> ;
@@ -186,5 +187,6 @@
     [ HELPID <helpid> ]         ;
     [ <invisible: INVISIBLE> ] ;
     [ <notabstop: NOTABSTOP> ] ;
+    [ <notrans: NOTRANSPARENT>];
     =>;
-	_DefineImageCheckButton ( <(name)>, <(parent)>, 0, 0, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId> )
+	_DefineImageCheckButton ( <(name)>, <(parent)>, 0, 0, <bitmap>, <value> ,"" ,0 , <tooltip> , <{change}> , 0 , 0 , <{lostfocus}>, <{gotfocus}> , <helpid>, <.invisible.>, <.notabstop.>, <nId>, <.notrans.> )

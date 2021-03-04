@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -45,26 +45,28 @@
 
 ---------------------------------------------------------------------------*/
 
-#define YELLOW		{ 255 , 255 ,   0 }	
-#define PINK		{ 255 , 128 , 192 }
-#define RED		{ 255 ,   0 ,   0 }
-#define FUCHSIA		{ 255 ,   0 , 255 }
-#define BROWN		{ 128 ,  64 ,  64 }
-#define ORANGE		{ 255 , 128 ,  64 }
-#define GREEN		{   0 , 255 ,   0 }
-#define PURPLE		{ 128 ,   0 , 128 }
-#define BLACK		{   0 ,   0 ,   0 }
-#define WHITE		{ 255 , 255 , 255 }
-#define GRAY		{ 128 , 128 , 128 }
-#define BLUE		{   0 ,   0 , 255 }
-
-#define SILVER		{ 192 , 192 , 192 }
-#define MAROON		{ 128 ,   0 ,   0 }
-#define OLIVE		{ 128 , 128 ,   0 }
-#define LGREEN		{   0 , 128 ,   0 }
-#define AQUA		{   0 , 255 , 255 }
-#define NAVY		{   0 ,   0 , 128 }
-#define TEAL		{   0 , 128 , 128 }
+#define AQUA      {   0 , 255 , 255 }
+#define BLACK     {   0 ,   0 ,   0 }
+#define BLUE      {   0 ,   0 , 255 }
+#define BROWN     { 128 ,  64 ,  64 }
+#define CYAN      { 153 , 217 , 234 }
+#define FUCHSIA   { 255 ,   0 , 255 }
+#define GRAY      { 128 , 128 , 128 }
+#define GREY      { 128 , 128 , 128 }
+#define GREEN     {   0 , 255 ,   0 }
+#define LGREEN    {   0 , 128 ,   0 }
+#define LIME      { 191,  255 ,   0 }
+#define MAROON    { 128 ,   0 ,   0 }
+#define NAVY      {   0 ,   0 , 128 }
+#define OLIVE     { 128 , 128 ,   0 }
+#define ORANGE    { 255 , 128 ,  64 }
+#define PINK      { 255 , 128 , 192 }
+#define PURPLE    { 128 ,   0 , 128 }
+#define RED       { 255 ,   0 ,   0 }
+#define SILVER    { 192 , 192 , 192 }
+#define TEAL      {   0 , 128 , 128 }
+#define WHITE     { 255 , 255 , 255 }
+#define YELLOW    { 255 , 255 ,   0 }
 
 /*
  Basic Numerical

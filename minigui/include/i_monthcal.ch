@@ -35,7 +35,7 @@
 	www - https://harbour.github.io/
 
 	"Harbour Project"
-	Copyright 1999-2020, https://harbour.github.io/
+	Copyright 1999-2021, https://harbour.github.io/
 
 	"WHAT32"
 	Copyright 2002 AJ Wos <andrwos@aust1.net> 
@@ -165,6 +165,27 @@
 
 #define MCM_SETFIRSTDAYOFWEEK (MCM_FIRST + 15)
 #define MCM_GETFIRSTDAYOFWEEK (MCM_FIRST + 16)
+
+#undef NTDDI_VERSION
+#define NTDDI_VERSION         0x06000000
+
+// Month Calendar View is only available starting Windows Vista
+#if ( NTDDI_VERSION >= 0x06000000 )
+#define MCMV_MONTH 0
+#define MCMV_YEAR 1
+#define MCMV_DECADE 2
+#define MCMV_CENTURY 3
+
+#define MCM_GETCURRENTVIEW (MCM_FIRST+22)
+#xtranslate GetMonthCalView ( <hWnd> ) ;
+=> ;
+SendMessage( <hWnd>, MCM_GETCURRENTVIEW, 0, 0 )
+
+#define MCM_SETCURRENTVIEW (MCM_FIRST+32)
+#xtranslate SetMonthCalView ( <hWnd>, <NewView> ) ;
+=> ;
+SendMessage( <hWnd>, MCM_SETCURRENTVIEW, 0, <NewView> )
+#endif
 
 #xtranslate SetMonthCalBkColor ( <hWnd>, <r>, <g>, <b> ) ;
 => ;
