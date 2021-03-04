@@ -56,7 +56,7 @@ HB_FUNC( MGM_SUSPENDMONITOR )
  * mgm_SuspendSystem( [<lHibernate>] ) -> lSuccess
  * Suspends the system by shutting power down. 
  * Depending on the optional lHibernate parameter, the system 
- * either enters a suspend (sleep) state or hibernation (S4). 
+ * enters either a suspend (sleep) state or hibernation (S4). 
  * https://msdn.microsoft.com/en-us/library/windows/desktop/aa373201(v=vs.85).aspx
  * Copyright 2017 Pete D. <pete_westg / at / yahoo.gr>
  */

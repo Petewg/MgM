@@ -9,7 +9,7 @@
     - version 1.0 - 2016-07-30
     - TODO: add (optional) icon & sound
 */
-#define cFormName "_MGM_WAIT_WINDOW_"
+#define cFormName "__MGM_WAIT_WINDOW_"
 FUNCTION mgm_WaitWindow( acMessage, lNoWait, aBackColor, aForeColor, lTone )
    // LOCAL cFormName := "_MGM_WAIT_WINDOW_"
    LOCAL nWidth, nHeight, aMsg, bInit, cMessage

@@ -1,0 +1,9 @@
+Harbour 3.2.0dev (r2006301601)
+Copyright (c) 1999-2020, https://harbour.github.io/
+Compiling 'h_mgm_Misc.prg'...
+Lines 29610, Functions/Procedures 3
+Generating C source output to 'I:\_Tmps\User_tmp\hbmk_6btqtk.dir\h_mgm_Misc.c'... Done.
+Compiling 'h_mgm_winProcess.prg'...
+Lines 568, Functions/Procedures 5
+Generating C source output to 'I:\_Tmps\User_tmp\hbmk_6btqtk.dir\h_mgm_winProcess.c'... Done.
+

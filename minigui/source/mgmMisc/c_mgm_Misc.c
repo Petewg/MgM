@@ -2,9 +2,6 @@
  * MgM C-functions
  * Copyright 2016-2017 Pete D.
  *
- *    EnumWindows() -> aArray filled with handles of all top-level windows
- *    EnumChildWindows( hWnd ) --> aArray filled with handles of all child windows
- *
  *    GetWindowThreadProcessId( hWnd, @nProcessID ) -> nThreadID
  *    GetProcessFullName ( [ nProcessID ] ) --> return cProcessFullName
  *
@@ -153,7 +150,8 @@ double GetCpuSpeed( short nMode, DWORD msDuration )
 HB_FUNC( GETCPUSPEED )
 {
    short nMode = hb_parnidef(1, 1);
-   hb_retnd( GetCpuSpeed( nMode, 100 ) ); // `100` is the cpu-stress in milliseconds;
+   DWORD nMils = hb_parnidef(2, 100);
+   hb_retnd( GetCpuSpeed( nMode, nMils ) ); // `100` is the cpu-stress in milliseconds;
                                           // maybe it should increased to return more accurate result,
                                           // but it'd suspend (freeze) system for quite a perceptible time.
 }

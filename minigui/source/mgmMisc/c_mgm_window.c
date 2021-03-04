@@ -1,3 +1,13 @@
+ /*
+ * MgM C-functions
+ * Copyright 2016-2017 Pete D.
+ *
+ *    EnumWindows() -> aArray filled with handles of all top-level windows
+ *    mgm_EnumChildWindows( hWnd ) --> aArray filled with handles of all child windows
+ *
+ *    mgm_CenterWin2Win( hwndChild, hwndParent )
+ */
+ 
 #include <mgdefs.h>
 
 #include <windows.h>
@@ -81,8 +91,7 @@ HB_FUNC( MGM_CENTERWIN2WIN )
 }
 
 
-/* ************************ Windows Enumeration and Process functions ************ */
-
+/* Windows Enumeration and Process functions */ 
 BOOL CALLBACK EnumWindowsProc( HWND hWnd, LPARAM pArray )
 {
    PHB_ITEM pItem = hb_itemPutNLL( NULL, (LONG_PTR) hWnd );
@@ -92,7 +101,7 @@ BOOL CALLBACK EnumWindowsProc( HWND hWnd, LPARAM pArray )
 }
 
 /* EnumWindows() -> aArray filled with handles of all top-level windows */
-HB_FUNC ( ENUMWINDOWS )
+HB_FUNC ( MGM_ENUMWINDOWS )
 {
    PHB_ITEM pArray = hb_itemArrayNew ( 0 );
    EnumWindows( (WNDENUMPROC) EnumWindowsProc, (LPARAM) pArray);
@@ -100,8 +109,8 @@ HB_FUNC ( ENUMWINDOWS )
    pArray = NULL;
 }
 
-/* EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows */
-HB_FUNC( ENUMCHILDWINDOWS )
+/* mgm_EnumChildWindows( hWnd ) -> aArray filled with handles of all child windows */
+HB_FUNC( MGM_ENUMCHILDWINDOWS )
 {
    HWND hWnd = (HWND) hb_parnl (1); 
    PHB_ITEM pArray = hb_itemArrayNew ( 0 );
