@@ -1,6 +1,6 @@
-### MinGW GNU C 7.2.0 (i686-win32-sjlj-rev1) complete toolset   
+### MinGW 10.2.0 (Rev1, Built by MSYS2 project) complete toolset   
  
- [Built by MinGW-W64 project](http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/7.2.0/threads-win32/sjlj/)   
+ [Built by MSYS2 project](https://www.msys2.org/)   
     
   **Self-extracting archive.**  
    - download all archives and run it to unzip.
