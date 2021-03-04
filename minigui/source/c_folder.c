@@ -38,7 +38,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -77,10 +77,13 @@
 extern PWORD   CreateDlgTemplate( long lTemplateSize, PHB_ITEM dArray, PHB_ITEM cArray );
 extern long    GetSizeDlgTemp( PHB_ITEM dArray, PHB_ITEM cArray );
 
-extern HB_PTRUINT wapi_GetProcAddress( HMODULE hmodule, LPCTSTR lpProcName );
+extern HB_PTRUINT wapi_GetProcAddress( HMODULE hModule, const char * lpProcName );
 
 typedef BOOL ( WINAPI * fnIsAppThemed )( void );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -163,7 +166,7 @@ typedef struct _FLHNOTIFY
 
 VOID WINAPI FLD_FolderInit( HWND hWndDlg, FLDHDRINFO * pFhi );
 DLGTEMPLATE * WINAPI FLD_SetStyleDlgRes( DLGTEMPLATE * pTemplate, DWORD resSize );
-DLGTEMPLATE * WINAPI FLD_LockDlgRes( LPCSTR lpszResName );
+DLGTEMPLATE * WINAPI FLD_LockDlgRes( TCHAR * lpszResName );
 BOOL WINAPI IsAppThemed( void );
 VOID WINAPI       FLD_SelChanged( HWND hWndDlg );
 VOID WINAPI       FLD_ChildDialogInit( HWND hWndDlg, HWND hWndParent, int idrc );
@@ -331,9 +334,9 @@ HB_FUNC( CREATEFOLDERPAGEINDIRECT )
    DLGTEMPLATE * pdlgtemplate;
    FLDPAGEINFO * pfpi = ( FLDPAGEINFO * ) LocalAlloc( LPTR, sizeof( FLDPAGEINFO ) );
 
-   char * strTitle;
-   int    idRC, PageStyle;
-   char * ImageName;
+   TCHAR * strTitle;
+   TCHAR * ImageName;
+   int     idRC, PageStyle;
 
    PHB_ITEM sArray;
    PHB_ITEM dArray;
@@ -348,10 +351,18 @@ HB_FUNC( CREATEFOLDERPAGEINDIRECT )
    pdlgtemplate  = ( DLGTEMPLATE * ) CreateDlgTemplate( lTemplateSize, dArray, cArray );
    ZeroMemory( pfpi, sizeof( FLDPAGEINFO ) );
 
-   strTitle  = ( char * ) hb_arrayGetCPtr( sArray, 1 );  // Tab Title
+   #ifndef UNICODE
+   strTitle  = ( TCHAR * ) hb_arrayGetCPtr( sArray, 1 );  // Tab Title
+   #else
+   strTitle  = ( TCHAR * ) AnsiToWide( ( char * ) hb_arrayGetCPtr( sArray, 1 ) );  // Tab Title
+   #endif
    idRC      = hb_arrayGetNI( sArray, 2 );               // Id Dialog resource
    PageStyle = hb_arrayGetNI( sArray, 3 );               // Page Style
-   ImageName = ( char * ) hb_arrayGetCPtr( sArray, 4 );
+   #ifndef UNICODE
+   ImageName = ( TCHAR * ) hb_arrayGetCPtr( sArray, 4 );
+   #else
+   ImageName = ( TCHAR * ) AnsiToWide( ( char * ) hb_arrayGetCPtr( sArray, 4 ) );
+   #endif
 
    pfpi->dwFlags  = PageStyle;
    pfpi->pszText  = strTitle;
@@ -359,7 +370,7 @@ HB_FUNC( CREATEFOLDERPAGEINDIRECT )
    pfpi->apRes    = ( DLGTEMPLATE * ) pdlgtemplate;
    pfpi->hwndPage = 0;
    pfpi->isDirty  = FALSE;
-   if( strlen( ImageName ) )
+   if( lstrlen( ImageName ) )
    {
       pfpi->hasIcon     = TRUE;
       pfpi->pszTemplate = ImageName;
@@ -376,27 +387,35 @@ HB_FUNC( CREATEFOLDERPAGE )
    FLDPAGEINFO * pfpi = ( FLDPAGEINFO * ) LocalAlloc( LPTR, sizeof( FLDPAGEINFO ) );
 
    PHB_ITEM sArray;
-   char *   strTitle;
+   TCHAR *  strTitle;
+   TCHAR *  caption;
    int      idRC, PageStyle;
-   char *   caption;
 
    sArray = hb_param( 1, HB_IT_ARRAY );
 
    ZeroMemory( pfpi, sizeof( FLDPAGEINFO ) );
 
-   strTitle          = ( char * ) hb_arrayGetCPtr( sArray, 1 ); // Caption
+   #ifndef UNICODE
+   strTitle          = ( TCHAR * ) hb_arrayGetCPtr( sArray, 1 ); // Caption
+   #else
+   strTitle          = ( TCHAR * ) AnsiToWide( ( char * ) hb_arrayGetCPtr( sArray, 1 ) ); // Caption
+   #endif
    idRC              = hb_arrayGetNI( sArray, 2 );              // Id Dialog resource
    PageStyle         = hb_arrayGetNI( sArray, 3 );              // Page Style
-   caption           = ( char * ) hb_arrayGetCPtr( sArray, 4 ); // Page Image
+   #ifndef UNICODE
+   caption           = ( TCHAR * ) hb_arrayGetCPtr( sArray, 4 ); // Page Image
+   #else
+   caption           = ( TCHAR * ) AnsiToWide( ( char * ) hb_arrayGetCPtr( sArray, 4 ) ); // Page Image
+   #endif
    pfpi->dwFlags     = PageStyle;
    pfpi->pszTemplate = MAKEINTRESOURCE( idRC );
    pfpi->pszText     = strTitle;
    pfpi->idrc        = idRC;
 
-   pfpi->apRes    = FLD_LockDlgRes( MAKEINTRESOURCE( idRC ) );
+   pfpi->apRes    = FLD_LockDlgRes( ( TCHAR * ) MAKEINTRESOURCE( idRC ) );
    pfpi->hwndPage = 0;
    pfpi->isDirty  = FALSE;
-   if( strlen( caption ) )
+   if( lstrlen( caption ) )
    {
       pfpi->hasIcon     = TRUE;
       pfpi->pszTemplate = caption;
@@ -411,7 +430,7 @@ HB_FUNC( CREATEFOLDERPAGE )
 HB_FUNC( CREATEDLGFOLDER )
 {
    HFLDPAGEINFO * hfpi;
-   FLDHDRINFO *   pFhi      = ( FLDHDRINFO * ) LocalAlloc( LPTR, sizeof( FLDHDRINFO ) );
+   FLDHDRINFO *   pFhi = ( FLDHDRINFO * ) LocalAlloc( LPTR, sizeof( FLDHDRINFO ) );
    DWORD          dwDlgBase = GetDialogBaseUnits();
    int baseunitX = LOWORD( dwDlgBase ), baseunitY = HIWORD( dwDlgBase );
    LPDLGTEMPLATE pdlgtemplate;
@@ -672,7 +691,7 @@ VOID WINAPI FLD_FolderInit( HWND hWndDlg, FLDHDRINFO * pFhi )
 
    // Create the tab control.
    InitCommonControls();
-   pFhi->hwndTab = CreateWindow( WC_TABCONTROL, "", Style, 0, 0, 100, 100, hWndDlg, NULL, GetInstance(), NULL );
+   pFhi->hwndTab = CreateWindow( WC_TABCONTROL, TEXT( "" ), Style, 0, 0, 100, 100, hWndDlg, NULL, GetInstance(), NULL );
 
    if( pFhi->hwndTab == NULL )
       MessageBox
@@ -891,7 +910,7 @@ DLGTEMPLATE * WINAPI FLD_SetStyleDlgRes( DLGTEMPLATE * pTemplate, DWORD resSize 
 // Returns the address of the locked resource.
 // lpszResName - name of the resource
 //-----------------------------------------------------------------
-DLGTEMPLATE * WINAPI FLD_LockDlgRes( LPCSTR lpszResName )
+DLGTEMPLATE * WINAPI FLD_LockDlgRes( TCHAR * lpszResName )
 {
    DLGTEMPLATE * pTemplate;
    DWORD         resSize;

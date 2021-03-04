@@ -31,18 +31,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
@@ -52,53 +52,106 @@
 
 #include <shellapi.h>
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
+
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
+
+// Minigui Resources control system
+void RegisterResource( HANDLE hResource, LPSTR szType );
+void pascal DelResource( HANDLE hResource );
 
 // HICON WINAPI CopyIcon( HICON hIcon )
 HB_FUNC( COPYICON )
 {
-   HB_RETNL( ( LONG_PTR ) CopyIcon( ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) ) );
+   HICON hIcon;
+
+   hIcon = CopyIcon( ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) );
+
+   RegisterResource( hIcon, "ICON" );
+   HB_RETNL( ( LONG_PTR ) hIcon );
 }
 
 // BOOL WINAPI DestroyIcon( HICON hIcon )
 HB_FUNC( DESTROYICON )
 {
-   hb_retl( DestroyIcon( ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) ) );
+   HICON hIcon = ( HICON ) ( LONG_PTR ) HB_PARNL( 1 );
+
+   DelResource( hIcon );
+   hb_retl( DestroyIcon( hIcon ) );
 }
 
 // HICON WINAPI DuplicateIcon( HINSTANCE hInst, HICON hIcon )
 HB_FUNC( DUPLICATEICON )
 {
-   HB_RETNL( ( LONG_PTR ) DuplicateIcon( ( HINSTANCE ) NULL, ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) ) );
+   HICON hIcon;
+
+   hIcon = DuplicateIcon( ( HINSTANCE ) NULL, ( HICON ) ( LONG_PTR ) HB_PARNL( 1 ) );
+
+   RegisterResource( hIcon, "ICON" );
+   HB_RETNL( ( LONG_PTR ) hIcon );
 }
 
 // HICON LoadIcon( HINSTANCE hInstance, LPCTSTR lpIconName )
 HB_FUNC( LOADICON )
 {
    HINSTANCE hinstance = ( HB_ISNIL( 1 ) ? NULL : ( HINSTANCE ) ( LONG_PTR ) HB_PARNL( 1 ) );
+   HICON     hIcon;
 
-   HB_RETNL( ( LONG_PTR ) LoadIcon( hinstance, HB_ISCHAR( 2 ) ? hb_parc( 2 ) : MAKEINTRESOURCE( hb_parni( 2 ) ) ) );
+#ifndef UNICODE
+   hIcon = LoadIcon( hinstance, HB_ISCHAR( 2 ) ? hb_parc( 2 ) : MAKEINTRESOURCE( hb_parni( 2 ) ) );
+#else
+   LPWSTR  pW = AnsiToWide( ( char * ) hb_parc( 2 ) );
+   hIcon = LoadIcon( hinstance, HB_ISCHAR( 2 ) ? pW : ( LPCWSTR ) MAKEINTRESOURCE( hb_parni( 2 ) ) );
+#endif
+
+   RegisterResource( hIcon, "ICON" );
+   HB_RETNL( ( LONG_PTR ) hIcon );
+
+#ifdef UNICODE
+   hb_xfree( pW );
+#endif
 }
 
 // HICON ExtractIcon( HINSTANCE hInst, LPCTSTR lpszExeFileName, UINT nIconIndex )
 HB_FUNC( EXTRACTICON )
 {
-   HB_RETNL( ( LONG_PTR ) ExtractIcon( GetInstance(), hb_parc( 1 ), ( UINT ) hb_parni( 2 ) ) );
+   HICON hIcon;
+
+#ifndef UNICODE
+   hIcon = ExtractIcon( GetInstance(), hb_parc( 1 ), ( UINT ) hb_parni( 2 ) );
+#else
+   LPWSTR  pW = AnsiToWide( ( char * ) hb_parc( 1 ) );
+   hIcon = ExtractIcon( GetInstance(), pW, ( UINT ) hb_parni( 2 ) );
+#endif
+
+   RegisterResource( hIcon, "ICON" );
+   HB_RETNL( ( LONG_PTR ) hIcon );
+
+#ifdef UNICODE
+   hb_xfree( pW );
+#endif
 }
 
 // UINT ExtractIconEx( LPCTSTR lpszFile, int nIconIndex, HICON *phiconLarge, HICON *phiconSmall, UINT nIcons )
 HB_FUNC( EXTRACTICONEX )
 {
+#ifndef UNICODE
+   char * lpFileName = ( char * ) hb_parc( 1 );
+#else
+   LPWSTR lpFileName = AnsiToWide( ( char * ) hb_parc( 1 ) );
+#endif
    int nIconIndex = hb_parni( 2 );
 
    if( nIconIndex == -1 )
-      hb_retni( ExtractIconEx( hb_parc( 1 ), -1, NULL, NULL, 0 ) );
+      hb_retni( ExtractIconEx( lpFileName, -1, NULL, NULL, 0 ) );
    else
    {
       // TODO
       HICON hIconLarge, hIconSmall;
-      UINT  nIconCount = ExtractIconEx( hb_parc( 1 ), nIconIndex, &hIconLarge, &hIconSmall, 1 );
+      UINT  nIconCount = ExtractIconEx( lpFileName, nIconIndex, &hIconLarge, &hIconSmall, 1 );
 
       if( nIconCount > 0 )
       {
@@ -108,6 +161,10 @@ HB_FUNC( EXTRACTICONEX )
          HB_STORVNL( ( LONG_PTR ) hIconSmall, -1, 2 );
       }
    }
+
+#ifdef UNICODE
+   hb_xfree( lpFileName );
+#endif
 }
 
 HB_FUNC( LOADICONBYNAME )
@@ -116,7 +173,11 @@ HB_FUNC( LOADICONBYNAME )
 
    if( hb_parclen( 1 ) > 0 )
    {
+#ifndef UNICODE
       const char * pszResOrFile = hb_parc( 1 );
+#else
+      LPCWSTR pszResOrFile = AnsiToWide( ( char * ) hb_parc( 1 ) );
+#endif
       int          cxDesired    = hb_parni( 2 );
       int          cyDesired    = hb_parni( 3 );
       HINSTANCE    hInstance    = HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : GetResources();
@@ -125,6 +186,9 @@ HB_FUNC( LOADICONBYNAME )
 
       if( hIcon == NULL )
          hIcon = ( HICON ) LoadImage( 0, pszResOrFile, IMAGE_ICON, cxDesired, cyDesired, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+
+      if( hIcon != NULL )
+         RegisterResource( hIcon, "ICON" );
    }
 
    HB_RETNL( ( LONG_PTR ) hIcon );
@@ -145,7 +209,10 @@ HB_FUNC( DRAWICONEX )
       DeleteObject( hbrFlickerFreeDraw );
 
       if( hb_parldef( 8, HB_TRUE ) )
+      {
+         DelResource( hIcon );
          DestroyIcon( hIcon );
+      }
 
       ReleaseDC( hwnd, hdc );
    }

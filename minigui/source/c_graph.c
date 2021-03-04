@@ -30,23 +30,28 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
+
 #include <commctrl.h>
+
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -78,6 +83,11 @@ HB_FUNC( TEXTDRAW )
       DWORD underline = ( DWORD ) hb_parl( 13 );
       DWORD strikeout = ( DWORD ) hb_parl( 14 );
       DWORD angle     = hb_parnl( 16 );
+#ifndef UNICODE
+      LPCSTR  lpString = hb_parc( 4 );
+#else
+      LPCWSTR lpString = AnsiToWide( ( char * ) hb_parc( 4 ) );
+#endif
 
       HFONT    font;
       HGDIOBJ  hgdiobj;
@@ -105,7 +115,7 @@ HB_FUNC( TEXTDRAW )
 
       SetRect( &rect, hb_parni( 3 ), hb_parni( 2 ), hb_parni( 6 ), hb_parni( 5 ) );
 
-      hb_retl( ExtTextOut( hDC, hb_parni( 3 ), hb_parni( 2 ), ETO_OPAQUE, &rect, hb_parc( 4 ), hb_parclen( 4 ), NULL )
+      hb_retl( ExtTextOut( hDC, hb_parni( 3 ), hb_parni( 2 ), ETO_OPAQUE, &rect, lpString, ( UINT ) hb_parclen( 4 ), NULL )
                ? HB_TRUE : HB_FALSE );
 
       SelectObject( hDC, hgdiobj );
@@ -336,7 +346,7 @@ HB_FUNC( POLYGONDRAW )
    HBRUSH   hbrush;
    LOGBRUSH br;
    POINT    apoints[ 1024 ];
-   int      number = hb_parinfa( 2, 0 );
+   int      number = ( int ) hb_parinfa( 2, 0 );
    int      i;
 
    hWnd1    = ( HWND ) HB_PARNL( 1 );

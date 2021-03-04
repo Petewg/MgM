@@ -35,7 +35,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -57,6 +57,9 @@
 HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transparent, int * nWidth, int * nHeight );
 void HMG_ImageListAdd( HIMAGELIST himl, char * FileName, int Transparent );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -93,7 +96,7 @@ HB_FUNC( INITCOMBOBOX )
    hbutton = CreateWindow
              (
       WC_COMBOBOX,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -143,7 +146,7 @@ HB_FUNC( INITCOMBOBOXEX )
             (
       0,
       WC_COMBOBOXEX,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -161,6 +164,7 @@ HB_FUNC( INITCOMBOBOXEX )
 
    if( nCount > 0 )
    {
+      int Transparent = hb_parl( 7 ) ? 0 : 1;
       hArray = hb_param( 14, HB_IT_ARRAY );
 
       for( s = 1; s <= nCount; s++ )
@@ -168,9 +172,9 @@ HB_FUNC( INITCOMBOBOXEX )
          FileName = ( char * ) hb_arrayGetCPtr( hArray, s );
 
          if( himl == NULL )
-            himl = HMG_ImageListLoadFirst( FileName, nCount, 1, NULL, NULL );
+            himl = HMG_ImageListLoadFirst( FileName, nCount, Transparent, NULL, NULL );
          else
-            HMG_ImageListAdd( himl, FileName, 1 );
+            HMG_ImageListAdd( himl, FileName, Transparent );
       }
    }
 
@@ -257,15 +261,40 @@ HB_FUNC( COMBOGETSTRING )
    }
 }
 
+HB_FUNC( COMBOADDSTRING )
+{
+#ifndef UNICODE
+   LPTSTR lpString = ( LPTSTR ) hb_parc( 2 );
+#else
+   LPWSTR lpString = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
+   SendMessage( ( HWND ) HB_PARNL( 1 ), CB_ADDSTRING, 0, ( LPARAM ) lpString );
+}
+
+HB_FUNC( COMBOINSERTSTRING )
+{
+#ifndef UNICODE
+   LPTSTR lpString = ( LPTSTR ) hb_parc( 2 );
+#else
+   LPWSTR lpString = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
+   SendMessage( ( HWND ) HB_PARNL( 1 ), CB_INSERTSTRING, hb_parni( 3 ) - 1, ( LPARAM ) lpString );
+}
+
 // extend combo functions  (JK)  HMG 1.0 Exp. Build 8
 HB_FUNC( COMBOADDSTRINGEX )
 {
+#ifndef UNICODE
+   LPTSTR lpText = ( LPTSTR ) hb_parc( 2 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
    int nImage = hb_parni( 3 );
    COMBOBOXEXITEM cbei;
 
    cbei.mask           = CBEIF_TEXT | CBEIF_INDENT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_OVERLAY;
    cbei.iItem          = -1;
-   cbei.pszText        = ( LPTSTR ) hb_parc( 2 );            /* P.Ch. 16.10. */
+   cbei.pszText        = lpText;
    cbei.cchTextMax     = ( int ) hb_parclen( 2 );
    cbei.iImage         = ( nImage - 1 ) * 3;
    cbei.iSelectedImage = ( nImage - 1 ) * 3 + 1;
@@ -277,12 +306,17 @@ HB_FUNC( COMBOADDSTRINGEX )
 
 HB_FUNC( COMBOINSERTSTRINGEX )
 {
+#ifndef UNICODE
+   LPTSTR lpText = ( LPTSTR ) hb_parc( 2 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
    int nImage = hb_parni( 3 );
    COMBOBOXEXITEM cbei;
 
    cbei.mask           = CBEIF_TEXT | CBEIF_INDENT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_OVERLAY;
    cbei.iItem          = hb_parni( 4 ) - 1;
-   cbei.pszText        = ( LPTSTR ) hb_parc( 2 );            /* P.Ch. 16.10. */
+   cbei.pszText        = lpText;
    cbei.cchTextMax     = ( int ) hb_parclen( 2 );
    cbei.iImage         = ( nImage - 1 ) * 3;
    cbei.iSelectedImage = ( nImage - 1 ) * 3 + 1;
@@ -294,11 +328,16 @@ HB_FUNC( COMBOINSERTSTRINGEX )
 
 HB_FUNC( COMBOADDDATASTRINGEX )
 {
+#ifndef UNICODE
+   LPTSTR lpText = ( LPTSTR ) hb_parc( 2 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
    COMBOBOXEXITEM cbei;
 
    cbei.mask           = CBEIF_TEXT | CBEIF_INDENT | CBEIF_IMAGE | CBEIF_SELECTEDIMAGE | CBEIF_OVERLAY;
    cbei.iItem          = -1;
-   cbei.pszText        = ( LPTSTR ) hb_parc( 2 );            /* P.Ch. 16.10. */
+   cbei.pszText        = lpText;
    cbei.cchTextMax     = ( int ) hb_parclen( 2 );
    cbei.iImage         = 0;
    cbei.iSelectedImage = 1;

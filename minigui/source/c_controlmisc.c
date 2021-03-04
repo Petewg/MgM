@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -51,10 +51,16 @@
 
 #include <commctrl.h>
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
+void pascal DelResource( HANDLE hResource );
+
+
 #ifndef HMG_LEGACY_OFF
- #if ! defined( __MINGW32__ ) && ! defined( __XHARBOUR__ ) && ( ( __HARBOUR__ - 0 ) > 0x020000 )
-   HB_FUNC_TRANSLATE( HB_SETCODEPAGE, HB_CDPSELECT )
- #endif
+#if ! defined( __MINGW32__ ) && ! defined( __XHARBOUR__ ) && ( __HARBOUR__ - 0 > 0x020000 ) && ( __HARBOUR__ - 0 < 0x030200 )
+HB_FUNC_TRANSLATE( HB_SETCODEPAGE, HB_CDPSELECT )
+#endif
 #endif /* HMG_LEGACY_OFF */
 
 HB_FUNC( MAKELONG )
@@ -69,12 +75,23 @@ HB_FUNC( _ENABLESCROLLBARS )
 
 HB_FUNC( DELETEOBJECT )
 {
-   hb_retl( DeleteObject( ( HGDIOBJ ) HB_PARNL( 1 ) ) );
+   HANDLE hRes = ( HANDLE ) HB_PARNL( 1 );
+
+   if( hRes )
+   {
+      DelResource( hRes );
+      hb_retl( DeleteObject( ( HGDIOBJ ) hRes ) );
+   }
+   else
+      hb_retl( HB_FALSE );
 }
 
 HB_FUNC( IMAGELIST_DESTROY )
 {
-   hb_retl( ImageList_Destroy( ( HIMAGELIST ) HB_PARNL( 1 ) ) );
+   HIMAGELIST himl = ( HIMAGELIST ) HB_PARNL( 1 );
+
+   DelResource( himl );
+   hb_retl( ImageList_Destroy( himl ) );
 }
 
 HB_FUNC( SETFOCUS )
@@ -122,6 +139,11 @@ HB_FUNC( GETTEXTWIDTH ) // returns the width of a string in pixels
    HFONT hFont      = ( HFONT ) HB_PARNL( 3 );
    HFONT hOldFont   = ( HFONT ) NULL;
    SIZE  sz;
+#ifndef UNICODE
+   LPCSTR  lpString = hb_parc( 2 );
+#else
+   LPCWSTR lpString = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    if( ! hDC )
    {
@@ -133,7 +155,7 @@ HB_FUNC( GETTEXTWIDTH ) // returns the width of a string in pixels
    if( hFont )
       hOldFont = ( HFONT ) SelectObject( hDC, hFont );
 
-   GetTextExtentPoint32( hDC, hb_parc( 2 ), hb_parclen( 2 ), &sz );
+   GetTextExtentPoint32( hDC, lpString, ( int ) lstrlen( lpString ), &sz );
 
    if( hFont )
       SelectObject( hDC, hOldFont );
@@ -208,10 +230,10 @@ HB_FUNC( CREATECARET )
  */
 HB_FUNC( CHANGESTYLE )
 {
-   HWND     hWnd     = ( HWND ) HB_PARNL( 1 );
-   LONG_PTR dwAdd    = ( LONG_PTR ) HB_PARNL( 2 );
+   HWND     hWnd = ( HWND ) HB_PARNL( 1 );
+   LONG_PTR dwAdd = ( LONG_PTR ) HB_PARNL( 2 );
    LONG_PTR dwRemove = ( LONG_PTR ) HB_PARNL( 3 );
-   int      iStyle   = hb_parl( 4 ) ? GWL_EXSTYLE : GWL_STYLE;
+   int      iStyle = hb_parl( 4 ) ? GWL_EXSTYLE : GWL_STYLE;
    LONG_PTR dwStyle, dwNewStyle;
 
    dwStyle    = GetWindowLongPtr( hWnd, iStyle );

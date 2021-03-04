@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -95,7 +95,7 @@ HB_FUNC( INITMASKEDTEXTBOX )
              (
       ExStyle,
       WC_EDIT,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -156,7 +156,7 @@ HB_FUNC( INITTEXTBOX )
            (
       iExStyle,
       WC_EDIT,
-      "",
+      TEXT( "" ),
       iStyle,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -170,7 +170,7 @@ HB_FUNC( INITTEXTBOX )
 
    SendMessage( hedit, ( UINT ) EM_LIMITTEXT, ( WPARAM ) hb_parni( 9 ), ( LPARAM ) 0 );
 
-   SetProp( ( HWND ) hedit, "oldeditproc", ( HWND ) GetWindowLongPtr( ( HWND ) hedit, GWLP_WNDPROC ) );
+   SetProp( ( HWND ) hedit, TEXT( "oldeditproc" ), ( HWND ) GetWindowLongPtr( ( HWND ) hedit, GWLP_WNDPROC ) );
    SetWindowLongPtr( hedit, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnEditProc );
 
    HB_RETNL( ( LONG_PTR ) hedit );
@@ -212,7 +212,7 @@ HB_FUNC( INITCHARMASKTEXTBOX )
              (
       ExStyle,
       WC_EDIT,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -233,13 +233,13 @@ LRESULT CALLBACK OwnEditProc( HWND hButton, UINT Msg, WPARAM wParam, LPARAM lPar
    long int        r;
    WNDPROC         OldWndProc;
 
-   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hButton, "oldeditproc" );
+   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hButton, TEXT( "oldeditproc" ) );
 
    switch( Msg )
    {
       case WM_DESTROY:
          SetWindowLongPtr( hButton, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OldWndProc );
-         RemoveProp( hButton, "oldeditproc" );
+         RemoveProp( hButton, TEXT( "oldeditproc" ) );
          break;
 
       case WM_CONTEXTMENU:

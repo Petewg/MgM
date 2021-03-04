@@ -30,24 +30,27 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
 
 #include <commctrl.h>
+#if defined( _MSC_VER )
+#pragma warning ( disable:4201 )
+#endif
 #include <richedit.h>
 
 #if defined ( __MINGW32__ ) && defined ( __MINGW32_VERSION )
@@ -62,10 +65,13 @@
 #if defined( MSFTEDIT_CLASS )
 # undef MSFTEDIT_CLASS
 #endif
-#define MSFTEDIT_CLASS     "RICHEDIT50W"
+#define MSFTEDIT_CLASS     TEXT( "RICHEDIT50W" )
 
 static BOOL IsWinxpSp1Min( void );
 
+#ifdef UNICODE
+   LPSTR  WideToAnsi( LPWSTR );
+#endif
 HINSTANCE GetInstance( void );
 
 static HINSTANCE hRELib = NULL;
@@ -74,7 +80,7 @@ HB_FUNC( INITRICHEDITBOX )
 {
    HWND   hRE = NULL;
    int    Style;
-   char * lpClassName;
+   TCHAR * lpClassName;
 
    Style = ES_MULTILINE | ES_WANTRETURN | WS_CHILD | ES_NOHIDESEL;
 
@@ -95,14 +101,14 @@ HB_FUNC( INITRICHEDITBOX )
    if( IsWinxpSp1Min() )
    {
       if( ! hRELib )
-         hRELib = LoadLibrary( "Msftedit.dll" );
+         hRELib = LoadLibrary( TEXT( "Msftedit.dll" ) );
 
       lpClassName = MSFTEDIT_CLASS;
    }
    else
    {
       if( ! hRELib )
-         hRELib = LoadLibrary( "RichEd20.dll" );
+         hRELib = LoadLibrary( TEXT( "RichEd20.dll" ) );
 
       lpClassName = RICHEDIT_CLASS;
    }
@@ -112,8 +118,8 @@ HB_FUNC( INITRICHEDITBOX )
       hRE = CreateWindowEx
             (
          WS_EX_CLIENTEDGE,
-         ( LPSTR ) lpClassName,
-         ( LPSTR ) NULL,
+         lpClassName,
+         TEXT( "" ),
          Style,
          hb_parni( 3 ),
          hb_parni( 4 ),
@@ -165,6 +171,11 @@ HB_FUNC( STREAMIN )        //StreamIn(HWND hwndCtrl, LPCTSTR lpszPath, int typ )
 {
    HWND       hwnd;
    HANDLE     hFile;
+#ifndef UNICODE
+   TCHAR *    cFileName = ( TCHAR * ) hb_parc( 2 );
+#else
+   TCHAR *    cFileName = ( TCHAR * ) hb_osStrU16Encode( hb_parc( 2 ) );
+#endif
    EDITSTREAM es;
    long       Flag, Mode;
 
@@ -181,7 +192,7 @@ HB_FUNC( STREAMIN )        //StreamIn(HWND hwndCtrl, LPCTSTR lpszPath, int typ )
    }
 
    // open the source file.
-   if( ( hFile = CreateFile( hb_parc( 2 ), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL ) ) == INVALID_HANDLE_VALUE )
+   if( ( hFile = CreateFile( cFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL ) ) == INVALID_HANDLE_VALUE )
    {
       hb_retl( FALSE );
       return;
@@ -207,6 +218,11 @@ HB_FUNC( STREAMOUT )       //StreamOut(HWND hwndCtrl, LPCTSTR lpszPath, int Typ 
 {
    HWND       hwnd;
    HANDLE     hFile;
+#ifndef UNICODE
+   TCHAR *    cFileName = ( TCHAR * ) hb_parc( 2 );
+#else
+   TCHAR *    cFileName = ( TCHAR * ) hb_osStrU16Encode( hb_parc( 2 ) );
+#endif
    EDITSTREAM es;
    long       Flag;
 
@@ -223,7 +239,7 @@ HB_FUNC( STREAMOUT )       //StreamOut(HWND hwndCtrl, LPCTSTR lpszPath, int Typ 
    }
 
    // open the destination file.
-   if( ( hFile = CreateFile( hb_parc( 2 ), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL ) ) == INVALID_HANDLE_VALUE )
+   if( ( hFile = CreateFile( cFileName, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL ) ) == INVALID_HANDLE_VALUE )
    {
       hb_retl( FALSE );
       return;
@@ -291,7 +307,7 @@ HB_FUNC( SETBKGNDCOLOR )   // SetBkgndColor(HWND hwnd, lSyscol, nRed, nGreen, nB
 
    lResult = SendMessage( ( HWND ) HB_PARNL( 1 ), ( UINT ) EM_SETBKGNDCOLOR, ( WPARAM ) syscol, ( LPARAM ) bkgcolor );
 
-   hb_retnl( lResult );
+   hb_retnl( ( LONG ) lResult );
 }
 
 HB_FUNC( GETFONTRTF )
@@ -303,6 +319,9 @@ HB_FUNC( GETFONTRTF )
    int        Underline;
    int        StrikeOut;
    int        SelText;
+#ifdef UNICODE
+   LPSTR pStr;
+#endif
 
    cF.cbSize = sizeof( CHARFORMAT );
    cF.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_SIZE;
@@ -321,7 +340,13 @@ HB_FUNC( GETFONTRTF )
    StrikeOut = ( cF.dwEffects & CFE_STRIKEOUT ) ? 1 : 0;
 
    hb_reta( 8 );
+#ifndef UNICODE
    HB_STORC( cF.szFaceName, -1, 1 );
+#else
+   pStr = WideToAnsi( cF.szFaceName );
+   HB_STORC( pStr, -1, 1 );
+   hb_xfree( pStr );
+#endif
    HB_STORVNL( ( LONG ) PointSize, -1, 2 );
    HB_STORL( bold, -1, 3 );
    HB_STORL( Italic, -1, 4 );
@@ -338,9 +363,14 @@ HB_FUNC( SETFONTRTF )
    DWORD      Mask;
    DWORD      Effects = 0;
    int        SelText = SCF_SELECTION;
+#ifndef UNICODE
+   TCHAR *    szFaceName = ( TCHAR * ) hb_parc( 3 );
+#else
+   TCHAR *    szFaceName = ( TCHAR * ) hb_osStrU16Encode( ( char * ) hb_parc( 3 ) );
+#endif
 
    cF.cbSize = sizeof( CHARFORMAT );
-   Mask      = SendMessage( ( HWND ) HB_PARNL( 1 ), EM_GETCHARFORMAT, ( WPARAM ) SelText, ( LPARAM ) &cF );
+   Mask      = ( DWORD ) SendMessage( ( HWND ) HB_PARNL( 1 ), EM_GETCHARFORMAT, ( WPARAM ) SelText, ( LPARAM ) &cF );
 
    if( hb_parni( 10 ) > 0 )
       Mask = hb_parni( 10 );
@@ -371,7 +401,7 @@ HB_FUNC( SETFONTRTF )
    cF.crTextColor = hb_parnl( 7 );
 
    if( hb_parclen( 3 ) > 0 )
-      lstrcpy( cF.szFaceName, hb_parc( 3 ) );
+      lstrcpy( cF.szFaceName, szFaceName );
 
    lResult = SendMessage( ( HWND ) HB_PARNL( 1 ), EM_SETCHARFORMAT, ( WPARAM ) SelText, ( LPARAM ) &cF );
 
@@ -381,9 +411,16 @@ HB_FUNC( SETFONTRTF )
       hb_retl( FALSE );
 }
 
+#if defined( _MSC_VER )
+#pragma warning ( disable:4996 )
+#endif
 static BOOL IsWinxpSp1Min( void )
 {
-   char *        pch;
+#ifndef UNICODE
+   LPCSTR        pch;
+#else
+   LPCWSTR       pch;
+#endif
    OSVERSIONINFO osvi;
 
    osvi.dwOSVersionInfoSize = sizeof( osvi );
@@ -397,8 +434,12 @@ static BOOL IsWinxpSp1Min( void )
          return FALSE;
       else if( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
       {
+#ifndef UNICODE
          pch = strstr( osvi.szCSDVersion, "Service Pack" );
-         if( lstrcmpi( pch, "Service Pack 1" ) >= 0 )
+#else
+         pch = _tcsstr( osvi.szCSDVersion, TEXT( "Service Pack" ) );
+#endif
+         if( lstrcmpi( pch, TEXT( "Service Pack 1" ) ) >= 0 )
             return TRUE;
          else
             return FALSE;

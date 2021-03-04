@@ -31,18 +31,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2017 (C) P.Chornyj <myorg63@mail.ru>
@@ -52,7 +52,7 @@
 
 #include "hbapiitm.h"
 
-#if defined( __BORLANDC__ )
+#if defined( __BORLANDC__ ) || defined( __WATCOMC__ )
 WINGDIAPI BOOL WINAPI GdiFlush( void );
 #endif
 
@@ -120,7 +120,7 @@ HB_FUNC( DRAWSTATE )
       COLORREF crBrush;
       LPARAM   lpData;
       WPARAM   wData   = ( WPARAM ) hb_parclen( 4 );
-      UINT     fuFlags = hb_parns( 10 );
+      HB_ISIZ  fuFlags = hb_parns( 10 );
 
       if( Array2ColorRef( hb_param( 2, HB_IT_ANY ), &crBrush ) )
          hBrush = CreateSolidBrush( crBrush );
@@ -130,7 +130,7 @@ HB_FUNC( DRAWSTATE )
       else
          lpData = ( LPARAM ) ( LONG_PTR ) HB_PARNL( 4 );
 
-      hb_retl( DrawState( hDC, hBrush, NULL, lpData, wData, hb_parni( 6 ), hb_parni( 7 ), hb_parni( 8 ), hb_parni( 9 ), fuFlags )
+      hb_retl( DrawState( hDC, hBrush, NULL, lpData, wData, hb_parni( 6 ), hb_parni( 7 ), hb_parni( 8 ), hb_parni( 9 ), ( UINT ) fuFlags )
                ? HB_TRUE : HB_FALSE );
 
       if( bDC )
@@ -178,7 +178,7 @@ HB_FUNC( GDIFLUSH )
 HB_FUNC( GRAYSTRING )
 {
    int nCount = hb_parni( 5 );
-   int nLen   = hb_parclen( 4 );
+   int nLen   = ( int ) hb_parclen( 4 );
 
    if( nCount > 0 )
       nCount = HB_MIN( nCount, nLen );
@@ -269,8 +269,7 @@ HB_FUNC( REDRAWWINDOW )
       hb_retl( HB_FALSE );
 }
 
-/* this function below, does not seem to be used anywhere in minigui library. (p.d. 28/04/2017) */
-HB_FUNC( SETBACKCOLOR )
+HB_FUNC( C_SETBACKCOLOR )
 {
    HWND hWnd = ( HWND ) ( LONG_PTR ) HB_PARNL( 1 );
    HDC  hDC;

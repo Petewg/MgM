@@ -35,7 +35,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -55,8 +55,14 @@ extern BOOL Array2Point( PHB_ITEM aPoint, POINT * pt );
 HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transparent, int * nWidth, int * nHeight );
 void HMG_ImageListAdd( HIMAGELIST himl, char * FileName, int Transparent );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
+
+// Minigui Resources control system
+void RegisterResource( HANDLE hResource, LPSTR szType );
 
 HB_FUNC( INITTABCONTROL )
 {
@@ -66,6 +72,11 @@ HB_FUNC( INITTABCONTROL )
    TC_ITEM  tie;
    int      l;
    int      i;
+#ifndef UNICODE
+   LPSTR lpText;
+#else
+   LPWSTR lpText;
+#endif
 
    int Style = WS_CHILD | WS_VISIBLE | TCS_TOOLTIPS;
 
@@ -118,7 +129,12 @@ HB_FUNC( INITTABCONTROL )
 
    for( i = l; i >= 0; i = i - 1 )
    {
-      tie.pszText = ( char * ) hb_arrayGetCPtr( hArray, i + 1 );
+   #ifndef UNICODE
+      lpText = ( char * ) hb_arrayGetCPtr( hArray, i + 1 );
+   #else
+      lpText = AnsiToWide( ( char * ) hb_arrayGetCPtr( hArray, i + 1 ) );
+   #endif
+      tie.pszText = lpText;
 
       TabCtrl_InsertItem( hbutton, 0, &tie );
    }
@@ -152,13 +168,18 @@ HB_FUNC( TABCTRL_INSERTITEM )
    HWND    hwnd;
    TC_ITEM tie;
    int     i;
+#ifndef UNICODE
+   LPSTR  lpText = ( LPSTR ) hb_parc( 3 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
 
    hwnd = ( HWND ) HB_PARNL( 1 );
    i    = hb_parni( 2 );
 
    tie.mask    = TCIF_TEXT;
    tie.iImage  = -1;
-   tie.pszText = ( char * ) hb_parc( 3 );
+   tie.pszText = lpText;
 
    TabCtrl_InsertItem( hwnd, i, &tie );
 }
@@ -176,11 +197,16 @@ HB_FUNC( TABCTRL_DELETEITEM )
 
 HB_FUNC( SETTABCAPTION )
 {
+#ifndef UNICODE
+   LPSTR  lpText = ( LPSTR ) hb_parc( 3 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
    TC_ITEM tie;
 
    tie.mask = TCIF_TEXT;
 
-   tie.pszText = ( char * ) hb_parc( 3 );
+   tie.pszText = lpText;
 
    TabCtrl_SetItem( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ) - 1, &tie );
 }
@@ -193,12 +219,12 @@ HB_FUNC( ADDTABBITMAP )
    PHB_ITEM   hArray;
    char *     FileName;
    int        nCount, i;
-   int        Transparent = hb_parnidef( 3, 1 );
 
    nCount = ( int ) hb_parinfa( 2, 0 );
 
    if( nCount > 0 )
    {
+      int Transparent = hb_parl( 3 ) ? 0 : 1;
       hArray = hb_param( 2, HB_IT_ARRAY );
 
       for( i = 1; i <= nCount; i++ )
@@ -222,6 +248,7 @@ HB_FUNC( ADDTABBITMAP )
       }
    }
 
+   RegisterResource( himl, "IMAGELIST" );
    HB_RETNL( ( LONG_PTR ) himl );
 }
 

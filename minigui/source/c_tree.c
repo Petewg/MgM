@@ -35,7 +35,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -53,6 +53,10 @@
 HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transparent, int * nWidth, int * nHeight );
 void HMG_ImageListAdd( HIMAGELIST himl, char * FileName, int Transparent );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+   LPSTR  WideToAnsi( LPWSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -76,7 +80,7 @@ HB_FUNC( INITTREE )
             (
       WS_EX_CLIENTEDGE,
       WC_TREEVIEW,
-      "",
+      TEXT( "" ),
       WS_VISIBLE | WS_TABSTOP | WS_CHILD | TVS_HASLINES | TVS_HASBUTTONS | mask | TVS_SHOWSELALWAYS,
       hb_parni( 2 ),
       hb_parni( 3 ),
@@ -105,6 +109,7 @@ HB_FUNC( INITTREEVIEWBITMAP ) // Tree+
 
    if( nCount > 0 )
    {
+      int Transparent = hb_parl( 3 ) ? 0 : 1;
       hArray = hb_param( 2, HB_IT_ARRAY );
 
       for( s = 1; s <= nCount; s++ )
@@ -112,9 +117,9 @@ HB_FUNC( INITTREEVIEWBITMAP ) // Tree+
          FileName = ( char * ) hb_arrayGetCPtr( hArray, s );
 
          if( himl == NULL )
-            himl = HMG_ImageListLoadFirst( FileName, nCount, 1, NULL, NULL );
+            himl = HMG_ImageListLoadFirst( FileName, nCount, Transparent, NULL, NULL );
          else
-            HMG_ImageListAdd( himl, FileName, 1 );
+            HMG_ImageListAdd( himl, FileName, Transparent );
       }
 
       if( himl != NULL )
@@ -130,13 +135,14 @@ HB_FUNC( ADDTREEVIEWBITMAP )  // Tree+
 {
    HWND       hbutton = ( HWND ) HB_PARNL( 1 );
    HIMAGELIST himl;
+   int        Transparent = hb_parl( 3 ) ? 0 : 1;
    int        ic = 0;
 
    himl = TreeView_GetImageList( hbutton, TVSIL_NORMAL );
 
    if( himl != NULL )
    {
-      HMG_ImageListAdd( himl, ( char * ) hb_parc( 2 ), 1 );
+      HMG_ImageListAdd( himl, ( char * ) hb_parc( 2 ), Transparent );
 
       SendMessage( hbutton, TVM_SETIMAGELIST, ( WPARAM ) TVSIL_NORMAL, ( LPARAM ) himl );
 
@@ -179,6 +185,11 @@ HB_FUNC( ADDTREEITEM )
 
    HTREEITEM hPrev = ( HTREEITEM ) HB_PARNL( 2 );
    HTREEITEM hRet;
+#ifndef UNICODE
+   LPSTR  lpText = ( LPSTR ) hb_parc( 3 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
 
    TV_ITEM tvi;
    TV_INSERTSTRUCT is;
@@ -188,7 +199,7 @@ HB_FUNC( ADDTREEITEM )
 
    tvi.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 
-   tvi.pszText        = ( LPSTR ) hb_parc( 3 );
+   tvi.pszText        = lpText;
    tvi.cchTextMax     = 1024;
    tvi.iImage         = hb_parni( 4 );
    tvi.iSelectedImage = hb_parni( 5 );
@@ -337,7 +348,10 @@ HB_FUNC( TREEVIEW_GETITEM )
    HWND      TreeHandle;
    HTREEITEM TreeItemHandle;
    TV_ITEM   TreeItem;
-   char      ItemText[ MAX_ITEM_TEXT ];
+   TCHAR     ItemText[ MAX_ITEM_TEXT ];
+#ifdef UNICODE
+   LPSTR pStr;
+#endif
 
    TreeHandle     = ( HWND ) HB_PARNL( 1 );
    TreeItemHandle = ( HTREEITEM ) HB_PARNL( 2 );
@@ -352,7 +366,13 @@ HB_FUNC( TREEVIEW_GETITEM )
 
    TreeView_GetItem( TreeHandle, &TreeItem );
 
+#ifndef UNICODE
    hb_retc( ItemText );
+#else
+   pStr = WideToAnsi( ItemText );
+   hb_retc( pStr );
+   hb_xfree( pStr );
+#endif
 }
 
 HB_FUNC( TREEVIEW_SETITEM )
@@ -360,13 +380,17 @@ HB_FUNC( TREEVIEW_SETITEM )
    HWND      TreeHandle;
    HTREEITEM TreeItemHandle;
    TV_ITEM   TreeItem;
-   char      ItemText[ MAX_ITEM_TEXT ];
+   TCHAR     ItemText[ MAX_ITEM_TEXT ];
 
    TreeHandle     = ( HWND ) HB_PARNL( 1 );
    TreeItemHandle = ( HTREEITEM ) HB_PARNL( 2 );
 
    memset( &TreeItem, 0, sizeof( TV_ITEM ) );
-   strcpy( ItemText, hb_parc( 3 ) );
+#ifdef UNICODE
+   lstrcpy( ItemText, AnsiToWide( hb_parc( 3 ) ) );
+#else
+   lstrcpy( ItemText, hb_parc( 3 ) );
+#endif
 
    TreeItem.mask  = TVIF_TEXT;
    TreeItem.hItem = TreeItemHandle;

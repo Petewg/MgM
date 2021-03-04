@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -52,10 +52,25 @@
 
 #if defined( __BORLANDC__ )
 # pragma warn -use /* unused var */
+
+#if defined( _WIN64 )
+HWND MCIWndCreateA(
+     HWND hwndParent,
+     HINSTANCE hInstance,
+     DWORD dwStyle,
+     LPCSTR szFile )
+{
+   return 0;
+}
+#endif /* _WIN64 */
+
 #endif
 
 #include <vfw.h>
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetResources( void );
 
 HB_FUNC( MESSAGEBEEP )
@@ -67,6 +82,11 @@ HB_FUNC( C_PLAYWAVE )
 {
    int     Style = SND_ASYNC;
    HMODULE hmod  = NULL;
+#ifndef UNICODE
+   LPCSTR  pszSound = hb_parc( 1 );
+#else
+   LPCWSTR pszSound = AnsiToWide( ( char * ) hb_parc( 1 ) );
+#endif
 
    if( hb_parl( 2 ) )
    {
@@ -88,7 +108,7 @@ HB_FUNC( C_PLAYWAVE )
    if( hb_parl( 6 ) )
       Style = Style | SND_NODEFAULT;
 
-   hb_retl( PlaySound( hb_parc( 1 ), hmod, Style ) );
+   hb_retl( PlaySound( pszSound, hmod, Style ) );
 }
 
 HB_FUNC( STOPWAVE )
@@ -99,6 +119,11 @@ HB_FUNC( STOPWAVE )
 HB_FUNC( INITPLAYER )
 {
    HWND hwnd;
+#ifndef UNICODE
+   LPCSTR  szFile = hb_parc( 2 );
+#else
+   LPCWSTR szFile = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
    int  Style = WS_VISIBLE | WS_CHILD | WS_BORDER;
 
    if( hb_parl( 7 ) )
@@ -131,11 +156,11 @@ HB_FUNC( INITPLAYER )
    if( hb_parl( 16 ) )
       Style = Style | MCIWNDF_SHOWPOS;
 
-   hwnd = MCIWndCreate( ( HWND ) HB_PARNL( 1 ), NULL, Style, hb_parc( 2 ) );
+   hwnd = MCIWndCreate( ( HWND ) HB_PARNL( 1 ), NULL, Style, szFile );
 
    if( hwnd == NULL )
    {
-      MessageBox( 0, "Player Creation Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK | MB_SYSTEMMODAL );
+      MessageBox( 0, TEXT( "Player Creation Failed!" ), TEXT( "Error!" ), MB_ICONEXCLAMATION | MB_OK | MB_SYSTEMMODAL );
       return;
    }
 
@@ -158,7 +183,7 @@ HB_FUNC( MCIFUNC )
       case 6:  hb_retnl( MCIWndEject( mcihand ) ); break;
       case 7:  hb_retnl( MCIWndEnd( mcihand ) ); break;
       case 8:  hb_retnl( MCIWndHome( mcihand ) ); break;
-      case 9:  hb_retnl( MCIWndOpen( mcihand, hb_parc( 3 ), NULL ) ); break;
+      case 9:  hb_retnl( MCIWndOpen( mcihand, hb_parc( 3 ), ( UINT ) 0 ) ); break;
       case 10: hb_retnl( MCIWndOpenDialog( mcihand ) ); break;
       case 11: hb_retnl( MCIWndPlayReverse( mcihand ) ); break;
       case 12: hb_retnl( MCIWndResume( mcihand ) ); break;
@@ -177,10 +202,15 @@ HB_FUNC( MCIFUNC )
 HB_FUNC( INITANIMATE )
 {
    HWND hwnd;
-   int  Style = WS_VISIBLE | WS_CHILD;
+   int  Style = WS_CHILD;
 
    if( hb_parl( 9 ) )
       Style = Style | WS_BORDER;
+
+   if( ! hb_parl( 10 ) )
+   {
+      Style = Style | WS_VISIBLE;
+   }
 
    if( hb_parl( 6 ) )
       Style = Style | ACS_AUTOPLAY;
@@ -195,11 +225,12 @@ HB_FUNC( INITANIMATE )
 
    if( hwnd == NULL )
    {
-      MessageBox( 0, "AnimateBox Creation Failed!", "Error!", MB_ICONEXCLAMATION | MB_OK | MB_SYSTEMMODAL );
+      MessageBox( 0, TEXT( "AnimateBox Creation Failed!" ), TEXT( "Error!" ), MB_ICONEXCLAMATION | MB_OK | MB_SYSTEMMODAL );
       return;
    }
 
    MoveWindow( hwnd, hb_parnl( 2 ), hb_parnl( 3 ), hb_parnl( 4 ), hb_parnl( 5 ), TRUE );
+
    HB_RETNL( ( LONG_PTR ) hwnd );
 }
 

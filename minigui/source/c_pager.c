@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
    ---------------------------------------------------------------------------*/
 
 #define _WIN32_IE  0x0501
@@ -85,6 +85,9 @@
 #define PGF_CALCHEIGHT  2
 #endif
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 
 HB_FUNC( GETHANDLEREBAR )  // GetHandleRebar(hPager)
@@ -135,6 +138,11 @@ HB_FUNC( INITPAGER )       // InitPager ( ParentForm, hRebar, nWidth, nHeight, v
    int  nWidth, nHeight;
    HWND hRebar;
    REBARBANDINFO rbBand;
+#ifndef UNICODE
+   LPSTR  lpText = ( char * ) hb_parc( 6 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 6 ) );
+#endif
 
    INITCOMMONCONTROLSEX i;
 
@@ -156,7 +164,7 @@ HB_FUNC( INITPAGER )       // InitPager ( ParentForm, hRebar, nWidth, nHeight, v
 
    ZeroMemory( &rbBand, sizeof( REBARBANDINFO ) );
    rbBand.cbSize     = sizeof( REBARBANDINFO );
-   rbBand.fMask      = RBBIM_TEXT | RBBIM_STYLE | RBBIM_CHILD | RBBIM_CHILDSIZE | RBBIM_SIZE | RBBS_BREAK;
+   rbBand.fMask      = RBBIM_TEXT | RBBIM_STYLE | RBBIM_CHILD | RBBIM_CHILDSIZE | RBBIM_SIZE | RBBS_BREAK | RBBIM_COLORS;
    rbBand.fStyle     = RBBS_CHILDEDGE;
    rbBand.cxMinChild = 0;
    rbBand.cyMinChild = 0;
@@ -164,7 +172,7 @@ HB_FUNC( INITPAGER )       // InitPager ( ParentForm, hRebar, nWidth, nHeight, v
    hPager = CreateWindowEx( 0, WC_PAGESCROLLER, NULL, Style, 0, 0, 0, 0, hRebar, NULL, GetInstance(), NULL );
 
    if( hb_parclen( 6 ) > 0 )
-      rbBand.lpText = ( char * ) hb_parc( 6 );
+      rbBand.lpText = lpText;
 
    rbBand.hwndChild = hPager;
 
@@ -182,6 +190,8 @@ HB_FUNC( INITPAGER )       // InitPager ( ParentForm, hRebar, nWidth, nHeight, v
    }
 
    SendMessage( hRebar, RB_INSERTBAND, ( WPARAM ) -1, ( LPARAM ) &rbBand );
+
+   SetWindowLongPtr( hPager, GWLP_USERDATA, ( LONG_PTR ) hRebar );
 
    HB_RETNL( ( LONG_PTR ) hPager );
 }

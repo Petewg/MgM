@@ -30,25 +30,30 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
 
 #include <commctrl.h>
-#include <windowsx.h>
+
+#ifndef __XHARBOUR__
+#include "hbwinuni.h"
+#else
+#define HB_STRLEN  strlen
+#endif
 
 #ifndef WC_LISTBOX
 #define WC_LISTBOX  "ListBox"
@@ -85,7 +90,7 @@ HB_FUNC( INITCHKLISTBOX )
              (
       WS_EX_CLIENTEDGE,
       WC_LISTBOX,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -125,7 +130,7 @@ HB_FUNC( INITMULTICHKLISTBOX )
              (
       WS_EX_CLIENTEDGE,
       WC_LISTBOX,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -148,7 +153,7 @@ HB_FUNC( CHKLISTBOXINSERTITEM )
    int    bChecked = hb_parni( 4 );
 
    SendMessage( hwnd, LB_INSERTSTRING, ( WPARAM ) lbItem, ( LPARAM ) pstr );
-   SendMessage( hwnd, LB_SETITEMDATA, ( WPARAM ) lbItem, ( LPARAM ) bChecked );
+   SendMessage( hwnd, LB_SETITEMDATA, ( WPARAM ) ( int ) lbItem, ( LPARAM ) bChecked );
 }
 
 HB_FUNC( CHKLISTBOXADDITEM )
@@ -159,8 +164,8 @@ HB_FUNC( CHKLISTBOXADDITEM )
    int    lbItem;
 
    m_nHeightItem = hb_parni( 4 );
-   lbItem        = SendMessage( hwnd, LB_ADDSTRING, 0, ( LPARAM ) pstr );
-   SendMessage( hwnd, LB_SETITEMDATA, ( WPARAM ) lbItem, ( LPARAM ) bChecked );
+   lbItem        = ( int ) SendMessage( hwnd, LB_ADDSTRING, 0, ( LPARAM ) pstr );
+   SendMessage( hwnd, LB_SETITEMDATA, ( WPARAM ) ( int ) lbItem, ( LPARAM ) bChecked );
 }
 
 HB_FUNC( SETCHKLBITEMHEIGHT ) // set the height of a string in pixels
@@ -182,7 +187,7 @@ HB_FUNC( SETCHKLBITEMHEIGHT ) // set the height of a string in pixels
    if( hFont )
       hOldFont = ( HFONT ) SelectObject( hdc, hFont );
 
-   GetTextExtentPoint32( hdc, achBuffer, strlen( achBuffer ), &sz );
+   GetTextExtentPoint32( hdc, achBuffer, ( int ) HB_STRLEN( achBuffer ), &sz );
 
    if( sz.cy > m_nHeightItem )
    {
@@ -233,7 +238,7 @@ HB_FUNC( _ONDRAWLISTBOXITEM )
 {
    PDRAWITEMSTRUCT pdis;
    TCHAR      achBuffer[ BUFFER ];
-   size_t     cch;
+   int        cch;
    int        yPos, iCheck, style = 0;
    TEXTMETRIC tm;
    RECT       rcCheck;
@@ -304,7 +309,7 @@ HB_FUNC( _ONDRAWLISTBOXITEM )
             yPos = ( pdis->rcItem.bottom + pdis->rcItem.top -
                      tm.tmHeight ) / 2;
             // Get the character length of the item string.
-            cch = strlen( achBuffer );
+            cch = ( int ) HB_STRLEN( achBuffer );
             // Draw the string in the item rectangle, leaving a six
             // pixel gap between the item bitmap and the string.
             TextOut( pdis->hDC, rcCheck.right + 6, yPos, achBuffer, cch );

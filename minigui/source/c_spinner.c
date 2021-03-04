@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -101,7 +101,7 @@ HB_FUNC( INITSPINNER )
            (
       WS_EX_CLIENTEDGE,
       WC_EDIT,
-      "",
+      TEXT( "" ),
       Style1,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -120,7 +120,7 @@ HB_FUNC( INITSPINNER )
              (
       WS_EX_CLIENTEDGE,
       UPDOWN_CLASS,
-      "",
+      TEXT( "" ),
       Style2,
       hb_parni( 3 ) + hb_parni( 5 ),
       hb_parni( 4 ),
@@ -136,7 +136,7 @@ HB_FUNC( INITSPINNER )
    SendMessage( hupdown, UDM_SETRANGE32, ( WPARAM ) hb_parni( 8 ), ( LPARAM ) hb_parni( 9 ) );
 
    // 2006.08.13 JD
-   SetProp( ( HWND ) hedit, "oldspinproc", ( HWND ) GetWindowLongPtr( ( HWND ) hedit, GWLP_WNDPROC ) );
+   SetProp( ( HWND ) hedit, TEXT( "oldspinproc" ), ( HWND ) GetWindowLongPtr( ( HWND ) hedit, GWLP_WNDPROC ) );
    SetWindowLongPtr( hedit, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnSpinProc );
 
    hb_reta( 2 );
@@ -149,7 +149,7 @@ HB_FUNC( SETSPINNERINCREMENT )
    UDACCEL inc;
 
    inc.nSec = 0;
-   inc.nInc = hb_parnl( 2 );
+   inc.nInc = hb_parni( 2 );
 
    SendMessage( ( HWND ) HB_PARNL( 1 ), UDM_SETACCEL, ( WPARAM ) 1, ( LPARAM ) &inc );
 }
@@ -161,13 +161,13 @@ LRESULT CALLBACK OwnSpinProc( HWND hedit, UINT Msg, WPARAM wParam, LPARAM lParam
    long int        r;
    WNDPROC         OldWndProc;
 
-   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hedit, "oldspinproc" );
+   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hedit, TEXT( "oldspinproc" ) );
 
    switch( Msg )
    {
       case WM_DESTROY:
          SetWindowLongPtr( hedit, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OldWndProc );
-         RemoveProp( hedit, "oldspinproc" );
+         RemoveProp( hedit, TEXT( "oldspinproc" ) );
          break;
 
       case WM_CONTEXTMENU:

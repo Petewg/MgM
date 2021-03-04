@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts of this code is contributed and used here under permission of his author:
        Copyright 2006 (C) Grigory Filatov <gfilatov@inbox.ru>
@@ -53,6 +53,7 @@
 #include <commctrl.h>
 #include "hbapiitm.h"
 #include "hbvm.h"
+#include "hbdate.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -85,7 +86,7 @@ HB_FUNC( INITMONTHCAL )
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
-   Style = WS_BORDER | WS_CHILD;
+   Style = WS_BORDER | WS_CHILD | MCS_DAYSTATE;
 
    if( hb_parl( 9 ) )
       Style = Style | MCS_NOTODAY;
@@ -102,9 +103,9 @@ HB_FUNC( INITMONTHCAL )
    if( ! hb_parl( 13 ) )
       Style = Style | WS_TABSTOP;
 
-   hmonthcal = CreateWindowEx( 0, MONTHCAL_CLASS, "", Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 2 ), GetInstance(), NULL );
+   hmonthcal = CreateWindowEx( 0, MONTHCAL_CLASS, TEXT( "" ), Style, 0, 0, 0, 0, hwnd, ( HMENU ) HB_PARNL( 2 ), GetInstance(), NULL );
 
-   SetProp( ( HWND ) hmonthcal, "oldmcproc", ( HWND ) GetWindowLongPtr( ( HWND ) hmonthcal, GWLP_WNDPROC ) );
+   SetProp( ( HWND ) hmonthcal, TEXT( "oldmcproc" ), ( HWND ) GetWindowLongPtr( ( HWND ) hmonthcal, GWLP_WNDPROC ) );
    SetWindowLongPtr( hmonthcal, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnMCProc );
 
    if( hb_parl( 14 ) )
@@ -168,13 +169,103 @@ HB_FUNC( GETMONTHCALVALUE )
 
 HB_FUNC( SETPOSMONTHCAL )
 {
-   HWND hmonthcal;
-   RECT rc;
+   HWND  hWndMonthCal;
+   RECT  rc;
+   DWORD dwWidth;
 
-   hmonthcal = ( HWND ) HB_PARNL( 1 );
-   MonthCal_GetMinReqRect( hmonthcal, &rc );
+   hWndMonthCal = ( HWND ) HB_PARNL( 1 );
 
-   SetWindowPos( hmonthcal, NULL, hb_parni( 2 ), hb_parni( 3 ), rc.right, rc.bottom, SWP_NOZORDER );
+   MonthCal_GetMinReqRect( hWndMonthCal, &rc );
+
+   dwWidth = MonthCal_GetMaxTodayWidth( hWndMonthCal );
+   if( dwWidth > ( DWORD ) rc.right )
+      rc.right = dwWidth;
+
+   if( hb_parldef( 4, HB_FALSE ) )
+      InflateRect( &rc, 6, 6 );
+
+   SetWindowPos( hWndMonthCal, NULL, hb_parni( 2 ), hb_parni( 3 ), rc.right, rc.bottom, SWP_NOZORDER );
+}
+
+HB_FUNC( GETMONTHRANGE )
+{
+   SYSTEMTIME sysTime[ 2 ];
+   int        iCount;
+
+   memset( &sysTime, 0, sizeof( sysTime ) );
+   iCount = ( int ) SendMessage( ( HWND ) HB_PARNL( 1 ), MCM_GETMONTHRANGE, ( WPARAM ) GMR_DAYSTATE, ( LPARAM ) &sysTime );
+
+   hb_reta( 3 );
+   HB_STORNI( iCount, -1, 1 );
+   HB_STORDL( hb_dateEncode( sysTime[ 0 ].wYear, sysTime[ 0 ].wMonth, sysTime[ 0 ].wDay ), -1, 2 );
+   HB_STORDL( hb_dateEncode( sysTime[ 1 ].wYear, sysTime[ 1 ].wMonth, sysTime[ 1 ].wDay ), -1, 3 );
+}
+
+#ifndef BOLDDAY
+# define BOLDDAY( ds, iDay )  if( iDay > 0 && iDay < 32 )( ds ) |= ( 0x00000001 << ( iDay - 1 ) )
+#endif
+
+HB_FUNC( C_SETDAYSTATE )
+{
+   HWND            hWnd   = ( HWND ) HB_PARNL( 1 );
+   int             iCount = hb_parni( 2 );
+   PHB_ITEM        hArray = hb_param( 3, HB_IT_ARRAY );
+   LPMONTHDAYSTATE rgMonths;
+   int             i, j, iSize;
+
+   iSize    = sizeof( MONTHDAYSTATE ) * iCount;
+   rgMonths = ( LPMONTHDAYSTATE ) hb_xgrab( iSize );
+   memset( rgMonths, 0, iSize );
+
+   for( i = 0; i < iCount; i++ )
+   {
+      for( j = 1; j <= 32; j++ )
+      {
+         if( hb_arrayGetNI( hArray, i * 32 + j ) == 1 )
+         {
+            BOLDDAY( rgMonths[ i ], j );
+         }
+      }
+   }
+
+   SendMessage( hWnd, MCM_SETDAYSTATE, ( WPARAM ) iCount, ( LPARAM ) rgMonths );
+   hb_xfree( rgMonths );
+}
+
+HB_FUNC( C_RETDAYSTATE )
+{
+   LPNMDAYSTATE    pData  = ( NMDAYSTATE * ) HB_PARNL( 1 );
+   int             iCount = hb_parni( 2 );
+   PHB_ITEM        hArray = hb_param( 3, HB_IT_ARRAY );
+   LPMONTHDAYSTATE rgMonths;
+   int             i, j, iSize;
+
+   iSize    = sizeof( MONTHDAYSTATE ) * iCount;
+   rgMonths = ( LPMONTHDAYSTATE ) hb_xgrab( iSize );
+   memset( rgMonths, 0, iSize );
+
+   for( i = 0; i < iCount; i++ )
+   {
+      for( j = 1; j <= 32; j++ )
+      {
+         if( hb_arrayGetNI( hArray, i * 32 + j ) == 1 )
+         {
+            BOLDDAY( rgMonths[ i ], j );
+         }
+      }
+   }
+
+   pData->prgDayState = rgMonths;
+   hb_xfree( rgMonths );
+}
+
+HB_FUNC( GETDAYSTATEDATA )
+{
+   LPNMDAYSTATE pData = ( NMDAYSTATE * ) HB_PARNL( 1 );
+
+   hb_reta( 2 );
+   HB_STORNI( ( int ) pData->cDayState, -1, 1 );
+   HB_STORDL( hb_dateEncode( pData->stStart.wYear, pData->stStart.wMonth, pData->stStart.wDay ), -1, 2 );
 }
 
 LRESULT CALLBACK OwnMCProc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam )
@@ -183,13 +274,13 @@ LRESULT CALLBACK OwnMCProc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam )
    long int        r;
    WNDPROC         OldWndProc;
 
-   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hwnd, "oldmcproc" );
+   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hwnd, TEXT( "oldmcproc" ) );
 
    switch( Msg )
    {
       case WM_DESTROY:
          SetWindowLongPtr( hwnd, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OldWndProc );
-         RemoveProp( hwnd, "oldmcproc" );
+         RemoveProp( hwnd, TEXT( "oldmcproc" ) );
          break;
 
       case WM_MOUSEACTIVATE:

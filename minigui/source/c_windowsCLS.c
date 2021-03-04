@@ -32,35 +32,52 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
  */
 
 #include <mgdefs.h>
+
 #include "hbapierr.h"
 #include "hbapistr.h"
 
 #ifdef __XHARBOUR__
-#define hb_storclen_buffer  hb_storclenAdopt
+# define hb_storclen_buffer  hb_storclenAdopt
 #endif
 
+#ifdef UNICODE
+BOOL _isValidCtrlClassW( HWND hwndTip, LPWSTR ClassName );
 
-BOOL _isValidCtrlClassA( HWND hwndTip, const char * ClassName ); /* P.Ch. 16.10. */
+BOOL _isValidCtrlClassW( HWND hwndTip, LPWSTR ClassName )
+{
+   TCHAR lpClassName[ 256 ];
+   int   iLen = 0;
 
-BOOL _isValidCtrlClassA( HWND hwndTip, const char * ClassName  )
+   if( IsWindow( hwndTip ) )
+      iLen = GetClassNameW( hwndTip, lpClassName, 256 );
+
+   if( ( iLen > 0 ) && ( hb_wstrncmp( ( TCHAR * ) lpClassName, ClassName, iLen ) == 0 ) )
+      return TRUE;
+   else
+      return FALSE;
+}
+#else
+BOOL _isValidCtrlClassA( HWND hwndTip, const char * ClassName );  /* P.Ch. 16.10. */
+
+BOOL _isValidCtrlClassA( HWND hwndTip, const char * ClassName )
 {
    char lpClassName[ 256 ];
    int  iLen = 0;
@@ -73,6 +90,8 @@ BOOL _isValidCtrlClassA( HWND hwndTip, const char * ClassName  )
    else
       return FALSE;
 }
+
+#endif
 
 /*
    cClassName := GetClassName( nHwnd )
@@ -121,7 +140,7 @@ HB_FUNC( GETCLASSNAMEBYREF )
 
       if( pBuffer )
       {
-         int nResult = GetClassNameA( hwnd, pBuffer, nLen );
+         int nResult = GetClassNameA( hwnd, pBuffer, ( int ) nLen );
 
          if( nResult > 0 )
             hb_retni( hb_storclen_buffer( pBuffer, ( HB_SIZE ) nResult, 2 ) );
@@ -137,6 +156,16 @@ HB_FUNC( GETWINDOWLONG )
 
    if( IsWindow( hwnd ) )
       HB_RETNL( GetWindowLongPtr( hwnd, hb_parni( 2 ) ) );
+   else
+      hb_errRT_BASE_SubstR( EG_ARG, 3012, "MiniGUI Error", HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
+}
+
+HB_FUNC( SETWINDOWLONG )
+{
+   HWND hwnd = ( HWND ) HB_PARNL( 1 );
+
+   if( IsWindow( hwnd ) )
+      HB_RETNL( SetWindowLongPtr( hwnd, hb_parni( 2 ), hb_parnl( 3 ) ) );
    else
       hb_errRT_BASE_SubstR( EG_ARG, 3012, "MiniGUI Error", HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
 }
@@ -176,7 +205,7 @@ HB_FUNC( SETWINDOWSTYLE )
       LONG_PTR nOldStyle = GetWindowLongPtr( hwnd, GWL_STYLE );
       LONG_PTR nNewStyle = ( LONG_PTR ) HB_PARNL( 2 );
 
-      HB_RETNL( SetWindowLongPtr( hwnd, GWL_STYLE, ( ( BOOL ) hb_parl( 3 ) ) ? nOldStyle | nNewStyle : nOldStyle & ( ~nNewStyle ) ) );
+      HB_RETNL( SetWindowLongPtr( hwnd, GWL_STYLE, ( ( BOOL ) hb_parl( 3 ) ) ? nOldStyle | nNewStyle : nOldStyle&( ~nNewStyle ) ) );
    }
    else
       hb_errRT_BASE_SubstR( EG_ARG, 3012, "MiniGUI Error", HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );

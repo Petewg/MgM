@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -56,6 +56,9 @@
 
 #define TOTAL_TABS  10
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 
 HB_FUNC( INITLISTBOX )
@@ -85,7 +88,7 @@ HB_FUNC( INITLISTBOX )
              (
       WS_EX_CLIENTEDGE,
       WC_LISTBOX,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -106,10 +109,30 @@ HB_FUNC( INITLISTBOX )
    HB_RETNL( ( LONG_PTR ) hbutton );
 }
 
+HB_FUNC ( LISTBOXADDSTRING )
+{
+ #ifndef UNICODE
+   LPTSTR lpString = ( LPTSTR ) hb_parc( 2 );
+#else
+   LPWSTR lpString = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
+   SendMessage( ( HWND ) HB_PARNL( 1 ), LB_ADDSTRING, 0, ( LPARAM ) lpString );
+}
+
+HB_FUNC ( LISTBOXINSERTSTRING )
+{
+ #ifndef UNICODE
+   LPTSTR lpString = ( LPTSTR ) hb_parc( 2 );
+#else
+   LPWSTR lpString = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
+   SendMessage( ( HWND ) HB_PARNL( 1 ), LB_INSERTSTRING, ( WPARAM ) hb_parni( 3 ) - 1 , ( LPARAM ) lpString );
+}
+
 /* Modified by P.Ch. 16.10. */
 HB_FUNC( LISTBOXGETSTRING )
 {
-   int    iLen = SendMessage( ( HWND ) HB_PARNL( 1 ), LB_GETTEXTLEN, ( WPARAM ) hb_parni( 2 ) - 1, ( LPARAM ) 0 );
+   int    iLen = ( int ) SendMessage( ( HWND ) HB_PARNL( 1 ), LB_GETTEXTLEN, ( WPARAM ) hb_parni( 2 ) - 1, ( LPARAM ) 0 );
    char * cString;
 
    if( iLen > 0 && NULL != ( cString = ( char * ) hb_xgrab( ( iLen + 1 ) * sizeof( TCHAR ) ) ) )
@@ -150,7 +173,7 @@ HB_FUNC( INITMULTILISTBOX )
              (
       WS_EX_CLIENTEDGE,
       WC_LISTBOX,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -175,7 +198,7 @@ HB_FUNC( LISTBOXGETMULTISEL )
    int  buffer[ 32768 ];
    int  n;
 
-   n = SendMessage( hwnd, LB_GETSELCOUNT, 0, 0 );
+   n = ( int ) SendMessage( hwnd, LB_GETSELCOUNT, 0, 0 );
 
    SendMessage( hwnd, LB_GETSELITEMS, ( WPARAM ) ( n ), ( LPARAM ) buffer );
 
@@ -195,9 +218,9 @@ HB_FUNC( LISTBOXSETMULTISEL )
 
    wArray = hb_param( 2, HB_IT_ARRAY );
 
-   l = hb_parinfa( 2, 0 ) - 1;
+   l = ( int ) hb_parinfa( 2, 0 ) - 1;
 
-   n = SendMessage( hwnd, LB_GETCOUNT, 0, 0 );
+   n = ( int ) SendMessage( hwnd, LB_GETCOUNT, 0, 0 );
 
    // CLEAR CURRENT SELECTIONS
    for( i = 0; i < n; i++ )
@@ -220,7 +243,7 @@ HB_FUNC( LISTBOXSETMULTITAB )
 
    wArray = hb_param( 2, HB_IT_ARRAY );
 
-   l = hb_parinfa( 2, 0 ) - 1;
+   l = ( int ) hb_parinfa( 2, 0 ) - 1;
 
    for( i = 0; i <= l; i++ )
       nTabStops[ i ] = MulDiv( hb_arrayGetNI( wArray, i + 1 ), 4, baseunitX );
@@ -264,7 +287,7 @@ HB_FUNC( DRAG_LIST_DRAWINSERT )
    LPDRAGLISTINFO lpdli = ( LPDRAGLISTINFO ) lParam;
    int nItemCount;
 
-   nItemCount = SendMessage( ( HWND ) lpdli->hWnd, LB_GETCOUNT, 0, 0 );
+   nItemCount = ( int ) SendMessage( ( HWND ) lpdli->hWnd, LB_GETCOUNT, 0, 0 );
 
    if( nItem < nItemCount )
       DrawInsert( hwnd, lpdli->hWnd, nItem );

@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts of this code is contributed and used here under permission of his author:
    Copyright 2005 (C) Jacek Kubica <kubica@wssk.wroc.pl>
@@ -53,7 +53,11 @@
 
 #include <commctrl.h>
 
+#include "hbvm.h"
+
 HINSTANCE GetInstance( void );
+
+LRESULT CALLBACK  OwnPickProc( HWND hbutton, UINT msg, WPARAM wParam, LPARAM lParam );
 
 HB_FUNC( INITDATEPICK )
 {
@@ -70,25 +74,25 @@ HB_FUNC( INITDATEPICK )
    hwnd = ( HWND ) HB_PARNL( 1 );
 
    if( hb_parl( 9 ) )
-      Style = Style | DTS_SHOWNONE;
+      Style |= DTS_SHOWNONE;
 
    if( hb_parl( 10 ) )
-      Style = Style | DTS_UPDOWN;
+      Style |= DTS_UPDOWN;
 
    if( hb_parl( 11 ) )
-      Style = Style | DTS_RIGHTALIGN;
+      Style |= DTS_RIGHTALIGN;
 
    if( ! hb_parl( 12 ) )
-      Style = Style | WS_VISIBLE;
+      Style |= WS_VISIBLE;
 
    if( ! hb_parl( 13 ) )
-      Style = Style | WS_TABSTOP;
+      Style |= WS_TABSTOP;
 
    hbutton = CreateWindowEx
              (
       WS_EX_CLIENTEDGE,
       DATETIMEPICK_CLASS,
-      "DateTime",
+      TEXT( "DateTime" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -100,6 +104,9 @@ HB_FUNC( INITDATEPICK )
       NULL
              );
 
+   SetProp( ( HWND ) hbutton, TEXT( "oldpickproc" ), ( HWND ) GetWindowLongPtr( ( HWND ) hbutton, GWLP_WNDPROC ) );
+   SetWindowLongPtr( hbutton, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnPickProc );
+
    HB_RETNL( ( LONG_PTR ) hbutton );
 }
 
@@ -107,7 +114,7 @@ HB_FUNC( INITTIMEPICK )
 {
    HWND hwnd;
    HWND hbutton;
-   int  Style = WS_CHILD;
+   int  Style = WS_CHILD | DTS_TIMEFORMAT;
 
    INITCOMMONCONTROLSEX i;
 
@@ -118,23 +125,19 @@ HB_FUNC( INITTIMEPICK )
    hwnd = ( HWND ) HB_PARNL( 1 );
 
    if( hb_parl( 9 ) )
-      Style = Style | DTS_SHOWNONE;
+      Style |= DTS_SHOWNONE;
 
-   Style = Style | DTS_TIMEFORMAT;
-/*
-   Style = Style | DTS_UPDOWN;
- */
    if( ! hb_parl( 10 ) )
-      Style = Style | WS_VISIBLE;
+      Style |= WS_VISIBLE;
 
    if( ! hb_parl( 11 ) )
-      Style = Style | WS_TABSTOP;
+      Style |= WS_TABSTOP;
 
    hbutton = CreateWindowEx
              (
       WS_EX_CLIENTEDGE,
       DATETIMEPICK_CLASS,
-      "DateTime",
+      TEXT( "DateTime" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -146,7 +149,46 @@ HB_FUNC( INITTIMEPICK )
       NULL
              );
 
+   SetProp( ( HWND ) hbutton, TEXT( "oldpickproc" ), ( HWND ) GetWindowLongPtr( ( HWND ) hbutton, GWLP_WNDPROC ) );
+   SetWindowLongPtr( hbutton, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnPickProc );
+
    HB_RETNL( ( LONG_PTR ) hbutton );
+}
+
+LRESULT CALLBACK OwnPickProc( HWND hButton, UINT Msg, WPARAM wParam, LPARAM lParam )
+{
+   static PHB_SYMB pSymbol = NULL;
+   long int        r;
+   WNDPROC         OldWndProc;
+
+   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hButton, TEXT( "oldpickproc" ) );
+
+   switch( Msg )
+   {
+      case WM_ERASEBKGND:
+         if( ! pSymbol )
+            pSymbol = hb_dynsymSymbol( hb_dynsymGet( "OPICKEVENTS" ) );
+
+         if( pSymbol )
+         {
+            hb_vmPushSymbol( pSymbol );
+            hb_vmPushNil();
+            hb_vmPushNumInt( ( LONG_PTR ) hButton );
+            hb_vmPushLong( Msg );
+            hb_vmPushNumInt( wParam );
+            hb_vmPushNumInt( lParam );
+            hb_vmDo( 4 );
+         }
+
+         r = hb_parnl( -1 );
+
+         if( r != 0 )
+            return r;
+         else
+            return CallWindowProc( OldWndProc, hButton, Msg, wParam, lParam );
+   }
+
+   return CallWindowProc( OldWndProc, hButton, Msg, wParam, lParam );
 }
 
 HB_FUNC( SETDATEPICK )
@@ -194,6 +236,7 @@ HB_FUNC( GETDATEPICKYEAR )
    SYSTEMTIME st;
 
    SendMessage( ( HWND ) HB_PARNL( 1 ), DTM_GETSYSTEMTIME, 0, ( LPARAM ) &st );
+
    hb_retni( st.wYear );
 }
 
@@ -202,6 +245,7 @@ HB_FUNC( GETDATEPICKMONTH )
    SYSTEMTIME st;
 
    SendMessage( ( HWND ) HB_PARNL( 1 ), DTM_GETSYSTEMTIME, 0, ( LPARAM ) &st );
+
    hb_retni( st.wMonth );
 }
 
@@ -210,6 +254,7 @@ HB_FUNC( GETDATEPICKDAY )
    SYSTEMTIME st;
 
    SendMessage( ( HWND ) HB_PARNL( 1 ), DTM_GETSYSTEMTIME, 0, ( LPARAM ) &st );
+
    hb_retni( st.wDay );
 }
 
@@ -287,11 +332,11 @@ HB_FUNC( SETDATEPICKRANGE )
          wLimit |= GDTR_MAX;
       }
 
-      hb_retl( SendMessage( ( HWND ) HB_PARNL( 1 ), DTM_SETRANGE, wLimit, ( LPARAM ) &sysTime ) );
+      hb_retl( ( int ) SendMessage( ( HWND ) HB_PARNL( 1 ), DTM_SETRANGE, wLimit, ( LPARAM ) &sysTime ) );
    }
 }
 
 HB_FUNC( SETDATEPICKERDATEFORMAT )
 {
-   hb_retl( SendMessage( ( HWND ) HB_PARNL( 1 ), DTM_SETFORMAT, 0, ( LPARAM ) ( LPCTSTR ) hb_parc( 2 ) ) );
+   hb_retl( ( int ) SendMessage( ( HWND ) HB_PARNL( 1 ), DTM_SETFORMAT, 0, ( LPARAM ) ( LPCTSTR ) hb_parc( 2 ) ) );
 }

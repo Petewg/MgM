@@ -31,18 +31,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
@@ -54,17 +54,25 @@
 
 HINSTANCE GetInstance( void );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 static HINSTANCE hResources = 0;
 static HINSTANCE HMG_DllStore[ 256 ];
 
 static HINSTANCE HMG_LoadDll( char * DllName )
 {
    static int DllCnt;
+#ifndef UNICODE
+   LPCSTR  lpLibFileName = DllName;
+#else
+   LPCWSTR lpLibFileName = AnsiToWide( DllName );
+#endif
 
    DllCnt = ( DllCnt + 1 ) & 255;
    FreeLibrary( HMG_DllStore[ DllCnt ] );
 
-   return HMG_DllStore[ DllCnt ] = LoadLibraryEx( DllName, NULL, 0 );
+   return HMG_DllStore[ DllCnt ] = LoadLibraryEx( lpLibFileName, NULL, 0 );
 }
 
 static void HMG_UnloadDll( void )
@@ -162,7 +170,9 @@ HB_FUNC( RCDATATOFILE )
 
    if( dwRet != dwSize )
    {
-      dwRet = -5;
+      CloseHandle( hFile );
+      hb_retnl( -5 );
+      return;
    }
 
    CloseHandle( hFile );
@@ -180,13 +190,19 @@ HB_FUNC( RCDATATOFILE )
 {
    HMODULE hModule = ( HMODULE ) ( 0 != HB_PARNL( 4 ) ? ( HINSTANCE ) HB_PARNL( 4 ) : GetResources() );
    /* lpType is RT_RCDATA by default */
-   LPTSTR  lpType = ( hb_parclen( 3 ) > 0 ) ? ( LPTSTR ) hb_parc( 3 ) : MAKEINTRESOURCE( hb_parnldef( 3, 10 ) );
+#ifndef UNICODE
+   LPCSTR  lpName = hb_parc( 1 );
+   LPCSTR  lpType = ( hb_parclen( 3 ) > 0 ) ? ( LPCSTR ) hb_parc( 3 ) : MAKEINTRESOURCE( hb_parnldef( 3, 10 ) );
+#else
+   LPCWSTR lpName = AnsiToWide( ( char * ) hb_parc( 1 ) );
+   LPCWSTR lpType = HB_ISCHAR( 3 ) ? AnsiToWide( ( char * ) hb_parc( 3 ) ) : ( LPCWSTR ) MAKEINTRESOURCE( hb_parnldef( 3, 10 ) );
+#endif
    HRSRC   hResInfo;
    HGLOBAL hResData = NULL;
    HB_SIZE dwResult = 0;
 
-   if( hb_parclen( 1 ) > 0 )
-      hResInfo = FindResourceA( hModule, hb_parc( 1 ), lpType );
+   if( HB_ISCHAR( 1 ) )
+      hResInfo = FindResource( hModule, lpName, lpType );
    else
       hResInfo = FindResource( hModule, MAKEINTRESOURCE( hb_parnl( 1 ) ), lpType );
 
@@ -229,7 +245,7 @@ HB_FUNC( RCDATATOFILE )
       FreeResource( hResData );
    }
 
-   hb_retnl( dwResult );
+   hb_retnl( ( LONG ) dwResult );
 }
 
 #endif /* __XHARBOUR__ */

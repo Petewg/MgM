@@ -30,27 +30,32 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
 
 /* undocumented Windows API */
-int WINAPI MessageBoxTimeout( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds );
+int WINAPI MessageBoxTimeout( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds );
+
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 
 HINSTANCE GetInstance( void );
+extern HB_PTRUINT wapi_GetProcAddress( HMODULE hModule, const char * lpProcName );
 
 // JK HMG 1.2 Experimental Build 16g
 // MessageBoxIndirect( [hWnd], [cText], [cCaption], [nStyle], [xIcon], [hInst], [nHelpId], [nProc], [nLang] )
@@ -60,13 +65,19 @@ HB_FUNC( MESSAGEBOXINDIRECT )
 {
    MSGBOXPARAMS mbp;
 
+#ifndef UNICODE
+   mbp.lpszText           = HB_ISCHAR( 2 ) ? hb_parc( 2 ) : ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
+   mbp.lpszCaption        = HB_ISCHAR( 3 ) ? hb_parc( 3 ) : ( HB_ISNUM( 3 ) ? MAKEINTRESOURCE( hb_parni( 3 ) ) : "" );
+   mbp.lpszIcon           = HB_ISCHAR( 5 ) ? hb_parc( 5 ) : ( HB_ISNUM( 5 ) ? MAKEINTRESOURCE( hb_parni( 5 ) ) : NULL );
+#else
+   mbp.lpszText           = ( LPCWSTR ) ( HB_ISCHAR( 2 ) ? hb_osStrU16Encode( hb_parc( 2 ) ) : ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL ) );
+   mbp.lpszCaption        = ( LPCWSTR ) ( HB_ISCHAR( 3 ) ? hb_osStrU16Encode( hb_parc( 3 ) ) : ( HB_ISNUM( 3 ) ? MAKEINTRESOURCE( hb_parni( 3 ) ) : TEXT( "" ) ) );
+   mbp.lpszIcon           = ( LPCWSTR ) ( HB_ISCHAR( 5 ) ? hb_osStrU16Encode( hb_parc( 5 ) ) : ( HB_ISNUM( 5 ) ? MAKEINTRESOURCE( hb_parni( 5 ) ) : NULL ) );
+#endif
    mbp.cbSize             = sizeof( MSGBOXPARAMS );
    mbp.hwndOwner          = HB_ISNUM( 1 ) ? ( HWND ) HB_PARNL( 1 ) : GetActiveWindow();
    mbp.hInstance          = HB_ISNUM( 6 ) ? ( HINSTANCE ) HB_PARNL( 6 ) : GetInstance();
-   mbp.lpszText           = HB_ISCHAR( 2 ) ? hb_parc( 2 ) : ( HB_ISNUM( 2 ) ? MAKEINTRESOURCE( hb_parni( 2 ) ) : NULL );
-   mbp.lpszCaption        = HB_ISCHAR( 3 ) ? hb_parc( 3 ) : ( HB_ISNUM( 3 ) ? MAKEINTRESOURCE( hb_parni( 3 ) ) : "" );
    mbp.dwStyle            = ( DWORD ) hb_parni( 4 );
-   mbp.lpszIcon           = HB_ISCHAR( 5 ) ? hb_parc( 5 ) : ( HB_ISNUM( 5 ) ? MAKEINTRESOURCE( hb_parni( 5 ) ) : NULL );
    mbp.dwContextHelpId    = HB_ISNUM( 7 ) ? ( DWORD ) hb_parni( 7 ) : 0;
    mbp.lpfnMsgBoxCallback = NULL; /* Modified by P.Ch. 16.10. */
    mbp.dwLanguageId       = HB_ISNUM( 9 ) ? ( DWORD ) hb_parni( 9 ) : MAKELANGID( LANG_NEUTRAL, SUBLANG_NEUTRAL );
@@ -78,8 +89,13 @@ HB_FUNC( MESSAGEBOXINDIRECT )
 HB_FUNC( MESSAGEBOXTIMEOUT )
 {
    HWND hWnd = GetActiveWindow();
+#ifndef UNICODE
    const char * lpText         = hb_parc( 1 );
    const char * lpCaption      = hb_parc( 2 );
+#else
+   TCHAR * lpText              = hb_osStrU16Encode( hb_parc( 1 ) );
+   TCHAR * lpCaption           = hb_osStrU16Encode( hb_parc( 2 ) );
+#endif
    UINT         uType          = ( UINT ) hb_parnldef( 3, MB_OK );
    WORD         wLanguageId    = MAKELANGID( LANG_NEUTRAL, SUBLANG_NEUTRAL );
    DWORD        dwMilliseconds = HB_ISNUM( 4 ) ? ( DWORD ) hb_parnl( 4 ) : ( DWORD ) 0xFFFFFFFF;
@@ -87,16 +103,20 @@ HB_FUNC( MESSAGEBOXTIMEOUT )
    hb_retni( MessageBoxTimeout( hWnd, lpText, lpCaption, uType, wLanguageId, dwMilliseconds ) );
 }
 
-int WINAPI MessageBoxTimeout( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds )
+int WINAPI MessageBoxTimeout( HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds )
 {
-   typedef int ( WINAPI * PMessageBoxTimeout )( HWND, LPCSTR, LPCSTR, UINT, WORD, DWORD );
+   typedef int ( WINAPI * PMessageBoxTimeout )( HWND, LPCTSTR, LPCTSTR, UINT, WORD, DWORD );
    static PMessageBoxTimeout pMessageBoxTimeout = NULL;
 
    if( pMessageBoxTimeout == NULL )
    {
-      HMODULE hLib = LoadLibrary( "User32.dll" );
+      HMODULE hLib = LoadLibrary( TEXT( "User32.dll" ) );
 
-      pMessageBoxTimeout = ( PMessageBoxTimeout ) GetProcAddress( hLib, "MessageBoxTimeoutA" );
+   #ifdef UNICODE
+      pMessageBoxTimeout = ( PMessageBoxTimeout ) wapi_GetProcAddress( hLib, "MessageBoxTimeoutW" );
+   #else
+      pMessageBoxTimeout = ( PMessageBoxTimeout ) wapi_GetProcAddress( hLib, "MessageBoxTimeoutA" );
+   #endif
    }
 
    return pMessageBoxTimeout == NULL ? 0 : pMessageBoxTimeout( hWnd, lpText, lpCaption, uType, wLanguageId, dwMilliseconds );

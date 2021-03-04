@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -51,6 +51,10 @@
 
 #include <commctrl.h>
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+   LPSTR  WideToAnsi( LPWSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -60,7 +64,8 @@ HB_FUNC( INITMESSAGEBAR )
    int  ptArray[ 40 ];  // Array defining the number of parts/sections
    int  nrOfParts = 1;
 
-   hWndSB = CreateStatusWindow( WS_CHILD | WS_VISIBLE | WS_BORDER | SBT_TOOLTIPS, hb_parc( 2 ), ( HWND ) HB_PARNL( 1 ), hb_parni( 3 ) );
+   hWndSB = CreateStatusWindow( WS_CHILD | WS_VISIBLE | SBT_TOOLTIPS, NULL, ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ) );
+
    if( hWndSB )
       SendMessage( hWndSB, SB_SETPARTS, nrOfParts, ( LPARAM ) ( LPINT ) ptArray );
 
@@ -81,6 +86,15 @@ HB_FUNC( INITITEMBAR )
    int   Style;
    int   cx;
    int   cy;
+#ifndef UNICODE
+   LPCSTR lpText = hb_parc( 2 );
+   LPCSTR lpIconName = hb_parc( 6 );
+   LPCSTR lpTipText = hb_parc( 7 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 2 ) );
+   LPWSTR lpIconName = AnsiToWide( ( char * ) hb_parc( 6 ) );
+   LPWSTR lpTipText = AnsiToWide( ( char * ) hb_parc( 7 ) );
+#endif
 
    hWndSB = ( HWND ) HB_PARNL( 1 );
    Style  = GetWindowLong( ( HWND ) GetParent( hWndSB ), GWL_STYLE );
@@ -95,7 +109,7 @@ HB_FUNC( INITITEMBAR )
 
    if( hb_parnl( 5 ) )
    {
-      nrOfParts = SendMessage( hWndSB, SB_GETPARTS, 40, 0 );
+      nrOfParts = ( int ) SendMessage( hWndSB, SB_GETPARTS, 40, 0 );
       SendMessage( hWndSB, SB_GETPARTS, 40, ( LPARAM ) ( LPINT ) ptArray );
    }
 
@@ -129,40 +143,49 @@ HB_FUNC( INITITEMBAR )
    cy = rect.bottom - rect.top - 4;
    cx = cy;
 
-   hIcon = ( HICON ) LoadImage( GetResources(), hb_parc( 6 ), IMAGE_ICON, cx, cy, 0 );
+   hIcon = ( HICON ) LoadImage( GetResources(), lpIconName, IMAGE_ICON, cx, cy, 0 );
 
    if( hIcon == NULL )
-      hIcon = ( HICON ) LoadImage( NULL, hb_parc( 6 ), IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
+      hIcon = ( HICON ) LoadImage( NULL, lpIconName, IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
 
    if( ! ( hIcon == NULL ) )
       SendMessage( hWndSB, SB_SETICON, ( WPARAM ) ( nrOfParts - 1 ), ( LPARAM ) hIcon );
 
-   SendMessage( hWndSB, SB_SETTEXT, ( nrOfParts - 1 ) | displayFlags, ( LPARAM ) hb_parc( 2 ) );
-   SendMessage( hWndSB, SB_SETTIPTEXT, ( WPARAM ) ( nrOfParts - 1 ), ( LPARAM ) hb_parc( 7 ) );
+   SendMessage( hWndSB, SB_SETTEXT, ( nrOfParts - 1 ) | displayFlags, ( LPARAM ) lpText );
+   SendMessage( hWndSB, SB_SETTIPTEXT, ( WPARAM ) ( nrOfParts - 1 ), ( LPARAM ) lpTipText );
 
    hb_retni( nrOfParts );
 }
 
 HB_FUNC( SETITEMBAR )
 {
-   char cString[ 1024 ] = "";
-   int  displayFlags;
+   HWND hWnd = ( HWND ) HB_PARNL( 1 );
+   int  iPos = hb_parni( 3 );
+   WORD nFlags;
+#ifndef UNICODE
+   LPCSTR lpText = hb_parc( 2 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
-   displayFlags = HIWORD( SendMessage( ( HWND ) HB_PARNL( 1 ), SB_GETTEXT, ( WPARAM ) hb_parni( 3 ), ( LPARAM ) cString ) );
-   SendMessage( ( HWND ) HB_PARNL( 1 ), SB_SETTEXT, hb_parni( 3 ) | displayFlags, ( LPARAM ) hb_parc( 2 ) );
+   nFlags = HIWORD( SendMessage( hWnd, SB_GETTEXTLENGTH, ( WPARAM ) iPos, 0 ) );
+   SendMessage( hWnd, SB_SETTEXT, ( WPARAM ) ( iPos | nFlags ), ( LPARAM ) lpText );
 }
 
 HB_FUNC( GETITEMBAR )
 {
-   char * cString;
-   HWND   hWnd;
-   int    iPos;
+   HWND   hWnd = ( HWND ) HB_PARNL( 1 );
+   int    iPos = hb_parni( 2 );
+   TCHAR * cString;
 
-   hWnd    = ( HWND ) HB_PARNL( 1 );
-   iPos    = hb_parni( 2 );
-   cString = ( char * ) hb_xgrab( LOWORD( SendMessage( hWnd, SB_GETTEXTLENGTH, iPos - 1, 0 ) ) + 1 );
+   cString = ( TCHAR * ) hb_xgrab( LOWORD( SendMessage( hWnd, SB_GETTEXTLENGTH, ( WPARAM ) iPos - 1, 0 ) ) + 1 );
    SendMessage( hWnd, SB_GETTEXT, ( WPARAM ) iPos - 1, ( LPARAM ) cString );
+
+#ifndef UNICODE
    hb_retc( cString );
+#else
+   hb_retc( WideToAnsi( cString ) );
+#endif
    hb_xfree( cString );
 }
 
@@ -179,7 +202,7 @@ HB_FUNC( REFRESHITEMBAR )
 
    hWndSB    = ( HWND ) HB_PARNL( 1 );
    size      = hb_parni( 2 );
-   nrOfParts = SendMessage( hWndSB, SB_GETPARTS, 40, 0 );
+   nrOfParts = ( int ) SendMessage( hWndSB, SB_GETPARTS, 40, 0 );
    SendMessage( hWndSB, SB_GETPARTS, 40, ( LPARAM ) ( LPINT ) ptArray );
 
    hDC = GetDC( hWndSB );
@@ -248,6 +271,11 @@ HB_FUNC( SETSTATUSITEMICON )
    HICON hIcon;
    int   cx;
    int   cy;
+#ifndef UNICODE
+   LPCSTR lpIconName = hb_parc( 3 );
+#else
+   LPWSTR lpIconName = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
@@ -260,10 +288,10 @@ HB_FUNC( SETSTATUSITEMICON )
    cy = rect.bottom - rect.top - 4;
    cx = cy;
 
-   hIcon = ( HICON ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_ICON, cx, cy, 0 );
+   hIcon = ( HICON ) LoadImage( GetResources(), lpIconName, IMAGE_ICON, cx, cy, 0 );
 
    if( hIcon == NULL )
-      hIcon = ( HICON ) LoadImage( NULL, hb_parc( 3 ), IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
+      hIcon = ( HICON ) LoadImage( NULL, lpIconName, IMAGE_ICON, cx, cy, LR_LOADFROMFILE );
 
    SendMessage( hwnd, SB_SETICON, ( WPARAM ) hb_parni( 2 ) - 1, ( LPARAM ) hIcon );
 }
@@ -274,7 +302,7 @@ HB_FUNC( SETSTATUSBARSIZE )
    LPINT  lpParts;
 
    HWND hwndStatus = ( HWND ) HB_PARNL( 1 );
-   int  nParts     = hb_parinfa( 2, 0 );
+   int  nParts     = ( int ) hb_parinfa( 2, 0 );
    int  nWidth;
    int  i;
 
@@ -293,19 +321,10 @@ HB_FUNC( SETSTATUSBARSIZE )
 
    SendMessage( hwndStatus, SB_SETPARTS, ( WPARAM ) nParts, ( LPARAM ) lpParts );
 
-   MoveWindow( ( HWND ) hwndStatus, 0, 0, 0, 0, TRUE );
+   MoveWindow( hwndStatus, 0, 0, 0, 0, TRUE );
 
    LocalUnlock( hloc );
    LocalFree( hloc );
-}
-
-HB_FUNC( REFRESHSTATUSITEM )
-{
-   HWND hwndStatus = ( HWND ) HB_PARNL( 1 );
-   RECT rc;
-
-   SendMessage( hwndStatus, SB_GETRECT, ( WPARAM ) hb_parni( 2 ) - 1, ( LPARAM ) &rc );
-   RedrawWindow( hwndStatus, &rc, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASENOW | RDW_UPDATENOW );
 }
 
 HB_FUNC( REFRESHPROGRESSITEM )       // RefreshProgressItem( HwndStatus, NrItem, hProgress )

@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -87,7 +87,7 @@ HB_FUNC( INITBROWSE )
              (
       WS_EX_CLIENTEDGE,
       WC_LISTVIEW,
-      "",
+      TEXT( "" ),
       style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -145,7 +145,7 @@ HB_FUNC( INITVSCROLLBAR )
                 (
       0,
       WC_SCROLLBAR,
-      "",
+      TEXT( "" ),
       WS_CHILD | WS_VISIBLE | SBS_VERT,
       hb_parni( 2 ),
       hb_parni( 3 ),
@@ -188,7 +188,7 @@ HB_FUNC( INITVSCROLLBARBUTTON )
 
    Style = WS_CHILD | WS_VISIBLE | SS_SUNKEN;
 
-   hbutton = CreateWindow( WC_STATIC, "", Style, hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ), hwnd, ( HMENU ) NULL, GetInstance(), NULL );
+   hbutton = CreateWindow( WC_STATIC, TEXT( "" ), Style, hb_parni( 2 ), hb_parni( 3 ), hb_parni( 4 ), hb_parni( 5 ), hwnd, ( HMENU ) NULL, GetInstance(), NULL );
 
    HB_RETNL( ( LONG_PTR ) hbutton );
 }

@@ -30,24 +30,29 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
 
+#if defined( _MSC_VER )
+#pragma warning ( disable:4996 )
+#endif
 #include <commctrl.h>
+
+extern HB_PTRUINT wapi_GetProcAddress( HMODULE hModule, const char * lpProcName );
 
 typedef BOOL ( WINAPI * VERIFYSCREENSAVEPWD )( HWND hwnd );
 typedef VOID ( WINAPI * PWDCHANGEPASSWORD )( LPCSTR lpcRegkeyname, HWND hwnd, UINT uiReserved1, UINT uiReserved2 );
@@ -57,7 +62,7 @@ HB_FUNC( VERIFYPASSWORD )
    // Under NT, we return TRUE immediately. This lets the saver quit,
    // and the system manages passwords. Under '95, we call VerifyScreenSavePwd.
    // This checks the appropriate registry key and, if necessary,
-   // pops up a verify dialog
+   // pops up a verify dialog.
 
    HWND      hwnd;
    HINSTANCE hpwdcpl;
@@ -71,12 +76,12 @@ HB_FUNC( VERIFYPASSWORD )
    if( osvi.dwPlatformId == VER_PLATFORM_WIN32_NT )
       hb_retl( TRUE );
 
-   hpwdcpl = LoadLibrary( "PASSWORD.CPL" );
+   hpwdcpl = LoadLibrary( TEXT( "PASSWORD.CPL" ) );
 
    if( hpwdcpl == NULL )
       hb_retl( FALSE );
 
-   VerifyScreenSavePwd = ( VERIFYSCREENSAVEPWD ) GetProcAddress( hpwdcpl, "VerifyScreenSavePwd" );
+   VerifyScreenSavePwd = ( VERIFYSCREENSAVEPWD ) wapi_GetProcAddress( hpwdcpl, "VerifyScreenSavePwd" );
    if( VerifyScreenSavePwd == NULL )
    {
       FreeLibrary( hpwdcpl );
@@ -97,13 +102,13 @@ HB_FUNC( CHANGEPASSWORD )
 
    HWND hwnd;
 
-   HINSTANCE hmpr = LoadLibrary( "MPR.DLL" );
+   HINSTANCE hmpr = LoadLibrary( TEXT( "MPR.DLL" ) );
    PWDCHANGEPASSWORD PwdChangePassword;
 
    if( hmpr == NULL )
       hb_retl( FALSE );
 
-   PwdChangePassword = ( PWDCHANGEPASSWORD ) GetProcAddress( hmpr, "PwdChangePasswordA" );
+   PwdChangePassword = ( PWDCHANGEPASSWORD ) wapi_GetProcAddress( hmpr, "PwdChangePasswordA" );
 
    if( PwdChangePassword == NULL )
    {

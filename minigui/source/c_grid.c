@@ -35,7 +35,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -62,8 +62,15 @@ extern BOOL _isValidCtrlClass( HWND, LPCTSTR );
 HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transparent, int * nWidth, int * nHeight );
 void HMG_ImageListAdd( HIMAGELIST himl, char * FileName, int Transparent );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+   LPSTR  WideToAnsi( LPWSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
+
+// Minigui Resources control system
+void RegisterResource( HANDLE hResource, LPSTR szType );
 
 #if ( ( defined( __BORLANDC__ ) && __BORLANDC__ < 1410 ) )
 
@@ -88,7 +95,7 @@ typedef struct tagLVITEMA2
    int * piColFmt;
    int   iGroup;                     // readonly. only valid for owner data.
 #endif
-} LVITEMA2, * LPLVITEMA2;
+} LVITEMA2, *LPLVITEMA2;
 
 typedef struct tagLVITEMW2
 {
@@ -111,7 +118,7 @@ typedef struct tagLVITEMW2
    int * piColFmt;
    int   iGroup; // readonly. only valid for owner data.
 #endif
-} LVITEMW2, * LPLVITEMW2;
+} LVITEMW2, *LPLVITEMW2;
 
 #ifdef UNICODE
 #define _LVITEM                 LVITEMW2
@@ -160,7 +167,7 @@ typedef struct tagLVGROUP
    UINT   stateMask;
    UINT   state;
    UINT   uAlign;
-} LVGROUP, * PLVGROUP;
+} LVGROUP, *PLVGROUP;
 
 #define LVM_ENABLEGROUPVIEW     ( LVM_FIRST + 157 )
 #define ListView_EnableGroupView( hwnd, fEnable ) \
@@ -227,7 +234,7 @@ HB_FUNC( INITLISTVIEW )
              (
       WS_EX_CLIENTEDGE,
       WC_LISTVIEW,
-      "",
+      TEXT( "" ),
       style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -317,6 +324,7 @@ HB_FUNC( ADDLISTVIEWBITMAPHEADER )  // Grid+
       }
    }
 
+   RegisterResource( himl, "IMAGELIST" );
    HB_RETNL( ( LONG_PTR ) himl );
 }
 
@@ -333,6 +341,11 @@ HB_FUNC( INITLISTVIEWCOLUMNS )
    PHB_ITEM jArray;
 
    HWND      hc;
+#ifndef UNICODE
+   LPSTR lpText;
+#else
+   LPWSTR lpText;
+#endif
    LV_COLUMN COL;
    int       iLen;
    int       s;
@@ -351,7 +364,12 @@ HB_FUNC( INITLISTVIEWCOLUMNS )
    {
       COL.fmt      = hb_arrayGetNI( jArray, s + 1 );
       COL.cx       = hb_arrayGetNI( wArray, s + 1 );
-      COL.pszText  = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
+   #ifndef UNICODE
+      lpText = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
+   #else
+      lpText = AnsiToWide( ( char * ) hb_arrayGetCPtr( hArray, s + 1 ) );
+   #endif
+      COL.pszText  = lpText;
       COL.iSubItem = iColumn;
       ListView_InsertColumn( hc, iColumn, &COL );
       if( iColumn == 0 && COL.fmt != LVCFMT_LEFT )
@@ -372,6 +390,11 @@ HB_FUNC( ADDLISTVIEWITEMS )
 {
    PHB_ITEM hArray;
    char *   caption;
+#ifndef UNICODE
+   LPSTR lpText;
+#else
+   LPWSTR lpText;
+#endif
    LV_ITEM  LI;
    HWND     h;
    int      l;
@@ -384,6 +407,11 @@ HB_FUNC( ADDLISTVIEWITEMS )
    c      = ListView_GetItemCount( h );
 
    caption = ( char * ) hb_arrayGetCPtr( hArray, 1 );
+#ifndef UNICODE
+   lpText = caption;
+#else
+   lpText = AnsiToWide( ( char * ) caption );
+#endif
 
    LI.mask      = LVIF_TEXT | LVIF_IMAGE;
    LI.state     = 0;
@@ -391,13 +419,18 @@ HB_FUNC( ADDLISTVIEWITEMS )
    LI.iImage    = hb_parni( 3 );
    LI.iSubItem  = 0;
    LI.iItem     = c;
-   LI.pszText   = caption;
+   LI.pszText   = lpText;
    ListView_InsertItem( h, &LI );
 
    for( s = 1; s <= l; s = s + 1 )
    {
       caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
-      ListView_SetItemText( h, c, s, caption );
+#ifndef UNICODE
+   lpText = caption;
+#else
+   lpText = AnsiToWide( ( char * ) caption );
+#endif
+      ListView_SetItemText( h, c, s, lpText );
    }
 }
 
@@ -409,20 +442,17 @@ HB_FUNC( LISTVIEW_SETCURSEL )
 HB_FUNC( LISTVIEWGETMULTISEL )
 {
    HWND hwnd = ( HWND ) HB_PARNL( 1 );
-   int  i;
+   int  i    = -1;
    int  n;
-   int  j;
+   int  j = 0;
 
    n = ( int ) SendMessage( hwnd, LVM_GETSELECTEDCOUNT, 0, 0 );
 
    hb_reta( n );
 
-   i = -1;
-   j = 0;
-
    while( 1 )
    {
-      i = ListView_GetNextItem( ( HWND ) HB_PARNL( 1 ), i, LVNI_ALL | LVNI_SELECTED );
+      i = ListView_GetNextItem( hwnd, i, LVNI_ALL | LVNI_SELECTED );
 
       if( i == -1 )
          break;
@@ -436,24 +466,28 @@ HB_FUNC( LISTVIEWGETMULTISEL )
 HB_FUNC( LISTVIEWSETMULTISEL )
 {
    PHB_ITEM wArray;
-
-   HWND hwnd = ( HWND ) HB_PARNL( 1 );
-
-   int i;
-   int l;
-   int n;
+   HWND     hwnd = ( HWND ) HB_PARNL( 1 );
+   int      i    = -1;
+   int      l;
 
    wArray = hb_param( 2, HB_IT_ARRAY );
 
    l = ( int ) hb_parinfa( 2, 0 ) - 1;
 
-   n = ( int ) SendMessage( hwnd, LVM_GETITEMCOUNT, 0, 0 );
-
    // CLEAR CURRENT SELECTIONS
-   for( i = 0; i < n; i++ )
-      ListView_SetItemState( hwnd, ( WPARAM ) i, 0, LVIS_FOCUSED | LVIS_SELECTED );
+
+   while( 1 )
+   {
+      i = ListView_GetNextItem( hwnd, i, LVNI_ALL | LVNI_SELECTED );
+
+      if( i == -1 )
+         break;
+      else
+         ListView_SetItemState( hwnd, ( WPARAM ) i, 0, LVIS_FOCUSED | LVIS_SELECTED );
+   }
 
    // SET NEW SELECTIONS
+
    for( i = 0; i <= l; i++ )
       ListView_SetItemState( hwnd, hb_arrayGetNI( wArray, i + 1 ) - 1, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED );
 }
@@ -462,6 +496,11 @@ HB_FUNC( LISTVIEWSETITEM )
 {
    PHB_ITEM hArray;
    char *   caption;
+#ifndef UNICODE
+   LPSTR lpText;
+#else
+   LPWSTR lpText;
+#endif
    HWND     h = ( HWND ) HB_PARNL( 1 );
    int      l = ( int ) hb_parinfa( 2, 0 ) - 1;
    int      c = hb_parni( 3 ) - 1;
@@ -472,7 +511,12 @@ HB_FUNC( LISTVIEWSETITEM )
    for( s = 0; s <= l; s = s + 1 )
    {
       caption = ( char * ) hb_arrayGetCPtr( hArray, s + 1 );
-      ListView_SetItemText( h, c, s, caption );
+#ifndef UNICODE
+   lpText = caption;
+#else
+   lpText = AnsiToWide( caption );
+#endif
+      ListView_SetItemText( h, c, s, lpText );
    }
 }
 
@@ -500,10 +544,10 @@ static LPTSTR GetLVItemText( HWND hListView, int i, int iSubItem_ )
 
 HB_FUNC( LISTVIEWGETITEM )
 {
-   HWND h = ( HWND ) HB_PARNL( 1 );
-   int  c = hb_parni( 2 ) - 1;
-   int  l = hb_parni( 3 );
-   int  s;
+   HWND   h = ( HWND ) HB_PARNL( 1 );
+   int    c = hb_parni( 2 ) - 1;
+   int    l = hb_parni( 3 );
+   int    s;
    LPTSTR pszRet;
 
    hb_reta( l );
@@ -511,7 +555,11 @@ HB_FUNC( LISTVIEWGETITEM )
    for( s = 0; s <= l - 1; s++ )
    {
       pszRet = GetLVItemText( h, c, s );
+   #ifndef UNICODE
       HB_STORC( pszRet, -1, s + 1 );
+   #else
+      HB_STORC( WideToAnsi( pszRet ), -1, s + 1 );
+   #endif
       hb_xfree( pszRet );
    }
 }
@@ -542,10 +590,15 @@ HB_FUNC( SETGRIDCOLUMNJUSTIFY )
 
 HB_FUNC( SETGRIDCOLUMNHEADER )
 {
+#ifndef UNICODE
+   LPSTR lpText = ( char * ) hb_parc( 3 );
+#else
+   LPWSTR lpText = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
    LV_COLUMN COL;
 
    COL.mask    = LVCF_FMT | LVCF_TEXT;
-   COL.pszText = ( char * ) hb_parc( 3 );
+   COL.pszText = lpText;
    COL.fmt     = hb_parni( 4 );
 
    ListView_SetColumn( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ) - 1, &COL );
@@ -759,6 +812,11 @@ HB_FUNC( GETHEADERLISTVIEWITEMCX )
 
 HB_FUNC( LISTVIEW_ADDCOLUMN )
 {
+#ifndef UNICODE
+   LPSTR lpText;
+#else
+   LPWSTR lpText;
+#endif
    LV_COLUMN COL;
    HWND      hwnd    = ( HWND ) HB_PARNL( 1 );
    int       iColumn = hb_parni( 2 ) - 1;
@@ -768,7 +826,12 @@ HB_FUNC( LISTVIEW_ADDCOLUMN )
 
    COL.mask     = LVCF_WIDTH | LVCF_TEXT | LVCF_FMT | LVCF_SUBITEM;
    COL.cx       = hb_parni( 3 );
-   COL.pszText  = ( char * ) hb_itemGetCPtr( pValue );
+   #ifndef UNICODE
+      lpText = ( char * ) hb_itemGetCPtr( pValue );
+   #else
+      lpText = AnsiToWide( ( char * ) hb_itemGetCPtr( pValue ) );
+   #endif
+   COL.pszText  = lpText;
    COL.iSubItem = iColumn;
    COL.fmt      = hb_parni( 5 );
 
@@ -900,8 +963,8 @@ HB_FUNC( LISTVIEW_SETCOLUMNORDERARRAY )
 //       ListView_ChangeExtendedStyle ( hWnd, [ nAddStyle ], [ nRemoveStyle ] )
 HB_FUNC( LISTVIEW_CHANGEEXTENDEDSTYLE )  // Dr. Claudio Soto
 {
-   HWND  hWnd   = ( HWND ) HB_PARNL( 1 );
-   DWORD Add    = ( DWORD ) hb_parnl( 2 );
+   HWND  hWnd = ( HWND ) HB_PARNL( 1 );
+   DWORD Add = ( DWORD ) hb_parnl( 2 );
    DWORD Remove = ( DWORD ) hb_parnl( 3 );
    DWORD OldStyle, NewStyle, Style;
 

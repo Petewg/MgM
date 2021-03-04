@@ -32,28 +32,29 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
  */
 
 //#define _UNICODE
+
 #ifdef _UNICODE
-#ifndef UNICODE
-#define UNICODE
-#endif
+# ifndef UNICODE
+#  define UNICODE
+# endif
 #endif
 
 #include <mgdefs.h>
@@ -85,13 +86,18 @@ void hmg_ErrorExit( LPCTSTR lpszMessage, DWORD dwError, BOOL bExit )
    lpDisplayBuf = ( LPVOID ) LocalAlloc( LMEM_ZEROINIT, ( hmg_tstrlen( ( LPCTSTR ) lpMsgBuf ) +
                                                           hmg_tstrlen( lpszMessage ) + 40 ) * sizeof( TCHAR ) );
 
-        #ifdef UNICODE
+#ifdef UNICODE
+#if ( ( defined( __BORLANDC__ ) && __BORLANDC__ <= 1410 ) )
+   swprintf( ( LPTSTR ) lpDisplayBuf, TEXT( "'%s' failed with error %lu : %s" ),
+             lpszMessage, nError, ( LPTSTR ) lpMsgBuf );
+#else
    swprintf_s( ( LPTSTR ) lpDisplayBuf, LocalSize( lpDisplayBuf ) / sizeof( TCHAR ), TEXT( "'%s' failed with error %lu : %s" ),
                lpszMessage, nError, ( LPTSTR ) lpMsgBuf );
-        #else
+#endif
+#else
    hb_snprintf( ( LPTSTR ) lpDisplayBuf, LocalSize( lpDisplayBuf ) / sizeof( TCHAR ), TEXT( "'%s' failed with error %lu : %s" ),
                 lpszMessage, nError, ( LPTSTR ) lpMsgBuf );
-        #endif
+#endif
 
    MessageBox( NULL, ( LPCTSTR ) lpDisplayBuf, TEXT( "MiniGUI Error" ), MB_OK );
 

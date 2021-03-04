@@ -35,7 +35,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -60,6 +60,9 @@ static WNDPROC LabelOldWndProc;
 
 extern HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, HWND hWnd, int ScaleStretch, int Transparent, long BackgroundColor, int AdjustImage,
                                 HB_BOOL bAlphaFormat, int iAlpfaConstant );
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -75,7 +78,7 @@ typedef struct
    HBITMAP himagemask;
    HBITMAP himage2;
    HBITMAP himagemask2;
-} INSCHK, * PINSCHK;
+} INSCHK, *PINSCHK;
 
 
 HBITMAP CreateBitmapMask( HBITMAP hbmColour, COLORREF crTransparent )
@@ -170,7 +173,7 @@ static void DrawCheck( HWND hWnd, INSCHK * pbtn, RECT * prect )
    {
       FillRect( hdc, prect, GetSysColorBrush( COLOR_WINDOW ) );
       SetBkMode( hdc, TRANSPARENT );
-      DrawText( hdc, "V", 1, prect, DT_CENTER | DT_VCENTER | DT_SINGLELINE );
+      DrawText( hdc, TEXT( "V" ), 1, prect, DT_CENTER | DT_VCENTER | DT_SINGLELINE );
    }
    else
    {
@@ -214,6 +217,11 @@ HB_FUNC( INITCHKLABEL )
    HWND    hbutton;
    HBITMAP himage;
    HBITMAP himage2;
+#ifndef UNICODE
+   LPCSTR lpWindowName = hb_parc( 2 );
+#else
+   LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    int BtnWidth = hb_parni( 7 );
 
@@ -253,7 +261,7 @@ HB_FUNC( INITCHKLABEL )
              (
       ExStyle,
       WC_STATIC,
-      hb_parc( 2 ),
+      lpWindowName,
       Style,
       hb_parni( 4 ),
       hb_parni( 5 ),

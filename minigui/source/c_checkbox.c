@@ -35,7 +35,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -63,6 +63,9 @@ HBITMAP HMG_LoadPicture( const char * FileName, int New_Width, int New_Height, H
 
 HIMAGELIST HMG_SetButtonImageList( HWND hButton, const char * FileName, int Transparent, UINT uAlign );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -72,13 +75,18 @@ typedef struct
    HIMAGELIST himl;
    RECT       margin;
    UINT       uAlign;
-} BUTTON_IMAGELIST, * PBUTTON_IMAGELIST;
+} BUTTON_IMAGELIST, *PBUTTON_IMAGELIST;
 #endif
 
 HB_FUNC( INITCHECKBOX )
 {
    HWND hwnd;
    HWND hbutton;
+#ifndef UNICODE
+   LPCSTR lpWindowName = hb_parc( 2 );
+#else
+   LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    int Style;
    int ExStyle = 0;
@@ -108,7 +116,7 @@ HB_FUNC( INITCHECKBOX )
              (
       ExStyle,
       WC_BUTTON,
-      hb_parc( 2 ),
+      lpWindowName,
       Style,
       hb_parni( 4 ),
       hb_parni( 5 ),
@@ -128,6 +136,11 @@ HB_FUNC( INITCHECKBUTTON )
    HWND hwnd;
    HWND hbutton;
    int  Style;
+#ifndef UNICODE
+   LPCSTR lpWindowName = hb_parc( 2 );
+#else
+   LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
@@ -142,7 +155,7 @@ HB_FUNC( INITCHECKBUTTON )
    hbutton = CreateWindow
              (
       WC_BUTTON,
-      hb_parc( 2 ),
+      lpWindowName,
       Style,
       hb_parni( 4 ),
       hb_parni( 5 ),
@@ -164,7 +177,12 @@ HB_FUNC( INITIMAGECHECKBUTTON )
    HWND       himage;
    int        Style;
    HIMAGELIST himl;
-   int        Transparent = hb_parnidef( 7, 0 );
+#ifndef UNICODE
+   LPCSTR lpWindowName = hb_parc( 2 );
+#else
+   LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
+   int        Transparent = hb_parl( 7 ) ? 0 : 1;
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
@@ -179,7 +197,7 @@ HB_FUNC( INITIMAGECHECKBUTTON )
    hbutton = CreateWindow
              (
       WC_BUTTON,
-      hb_parc( 2 ),
+      lpWindowName,
       Style,
       hb_parni( 4 ),
       hb_parni( 5 ),

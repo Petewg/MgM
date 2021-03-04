@@ -31,37 +31,38 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ----------------------------------------------------------------------*/
 
 /* P.Ch. 16.10. */
 
 #include <mgdefs.h>
+
 #include "hbapierr.h"
 
 #ifndef __XHARBOUR__
-   #include "hbwinuni.h"
+# include "hbwinuni.h"
 #else
 typedef wchar_t HB_WCHAR;
 #endif
 
 #if ( ! defined( EM_GETCUEBANNER ) )
-   #if ( ! defined( ECM_FIRST ) )
-      #define ECM_FIRST     0x1500
-   #endif
-   #define EM_GETCUEBANNER  ( ECM_FIRST + 2 )
+# if ( ! defined( ECM_FIRST ) )
+#  define ECM_FIRST       0x1500
+# endif
+# define EM_GETCUEBANNER  ( ECM_FIRST + 2 )
 #endif
 
 HB_FUNC( GETCUEBANNERTEXT )

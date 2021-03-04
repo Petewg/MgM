@@ -32,18 +32,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts  of  this  code  is contributed and used here under permission of his
    author: Copyright 2016 (C) P.Chornyj <myorg63@mail.ru>
@@ -56,6 +56,7 @@
 #include "shlwapi.h"
 
 #include "hbinit.h"
+#include "hbvm.h"
 
 #define _HMG_STUB_
 #include "hbgdiplus.h"
@@ -68,12 +69,12 @@ extern GpStatus GdiplusInit( void );
 
 HINSTANCE GetInstance( void );
 HMODULE   hmg_LoadLibrarySystem( LPCTSTR pFileName );
+
 // auxiliary functions
 TCHAR * hmg_tstrdup( const TCHAR * pszText );
 TCHAR * hmg_tstrncat( TCHAR * pDest, const TCHAR * pSource, HB_SIZE nLen );
 HB_SIZE hmg_tstrlen( const TCHAR * pText );
 
-static void  hmg_init( void );
 static DWORD DllGetVersion( LPCTSTR lpszDllName );
 static TCHAR * hmg_FileNameAtSystemDir( const TCHAR * pFileName );
 
@@ -82,12 +83,20 @@ typedef HRESULT ( CALLBACK * _DLLGETVERSIONPROC )( DLLVERSIONINFO2 * );
 static HINSTANCE g_hInstance     = NULL;
 static DWORD     g_dwComCtl32Ver = 0;
 
+#ifdef __XHARBOUR__
 static void hmg_init( void )
+#else
+static void hmg_init( void * cargo )
+#endif
 {
    LPCTSTR lpszDllName = TEXT( "ComCtl32.dll" );
 
-   if( S_OK != CoInitializeEx( NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE | COINIT_SPEED_OVER_MEMORY ) )
-      hmg_ErrorExit( TEXT( "hmg_init( void )" ), 0, TRUE );
+#ifndef __XHARBOUR__
+   HB_SYMBOL_UNUSED( cargo );
+#endif
+
+   if( S_FALSE == CoInitializeEx( NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE | COINIT_SPEED_OVER_MEMORY ) )
+      hmg_ErrorExit( TEXT( "hmg_init( void )" ), S_FALSE, TRUE );
 
    g_dwComCtl32Ver = DllGetVersion( lpszDllName );
 
@@ -97,9 +106,15 @@ static void hmg_init( void )
       hmg_ErrorExit( TEXT( "GdiplusInit( void )" ), 0, TRUE );
 }
 
+#ifdef __XHARBOUR__
 HB_CALL_ON_STARTUP_BEGIN( _hmg_init_ )
 hmg_init();
 HB_CALL_ON_STARTUP_END( _hmg_init_ )
+#else
+HB_CALL_ON_STARTUP_BEGIN( _hmg_init_ )
+hb_vmAtInit( hmg_init, NULL );
+HB_CALL_ON_STARTUP_END( _hmg_init_ )
+#endif
 
 #if defined( HB_PRAGMA_STARTUP )
    #pragma startup _hmg_init_
@@ -126,7 +141,7 @@ static DWORD DllGetVersion( LPCTSTR lpszDllName )
    if( hinstDll )
    {
       _DLLGETVERSIONPROC pDllGetVersion;
-      pDllGetVersion = ( _DLLGETVERSIONPROC ) GetProcAddress( hinstDll, TEXT( "DllGetVersion" ) );
+      pDllGetVersion = ( _DLLGETVERSIONPROC ) wapi_GetProcAddress( hinstDll, "DllGetVersion" );
 
       if( pDllGetVersion )
       {
@@ -137,7 +152,7 @@ static DWORD DllGetVersion( LPCTSTR lpszDllName )
 
          dvi.info1.cbSize = sizeof( dvi );
 
-         hr = ( * pDllGetVersion )(&dvi );
+         hr = ( *pDllGetVersion )( &dvi );
          if( S_OK == hr )
             dwVersion = PACKVERSION( dvi.info1.dwMajorVersion, dvi.info1.dwMinorVersion );
       }

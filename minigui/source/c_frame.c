@@ -32,18 +32,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
  */
 
 #include <mgdefs.h>
@@ -51,9 +51,12 @@
 #include "hbapierr.h"
 
 #ifndef WC_BUTTON
-#define WC_BUTTON  "Button"
+#define WC_BUTTON  TEXT( "Button" )
 #endif
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 
 /* Modified by P.Ch. 16.12. */
@@ -67,12 +70,17 @@ HB_FUNC( INITFRAME )
    {
       HMENU hmenu     = ( HMENU ) HB_PARNL( 2 );
       DWORD dwExStyle = ( ( BOOL ) hb_parl( 10 ) ? 0 : WS_EX_TRANSPARENT ); /* opaque | transparent */
+#ifndef UNICODE
+      LPCSTR lpWindowName = hb_parc( 7 );
+#else
+      LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 7 ) );
+#endif
 
       hbutton = CreateWindowEx
                 (
          dwExStyle,
          WC_BUTTON,
-         hb_parc( 7 ),
+         lpWindowName,
          WS_CHILD | WS_VISIBLE | BS_GROUPBOX | BS_NOTIFY,
          hb_parni( 3 ),
          hb_parni( 4 ),

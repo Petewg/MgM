@@ -33,18 +33,18 @@
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-     Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+     Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -56,7 +56,14 @@
 
 #include "hbvm.h"
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetResources( void );
+
+#if defined( __XHARBOUR__ )
+#define HB_LONGLONG  LONGLONG
+#endif
 
 LRESULT CALLBACK HMG_DlgProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
@@ -143,7 +150,12 @@ HB_FUNC( UNCHECKDLGBUTTON )
 
 HB_FUNC( SETDIALOGITEMTEXT )
 {
-   hb_retl( SetDlgItemText( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ), ( LPCSTR ) hb_parc( 3 ) ) );
+#ifndef UNICODE
+   LPCSTR  lpString = hb_parc( 3 );
+#else
+   LPCWSTR lpString = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
+   hb_retl( SetDlgItemText( ( HWND ) HB_PARNL( 1 ), hb_parni( 2 ), lpString ) );
 }
 
 HB_FUNC( ENDDIALOG )
@@ -161,7 +173,7 @@ HB_FUNC( ADDDIALOGPAGES )
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
-   l      = hb_parinfa( 2, 0 ) - 1;
+   l      = ( int ) hb_parinfa( 2, 0 ) - 1;
    hArray = hb_param( 2, HB_IT_ARRAY );
 
    tie.mask   = TCIF_TEXT;
@@ -169,7 +181,7 @@ HB_FUNC( ADDDIALOGPAGES )
 
    for( i = l; i >= 0; i = i - 1 )
    {
-      tie.pszText = ( char * ) hb_arrayGetCPtr( hArray, i + 1 );
+      tie.pszText = ( TCHAR * ) hb_arrayGetCPtr( hArray, i + 1 );
 
       TabCtrl_InsertItem( hwnd, 0, &tie );
    }
@@ -284,14 +296,14 @@ static int nCopyAnsiToWideChar( LPWORD lpWCStr, LPCSTR lpAnsiIn )
    return nDstLen;
 }
 
-long GetSizeDlgTemp( PHB_ITEM dArray, PHB_ITEM cArray )
+HB_SIZE GetSizeDlgTemp( PHB_ITEM dArray, PHB_ITEM cArray )
 {
    PHB_ITEM iArray;
-   LONG     ln;
+   HB_SIZE  ln;
    int      s, nItem;
-   LONG     lTemplateSize = 36;
+   HB_SIZE  lTemplateSize = 36;
 
-   nItem = hb_arrayLen( cArray );
+   nItem = ( int ) hb_arrayLen( cArray );
 
    ln = hb_arrayGetCLen( dArray, 10 );    //caption
    lTemplateSize += ln * 2;
@@ -319,13 +331,18 @@ PWORD CreateDlgTemplate( long lTemplateSize, PHB_ITEM dArray, PHB_ITEM cArray )
 {
    PWORD pw, pdlgtemplate;
 
-   LONG     baseUnit  = GetDialogBaseUnits();
+   LONG     baseUnit = GetDialogBaseUnits();
    int      baseunitX = LOWORD( baseUnit ), baseunitY = HIWORD( baseUnit );
    int      nItem, s, x, y, w, h;
    WORD     iPointSize;
    PHB_ITEM iArray;
 
-   ULONG  Style, ExStyle, HelpId, Id;
+   #ifndef _WIN64
+   ULONG Style, ExStyle, HelpId;
+   #else
+   HB_LONGLONG Style, ExStyle, HelpId;
+   #endif
+   ULONG  Id;
    char * strtemp;
 
    int nchar;
@@ -340,7 +357,7 @@ PWORD CreateDlgTemplate( long lTemplateSize, PHB_ITEM dArray, PHB_ITEM cArray )
    y       = hb_arrayGetNI( dArray, 7 );  //y
    w       = hb_arrayGetNI( dArray, 8 );  //w
    h       = hb_arrayGetNI( dArray, 9 );  //h
-   nItem   = hb_arrayLen( cArray );
+   nItem   = ( int ) hb_arrayLen( cArray );
 
    *pw++   = 1;            // DlgVer
    *pw++   = 0xFFFF;       // Signature
@@ -419,7 +436,7 @@ HB_FUNC( CREATEDLGTEMPLATE )
 
    BOOL    modal;
    LRESULT lResult;
-   long    lTemplateSize;
+   HB_SIZE lTemplateSize;
 
    hwnd = ( HWND ) HB_PARNL( 1 );
 
@@ -427,9 +444,9 @@ HB_FUNC( CREATEDLGTEMPLATE )
    cArray = hb_param( 3, HB_IT_ARRAY );
    modal  = hb_arrayGetL( dArray, 3 );
 
-   lTemplateSize = GetSizeDlgTemp( dArray, cArray );
+   lTemplateSize = ( long ) GetSizeDlgTemp( dArray, cArray );
 
-   pdlgtemplate = CreateDlgTemplate( lTemplateSize, dArray, cArray );
+   pdlgtemplate = CreateDlgTemplate( ( long ) lTemplateSize, dArray, cArray );
 
    if( modal )
    {

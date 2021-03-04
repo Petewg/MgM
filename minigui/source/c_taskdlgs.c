@@ -334,7 +334,7 @@ HB_FUNC( WIN_TASKDIALOGINDIRECT0 )
                   buttons[ i ].pszButtonText = MAKEINTRESOURCE( hb_arrayGetNI( button, 2 ) );
                }
             }
-            config.cButtons = HB_MIN( config.cButtons, arrsize );
+            config.cButtons = HB_MIN( config.cButtons, ( UINT ) arrsize );
             config.pButtons = buttons;
          }
       }
@@ -374,7 +374,7 @@ HB_FUNC( WIN_TASKDIALOGINDIRECT0 )
                   radiobuttons[ i ].pszButtonText = MAKEINTRESOURCE( hb_arrayGetNI( button, 2 ) );
                }
             }
-            config.cRadioButtons = HB_MIN( config.cRadioButtons, arrsize );
+            config.cRadioButtons = HB_MIN( config.cRadioButtons, ( UINT ) arrsize );
             config.pRadioButtons = radiobuttons;
          }
       }

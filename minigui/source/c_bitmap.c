@@ -35,7 +35,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -58,10 +58,17 @@
 #include "hbapiitm.h"
 #include "hbapifs.h"
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
+
 HANDLE   DibFromBitmap( HBITMAP, HPALETTE );
 WORD     GetDIBColors( LPSTR );
 
 HINSTANCE GetResources( void );
+
+// Minigui Resources control system
+void RegisterResource( HANDLE hResource, LPSTR szType );
 
 HB_FUNC( SAVEWINDOWBYHANDLE )
 {
@@ -73,7 +80,11 @@ HB_FUNC( SAVEWINDOWBYHANDLE )
    HBITMAP            hOldBmp;
    HPALETTE           hPal = 0;
    HANDLE             hDIB;
-   const char *       File   = hb_parc( 2 );
+#ifndef UNICODE
+   LPCSTR  lpFileName = ( char * ) hb_parc( 2 );
+#else
+   LPCWSTR lpFileName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
    int                top    = hb_parni( 3 );
    int                left   = hb_parni( 4 );
    int                bottom = hb_parni( 5 );
@@ -104,7 +115,7 @@ HB_FUNC( SAVEWINDOWBYHANDLE )
    SelectObject( hMemDC, hOldBmp );
    hDIB = DibFromBitmap( hBitmap, hPal );
 
-   filehandle = CreateFile( File, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
+   filehandle = CreateFile( lpFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
 
    lpBI = ( LPBITMAPINFOHEADER ) GlobalLock( hDIB );
    if( lpBI && lpBI->biSize == sizeof( BITMAPINFOHEADER ) )
@@ -147,7 +158,11 @@ HB_FUNC( WNDCOPY )
    HBITMAP  hOldBmp;
    HPALETTE hPal  = 0;
    BOOL     bRect = hb_parl( 2 );
-   LPSTR    File  = ( char * ) hb_parc( 3 );
+#ifndef UNICODE
+   LPCSTR  lpFileName = ( char * ) hb_parc( 3 );
+#else
+   LPCWSTR lpFileName = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
    HANDLE   hDIB;
    BITMAPFILEHEADER   bmfHdr;
    LPBITMAPINFOHEADER lpBI;
@@ -168,7 +183,7 @@ HB_FUNC( WNDCOPY )
    SelectObject( hMemDC, hOldBmp );
    hDIB = DibFromBitmap( hBitmap, hPal );
 
-   filehandle = CreateFile( File, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
+   filehandle = CreateFile( lpFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL );
 
    lpBI = ( LPBITMAPINFOHEADER ) GlobalLock( hDIB );
    if( lpBI && lpBI->biSize == sizeof( BITMAPINFOHEADER ) )
@@ -678,13 +693,19 @@ HB_FUNC( DRAWGLYPHMASK )
  */
 HB_FUNC( LOADBITMAP )
 {
+#ifndef UNICODE
+   LPCSTR lpImageName = hb_parc( 1 );
+#else
+   LPWSTR lpImageName = AnsiToWide( ( char * ) hb_parc( 1 ) );
+#endif
    HBITMAP hBitmap;
 
-   hBitmap = ( HBITMAP ) LoadImage( GetResources(), hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
+   hBitmap = ( HBITMAP ) LoadImage( GetResources(), lpImageName, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR );
 
    if( hBitmap == NULL )
-      hBitmap = ( HBITMAP ) LoadImage( NULL, hb_parc( 1 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+      hBitmap = ( HBITMAP ) LoadImage( NULL, lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
 
+   RegisterResource( hBitmap, "BMP" );
    HB_RETNL( ( LONG_PTR ) hBitmap );
 }
 
@@ -974,12 +995,16 @@ HB_FUNC( GETBITMAPSIZE )
 
    if( hb_parclen( 1 ) > 0 )
    {
-      const char * pszName = hb_parc( 1 );
+#ifndef UNICODE
+      LPCSTR lpImageName = hb_parc( 1 );
+#else
+      LPWSTR lpImageName = AnsiToWide( ( char * ) hb_parc( 1 ) );
+#endif
 
-      hBitmap = ( HBITMAP ) LoadImage( GetResources(), pszName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
+      hBitmap = ( HBITMAP ) LoadImage( GetResources(), lpImageName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION );
 
       if( hBitmap == NULL )
-         hBitmap = ( HBITMAP ) LoadImage( NULL, pszName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
+         hBitmap = ( HBITMAP ) LoadImage( NULL, lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION );
    }
    else
    {

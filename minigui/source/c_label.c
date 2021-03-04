@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -59,6 +59,9 @@
 LRESULT APIENTRY  LabelSubClassFunc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam );
 static WNDPROC LabelOldWndProc;
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 
 HB_FUNC( INITLABEL )
@@ -104,7 +107,11 @@ HB_FUNC( INITLABEL )
 
    hWnd = CreateWindowEx( ExStyle,
                           WC_STATIC,
+#ifndef UNICODE
                           hb_parc( 2 ),
+#else
+                          AnsiToWide( ( char * ) hb_parc( 2 ) ),
+#endif
                           Style,
                           hb_parni( 4 ),
                           hb_parni( 5 ),

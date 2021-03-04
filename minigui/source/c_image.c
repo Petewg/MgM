@@ -37,7 +37,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -100,12 +100,16 @@ HB_EXPORT HBITMAP   HMG_LoadPicture( const char * pszName, int width, int height
                                      HB_BOOL bAlphaFormat, int iAlpfaConstant );
 HB_EXPORT HBITMAP   HMG_OleLoadPicturePath( const char * pszURLorPath );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetResources( void );
-extern HB_PTRUINT wapi_GetProcAddress( HMODULE hmodule, LPCTSTR lpProcName );
+
+// Minigui Resources control system
+void RegisterResource( HANDLE hResource, LPSTR szType );
 
 static WNDPROC s_Image_WNDPROC;
 static char *  MimeTypeOld;
-
 
 HB_EXPORT IStream * HMG_CreateMemStreamFromResource( HINSTANCE hinstance, const char * res_name, const char * res_type )
 {
@@ -192,7 +196,7 @@ HB_EXPORT HBITMAP HMG_GdiCreateHBITMAP( HDC hDC_mem, int width, int height, WORD
 static HBITMAP HMG_GdipLoadBitmap( const char * res_name, const char * res_type )
 {
    HBITMAP    hBitmap  = ( HBITMAP ) NULL;
-   GpStatus   status   = 1;
+   GpStatus   status   = GenericError;
    GpBitmap * gpBitmap = NULL;
    wchar_t *  res_nameW;
 
@@ -332,11 +336,13 @@ HB_FUNC( C_SETPICTURE )
       if( hBitmap != NULL )
       {
          HBITMAP hOldBitmap = ( HBITMAP ) SendMessage( hWnd, STM_SETIMAGE, ( WPARAM ) IMAGE_BITMAP, ( LPARAM ) hBitmap );
+         RegisterResource( hBitmap, "BMP" );
 
          if( hOldBitmap != NULL )
             DeleteObject( hOldBitmap );
       }
    }
+
    HB_RETNL( ( LONG_PTR ) hBitmap );
 }
 
@@ -346,6 +352,7 @@ HB_FUNC( C_GETRESPICTURE )
 
    hBitmap = HMG_LoadImage( hb_parc( 1 ), hb_parc( 2 ) );
 
+   RegisterResource( hBitmap, "BMP" );
    HB_RETNL( ( LONG_PTR ) hBitmap );
 }
 
@@ -399,10 +406,22 @@ HB_EXPORT HBITMAP HMG_LoadPicture( const char * pszName, int width, int height, 
 
    if( bAlphaFormat == HB_FALSE ) // Firstly find BMP image in resourses (.EXE file)
    {
-      hBitmap_new = ( HBITMAP ) LoadImage( GetResources(), pszName, IMAGE_BITMAP, 0, 0, fuLoad );
+      hBitmap_new = ( HBITMAP ) LoadImage( GetResources(), 
+                   #ifdef UNICODE
+                      AnsiToWide( pszName ),
+                   #else
+                      pszName,
+                   #endif
+                      IMAGE_BITMAP, 0, 0, fuLoad );
       // If fail: find BMP in disk
       if( hBitmap_new == NULL )
-         hBitmap_new = ( HBITMAP ) LoadImage( NULL, pszName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | fuLoad );
+         hBitmap_new = ( HBITMAP ) LoadImage( NULL,
+                   #ifdef UNICODE
+                      AnsiToWide( pszName ),
+                   #else
+                      pszName,
+                   #endif
+                      IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | fuLoad );
    }
    // Secondly find BMP (bitmap), ICO (icon), JPEG, GIF, WMF (metafile) file on disk or URL
    if( hBitmap_new == NULL && hb_strnicmp( "http", pszName, 4 ) == 0 )
@@ -479,7 +498,7 @@ HB_EXPORT HBITMAP HMG_LoadPicture( const char * pszName, int width, int height, 
       SetBrushOrgEx( memDC2, Point.x, Point.y, NULL );
    }
 
-   if( Transparent == 1 && ScaleStretch == 1 && bAlphaFormat == HB_FALSE )
+   if( Transparent == 1 && bAlphaFormat == HB_FALSE )
       TransparentBlt( memDC2, rect.left, rect.top, rect.right, rect.bottom, memDC1, 0, 0, bmWidth, bmHeight, GetPixel( memDC1, 0, 0 ) );
    else if( Transparent == 1 || bAlphaFormat == HB_TRUE )
    {
@@ -1147,7 +1166,7 @@ HB_FUNC( C_SAVEHICONTOFILE )
       hb_retl( FALSE );
 }
 
-BOOL bmp_SaveFile( HBITMAP hBitmap, char * FileName )
+BOOL bmp_SaveFile( HBITMAP hBitmap, TCHAR * FileName )
 {
    HGLOBAL hBits;
    LPBYTE  lp_hBits;
@@ -1218,7 +1237,7 @@ HIMAGELIST HMG_ImageListLoadFirst( const char * FileName, int cGrow, int Transpa
    HIMAGELIST hImageList;
    HBITMAP    hBitmap;
    BITMAP     Bmp;
-   char       TempPathFileName[ MAX_PATH ];
+   TCHAR      TempPathFileName[ MAX_PATH ];
 
    hBitmap = HMG_LoadPicture( FileName, -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
    if( hBitmap == NULL )
@@ -1254,7 +1273,7 @@ void HMG_ImageListAdd( HIMAGELIST hImageList, char * FileName, int Transparent )
    if( hImageList == NULL )
       return;
 
-   hBitmap = HMG_LoadPicture( FileName, -1, -1, NULL, 1, Transparent, -1, 0, HB_FALSE, 255 );
+   hBitmap = HMG_LoadPicture( FileName, -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
    if( hBitmap == NULL )
       return;
 

@@ -32,18 +32,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
  */
 
 #include <mgdefs.h>
@@ -51,8 +51,22 @@
 #include "hbapiitm.h"
 #include "hbapierr.h"
 
+#ifndef __XHARBOUR__
+#include "hbwinuni.h"
+#else
+#define HB_STRNCPY  hb_strncpy
+#endif
+
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+   LPSTR  WideToAnsi( LPWSTR );
+#endif
+
+// Minigui Resources control system
+void RegisterResource( HANDLE hResource, LPSTR szType );
+
 #ifdef __XCC__
-# define HB_ISBLOCK  ISBLOCK
+#define HB_ISBLOCK  ISBLOCK
 #endif
 
 HFONT PrepareFont( const char * FontName, int FontSize, int Weight, DWORD Italic, DWORD Underline, DWORD StrikeOut, DWORD Angle, DWORD charset )
@@ -68,13 +82,17 @@ HFONT PrepareFont( const char * FontName, int FontSize, int Weight, DWORD Italic
                       CLIP_DEFAULT_PRECIS,
                       DEFAULT_QUALITY,
                       FF_DONTCARE,
+                   #ifdef UNICODE
+                      AnsiToWide( FontName )
+                   #else
                       FontName
+                   #endif
                       );
 }
 
 HB_FUNC( INITFONT )
 {
-   HFONT font;
+   HFONT hFont;
    int   bold      = hb_parl( 3 ) ? FW_BOLD : FW_NORMAL;
    DWORD italic    = ( DWORD ) hb_parl( 4 );
    DWORD underline = ( DWORD ) hb_parl( 5 );
@@ -82,9 +100,10 @@ HB_FUNC( INITFONT )
    DWORD angle     = hb_parnl( 7 );
    DWORD charset   = hb_parnldef( 8, DEFAULT_CHARSET );
 
-   font = PrepareFont( hb_parc( 1 ), hb_parni( 2 ), bold, italic, underline, strikeout, angle, charset );
+   hFont = PrepareFont( hb_parc( 1 ), hb_parni( 2 ), bold, italic, underline, strikeout, angle, charset );
 
-   HB_RETNL( ( LONG_PTR ) font );
+   RegisterResource( hFont, "FONT" );
+   HB_RETNL( ( LONG_PTR ) hFont );
 }
 
 HB_FUNC( _SETFONT )
@@ -93,7 +112,7 @@ HB_FUNC( _SETFONT )
 
    if( IsWindow( hwnd ) )
    {
-      HFONT font;
+      HFONT hFont;
       int   bold      = hb_parl( 4 ) ? FW_BOLD : FW_NORMAL;
       DWORD italic    = ( DWORD ) hb_parl( 5 );
       DWORD underline = ( DWORD ) hb_parl( 6 );
@@ -101,11 +120,12 @@ HB_FUNC( _SETFONT )
       DWORD angle     = hb_parnl( 8 );
       DWORD charset   = hb_parnldef( 9, DEFAULT_CHARSET );
 
-      font = PrepareFont( hb_parc( 2 ), hb_parni( 3 ), bold, italic, underline, strikeout, angle, charset );
+      hFont = PrepareFont( hb_parc( 2 ), hb_parni( 3 ), bold, italic, underline, strikeout, angle, charset );
 
-      SendMessage( ( HWND ) hwnd, ( UINT ) WM_SETFONT, ( WPARAM ) font, ( LPARAM ) 1 );
+      SendMessage( ( HWND ) hwnd, ( UINT ) WM_SETFONT, ( WPARAM ) hFont, ( LPARAM ) 1 );
 
-      HB_RETNL( ( LONG_PTR ) font );
+      RegisterResource( hFont, "FONT" );
+      HB_RETNL( ( LONG_PTR ) hFont );
    }
    else
       hb_errRT_BASE_SubstR( EG_ARG, 5001, "MiniGUI Error", HB_ERR_FUNCNAME, HB_ERR_ARGS_BASEPARAMS );
@@ -130,6 +150,9 @@ HB_FUNC( GETSYSTEMFONT )
 {
    LOGFONT lfDlgFont;
    NONCLIENTMETRICS ncm;
+#ifdef UNICODE
+   LPSTR pStr;
+#endif
 
    ncm.cbSize = sizeof( ncm );
    SystemParametersInfo( SPI_GETNONCLIENTMETRICS, ncm.cbSize, &ncm, 0 );
@@ -137,7 +160,13 @@ HB_FUNC( GETSYSTEMFONT )
    lfDlgFont = ncm.lfMessageFont;
 
    hb_reta( 2 );
+#ifndef UNICODE
    HB_STORC( lfDlgFont.lfFaceName, -1, 1 );
+#else
+   pStr = WideToAnsi( lfDlgFont.lfFaceName );
+   HB_STORC( pStr, -1, 1 );
+   hb_xfree( pStr );
+#endif
    HB_STORNI( 21 + lfDlgFont.lfHeight, -1, 2 );
 }
 
@@ -149,7 +178,7 @@ HB_FUNC( GETSYSTEMFONT )
              --> return array { { cFontName, nCharSet, nPitchAndFamily, nFontType }, ... }
  */
 
-static int CALLBACK _EnumFontFamExProc( const LOGFONT * lpelfe, const TEXTMETRIC * lpntme, DWORD dwFontType, LPARAM pArray );
+int CALLBACK EnumFontFamExProc( ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX *lpntme, DWORD FontType, LPARAM lParam );
 
 HB_FUNC( ENUMFONTSEX )
 {
@@ -169,15 +198,15 @@ HB_FUNC( ENUMFONTSEX )
    }
 
    if( hb_parclen( 2 ) > 0 )
-      hb_strncpy( lf.lfFaceName, hb_parc( 2 ), HB_MIN( LF_FACESIZE - 1, hb_parclen( 2 ) ) );
+      HB_STRNCPY( lf.lfFaceName, ( LPCTSTR ) hb_parc( 2 ), HB_MIN( LF_FACESIZE - 1, hb_parclen( 2 ) ) );
    else
-      lf.lfFaceName[ 0 ] = '\0';
+      lf.lfFaceName[ 0 ] = TEXT( '\0' );
 
    lf.lfCharSet        = ( BYTE ) hb_parni( 3 );
    lf.lfPitchAndFamily = ( BYTE ) ( hb_parnidef( 4, DEFAULT_PITCH ) | FF_DONTCARE );
    /* TODO - nFontType */
 
-   EnumFontFamiliesEx( hdc, &lf, _EnumFontFamExProc, ( LPARAM ) pArray, 0 );
+   EnumFontFamiliesEx( hdc, &lf, ( FONTENUMPROC ) EnumFontFamExProc, ( LPARAM ) pArray, ( DWORD ) 0 );
 
    if( bReleaseDC )
       ReleaseDC( NULL, hdc );
@@ -188,7 +217,7 @@ HB_FUNC( ENUMFONTSEX )
    if( HB_ISBYREF( 7 ) )
    {
       PHB_ITEM aFontName = hb_param( 7, HB_IT_ANY );
-      int      nLen      = hb_arrayLen( pArray ), i;
+      int      nLen = ( int ) hb_arrayLen( pArray ), i;
 
       hb_arrayNew( aFontName, nLen );
 
@@ -199,19 +228,32 @@ HB_FUNC( ENUMFONTSEX )
    hb_itemReturnRelease( pArray );
 }
 
-static int CALLBACK _EnumFontFamExProc( const LOGFONT * lpelfe, const TEXTMETRIC * lpntme, DWORD dwFontType, LPARAM pArray )
+int CALLBACK EnumFontFamExProc( ENUMLOGFONTEX *lpelfe, NEWTEXTMETRICEX *lpntme, DWORD FontType, LPARAM lParam )
 {
-   if( lpelfe->lfFaceName[ 0 ] != '@' )
+#ifdef UNICODE
+   LPSTR pStr;
+#endif
+   HB_SYMBOL_UNUSED( lpntme );
+
+   if( lpelfe->elfLogFont.lfFaceName[ 0 ] != '@' )
    {
       PHB_ITEM pSubArray = hb_itemArrayNew( 4 );
 
-      hb_arraySetC( pSubArray, 1, lpelfe->lfFaceName );
-      hb_arraySetNL( pSubArray, 2, lpntme->tmCharSet );
-      hb_arraySetNI( pSubArray, 3, lpelfe->lfPitchAndFamily & FIXED_PITCH );
-      hb_arraySetNI( pSubArray, 4, dwFontType & TRUETYPE_FONTTYPE );
+   #ifdef UNICODE
+      pStr = WideToAnsi( lpelfe->elfLogFont.lfFaceName );
+      hb_arraySetC( pSubArray, 1, pStr );
+   #else
+      hb_arraySetC( pSubArray, 1, lpelfe->elfLogFont.lfFaceName );
+   #endif
+      hb_arraySetNL( pSubArray, 2, lpelfe->elfLogFont.lfCharSet );
+      hb_arraySetNI( pSubArray, 3, lpelfe->elfLogFont.lfPitchAndFamily & FIXED_PITCH );
+      hb_arraySetNI( pSubArray, 4, FontType & TRUETYPE_FONTTYPE );
 
-      hb_arrayAddForward( ( PHB_ITEM ) pArray, pSubArray );
+      hb_arrayAddForward( ( PHB_ITEM ) lParam, pSubArray );
       hb_itemRelease( pSubArray );
+   #ifdef UNICODE
+      hb_xfree( pStr );
+   #endif
    }
 
    return 1;

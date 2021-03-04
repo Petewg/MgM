@@ -33,18 +33,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -52,12 +52,21 @@
 
 #include <commctrl.h>
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+   LPSTR  WideToAnsi( LPWSTR );
+#endif
 HINSTANCE GetInstance( void );
 
 void InterpretHotKey( UINT setting, TCHAR * szKeyName )
 {
    BOOL Ctrl, Alt, Shift;
    UINT WorkKey, uCode, uVKey;
+#ifndef UNICODE
+   LPSTR  lpString;
+#else
+   LPWSTR lpString;
+#endif
 
    uCode      = ( setting & 0x0000FF00 ) >> 8;
    uVKey      = setting & 255;
@@ -67,10 +76,15 @@ void InterpretHotKey( UINT setting, TCHAR * szKeyName )
    Alt   = uCode & HOTKEYF_ALT;
    Shift = uCode & HOTKEYF_SHIFT;
 
-   strcat( szKeyName, Ctrl ? "Ctrl + " : "" );
-   strcat( szKeyName, Shift ? "Shift + " : "" );
-   strcat( szKeyName, Alt ? "Alt + " : "" );
+   lstrcat( szKeyName, Ctrl ? TEXT( "Ctrl + " ) : TEXT( "" ) );
+   lstrcat( szKeyName, Shift ? TEXT( "Shift + " ) : TEXT( "" ) );
+   lstrcat( szKeyName, Alt ? TEXT( "Alt + " ) : TEXT( "" ) );
 
+#ifndef UNICODE
+   lpString = szKeyName;
+#else
+   lpString = AnsiToWide( ( char * ) szKeyName );
+#endif
    WorkKey = MapVirtualKey( uVKey, 0 );
 
    if( uCode & 0x00000008 )  // extended key
@@ -78,7 +92,7 @@ void InterpretHotKey( UINT setting, TCHAR * szKeyName )
    else
       WorkKey = 0x02000000 | ( WorkKey << 16 );
 
-   GetKeyNameText( WorkKey, szKeyName + strlen( szKeyName ), 100 );
+   GetKeyNameText( WorkKey, lpString + lstrlen( lpString ), 100 );
 }
 
 HB_FUNC( C_GETHOTKEYNAME )
@@ -86,6 +100,9 @@ HB_FUNC( C_GETHOTKEYNAME )
    HWND  hWnd;
    WORD  wHotKey;
    TCHAR szKeyName[ 100 ];
+#ifdef UNICODE
+   LPSTR pStr;
+#endif
 
    hWnd = ( HWND ) HB_PARNL( 1 );
 
@@ -93,7 +110,13 @@ HB_FUNC( C_GETHOTKEYNAME )
 
    InterpretHotKey( wHotKey, szKeyName );
 
+#ifndef UNICODE
    hb_retclen( szKeyName, 100 );
+#else
+   pStr = WideToAnsi( szKeyName );
+   hb_retclen( pStr, 100 );
+   hb_xfree( pStr );
+#endif
 }
 
 HB_FUNC( INITHOTKEYBOX )
@@ -114,7 +137,7 @@ HB_FUNC( INITHOTKEYBOX )
                 (
       0,
       HOTKEY_CLASS,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 2 ),
       hb_parni( 3 ),

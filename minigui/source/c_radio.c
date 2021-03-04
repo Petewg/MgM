@@ -30,33 +30,41 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
 
 #ifndef WC_BUTTON
-#define WC_BUTTON  "Button"
+#define WC_BUTTON  TEXT( "Button" )
 #endif
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 
 HB_FUNC( INITRADIOGROUP )
 {
    HWND hwnd;
    HWND hbutton;
+#ifndef UNICODE
+   LPCSTR lpWindowName = hb_parc( 2 );
+#else
+   LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
    int  Style = BS_NOTIFY | WS_CHILD | BS_AUTORADIOBUTTON | WS_GROUP;
 
    hwnd = ( HWND ) HB_PARNL( 1 );
@@ -73,7 +81,7 @@ HB_FUNC( INITRADIOGROUP )
    hbutton = CreateWindow
              (
       WC_BUTTON,
-      hb_parc( 2 ),
+      lpWindowName,
       Style,
       hb_parni( 4 ),
       hb_parni( 5 ),
@@ -92,6 +100,11 @@ HB_FUNC( INITRADIOBUTTON )
 {
    HWND hwnd;
    HWND hbutton;
+#ifndef UNICODE
+   LPCSTR lpWindowName = hb_parc( 2 );
+#else
+   LPWSTR lpWindowName = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
    int  Style = BS_NOTIFY | WS_CHILD | BS_AUTORADIOBUTTON;
 
    hwnd = ( HWND ) HB_PARNL( 1 );
@@ -105,7 +118,7 @@ HB_FUNC( INITRADIOBUTTON )
    hbutton = CreateWindow
              (
       WC_BUTTON,
-      hb_parc( 2 ),
+      lpWindowName,
       Style,
       hb_parni( 4 ),
       hb_parni( 5 ),

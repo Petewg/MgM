@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    Parts of this code are contributed for MiniGUI Project and
    used here under permission of author :
@@ -59,6 +59,11 @@
 #include <mgdefs.h>
 
 #include "hbapiitm.h"
+
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+   LPSTR  WideToAnsi( LPWSTR );
+#endif
 
 //------------------------------------------------------------------------------
 //                   General, universal GetProp/SetProp functions
@@ -78,6 +83,11 @@ HB_FUNC( SETPROP )
    BOOL    bValue;
    double  dValue;
    INT     iValue;
+#ifndef UNICODE
+   LPCSTR  pW = hb_parc( 2 );
+#else
+   LPWSTR  pW = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    hb_retl( HB_FALSE );
    // check params
@@ -88,7 +98,7 @@ HB_FUNC( SETPROP )
    if( HB_ISCHAR( 3 ) )
    {
       chType = 'C';     // character
-      nLen   = hb_parclen( 3 );
+      nLen   = ( int ) hb_parclen( 3 );
    }
    else if( HB_ISLOG( 3 ) )
    {
@@ -120,7 +130,10 @@ HB_FUNC( SETPROP )
    // direct assignment of a long value
    if( chType == 'X' )
    {
-      hb_retl( SetProp( hwnd, hb_parc( 2 ), ( HANDLE ) ( LONG_PTR ) HB_PARNL( 3 ) ) ? HB_TRUE : HB_FALSE );
+      hb_retl( SetProp( hwnd, pW, ( HANDLE ) ( LONG_PTR ) HB_PARNL( 3 ) ) ? HB_TRUE : HB_FALSE );
+   #ifdef UNICODE
+      hb_xfree( pW );
+   #endif
       return;
    }
 
@@ -151,7 +164,10 @@ HB_FUNC( SETPROP )
 
    GlobalUnlock( hMem );
 
-   hb_retl( SetProp( hwnd, hb_parc( 2 ), hMem ) ? HB_TRUE : HB_FALSE  );
+   hb_retl( SetProp( hwnd, pW, hMem ) ? HB_TRUE : HB_FALSE  );
+#ifdef UNICODE
+   hb_xfree( pW );
+#endif
 }
 
 // usage: GetProp( hWnd, cPropName, [lHandle] ) -> Value | NIL
@@ -162,6 +178,11 @@ HB_FUNC( GETPROP )
    HGLOBAL hMem;
    char *  lpMem;
    int     nLen;
+#ifndef UNICODE
+   LPCSTR  pW = hb_parc( 2 );
+#else
+   LPWSTR  pW = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    hb_ret();
    // check params
@@ -170,11 +191,17 @@ HB_FUNC( GETPROP )
 
    if( hb_parldef( 3, HB_FALSE ) )
    {
-      HB_RETNL( ( LONG_PTR ) GetProp( hwnd, hb_parc( 2 ) ) );
+      HB_RETNL( ( LONG_PTR ) GetProp( hwnd, pW ) );
+   #ifdef UNICODE
+      hb_xfree( pW );
+   #endif
       return;
    }
 
-   hMem = ( HGLOBAL ) GetProp( hwnd, hb_parc( 2 ) );
+   hMem = ( HGLOBAL ) GetProp( hwnd, pW );
+#ifdef UNICODE
+   hb_xfree( pW );
+#endif
 
    if( NULL == hMem )
       return;
@@ -210,7 +237,11 @@ HB_FUNC( REMOVEPROP )
    if( ! IsWindow( hwnd ) || ( hb_parclen( 2 ) == 0 ) )
       return;
 
+#ifndef UNICODE
    hMem = RemovePropA( hwnd, hb_parc( 2 ) );
+#else
+   hMem = RemovePropW( hwnd, AnsiToWide( ( char * ) hb_parc( 2 ) ) );
+#endif
    if( ( NULL != hMem ) && ( ! hb_parldef( 3, HB_FALSE ) ) )
    {
       GlobalFree( hMem );
@@ -252,7 +283,11 @@ static BOOL CALLBACK PropsEnumProc( HWND hWnd, LPCTSTR pszPropName, HANDLE handl
 
       hb_arraySetNInt( item, 1, ( LONG_PTR ) hWnd );
 #if ! ( defined( __XHARBOUR__ ) )
+   #ifndef UNICODE
       hb_arraySetCLPtr( item, 2, pszName, iLen );
+   #else
+      hb_arraySetCLPtr( item, 2, WideToAnsi( pszName ), iLen );
+   #endif
 #else
       hb_arraySetCPtr( item, 2, pszName, iLen );
 #endif
@@ -322,7 +357,11 @@ BOOL CALLBACK PropsEnumProcEx( HWND hWnd, LPCTSTR pszPropName, HANDLE handle, UL
 
       lstrcpy( pszName, pszPropName );
 #if ! ( defined( __XHARBOUR__ ) )
+   #ifndef UNICODE
       pPropName = hb_itemPutCPtr( NULL, pszName );
+   #else
+      pPropName = hb_itemPutCPtr( NULL, WideToAnsi( pszName ) );
+   #endif
 #else
       pPropName = hb_itemPutCPtr( NULL, pszName, iLen );
 #endif

@@ -36,7 +36,7 @@
     www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2020, https://harbour.github.io/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
@@ -59,11 +59,16 @@
 
 #ifndef __XHARBOUR__
 # include "hbwinuni.h"
+#else
+#define HB_STRNLEN  hb_strnlen
 #endif
 
 #include "c_menu.h"
 
 // extern functions
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE        GetResources( void );
 extern HBITMAP   Icon2Bmp( HICON hIcon );
 extern BOOL      SetAcceleratorTable( HWND, HACCEL );
@@ -386,6 +391,11 @@ HB_FUNC( APPENDMENUSTRING )
    }
    else
    {
+   #ifndef UNICODE
+      LPCSTR lpNewItem = hb_parc( 3 );
+   #else
+      LPWSTR lpNewItem = AnsiToWide( ( char * ) hb_parc( 3 ) );
+   #endif
       switch( hb_parni( 4 ) )
       {
          case 1:
@@ -395,7 +405,7 @@ HB_FUNC( APPENDMENUSTRING )
          default:
             Style = MF_STRING;
       }
-      hb_retl( AppendMenu( ( HMENU ) HB_PARNL( 1 ), Style, hb_parni( 2 ), hb_parc( 3 ) ) );
+      hb_retl( AppendMenu( ( HMENU ) HB_PARNL( 1 ), Style, hb_parni( 2 ), lpNewItem ) );
    }
 }
 
@@ -419,7 +429,14 @@ HB_FUNC( APPENDMENUPOPUP )
       hb_retl( AppendMenu( ( HMENU ) HB_PARNL( 1 ), MF_POPUP | MF_OWNERDRAW, hb_parni( 2 ), ( LPTSTR ) lpMenuItem ) );
    }
    else
-      hb_retl( AppendMenu( ( HMENU ) HB_PARNL( 1 ), MF_POPUP | MF_STRING, hb_parni( 2 ), hb_parc( 3 ) ) );
+   {
+   #ifndef UNICODE
+      LPCSTR lpNewItem = hb_parc( 3 );
+   #else
+      LPWSTR lpNewItem = AnsiToWide( ( char * ) hb_parc( 3 ) );
+   #endif
+      hb_retl( AppendMenu( ( HMENU ) HB_PARNL( 1 ), MF_POPUP | MF_STRING, hb_parni( 2 ), lpNewItem ) );
+   }
 }
 
 HB_FUNC( APPENDMENUSEPARATOR )
@@ -438,12 +455,22 @@ HB_FUNC( APPENDMENUSEPARATOR )
 
 HB_FUNC( MODIFYMENUITEM )
 {
-   hb_retl( ModifyMenu( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND | MF_STRING, hb_parni( 3 ), hb_parc( 4 ) ) );
+#ifndef UNICODE
+   LPCSTR lpNewItem = hb_parc( 4 );
+#else
+   LPWSTR lpNewItem = AnsiToWide( ( char * ) hb_parc( 4 ) );
+#endif
+   hb_retl( ModifyMenu( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND | MF_STRING, hb_parni( 3 ), lpNewItem ) );
 }
 
 HB_FUNC( INSERTMENUITEM )
 {
-   hb_retl( InsertMenu( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND | MF_STRING, hb_parni( 3 ), hb_parc( 4 ) ) );
+#ifndef UNICODE
+   LPCSTR lpNewItem = hb_parc( 4 );
+#else
+   LPWSTR lpNewItem = AnsiToWide( ( char * ) hb_parc( 4 ) );
+#endif
+   hb_retl( InsertMenu( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND | MF_STRING, hb_parni( 3 ), lpNewItem ) );
 }
 
 HB_FUNC( REMOVEMENUITEM )
@@ -454,8 +481,9 @@ HB_FUNC( REMOVEMENUITEM )
 HB_FUNC( MENUITEM_SETBITMAPS )
 {
    HBITMAP himage1;
+   int     Transparent = s_bCustomDraw ? 0 : 1;
 
-   himage1 = HMG_LoadPicture( hb_parc( 3 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
+   himage1 = HMG_LoadPicture( hb_parc( 3 ), -1, -1, NULL, 0, Transparent, -1, 0, HB_FALSE, 255 );
 
    if( s_bCustomDraw )
    {
@@ -478,7 +506,7 @@ HB_FUNC( MENUITEM_SETBITMAPS )
    {
       HBITMAP himage2;
 
-      himage2 = HMG_LoadPicture( hb_parc( 4 ), -1, -1, NULL, 0, 0, -1, 0, HB_FALSE, 255 );
+      himage2 = HMG_LoadPicture( hb_parc( 4 ), -1, -1, NULL, 0, Transparent, -1, 0, HB_FALSE, 255 );
 
       SetMenuItemBitmaps( ( HMENU ) HB_PARNL( 1 ), hb_parni( 2 ), MF_BYCOMMAND, himage1, himage2 );
    }
@@ -521,10 +549,15 @@ HB_FUNC( MENUITEM_SETICON )
 {
    HBITMAP himage1;
    HICON   hIcon;
+#ifndef UNICODE
+   LPCSTR lpIconName = hb_parc( 3 );
+#else
+   LPWSTR lpIconName = AnsiToWide( ( char * ) hb_parc( 3 ) );
+#endif
 
-   hIcon = ( HICON ) LoadImage( GetResources(), hb_parc( 3 ), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR );
+   hIcon = ( HICON ) LoadImage( GetResources(), lpIconName, IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_DEFAULTCOLOR );
    if( hIcon == NULL )
-      hIcon = ( HICON ) LoadImage( NULL, hb_parc( 3 ), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
+      hIcon = ( HICON ) LoadImage( NULL, lpIconName, IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTCOLOR );
 
    // convert icon to bitmap
    himage1 = Icon2Bmp( hIcon );
@@ -704,6 +737,11 @@ HB_FUNC( _ONDRAWMENUITEM )
    BOOL     fGrayed   = FALSE;
    BOOL     fChecked  = FALSE;
 
+#ifndef UNICODE
+   LPCSTR lpchText;
+#else
+   LPWSTR lpchText;
+#endif
    HFONT oldfont;
 
    lpdis      = ( LPDRAWITEMSTRUCT ) HB_PARNL( 1 );
@@ -820,15 +858,21 @@ HB_FUNC( _ONDRAWMENUITEM )
       }
    }
 
+#ifndef UNICODE
+   lpchText = lpMenuItem->caption;
+#else
+   lpchText = AnsiToWide( lpMenuItem->caption );
+#endif
+
    // draw menu item text
-   iLen = ( int ) hb_strnlen( lpMenuItem->caption, 255 );
+   iLen = ( int ) HB_STRNLEN( lpchText, 255 );
 
    if( lpMenuItem->uiItemType == 1 )
-      DrawText( lpdis->hDC, lpMenuItem->caption, iLen, &lpdis->rcItem, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_EXPANDTABS );
+      DrawText( lpdis->hDC, lpchText, iLen, &lpdis->rcItem, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_EXPANDTABS );
    else
    {
       lpdis->rcItem.left += ( min_width + cx_delta + 2 );
-      DrawText( lpdis->hDC, lpMenuItem->caption, iLen, &lpdis->rcItem, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_EXPANDTABS );
+      DrawText( lpdis->hDC, lpchText, iLen, &lpdis->rcItem, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_EXPANDTABS );
       lpdis->rcItem.left -= ( min_width + cx_delta + 2 );
    }
 
@@ -1343,6 +1387,11 @@ static BOOL _DestroyMenu( HMENU menu )
 
 HB_FUNC( _ONMEASUREMENUITEM )
 {
+#ifndef UNICODE
+   LPCSTR lpchText;
+#else
+   LPWSTR lpchText;
+#endif
    HWND hwnd = ( HWND ) HB_PARNL( 1 );
 
    if( IsWindow( hwnd ) )
@@ -1369,7 +1418,12 @@ HB_FUNC( _ONMEASUREMENUITEM )
       }
       else
       {
-         GetTextExtentPoint32( hdc, lpMenuItem->caption, lpMenuItem->cch, &size );
+      #ifndef UNICODE
+         lpchText = lpMenuItem->caption;
+      #else
+         lpchText = AnsiToWide( lpMenuItem->caption );
+      #endif
+         GetTextExtentPoint32( hdc, lpchText, lpMenuItem->cch, &size );
       }
 
       if( lpMenuItem->uiItemType == 1 )

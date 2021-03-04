@@ -34,24 +34,27 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
 
 #include <commctrl.h>
+#if defined( _MSC_VER )
+#pragma warning ( disable:4201 )
+#endif
 #include "richedit.h"
 
 #include "hbapiitm.h"
@@ -68,6 +71,9 @@
 
 LRESULT CALLBACK  OwnGetProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 
+#ifdef UNICODE
+   LPWSTR AnsiToWide( LPCSTR );
+#endif
 HINSTANCE GetInstance( void );
 HINSTANCE GetResources( void );
 
@@ -132,7 +138,7 @@ HB_FUNC( INITGETBOX )
            (
       hb_parl( 23 ) ? 0 : WS_EX_CLIENTEDGE,
       WC_EDIT,
-      "",
+      TEXT( "" ),
       iStyle,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -144,17 +150,22 @@ HB_FUNC( INITGETBOX )
       NULL
            );
 
-   SetProp( ( HWND ) hedit, "OldWndProc", ( HWND ) GetWindowLongPtr( ( HWND ) hedit, GWLP_WNDPROC ) );
+   SetProp( ( HWND ) hedit, TEXT( "OldWndProc" ), ( HWND ) GetWindowLongPtr( ( HWND ) hedit, GWLP_WNDPROC ) );
    SetWindowLongPtr( hedit, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnGetProc );
 
    SendMessage( hedit, ( UINT ) EM_LIMITTEXT, ( WPARAM ) hb_parni( 9 ), ( LPARAM ) 0 );
 
    if( hb_parc( 18 ) != NULL )
    {
-      himage = ( HWND ) LoadImage( GetResources(), hb_parc( 18 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+#ifndef UNICODE
+      LPCSTR lpImageName = hb_parc( 18 );
+#else
+      LPWSTR lpImageName = AnsiToWide( ( char * ) hb_parc( 18 ) );
+#endif
+      himage = ( HWND ) LoadImage( GetResources(), lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage == NULL )
-         himage = ( HWND ) LoadImage( NULL, hb_parc( 18 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+         himage = ( HWND ) LoadImage( NULL, lpImageName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage != NULL )
       {
@@ -163,10 +174,10 @@ HB_FUNC( INITGETBOX )
          if( bm.bmWidth > BtnWidth - 4 || bm.bmHeight > hb_parni( 6 ) - 5 )
          {
             DeleteObject( himage );
-            himage = ( HWND ) LoadImage( GetResources(), hb_parc( 18 ), IMAGE_BITMAP, BtnWidth - 4, hb_parni(
+            himage = ( HWND ) LoadImage( GetResources(), lpImageName, IMAGE_BITMAP, BtnWidth - 4, hb_parni(
                                             6 ) - 6, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
             if( himage == NULL )
-               himage = ( HWND ) LoadImage( NULL, hb_parc( 18 ), IMAGE_BITMAP, BtnWidth - 4, hb_parni(
+               himage = ( HWND ) LoadImage( NULL, lpImageName, IMAGE_BITMAP, BtnWidth - 4, hb_parni(
                                                6 ) - 6, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
          }
       }
@@ -176,10 +187,15 @@ HB_FUNC( INITGETBOX )
 
    if( hb_parc( 21 ) != NULL )
    {
-      himage2 = ( HWND ) LoadImage( GetResources(), hb_parc( 21 ), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+#ifndef UNICODE
+      LPCSTR lpImageName2 = hb_parc( 21 );
+#else
+      LPWSTR lpImageName2 = AnsiToWide( ( char * ) hb_parc( 21 ) );
+#endif
+      himage2 = ( HWND ) LoadImage( GetResources(), lpImageName2, IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage2 == NULL )
-         himage2 = ( HWND ) LoadImage( NULL, hb_parc( 21 ), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
+         himage2 = ( HWND ) LoadImage( NULL, lpImageName2, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
       if( himage2 != NULL )
       {
@@ -188,11 +204,11 @@ HB_FUNC( INITGETBOX )
          if( bm.bmWidth > BtnWidth2 - 4 || bm.bmHeight > hb_parni( 6 ) - 5 )
          {
             DeleteObject( himage2 );
-            himage2 = ( HWND ) LoadImage( GetResources(), hb_parc( 21 ), IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
+            himage2 = ( HWND ) LoadImage( GetResources(), lpImageName2, IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
                                              6 ) - 6, LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
 
             if( himage2 == NULL )
-               himage2 = ( HWND ) LoadImage( NULL, hb_parc( 21 ), IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
+               himage2 = ( HWND ) LoadImage( NULL, lpImageName2, IMAGE_BITMAP, BtnWidth2 - 4, hb_parni(
                                                 6 ) - 6, LR_LOADFROMFILE | LR_LOADMAP3DCOLORS | LR_LOADTRANSPARENT );
          }
       }
@@ -213,7 +229,7 @@ HB_FUNC( INITGETBOX )
    if( fBtns )
       hBtn1 = CreateWindow
                  ( WC_BUTTON,
-                 "...",
+                 TEXT( "..." ),
                  ibtnStyle1,
                  hb_parni( 5 ) - BtnWidth - 3,
                  -1,
@@ -230,7 +246,7 @@ HB_FUNC( INITGETBOX )
    if( fBtn2 )
       hBtn2 = CreateWindow
                  ( WC_BUTTON,
-                 "...",
+                 TEXT( "..." ),
                  ibtnStyle2,
                  hb_parni( 5 ) - BtnWidth - BtnWidth2 - 3,
                  -1,
@@ -273,6 +289,11 @@ HB_FUNC( GETTEXTHEIGHT )               // returns the height of a string in pixe
    HFONT hFont      = ( HFONT ) HB_PARNL( 3 );
    HFONT hOldFont   = ( HFONT ) NULL;
    SIZE  sz;
+#ifndef UNICODE
+   LPCSTR  lpString = hb_parc( 2 );
+#else
+   LPCWSTR lpString = AnsiToWide( ( char * ) hb_parc( 2 ) );
+#endif
 
    if( ! hDC )
    {
@@ -284,7 +305,7 @@ HB_FUNC( GETTEXTHEIGHT )               // returns the height of a string in pixe
    if( hFont )
       hOldFont = ( HFONT ) SelectObject( hDC, hFont );
 
-   GetTextExtentPoint32( hDC, hb_parc( 2 ), hb_parclen( 2 ), &sz );
+   GetTextExtentPoint32( hDC, lpString, ( int ) lstrlen( lpString ), &sz );
 
    if( hFont )
       SelectObject( hDC, hOldFont );
@@ -301,7 +322,7 @@ LRESULT CALLBACK OwnGetProc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam )
    long int        r;
    WNDPROC         OldWndProc;
 
-   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hwnd, "OldWndProc" );
+   OldWndProc = ( WNDPROC ) ( LONG_PTR ) GetProp( hwnd, TEXT( "OldWndProc" ) );
    switch( Msg )
    {
       case WM_NCDESTROY:
@@ -396,6 +417,7 @@ LRESULT CALLBACK OwnGetProc( HWND hwnd, UINT Msg, WPARAM wParam, LPARAM lParam )
          else
             return DefWindowProc( hwnd, Msg, wParam, lParam );
 
+      case WM_CONTEXTMENU:
       case WM_KILLFOCUS:
       case WM_SETFOCUS:
          if( ! pSymbol )

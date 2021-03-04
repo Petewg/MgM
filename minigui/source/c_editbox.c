@@ -30,18 +30,18 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
@@ -88,7 +88,7 @@ HB_FUNC( INITEDITBOX )
              (
       WS_EX_CLIENTEDGE,
       WC_EDIT,
-      "",
+      TEXT( "" ),
       Style,
       hb_parni( 3 ),
       hb_parni( 4 ),
@@ -102,7 +102,7 @@ HB_FUNC( INITEDITBOX )
 
    SendMessage( hbutton, ( UINT ) EM_LIMITTEXT, ( WPARAM ) hb_parni( 9 ), ( LPARAM ) 0 );
 
-   SetProp( ( HWND ) hbutton, "oldeditproc", ( HWND ) GetWindowLongPtr( ( HWND ) hbutton, GWLP_WNDPROC ) );
+   SetProp( ( HWND ) hbutton, TEXT( "oldeditproc" ), ( HWND ) GetWindowLongPtr( ( HWND ) hbutton, GWLP_WNDPROC ) );
    SetWindowLongPtr( hbutton, GWLP_WNDPROC, ( LONG_PTR ) ( WNDPROC ) OwnEditProc );
 
    HB_RETNL( ( LONG_PTR ) hbutton );

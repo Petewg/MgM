@@ -30,26 +30,28 @@
    Parts of this project are based upon:
 
     "Harbour GUI framework for Win32"
-    Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
     Copyright 2001 Antonio Linares <alinares@fivetech.com>
-    www - http://harbour-project.org
+    www - https://harbour.github.io/
 
     "Harbour Project"
-    Copyright 1999-2017, http://harbour-project.org/
+    Copyright 1999-2021, https://harbour.github.io/
 
     "WHAT32"
     Copyright 2002 AJ Wos <andrwos@aust1.net>
 
     "HWGUI"
-    Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+    Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
    ---------------------------------------------------------------------------*/
 
 #include <mgdefs.h>
-
 #include <commctrl.h>
-
 #include "hbapiitm.h"
+
+#if ( defined( __BORLANDC__ ) && defined( _WIN64 ) )
+#define PtrToLong( p )   ( ( LONG ) (p) )
+#endif
 
 HB_FUNC( REGCLOSEKEY )
 {
@@ -138,7 +140,7 @@ HB_FUNC( REGSETVALUEEXA )
 
    if( nType != REG_DWORD )
    {
-      if( RegSetValueExA( ( HKEY ) HB_PARNL( 1 ), hb_parc( 2 ), ( DWORD ) 0, hb_parnl( 4 ), ( BYTE * ) hb_parc( 5 ), hb_parclen( 5 ) + 1 ) == ERROR_SUCCESS )
+      if( RegSetValueExA( ( HKEY ) HB_PARNL( 1 ), hb_parc( 2 ), ( DWORD ) 0, hb_parnl( 4 ), ( BYTE * ) hb_parc( 5 ), ( DWORD ) hb_parclen( 5 ) + 1 ) == ERROR_SUCCESS )
          hb_retnl( 0 );
       else
          hb_retnl( -1 );
