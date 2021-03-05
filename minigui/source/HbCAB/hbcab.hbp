@@ -1,0 +1,22 @@
+#
+# hbcab.hbp
+#
+
+-hblib
+-inc-
+-o../../lib/hbcab
+
+-I../../include
+-I./include
+
+-hbx=../../include/${hb_name}.hbx
+
+#-w3 -es2 -ko 
+-w3 -es2 -ko -l -ql
+
+
+-warn=max
+
+cabinet.c
+compress.c
+decompress.c
