@@ -30,18 +30,18 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
    Parts of this project are based upon:
 
    "Harbour GUI framework for Win32"
-   Copyright 2001 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001 Alexander S.Kresin <alex@kresin.ru>
    Copyright 2001 Antonio Linares <alinares@fivetech.com>
-   www - http://harbour-project.org
+   www - https://harbour.github.io/
 
    "Harbour Project"
-   Copyright 1999-2017, http://harbour-project.org/
+   Copyright 1999-2021, https://harbour.github.io/
 
    "WHAT32"
    Copyright 2002 AJ Wos <andrwos@aust1.net>
 
    "HWGUI"
-   Copyright 2001-2015 Alexander S.Kresin <alex@belacy.ru>
+   Copyright 2001-2018 Alexander S.Kresin <alex@kresin.ru>
 
 ---------------------------------------------------------------------------*/
 
@@ -50,6 +50,10 @@ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 #include "fileio.ch"
 #include "hbmemvar.ch"
 #include "hbver.ch"
+
+#ifdef __XHARBOUR__
+  REQUEST Select, Alias, RecNo, DbFilter, DbRelation, IndexOrd, IndexKey
+#endif
 
 #ifdef _TSBROWSE_
   MEMVAR _TSB_aControlhWnd
@@ -103,11 +107,16 @@ STATIC FUNCTION DefError( oError )
    HtmArch := Html_ErrorLog()
    cText := ErrorMessage( oError )
 
-   Html_LineText( HtmArch, '<p class="updated">Application: ' + GetExeFileName() )
+   Html_RawText( HtmArch, '<p class="updated">')
    Html_LineText( HtmArch, 'Date: ' + DToC( Date() ) + "  " + "Time: " + Time() )
+   Html_LineText( HtmArch, 'Application: ' + GetExeFileName() )
    Html_LineText( HtmArch, 'Time from start: ' + TimeFromStart() )
-   Html_LineText( HtmArch, cText + "</p>" )
+   Html_RawText( HtmArch, cText + "</p>" )
    cText += CRLF + CRLF
+
+   HTML_RawText( HtmArch, "<details><summary>" )
+   HTML_RawText( HtmArch, PadC( " Stack Trace ", 79, "-" ))
+   HTML_RawText( HtmArch, "<br/></summary>" )
 
    n := 1
    WHILE ! Empty( ProcName( ++n ) )
@@ -116,6 +125,8 @@ STATIC FUNCTION DefError( oError )
       cText += HtmText
       Html_LineText( HtmArch, HtmText )
    ENDDO
+
+   Html_RawText( HtmArch, "</details>" )
 
    IF _lShowDetailError()
       ErrorLog( HtmArch, oError )
@@ -135,6 +146,7 @@ STATIC FUNCTION ErrorMessage( oError )
 *-----------------------------------------------------------------------------*
    // start error message
    LOCAL cMessage := iif( oError:severity > ES_WARNING, "Error", "Warning" ) + " "
+   LOCAL n
 
    // add subsystem name if available
    IF ISCHARACTER( oError:subsystem )
@@ -166,6 +178,18 @@ STATIC FUNCTION ErrorMessage( oError )
    // add OS error code if available
    IF !Empty( oError:osCode )
       cMessage += " (DOS Error " + hb_ntos( oError:osCode ) + ")"
+   ENDIF
+
+   IF ValType( oError:args ) == "A"
+      cMessage += CRLF
+      cMessage += "   Args:" + CRLF
+      FOR n := 1 TO Len( oError:args )
+         cMessage += ;
+            "     [" + hb_ntos( n, 2 ) + "] = " + ValType( oError:args[ n ] ) + ;
+            "   " + cValToChar( cValToChar( oError:args[ n ] ) ) + ;
+            iif( ValType( oError:args[ n ] ) == "A", " length: " + ;
+            hb_ntos( Len( oError:args[ n ] ) ), "" ) + iif( n < Len( oError:args ), CRLF, "" )
+      NEXT
    ENDIF
 
 RETURN cMessage
@@ -205,16 +229,20 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
 
       _lAddError := .F.
 
-      Html_LineText( nHandle, "" )
-      Html_LineText( nHandle, PadC( " System Information ", 79, "-" ) )
-      Html_LineText( nHandle, "" )
+      HTML_RawText( nHandle, "<details><summary>" )
+      HTML_RawText( nHandle, PadC( " System Information ", 79, "-" ))
+      HTML_RawText( nHandle, "<br/></summary>" )
 
       Html_LineText( nHandle, "Workstation name...: " + NetName() )
       Html_LineText( nHandle, "Active user name...: " + GetUserName() )
       Html_LineText( nHandle, "Available memory...: " + strvalue( MemoryStatus( 2 ) ) + " MB" )
       Html_LineText( nHandle, "Current disk.......: " + DiskName() )
       Html_LineText( nHandle, "Current directory..: " + CurDir() )
+#ifdef __XHARBOUR__
       Html_LineText( nHandle, "Free disk space....: " + strvalue( Round( DiskSpace() / ( 1024 * 1024 ), 0 ) ) + " MB" )
+#else
+      Html_LineText( nHandle, "Free disk space....: " + strvalue( Round( hb_DiskSpace( hb_DirBase() ) / ( 1024 * 1024 ), 0 ) ) + " MB" )
+#endif
       Html_LineText( nHandle, "" )
       Html_LineText( nHandle, "Operating system...: " + OS() )
       Html_LineText( nHandle, "MiniGUI version....: " + MiniGUIVersion() )
@@ -225,7 +253,6 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
       Html_LineText( nHandle, "Harbour built on...: " + hb_BuildDate() )
 #endif
       Html_LineText( nHandle, "C/C++ compiler.....: " + hb_Compiler() )
-
 #ifdef __XHARBOUR__
       Html_LineText( nHandle, "Multi Threading....: " + iif( Hb_MultiThread(), "YES", "NO" ) )
       Html_LineText( nHandle, "VM Optimization....: " + strvalue( hb_VMMode() ) )
@@ -235,16 +262,19 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
          Html_LineText( nHandle, "Current Work Area..: " + strvalue( &("Select()") ) )
 #else
       Html_LineText( nHandle, "Multi Threading....: " + iif( hb_mtvm(), "YES", "NO" ) )
+      Html_LineText( nHandle, "VM Optimization....: " + iif( hb_VMMode() == 1, "YES", "NO" ) )
 
       IF hb_IsFunction( "Select" )
          Html_LineText( nHandle, "" )
          Html_LineText( nHandle, "Current Work Area..: " + strvalue( Eval( hb_macroBlock( "Select()" ) ) ) )
 #endif
       ENDIF
+      
+      HTML_RawText( nHandle, "</details>" )
 
-      Html_LineText( nHandle, "" )
-      Html_LineText( nHandle, PadC( " Environmental Information ", 79, "-" ) )
-      Html_LineText( nHandle, "" )
+      HTML_RawText( nHandle, "<details><summary>" )
+      HTML_RawText( nHandle, PadC( " Environmental Information ", 79, "-" ))
+      HTML_RawText( nHandle, "<br/></summary>" )
 
       Html_LineText( nHandle, "SET ALTERNATE......: " + strvalue( Set( _SET_ALTERNATE ), .T. ) )
       Html_LineText( nHandle, "SET ALTFILE........: " + strvalue( Set( _SET_ALTFILE ) ) )
@@ -319,9 +349,11 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
 
       Html_LineText( nHandle, "SET UNIQUE.........: " + strvalue( Set( _SET_UNIQUE ), .T. ) )
 
-      Html_LineText( nHandle, "" )
-      Html_LineText( nHandle, PadC( " Detailed Work Area Items ", 79, "-" ) )
-      Html_LineText( nHandle, "" )
+      HTML_RawText( nHandle, "</details>" )
+
+      HTML_RawText( nHandle, "<details><summary>" )
+      HTML_RawText( nHandle, PadC( " Detailed Work Area Items ", 79, "-" ))
+      HTML_RawText( nHandle, "<br/></summary>" )
 
 #ifdef __XHARBOUR__
       IF Type( "Select()" ) == "UI" .OR. Type( "Select()" ) == "N"
@@ -365,8 +397,13 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
          RETURN .T.
          } )
 #endif
-      Html_LineText( nHandle, PadC( " Internal Error Handling Information ", 79, "-" ) )
-      Html_LineText( nHandle, "" )
+
+      HTML_RawText( nHandle, "</details>" )
+
+      HTML_RawText( nHandle, "<details><summary>" )
+      HTML_RawText( nHandle, PadC( " Internal Error Handling Information ", 79, "-" ))
+      HTML_RawText( nHandle, "<br/></summary>" )
+
       Html_LineText( nHandle, "Subsystem Call ....: " + oErr:subsystem() )
       Html_LineText( nHandle, "System Code .......: " + strvalue( oErr:subcode() ) )
       Html_LineText( nHandle, "Default Status ....: " + strvalue( oErr:candefault() ) )
@@ -382,10 +419,13 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
       Html_LineText( nHandle, "OS thread ID ......: " + strvalue( oErr:OsThreadId() ) )
 #endif
 #else
+
+      HTML_RawText( nHandle, "</details>" )
+
       /* NOTE: Adapted from hb_mvSave() source in Harbour RTL. */
-      Html_LineText( nHandle, "" )
-      Html_LineText( nHandle, PadC( " Available Memory Variables ", 79, "+" ) )
-      Html_LineText( nHandle, "" )
+      HTML_RawText( nHandle, "<details><summary>" )
+      HTML_RawText( nHandle, PadC( " Available Memory Variables ", 79, "-" ))
+      HTML_RawText( nHandle, "<br/></summary>" )
 
       FOR EACH nScope IN { HB_MV_PUBLIC, HB_MV_PRIVATE }
          nCount := __mvDbgInfo( nScope )
@@ -400,6 +440,8 @@ STATIC PROCEDURE ErrorLog( nHandle, oErr )
       IF nCount > 0
          Html_LineText( nHandle, "" )
       ENDIF
+
+      HTML_RawText( nHandle, "</details>" )
 #endif
    ENDIF
 
@@ -434,115 +476,6 @@ FUNCTION _lShowDetailError( lNewValue )
 
 RETURN lOldValue
 
-#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
-*-01-01-2003
-*-Author: Antonio Novo
-*-Create/Open the ErrorLog.Htm file
-*-----------------------------------------------------------------------------*
-FUNCTION HTML_ERRORLOG
-*-----------------------------------------------------------------------------*
-   LOCAL HtmArch := -1
-   LOCAL cErrorLogFile := _GetErrorlogFile()
-
-   IF IsErrorLogActive()
-      IF .NOT. File( cErrorLogFile )
-         HtmArch := Html_Ini( cErrorLogFile, "Harbour MiniGUI Errorlog File" )
-         IF HtmArch > 0
-            Html_Line( HtmArch )
-         ENDIF
-      ELSE
-         HtmArch := FOpen( cErrorLogFile, FO_READWRITE )
-         IF HtmArch > 0
-            FSeek( HtmArch, 0, FS_END )
-         ENDIF
-      ENDIF
-   ENDIF
-
-RETURN ( HtmArch )
-
-*-30-12-2002
-*-Author: Antonio Novo
-*-HTML Page Head
-*-----------------------------------------------------------------------------*
-FUNCTION HTML_INI( ARCH, TITLE )
-*-----------------------------------------------------------------------------*
-   LOCAL HtmArch := -1
-   LOCAL cStyle  := "<style> "     + ;
-      "body{ "                     + ;
-      "font-family: sans-serif;"   + ;
-      "background-color: #ffffff;" + ;
-      "font-size: 75%;"            + ;
-      "color: #000000;"            + ;
-      "}"                          + ;
-      "h1{"                        + ;
-      "font-family: sans-serif;"   + ;
-      "font-size: 150%;"           + ;
-      "color: #0000cc;"            + ;
-      "font-weight: bold;"         + ;
-      "background-color: #f0f0f0;" + ;
-      "}"                          + ;
-      ".updated{"                  + ;
-      "font-family: sans-serif;"   + ;
-      "color: #cc0000;"            + ;
-      "font-size: 110%;"           + ;
-      "}"                          + ;
-      ".normaltext{"               + ;
-      "font-family: sans-serif;"   + ;
-      "font-size: 100%;"           + ;
-      "color: #000000;"            + ;
-      "font-weight: normal;"       + ;
-      "text-transform: none;"      + ;
-      "text-decoration: none;"     + ;
-      "}"                          + ;
-      "</style>"
-
-   IF IsErrorLogActive()
-      HtmArch := FCreate( ARCH )
-      IF FError() != 0
-         MsgStop( "Can`t open errorlog file " + ARCH, "Error" )
-      ELSE
-         FWrite( HtmArch, "<HTML><HEAD><TITLE>" + TITLE + "</TITLE></HEAD>" + cStyle + "<BODY>" + Chr( 13 ) + Chr( 10 ) )
-         FWrite( HtmArch, "<H1 Align=Center>" + TITLE + "</H1><BR>" + Chr( 13 ) + Chr( 10 ) )
-      ENDIF
-   ENDIF
-
-RETURN ( HtmArch )
-
-*-30-12-2002
-*-Author: Antonio Novo
-*-HTM Page Line
-*-----------------------------------------------------------------------------*
-PROCEDURE HTML_LINETEXT( HTMARCH, LINEA )
-*-----------------------------------------------------------------------------*
-   IF HTMARCH > 0 .AND. IsErrorLogActive()
-      FWrite( HTMARCH, RTrim( LINEA ) + "<BR>" + Chr( 13 ) + Chr( 10 ) )
-   ENDIF
-
-RETURN
-
-*-30-12-2002
-*-Author: Antonio Novo
-*-HTM Line
-*-----------------------------------------------------------------------------*
-PROCEDURE HTML_LINE( HTMARCH )
-*-----------------------------------------------------------------------------*
-   IF HTMARCH > 0 .AND. IsErrorLogActive()
-      FWrite( HTMARCH, "<HR>" + Chr( 13 ) + Chr( 10 ) )
-   ENDIF
-
-RETURN
-
-*-----------------------------------------------------------------------------*
-PROCEDURE HTML_END( HTMARCH )
-*-----------------------------------------------------------------------------*
-   IF HTMARCH > 0 .AND. IsErrorLogActive()
-      FWrite( HTMARCH, "</BODY></HTML>" )
-      FClose( HTMARCH )
-   ENDIF
-
-RETURN
-
-#else
 *-01-01-2003
 *-Author: Antonio Novo
 *-Create/Open the ErrorLog.Htm file
@@ -553,15 +486,27 @@ FUNCTION HTML_ERRORLOG
    LOCAL cErrorLogFile := _GetErrorlogFile()
 
    IF IsErrorLogActive()
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+      IF .NOT. File( cErrorLogFile )
+         HtmArch := Html_Ini( cErrorLogFile, "Harbour MiniGUI Errorlog File" )
+         IF HtmArch > 0
+#else
       IF .NOT. hb_vfExists( cErrorLogFile )
          HtmArch := Html_Ini( cErrorLogFile, "Harbour MiniGUI Errorlog File" )
          IF HtmArch != NIL
+#endif
             Html_Line( HtmArch )
          ENDIF
       ELSE
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+         HtmArch := FOpen( cErrorLogFile, FO_READWRITE )
+         IF HtmArch > 0
+            FSeek( HtmArch, 0, FS_END )
+#else
          HtmArch := hb_vfOpen( cErrorLogFile, FO_WRITE )
          IF HtmArch != NIL
             hb_vfSeek( HtmArch, 0, FS_END )
+#endif
          ENDIF
       ENDIF
    ENDIF
@@ -575,12 +520,21 @@ RETURN ( HtmArch )
 FUNCTION HTML_INI( ARCH, TITLE )
 *-----------------------------------------------------------------------------*
    LOCAL HtmArch := -1
+   LOCAL IEFIX := "<meta http-equiv='X-UA-Compatible' content='IE=EmulateIE8'>"
    LOCAL cStyle  := "<style> "     + ;
       "body{ "                     + ;
       "font-family: sans-serif;"   + ;
       "background-color: #ffffff;" + ;
-      "font-size: 75%;"            + ;
+      "font-size: 100%;"           + ;
       "color: #000000;"            + ;
+      "padding: 15px;"             + ;
+      "}"                          + ;
+      "details summary {"          + ;
+      "color: #006699;"            + ;
+      "background: #ffffcc;"       + ;
+      "border: 1px solid #99aaff;" + ;
+      "padding: 5px;"              + ;
+      "margin: 10px 5px;"          + ;
       "}"                          + ;
       "h1{"                        + ;
       "font-family: sans-serif;"   + ;
@@ -605,16 +559,40 @@ FUNCTION HTML_INI( ARCH, TITLE )
       "</style>"
 
    IF IsErrorLogActive()
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+      HtmArch := FCreate( ARCH )
+      IF FError() != 0
+#else
       HtmArch := hb_vfOpen( ARCH, FO_CREAT + FO_TRUNC + FO_WRITE )
       IF HtmArch == NIL
+#endif
          MsgStop( "Can`t open errorlog file " + ARCH, "Error" )
       ELSE
-         hb_vfWrite( HtmArch, "<HTML><HEAD><TITLE>" + TITLE + "</TITLE></HEAD>" + cStyle + "<BODY>" + CRLF )
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+         FWrite( HtmArch, "<!DOCTYPE html><HTML><HEAD><TITLE>" + TITLE + "</TITLE>" + IEFIX + cStyle + "</HEAD><BODY>" + Chr( 13 ) + Chr( 10 ) )
+         FWrite( HtmArch, "<H1 Align=Center>" + TITLE + "</H1><BR>" + Chr( 13 ) + Chr( 10 ) )
+#else
+         hb_vfWrite( HtmArch, "<!DOCTYPE html><HTML><HEAD><TITLE>" + TITLE + "</TITLE>" + IEFIX + cStyle + "</HEAD><BODY>" + CRLF )
          hb_vfWrite( HtmArch, "<H1 Align=Center>" + TITLE + "</H1><BR>" + CRLF )
+#endif
       ENDIF
    ENDIF
 
 RETURN ( HtmArch )
+
+*-----------------------------------------------------------------------------*
+PROCEDURE HTML_RAWTEXT( HTMARCH, LINEA )
+*-----------------------------------------------------------------------------*
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+   IF HTMARCH > 0 .AND. IsErrorLogActive()
+      FWrite( HTMARCH, RTrim( LINEA ) + Chr( 13 ) + Chr( 10 ) )
+#else
+   IF HTMARCH != NIL .AND. IsErrorLogActive()
+      hb_vfWrite( HTMARCH, RTrim( LINEA ) + CRLF )
+#endif
+   ENDIF
+
+RETURN
 
 *-30-12-2002
 *-Author: Antonio Novo
@@ -622,8 +600,13 @@ RETURN ( HtmArch )
 *-----------------------------------------------------------------------------*
 PROCEDURE HTML_LINETEXT( HTMARCH, LINEA )
 *-----------------------------------------------------------------------------*
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+   IF HTMARCH > 0 .AND. IsErrorLogActive()
+      FWrite( HTMARCH, RTrim( LINEA ) + "<BR>" + Chr( 13 ) + Chr( 10 ) )
+#else
    IF HTMARCH != NIL .AND. IsErrorLogActive()
       hb_vfWrite( HTMARCH, RTrim( LINEA ) + "<BR>" + CRLF )
+#endif
    ENDIF
 
 RETURN
@@ -634,8 +617,13 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE HTML_LINE( HTMARCH )
 *-----------------------------------------------------------------------------*
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+   IF HTMARCH > 0 .AND. IsErrorLogActive()
+      FWrite( HTMARCH, "<HR>" + Chr( 13 ) + Chr( 10 ) )
+#else
    IF HTMARCH != NIL .AND. IsErrorLogActive()
       hb_vfWrite( HTMARCH, "<HR>" + CRLF )
+#endif
    ENDIF
 
 RETURN
@@ -643,13 +631,18 @@ RETURN
 *-----------------------------------------------------------------------------*
 PROCEDURE HTML_END( HTMARCH )
 *-----------------------------------------------------------------------------*
+#if defined( __XHARBOUR__ ) .OR. ( __HARBOUR__ - 0 < 0x030200 )
+   IF HTMARCH > 0 .AND. IsErrorLogActive()
+      FWrite( HTMARCH, "</BODY></HTML>" )
+      FClose( HTMARCH )
+#else
    IF HTMARCH != NIL .AND. IsErrorLogActive()
       hb_vfWrite( HTMARCH, "</BODY></HTML>" )
       hb_vfClose( HTMARCH )
+#endif
    ENDIF
 
 RETURN
-#endif
 
 // (JK) HMG 1.0 Build 6
 *-----------------------------------------------------------------------------*
