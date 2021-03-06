@@ -5,7 +5,7 @@
 
 This Harbour MiniGUI package includes these main components:   
    
-   - *Harbour MiniGUI Extended*, version `21.02` (including some additions!)    
+   - *Harbour MiniGUI Extended*, version `21.02` (released Feb 2021)    
      ( https://www.hmgextended.org/ )   
      (compiled with latest Harbour 3.2.0dev & MinGW32 10.2.0-6)   
 
