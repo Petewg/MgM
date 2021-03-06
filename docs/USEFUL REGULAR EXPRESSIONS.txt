@@ -1,0 +1,31 @@
+
+USEFUL REGULAR EXPRESSIONS for grepWin
+----------------------------------------
+
+1. Line replace/delete
+
+	^.*__HBEXTERN__.*$
+
+find any line containing __HBEXTERN__ and replace this *whole line* 
+with anything supplied in 'replace with:' box (on empty 'replace with:' , the line is deleted!)
+
+---
+
+2. Find a line or string containing one word but not another
+
+  ^(?!.*window).*\bdeclare\b.*$
+
+  ^(?!.*\bwindow\b).*\bdeclare\b.*
+
+
+find any line that does NOT contain 'window' but DOES contain 'declare'
+^ = indicates start of line
+$ = indicates the end of the line
+(?! Expression) = indicates zero width look ahead negative match on the expression
+\b in begining and end of 'window' and 'declare' means to find 'window' or 'declare' 
+only as single whole word and not if it is subword of a complex or extended word.
+that is, it does match 'window' but does NOT match 'systemwindow' or 'windowed'
+
+http://stackoverflow.com/questions/2953039/regular-expression-for-a-string-containing-one-word-but-not-another
+http://stackoverflow.com/questions/11420672/is-it-possible-to-create-a-regex-to-match-a-line-that-contains-one-word-but-not?lq=1
+
