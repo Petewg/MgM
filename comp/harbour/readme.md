@@ -15,5 +15,5 @@ Built on: Aug 12 2020 13:17:07
 Build options: (Clipper 5.3b) (Clipper 5.x undoc)   
 \---------------------------
 
-  **Self-extracting archive.**   
-     Just run it to unzip.
+  **7-ziped archive.**   
+     Just open it with 7-zip and unzip.
